@@ -27,8 +27,7 @@ export const adminRoutes: Routes = [
   },
   {
     path: 'plantillas',
-    loadChildren: () =>
-      import('./templates/templates.routes').then((m) => m.TEMPLATES_ROUTES),
+    loadChildren: () => import('./templates/templates.routes').then((m) => m.TEMPLATES_ROUTES),
   },
   {
     path: '',

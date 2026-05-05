@@ -28,10 +28,7 @@ export class XlsxExportService {
   export(options: XlsxExportOptions): void {
     const { headers, rows, sheetName, filePrefix } = options;
 
-    const aoa: (string | number)[][] = [
-      [...headers],
-      ...rows.map((row) => [...row]),
-    ];
+    const aoa: (string | number)[][] = [[...headers], ...rows.map((row) => [...row])];
     const ws = XLSX.utils.aoa_to_sheet(aoa);
 
     ws['!cols'] = headers.map((header, columnIndex) => {

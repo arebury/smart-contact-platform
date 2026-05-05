@@ -190,8 +190,7 @@
               <p class="confirm__body">
                 {{
                   'config.seguridad.regen.confirm_body'
-                    | translate
-                      : { confirm: confirmPhraseToken, count: selectedIds().size }
+                    | translate: { confirm: confirmPhraseToken, count: selectedIds().size }
                 }}
               </p>
               <div class="confirm__row">
@@ -231,10 +230,7 @@
                 <lucide-icon [img]="checkIcon" [size]="15" class="result__check" />
                 <div>
                   <span class="result__count">
-                    {{
-                      'config.seguridad.regen.result_count'
-                        | translate: { count: r.count }
-                    }}
+                    {{ 'config.seguridad.regen.result_count' | translate: { count: r.count } }}
                   </span>
                   <p class="result__ts">{{ r.timestamp }}</p>
                 </div>

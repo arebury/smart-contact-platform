@@ -27,10 +27,7 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { BreadcrumbService, XlsxExportService } from '@core/services';
-import {
-  BulkActionBarComponent,
-  DeleteEntityDialogComponent,
-} from '@shared/components';
+import { BulkActionBarComponent, DeleteEntityDialogComponent } from '@shared/components';
 import {
   AGENT_TYPE_LABEL_KEYS,
   Agent,

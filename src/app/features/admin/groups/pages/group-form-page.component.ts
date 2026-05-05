@@ -1,9 +1,4 @@
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDropList,
-  moveItemInArray,
-} from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,13 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  GripVertical,
-  LucideAngularModule,
-  Plus,
-  Trash2,
-  X,
-} from 'lucide-angular';
+import { GripVertical, LucideAngularModule, Plus, Trash2, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { BreadcrumbService } from '@core/services';
@@ -162,10 +151,7 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
-  protected onTextInput<K extends 'name' | 'phone' | 'capacityValue'>(
-    key: K,
-    event: Event,
-  ): void {
+  protected onTextInput<K extends 'name' | 'phone' | 'capacityValue'>(key: K, event: Event): void {
     this.updateField(key, (event.target as HTMLInputElement).value);
   }
 
@@ -200,9 +186,7 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
 
   protected addAgent(name: string): void {
     this.form.update((f) =>
-      f.assignedAgents.includes(name)
-        ? f
-        : { ...f, assignedAgents: [...f.assignedAgents, name] },
+      f.assignedAgents.includes(name) ? f : { ...f, assignedAgents: [...f.assignedAgents, name] },
     );
   }
 
@@ -242,7 +226,8 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
         strategy: f.strategy,
         chatStrategy: f.channels.has('chat') ? f.chatStrategy : undefined,
         capacityValue: f.channels.has('phone') ? f.capacityValue.trim() || undefined : undefined,
-        capacityType: f.channels.has('phone') && f.capacityValue.trim() ? ('fixed' as const) : undefined,
+        capacityType:
+          f.channels.has('phone') && f.capacityValue.trim() ? ('fixed' as const) : undefined,
         assignedAgents: f.assignedAgents,
       };
 

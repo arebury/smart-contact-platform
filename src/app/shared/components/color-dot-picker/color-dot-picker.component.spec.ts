@@ -11,7 +11,9 @@ describe('ColorDotPickerComponent', () => {
   ];
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [ColorDotPickerComponent] }).compileComponents();
+    await TestBed.configureTestingModule({
+      imports: [ColorDotPickerComponent],
+    }).compileComponents();
     fixture = TestBed.createComponent(ColorDotPickerComponent);
     component = fixture.componentInstance;
     fixture.componentRef.setInput('options', options);

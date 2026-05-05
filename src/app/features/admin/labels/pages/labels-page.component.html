@@ -219,11 +219,7 @@
   (cancel)="cancelDelete()"
 />
 
-<aed-bulk-action-bar
-  [count]="selectedIds().size"
-  [entity]="bulkEntity"
-  (clear)="clearSelection()"
->
+<aed-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
   <button type="button" class="btn btn--bulk-danger" (click)="requestDeleteSelection()">
     {{ 'common.delete' | translate }}
   </button>

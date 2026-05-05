@@ -102,7 +102,9 @@
               <td class="table__td table__td--mono">
                 <span class="ext">
                   {{ agent.extension }}
-                  <span class="ext__type">{{ 'agents.ext.' + agent.extensionType | translate }}</span>
+                  <span class="ext__type">{{
+                    'agents.ext.' + agent.extensionType | translate
+                  }}</span>
                 </span>
               </td>
               <td class="table__td">
@@ -130,7 +132,7 @@
                   class="status-pill"
                   [attr.data-tone]="agent.status === 'active' ? 'success' : 'muted'"
                 >
-                  {{ ('agents.status.' + agent.status) | translate }}
+                  {{ 'agents.status.' + agent.status | translate }}
                 </span>
               </td>
               <td class="table__td table__td--num">{{ agent.groups.length }}</td>
@@ -216,11 +218,7 @@
   (confirm)="confirmDelete($event)"
 />
 
-<aed-bulk-action-bar
-  [count]="selectedIds().size"
-  [entity]="bulkEntity"
-  (clear)="clearSelection()"
->
+<aed-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
   <button type="button" class="btn btn--bulk-danger" (click)="requestDeleteSelection()">
     {{ 'common.delete' | translate }}
   </button>

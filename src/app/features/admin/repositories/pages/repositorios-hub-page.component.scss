@@ -90,7 +90,8 @@
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-200);
-    transition: color var(--sc-transition-fast) var(--sc-easing-default),
+    transition:
+      color var(--sc-transition-fast) var(--sc-easing-default),
       border-color var(--sc-transition-fast) var(--sc-easing-default);
 
     .hub-item:hover:not(.hub-item--disabled) & {

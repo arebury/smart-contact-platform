@@ -12,12 +12,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  AlertTriangle,
-  LucideAngularModule,
-  Mail,
-  MessageSquare,
-} from 'lucide-angular';
+import { AlertTriangle, LucideAngularModule, Mail, MessageSquare } from 'lucide-angular';
 
 import { Template, TemplateType } from '../../data/templates-data';
 

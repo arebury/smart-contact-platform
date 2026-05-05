@@ -105,9 +105,7 @@ export class TemplatesPageComponent implements OnInit, OnDestroy {
     [...this.filtered()].sort((a, b) => a.title.localeCompare(b.title)),
   );
 
-  protected readonly existingTitles = computed(() =>
-    this.templates().map((t) => t.title),
-  );
+  protected readonly existingTitles = computed(() => this.templates().map((t) => t.title));
 
   protected readonly allSelected = computed(() => {
     const sortedLen = this.sorted().length;

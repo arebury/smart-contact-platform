@@ -27,16 +27,8 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { BreadcrumbService, XlsxExportService } from '@core/services';
-import {
-  BulkActionBarComponent,
-  DeleteEntityDialogComponent,
-} from '@shared/components';
-import {
-  CHANNEL_LABEL_KEYS,
-  Group,
-  GroupChannel,
-  PRIORITY_LABEL_KEYS,
-} from '../data/groups-data';
+import { BulkActionBarComponent, DeleteEntityDialogComponent } from '@shared/components';
+import { CHANNEL_LABEL_KEYS, Group, GroupChannel, PRIORITY_LABEL_KEYS } from '../data/groups-data';
 import { GroupsStore } from '../state/groups.store';
 
 type SortField = 'name' | 'code' | 'priority' | 'agents' | 'strategy';

@@ -93,10 +93,7 @@
               [class.table__row--selected]="selectedIds().has(item.id)"
               (contextmenu)="onContextMenu($event, item.id)"
             >
-              <td
-                class="table__td-check"
-                (click)="toggleSelect(item.id); $event.stopPropagation()"
-              >
+              <td class="table__td-check" (click)="toggleSelect(item.id); $event.stopPropagation()">
                 <input
                   type="checkbox"
                   [checked]="selectedIds().has(item.id)"

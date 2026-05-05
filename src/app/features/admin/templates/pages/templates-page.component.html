@@ -200,12 +200,15 @@
                       {{
                         'templates.no_results.text_with_query'
                           | translate
-                            : { tab: ('templates.type.' + activeTab()) | translate, query: searchQuery() }
+                            : {
+                                tab: 'templates.type.' + activeTab() | translate,
+                                query: searchQuery(),
+                              }
                       }}
                     } @else {
                       {{
                         'templates.no_results.text'
-                          | translate: { tab: ('templates.type.' + activeTab()) | translate }
+                          | translate: { tab: 'templates.type.' + activeTab() | translate }
                       }}
                     }
                   </div>
@@ -255,11 +258,7 @@
   (confirm)="confirmDelete($event)"
 />
 
-<aed-bulk-action-bar
-  [count]="selectedIds().size"
-  [entity]="bulkEntity"
-  (clear)="clearSelection()"
->
+<aed-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
   <button type="button" class="btn btn--bulk-danger" (click)="requestDeleteSelection()">
     {{ 'common.delete' | translate }}
   </button>

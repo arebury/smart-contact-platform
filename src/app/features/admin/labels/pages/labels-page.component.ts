@@ -9,7 +9,17 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, Download, MoreHorizontal, Pencil, Plus, Search, Tag, Trash2, X } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  Download,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Search,
+  Tag,
+  Trash2,
+  X,
+} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';

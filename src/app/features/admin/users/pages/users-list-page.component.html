@@ -78,10 +78,7 @@
               [class.table__row--draft]="user.isDraft"
               (contextmenu)="onContextMenu($event, user.id)"
             >
-              <td
-                class="table__td-check"
-                (click)="toggleSelect(user.id); $event.stopPropagation()"
-              >
+              <td class="table__td-check" (click)="toggleSelect(user.id); $event.stopPropagation()">
                 <input
                   type="checkbox"
                   [checked]="selectedIds().has(user.id)"
@@ -104,7 +101,7 @@
                   class="status-pill"
                   [attr.data-tone]="user.status === 'active' ? 'success' : 'muted'"
                 >
-                  {{ ('users.status.' + user.status) | translate }}
+                  {{ 'users.status.' + user.status | translate }}
                 </span>
               </td>
               <td class="table__td-actions">
@@ -190,11 +187,7 @@
   (confirm)="confirmDelete($event)"
 />
 
-<aed-bulk-action-bar
-  [count]="selectedIds().size"
-  [entity]="bulkEntity"
-  (clear)="clearSelection()"
->
+<aed-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
   <button type="button" class="btn btn--bulk-danger" (click)="requestDeleteSelection()">
     {{ 'common.delete' | translate }}
   </button>

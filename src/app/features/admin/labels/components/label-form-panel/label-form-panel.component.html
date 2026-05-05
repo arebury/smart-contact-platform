@@ -1,4 +1,10 @@
-<div class="panel" role="dialog" [attr.aria-label]="(initial() ? 'labels.form.edit_title' : 'labels.form.create_title') | translate">
+<div
+  class="panel"
+  role="dialog"
+  [attr.aria-label]="
+    (initial() ? 'labels.form.edit_title' : 'labels.form.create_title') | translate
+  "
+>
   <h3 class="panel__title">
     {{ (initial() ? 'labels.form.edit_title' : 'labels.form.create_title') | translate }}
   </h3>

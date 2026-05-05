@@ -1,8 +1,6 @@
 <aed-sticky-form-header
   [mode]="mode()"
-  [entityKey]="
-    mode() === 'create' ? 'groups.form.create_title' : 'groups.entity_singular'
-  "
+  [entityKey]="mode() === 'create' ? 'groups.form.create_title' : 'groups.entity_singular'"
   [name]="form().name || (mode() === 'create' ? ('groups.form.create_title' | translate) : '')"
   [canSave]="canSave()"
   [saving]="saving()"
@@ -175,20 +173,13 @@
       <div class="agents">
         <div class="agents__assigned">
           <h3 class="agents__sub">
-            {{
-              'groups.form.assigned_count'
-                | translate: { count: form().assignedAgents.length }
-            }}
+            {{ 'groups.form.assigned_count' | translate: { count: form().assignedAgents.length } }}
           </h3>
 
           @if (form().assignedAgents.length === 0) {
             <div class="agents__empty">{{ 'groups.form.no_agents_assigned' | translate }}</div>
           } @else {
-            <ul
-              cdkDropList
-              class="agents__list"
-              (cdkDropListDropped)="onAgentDrop($event)"
-            >
+            <ul cdkDropList class="agents__list" (cdkDropListDropped)="onAgentDrop($event)">
               @for (agent of form().assignedAgents; track agent; let i = $index) {
                 <li class="agents__row" cdkDrag>
                   <span class="agents__order">{{ i + 1 }}</span>

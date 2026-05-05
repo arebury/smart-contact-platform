@@ -1,8 +1,6 @@
 <aed-sticky-form-header
   [mode]="mode()"
-  [entityKey]="
-    mode() === 'create' ? 'users.form.create_title' : 'users.entity_singular'
-  "
+  [entityKey]="mode() === 'create' ? 'users.form.create_title' : 'users.entity_singular'"
   [name]="form().name || (mode() === 'create' ? ('users.form.create_title' | translate) : '')"
   [canSave]="canSave()"
   [saving]="saving()"
@@ -15,7 +13,10 @@
 
 <div class="page">
   <div class="page__inner">
-    <aed-section-card titleKey="users.form.section.identity" hintKey="users.form.section.identity_hint">
+    <aed-section-card
+      titleKey="users.form.section.identity"
+      hintKey="users.form.section.identity_hint"
+    >
       <div class="grid grid--2">
         <div class="field">
           <label class="field__label" for="user-name">
@@ -99,21 +100,19 @@
         <div>
           <span class="field__label-inline">{{ 'users.form.fields.status' | translate }}</span>
           <span class="field__help">
-            {{
-              ('users.form.fields.status_' + form().status) | translate
-            }}
+            {{ 'users.form.fields.status_' + form().status | translate }}
           </span>
         </div>
       </div>
     </aed-section-card>
 
-    <aed-section-card titleKey="users.form.section.sections" hintKey="users.form.section.sections_hint">
+    <aed-section-card
+      titleKey="users.form.section.sections"
+      hintKey="users.form.section.sections_hint"
+    >
       <div class="checkbox-grid">
         @for (def of sectionDefs; track def.key) {
-          <label
-            class="checkbox-row"
-            [class.checkbox-row--child]="!!def.parent"
-          >
+          <label class="checkbox-row" [class.checkbox-row--child]="!!def.parent">
             <input
               type="checkbox"
               [checked]="form().sections[def.key]"
@@ -125,7 +124,10 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card titleKey="users.form.section.permissions" hintKey="users.form.section.permissions_hint">
+    <aed-section-card
+      titleKey="users.form.section.permissions"
+      hintKey="users.form.section.permissions_hint"
+    >
       <div class="checkbox-grid">
         @for (def of permissionDefs; track def.key) {
           <label class="checkbox-row">
@@ -140,7 +142,10 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card titleKey="users.form.section.services" hintKey="users.form.section.services_hint">
+    <aed-section-card
+      titleKey="users.form.section.services"
+      hintKey="users.form.section.services_hint"
+    >
       <div class="checkbox-grid checkbox-grid--services">
         @for (service of availableServices; track service) {
           <label class="checkbox-row">

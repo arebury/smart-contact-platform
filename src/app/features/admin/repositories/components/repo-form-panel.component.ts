@@ -102,7 +102,8 @@ export class RepoFormPanelComponent<T extends RepoEntity> implements OnInit, Aft
     }
     const initialName = this.initial()?.name ?? '';
     const duplicate = this.existingNames().some(
-      (n) => n.toLowerCase() === name.toLowerCase() && n.toLowerCase() !== initialName.toLowerCase(),
+      (n) =>
+        n.toLowerCase() === name.toLowerCase() && n.toLowerCase() !== initialName.toLowerCase(),
     );
     if (duplicate) {
       this.error.set(

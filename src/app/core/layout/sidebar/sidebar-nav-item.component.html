@@ -6,11 +6,7 @@
   [attr.data-depth]="depth"
   (click)="onClick()"
 >
-  <lucide-icon
-    class="nav-item__icon"
-    [img]="resolveIcon(item.icon)"
-    [size]="item.iconSize ?? 14"
-  />
+  <lucide-icon class="nav-item__icon" [img]="resolveIcon(item.icon)" [size]="item.iconSize ?? 14" />
   <span class="nav-item__label">{{ item.labelKey | translate }}</span>
   @if (hasChildren()) {
     <lucide-icon

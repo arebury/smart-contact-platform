@@ -6,11 +6,7 @@ import { ClickOutsideDirective } from './click-outside.directive';
   standalone: true,
   imports: [ClickOutsideDirective],
   template: `
-    <div
-      data-testid="host"
-      [aedClickOutsideEnabled]="enabled"
-      (aedClickOutside)="hits = hits + 1"
-    >
+    <div data-testid="host" [aedClickOutsideEnabled]="enabled" (aedClickOutside)="hits = hits + 1">
       inside
     </div>
     <button data-testid="outside" type="button">outside</button>
@@ -37,9 +33,7 @@ describe('ClickOutsideDirective', () => {
   }
 
   it('emits when clicking outside the host', () => {
-    const outside = fixture.nativeElement.querySelector(
-      '[data-testid="outside"]',
-    ) as HTMLElement;
+    const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLElement;
     dispatchPointerDown(outside);
     expect(host.hits).toBe(1);
   });
@@ -58,9 +52,7 @@ describe('ClickOutsideDirective', () => {
   it('respects the enabled flag', () => {
     host.enabled = false;
     fixture.detectChanges();
-    const outside = fixture.nativeElement.querySelector(
-      '[data-testid="outside"]',
-    ) as HTMLElement;
+    const outside = fixture.nativeElement.querySelector('[data-testid="outside"]') as HTMLElement;
     dispatchPointerDown(outside);
     document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
     expect(host.hits).toBe(0);

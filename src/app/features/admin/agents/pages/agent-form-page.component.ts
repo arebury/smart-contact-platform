@@ -162,10 +162,7 @@ export class AgentFormPageComponent implements OnInit, OnDestroy {
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
-  protected onTextInput<K extends 'name' | 'phone' | 'email' | 'pin'>(
-    key: K,
-    event: Event,
-  ): void {
+  protected onTextInput<K extends 'name' | 'phone' | 'email' | 'pin'>(key: K, event: Event): void {
     this.updateField(key, (event.target as HTMLInputElement).value);
   }
 

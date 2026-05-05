@@ -24,26 +24,21 @@ describe('TopBarComponent', () => {
   });
 
   it('renders the breadcrumb trail set in the service', () => {
-    breadcrumbs.set([
-      { label: 'Admin', path: '/admin' },
-      { label: 'Usuarios' },
-    ]);
+    breadcrumbs.set([{ label: 'Admin', path: '/admin' }, { label: 'Usuarios' }]);
     fixture.detectChanges();
     const crumbs = fixture.nativeElement.querySelectorAll('.top-bar__crumb');
     expect(crumbs.length).toBe(2);
     expect(fixture.nativeElement.querySelector('.top-bar__crumb-link')?.textContent.trim()).toBe(
       'Admin',
     );
-    expect(
-      fixture.nativeElement.querySelector('.top-bar__crumb-current')?.textContent.trim(),
-    ).toBe('Usuarios');
+    expect(fixture.nativeElement.querySelector('.top-bar__crumb-current')?.textContent.trim()).toBe(
+      'Usuarios',
+    );
   });
 
   it('toggles the user menu on avatar click', () => {
     fixture.detectChanges();
-    const avatar = fixture.nativeElement.querySelector(
-      '.top-bar__avatar',
-    ) as HTMLButtonElement;
+    const avatar = fixture.nativeElement.querySelector('.top-bar__avatar') as HTMLButtonElement;
     expect(fixture.nativeElement.querySelector('.top-bar__menu')).toBeNull();
     avatar.click();
     fixture.detectChanges();

@@ -1,7 +1,7 @@
 # Roadmap
 
 > Living progress tracker. Update at the end of every meaningful merge.
-> Last reviewed: 2026-05-05.
+> Last reviewed: 2026-05-05 (after Agents shipped).
 
 Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 
@@ -52,47 +52,49 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 - ✅ Route wired at `/admin/labels`
 - ✅ i18n keys
 
-### 3.2 — Templates ⬜
+### 3.2 — Templates ✅
 
-- ⬜ `TemplatesStore`
-- ⬜ Tabs Chat / Email
-- ⬜ Inline form
-- ⬜ Search + bulk delete
-- ⬜ Route + i18n
+- ✅ `TemplatesStore` with auto-stamped createdAt / updatedAt
+- ✅ Tabs Chat / Email with per-tab counts
+- ✅ Inline form panel (title / channel toggle / body + variables hint)
+- ✅ Search scoped to active tab, sort, bulk delete via shared `DeleteEntityDialog`
+- ✅ Route `/admin/plantillas` + i18n
+- ✅ Promoted shared `DeleteEntityDialog` (single mode with copy-to-confirm + bulk mode with chip-prune) and `ClipboardService`
 
-### 3.3 — Repositories ⬜
+### 3.3 — Repositories ✅
 
-- ⬜ Generic `RepositoryListPageComponent` (table + inline form + delete + export)
-- ⬜ 9 instance pages: Agendas, Horarios, Tipificaciones, Variables, Entidades, Intenciones, Reglas IA, Entidades IA, Clasificación IA
-- ⬜ `RepositoriosHubPage` (grid of 9 cards)
+- ✅ Generic `RepoListPageComponent` (search + sort + table with row & context menus + bulk delete + XLSX export)
+- ✅ Generic `RepoFormPanelComponent` (data-driven text/textarea/select fields + validation)
+- ✅ 9 instance files: Agendas, Horarios, Tipificaciones, Variables, Entidades, Intenciones, Reglas IA, Entidades IA, Clasificación IA — each one self-contained (~120 LoC: type + seed + store + page wrapper)
+- ✅ `RepositoriosHubPageComponent` (4 categorías × cards con icono + descripción)
 
-### 3.4 — Config ⬜
+### 3.4 — Config ✅
 
-- ⬜ `/config/aed` (country prefix picker)
-- ⬜ `/config/seguridad` (accordion + regeneration flow with confirmation)
+- ✅ `/config/aed` — country prefix picker over the full ~250-entry COUNTRY_PREFIXES, search by name/code/prefix, removable chips, dirty-aware save bar
+- ✅ `/config/seguridad` — políticas de contraseñas (cosméticas) + accordion gating bulk password regen flow with confirm-by-typing-"REGENERAR" + simulated CSV download
+- ✅ AgentsStore extended with `code / extension / email / status` so Seguridad can render real rows once Agents ships
 
-### 3.5 — Users ⬜
+### 3.5 — Users ✅
 
-- ⬜ `UsersStore`
-- ⬜ List page (search, sort, bulk delete)
-- ⬜ Create / edit form (sticky header, sections, photo upload)
-- ⬜ Sticky form header + section card shared components
-- ⬜ Cross-tab warning service + unsaved-changes guard
+- ✅ `UsersStore` (CRUD + duplicate that marks the copy as a draft)
+- ✅ List page: search across name/email/identifier, sortable columns (drafts pin to top), per-row + context menu, bulk delete, XLSX export, status pill
+- ✅ Create / edit form: identity / sections / permissions / services panels, validation for name + email, status toggle
+- ✅ Shared `SectionCardComponent` + `StickyFormHeaderComponent` (editable inline name with rename API + save/cancel/delete + spinner state)
 
-### 3.6 — Groups ⬜
+### 3.6 — Groups ✅
 
-- ⬜ `GroupsStore`
-- ⬜ List page
-- ⬜ Create / edit form (multi-section)
-- ⬜ Drag-drop agent reorder via `@angular/cdk` `CdkDropList`
-- ⬜ Distribution-strategy controls
+- ✅ `GroupsStore` (CRUD + duplicate; auto-incrementing codes from "20000")
+- ✅ List page with channel chips, priority pill (color tone by level), bulk delete, XLSX export
+- ✅ Create / edit form: identity / channels / strategy / agents panels
+- ✅ **Drag-drop agent reorder** via `@angular/cdk` `CdkDropList` with grip handle + ghost preview + placeholder styled to design system
+- ✅ Strategy panel adapts to selected channels (chat strategy + capacity inputs render only when their channel is enabled)
 
-### 3.7 — Agents ⬜ (heaviest)
+### 3.7 — Agents ✅
 
-- ⬜ `AgentsStore` (full domain — channels, presence, recording, etc.; today only the cascading-delete stub exists)
-- ⬜ Column-visibility selector (persistent in localStorage)
-- ⬜ Frozen-column data table
-- ⬜ Create / edit form
+- ✅ `AgentsStore` expanded from slim stub to full prototype schema (channels, presence, permissions, groups, pickup type, etc.); v2 lockfile re-seeds existing browsers
+- ✅ List page: 16 seed agents with extension type badge, channel chips, presence pill (color-coded), status pill, bulk delete, XLSX export
+- ✅ Create / edit form: 5 sections (identity / contact / channels / groups / permissions matrix split into devices/calls/transfers)
+- ⬜ **Deferred:** column-visibility selector (with localStorage persistence), frozen-column data table, photo upload preview, language multi-select, schedule + label multi-select, default outbound group, iframe URL, max-chats. Lands with shared `MultiSelectChip` and `FileUpload` primitives.
 
 ## Phase 4 — Full README + technical docs ⬜
 

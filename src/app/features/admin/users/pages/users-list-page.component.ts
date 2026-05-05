@@ -24,15 +24,8 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { BreadcrumbService, XlsxExportService } from '@core/services';
-import {
-  BulkActionBarComponent,
-  DeleteEntityDialogComponent,
-} from '@shared/components';
-import {
-  USER_TYPE_LABEL_KEYS,
-  User,
-  UserType,
-} from '../data/users-data';
+import { BulkActionBarComponent, DeleteEntityDialogComponent } from '@shared/components';
+import { USER_TYPE_LABEL_KEYS, User, UserType } from '../data/users-data';
 import { UsersStore } from '../state/users.store';
 
 type SortField = 'name' | 'email' | 'type' | 'identifier' | 'status';

@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -61,32 +55,98 @@ export class RepositoriosHubPageComponent implements OnInit, OnDestroy {
     {
       titleKey: 'repositories.hub.categories.communication',
       items: [
-        { labelKey: 'repositories.agendas.title', descriptionKey: 'repositories.hub.descriptions.agendas', icon: Phone, path: '/admin/agendas', ready: true },
-        { labelKey: 'repositories.horarios.title', descriptionKey: 'repositories.hub.descriptions.horarios', icon: Clock, path: '/admin/horarios', ready: true },
-        { labelKey: 'templates.page_title', descriptionKey: 'repositories.hub.descriptions.plantillas', icon: FileStack, path: '/admin/plantillas', ready: true },
-        { labelKey: 'repositories.tipificaciones.title', descriptionKey: 'repositories.hub.descriptions.tipificaciones', icon: Tags, path: '/admin/tipificaciones', ready: true },
+        {
+          labelKey: 'repositories.agendas.title',
+          descriptionKey: 'repositories.hub.descriptions.agendas',
+          icon: Phone,
+          path: '/admin/agendas',
+          ready: true,
+        },
+        {
+          labelKey: 'repositories.horarios.title',
+          descriptionKey: 'repositories.hub.descriptions.horarios',
+          icon: Clock,
+          path: '/admin/horarios',
+          ready: true,
+        },
+        {
+          labelKey: 'templates.page_title',
+          descriptionKey: 'repositories.hub.descriptions.plantillas',
+          icon: FileStack,
+          path: '/admin/plantillas',
+          ready: true,
+        },
+        {
+          labelKey: 'repositories.tipificaciones.title',
+          descriptionKey: 'repositories.hub.descriptions.tipificaciones',
+          icon: Tags,
+          path: '/admin/tipificaciones',
+          ready: true,
+        },
       ],
     },
     {
       titleKey: 'repositories.hub.categories.classification',
       items: [
-        { labelKey: 'labels.page_title', descriptionKey: 'repositories.hub.descriptions.labels', icon: Tag, path: '/admin/labels', ready: true },
-        { labelKey: 'repositories.variables.title', descriptionKey: 'repositories.hub.descriptions.variables', icon: Variable, path: '/admin/variables', ready: true },
+        {
+          labelKey: 'labels.page_title',
+          descriptionKey: 'repositories.hub.descriptions.labels',
+          icon: Tag,
+          path: '/admin/labels',
+          ready: true,
+        },
+        {
+          labelKey: 'repositories.variables.title',
+          descriptionKey: 'repositories.hub.descriptions.variables',
+          icon: Variable,
+          path: '/admin/variables',
+          ready: true,
+        },
       ],
     },
     {
       titleKey: 'repositories.hub.categories.conversational_designer',
       items: [
-        { labelKey: 'repositories.entidades.title', descriptionKey: 'repositories.hub.descriptions.entidades', icon: Box, path: '/admin/entidades', ready: true },
-        { labelKey: 'repositories.intenciones.title', descriptionKey: 'repositories.hub.descriptions.intenciones', icon: MessageSquare, path: '/admin/intenciones', ready: true },
+        {
+          labelKey: 'repositories.entidades.title',
+          descriptionKey: 'repositories.hub.descriptions.entidades',
+          icon: Box,
+          path: '/admin/entidades',
+          ready: true,
+        },
+        {
+          labelKey: 'repositories.intenciones.title',
+          descriptionKey: 'repositories.hub.descriptions.intenciones',
+          icon: MessageSquare,
+          path: '/admin/intenciones',
+          ready: true,
+        },
       ],
     },
     {
       titleKey: 'repositories.hub.categories.ai',
       items: [
-        { labelKey: 'repositories.reglas_ia.title', descriptionKey: 'repositories.hub.descriptions.reglas_ia', icon: Sparkles, path: '/admin/reglas-ia', ready: true },
-        { labelKey: 'repositories.entidades_ia.title', descriptionKey: 'repositories.hub.descriptions.entidades_ia', icon: Box, path: '/admin/entidades-ia', ready: true },
-        { labelKey: 'repositories.clasificacion_ia.title', descriptionKey: 'repositories.hub.descriptions.clasificacion_ia', icon: Tags, path: '/admin/clasificacion-ia', ready: true },
+        {
+          labelKey: 'repositories.reglas_ia.title',
+          descriptionKey: 'repositories.hub.descriptions.reglas_ia',
+          icon: Sparkles,
+          path: '/admin/reglas-ia',
+          ready: true,
+        },
+        {
+          labelKey: 'repositories.entidades_ia.title',
+          descriptionKey: 'repositories.hub.descriptions.entidades_ia',
+          icon: Box,
+          path: '/admin/entidades-ia',
+          ready: true,
+        },
+        {
+          labelKey: 'repositories.clasificacion_ia.title',
+          descriptionKey: 'repositories.hub.descriptions.clasificacion_ia',
+          icon: Tags,
+          path: '/admin/clasificacion-ia',
+          ready: true,
+        },
       ],
     },
   ];

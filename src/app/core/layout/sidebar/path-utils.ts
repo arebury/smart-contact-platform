@@ -26,8 +26,6 @@ const REPO_SUB_PATHS = [
  */
 export function normalizeRoutePath(rawPath: string): string {
   const stripped = rawPath.replace(/\/(crear|editar\/[^/]+)$/, '');
-  const isRepoSubPath = REPO_SUB_PATHS.some(
-    (p) => stripped === p || stripped.startsWith(p + '/'),
-  );
+  const isRepoSubPath = REPO_SUB_PATHS.some((p) => stripped === p || stripped.startsWith(p + '/'));
   return isRepoSubPath ? '/admin/repositorios' : stripped;
 }

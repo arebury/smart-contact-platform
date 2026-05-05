@@ -19,11 +19,7 @@ import {
   ColorDotOption,
   ColorDotPickerComponent,
 } from '@shared/components/color-dot-picker/color-dot-picker.component';
-import {
-  LABEL_COLOR_OPTIONS,
-  Label,
-  LabelColor,
-} from '../../data/labels-data';
+import { LABEL_COLOR_OPTIONS, Label, LabelColor } from '../../data/labels-data';
 
 export interface LabelFormSubmission {
   readonly name: string;

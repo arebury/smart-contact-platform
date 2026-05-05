@@ -104,9 +104,7 @@ export class SeguridadPageComponent implements OnInit, OnDestroy {
 
   protected readonly canExecute = computed(
     () =>
-      this.selectedIds().size > 0 &&
-      this.confirmText() === CONFIRM_PHRASE &&
-      !this.processing(),
+      this.selectedIds().size > 0 && this.confirmText() === CONFIRM_PHRASE && !this.processing(),
   );
 
   ngOnInit(): void {

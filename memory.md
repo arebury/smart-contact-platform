@@ -4,6 +4,36 @@
 > for anyone who joins the project after this point. Update whenever a
 > decision is taken that affects multiple files or future contributors.
 
+For full decisions with discarded alternatives, see [`DECISIONS.md`](./DECISIONS.md).
+For the running journal of what each session changed, see [`SESSION-LOG.md`](./SESSION-LOG.md).
+
+---
+
+## Session-end protocol
+
+When the user types **"cerramos"**, **"cerrar sesión"**, **"lo dejamos"**,
+**"paramos aquí"**, **"hasta mañana"**, **"nos vemos"** or any equivalent
+end-of-session cue, the assistant runs the wrap-up routine without asking
+permission first:
+
+1. `git status` → if there are uncommitted changes, commit them with a
+   Conventional-Commits message that summarises what landed since the last
+   commit.
+2. `git push` to origin.
+3. Append a new dated section to [`SESSION-LOG.md`](./SESSION-LOG.md) with
+   the things worked on, key decisions, blockers / open questions, and
+   what's queued next. Newest entry on top.
+4. If the session locked in a load-bearing decision (changes architecture,
+   discards an alternative, sets a project-wide rule), add a numbered entry
+   to [`DECISIONS.md`](./DECISIONS.md) with WHY and WHAT-WAS-DISCARDED-AND-WHY.
+   If the rule is universal, also reflect it here in `memory.md`.
+5. Reply with one or two sentences confirming what was pushed and where
+   the log entry is.
+
+**Why this exists.** Each session should leave the repo with both the code
+and a written trail of how we got there, so the next session (and any
+future contributor) doesn't have to re-derive context from `git log` alone.
+
 ---
 
 ## Stack

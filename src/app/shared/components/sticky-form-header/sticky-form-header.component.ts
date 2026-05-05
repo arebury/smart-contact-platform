@@ -11,14 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  Check,
-  Loader2,
-  LucideAngularModule,
-  Pencil,
-  Trash2,
-  X,
-} from 'lucide-angular';
+import { Check, Loader2, LucideAngularModule, Pencil, Trash2, X } from 'lucide-angular';
 
 /**
  * Sticky bar at the top of every Create/Edit page (Users, Groups, Agents…).

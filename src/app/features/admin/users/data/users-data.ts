@@ -1,11 +1,6 @@
 export type UserType = 'administrator' | 'supervisor' | 'agent' | 'viewer';
 
-export const USER_TYPES: readonly UserType[] = [
-  'administrator',
-  'supervisor',
-  'agent',
-  'viewer',
-];
+export const USER_TYPES: readonly UserType[] = ['administrator', 'supervisor', 'agent', 'viewer'];
 
 export const USER_TYPE_LABEL_KEYS: Readonly<Record<UserType, string>> = {
   administrator: 'users.type.administrator',

@@ -1,8 +1,6 @@
 <aed-sticky-form-header
   [mode]="mode()"
-  [entityKey]="
-    mode() === 'create' ? 'agents.form.create_title' : 'agents.entity_singular'
-  "
+  [entityKey]="mode() === 'create' ? 'agents.form.create_title' : 'agents.entity_singular'"
   [name]="form().name || (mode() === 'create' ? ('agents.form.create_title' | translate) : '')"
   [canSave]="canSave()"
   [saving]="saving()"
@@ -64,7 +62,9 @@
           >
             <option value="">{{ 'agents.form.fields.extension_placeholder' | translate }}</option>
             @for (ext of availableExtensions; track ext.number) {
-              <option [value]="ext.number">{{ ext.number }} ({{ 'agents.ext.' + ext.type | translate }})</option>
+              <option [value]="ext.number">
+                {{ ext.number }} ({{ 'agents.ext.' + ext.type | translate }})
+              </option>
             }
           </select>
         </div>
@@ -114,7 +114,7 @@
               {{ 'agents.form.fields.status' | translate }}
             </span>
             <span class="field__help">
-              {{ ('agents.form.fields.status_' + form().status) | translate }}
+              {{ 'agents.form.fields.status_' + form().status | translate }}
             </span>
           </div>
         </div>
@@ -188,7 +188,7 @@
               [checked]="hasChannel(channel)"
               (change)="toggleChannel(channel)"
             />
-            <span>{{ ('agents.channel.' + channel) | translate }}</span>
+            <span>{{ 'agents.channel.' + channel | translate }}</span>
           </label>
         }
       </div>

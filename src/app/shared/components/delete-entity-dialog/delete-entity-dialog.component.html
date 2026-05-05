@@ -69,9 +69,7 @@
       </div>
     } @else {
       <p class="delete-entity__text">
-        {{
-          'common.delete_dialog.body_bulk' | translate: { entity: entityPlural() }
-        }}
+        {{ 'common.delete_dialog.body_bulk' | translate: { entity: entityPlural() } }}
       </p>
       <div class="delete-entity__chips">
         @for (item of visibleItems(); track item.id) {

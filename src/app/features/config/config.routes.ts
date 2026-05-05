@@ -12,8 +12,7 @@ const placeholder = () =>
 export const configRoutes: Routes = [
   {
     path: 'aed',
-    loadComponent: () =>
-      import('./pages/aed-page.component').then((m) => m.AedPageComponent),
+    loadComponent: () => import('./pages/aed-page.component').then((m) => m.AedPageComponent),
   },
   {
     path: 'seguridad',

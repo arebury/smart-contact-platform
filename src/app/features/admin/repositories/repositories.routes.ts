@@ -10,9 +10,7 @@ export const REPOSITORIES_ROUTES: Routes = [
   {
     path: 'repositorios',
     loadComponent: () =>
-      import('./pages/repositorios-hub-page.component').then(
-        (m) => m.RepositoriosHubPageComponent,
-      ),
+      import('./pages/repositorios-hub-page.component').then((m) => m.RepositoriosHubPageComponent),
   },
   {
     path: 'agendas',
@@ -29,28 +27,23 @@ export const REPOSITORIES_ROUTES: Routes = [
   },
   {
     path: 'variables',
-    loadComponent: () =>
-      import('./instances/variables').then((m) => m.VariablesPageComponent),
+    loadComponent: () => import('./instances/variables').then((m) => m.VariablesPageComponent),
   },
   {
     path: 'entidades',
-    loadComponent: () =>
-      import('./instances/entidades').then((m) => m.EntidadesPageComponent),
+    loadComponent: () => import('./instances/entidades').then((m) => m.EntidadesPageComponent),
   },
   {
     path: 'intenciones',
-    loadComponent: () =>
-      import('./instances/intenciones').then((m) => m.IntencionesPageComponent),
+    loadComponent: () => import('./instances/intenciones').then((m) => m.IntencionesPageComponent),
   },
   {
     path: 'reglas-ia',
-    loadComponent: () =>
-      import('./instances/reglas-ia').then((m) => m.ReglasIAPageComponent),
+    loadComponent: () => import('./instances/reglas-ia').then((m) => m.ReglasIAPageComponent),
   },
   {
     path: 'entidades-ia',
-    loadComponent: () =>
-      import('./instances/entidades-ia').then((m) => m.EntidadesIAPageComponent),
+    loadComponent: () => import('./instances/entidades-ia').then((m) => m.EntidadesIAPageComponent),
   },
   {
     path: 'clasificacion-ia',

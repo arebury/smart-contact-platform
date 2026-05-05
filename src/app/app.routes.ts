@@ -22,13 +22,11 @@ export const appRoutes: Routes = [
       },
       {
         path: 'admin',
-        loadChildren: () =>
-          import('./features/admin/admin.routes').then((m) => m.adminRoutes),
+        loadChildren: () => import('./features/admin/admin.routes').then((m) => m.adminRoutes),
       },
       {
         path: 'config',
-        loadChildren: () =>
-          import('./features/config/config.routes').then((m) => m.configRoutes),
+        loadChildren: () => import('./features/config/config.routes').then((m) => m.configRoutes),
       },
       {
         path: '',

@@ -13,17 +13,32 @@
             (keydown)="onRenameKey($event)"
             [attr.aria-label]="'common.edit' | translate"
           />
-          <button type="button" class="sticky-header__icon-btn" (click)="confirmRename()" [attr.aria-label]="'common.save' | translate">
+          <button
+            type="button"
+            class="sticky-header__icon-btn"
+            (click)="confirmRename()"
+            [attr.aria-label]="'common.save' | translate"
+          >
             <lucide-icon [img]="checkIcon" [size]="14" />
           </button>
-          <button type="button" class="sticky-header__icon-btn" (click)="cancelRename()" [attr.aria-label]="'common.cancel' | translate">
+          <button
+            type="button"
+            class="sticky-header__icon-btn"
+            (click)="cancelRename()"
+            [attr.aria-label]="'common.cancel' | translate"
+          >
             <lucide-icon [img]="closeIcon" [size]="14" />
           </button>
         </span>
       } @else {
         <span class="sticky-header__name-row">
           <span class="sticky-header__name">{{ name() }}</span>
-          <button type="button" class="sticky-header__icon-btn" (click)="onPencilClick()" [attr.aria-label]="'common.edit' | translate">
+          <button
+            type="button"
+            class="sticky-header__icon-btn"
+            (click)="onPencilClick()"
+            [attr.aria-label]="'common.edit' | translate"
+          >
             <lucide-icon [img]="pencilIcon" [size]="13" />
           </button>
         </span>

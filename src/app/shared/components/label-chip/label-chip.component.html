@@ -2,12 +2,7 @@
   <span class="chip__dot" aria-hidden="true"></span>
   <span class="chip__text">{{ label().name }}</span>
   @if (removable()) {
-    <button
-      type="button"
-      class="chip__remove"
-      (click)="onRemove($event)"
-      aria-label="Quitar"
-    >
+    <button type="button" class="chip__remove" (click)="onRemove($event)" aria-label="Quitar">
       <lucide-icon [img]="closeIcon" [size]="10" />
     </button>
   }

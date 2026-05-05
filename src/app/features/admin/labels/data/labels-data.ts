@@ -6,15 +6,7 @@ export interface Label {
 }
 
 /** Closed set of 8 categorical colors. Maps 1:1 to `--sc-label-<color>-*` tokens. */
-export type LabelColor =
-  | 'gray'
-  | 'red'
-  | 'orange'
-  | 'amber'
-  | 'green'
-  | 'teal'
-  | 'blue'
-  | 'purple';
+export type LabelColor = 'gray' | 'red' | 'orange' | 'amber' | 'green' | 'teal' | 'blue' | 'purple';
 
 export const LABEL_COLORS: readonly LabelColor[] = [
   'gray',
