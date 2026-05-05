@@ -523,6 +523,121 @@
       "sheet": "Grupos"
     }
   },
+  "agents": {
+    "page_title": "Agentes",
+    "create_button": "Nuevo agente",
+    "search_placeholder": "Buscar agente por nombre, código, extensión o email...",
+    "no_results": "No se encontraron agentes",
+    "entity_singular": "agente",
+    "table": {
+      "code": "Código",
+      "name": "Nombre",
+      "extension": "Extensión",
+      "channels": "Canales",
+      "type": "Tipo",
+      "presence": "Presencia",
+      "status": "Estado",
+      "groups": "Grupos"
+    },
+    "type": {
+      "normal": "Normal",
+      "cuscare": "CusCare",
+      "cuscare_carrier": "CusCare Carrier",
+      "admin_cuscare": "Admin CusCare"
+    },
+    "channel": {
+      "phone": "Teléfono",
+      "chat": "Chat",
+      "email": "Email"
+    },
+    "ext": {
+      "phone": "Tel",
+      "webrtc": "WebRTC"
+    },
+    "presence": {
+      "available": "Disponible",
+      "unavailable": "No disponible",
+      "bathroom": "Baño",
+      "lunch": "Comida",
+      "training": "Formación"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+    "permission": {
+      "manage_devices": "Gestionar dispositivos",
+      "self_activate": "Auto-activación",
+      "external_devices": "Dispositivos externos",
+      "recording": "Grabación habilitada",
+      "calls_enabled": "Llamadas activas",
+      "calls_dest_fixed": "Destino fijo",
+      "calls_dest_mobile": "Destino móvil",
+      "calls_dest_international": "Destino internacional",
+      "calls_dest_special": "Destino especial",
+      "transfers_enabled": "Transferencias activas",
+      "transfers_dest_fixed": "Transfer a fijo",
+      "transfers_dest_mobile": "Transfer a móvil",
+      "transfers_dest_international": "Transfer internacional",
+      "transfers_dest_special": "Transfer especial"
+    },
+    "form": {
+      "create_title": "Nuevo agente",
+      "create_breadcrumb": "Nuevo agente",
+      "edit_breadcrumb": "Editar agente",
+      "section": {
+        "identity": "Identidad",
+        "identity_hint": "Nombre, tipo y extensión asignada",
+        "contact": "Contacto",
+        "contact_hint": "Teléfono, email y PIN del agente",
+        "channels": "Canales",
+        "channels_hint": "Tipos de comunicación que puede atender",
+        "groups": "Grupos asignados",
+        "groups_hint": "Colas de atención en las que el agente participa",
+        "permissions": "Permisos",
+        "permissions_hint": "Capacidades específicas del agente"
+      },
+      "fields": {
+        "name": "Nombre",
+        "type": "Tipo de agente",
+        "extension": "Extensión",
+        "extension_placeholder": "Selecciona una extensión disponible",
+        "pickup": "Tipo de descolgado",
+        "pickup_auto": "Automático",
+        "pickup_manual": "Manual",
+        "presence": "Presencia inicial",
+        "status": "Estado",
+        "status_active": "Agente activo: puede recibir llamadas y chats.",
+        "status_inactive": "Agente inactivo: no recibe nuevas interacciones.",
+        "phone": "Teléfono móvil",
+        "email": "Email",
+        "pin": "PIN",
+        "pin_hint": "3-6 dígitos. Se usa para auto-activación desde el teléfono."
+      },
+      "permissions": {
+        "devices": "Dispositivos",
+        "calls": "Llamadas salientes",
+        "transfers": "Transferencias"
+      }
+    },
+    "toasts": {
+      "created": "Agente \"{{name}}\" creado",
+      "updated": "Agente \"{{name}}\" actualizado",
+      "deleted_single": "Agente \"{{name}}\" eliminado",
+      "deleted_bulk": "{{count}} agentes eliminados",
+      "duplicated": "Agente \"{{name}}\" duplicado como borrador"
+    },
+    "export": {
+      "code": "Código",
+      "name": "Nombre",
+      "extension": "Extensión",
+      "type": "Tipo",
+      "email": "Email",
+      "status": "Estado",
+      "groups": "Grupos",
+      "sheet": "Agentes"
+    }
+  },
   "config": {
     "aed": {
       "title": "AED",

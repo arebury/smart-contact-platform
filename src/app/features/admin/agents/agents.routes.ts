@@ -1,13 +1,20 @@
 import { Routes } from '@angular/router';
 
-const placeholder = () =>
-  import('@core/layout/placeholder-page/placeholder-page.component').then(
-    (m) => m.PlaceholderPageComponent,
-  );
-
-/** Agents feature routes. List + create + edit are placeholders until 3.7. */
+/** Agents feature routes — list + create + edit. */
 export const AGENTS_ROUTES: Routes = [
-  { path: '', loadComponent: placeholder },
-  { path: 'crear', loadComponent: placeholder },
-  { path: 'editar/:id', loadComponent: placeholder },
+  {
+    path: '',
+    loadComponent: () =>
+      import('./pages/agents-list-page.component').then((m) => m.AgentsListPageComponent),
+  },
+  {
+    path: 'crear',
+    loadComponent: () =>
+      import('./pages/agent-form-page.component').then((m) => m.AgentFormPageComponent),
+  },
+  {
+    path: 'editar/:id',
+    loadComponent: () =>
+      import('./pages/agent-form-page.component').then((m) => m.AgentFormPageComponent),
+  },
 ];

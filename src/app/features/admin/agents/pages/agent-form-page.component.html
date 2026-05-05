@@ -1,0 +1,286 @@
+<aed-sticky-form-header
+  [mode]="mode()"
+  [entityKey]="
+    mode() === 'create' ? 'agents.form.create_title' : 'agents.entity_singular'
+  "
+  [name]="form().name || (mode() === 'create' ? ('agents.form.create_title' | translate) : '')"
+  [canSave]="canSave()"
+  [saving]="saving()"
+  [canDelete]="mode() === 'edit'"
+  (nameChange)="onNameRename($event)"
+  (save)="save()"
+  (cancel)="cancel()"
+  (delete)="requestDelete()"
+/>
+
+<div class="page">
+  <div class="page__inner">
+    <aed-section-card
+      titleKey="agents.form.section.identity"
+      hintKey="agents.form.section.identity_hint"
+    >
+      <div class="grid grid--2">
+        <div class="field">
+          <label class="field__label" for="agent-name">
+            {{ 'agents.form.fields.name' | translate }}
+            <span class="field__required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="agent-name"
+            type="text"
+            class="field__input"
+            [value]="form().name"
+            (input)="onTextInput('name', $event)"
+            autocomplete="name"
+          />
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="agent-type">
+            {{ 'agents.form.fields.type' | translate }}
+          </label>
+          <select
+            id="agent-type"
+            class="field__input"
+            [value]="form().agentType"
+            (change)="onAgentTypeChange($event)"
+          >
+            @for (t of agentTypes; track t) {
+              <option [value]="t">{{ typeLabelKeys[t] | translate }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="agent-ext">
+            {{ 'agents.form.fields.extension' | translate }}
+            <span class="field__required" aria-hidden="true">*</span>
+          </label>
+          <select
+            id="agent-ext"
+            class="field__input"
+            [value]="form().extension"
+            (change)="onExtensionChange($event)"
+          >
+            <option value="">{{ 'agents.form.fields.extension_placeholder' | translate }}</option>
+            @for (ext of availableExtensions; track ext.number) {
+              <option [value]="ext.number">{{ ext.number }} ({{ 'agents.ext.' + ext.type | translate }})</option>
+            }
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="agent-pickup">
+            {{ 'agents.form.fields.pickup' | translate }}
+          </label>
+          <select
+            id="agent-pickup"
+            class="field__input"
+            [value]="form().pickupType"
+            (change)="onPickupChange($event)"
+          >
+            <option value="auto">{{ 'agents.form.fields.pickup_auto' | translate }}</option>
+            <option value="manual">{{ 'agents.form.fields.pickup_manual' | translate }}</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="agent-presence">
+            {{ 'agents.form.fields.presence' | translate }}
+          </label>
+          <select
+            id="agent-presence"
+            class="field__input"
+            [value]="form().presenceStatus"
+            (change)="onPresenceChange($event)"
+          >
+            @for (p of presenceStates; track p) {
+              <option [value]="p">{{ presenceKeys[p] | translate }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field field--inline">
+          <label class="toggle">
+            <input
+              type="checkbox"
+              [checked]="form().status === 'active'"
+              (change)="onStatusToggle($event)"
+            />
+            <span class="toggle__track"><span class="toggle__thumb"></span></span>
+          </label>
+          <div>
+            <span class="field__label-inline">
+              {{ 'agents.form.fields.status' | translate }}
+            </span>
+            <span class="field__help">
+              {{ ('agents.form.fields.status_' + form().status) | translate }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </aed-section-card>
+
+    <aed-section-card
+      titleKey="agents.form.section.contact"
+      hintKey="agents.form.section.contact_hint"
+    >
+      <div class="grid grid--2">
+        <div class="field">
+          <label class="field__label" for="agent-phone">
+            {{ 'agents.form.fields.phone' | translate }}
+            <span class="field__hint">({{ 'common.optional' | translate }})</span>
+          </label>
+          <input
+            id="agent-phone"
+            type="tel"
+            class="field__input"
+            [value]="form().phone"
+            (input)="onTextInput('phone', $event)"
+            autocomplete="tel"
+          />
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="agent-email">
+            {{ 'agents.form.fields.email' | translate }}
+            <span class="field__hint">({{ 'common.optional' | translate }})</span>
+          </label>
+          <input
+            id="agent-email"
+            type="email"
+            class="field__input"
+            [value]="form().email"
+            (input)="onTextInput('email', $event)"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="agent-pin">
+            {{ 'agents.form.fields.pin' | translate }}
+            <span class="field__hint">({{ 'common.optional' | translate }})</span>
+          </label>
+          <input
+            id="agent-pin"
+            type="text"
+            class="field__input"
+            inputmode="numeric"
+            maxlength="6"
+            [value]="form().pin"
+            (input)="onTextInput('pin', $event)"
+            autocomplete="off"
+          />
+          <span class="field__help">{{ 'agents.form.fields.pin_hint' | translate }}</span>
+        </div>
+      </div>
+    </aed-section-card>
+
+    <aed-section-card
+      titleKey="agents.form.section.channels"
+      hintKey="agents.form.section.channels_hint"
+    >
+      <div class="channel-grid">
+        @for (channel of channels; track channel) {
+          <label class="checkbox-row">
+            <input
+              type="checkbox"
+              [checked]="hasChannel(channel)"
+              (change)="toggleChannel(channel)"
+            />
+            <span>{{ ('agents.channel.' + channel) | translate }}</span>
+          </label>
+        }
+      </div>
+    </aed-section-card>
+
+    <aed-section-card
+      titleKey="agents.form.section.groups"
+      hintKey="agents.form.section.groups_hint"
+    >
+      <div class="checkbox-grid">
+        @for (group of availableGroups; track group.id) {
+          <label class="checkbox-row">
+            <input
+              type="checkbox"
+              [checked]="hasGroup(group.id)"
+              (change)="toggleGroup(group.id)"
+            />
+            <span>{{ group.name }}</span>
+          </label>
+        }
+      </div>
+    </aed-section-card>
+
+    <aed-section-card
+      titleKey="agents.form.section.permissions"
+      hintKey="agents.form.section.permissions_hint"
+    >
+      <div class="permission-blocks">
+        <div class="permission-block">
+          <h3 class="permission-block__title">
+            {{ 'agents.form.permissions.devices' | translate }}
+          </h3>
+          <div class="checkbox-grid">
+            @for (def of devicePermissions; track def.key) {
+              <label class="checkbox-row">
+                <input
+                  type="checkbox"
+                  [checked]="form().permissions[def.key]"
+                  (change)="togglePermission(def.key)"
+                />
+                <span>{{ def.labelKey | translate }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <div class="permission-block">
+          <h3 class="permission-block__title">
+            {{ 'agents.form.permissions.calls' | translate }}
+          </h3>
+          <div class="checkbox-grid">
+            @for (def of callPermissions; track def.key) {
+              <label class="checkbox-row">
+                <input
+                  type="checkbox"
+                  [checked]="form().permissions[def.key]"
+                  (change)="togglePermission(def.key)"
+                />
+                <span>{{ def.labelKey | translate }}</span>
+              </label>
+            }
+          </div>
+        </div>
+
+        <div class="permission-block">
+          <h3 class="permission-block__title">
+            {{ 'agents.form.permissions.transfers' | translate }}
+          </h3>
+          <div class="checkbox-grid">
+            @for (def of transferPermissions; track def.key) {
+              <label class="checkbox-row">
+                <input
+                  type="checkbox"
+                  [checked]="form().permissions[def.key]"
+                  (change)="togglePermission(def.key)"
+                />
+                <span>{{ def.labelKey | translate }}</span>
+              </label>
+            }
+          </div>
+        </div>
+      </div>
+    </aed-section-card>
+  </div>
+</div>
+
+<aed-delete-entity-dialog
+  [visible]="deleteVisible()"
+  mode="single"
+  [items]="deleteItems()"
+  [entitySingular]="'agente'"
+  [entityPlural]="'agentes'"
+  (cancel)="cancelDelete()"
+  (confirm)="confirmDelete()"
+/>

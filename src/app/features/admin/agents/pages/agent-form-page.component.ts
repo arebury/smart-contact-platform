@@ -1,0 +1,325 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { MessageService } from 'primeng/api';
+
+import { BreadcrumbService } from '@core/services';
+import {
+  DeleteEntityDialogComponent,
+  SectionCardComponent,
+  StickyFormHeaderComponent,
+} from '@shared/components';
+import {
+  AGENT_CHANNELS,
+  AGENT_TYPES,
+  AGENT_TYPE_LABEL_KEYS,
+  Agent,
+  AgentChannel,
+  AgentGroupRef,
+  AgentPermissions,
+  AgentType,
+  AVAILABLE_EXTENSIONS,
+  AVAILABLE_GROUPS_REF,
+  CALL_PERMISSIONS,
+  DEFAULT_AGENT_PERMISSIONS,
+  DEVICE_PERMISSIONS,
+  ExtensionType,
+  PRESENCE_LABEL_KEYS,
+  PickupType,
+  PresenceStatus,
+  TRANSFER_PERMISSIONS,
+} from '../data/agents-data';
+import { AgentsStore } from '../state/agents.store';
+
+interface FormState {
+  name: string;
+  extension: string;
+  agentType: AgentType;
+  channels: ReadonlySet<AgentChannel>;
+  status: 'active' | 'inactive';
+  presenceStatus: PresenceStatus;
+  phone: string;
+  email: string;
+  pin: string;
+  pickupType: PickupType;
+  groupIds: ReadonlySet<number>;
+  permissions: AgentPermissions;
+}
+
+const PIN_RE = /^\d{3,6}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+@Component({
+  selector: 'aed-agent-form-page',
+  standalone: true,
+  imports: [
+    DeleteEntityDialogComponent,
+    SectionCardComponent,
+    StickyFormHeaderComponent,
+    TranslateModule,
+  ],
+  templateUrl: './agent-form-page.component.html',
+  styleUrl: './agent-form-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AgentFormPageComponent implements OnInit, OnDestroy {
+  private readonly breadcrumbs = inject(BreadcrumbService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly agentsStore = inject(AgentsStore);
+  private readonly messages = inject(MessageService);
+  private readonly translate = inject(TranslateService);
+
+  protected readonly agentTypes = AGENT_TYPES;
+  protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
+  protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
+  protected readonly channels = AGENT_CHANNELS;
+  protected readonly availableExtensions = AVAILABLE_EXTENSIONS;
+  protected readonly availableGroups = AVAILABLE_GROUPS_REF;
+  protected readonly devicePermissions = DEVICE_PERMISSIONS;
+  protected readonly callPermissions = CALL_PERMISSIONS;
+  protected readonly transferPermissions = TRANSFER_PERMISSIONS;
+  protected readonly presenceStates: readonly PresenceStatus[] = [
+    'disponible',
+    'no_disponible',
+    'bano',
+    'comida',
+    'formacion',
+  ];
+
+  protected readonly editingId = signal<number | null>(null);
+  protected readonly initial = signal<Agent | null>(null);
+  protected readonly form = signal<FormState>(this.emptyForm());
+  protected readonly errors = signal<Readonly<Record<string, string>>>({});
+  protected readonly saving = signal(false);
+  protected readonly deleteVisible = signal(false);
+
+  protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
+
+  protected readonly canSave = computed(() => {
+    const f = this.form();
+    if (!f.name.trim() || !f.extension || f.channels.size === 0) return false;
+    if (f.email && !EMAIL_RE.test(f.email.trim())) return false;
+    if (f.pin && !PIN_RE.test(f.pin.trim())) return false;
+    return true;
+  });
+
+  protected readonly deleteItems = computed(() => {
+    const a = this.initial();
+    return a ? [{ id: a.id, name: a.name }] : [];
+  });
+
+  ngOnInit(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      const agent = this.agentsStore.getAgent(Number(idParam));
+      if (!agent) {
+        void this.router.navigateByUrl('/admin/agentes', { replaceUrl: true });
+        return;
+      }
+      this.editingId.set(agent.id);
+      this.initial.set(agent);
+      this.form.set({
+        name: agent.name,
+        extension: agent.extension,
+        agentType: agent.agentType,
+        channels: new Set(agent.channels),
+        status: agent.status,
+        presenceStatus: agent.presenceStatus ?? 'disponible',
+        phone: agent.phone ?? '',
+        email: agent.email ?? '',
+        pin: agent.pin ?? '',
+        pickupType: agent.pickupType ?? 'auto',
+        groupIds: new Set(agent.groups.map((g) => g.id)),
+        permissions: { ...agent.permissions },
+      });
+    }
+
+    this.breadcrumbs.set([
+      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
+      { label: this.translate.instant('sidebar.agents'), path: '/admin/agentes' },
+      {
+        label: this.translate.instant(
+          this.editingId() ? 'agents.form.edit_breadcrumb' : 'agents.form.create_breadcrumb',
+        ),
+      },
+    ]);
+  }
+
+  ngOnDestroy(): void {
+    this.breadcrumbs.clear();
+  }
+
+  protected updateField<K extends keyof FormState>(key: K, value: FormState[K]): void {
+    this.form.update((f) => ({ ...f, [key]: value }));
+  }
+
+  protected onTextInput<K extends 'name' | 'phone' | 'email' | 'pin'>(
+    key: K,
+    event: Event,
+  ): void {
+    this.updateField(key, (event.target as HTMLInputElement).value);
+  }
+
+  protected onAgentTypeChange(event: Event): void {
+    this.updateField('agentType', (event.target as HTMLSelectElement).value as AgentType);
+  }
+
+  protected onPresenceChange(event: Event): void {
+    this.updateField('presenceStatus', (event.target as HTMLSelectElement).value as PresenceStatus);
+  }
+
+  protected onPickupChange(event: Event): void {
+    this.updateField('pickupType', (event.target as HTMLSelectElement).value as PickupType);
+  }
+
+  protected onExtensionChange(event: Event): void {
+    this.updateField('extension', (event.target as HTMLSelectElement).value);
+  }
+
+  protected getExtensionType(extension: string): ExtensionType | null {
+    return this.availableExtensions.find((e) => e.number === extension)?.type ?? null;
+  }
+
+  protected onStatusToggle(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.updateField('status', checked ? 'active' : 'inactive');
+  }
+
+  protected toggleChannel(channel: AgentChannel): void {
+    this.form.update((f) => {
+      const next = new Set(f.channels);
+      if (next.has(channel)) next.delete(channel);
+      else next.add(channel);
+      return { ...f, channels: next };
+    });
+  }
+
+  protected hasChannel(channel: AgentChannel): boolean {
+    return this.form().channels.has(channel);
+  }
+
+  protected toggleGroup(id: number): void {
+    this.form.update((f) => {
+      const next = new Set(f.groupIds);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return { ...f, groupIds: next };
+    });
+  }
+
+  protected hasGroup(id: number): boolean {
+    return this.form().groupIds.has(id);
+  }
+
+  protected togglePermission(key: keyof AgentPermissions): void {
+    this.form.update((f) => ({
+      ...f,
+      permissions: { ...f.permissions, [key]: !f.permissions[key] },
+    }));
+  }
+
+  protected onNameRename(name: string): void {
+    this.updateField('name', name);
+  }
+
+  protected save(): void {
+    if (!this.canSave() || this.saving()) return;
+
+    this.saving.set(true);
+    setTimeout(() => {
+      const f = this.form();
+      const groups: AgentGroupRef[] = this.availableGroups
+        .filter((g) => f.groupIds.has(g.id))
+        .map((g) => ({ ...g }));
+
+      const payload: Omit<Agent, 'id' | 'code'> = {
+        name: f.name.trim(),
+        extension: f.extension,
+        extensionType: this.getExtensionType(f.extension) ?? 'webrtc',
+        agentType: f.agentType,
+        channels: Array.from(f.channels),
+        status: f.status,
+        presenceStatus: f.presenceStatus,
+        phone: f.phone.trim() || undefined,
+        email: f.email.trim() || undefined,
+        pin: f.pin.trim() || undefined,
+        groups,
+        permissions: f.permissions,
+        pickupType: f.pickupType,
+      };
+
+      const editingId = this.editingId();
+      if (editingId) {
+        this.agentsStore.updateAgent(editingId, { ...payload, isDraft: undefined });
+        this.messages.add({
+          severity: 'success',
+          summary: this.translate.instant('agents.toasts.updated', { name: payload.name }),
+          life: 3000,
+        });
+      } else {
+        const created = this.agentsStore.addAgent(payload);
+        this.messages.add({
+          severity: 'success',
+          summary: this.translate.instant('agents.toasts.created', { name: created.name }),
+          life: 3000,
+        });
+      }
+      this.saving.set(false);
+      void this.router.navigateByUrl('/admin/agentes');
+    }, 400);
+  }
+
+  protected cancel(): void {
+    void this.router.navigateByUrl('/admin/agentes');
+  }
+
+  protected requestDelete(): void {
+    if (this.editingId()) this.deleteVisible.set(true);
+  }
+
+  protected cancelDelete(): void {
+    this.deleteVisible.set(false);
+  }
+
+  protected confirmDelete(): void {
+    const id = this.editingId();
+    if (!id) return;
+    const agent = this.initial();
+    this.agentsStore.deleteAgent(id);
+    this.deleteVisible.set(false);
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('agents.toasts.deleted_single', {
+        name: agent?.name ?? '',
+      }),
+      life: 3000,
+    });
+    void this.router.navigateByUrl('/admin/agentes');
+  }
+
+  private emptyForm(): FormState {
+    return {
+      name: '',
+      extension: '',
+      agentType: 'normal',
+      channels: new Set<AgentChannel>(['phone']),
+      status: 'active',
+      presenceStatus: 'disponible',
+      phone: '',
+      email: '',
+      pin: '',
+      pickupType: 'auto',
+      groupIds: new Set(),
+      permissions: { ...DEFAULT_AGENT_PERMISSIONS },
+    };
+  }
+}
