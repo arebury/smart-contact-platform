@@ -1,0 +1,30 @@
+<aside class="sidebar" aria-label="Navegación principal">
+  <div class="sidebar__brand">
+    <div class="sidebar__brand-name">{{ 'app.name' | translate }}</div>
+    <div class="sidebar__brand-tagline">{{ 'app.tagline' | translate }}</div>
+  </div>
+
+  <nav class="sidebar__nav">
+    @for (section of sections; track trackBySectionTitle($index, section)) {
+      <div class="sidebar__section">
+        <div class="sidebar__section-title">{{ section.titleKey | translate }}</div>
+        <div class="sidebar__section-items">
+          @for (item of section.items; track trackByItemKey($index, item)) {
+            <aed-sidebar-nav-item
+              [item]="item"
+              [currentPath]="currentPath()"
+              (navigate)="onNavigate($event)"
+            />
+          }
+        </div>
+      </div>
+    }
+  </nav>
+
+  <div class="sidebar__foot">
+    <button type="button" class="sidebar__decisions" (click)="onOpenDesignDecisions()">
+      <lucide-icon [img]="bookOpenIcon" [size]="15" />
+      <span>{{ 'sidebar.design_decisions' | translate }}</span>
+    </button>
+  </div>
+</aside>

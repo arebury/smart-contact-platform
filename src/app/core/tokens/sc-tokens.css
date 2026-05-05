@@ -1,0 +1,616 @@
+/*
+ * SmartContact (--sc-*) Design Token System
+ * =========================================
+ *
+ * Single source of truth for every visual decision in the application.
+ *
+ *   1. Primitives             — raw values copied from design-tokens.json
+ *   2. Semantic tokens        — purpose-bound aliases of primitives
+ *   3. Custom extensions      — values the JSON does not cover (shadows,
+ *                                z-index, layout sizes, transitions)
+ *   4. PrimeNG overrides      — --p-* variables redirected to --sc-* tokens
+ *
+ * RULES
+ * -----
+ *   - Components MUST reference --sc-* tokens, never raw values.
+ *   - --p-* variables are only declared inside section 4 of this file.
+ *   - Primitive colors keep the JSON naming (blue, soft-blue, gray, etc.).
+ *   - When adding a token, declare the primitive first, then the semantic
+ *     alias, then any PrimeNG override. Never the other way around.
+ *
+ * Source: ../../../../_prototype-reference/ + design-tokens-complete.json
+ */
+
+:root {
+  /* =========================================================== */
+  /* 1.1 PRIMITIVES — Color · Blue (primary brand)               */
+  /* =========================================================== */
+  --sc-color-blue-50: #edf0f5;
+  --sc-color-blue-100: #d2d9e3;
+  --sc-color-blue-200: #a6b4c7;
+  --sc-color-blue-300: #798eab;
+  --sc-color-blue-400: #4d6990;
+  --sc-color-blue-500: #344a70;
+  --sc-color-blue-600: #243452;
+  --sc-color-blue-700: #1b273d;
+  --sc-color-blue-800: #131b2b;
+  --sc-color-blue-900: #0b1019;
+  --sc-color-blue-950: #05080d;
+
+  /* =========================================================== */
+  /* 1.2 PRIMITIVES — Color · Soft Blue (accent)                 */
+  /* =========================================================== */
+  --sc-color-soft-blue-50: #effbfc;
+  --sc-color-soft-blue-100: #d2f4f8;
+  --sc-color-soft-blue-200: #a6e9f2;
+  --sc-color-soft-blue-300: #7edfeb;
+  --sc-color-soft-blue-400: #6bd9e9;
+  --sc-color-soft-blue-500: #5ad3e6;
+  --sc-color-soft-blue-600: #48b8c9;
+  --sc-color-soft-blue-700: #328a99;
+  --sc-color-soft-blue-800: #246b78;
+  --sc-color-soft-blue-900: #1a4d57;
+  --sc-color-soft-blue-950: #0d262b;
+
+  /* =========================================================== */
+  /* 1.3 PRIMITIVES — Color · Gray (neutrals)                    */
+  /* =========================================================== */
+  --sc-color-gray-0: #ffffff;
+  --sc-color-gray-50: #f7f8fa;
+  --sc-color-gray-100: #eceff3;
+  --sc-color-gray-200: #dadfe6;
+  --sc-color-gray-300: #c6ccd6;
+  --sc-color-gray-400: #aeb6c2;
+  --sc-color-gray-500: #8f97a3;
+  --sc-color-gray-600: #6f7784;
+  --sc-color-gray-700: #4f5663;
+  --sc-color-gray-800: #2f3642;
+  --sc-color-gray-900: #181d26;
+  --sc-color-gray-950: #0b0f14;
+
+  /* =========================================================== */
+  /* 1.4 PRIMITIVES — Color · Green (success)                    */
+  /* =========================================================== */
+  --sc-color-green-50: #f0fdf4;
+  --sc-color-green-100: #dcfce7;
+  --sc-color-green-200: #bbf7d0;
+  --sc-color-green-300: #86efac;
+  --sc-color-green-400: #4ade80;
+  --sc-color-green-500: #22c55e;
+  --sc-color-green-600: #16a34a;
+  --sc-color-green-700: #15803d;
+  --sc-color-green-800: #166534;
+  --sc-color-green-900: #14532d;
+  --sc-color-green-950: #0a2916;
+
+  /* =========================================================== */
+  /* 1.5 PRIMITIVES — Color · Yellow (warning)                   */
+  /* =========================================================== */
+  --sc-color-yellow-50: #fffbeb;
+  --sc-color-yellow-100: #fef3c7;
+  --sc-color-yellow-200: #fde68a;
+  --sc-color-yellow-300: #fcd34d;
+  --sc-color-yellow-400: #fbbf24;
+  --sc-color-yellow-500: #f59e0b;
+  --sc-color-yellow-600: #d97706;
+  --sc-color-yellow-700: #b45309;
+  --sc-color-yellow-800: #92400e;
+  --sc-color-yellow-900: #78350f;
+  --sc-color-yellow-950: #451a03;
+
+  /* =========================================================== */
+  /* 1.6 PRIMITIVES — Color · Red (danger)                       */
+  /* =========================================================== */
+  --sc-color-red-50: #fef2f2;
+  --sc-color-red-100: #fee2e2;
+  --sc-color-red-200: #fecaca;
+  --sc-color-red-300: #fca5a5;
+  --sc-color-red-400: #f87171;
+  --sc-color-red-500: #ef4444;
+  --sc-color-red-600: #dc2626;
+  --sc-color-red-700: #b91c1c;
+  --sc-color-red-800: #991b1b;
+  --sc-color-red-900: #7f1d1d;
+  --sc-color-red-950: #450a0a;
+
+  /* =========================================================== */
+  /* 1.7 PRIMITIVES — Color · Electric Blue (info)               */
+  /* =========================================================== */
+  --sc-color-electric-blue-50: #eef4ff;
+  --sc-color-electric-blue-100: #d5e6ff;
+  --sc-color-electric-blue-200: #abceff;
+  --sc-color-electric-blue-300: #7db3ff;
+  --sc-color-electric-blue-400: #4a8fff;
+  --sc-color-electric-blue-500: #1464fe;
+  --sc-color-electric-blue-600: #0d4fd4;
+  --sc-color-electric-blue-700: #0a3ba0;
+  --sc-color-electric-blue-800: #07296e;
+  --sc-color-electric-blue-900: #041840;
+  --sc-color-electric-blue-950: #020c21;
+
+  /* =========================================================== */
+  /* 1.8 PRIMITIVES — Color · Indigo                             */
+  /* =========================================================== */
+  --sc-color-indigo-50: #f5f0ff;
+  --sc-color-indigo-100: #ece0ff;
+  --sc-color-indigo-200: #d9bbff;
+  --sc-color-indigo-300: #c48fff;
+  --sc-color-indigo-400: #a44cf5;
+  --sc-color-indigo-500: #8a1fe6;
+  --sc-color-indigo-600: #6e18b8;
+  --sc-color-indigo-700: #52138a;
+  --sc-color-indigo-800: #390d60;
+  --sc-color-indigo-900: #210738;
+  --sc-color-indigo-950: #11031d;
+
+  /* =========================================================== */
+  /* 1.9 PRIMITIVES — Typography                                 */
+  /* =========================================================== */
+  --sc-font-family-primary: 'Inter', system-ui, -apple-system, sans-serif;
+  --sc-font-family-secondary: 'Open Sans', sans-serif;
+
+  /* Font size scale (px). Names match the JSON 1:1. */
+  --sc-font-size-50: 10px;
+  --sc-font-size-100: 12px;
+  --sc-font-size-200: 14px;
+  --sc-font-size-300: 16px;
+  --sc-font-size-400: 18px;
+  --sc-font-size-450: 20px;
+  --sc-font-size-500: 24px;
+  --sc-font-size-600: 28px;
+  --sc-font-size-650: 32px;
+  --sc-font-size-700: 36px;
+  --sc-font-size-800: 48px;
+  --sc-font-size-900: 64px;
+
+  /* Line height scale (px) */
+  --sc-line-height-50: 15px;
+  --sc-line-height-100: 18px;
+  --sc-line-height-200: 21px;
+  --sc-line-height-220: 22px;
+  --sc-line-height-300: 24px;
+  --sc-line-height-400: 27px;
+  --sc-line-height-500: 36px;
+  --sc-line-height-600: 42px;
+  --sc-line-height-700: 54px;
+  --sc-line-height-800: 72px;
+  --sc-line-height-900: 96px;
+
+  /* Font weights */
+  --sc-font-weight-regular: 400;
+  --sc-font-weight-medium: 500;
+  --sc-font-weight-semibold: 600;
+  --sc-font-weight-bold: 700;
+
+  /* =========================================================== */
+  /* 1.10 PRIMITIVES — Spacing                                   */
+  /* =========================================================== */
+  --sc-spacing-0: 0;
+  --sc-spacing-50: 4px;
+  --sc-spacing-100: 8px;
+  --sc-spacing-200: 12px;
+  --sc-spacing-300: 16px;
+  --sc-spacing-400: 20px;
+  --sc-spacing-500: 24px;
+  --sc-spacing-600: 32px;
+  --sc-spacing-700: 40px;
+  --sc-spacing-800: 48px;
+  --sc-spacing-900: 64px;
+
+  /* =========================================================== */
+  /* 1.11 PRIMITIVES — Radius                                    */
+  /* =========================================================== */
+  --sc-radius-0: 0;
+  --sc-radius-50: 2px;
+  --sc-radius-100: 4px;
+  --sc-radius-200: 6px;
+  --sc-radius-300: 8px;
+  --sc-radius-400: 12px;
+  --sc-radius-500: 16px;
+  --sc-radius-full: 9999px;
+
+  /* =========================================================== */
+  /* 2.1 SEMANTIC — Text                                         */
+  /* =========================================================== */
+  --sc-text-primary: var(--sc-color-gray-800);
+  --sc-text-secondary: var(--sc-color-gray-600);
+  --sc-text-subtle: var(--sc-color-gray-400);
+  --sc-text-disabled: var(--sc-color-gray-300);
+  --sc-text-inverse: var(--sc-color-gray-0);
+  --sc-text-accent: var(--sc-color-soft-blue-600);
+  --sc-text-link: var(--sc-color-soft-blue-600);
+  --sc-text-success: var(--sc-color-green-600);
+  --sc-text-warning: var(--sc-color-yellow-600);
+  --sc-text-danger: var(--sc-color-red-600);
+  --sc-text-info: var(--sc-text-accent);
+  --sc-text-indigo: var(--sc-color-indigo-700);
+  --sc-text-on-primary: var(--sc-color-gray-0);
+  --sc-text-on-secondary: var(--sc-color-gray-800);
+  --sc-text-on-accent: var(--sc-color-gray-800);
+  --sc-text-on-error: var(--sc-color-gray-0);
+  --sc-text-on-success: var(--sc-color-gray-0);
+  --sc-text-on-warning: var(--sc-color-gray-0);
+  --sc-text-on-info: var(--sc-color-gray-0);
+  --sc-text-on-indigo: var(--sc-color-gray-0);
+
+  /* =========================================================== */
+  /* 2.2 SEMANTIC — Background                                   */
+  /* =========================================================== */
+  --sc-bg-default: var(--sc-color-gray-50);
+  --sc-bg-surface: var(--sc-color-gray-0);
+  --sc-bg-subtle: var(--sc-color-blue-50);
+  --sc-bg-subtle-hover: var(--sc-color-blue-100);
+  --sc-bg-subtle-active: var(--sc-color-blue-200);
+  --sc-bg-disabled: var(--sc-color-gray-200);
+  --sc-bg-overlay-transparent: #ffffff00;
+
+  /* Primary (brand) */
+  --sc-bg-primary: var(--sc-color-blue-700);
+  --sc-bg-primary-hover: var(--sc-color-blue-800);
+  --sc-bg-primary-active: var(--sc-color-blue-900);
+  --sc-bg-primary-subtle: var(--sc-color-blue-50);
+  --sc-bg-primary-subtle-hover: var(--sc-color-blue-100);
+  --sc-bg-primary-subtle-active: var(--sc-color-blue-200);
+
+  /* Secondary (gray) */
+  --sc-bg-secondary: var(--sc-color-gray-600);
+  --sc-bg-secondary-hover: var(--sc-color-gray-100);
+  --sc-bg-secondary-active: var(--sc-color-gray-200);
+  --sc-bg-secondary-subtle: var(--sc-color-gray-50);
+
+  /* Accent (cyan) */
+  --sc-bg-accent: var(--sc-color-soft-blue-500);
+  --sc-bg-accent-hover: var(--sc-color-soft-blue-600);
+  --sc-bg-accent-active: var(--sc-color-soft-blue-700);
+
+  /* Status */
+  --sc-bg-success: var(--sc-color-green-600);
+  --sc-bg-success-subtle: var(--sc-color-green-50);
+  --sc-bg-warning: var(--sc-color-yellow-500);
+  --sc-bg-warning-subtle: var(--sc-color-yellow-50);
+  --sc-bg-danger: var(--sc-color-red-600);
+  --sc-bg-danger-hover: var(--sc-color-red-700);
+  --sc-bg-danger-active: var(--sc-color-red-800);
+  --sc-bg-danger-subtle: var(--sc-color-red-50);
+  --sc-bg-danger-subtle-hover: var(--sc-color-red-100);
+  --sc-bg-danger-subtle-active: var(--sc-color-red-200);
+
+  /* Info (electric blue) */
+  --sc-bg-info: var(--sc-color-electric-blue-500);
+  --sc-bg-info-hover: var(--sc-color-electric-blue-600);
+  --sc-bg-info-active: var(--sc-color-electric-blue-700);
+  --sc-bg-info-subtle: var(--sc-color-electric-blue-50);
+
+  /* Indigo */
+  --sc-bg-indigo: var(--sc-color-indigo-500);
+  --sc-bg-indigo-hover: var(--sc-color-indigo-600);
+  --sc-bg-indigo-active: var(--sc-color-indigo-700);
+  --sc-bg-indigo-subtle: var(--sc-color-indigo-50);
+  --sc-bg-indigo-subtle-hover: var(--sc-color-indigo-100);
+  --sc-bg-indigo-subtle-active: var(--sc-color-indigo-200);
+
+  /* =========================================================== */
+  /* 2.3 SEMANTIC — Border                                       */
+  /* =========================================================== */
+  --sc-border-default: var(--sc-color-gray-200);
+  --sc-border-strong: var(--sc-color-gray-400);
+  --sc-border-subtle: var(--sc-color-gray-100);
+  --sc-border-disabled: var(--sc-color-gray-100);
+
+  --sc-border-primary: var(--sc-color-blue-700);
+  --sc-border-primary-hover: var(--sc-color-blue-800);
+  --sc-border-primary-active: var(--sc-color-blue-900);
+
+  --sc-border-secondary: var(--sc-color-blue-200);
+  --sc-border-secondary-hover: var(--sc-color-blue-300);
+  --sc-border-secondary-active: var(--sc-color-blue-400);
+
+  --sc-border-accent: var(--sc-color-soft-blue-500);
+  --sc-border-accent-hover: var(--sc-color-soft-blue-600);
+  --sc-border-accent-active: var(--sc-color-soft-blue-700);
+
+  --sc-border-success: var(--sc-color-green-600);
+  --sc-border-success-subtle: var(--sc-color-green-200);
+  --sc-border-warning: var(--sc-color-yellow-500);
+  --sc-border-warning-subtle: var(--sc-color-yellow-200);
+  --sc-border-error: var(--sc-color-red-500);
+  --sc-border-danger: var(--sc-color-red-600);
+  --sc-border-danger-hover: var(--sc-color-red-700);
+  --sc-border-danger-active: var(--sc-color-red-800);
+
+  --sc-border-info: var(--sc-color-electric-blue-500);
+  --sc-border-info-subtle: var(--sc-color-electric-blue-200);
+  --sc-border-indigo: var(--sc-color-indigo-500);
+  --sc-border-indigo-subtle: var(--sc-color-indigo-200);
+
+  /* =========================================================== */
+  /* 2.4 SEMANTIC — Icon                                         */
+  /* =========================================================== */
+  --sc-icon-primary: var(--sc-color-gray-800);
+  --sc-icon-secondary: var(--sc-color-gray-600);
+  --sc-icon-subtle: var(--sc-color-gray-400);
+  --sc-icon-inverse: var(--sc-color-gray-0);
+  --sc-icon-disabled: var(--sc-color-gray-300);
+  --sc-icon-link: var(--sc-color-soft-blue-600);
+
+  --sc-icon-accent: var(--sc-color-soft-blue-600);
+  --sc-icon-success: var(--sc-color-green-600);
+  --sc-icon-warning: var(--sc-color-yellow-600);
+  --sc-icon-error: var(--sc-color-red-600);
+  --sc-icon-info: var(--sc-icon-accent);
+  --sc-icon-indigo: var(--sc-color-indigo-500);
+
+  --sc-icon-on-primary: var(--sc-color-gray-0);
+  --sc-icon-on-secondary: var(--sc-color-gray-800);
+  --sc-icon-on-accent: var(--sc-color-soft-blue-800);
+  --sc-icon-on-danger: var(--sc-color-gray-0);
+  --sc-icon-on-success: var(--sc-color-gray-0);
+  --sc-icon-on-warning: var(--sc-color-gray-800);
+  --sc-icon-on-info: var(--sc-icon-on-accent);
+  --sc-icon-on-indigo: var(--sc-color-indigo-50);
+
+  /* =========================================================== */
+  /* 2.5 SEMANTIC — Typography roles                             */
+  /* =========================================================== */
+  --sc-font-size-display-1: var(--sc-font-size-700);
+  --sc-font-size-h1: var(--sc-font-size-650);
+  --sc-font-size-h2: var(--sc-font-size-500);
+  --sc-font-size-h3: var(--sc-font-size-450);
+  --sc-font-size-h4: var(--sc-font-size-400);
+  --sc-font-size-subtitle-1: var(--sc-font-size-300);
+  --sc-font-size-subtitle-2: var(--sc-font-size-200);
+  --sc-font-size-body-1: var(--sc-font-size-300);
+  --sc-font-size-body-2: var(--sc-font-size-200);
+  --sc-font-size-caption: var(--sc-font-size-100);
+  --sc-font-size-caption-bold: var(--sc-font-size-100);
+
+  /* =========================================================== */
+  /* 2.6 SEMANTIC — Label / tag palette                          */
+  /* =========================================================== */
+  /*
+   * Data colors used by the Labels feature (and re-used wherever a
+   * categorical tag is shown). These are intentionally separate from the
+   * brand semantic tokens above: a "red" tag does not imply danger, and a
+   * "green" tag does not imply success.
+   *
+   * 4 of the 8 hues (orange, amber, teal, purple) are not present in the
+   * JSON primitives, so they are declared as direct values here. The other
+   * 4 piggy-back on existing JSON scales for consistency.
+   */
+  --sc-label-gray-bg: var(--sc-color-gray-100);
+  --sc-label-gray-text: var(--sc-color-gray-700);
+  --sc-label-gray-border: var(--sc-color-gray-300);
+  --sc-label-gray-dot: var(--sc-color-gray-500);
+
+  --sc-label-red-bg: var(--sc-color-red-50);
+  --sc-label-red-text: var(--sc-color-red-700);
+  --sc-label-red-border: var(--sc-color-red-200);
+  --sc-label-red-dot: var(--sc-color-red-500);
+
+  --sc-label-orange-bg: #fff7ed;
+  --sc-label-orange-text: #c2410c;
+  --sc-label-orange-border: #fed7aa;
+  --sc-label-orange-dot: #f97316;
+
+  --sc-label-amber-bg: #fffbeb;
+  --sc-label-amber-text: #b45309;
+  --sc-label-amber-border: #fde68a;
+  --sc-label-amber-dot: #f59e0b;
+
+  --sc-label-green-bg: #ecfdf5;
+  --sc-label-green-text: #047857;
+  --sc-label-green-border: #a7f3d0;
+  --sc-label-green-dot: #10b981;
+
+  --sc-label-teal-bg: #f0fdfa;
+  --sc-label-teal-text: #0f766e;
+  --sc-label-teal-border: #99f6e4;
+  --sc-label-teal-dot: #14b8a6;
+
+  --sc-label-blue-bg: #eff6ff;
+  --sc-label-blue-text: #1d4ed8;
+  --sc-label-blue-border: #bfdbfe;
+  --sc-label-blue-dot: #3b82f6;
+
+  --sc-label-purple-bg: #faf5ff;
+  --sc-label-purple-text: #7e22ce;
+  --sc-label-purple-border: #e9d5ff;
+  --sc-label-purple-dot: #a855f7;
+
+  /* =========================================================== */
+  /* 3.1 CUSTOM — Layout (extends JSON)                          */
+  /* =========================================================== */
+  --sc-sidebar-width: 220px;
+  --sc-sidebar-bg: var(--sc-color-gray-800);
+  --sc-topbar-height: 48px;
+  --sc-bulk-action-bar-height: 56px;
+
+  /* =========================================================== */
+  /* 3.2 CUSTOM — Shadows (extends JSON)                         */
+  /* =========================================================== */
+  --sc-shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --sc-shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05), 0 1px 3px 0 rgba(15, 23, 42, 0.06);
+  --sc-shadow-card: 0 1px 2px 0 rgba(15, 23, 42, 0.04), 0 1px 3px 0 rgba(15, 23, 42, 0.06);
+  --sc-shadow-dropdown:
+    0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+  --sc-shadow-popover:
+    0 10px 15px -3px rgba(15, 23, 42, 0.1), 0 4px 6px -4px rgba(15, 23, 42, 0.08);
+  --sc-shadow-dialog:
+    0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.1);
+  --sc-shadow-focus-ring: 0 0 0 3px rgba(90, 211, 230, 0.35);
+
+  /* =========================================================== */
+  /* 3.3 CUSTOM — Z-index scale                                  */
+  /* =========================================================== */
+  --sc-z-base: 0;
+  --sc-z-sidebar: 100;
+  --sc-z-dropdown: 1000;
+  --sc-z-sticky: 1020;
+  --sc-z-sticky-form-header: 1030;
+  --sc-z-fixed: 1040;
+  --sc-z-bulk-action-bar: 1050;
+  --sc-z-modal-backdrop: 1060;
+  --sc-z-modal: 1070;
+  --sc-z-popover: 1080;
+  --sc-z-tooltip: 1090;
+  --sc-z-toast: 1100;
+
+  /* =========================================================== */
+  /* 3.4 CUSTOM — Motion                                         */
+  /* =========================================================== */
+  --sc-transition-fast: 120ms;
+  --sc-transition-base: 200ms;
+  --sc-transition-slow: 300ms;
+  --sc-easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --sc-easing-emphasized: cubic-bezier(0.2, 0, 0, 1);
+
+  /* =========================================================== */
+  /* 4. PRIMENG OVERRIDES                                        */
+  /* =========================================================== */
+  /*
+   * Every PrimeNG --p-* variable redirected here points to a --sc-*
+   * token. To change a value globally, edit the --sc-* declaration
+   * above; never edit --p-* directly outside this section.
+   */
+
+  /* 4.1 — Primary scale (PrimeNG primary === SmartContact blue) */
+  --p-primary-50: var(--sc-color-blue-50);
+  --p-primary-100: var(--sc-color-blue-100);
+  --p-primary-200: var(--sc-color-blue-200);
+  --p-primary-300: var(--sc-color-blue-300);
+  --p-primary-400: var(--sc-color-blue-400);
+  --p-primary-500: var(--sc-color-blue-500);
+  --p-primary-600: var(--sc-color-blue-600);
+  --p-primary-700: var(--sc-color-blue-700);
+  --p-primary-800: var(--sc-color-blue-800);
+  --p-primary-900: var(--sc-color-blue-900);
+  --p-primary-950: var(--sc-color-blue-950);
+
+  --p-primary-color: var(--sc-bg-primary);
+  --p-primary-contrast-color: var(--sc-text-on-primary);
+  --p-primary-hover-color: var(--sc-bg-primary-hover);
+  --p-primary-active-color: var(--sc-bg-primary-active);
+
+  /* 4.2 — Surface scale (PrimeNG surface === SmartContact gray) */
+  --p-surface-0: var(--sc-color-gray-0);
+  --p-surface-50: var(--sc-color-gray-50);
+  --p-surface-100: var(--sc-color-gray-100);
+  --p-surface-200: var(--sc-color-gray-200);
+  --p-surface-300: var(--sc-color-gray-300);
+  --p-surface-400: var(--sc-color-gray-400);
+  --p-surface-500: var(--sc-color-gray-500);
+  --p-surface-600: var(--sc-color-gray-600);
+  --p-surface-700: var(--sc-color-gray-700);
+  --p-surface-800: var(--sc-color-gray-800);
+  --p-surface-900: var(--sc-color-gray-900);
+  --p-surface-950: var(--sc-color-gray-950);
+
+  /* 4.3 — Content (panels, cards, popovers) */
+  --p-content-background: var(--sc-bg-surface);
+  --p-content-hover-background: var(--sc-bg-secondary-hover);
+  --p-content-border-color: var(--sc-border-default);
+  --p-content-color: var(--sc-text-primary);
+  --p-content-hover-color: var(--sc-text-primary);
+
+  /* 4.4 — Text */
+  --p-text-color: var(--sc-text-primary);
+  --p-text-hover-color: var(--sc-text-primary);
+  --p-text-muted-color: var(--sc-text-secondary);
+  --p-text-hover-muted-color: var(--sc-text-primary);
+
+  /* 4.5 — Border radius */
+  --p-border-radius-xs: var(--sc-radius-50);
+  --p-border-radius-sm: var(--sc-radius-100);
+  --p-border-radius-md: var(--sc-radius-200);
+  --p-border-radius-lg: var(--sc-radius-300);
+  --p-border-radius-xl: var(--sc-radius-500);
+
+  /* 4.6 — Form fields */
+  --p-form-field-background: var(--sc-bg-surface);
+  --p-form-field-disabled-background: var(--sc-bg-disabled);
+  --p-form-field-color: var(--sc-text-primary);
+  --p-form-field-disabled-color: var(--sc-text-disabled);
+  --p-form-field-placeholder-color: var(--sc-text-subtle);
+  --p-form-field-border-color: var(--sc-border-default);
+  --p-form-field-hover-border-color: var(--sc-border-strong);
+  --p-form-field-focus-border-color: var(--sc-bg-primary);
+  --p-form-field-invalid-border-color: var(--sc-border-error);
+  --p-form-field-padding-x: var(--sc-spacing-300);
+  --p-form-field-padding-y: var(--sc-spacing-200);
+  --p-form-field-border-radius: var(--sc-radius-200);
+  --p-form-field-transition-duration: var(--sc-transition-base);
+
+  /* 4.7 — Focus ring */
+  --p-focus-ring-width: 2px;
+  --p-focus-ring-style: solid;
+  --p-focus-ring-color: var(--sc-color-soft-blue-500);
+  --p-focus-ring-offset: 2px;
+
+  /* 4.8 — Status preset scales (used by Tag, Badge, Toast, etc.) */
+  --p-green-50: var(--sc-color-green-50);
+  --p-green-100: var(--sc-color-green-100);
+  --p-green-200: var(--sc-color-green-200);
+  --p-green-300: var(--sc-color-green-300);
+  --p-green-400: var(--sc-color-green-400);
+  --p-green-500: var(--sc-color-green-500);
+  --p-green-600: var(--sc-color-green-600);
+  --p-green-700: var(--sc-color-green-700);
+  --p-green-800: var(--sc-color-green-800);
+  --p-green-900: var(--sc-color-green-900);
+  --p-green-950: var(--sc-color-green-950);
+
+  --p-yellow-50: var(--sc-color-yellow-50);
+  --p-yellow-100: var(--sc-color-yellow-100);
+  --p-yellow-200: var(--sc-color-yellow-200);
+  --p-yellow-300: var(--sc-color-yellow-300);
+  --p-yellow-400: var(--sc-color-yellow-400);
+  --p-yellow-500: var(--sc-color-yellow-500);
+  --p-yellow-600: var(--sc-color-yellow-600);
+  --p-yellow-700: var(--sc-color-yellow-700);
+  --p-yellow-800: var(--sc-color-yellow-800);
+  --p-yellow-900: var(--sc-color-yellow-900);
+  --p-yellow-950: var(--sc-color-yellow-950);
+
+  --p-red-50: var(--sc-color-red-50);
+  --p-red-100: var(--sc-color-red-100);
+  --p-red-200: var(--sc-color-red-200);
+  --p-red-300: var(--sc-color-red-300);
+  --p-red-400: var(--sc-color-red-400);
+  --p-red-500: var(--sc-color-red-500);
+  --p-red-600: var(--sc-color-red-600);
+  --p-red-700: var(--sc-color-red-700);
+  --p-red-800: var(--sc-color-red-800);
+  --p-red-900: var(--sc-color-red-900);
+  --p-red-950: var(--sc-color-red-950);
+
+  /* PrimeNG's --p-blue-* preset is used as the "info" tone and points to
+   * SmartContact electric-blue (the JSON's info color), not to brand blue. */
+  --p-blue-50: var(--sc-color-electric-blue-50);
+  --p-blue-100: var(--sc-color-electric-blue-100);
+  --p-blue-200: var(--sc-color-electric-blue-200);
+  --p-blue-300: var(--sc-color-electric-blue-300);
+  --p-blue-400: var(--sc-color-electric-blue-400);
+  --p-blue-500: var(--sc-color-electric-blue-500);
+  --p-blue-600: var(--sc-color-electric-blue-600);
+  --p-blue-700: var(--sc-color-electric-blue-700);
+  --p-blue-800: var(--sc-color-electric-blue-800);
+  --p-blue-900: var(--sc-color-electric-blue-900);
+  --p-blue-950: var(--sc-color-electric-blue-950);
+
+  /* 4.9 — Mask / overlay */
+  --p-mask-background: rgba(15, 23, 42, 0.4);
+  --p-mask-color: var(--sc-text-inverse);
+
+  /* 4.10 — Overlay (dialogs, popovers) */
+  --p-overlay-modal-background: var(--sc-bg-surface);
+  --p-overlay-modal-border-color: var(--sc-border-default);
+  --p-overlay-modal-color: var(--sc-text-primary);
+  --p-overlay-modal-border-radius: var(--sc-radius-400);
+  --p-overlay-modal-shadow: var(--sc-shadow-dialog);
+
+  --p-overlay-popover-background: var(--sc-bg-surface);
+  --p-overlay-popover-border-color: var(--sc-border-default);
+  --p-overlay-popover-color: var(--sc-text-primary);
+  --p-overlay-popover-border-radius: var(--sc-radius-300);
+  --p-overlay-popover-shadow: var(--sc-shadow-popover);
+}

@@ -1,0 +1,61 @@
+<header class="top-bar">
+  <ol class="top-bar__crumbs" aria-label="breadcrumb">
+    @for (crumb of trail(); track $index) {
+      <li class="top-bar__crumb">
+        @if ($index > 0) {
+          <span class="top-bar__crumb-sep" aria-hidden="true">&gt;</span>
+        }
+        @if (crumb.path && $index !== lastIndex()) {
+          <button type="button" class="top-bar__crumb-link" (click)="onCrumbClick(crumb.path)">
+            {{ crumb.label }}
+          </button>
+        } @else if ($index === lastIndex()) {
+          <span class="top-bar__crumb-current" aria-current="page">{{ crumb.label }}</span>
+        } @else {
+          <span class="top-bar__crumb-muted">{{ crumb.label }}</span>
+        }
+      </li>
+    }
+  </ol>
+
+  <div
+    class="top-bar__user"
+    (aedClickOutside)="closeUserMenu()"
+    [aedClickOutsideEnabled]="userMenuOpen()"
+  >
+    <button
+      type="button"
+      class="top-bar__avatar"
+      aria-haspopup="menu"
+      [attr.aria-expanded]="userMenuOpen()"
+      (click)="toggleUserMenu()"
+    >
+      <lucide-icon [img]="userIcon" [size]="15" />
+    </button>
+
+    @if (userMenuOpen()) {
+      <div class="top-bar__menu" role="menu">
+        <div class="top-bar__menu-header">
+          <div class="top-bar__menu-name">Mario Supervisor</div>
+          <div class="top-bar__menu-role">
+            <span class="top-bar__role-badge">{{ 'topbar.user.role_admin' | translate }}</span>
+          </div>
+          <div class="top-bar__menu-phone">
+            <lucide-icon [img]="phoneIcon" [size]="12" />
+            <span>+34 917 945 449</span>
+          </div>
+        </div>
+        <div class="top-bar__menu-actions">
+          <button type="button" class="top-bar__menu-item" role="menuitem">
+            <lucide-icon [img]="helpIcon" [size]="15" />
+            <span>{{ 'topbar.user.help' | translate }}</span>
+          </button>
+          <button type="button" class="top-bar__menu-item" role="menuitem">
+            <lucide-icon [img]="logoutIcon" [size]="15" />
+            <span>{{ 'topbar.user.logout' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</header>

@@ -1,0 +1,9 @@
+/*
+ * Token bridge — re-exports the canonical CSS custom properties from
+ * src/app/core/tokens/sc-tokens.css so SCSS partials can @use them.
+ *
+ * IMPORTANT: never declare new tokens here. The single source of truth is
+ * sc-tokens.css. This file exists only to expose those tokens to SCSS.
+ */
+
+@import '../app/core/tokens/sc-tokens.css';

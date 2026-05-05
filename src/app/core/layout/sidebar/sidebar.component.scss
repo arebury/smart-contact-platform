@@ -1,0 +1,89 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.sidebar {
+  width: var(--sc-sidebar-width);
+  min-width: var(--sc-sidebar-width);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--sc-sidebar-bg);
+  color: var(--sc-color-gray-0);
+
+  &__brand {
+    padding: var(--sc-spacing-300) var(--sc-spacing-300) var(--sc-spacing-200);
+    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  &__brand-name {
+    font-size: var(--sc-font-size-300);
+    font-weight: var(--sc-font-weight-semibold);
+    letter-spacing: -0.01em;
+    color: var(--sc-color-gray-0);
+  }
+
+  &__brand-tagline {
+    margin-top: var(--sc-spacing-50);
+    font-size: var(--sc-font-size-50);
+    color: rgb(255 255 255 / 0.4);
+    letter-spacing: 0.05em;
+  }
+
+  &__nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--sc-spacing-200) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-200);
+  }
+
+  &__section {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__section-title {
+    padding: var(--sc-spacing-50) var(--sc-spacing-300);
+    font-size: var(--sc-font-size-50);
+    font-weight: var(--sc-font-weight-semibold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgb(255 255 255 / 0.3);
+  }
+
+  &__section-items {
+    margin-top: var(--sc-spacing-50);
+  }
+
+  &__foot {
+    padding: var(--sc-spacing-100);
+    border-top: 1px solid rgb(255 255 255 / 0.1);
+  }
+
+  &__decisions {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-100);
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    font-size: var(--sc-font-size-100);
+    color: rgb(255 255 255 / 0.4);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(255 255 255 / 0.7);
+      background: rgb(255 255 255 / 0.05);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: -2px;
+    }
+  }
+}

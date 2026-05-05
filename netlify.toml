@@ -1,0 +1,35 @@
+# Netlify build configuration for AED — SmartContact Supervisor.
+#
+# The Angular `application` builder emits a `browser/` folder under the
+# configured outputPath. We point Netlify at that folder so it serves the
+# real Angular build, not the source.
+
+[build]
+  command = "npm ci && npm run build"
+  publish = "dist/aed/browser"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NPM_VERSION = "10"
+
+# SPA fallback: every unknown URL must hit index.html so the Angular Router
+# can take over (otherwise refreshing /admin/labels returns a 404).
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.css"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

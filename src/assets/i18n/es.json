@@ -1,0 +1,133 @@
+{
+  "app": {
+    "name": "SmartContact",
+    "tagline": "a Digital Virgo tool"
+  },
+  "placeholder": {
+    "title": "Sección en construcción",
+    "subtitle": "Esta página aún no está disponible"
+  },
+  "common": {
+    "back_to_home": "Volver al inicio",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "create": "Crear",
+    "delete": "Eliminar",
+    "duplicate": "Duplicar",
+    "edit": "Editar",
+    "loading": "Cargando…",
+    "search": "Buscar...",
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No",
+    "optional": "opcional",
+    "export_success": "{{count}} {{sheet}} exportados a Excel"
+  },
+  "topbar": {
+    "user": {
+      "help": "Centro de ayuda",
+      "logout": "Cerrar sesión",
+      "role_admin": "Admin"
+    }
+  },
+  "sidebar": {
+    "tools": "HERRAMIENTAS",
+    "settings": "AJUSTES",
+    "supervision": "Supervisión",
+    "dashboard": "Dashboard",
+    "servicios": "Servicios",
+    "nodo_ia": "Nodo IA",
+    "campanas": "Campañas",
+    "conversaciones": "Conversaciones",
+    "estadisticas": "Estadísticas",
+    "informes": "Informes de Datos",
+    "analizador": "Analizador de Flujo",
+    "scc": "SCC",
+    "vui_designer": "VUI Designer",
+    "administration": "Administración",
+    "configuration": "Configuración",
+    "users": "Usuarios",
+    "groups": "Grupos",
+    "agents": "Agentes",
+    "repositories": "Repositorios",
+    "security": "Seguridad",
+    "personalization": "Personalización",
+    "aed": "AED",
+    "integrations": "Integraciones",
+    "system": "Sistema",
+    "design_decisions": "Decisiones de diseño"
+  },
+  "labels": {
+    "breadcrumb": "Labels",
+    "page_title": "Labels",
+    "create_button": "Nueva label",
+    "export_button": "Exportar",
+    "clear_search": "Limpiar búsqueda",
+    "select_all": "Seleccionar todas",
+    "row_menu": "Más acciones",
+    "no_description": "Sin descripción",
+    "count": "{{count}} labels",
+    "empty": {
+      "title": "Aún no hay labels",
+      "text": "Crea tu primera label para organizar y filtrar tus agentes",
+      "cta": "Crear label"
+    },
+    "table": {
+      "name": "Nombre",
+      "description": "Descripción"
+    },
+    "no_results": {
+      "title": "Sin resultados",
+      "text": "No hay labels que coincidan con \"{{query}}\""
+    },
+    "form": {
+      "create_title": "Nueva label",
+      "edit_title": "Editar label",
+      "name": "Nombre",
+      "name_placeholder": "Nombre de la label",
+      "color": "Color",
+      "description": "Descripción",
+      "description_placeholder": "Breve descripción..."
+    },
+    "errors": {
+      "name_required": "El nombre es obligatorio",
+      "duplicate_name": "Ya existe una label con este nombre"
+    },
+    "color": {
+      "gray": "Gris",
+      "red": "Rojo",
+      "orange": "Naranja",
+      "amber": "Ámbar",
+      "green": "Verde",
+      "teal": "Turquesa",
+      "blue": "Azul",
+      "purple": "Morado"
+    },
+    "delete": {
+      "title_single": "Eliminar label",
+      "title_bulk": "Eliminar {{count}} labels",
+      "body_single": "¿Eliminar la label \"{{name}}\"?",
+      "body_bulk": "¿Eliminar estas labels?",
+      "affected_agents": "Afectará a {{count}} agentes."
+    },
+    "toasts": {
+      "created": "Label \"{{name}}\" creada",
+      "updated": "Label \"{{name}}\" actualizada",
+      "deleted_single": "Label \"{{name}}\" eliminada",
+      "deleted_bulk": "{{count}} labels eliminadas"
+    },
+    "export": {
+      "name": "Nombre",
+      "color": "Color",
+      "description": "Descripción",
+      "assigned_agents": "Agentes asignados",
+      "sheet": "Labels"
+    }
+  },
+  "errors": {
+    "not_found": "No encontrado",
+    "generic": "Algo salió mal",
+    "page_not_available": "Esta página aún no está disponible",
+    "unexpected": "Se produjo un error inesperado"
+  }
+}

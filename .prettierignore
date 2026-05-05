@@ -1,0 +1,6 @@
+dist/
+node_modules/
+_prototype-reference/
+coverage/
+*.lock
+package-lock.json

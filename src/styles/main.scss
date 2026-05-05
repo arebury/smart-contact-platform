@@ -1,0 +1,21 @@
+/*
+ * AED — Global styles entrypoint
+ * Order matters: tokens must be loaded before any component overrides.
+ */
+
+@use 'reset';
+
+/* Design tokens (single source of truth — see src/app/core/tokens/sc-tokens.css) */
+@import '../app/core/tokens/sc-tokens.css';
+
+/* PrimeIcons */
+@import 'primeicons/primeicons.css';
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  background: var(--sc-bg-default);
+  color: var(--sc-text-primary);
+}
