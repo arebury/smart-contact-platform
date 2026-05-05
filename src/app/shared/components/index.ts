@@ -9,3 +9,7 @@ export type { DeletableEntity } from './delete-entity-dialog/delete-entity-dialo
 
 export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';
+
+export { SectionCardComponent } from './section-card/section-card.component';
+
+export { StickyFormHeaderComponent } from './sticky-form-header/sticky-form-header.component';

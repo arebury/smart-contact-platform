@@ -352,6 +352,97 @@
       "accuracy_placeholder": "Ej: 94.2%"
     }
   },
+  "users": {
+    "page_title": "Usuarios",
+    "create_button": "Nuevo usuario",
+    "search_placeholder": "Buscar usuario por nombre, email, identificador...",
+    "no_results": "No se encontraron usuarios",
+    "draft_badge": "Borrador",
+    "entity_singular": "usuario",
+    "table": {
+      "name": "Nombre",
+      "email": "Email",
+      "identifier": "Identificador",
+      "type": "Tipo",
+      "status": "Estado"
+    },
+    "type": {
+      "administrator": "Administrador",
+      "supervisor": "Supervisor",
+      "agent": "Agente",
+      "viewer": "Visor"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo"
+    },
+    "section": {
+      "dashboard": "Dashboard",
+      "services": "Servicios",
+      "ai_node": "Nodo IA",
+      "groups_agents_typifications": "Grupos / Agentes / Tipificaciones",
+      "campaigns": "Campañas",
+      "conversations": "Conversaciones",
+      "stats": "Estadísticas",
+      "stats_data_reports": "Informes de Datos",
+      "stats_flow_analyzer": "Analizador de Flujo",
+      "vui_designer": "VUI Designer",
+      "users": "Usuarios"
+    },
+    "permission": {
+      "vui_designer_management": "Gestión VUI Designer",
+      "users_management": "Gestión de usuarios",
+      "recording_management": "Gestión de grabaciones",
+      "transcriptions_management": "Gestión de transcripciones",
+      "spy_on_conversations": "Espiar conversaciones"
+    },
+    "form": {
+      "create_title": "Nuevo usuario",
+      "create_breadcrumb": "Nuevo usuario",
+      "edit_breadcrumb": "Editar usuario",
+      "section": {
+        "identity": "Identidad",
+        "identity_hint": "Datos básicos y rol del usuario",
+        "sections": "Secciones",
+        "sections_hint": "Áreas del panel a las que tendrá acceso",
+        "permissions": "Permisos",
+        "permissions_hint": "Acciones avanzadas que el usuario puede realizar",
+        "services": "Servicios asignados",
+        "services_hint": "Servicios VUI bajo supervisión del usuario"
+      },
+      "fields": {
+        "name": "Nombre completo",
+        "email": "Email",
+        "identifier": "Identificador interno",
+        "identifier_hint": "Si lo dejas vacío se generará automáticamente al guardar.",
+        "type": "Tipo de usuario",
+        "status": "Estado",
+        "status_active": "Usuario activo: puede iniciar sesión y operar.",
+        "status_inactive": "Usuario inactivo: no podrá iniciar sesión hasta reactivarlo."
+      }
+    },
+    "errors": {
+      "name_required": "El nombre es obligatorio",
+      "email_invalid": "Introduce un email válido"
+    },
+    "toasts": {
+      "created": "Usuario \"{{name}}\" creado",
+      "updated": "Usuario \"{{name}}\" actualizado",
+      "deleted_single": "Usuario \"{{name}}\" eliminado",
+      "deleted_bulk": "{{count}} usuarios eliminados",
+      "duplicated": "Usuario \"{{name}}\" duplicado como borrador"
+    },
+    "export": {
+      "code": "Código",
+      "name": "Nombre",
+      "email": "Email",
+      "identifier": "Identificador",
+      "type": "Tipo",
+      "status": "Estado",
+      "created_at": "Creado",
+      "sheet": "Usuarios"
+    }
+  },
   "config": {
     "aed": {
       "title": "AED",

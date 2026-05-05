@@ -1,0 +1,58 @@
+<header class="sticky-header">
+  <div class="sticky-header__title-block">
+    <span class="sticky-header__entity">{{ entityKey() | translate }}</span>
+    @if (mode() === 'edit') {
+      @if (editing()) {
+        <span class="sticky-header__edit-row">
+          <input
+            #nameInput
+            type="text"
+            class="sticky-header__name-input"
+            [value]="draftName()"
+            (input)="onDraftInput($any($event.target).value)"
+            (keydown)="onRenameKey($event)"
+            [attr.aria-label]="'common.edit' | translate"
+          />
+          <button type="button" class="sticky-header__icon-btn" (click)="confirmRename()" [attr.aria-label]="'common.save' | translate">
+            <lucide-icon [img]="checkIcon" [size]="14" />
+          </button>
+          <button type="button" class="sticky-header__icon-btn" (click)="cancelRename()" [attr.aria-label]="'common.cancel' | translate">
+            <lucide-icon [img]="closeIcon" [size]="14" />
+          </button>
+        </span>
+      } @else {
+        <span class="sticky-header__name-row">
+          <span class="sticky-header__name">{{ name() }}</span>
+          <button type="button" class="sticky-header__icon-btn" (click)="onPencilClick()" [attr.aria-label]="'common.edit' | translate">
+            <lucide-icon [img]="pencilIcon" [size]="13" />
+          </button>
+        </span>
+      }
+    }
+  </div>
+
+  <div class="sticky-header__actions">
+    @if (canDelete()) {
+      <button type="button" class="btn btn--ghost-danger" (click)="delete.emit()">
+        <lucide-icon [img]="trashIcon" [size]="13" />
+        <span>{{ 'common.delete' | translate }}</span>
+      </button>
+    }
+    <button type="button" class="btn btn--ghost" (click)="cancel.emit()">
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button
+      type="button"
+      class="btn btn--primary"
+      [disabled]="!canSave() || saving()"
+      (click)="save.emit()"
+    >
+      @if (saving()) {
+        <lucide-icon [img]="loaderIcon" [size]="13" class="btn__spin" />
+        <span>{{ 'common.loading' | translate }}</span>
+      } @else {
+        <span>{{ 'common.save' | translate }}</span>
+      }
+    </button>
+  </div>
+</header>
