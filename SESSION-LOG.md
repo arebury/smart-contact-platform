@@ -10,6 +10,60 @@
 
 ---
 
+## 2026-05-05 · Session 2 — Phase 3 closes + UX audit + docs pack
+
+**Worked on**
+- Phase 3.2 Templates → 3.3 Repositories (1 generic + 9 instances + hub) →
+  3.4 Config (AED + Seguridad) → 3.5 Users (list + form) → 3.6 Groups
+  (list + form with `@angular/cdk` drag-drop) → 3.7 Agents (list + form,
+  full schema). Phase 3 cerrada.
+- Two new shared components reusable across User/Group/Agent forms:
+  `SectionCardComponent` (header + body card) and `StickyFormHeaderComponent`
+  (sticky bar with editable inline name + Save/Cancel/Delete + spinner).
+- Rewrote `README.md` en español, voz de UX writer, badges +
+  navegación clara hacia los demás docs.
+- Creó [`SESSION-LOG.md`](./SESSION-LOG.md), [`DECISIONS.md`](./DECISIONS.md),
+  bloque de "session-end protocol" en [`memory.md`](./memory.md), y
+  [`docs/ux-audit.md`](./docs/ux-audit.md) con ~35 hallazgos accionables
+  agrupados por flujo (5 críticos top + 3 críticos para limpiar el sidebar).
+- Reflow Prettier de los 66 archivos que faltaban por formatear.
+- CI fix de Phase anterior arregla el deploy de Netlify (commit cargado en
+  el log de la sesión 1, validado en sesión 2: el sitio sí compila ahora).
+
+**Decisiones tomadas**
+- AgentsStore expandido del stub slim al schema completo del prototipo
+  manteniendo retro-compat con Labels y Seguridad (aditivo). Lockfile
+  versión bumped a 2 para re-seed.
+- Para acelerar el cierre de Phase 3 sin perder calidad, se difieren:
+  column-visibility selector con persistencia, frozen-column tables,
+  cross-tab warning, navigation guard, photo upload preview, undo stack
+  integrado, inline rename en list pages. Documentado en
+  `roadmap.md` + `DECISIONS.md`.
+- Etiquetas de borrador (`draft_badge`) viven en el namespace de Users
+  por reutilización; flagged en UX audit como minor inconsistency a
+  mover a `common.draft_badge` en próxima ronda.
+
+**Bloqueos / decisiones diferidas**
+- Local Node 25.2.1 sigue rompiendo el `ng build` (SemVer issue). Validación
+  local solo via `tsc --noEmit`. Recomendación: `nvm install 20` para
+  poder iterar en local con build real.
+- GitHub Actions sigue fallando en lint/format/test steps — no se han
+  auditado todavía. Netlify build OK porque solo corre `npm run build`.
+- Disco al 95% durante la sesión causó un `unable to write new index file`
+  durante git commit; resuelto borrando `.angular/` cache + reintento.
+
+**Queued next**
+- Ejecutar los Top-5 fixes Critical de [`docs/ux-audit.md`](./docs/ux-audit.md)
+  en una sola PR de "UX consistency pass" antes de meter feature nueva:
+  loading bar global · entity en sticky header en edit mode ·
+  validación inline en forms · confirmación textual en bulk delete con
+  count ≥ 3 · cross-tab warning + handler de localStorage.
+- Auditar y arreglar los GitHub Actions jobs (lint, format-check, test).
+- Cuando aterricen Users/Groups/Agents en producción, implementar undo
+  stack + cross-tab warning + navigation guard como infra compartida.
+
+---
+
 ## 2026-05-05 · Session 1 — Bootstrap to first usable build
 
 **Worked on**
