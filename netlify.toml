@@ -5,7 +5,11 @@
 # real Angular build, not the source.
 
 [build]
-  command = "npm ci && npm run build"
+  # Use `npm install` (not `npm ci`) because Karma's `chokidar@3` and
+  # @angular/compiler-cli's `chokidar@4` produce a transitive tree that
+  # `npm ci` rejects under strict lockfile validation. `npm install` resolves
+  # the conflict the same way the local install does.
+  command = "npm install --no-audit --no-fund && npm run build"
   publish = "dist/aed/browser"
 
 [build.environment]

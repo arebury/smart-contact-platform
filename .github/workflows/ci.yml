@@ -22,7 +22,9 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        # `npm install` (not `npm ci`) because Karma's chokidar@3 conflicts
+        # with @angular/compiler-cli's chokidar@4 in the transitive tree.
+        run: npm install --no-audit --no-fund
 
       - name: Check formatting
         run: npm run format:check
