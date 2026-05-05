@@ -29,7 +29,13 @@ export const adminRoutes: Routes = [
   { path: 'repositorios', loadComponent: placeholder },
   { path: 'agendas', loadComponent: placeholder },
   { path: 'horarios', loadComponent: placeholder },
-  { path: 'plantillas', loadComponent: placeholder },
+  {
+    path: 'plantillas',
+    loadComponent: () =>
+      import('./templates/pages/templates/templates-page.component').then(
+        (m) => m.TemplatesPageComponent,
+      ),
+  },
   { path: 'tipificaciones', loadComponent: placeholder },
   {
     path: 'labels',

@@ -21,7 +21,18 @@
     "yes": "Sí",
     "no": "No",
     "optional": "opcional",
-    "export_success": "{{count}} {{sheet}} exportados a Excel"
+    "export_success": "{{count}} {{sheet}} exportados a Excel",
+    "copied_to_clipboard": "Nombre copiado al portapapeles",
+    "copy_failed": "No se pudo copiar al portapapeles",
+    "click_to_copy": "Clic para copiar",
+    "remove_from_list": "Quitar {{name}} de la lista",
+    "delete_dialog": {
+      "title_single": "¿Eliminar {{entity}}?",
+      "title_bulk": "¿Eliminar {{count}} {{entity}}?",
+      "body_single": "Vas a eliminar el {{entity}} «{{name}}». Esta acción no se puede deshacer.",
+      "body_bulk": "Esta acción no se puede deshacer. Se eliminarán los siguientes {{entity}}:",
+      "type_to_confirm": "Escribe el nombre para confirmar:"
+    }
   },
   "topbar": {
     "user": {
@@ -122,6 +133,59 @@
       "description": "Descripción",
       "assigned_agents": "Agentes asignados",
       "sheet": "Labels"
+    }
+  },
+  "templates": {
+    "breadcrumb": "Plantillas",
+    "page_title": "Plantillas",
+    "create_button": "Nueva plantilla",
+    "count": "{{count}} plantillas",
+    "entity": {
+      "singular": "plantilla",
+      "plural": "plantillas"
+    },
+    "type": {
+      "chat": "Chat",
+      "email": "Email"
+    },
+    "empty": {
+      "title": "Aún no hay plantillas",
+      "text": "Crea tu primera plantilla de mensaje para agilizar la atención",
+      "cta": "Crear plantilla"
+    },
+    "table": {
+      "title": "Título",
+      "body": "Contenido",
+      "updated": "Actualizada"
+    },
+    "no_results": {
+      "text": "No hay plantillas de {{tab}} en este filtro",
+      "text_with_query": "No hay plantillas de {{tab}} que coincidan con \"{{query}}\""
+    },
+    "form": {
+      "create_title": "Nueva plantilla",
+      "edit_title": "Editar plantilla",
+      "title": "Título",
+      "title_placeholder": "Título de la plantilla",
+      "channel": "Canal",
+      "body": "Contenido",
+      "body_placeholder": "Escribe el contenido de la plantilla...",
+      "variables_hint": "Variables: {agente}, {cliente}, {ref}, {fecha}"
+    },
+    "errors": {
+      "title_required": "El título es obligatorio",
+      "duplicate_title": "Ya existe una plantilla con este título",
+      "body_required": "El contenido es obligatorio"
+    },
+    "delete": {
+      "single_detail": "Los agentes y grupos que la tengan asignada perderán la referencia.",
+      "bulk_footer": "Los agentes y grupos que las tengan asignadas perderán la referencia."
+    },
+    "toasts": {
+      "created": "Plantilla \"{{name}}\" creada",
+      "updated": "Plantilla \"{{name}}\" actualizada",
+      "deleted_single": "Plantilla \"{{name}}\" eliminada",
+      "deleted_bulk": "{{count}} plantillas eliminadas"
     }
   },
   "errors": {

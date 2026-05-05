@@ -1,0 +1,114 @@
+<p-dialog
+  [visible]="visible()"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '420px' }"
+  [dismissableMask]="true"
+  (onHide)="cancel.emit()"
+  appendTo="body"
+  styleClass="delete-entity-dialog"
+>
+  <ng-template pTemplate="header">
+    <div class="delete-entity__header">
+      <span class="delete-entity__icon" aria-hidden="true">
+        <lucide-icon [img]="alertIcon" [size]="22" />
+      </span>
+      <h2 class="delete-entity__title">
+        @if (mode() === 'single') {
+          {{ 'common.delete_dialog.title_single' | translate: { entity: entitySingular() } }}
+        } @else {
+          {{
+            'common.delete_dialog.title_bulk'
+              | translate: { count: visibleItems().length, entity: entityPlural() }
+          }}
+        }
+      </h2>
+    </div>
+  </ng-template>
+
+  <div class="delete-entity__body">
+    @if (mode() === 'single') {
+      <p class="delete-entity__text">
+        {{
+          'common.delete_dialog.body_single'
+            | translate: { entity: entitySingular(), name: singleTarget() }
+        }}
+      </p>
+
+      @if (singleDetailMessage(); as detail) {
+        <p class="delete-entity__detail">{{ detail }}</p>
+      }
+
+      <div class="delete-entity__confirm">
+        <p class="delete-entity__confirm-label">
+          {{ 'common.delete_dialog.type_to_confirm' | translate }}
+        </p>
+        <button
+          type="button"
+          class="delete-entity__copy-name"
+          (click)="onCopy()"
+          [title]="'common.click_to_copy' | translate"
+        >
+          <span>{{ singleTarget() }}</span>
+          @if (copied()) {
+            <lucide-icon [img]="checkIcon" [size]="12" class="delete-entity__copy-check" />
+          } @else {
+            <lucide-icon [img]="copyIcon" [size]="12" class="delete-entity__copy-icon" />
+          }
+        </button>
+        <input
+          type="text"
+          class="delete-entity__confirm-input"
+          [placeholder]="singleTarget()"
+          [ngModel]="confirmText()"
+          (ngModelChange)="confirmText.set($event)"
+          autocomplete="off"
+        />
+      </div>
+    } @else {
+      <p class="delete-entity__text">
+        {{
+          'common.delete_dialog.body_bulk' | translate: { entity: entityPlural() }
+        }}
+      </p>
+      <div class="delete-entity__chips">
+        @for (item of visibleItems(); track item.id) {
+          <span class="delete-entity__chip">
+            <span>{{ item.name }}</span>
+            <button
+              type="button"
+              class="delete-entity__chip-remove"
+              [attr.aria-label]="'common.remove_from_list' | translate: { name: item.name }"
+              (click)="removeChip(item.id)"
+            >
+              <lucide-icon [img]="closeIcon" [size]="10" />
+            </button>
+          </span>
+        }
+      </div>
+      @if (bulkFooterMessage(); as footer) {
+        <p class="delete-entity__detail">{{ footer }}</p>
+      }
+    }
+  </div>
+
+  <ng-template pTemplate="footer">
+    <button
+      type="button"
+      class="delete-entity__btn delete-entity__btn--ghost"
+      (click)="cancel.emit()"
+    >
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button
+      type="button"
+      class="delete-entity__btn delete-entity__btn--danger"
+      [disabled]="!canConfirm()"
+      (click)="onConfirm()"
+    >
+      {{ 'common.delete' | translate }}
+    </button>
+  </ng-template>
+</p-dialog>
