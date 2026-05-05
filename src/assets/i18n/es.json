@@ -188,6 +188,170 @@
       "deleted_bulk": "{{count}} plantillas eliminadas"
     }
   },
+  "repositories": {
+    "search_placeholder": "Buscar {{entity}}...",
+    "errors": {
+      "name_required": "El nombre es obligatorio",
+      "duplicate_name": "Ya existe un/a {{entity}} con este nombre",
+      "field_required": "\"{{field}}\" es obligatorio"
+    },
+    "form": {
+      "create_title": "Nuevo/a {{entity}}",
+      "edit_title": "Editar {{entity}}"
+    },
+    "toasts": {
+      "created": "{{entity}} \"{{name}}\" creado/a",
+      "updated": "{{entity}} \"{{name}}\" actualizado/a",
+      "deleted_single": "{{entity}} \"{{name}}\" eliminado/a",
+      "deleted_bulk": "{{count}} {{entity}} eliminados/as"
+    },
+    "no_results": {
+      "with_query": "No se encontraron {{entity}} que coincidan con \"{{query}}\"",
+      "empty": "No hay {{entity}} todavía"
+    },
+    "columns": {
+      "name": "Nombre",
+      "description": "Descripción",
+      "status": "Estado"
+    },
+    "status": {
+      "active": "Activa",
+      "inactive": "Inactiva"
+    },
+    "placeholders": {
+      "description": "Breve descripción..."
+    },
+    "hub": {
+      "coming_soon": "Próximamente",
+      "categories": {
+        "communication": "Comunicación",
+        "classification": "Clasificación",
+        "conversational_designer": "Diseñador Conversacional",
+        "ai": "IA"
+      },
+      "descriptions": {
+        "agendas": "Colecciones de números telefónicos para enrutamiento de llamadas",
+        "horarios": "Franjas horarias y turnos operativos del contact center",
+        "plantillas": "Mensajes predefinidos para respuestas rápidas y campañas",
+        "tipificaciones": "Categorías de cierre para clasificar conversaciones",
+        "labels": "Etiquetas de color para organizar y filtrar entidades",
+        "variables": "Variables dinámicas para personalizar mensajes y flujos",
+        "entidades": "Datos estructurados que el sistema extrae de las conversaciones",
+        "intenciones": "Propósitos del usuario detectados en el lenguaje natural",
+        "reglas_ia": "Reglas de negocio aplicadas al motor de inteligencia artificial",
+        "entidades_ia": "Entidades semánticas gestionadas por modelos de lenguaje",
+        "clasificacion_ia": "Modelos de clasificación automática de conversaciones"
+      }
+    },
+    "agendas": {
+      "title": "Agendas",
+      "singular": "agenda",
+      "plural": "agendas",
+      "numbers": "Números",
+      "name_placeholder": "Ej: Ventas Nacional",
+      "numbers_placeholder": "900 100 200, 900 100 201..."
+    },
+    "horarios": {
+      "title": "Horarios",
+      "singular": "horario",
+      "plural": "horarios",
+      "schedule": "Horario",
+      "timezone": "Zona horaria",
+      "name_placeholder": "Ej: Horario General",
+      "schedule_placeholder": "L-V 09:00–18:00",
+      "timezone_placeholder": "Europe/Madrid"
+    },
+    "tipificaciones": {
+      "title": "Tipificaciones",
+      "singular": "tipificación",
+      "plural": "tipificaciones",
+      "code": "Código",
+      "category": "Categoría",
+      "name_placeholder": "Ej: Consulta resuelta",
+      "code_placeholder": "Ej: CON-001",
+      "category_placeholder": "Ej: Consulta"
+    },
+    "variables": {
+      "title": "Variables",
+      "singular": "variable",
+      "plural": "variables",
+      "key": "Clave",
+      "default": "Valor por defecto",
+      "type": "Tipo",
+      "types": {
+        "text": "Texto",
+        "number": "Número",
+        "date": "Fecha"
+      },
+      "name_placeholder": "Ej: Nombre del agente",
+      "key_placeholder": "Ej: {agente}",
+      "default_placeholder": "Ej: Agente"
+    },
+    "entidades": {
+      "title": "Entidades",
+      "singular": "entidad",
+      "plural": "entidades",
+      "type": "Tipo",
+      "values": "Valores",
+      "types": {
+        "text": "Texto",
+        "list": "Lista",
+        "regex": "Regex",
+        "number": "Número",
+        "date": "Fecha"
+      },
+      "name_placeholder": "Ej: Producto",
+      "values_placeholder": "Valores separados por coma o expresión regular..."
+    },
+    "intenciones": {
+      "title": "Intenciones",
+      "singular": "intención",
+      "plural": "intenciones",
+      "category": "Categoría",
+      "examples": "Ejemplos",
+      "name_placeholder": "Ej: Saludo",
+      "category_placeholder": "Ej: General",
+      "examples_placeholder": "Ejemplos de frases separadas por coma..."
+    },
+    "reglas_ia": {
+      "title": "Reglas IA",
+      "singular": "regla IA",
+      "plural": "reglas IA",
+      "condition": "Condición",
+      "action": "Acción",
+      "priority": "Prioridad",
+      "priority_levels": {
+        "high": "Alta",
+        "medium": "Media",
+        "low": "Baja"
+      },
+      "name_placeholder": "Ej: Escalación por sentimiento",
+      "condition_placeholder": "sentiment_score < -0.7",
+      "action_placeholder": "Transferir a agente humano"
+    },
+    "entidades_ia": {
+      "title": "Entidades IA",
+      "singular": "entidad IA",
+      "plural": "entidades IA",
+      "type": "Tipo",
+      "model": "Modelo",
+      "name_placeholder": "Ej: Sentimiento",
+      "type_placeholder": "Ej: clasificación",
+      "model_placeholder": "Ej: GPT-4o"
+    },
+    "clasificacion_ia": {
+      "title": "Clasificación IA",
+      "singular": "clasificación IA",
+      "plural": "clasificaciones IA",
+      "model": "Modelo",
+      "categories": "Categorías",
+      "accuracy": "Precisión",
+      "name_placeholder": "Ej: Clasificador de intenciones",
+      "model_placeholder": "Ej: GPT-4o",
+      "categories_placeholder": "Categorías separadas por coma...",
+      "accuracy_placeholder": "Ej: 94.2%"
+    }
+  },
   "errors": {
     "not_found": "No encontrado",
     "generic": "Algo salió mal",

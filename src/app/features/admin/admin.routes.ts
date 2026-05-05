@@ -25,10 +25,24 @@ export const adminRoutes: Routes = [
   { path: 'agentes/crear', loadComponent: placeholder },
   { path: 'agentes/editar/:id', loadComponent: placeholder },
 
-  // Repositories hub + instances
-  { path: 'repositorios', loadComponent: placeholder },
-  { path: 'agendas', loadComponent: placeholder },
-  { path: 'horarios', loadComponent: placeholder },
+  // Repositories hub
+  {
+    path: 'repositorios',
+    loadComponent: () =>
+      import('./repositories/pages/hub/repositorios-hub-page.component').then(
+        (m) => m.RepositoriosHubPageComponent,
+      ),
+  },
+
+  // Repositories — instances
+  {
+    path: 'agendas',
+    loadComponent: () => import('./repositories/instances/agendas').then((m) => m.AgendasPageComponent),
+  },
+  {
+    path: 'horarios',
+    loadComponent: () => import('./repositories/instances/horarios').then((m) => m.HorariosPageComponent),
+  },
   {
     path: 'plantillas',
     loadComponent: () =>
@@ -36,18 +50,44 @@ export const adminRoutes: Routes = [
         (m) => m.TemplatesPageComponent,
       ),
   },
-  { path: 'tipificaciones', loadComponent: placeholder },
+  {
+    path: 'tipificaciones',
+    loadComponent: () =>
+      import('./repositories/instances/tipificaciones').then((m) => m.TipificacionesPageComponent),
+  },
   {
     path: 'labels',
     loadComponent: () =>
-      import('./labels/pages/labels/labels-page.component').then(
-        (m) => m.LabelsPageComponent,
-      ),
+      import('./labels/pages/labels/labels-page.component').then((m) => m.LabelsPageComponent),
   },
-  { path: 'variables', loadComponent: placeholder },
-  { path: 'entidades', loadComponent: placeholder },
-  { path: 'intenciones', loadComponent: placeholder },
-  { path: 'reglas-ia', loadComponent: placeholder },
-  { path: 'entidades-ia', loadComponent: placeholder },
-  { path: 'clasificacion-ia', loadComponent: placeholder },
+  {
+    path: 'variables',
+    loadComponent: () =>
+      import('./repositories/instances/variables').then((m) => m.VariablesPageComponent),
+  },
+  {
+    path: 'entidades',
+    loadComponent: () =>
+      import('./repositories/instances/entidades').then((m) => m.EntidadesPageComponent),
+  },
+  {
+    path: 'intenciones',
+    loadComponent: () =>
+      import('./repositories/instances/intenciones').then((m) => m.IntencionesPageComponent),
+  },
+  {
+    path: 'reglas-ia',
+    loadComponent: () =>
+      import('./repositories/instances/reglas-ia').then((m) => m.ReglasIAPageComponent),
+  },
+  {
+    path: 'entidades-ia',
+    loadComponent: () =>
+      import('./repositories/instances/entidades-ia').then((m) => m.EntidadesIAPageComponent),
+  },
+  {
+    path: 'clasificacion-ia',
+    loadComponent: () =>
+      import('./repositories/instances/clasificacion-ia').then((m) => m.ClasificacionIAPageComponent),
+  },
 ];

@@ -1,0 +1,84 @@
+<div
+  class="panel"
+  role="dialog"
+  [attr.aria-label]="
+    (initial() ? 'repositories.form.edit_title' : 'repositories.form.create_title')
+      | translate: { entity: entityNameSpanish() }
+  "
+>
+  <h3 class="panel__title">
+    {{
+      (initial() ? 'repositories.form.edit_title' : 'repositories.form.create_title')
+        | translate: { entity: entityNameSpanish() }
+    }}
+  </h3>
+
+  @for (field of fields(); track field.key; let i = $index) {
+    <div class="panel__field">
+      <label class="panel__label" [attr.for]="'repo-field-' + field.key">
+        {{ field.labelKey | translate }}
+        @if (!field.required) {
+          <span class="panel__hint">({{ 'common.optional' | translate }})</span>
+        }
+      </label>
+
+      @switch (field.type) {
+        @case ('textarea') {
+          <textarea
+            [id]="'repo-field-' + field.key"
+            class="panel__textarea"
+            rows="3"
+            [value]="values()[field.key] ?? ''"
+            [placeholder]="field.placeholderKey ? (field.placeholderKey | translate) : ''"
+            (input)="onChange(field.key, $any($event.target).value)"
+            (keydown)="onKey($event, false)"
+          ></textarea>
+        }
+        @case ('select') {
+          <select
+            [id]="'repo-field-' + field.key"
+            class="panel__select"
+            [value]="values()[field.key] ?? ''"
+            (change)="onChange(field.key, $any($event.target).value)"
+            (keydown)="onKey($event)"
+          >
+            @for (option of field.options; track option.value) {
+              <option [value]="option.value">{{ option.labelKey | translate }}</option>
+            }
+          </select>
+        }
+        @default {
+          <input
+            #firstInput
+            [id]="'repo-field-' + field.key"
+            type="text"
+            class="panel__input"
+            [class.panel__input--error]="!!error() && field.key === 'name'"
+            [value]="values()[field.key] ?? ''"
+            [placeholder]="field.placeholderKey ? (field.placeholderKey | translate) : ''"
+            (input)="onChange(field.key, $any($event.target).value)"
+            (keydown)="onKey($event)"
+          />
+        }
+      }
+    </div>
+  }
+
+  <div class="panel__error-slot">
+    @if (error()) {
+      <div class="panel__error">
+        <lucide-icon [img]="alertIcon" [size]="10" />
+        <span>{{ error() }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="panel__actions">
+    <button type="button" class="panel__btn panel__btn--ghost" (click)="cancel.emit()">
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button type="button" class="panel__btn panel__btn--primary" (click)="onSave()">
+      {{ (initial() ? 'common.save' : 'common.create') | translate }}
+    </button>
+  </div>
+</div>
