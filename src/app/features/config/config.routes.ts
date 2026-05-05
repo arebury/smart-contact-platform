@@ -1,18 +1,26 @@
 import { Routes } from '@angular/router';
 
 const placeholder = () =>
-  import('../../core/layout/placeholder-page/placeholder-page.component').then(
+  import('@core/layout/placeholder-page/placeholder-page.component').then(
     (m) => m.PlaceholderPageComponent,
   );
 
 /**
- * Config routes — mirrors `/config/*` URLs from the React prototype.
- * Phase 3 replaces each `loadComponent: placeholder` with the real page component.
+ * Config feature routes. Personalización / Integraciones / Sistema remain
+ * as placeholders (the React prototype never built them either).
  */
 export const configRoutes: Routes = [
-  { path: 'seguridad', loadComponent: placeholder },
+  {
+    path: 'aed',
+    loadComponent: () =>
+      import('./pages/aed-page.component').then((m) => m.AedPageComponent),
+  },
+  {
+    path: 'seguridad',
+    loadComponent: () =>
+      import('./pages/seguridad-page.component').then((m) => m.SeguridadPageComponent),
+  },
   { path: 'personalizacion', loadComponent: placeholder },
-  { path: 'aed', loadComponent: placeholder },
   { path: 'integraciones', loadComponent: placeholder },
   { path: 'sistema', loadComponent: placeholder },
 ];

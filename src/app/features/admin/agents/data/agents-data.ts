@@ -1,13 +1,18 @@
 /**
- * Minimal Agent shape consumed by the Labels feature for cascading deletes
- * and the per-label agent counter. The full Agent model — channels, presence,
- * groups, etc. — lands when the Agents feature itself is migrated.
+ * Agent shape consumed by features that already need an agent reference
+ * (Labels — cascading delete on label removal, Seguridad — bulk password
+ * regeneration). The full agent model (channels, presence, recording,
+ * groups, schedules…) lands when the Agents feature itself is migrated.
  */
 export interface Agent {
   readonly id: number;
-  readonly name?: string;
+  readonly name: string;
+  readonly code: string;
+  readonly extension: string;
+  readonly email?: string;
+  readonly status: 'active' | 'inactive';
   readonly labels?: readonly number[];
 }
 
-/** No agents are seeded yet — the Agents feature owns this list. */
+/** No agents seeded yet — the Agents feature owns this list. */
 export const AGENTS_SEED: readonly Agent[] = [];

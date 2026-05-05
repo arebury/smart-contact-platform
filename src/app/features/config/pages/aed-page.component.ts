@@ -1,0 +1,134 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Hash, Info, LucideAngularModule, Save, Search, X } from 'lucide-angular';
+import { MessageService } from 'primeng/api';
+
+import { BreadcrumbService } from '@core/services';
+import { COUNTRY_PREFIXES, CountryPrefix } from '../data/country-prefixes';
+
+/**
+ * AED configuration page (`/config/aed`).
+ *
+ * Hosts the "Numeración especial" picker: search, multi-select country
+ * prefix list (~250 entries), removable chips, and a save bar that only
+ * appears when the selection is dirty.
+ */
+@Component({
+  selector: 'aed-aed-page',
+  standalone: true,
+  imports: [LucideAngularModule, TranslateModule],
+  templateUrl: './aed-page.component.html',
+  styleUrl: './aed-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class AedPageComponent implements OnInit, OnDestroy {
+  private readonly breadcrumbs = inject(BreadcrumbService);
+  private readonly messages = inject(MessageService);
+  private readonly translate = inject(TranslateService);
+
+  protected readonly hashIcon = Hash;
+  protected readonly infoIcon = Info;
+  protected readonly searchIcon = Search;
+  protected readonly closeIcon = X;
+  protected readonly saveIcon = Save;
+
+  protected readonly countries = COUNTRY_PREFIXES;
+
+  protected readonly selectedCodes = signal<ReadonlySet<string>>(new Set());
+  protected readonly searchQuery = signal('');
+  protected readonly dirty = signal(false);
+  protected readonly saving = signal(false);
+
+  protected readonly filtered = computed(() => {
+    const query = this.searchQuery().toLowerCase().trim();
+    if (!query) return this.countries;
+    return this.countries.filter(
+      (c) =>
+        c.name.toLowerCase().includes(query) ||
+        c.prefix.includes(query) ||
+        c.code.toLowerCase().includes(query),
+    );
+  });
+
+  protected readonly selectedCountries = computed(() => {
+    const codes = this.selectedCodes();
+    if (codes.size === 0) return [] as readonly CountryPrefix[];
+    return this.countries.filter((c) => codes.has(c.code));
+  });
+
+  ngOnInit(): void {
+    this.breadcrumbs.set([
+      { label: this.translate.instant('sidebar.configuration') },
+      { label: this.translate.instant('config.aed.title') },
+    ]);
+  }
+
+  ngOnDestroy(): void {
+    this.breadcrumbs.clear();
+  }
+
+  protected isSelected(code: string): boolean {
+    return this.selectedCodes().has(code);
+  }
+
+  protected toggle(code: string): void {
+    this.selectedCodes.update((current) => {
+      const next = new Set(current);
+      if (next.has(code)) next.delete(code);
+      else next.add(code);
+      return next;
+    });
+    this.dirty.set(true);
+  }
+
+  protected remove(code: string, event?: MouseEvent): void {
+    event?.stopPropagation();
+    this.selectedCodes.update((current) => {
+      const next = new Set(current);
+      next.delete(code);
+      return next;
+    });
+    this.dirty.set(true);
+  }
+
+  protected discard(): void {
+    this.selectedCodes.set(new Set());
+    this.dirty.set(false);
+  }
+
+  protected save(): void {
+    if (this.saving()) return;
+    this.saving.set(true);
+    // Simulated async save — matches the prototype's setTimeout(600).
+    setTimeout(() => {
+      this.saving.set(false);
+      this.dirty.set(false);
+      const count = this.selectedCodes().size;
+      this.messages.add({
+        severity: 'success',
+        summary: this.translate.instant(
+          count === 1 ? 'config.aed.toast.saved_one' : 'config.aed.toast.saved_many',
+          { count },
+        ),
+        life: 3000,
+      });
+    }, 600);
+  }
+
+  protected onSearchKey(event: KeyboardEvent): void {
+    if (event.key !== 'Escape') return;
+    if (this.searchQuery()) {
+      this.searchQuery.set('');
+    } else {
+      (event.target as HTMLInputElement).blur();
+    }
+  }
+}

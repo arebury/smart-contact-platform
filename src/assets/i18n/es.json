@@ -352,6 +352,66 @@
       "accuracy_placeholder": "Ej: 94.2%"
     }
   },
+  "config": {
+    "aed": {
+      "title": "AED",
+      "heading": "Configuración AED",
+      "subtitle": "Parámetros globales del distribuidor automático",
+      "section": {
+        "title": "Numeración especial",
+        "hint": "Prefijos internacionales permitidos"
+      },
+      "info": "Selecciona los prefijos de los países a los que se permite marcar como numeración especial. Todos los prefijos están desactivados por defecto.",
+      "search_placeholder": "Buscar país, prefijo o código ISO...",
+      "no_results": "No se encontraron países para \"{{query}}\"",
+      "selected_chips": "Prefijos habilitados",
+      "discard": "Descartar",
+      "save": "Guardar cambios",
+      "saving": "Guardando...",
+      "toast": {
+        "saved_one": "Numeración especial guardada (1 país)",
+        "saved_many": "Numeración especial guardada ({{count}} países)"
+      }
+    },
+    "seguridad": {
+      "title": "Seguridad",
+      "heading": "Seguridad",
+      "subtitle": "Políticas de seguridad y credenciales de la plataforma",
+      "policies": {
+        "title": "Políticas de contraseñas",
+        "min_length": "Longitud mínima",
+        "min_length_hint": "Número mínimo de caracteres requeridos",
+        "expiration": "Expiración de contraseñas",
+        "expiration_hint": "Tiempo tras el cual las contraseñas caducan",
+        "special_chars": "Caracteres especiales obligatorios",
+        "special_chars_hint": "Requiere al menos un carácter no alfanumérico"
+      },
+      "regen": {
+        "title": "Regeneración de contraseñas",
+        "hint_collapsed": "(acción administrativa avanzada)",
+        "warning_title": "Acción irreversible",
+        "warning_body": "Regenerar las contraseñas invalida inmediatamente las credenciales actuales de los agentes seleccionados. Cada agente deberá usar la contraseña temporal proporcionada en el archivo de descarga para volver a acceder y establecer una nueva contraseña.",
+        "use_case": "Utiliza esta herramienta para recuperar acceso de agentes que han olvidado su contraseña, o ante un incidente de seguridad (ciberataque) que requiera la invalidación masiva de credenciales. Puedes seleccionar agentes individuales o usar \"Seleccionar todos\" para un reset global.",
+        "search_placeholder": "Buscar agente por nombre, código, extensión o email...",
+        "selected_count": "{{count}} seleccionados",
+        "active_count": "{{count}} agentes activos",
+        "no_active_agents": "No hay agentes activos en el sistema",
+        "no_results": "Sin resultados",
+        "confirm_title": "Confirmar regeneración",
+        "confirm_body": "Escribe {{confirm}} para confirmar la acción sobre {{count}} agentes.",
+        "confirm_placeholder": "Escribe {{confirm}}...",
+        "execute": "Regenerar contraseñas",
+        "processing": "Procesando...",
+        "result_count": "{{count}} contraseñas regeneradas",
+        "download_csv": "Descargar CSV"
+      },
+      "toast": {
+        "regenerated_one": "Se regeneró 1 contraseña. Descarga el archivo con la credencial temporal.",
+        "regenerated_many": "Se regeneraron {{count}} contraseñas. Descarga el archivo con las credenciales temporales.",
+        "csv_downloaded": "Archivo CSV descargado"
+      }
+    }
+  },
   "errors": {
     "not_found": "No encontrado",
     "generic": "Algo salió mal",
