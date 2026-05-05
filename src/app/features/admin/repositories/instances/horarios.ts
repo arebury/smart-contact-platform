@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject, Injectable } from '@angular/core';
 import { Clock } from 'lucide-angular';
 
-import { createLocalStore, LocalStore } from '../../../../core/services/local-store.factory';
-import { RepoListPageComponent } from '../shared/repo-list-page.component';
+import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
+import { RepoListPageComponent } from '../components/repo-list-page.component';
 import {
   RepoColumnDef,
   RepoFieldDef,
   RepoPageConfig,
   RepoStore,
-} from '../shared/repo-types';
+} from '../components/repo-types';
 
 export interface Horario {
   readonly id: number;

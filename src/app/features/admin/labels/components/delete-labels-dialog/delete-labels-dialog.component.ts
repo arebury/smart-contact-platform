@@ -3,7 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Trash2 } from 'lucide-angular';
 import { DialogModule } from 'primeng/dialog';
 
-import { LabelChipComponent } from '../../../../../shared/components/label-chip/label-chip.component';
+import { LabelChipComponent } from '@shared/components/label-chip/label-chip.component';
 import { Label } from '../../data/labels-data';
 
 /**

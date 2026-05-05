@@ -23,16 +23,15 @@ import {
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { ClickOutsideDirective } from '../../../../../core/directives/click-outside.directive';
-import { BreadcrumbService } from '../../../../../core/services/breadcrumb.service';
-import { BulkActionBarComponent } from '../../../../../shared/components/bulk-action-bar/bulk-action-bar.component';
-import { DeleteEntityDialogComponent } from '../../../../../shared/components/delete-entity-dialog/delete-entity-dialog.component';
-import { Template, TemplateType } from '../../data/templates-data';
-import { TemplatesStore } from '../../state/templates.store';
+import { ClickOutsideDirective } from '@core/directives';
+import { BreadcrumbService } from '@core/services';
+import { BulkActionBarComponent, DeleteEntityDialogComponent } from '@shared/components';
+import { Template, TemplateType } from '../data/templates-data';
+import { TemplatesStore } from '../state/templates.store';
 import {
   TemplateFormPanelComponent,
   TemplateFormSubmission,
-} from '../../components/template-form-panel/template-form-panel.component';
+} from '../components/template-form-panel/template-form-panel.component';
 
 interface ContextMenuPos {
   readonly x: number;

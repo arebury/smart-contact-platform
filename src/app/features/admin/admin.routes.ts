@@ -1,93 +1,38 @@
 import { Routes } from '@angular/router';
 
-const placeholder = () =>
-  import('../../core/layout/placeholder-page/placeholder-page.component').then(
-    (m) => m.PlaceholderPageComponent,
-  );
-
 /**
- * Admin routes — mirrors `/admin/*` URLs from the React prototype.
- * Phase 3 replaces each `loadComponent: placeholder` with the real page component.
+ * Admin routes — composes per-feature route tables. Each feature owns its
+ * own `<feature>.routes.ts`; this file just stitches them under `/admin/*`.
+ *
+ * Repositories load with `path: ''` because the 9 instance pages live at
+ * the admin root (`/admin/agendas`, `/admin/horarios`, …) rather than nested
+ * under `/admin/repositorios/`. The hub itself is registered there.
  */
 export const adminRoutes: Routes = [
-  // Users
-  { path: 'usuarios', loadComponent: placeholder },
-  { path: 'usuarios/crear', loadComponent: placeholder },
-  { path: 'usuarios/editar/:id', loadComponent: placeholder },
-
-  // Groups
-  { path: 'grupos', loadComponent: placeholder },
-  { path: 'grupos/crear', loadComponent: placeholder },
-  { path: 'grupos/editar/:id', loadComponent: placeholder },
-
-  // Agents
-  { path: 'agentes', loadComponent: placeholder },
-  { path: 'agentes/crear', loadComponent: placeholder },
-  { path: 'agentes/editar/:id', loadComponent: placeholder },
-
-  // Repositories hub
   {
-    path: 'repositorios',
-    loadComponent: () =>
-      import('./repositories/pages/hub/repositorios-hub-page.component').then(
-        (m) => m.RepositoriosHubPageComponent,
-      ),
-  },
-
-  // Repositories — instances
-  {
-    path: 'agendas',
-    loadComponent: () => import('./repositories/instances/agendas').then((m) => m.AgendasPageComponent),
+    path: 'usuarios',
+    loadChildren: () => import('./users/users.routes').then((m) => m.USERS_ROUTES),
   },
   {
-    path: 'horarios',
-    loadComponent: () => import('./repositories/instances/horarios').then((m) => m.HorariosPageComponent),
+    path: 'grupos',
+    loadChildren: () => import('./groups/groups.routes').then((m) => m.GROUPS_ROUTES),
   },
   {
-    path: 'plantillas',
-    loadComponent: () =>
-      import('./templates/pages/templates/templates-page.component').then(
-        (m) => m.TemplatesPageComponent,
-      ),
-  },
-  {
-    path: 'tipificaciones',
-    loadComponent: () =>
-      import('./repositories/instances/tipificaciones').then((m) => m.TipificacionesPageComponent),
+    path: 'agentes',
+    loadChildren: () => import('./agents/agents.routes').then((m) => m.AGENTS_ROUTES),
   },
   {
     path: 'labels',
-    loadComponent: () =>
-      import('./labels/pages/labels/labels-page.component').then((m) => m.LabelsPageComponent),
+    loadChildren: () => import('./labels/labels.routes').then((m) => m.LABELS_ROUTES),
   },
   {
-    path: 'variables',
-    loadComponent: () =>
-      import('./repositories/instances/variables').then((m) => m.VariablesPageComponent),
+    path: 'plantillas',
+    loadChildren: () =>
+      import('./templates/templates.routes').then((m) => m.TEMPLATES_ROUTES),
   },
   {
-    path: 'entidades',
-    loadComponent: () =>
-      import('./repositories/instances/entidades').then((m) => m.EntidadesPageComponent),
-  },
-  {
-    path: 'intenciones',
-    loadComponent: () =>
-      import('./repositories/instances/intenciones').then((m) => m.IntencionesPageComponent),
-  },
-  {
-    path: 'reglas-ia',
-    loadComponent: () =>
-      import('./repositories/instances/reglas-ia').then((m) => m.ReglasIAPageComponent),
-  },
-  {
-    path: 'entidades-ia',
-    loadComponent: () =>
-      import('./repositories/instances/entidades-ia').then((m) => m.EntidadesIAPageComponent),
-  },
-  {
-    path: 'clasificacion-ia',
-    loadComponent: () =>
-      import('./repositories/instances/clasificacion-ia').then((m) => m.ClasificacionIAPageComponent),
+    path: '',
+    loadChildren: () =>
+      import('./repositories/repositories.routes').then((m) => m.REPOSITORIES_ROUTES),
   },
 ];

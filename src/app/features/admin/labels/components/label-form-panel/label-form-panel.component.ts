@@ -18,7 +18,7 @@ import { LucideAngularModule, AlertTriangle } from 'lucide-angular';
 import {
   ColorDotOption,
   ColorDotPickerComponent,
-} from '../../../../../shared/components/color-dot-picker/color-dot-picker.component';
+} from '@shared/components/color-dot-picker/color-dot-picker.component';
 import {
   LABEL_COLOR_OPTIONS,
   Label,

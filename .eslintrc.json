@@ -1,6 +1,11 @@
 {
   "root": true,
-  "ignorePatterns": ["projects/**/*", "dist/**/*", "node_modules/**/*", "_prototype-reference/**/*"],
+  "ignorePatterns": [
+    "projects/**/*",
+    "dist/**/*",
+    "node_modules/**/*",
+    "docs/prototype-reference/**/*"
+  ],
   "overrides": [
     {
       "files": ["*.ts"],

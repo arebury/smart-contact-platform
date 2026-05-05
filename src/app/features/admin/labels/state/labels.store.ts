@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { createLocalStore, LocalStore } from '../../../../core/services/local-store.factory';
+import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { Label, LABELS_SEED } from '../data/labels-data';
 
 @Injectable({ providedIn: 'root' })

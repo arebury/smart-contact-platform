@@ -20,9 +20,9 @@ import {
   Tags,
   Variable,
 } from 'lucide-angular';
-import type { LucideIconData } from '../../shared/repo-types';
+import type { LucideIconData } from '../components/repo-types';
 
-import { BreadcrumbService } from '../../../../../core/services/breadcrumb.service';
+import { BreadcrumbService } from '@core/services/breadcrumb.service';
 
 interface HubItem {
   readonly labelKey: string;

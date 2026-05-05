@@ -12,19 +12,17 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LucideAngularModule, Download, MoreHorizontal, Pencil, Plus, Search, Tag, Trash2, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { ClickOutsideDirective } from '../../../../../core/directives/click-outside.directive';
-import { BreadcrumbService } from '../../../../../core/services/breadcrumb.service';
-import { XlsxExportService } from '../../../../../core/services/xlsx-export.service';
-import { BulkActionBarComponent } from '../../../../../shared/components/bulk-action-bar/bulk-action-bar.component';
-import { LabelChipComponent } from '../../../../../shared/components/label-chip/label-chip.component';
-import { AgentsStore } from '../../../agents/state/agents.store';
-import { Label, LabelColor } from '../../data/labels-data';
-import { LabelsStore } from '../../state/labels.store';
-import { DeleteLabelsDialogComponent } from '../../components/delete-labels-dialog/delete-labels-dialog.component';
+import { ClickOutsideDirective } from '@core/directives';
+import { BreadcrumbService, XlsxExportService } from '@core/services';
+import { BulkActionBarComponent, LabelChipComponent } from '@shared/components';
+import { AgentsStore } from '@features/admin/agents/state/agents.store';
+import { Label, LabelColor } from '../data/labels-data';
+import { LabelsStore } from '../state/labels.store';
+import { DeleteLabelsDialogComponent } from '../components/delete-labels-dialog/delete-labels-dialog.component';
 import {
   LabelFormPanelComponent,
   LabelFormSubmission,
-} from '../../components/label-form-panel/label-form-panel.component';
+} from '../components/label-form-panel/label-form-panel.component';
 
 interface ContextMenuPos {
   readonly x: number;

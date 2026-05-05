@@ -14,7 +14,7 @@ import { LucideAngularModule, AlertTriangle, Check, Copy, X } from 'lucide-angul
 import { MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 
-import { ClipboardService } from '../../../core/services/clipboard.service';
+import { ClipboardService } from '@core/services/clipboard.service';
 
 export interface DeletableEntity {
   readonly id: number;

@@ -121,6 +121,6 @@ need them).
 - [`roadmap.md`](./roadmap.md) — feature-by-feature progress.
 - [`src/app/core/tokens/README.md`](./src/app/core/tokens/README.md) — how to
   add or change a design token.
-- [`_prototype-reference/`](./_prototype-reference/) — frozen React + Vite +
+- [`docs/prototype-reference/`](./docs/prototype-reference/) — frozen React + Vite +
   Tailwind + shadcn/ui prototype that the Angular project is migrated from.
   Read-only reference; do not import from it.

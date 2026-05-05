@@ -1,7 +1,7 @@
 # AED — Supervisor Module
 
 > Angular 18 + PrimeNG 18 implementation of the SmartContact Supervisor module.
-> Migrated from the React + Vite prototype archived at [`_prototype-reference/`](./_prototype-reference/).
+> Migrated from the React + Vite prototype archived at [`docs/prototype-reference/`](./docs/prototype-reference/).
 
 ---
 
@@ -14,7 +14,7 @@
 | See what's done and what's pending | [`roadmap.md`](./roadmap.md) |
 | Read the original migration analysis | [`docs/phase-0-analysis.md`](./docs/phase-0-analysis.md) |
 | Add or change a design token | [`src/app/core/tokens/README.md`](./src/app/core/tokens/README.md) |
-| Inspect the source prototype | [`_prototype-reference/`](./_prototype-reference/) |
+| Inspect the source prototype | [`docs/prototype-reference/`](./docs/prototype-reference/) |
 
 The full technical README — architecture chapter, component inventory,
 theming guide, contribution rules — lands in Phase 4. See `roadmap.md` for

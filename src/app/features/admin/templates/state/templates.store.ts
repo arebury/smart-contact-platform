@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { createLocalStore, LocalStore } from '../../../../core/services/local-store.factory';
+import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { Template, TEMPLATES_SEED } from '../data/templates-data';
 
 export type TemplateInput = Omit<Template, 'id' | 'createdAt' | 'updatedAt'>;

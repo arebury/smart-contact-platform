@@ -21,11 +21,11 @@ import {
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { ClickOutsideDirective } from '../../../../core/directives/click-outside.directive';
-import { BreadcrumbService } from '../../../../core/services/breadcrumb.service';
-import { XlsxExportService } from '../../../../core/services/xlsx-export.service';
-import { BulkActionBarComponent } from '../../../../shared/components/bulk-action-bar/bulk-action-bar.component';
-import { DeleteEntityDialogComponent } from '../../../../shared/components/delete-entity-dialog/delete-entity-dialog.component';
+import { ClickOutsideDirective } from '@core/directives/click-outside.directive';
+import { BreadcrumbService } from '@core/services/breadcrumb.service';
+import { XlsxExportService } from '@core/services/xlsx-export.service';
+import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
+import { DeleteEntityDialogComponent } from '@shared/components/delete-entity-dialog/delete-entity-dialog.component';
 import { RepoFormPanelComponent, RepoFormSubmission } from './repo-form-panel.component';
 import { RepoEntity, RepoPageConfig, RepoStore } from './repo-types';
 

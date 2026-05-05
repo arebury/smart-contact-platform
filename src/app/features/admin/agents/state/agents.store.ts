@@ -1,6 +1,6 @@
 import { computed, Injectable } from '@angular/core';
 
-import { createLocalStore, LocalStore } from '../../../../core/services/local-store.factory';
+import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { Agent, AGENTS_SEED } from '../data/agents-data';
 
 /**
