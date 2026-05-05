@@ -443,6 +443,86 @@
       "sheet": "Usuarios"
     }
   },
+  "groups": {
+    "page_title": "Grupos",
+    "create_button": "Nuevo grupo",
+    "search_placeholder": "Buscar grupo por nombre, código, teléfono o estrategia...",
+    "no_results": "No se encontraron grupos",
+    "entity_singular": "grupo",
+    "table": {
+      "code": "Código",
+      "name": "Nombre",
+      "phone": "Teléfono",
+      "channels": "Canales",
+      "priority": "Prioridad",
+      "strategy": "Estrategia",
+      "agents": "Agentes"
+    },
+    "priority": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "max": "Máxima"
+    },
+    "channel": {
+      "phone": "Teléfono",
+      "chat": "Chat",
+      "email": "Email"
+    },
+    "form": {
+      "create_title": "Nuevo grupo",
+      "create_breadcrumb": "Nuevo grupo",
+      "edit_breadcrumb": "Editar grupo",
+      "section": {
+        "identity": "Identidad",
+        "identity_hint": "Datos básicos y prioridad del grupo",
+        "channels": "Canales",
+        "channels_hint": "Tipos de contacto que el grupo atiende",
+        "strategy": "Estrategia",
+        "strategy_hint": "Cómo se distribuyen las llamadas y chats entre los agentes",
+        "agents": "Agentes asignados",
+        "agents_hint": "Arrastra para reordenar la prioridad de atención"
+      },
+      "fields": {
+        "name": "Nombre",
+        "phone": "Teléfono principal",
+        "priority": "Prioridad",
+        "typification": "Tipificación obligatoria",
+        "typification_hint": "El agente debe categorizar la conversación antes de cerrarla",
+        "phone_strategy": "Estrategia (teléfono)",
+        "chat_strategy": "Estrategia (chat)",
+        "capacity": "Capacidad simultánea",
+        "capacity_hint": "Llamadas que cada agente puede atender en paralelo"
+      },
+      "assigned_count": "Asignados ({{count}})",
+      "available_agents": "Disponibles",
+      "no_agents_assigned": "Aún no hay agentes asignados",
+      "all_assigned": "Todos los agentes están asignados",
+      "add_agent": "Añadir agente",
+      "remove_agent": "Quitar agente"
+    },
+    "errors": {
+      "name_required": "El nombre es obligatorio",
+      "channels_required": "Selecciona al menos un canal"
+    },
+    "toasts": {
+      "created": "Grupo \"{{name}}\" creado",
+      "updated": "Grupo \"{{name}}\" actualizado",
+      "deleted_single": "Grupo \"{{name}}\" eliminado",
+      "deleted_bulk": "{{count}} grupos eliminados",
+      "duplicated": "Grupo \"{{name}}\" duplicado como borrador"
+    },
+    "export": {
+      "code": "Código",
+      "name": "Nombre",
+      "phone": "Teléfono",
+      "priority": "Prioridad",
+      "strategy": "Estrategia",
+      "channels": "Canales",
+      "agent_count": "Nº agentes",
+      "sheet": "Grupos"
+    }
+  },
   "config": {
     "aed": {
       "title": "AED",

@@ -1,0 +1,251 @@
+<aed-sticky-form-header
+  [mode]="mode()"
+  [entityKey]="
+    mode() === 'create' ? 'groups.form.create_title' : 'groups.entity_singular'
+  "
+  [name]="form().name || (mode() === 'create' ? ('groups.form.create_title' | translate) : '')"
+  [canSave]="canSave()"
+  [saving]="saving()"
+  [canDelete]="mode() === 'edit'"
+  (nameChange)="onNameRename($event)"
+  (save)="save()"
+  (cancel)="cancel()"
+  (delete)="requestDelete()"
+/>
+
+<div class="page">
+  <div class="page__inner">
+    <aed-section-card
+      titleKey="groups.form.section.identity"
+      hintKey="groups.form.section.identity_hint"
+    >
+      <div class="grid grid--2">
+        <div class="field">
+          <label class="field__label" for="group-name">
+            {{ 'groups.form.fields.name' | translate }}
+            <span class="field__required" aria-hidden="true">*</span>
+          </label>
+          <input
+            id="group-name"
+            type="text"
+            class="field__input"
+            [class.field__input--error]="!!errors()['name']"
+            [value]="form().name"
+            (input)="onTextInput('name', $event)"
+          />
+          @if (errors()['name']; as err) {
+            <span class="field__error">{{ err | translate }}</span>
+          }
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="group-phone">
+            {{ 'groups.form.fields.phone' | translate }}
+          </label>
+          <input
+            id="group-phone"
+            type="text"
+            class="field__input"
+            [value]="form().phone"
+            (input)="onTextInput('phone', $event)"
+          />
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="group-priority">
+            {{ 'groups.form.fields.priority' | translate }}
+          </label>
+          <select
+            id="group-priority"
+            class="field__input"
+            [value]="form().priority"
+            (change)="onPriorityChange($event)"
+          >
+            @for (p of priorities; track p) {
+              <option [value]="p">{{ priorityKeys[p] | translate }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="field field--inline">
+          <label class="toggle">
+            <input
+              type="checkbox"
+              [checked]="form().typification"
+              (change)="onTypificationToggle($event)"
+            />
+            <span class="toggle__track"><span class="toggle__thumb"></span></span>
+          </label>
+          <div>
+            <span class="field__label-inline">
+              {{ 'groups.form.fields.typification' | translate }}
+            </span>
+            <span class="field__help">
+              {{ 'groups.form.fields.typification_hint' | translate }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </aed-section-card>
+
+    <aed-section-card
+      titleKey="groups.form.section.channels"
+      hintKey="groups.form.section.channels_hint"
+    >
+      <div class="channel-grid">
+        @for (channel of channels; track channel) {
+          <label class="checkbox-row">
+            <input
+              type="checkbox"
+              [checked]="hasChannel(channel)"
+              (change)="toggleChannel(channel)"
+            />
+            <span>{{ channelKeys[channel] | translate }}</span>
+          </label>
+        }
+      </div>
+      @if (errors()['channels']; as err) {
+        <span class="field__error">{{ err | translate }}</span>
+      }
+    </aed-section-card>
+
+    <aed-section-card
+      titleKey="groups.form.section.strategy"
+      hintKey="groups.form.section.strategy_hint"
+    >
+      <div class="grid grid--2">
+        <div class="field">
+          <label class="field__label" for="group-strategy">
+            {{ 'groups.form.fields.phone_strategy' | translate }}
+          </label>
+          <select
+            id="group-strategy"
+            class="field__input"
+            [value]="form().strategy"
+            (change)="onStrategyChange($event)"
+          >
+            @for (s of phoneStrategies; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+
+        @if (hasChat()) {
+          <div class="field">
+            <label class="field__label" for="group-chat-strategy">
+              {{ 'groups.form.fields.chat_strategy' | translate }}
+            </label>
+            <select
+              id="group-chat-strategy"
+              class="field__input"
+              [value]="form().chatStrategy"
+              (change)="onChatStrategyChange($event)"
+            >
+              @for (s of chatStrategies; track s) {
+                <option [value]="s">{{ s }}</option>
+              }
+            </select>
+          </div>
+        }
+
+        @if (hasFixedCapacity()) {
+          <div class="field">
+            <label class="field__label" for="group-capacity">
+              {{ 'groups.form.fields.capacity' | translate }}
+              <span class="field__hint">({{ 'common.optional' | translate }})</span>
+            </label>
+            <input
+              id="group-capacity"
+              type="number"
+              min="0"
+              class="field__input"
+              [value]="form().capacityValue"
+              (input)="onTextInput('capacityValue', $event)"
+            />
+            <span class="field__help">{{ 'groups.form.fields.capacity_hint' | translate }}</span>
+          </div>
+        }
+      </div>
+    </aed-section-card>
+
+    <aed-section-card
+      titleKey="groups.form.section.agents"
+      hintKey="groups.form.section.agents_hint"
+    >
+      <div class="agents">
+        <div class="agents__assigned">
+          <h3 class="agents__sub">
+            {{
+              'groups.form.assigned_count'
+                | translate: { count: form().assignedAgents.length }
+            }}
+          </h3>
+
+          @if (form().assignedAgents.length === 0) {
+            <div class="agents__empty">{{ 'groups.form.no_agents_assigned' | translate }}</div>
+          } @else {
+            <ul
+              cdkDropList
+              class="agents__list"
+              (cdkDropListDropped)="onAgentDrop($event)"
+            >
+              @for (agent of form().assignedAgents; track agent; let i = $index) {
+                <li class="agents__row" cdkDrag>
+                  <span class="agents__order">{{ i + 1 }}</span>
+                  <span class="agents__handle" cdkDragHandle aria-label="Reorder">
+                    <lucide-icon [img]="gripIcon" [size]="14" />
+                  </span>
+                  <span class="agents__name">{{ agent }}</span>
+                  <button
+                    type="button"
+                    class="agents__remove"
+                    (click)="removeAgent(agent)"
+                    [attr.aria-label]="'groups.form.remove_agent' | translate"
+                  >
+                    <lucide-icon [img]="closeIcon" [size]="13" />
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+
+        <div class="agents__roster">
+          <h3 class="agents__sub">
+            {{ 'groups.form.available_agents' | translate }}
+          </h3>
+          @if (availableAgents().length === 0) {
+            <div class="agents__empty">{{ 'groups.form.all_assigned' | translate }}</div>
+          } @else {
+            <ul class="agents__list agents__list--roster">
+              @for (agent of availableAgents(); track agent) {
+                <li class="agents__roster-row">
+                  <span class="agents__name">{{ agent }}</span>
+                  <button
+                    type="button"
+                    class="agents__add"
+                    (click)="addAgent(agent)"
+                    [attr.aria-label]="'groups.form.add_agent' | translate"
+                  >
+                    <lucide-icon [img]="plusIcon" [size]="13" />
+                    <span>{{ 'common.create' | translate }}</span>
+                  </button>
+                </li>
+              }
+            </ul>
+          }
+        </div>
+      </div>
+    </aed-section-card>
+  </div>
+</div>
+
+<aed-delete-entity-dialog
+  [visible]="deleteVisible()"
+  mode="single"
+  [items]="deleteItems()"
+  [entitySingular]="'grupo'"
+  [entityPlural]="'grupos'"
+  (cancel)="cancelDelete()"
+  (confirm)="confirmDelete()"
+/>

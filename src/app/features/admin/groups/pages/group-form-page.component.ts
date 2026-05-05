@@ -1,0 +1,320 @@
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDropList,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import {
+  GripVertical,
+  LucideAngularModule,
+  Plus,
+  Trash2,
+  X,
+} from 'lucide-angular';
+import { MessageService } from 'primeng/api';
+
+import { BreadcrumbService } from '@core/services';
+import {
+  DeleteEntityDialogComponent,
+  SectionCardComponent,
+  StickyFormHeaderComponent,
+} from '@shared/components';
+import {
+  CHANNEL_LABEL_KEYS,
+  CHAT_STRATEGIES,
+  GROUP_CHANNELS,
+  GROUP_PRIORITIES,
+  Group,
+  GroupChannel,
+  GroupPriority,
+  PHONE_STRATEGIES,
+  PRIORITY_LABEL_KEYS,
+  ROSTER_AGENTS,
+} from '../data/groups-data';
+import { GroupsStore } from '../state/groups.store';
+
+interface FormState {
+  name: string;
+  phone: string;
+  priority: GroupPriority;
+  typification: boolean;
+  channels: ReadonlySet<GroupChannel>;
+  strategy: string;
+  chatStrategy: string;
+  capacityValue: string;
+  assignedAgents: string[];
+}
+
+@Component({
+  selector: 'aed-group-form-page',
+  standalone: true,
+  imports: [
+    CdkDrag,
+    CdkDropList,
+    DeleteEntityDialogComponent,
+    LucideAngularModule,
+    SectionCardComponent,
+    StickyFormHeaderComponent,
+    TranslateModule,
+  ],
+  templateUrl: './group-form-page.component.html',
+  styleUrl: './group-form-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class GroupFormPageComponent implements OnInit, OnDestroy {
+  private readonly breadcrumbs = inject(BreadcrumbService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly groupsStore = inject(GroupsStore);
+  private readonly messages = inject(MessageService);
+  private readonly translate = inject(TranslateService);
+
+  protected readonly priorities = GROUP_PRIORITIES;
+  protected readonly priorityKeys = PRIORITY_LABEL_KEYS;
+  protected readonly channels = GROUP_CHANNELS;
+  protected readonly channelKeys = CHANNEL_LABEL_KEYS;
+  protected readonly phoneStrategies = PHONE_STRATEGIES;
+  protected readonly chatStrategies = CHAT_STRATEGIES;
+  protected readonly rosterAgents = ROSTER_AGENTS;
+
+  protected readonly plusIcon = Plus;
+  protected readonly closeIcon = X;
+  protected readonly trashIcon = Trash2;
+  protected readonly gripIcon = GripVertical;
+
+  protected readonly editingId = signal<number | null>(null);
+  protected readonly initial = signal<Group | null>(null);
+  protected readonly form = signal<FormState>(this.emptyForm());
+  protected readonly errors = signal<Readonly<Record<string, string>>>({});
+  protected readonly saving = signal(false);
+  protected readonly deleteVisible = signal(false);
+
+  protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
+
+  protected readonly canSave = computed(() => {
+    const f = this.form();
+    return f.name.trim().length > 0 && f.channels.size > 0;
+  });
+
+  protected readonly availableAgents = computed(() => {
+    const used = new Set(this.form().assignedAgents);
+    return this.rosterAgents.filter((agent) => !used.has(agent));
+  });
+
+  protected readonly hasChat = computed(() => this.form().channels.has('chat'));
+  protected readonly hasFixedCapacity = computed(() => this.form().channels.has('phone'));
+
+  protected readonly deleteItems = computed(() => {
+    const g = this.initial();
+    return g ? [{ id: g.id, name: g.name }] : [];
+  });
+
+  ngOnInit(): void {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      const group = this.groupsStore.getGroup(Number(idParam));
+      if (!group) {
+        void this.router.navigateByUrl('/admin/grupos', { replaceUrl: true });
+        return;
+      }
+      this.editingId.set(group.id);
+      this.initial.set(group);
+      this.form.set({
+        name: group.name,
+        phone: group.phone,
+        priority: group.priority,
+        typification: group.typification,
+        channels: new Set(group.channels),
+        strategy: group.strategy,
+        chatStrategy: group.chatStrategy ?? CHAT_STRATEGIES[0]!,
+        capacityValue: group.capacityValue ?? '',
+        assignedAgents: [...group.assignedAgents],
+      });
+    }
+
+    this.breadcrumbs.set([
+      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
+      { label: this.translate.instant('sidebar.groups'), path: '/admin/grupos' },
+      {
+        label: this.translate.instant(
+          this.editingId() ? 'groups.form.edit_breadcrumb' : 'groups.form.create_breadcrumb',
+        ),
+      },
+    ]);
+  }
+
+  ngOnDestroy(): void {
+    this.breadcrumbs.clear();
+  }
+
+  protected updateField<K extends keyof FormState>(key: K, value: FormState[K]): void {
+    this.form.update((f) => ({ ...f, [key]: value }));
+  }
+
+  protected onTextInput<K extends 'name' | 'phone' | 'capacityValue'>(
+    key: K,
+    event: Event,
+  ): void {
+    this.updateField(key, (event.target as HTMLInputElement).value);
+  }
+
+  protected onPriorityChange(event: Event): void {
+    this.updateField('priority', (event.target as HTMLSelectElement).value as GroupPriority);
+  }
+
+  protected onStrategyChange(event: Event): void {
+    this.updateField('strategy', (event.target as HTMLSelectElement).value);
+  }
+
+  protected onChatStrategyChange(event: Event): void {
+    this.updateField('chatStrategy', (event.target as HTMLSelectElement).value);
+  }
+
+  protected onTypificationToggle(event: Event): void {
+    this.updateField('typification', (event.target as HTMLInputElement).checked);
+  }
+
+  protected toggleChannel(channel: GroupChannel): void {
+    this.form.update((f) => {
+      const next = new Set(f.channels);
+      if (next.has(channel)) next.delete(channel);
+      else next.add(channel);
+      return { ...f, channels: next };
+    });
+  }
+
+  protected hasChannel(channel: GroupChannel): boolean {
+    return this.form().channels.has(channel);
+  }
+
+  protected addAgent(name: string): void {
+    this.form.update((f) =>
+      f.assignedAgents.includes(name)
+        ? f
+        : { ...f, assignedAgents: [...f.assignedAgents, name] },
+    );
+  }
+
+  protected removeAgent(name: string): void {
+    this.form.update((f) => ({
+      ...f,
+      assignedAgents: f.assignedAgents.filter((a) => a !== name),
+    }));
+  }
+
+  protected onAgentDrop(event: CdkDragDrop<readonly string[]>): void {
+    if (event.previousIndex === event.currentIndex) return;
+    this.form.update((f) => {
+      const next = [...f.assignedAgents];
+      moveItemInArray(next, event.previousIndex, event.currentIndex);
+      return { ...f, assignedAgents: next };
+    });
+  }
+
+  protected onNameRename(name: string): void {
+    this.updateField('name', name);
+  }
+
+  protected save(): void {
+    if (!this.canSave() || this.saving()) return;
+    if (!this.validate()) return;
+
+    this.saving.set(true);
+    setTimeout(() => {
+      const f = this.form();
+      const payload = {
+        name: f.name.trim(),
+        phone: f.phone.trim(),
+        priority: f.priority,
+        typification: f.typification,
+        channels: Array.from(f.channels),
+        strategy: f.strategy,
+        chatStrategy: f.channels.has('chat') ? f.chatStrategy : undefined,
+        capacityValue: f.channels.has('phone') ? f.capacityValue.trim() || undefined : undefined,
+        capacityType: f.channels.has('phone') && f.capacityValue.trim() ? ('fixed' as const) : undefined,
+        assignedAgents: f.assignedAgents,
+      };
+
+      const editingId = this.editingId();
+      if (editingId) {
+        this.groupsStore.updateGroup(editingId, { ...payload, isDraft: undefined });
+        this.messages.add({
+          severity: 'success',
+          summary: this.translate.instant('groups.toasts.updated', { name: payload.name }),
+          life: 3000,
+        });
+      } else {
+        const created = this.groupsStore.addGroup(payload);
+        this.messages.add({
+          severity: 'success',
+          summary: this.translate.instant('groups.toasts.created', { name: created.name }),
+          life: 3000,
+        });
+      }
+      this.saving.set(false);
+      void this.router.navigateByUrl('/admin/grupos');
+    }, 400);
+  }
+
+  protected cancel(): void {
+    void this.router.navigateByUrl('/admin/grupos');
+  }
+
+  protected requestDelete(): void {
+    if (this.editingId()) this.deleteVisible.set(true);
+  }
+
+  protected cancelDelete(): void {
+    this.deleteVisible.set(false);
+  }
+
+  protected confirmDelete(): void {
+    const id = this.editingId();
+    if (!id) return;
+    const group = this.initial();
+    this.groupsStore.deleteGroup(id);
+    this.deleteVisible.set(false);
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('groups.toasts.deleted_single', {
+        name: group?.name ?? '',
+      }),
+      life: 3000,
+    });
+    void this.router.navigateByUrl('/admin/grupos');
+  }
+
+  private emptyForm(): FormState {
+    return {
+      name: '',
+      phone: '',
+      priority: 'Baja',
+      typification: false,
+      channels: new Set<GroupChannel>(['phone']),
+      strategy: PHONE_STRATEGIES[0]!,
+      chatStrategy: CHAT_STRATEGIES[0]!,
+      capacityValue: '',
+      assignedAgents: [],
+    };
+  }
+
+  private validate(): boolean {
+    const f = this.form();
+    const next: Record<string, string> = {};
+    if (!f.name.trim()) next['name'] = 'groups.errors.name_required';
+    if (f.channels.size === 0) next['channels'] = 'groups.errors.channels_required';
+    this.errors.set(next);
+    return Object.keys(next).length === 0;
+  }
+}
