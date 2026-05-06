@@ -1,15 +1,32 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
-const ILLUSTRATED_COUNT = 24;
+export type IllustratedAvatarPool = 'illustrated' | 'abstract';
 
 /**
- * Circular avatar that renders one of 24 illustrated portraits hashed
- * deterministically from the entity name (so the same person always
- * gets the same avatar across pages and reloads). When `photo` is set
- * the photo wins; the illustration is the fallback for photo-less
- * entities, replacing the older initials-on-color treatment from
- * `EntityAvatarComponent` for cases where personality matters more
- * than density (cards, detail pages, hover targets).
+ * Two pools live under `src/assets/avatars/`:
+ *
+ *   - `illustrated/` — 24 person portraits. Default. Used for
+ *     entities with a person identity (agents, users, the topbar
+ *     supervisor avatar).
+ *   - `abstract/`    — 3 non-personal abstract patterns. Used for
+ *     entities that are *not* people (groups, queues, anything
+ *     functional) — assigning a face to "Ventas Nacional" reads
+ *     accidental.
+ *
+ * Each pool has files named `avatar-NN.svg` (illustrated) /
+ * `abstract-NN.svg` (abstract). The active pool is picked via the
+ * `[pool]` input.
+ */
+const POOLS = {
+  illustrated: { count: 24, dir: 'illustrated', prefix: 'avatar' },
+  abstract: { count: 3, dir: 'abstract', prefix: 'abstract' },
+} as const satisfies Record<IllustratedAvatarPool, { count: number; dir: string; prefix: string }>;
+
+/**
+ * Circular avatar that renders one of N illustrations hashed
+ * deterministically from the entity name (so the same name always
+ * gets the same avatar across pages and reloads). When `photo` is
+ * set the photo wins; the illustration is the fallback.
  *
  * The hover zoom replicates the Figma source pair without needing
  * two SVGs: the SVG is wrapped in a clipped circle and scaled with
@@ -33,10 +50,15 @@ export class IllustratedAvatarComponent {
   readonly photo = input<string | null | undefined>(null);
   /** Pixel size of the rendered circle. Defaults to 40px. */
   readonly size = input<number>(40);
+  /** Which pool to hash into. `'illustrated'` = 24 person portraits
+   *  (default). `'abstract'` = 3 non-personal patterns for groups
+   *  and other functional entities. */
+  readonly pool = input<IllustratedAvatarPool>('illustrated');
 
   protected readonly illustrationSrc = computed(() => {
-    const idx = hashName(this.name(), ILLUSTRATED_COUNT);
-    return `/assets/avatars/illustrated/avatar-${String(idx).padStart(2, '0')}.svg`;
+    const cfg = POOLS[this.pool()];
+    const idx = hashName(this.name(), cfg.count);
+    return `/assets/avatars/${cfg.dir}/${cfg.prefix}-${String(idx).padStart(2, '0')}.svg`;
   });
 
   protected readonly photoSrc = computed(() => this.photo() ?? null);
