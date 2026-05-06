@@ -60,32 +60,36 @@
         #avatarBtn
         type="button"
         class="top-bar__avatar"
+        [class.top-bar__avatar--open]="userMenuOpen()"
         aria-haspopup="menu"
         [attr.aria-expanded]="userMenuOpen()"
+        [attr.aria-label]="userName"
         (click)="toggleUserMenu()"
       >
-        <lucide-icon [img]="userIcon" [size]="15" />
+        <aed-illustrated-avatar [name]="userName" [size]="32" />
+        <span class="top-bar__avatar-presence" aria-hidden="true"></span>
       </button>
 
       @if (userMenuOpen()) {
         <div class="top-bar__menu" role="menu">
-          <div class="top-bar__menu-header">
-            <div class="top-bar__menu-name">Mario Supervisor</div>
-            <div class="top-bar__menu-role">
-              <span class="top-bar__role-badge">{{ 'topbar.user.role_admin' | translate }}</span>
-            </div>
-            <div class="top-bar__menu-phone">
-              <lucide-icon [img]="phoneIcon" [size]="12" />
-              <span>+34 917 945 449</span>
+          <div class="top-bar__menu-identity">
+            <aed-illustrated-avatar [name]="userName" [size]="44" />
+            <div class="top-bar__menu-meta">
+              <span class="top-bar__menu-name">{{ userName }}</span>
+              <span class="top-bar__menu-role">
+                {{ 'topbar.user.role_admin' | translate }}
+                <span class="top-bar__menu-sep" aria-hidden="true">·</span>
+                {{ userPhone }}
+              </span>
             </div>
           </div>
           <div class="top-bar__menu-actions">
             <button type="button" class="top-bar__menu-item" role="menuitem">
-              <lucide-icon [img]="helpIcon" [size]="15" />
+              <lucide-icon [img]="helpIcon" [size]="14" />
               <span>{{ 'topbar.user.help' | translate }}</span>
             </button>
             <button type="button" class="top-bar__menu-item" role="menuitem">
-              <lucide-icon [img]="logoutIcon" [size]="15" />
+              <lucide-icon [img]="logoutIcon" [size]="14" />
               <span>{{ 'topbar.user.logout' | translate }}</span>
             </button>
           </div>

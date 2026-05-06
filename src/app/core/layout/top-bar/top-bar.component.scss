@@ -143,21 +143,29 @@
     position: relative;
   }
 
+  /* The trigger drops the chip-bg / icon treatment. The illustrated
+   * avatar is the trigger now; we wrap it in a button that fades a
+   * 2px ring in on hover/open. The ring is `box-shadow` (no layout
+   * cost) and tinted toward the brand cyan so the affordance reads
+   * as branded, not as a default focus halo. */
   &__avatar {
     width: 32px;
     height: 32px;
-    background: var(--sc-color-gray-100);
-    color: var(--sc-text-secondary);
-    border: 1px solid var(--sc-border-default);
+    padding: 0;
+    background: transparent;
+    border: 0;
     border-radius: var(--sc-radius-full);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background var(--sc-transition-fast) var(--sc-easing-default);
+    position: relative;
+    box-shadow: 0 0 0 0 transparent;
+    transition: box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1);
 
-    &:hover {
-      background: var(--sc-color-gray-200);
+    &:hover,
+    &--open {
+      box-shadow: 0 0 0 2px var(--sc-color-soft-blue-300);
     }
 
     &:focus-visible {
@@ -166,55 +174,82 @@
     }
   }
 
+  /* Presence dot — 9px green pill with a 2px surface-coloured halo so
+   * it reads as a sticker on the avatar rather than a stray dot. The
+   * halo lifts cleanly in dark mode because it picks up the surface
+   * variable. */
+  &__avatar-presence {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 9px;
+    height: 9px;
+    background: var(--sc-label-green-dot);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px var(--sc-bg-surface);
+    pointer-events: none;
+  }
+
   &__menu {
     position: absolute;
     right: 0;
-    top: calc(100% + var(--sc-spacing-100));
-    width: 240px;
+    top: calc(100% + var(--sc-spacing-150));
+    width: 264px;
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-300);
     box-shadow: var(--sc-shadow-popover);
     z-index: var(--sc-z-popover);
-    padding: var(--sc-spacing-50) 0;
+    padding: var(--sc-spacing-150);
+    /* Spring-feeling enter via cubic-bezier — no library, no JS. */
+    animation: top-bar__menu-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: top right;
   }
 
-  &__menu-header {
-    padding: var(--sc-spacing-200) var(--sc-spacing-400);
-    border-bottom: 1px solid var(--sc-border-subtle);
+  &__menu-identity {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+    padding: var(--sc-spacing-150);
+    border-radius: var(--sc-radius-200);
+    background: var(--sc-bg-default);
+  }
+
+  &__menu-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
   }
 
   &__menu-name {
     font-size: var(--sc-font-size-200);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__menu-role {
-    margin-top: var(--sc-spacing-100);
-  }
-
-  &__role-badge {
-    display: inline-block;
-    padding: 2px var(--sc-spacing-100);
     font-size: var(--sc-font-size-50);
-    font-weight: var(--sc-font-weight-medium);
-    color: var(--sc-text-secondary);
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-100);
+    color: var(--sc-text-subtle);
+    line-height: 1.4;
   }
 
-  &__menu-phone {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sc-spacing-100);
-    margin-top: var(--sc-spacing-100);
-    font-size: var(--sc-font-size-100);
-    color: var(--sc-text-subtle);
+  &__menu-sep {
+    margin: 0 var(--sc-spacing-50);
+    color: var(--sc-color-gray-300);
   }
 
   &__menu-actions {
-    padding: var(--sc-spacing-50) 0;
+    padding-top: var(--sc-spacing-150);
+    margin-top: var(--sc-spacing-150);
+    border-top: 1px solid var(--sc-border-subtle);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
   }
 
   &__menu-item {
@@ -222,25 +257,47 @@
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-100) var(--sc-spacing-400);
+    padding: var(--sc-spacing-150) var(--sc-spacing-200);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     background: transparent;
     border: 0;
+    border-radius: var(--sc-radius-100);
     cursor: pointer;
     text-align: left;
+    transition: background var(--sc-transition-fast) var(--sc-easing-default);
 
     & > lucide-icon {
       color: var(--sc-icon-subtle);
     }
 
     &:hover {
-      background: var(--sc-color-gray-100);
+      background: var(--sc-bg-default);
     }
 
     &:focus-visible {
       outline: 2px solid var(--sc-color-soft-blue-500);
       outline-offset: -2px;
     }
+  }
+}
+
+@keyframes top-bar__menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .top-bar__menu {
+    animation: none;
+  }
+  .top-bar__avatar {
+    transition: none;
   }
 }

@@ -15,18 +15,26 @@ import { ClickOutsideDirective } from '../../directives/click-outside.directive'
 import { NAV_ICONS } from '../../icons/nav-icons';
 import { BreadcrumbService } from '../../services/breadcrumb.service';
 import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
+import { IllustratedAvatarComponent } from '../../../shared/components/illustrated-avatar/illustrated-avatar.component';
 
 /**
  * TopBar — breadcrumb trail on the left, avatar with user menu on the right.
  *
- * Reads the breadcrumb trail from `BreadcrumbService` (pages push their own
- * trail in `ngOnInit`). The user menu is a self-contained popover dismissed
- * by `ClickOutsideDirective`.
+ * The avatar is the {@link IllustratedAvatarComponent}: hashed from the
+ * supervisor's name so the chrome shares a visual language with the
+ * agents list (where the same component renders each agent's portrait).
+ * The menu popover is anchored to the avatar and dismissed by
+ * {@link ClickOutsideDirective}; Esc returns focus to the trigger.
  */
 @Component({
   selector: 'aed-top-bar',
   standalone: true,
-  imports: [ClickOutsideDirective, LucideAngularModule, TranslateModule],
+  imports: [
+    ClickOutsideDirective,
+    IllustratedAvatarComponent,
+    LucideAngularModule,
+    TranslateModule,
+  ],
   templateUrl: './top-bar.component.html',
   styleUrl: './top-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,11 +46,14 @@ export class TopBarComponent {
 
   protected readonly trail = this.breadcrumbs.trail;
 
+  /* Hard-coded today; eventually flows from a Supervisor / session service. */
+  protected readonly userName = 'Mario Supervisor';
+  protected readonly userPhone = '+34 917 945 449';
+
   protected readonly userMenuOpen = signal(false);
   protected readonly lastIndex = computed(() => this.trail().length - 1);
   private readonly avatarBtn = viewChild<ElementRef<HTMLButtonElement>>('avatarBtn');
 
-  protected readonly userIcon = NAV_ICONS['user'];
   protected readonly phoneIcon = NAV_ICONS['phone'];
   protected readonly helpIcon = NAV_ICONS['help-circle'];
   protected readonly logoutIcon = NAV_ICONS['log-out'];
