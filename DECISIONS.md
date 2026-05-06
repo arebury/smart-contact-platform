@@ -210,6 +210,198 @@ is safer and matches the destructive-action pattern.
 
 ---
 
+## 11 — `cancel` is a forbidden output name (2026-05-06)
+
+**Decision.** Components must not name an `@Output` / `output()` `cancel`.
+Rename pattern is past-tense: `cancel` → `cancelled`, `delete` stays fine,
+`nameChange` stays fine. Applied across 8 components and the 23 template
+bindings + 11 self-emit `(click)="cancel.emit()"` references.
+
+**Why.** `cancel` is a real DOM event (fires on `<input type="file">`
+when the user closes the file picker). The Angular template compiler
+binds outputs by name, so a component output called `cancel` shadows
+the native event listener and `@angular-eslint/no-output-native`
+correctly rejects it. Past-tense reads better as "this is what just
+happened" — Angular convention for output names.
+
+**Discarded.** Disabling the lint rule globally — losing a real safety
+net. Prefixing every output (`onCancel`) — breaks the event-binding
+ergonomics of `(cancelled)="…"` and clashes with the React-style `onX`
+prop convention which is not how Angular outputs are written.
+
+---
+
+## 12 — Form-dirty contract is a `Signal<boolean>`, not a method (2026-05-06)
+
+**Decision.** Components that opt into the form-dirty guard implement
+`DirtyAware { readonly formDirty: Signal<boolean> }`. The
+`formDirtyGuard` (`CanDeactivateFn`) reads `component.formDirty()`; if
+true, it shows the discard dialog and resolves on the user's choice.
+The form page is responsible for setting `formDirty.set(true)` in each
+mutator and `formDirty.set(false)` after save/delete.
+
+**Why.** Signals are how the rest of the codebase models reactive
+state, so the guard composes cleanly with the form's existing
+`canSave`/`saving`/`form` signals. A method (`isDirty(): boolean`)
+would be a second style of "reactive read" sitting next to the
+signals — more surface, no real benefit. Manual marking (rather than
+`effect(() => this.form()).set(true)`) avoids a false-positive on the
+initial `form.set()` in `ngOnInit`.
+
+**Discarded.** A library-style "dirty form" decorator — too much
+ceremony for three forms. Angular's reactive forms `dirty` flag — we
+don't use reactive forms here; the forms are signal-driven for
+unification with the rest of the page state.
+
+---
+
+## 13 — DiscardDialog reuses PrimeNG `ConfirmationService` (2026-05-06)
+
+**Decision.** "¿Descartar cambios?" renders through PrimeNG's
+`<p-confirmDialog />` (already mounted in the app shell) via a thin
+`DiscardDialogService` that wraps `confirm({...})` into a
+`Promise<boolean>` API.
+
+**Why.** The shell already has `<p-toast />` + `<p-confirmDialog />`
+mounted globally. A custom modal would have re-implemented focus
+trap, ESC handling, accessibility, and animation — all of which
+PrimeNG already does. The wrapper exists only to convert the callback
+API into a promise the `CanDeactivate` guard can `await`.
+
+**Discarded.** A literal port of the prototype's hand-rolled
+`<DiscardDialog>` — duplicates infra we already have. A custom
+`<aed-discard-dialog>` over PrimeNG `Dialog` — same amount of code as
+the wrapper, with extra component-discovery cost for callers.
+
+---
+
+## 14 — Cross-tab lock returns an explicit release function (2026-05-06)
+
+**Decision.** `CrossTabLockService.acquire(entityType, entityId, onConflict)`
+returns a `() => void` release function. The form page calls it from
+`ngOnDestroy` (or holds it in a private field and clears on save/cancel).
+
+**Why.** `effect(onCleanup => …)` would also work, but the form
+already has a non-reactive `OnDestroy` for breadcrumbs. Threading the
+lock release through the same lifecycle path keeps the code linear
+and avoids a second teardown surface (effect cleanup runs in a
+separate phase from `ngOnDestroy`). It also makes the contract
+explicit at the callsite — `releaseLock?.()` reads as "release the
+lock now" rather than "magic auto-cleanup".
+
+**Discarded.** `effect` with `onCleanup` — works, hides the lifecycle.
+A `LockHandle` class with `.release()` — same shape, more surface.
+
+---
+
+## 15 — Form keyboard shortcuts inline via `@HostListener` (2026-05-06)
+
+**Decision.** Ctrl/Cmd+S and `beforeunload` are wired with
+`@HostListener` directly on each form page (`AgentFormPage`,
+`GroupFormPage`, `UserFormPage`). Roughly 18 lines per form, no
+shared abstraction.
+
+**Why.** Three forms × 6 lines of HostListener each = 18 lines. A
+shared `aedSaveShortcut` directive would be ~30 lines plus an import
+in each consumer plus an output binding for the save callback —
+strictly more surface for the same behavior. Each form's save logic
+already has the right gating (`canSave()`, `!saving()`); a directive
+would force us to expose those as inputs.
+
+**Discarded.** A `FormShortcutsDirective` that emits `(saveRequested)`
+— right answer if there were 6+ consumers; over-engineered for 3.
+A global keydown service — couples unrelated forms to a single
+listener and leaks on route changes if not cleaned up carefully.
+
+---
+
+## 16 — Validation messages render into a reserved slot (2026-05-06)
+
+**Decision.** Inline form validation errors render as
+`<span class="field__error" aria-live="polite">` that is **always**
+in the DOM. CSS gives the span `min-height: 1.25em`. The `@if`
+controls only the *text* inside the span, not the element itself.
+
+**Why.** The previous pattern (`@if (errors()['x']; as err) { <span>…</span> }`)
+adds the span to the DOM only when an error exists, which pushes
+every field below it down by ~20px on first validation — exactly the
+layout-shift defect we banned in DD#8. Reserving the slot keeps the
+form geometry stable, and `aria-live="polite"` lets screen readers
+announce the error as it appears.
+
+**Discarded.** `visibility: hidden` on the span — accomplishes the
+same height reservation but the empty span is still announced by
+some screen readers as an empty live region. A wrapper div with
+`min-height` and the span inside via `@if` — extra DOM node for no
+benefit.
+
+---
+
+## 17 — Undo stack is a non-reactive service (2026-05-06)
+
+**Decision.** `UndoStackService` holds a private mutable array of
+`UndoEntry`. It exposes `push`, `popLatest`, `runById`, `hasUndo` —
+no signals, no observables. The visible UI is the toast that each
+`push` fires via `MessageService`; the post-undo confirmation is
+another toast.
+
+**Why.** The stack itself is internal plumbing — no consumer needs
+to react to "stack changed". The user-visible artifact is the toast,
+which is already reactive through PrimeNG's `MessageService`. Adding
+signals around the array would only buy reactivity for a "history
+panel" UI that doesn't exist. The Ctrl+Z handler (in `AppComponent`)
+calls `popLatest()` synchronously and is happy with a non-reactive
+read.
+
+**Discarded.** `signal<UndoEntry[]>` + `computed` for `hasUndo` —
+correct if there were a future undo-history panel; YAGNI. Storing
+toast IDs in the entry to programmatically dismiss them on undo —
+PrimeNG's `MessageService.clear()` is per-key, not per-id, which
+would force every toast to carry a unique key just for this case.
+The original toast simply expires on its own 8-second life.
+
+---
+
+## 18 — Delete is excluded from undo, by design (2026-05-06)
+
+**Decision.** `UndoStackService.push` is wired into presence change,
+bulk update, and duplicate. It is **not** wired into single-item
+delete or bulk delete.
+
+**Why.** Direct port of the prototype's DD#2173 — destructive
+operations route through `DeleteEntityDialog` (text-typing
+confirmation in single mode, chip pruning in bulk mode), which is
+already a deliberate "are you really sure?" gate. Adding undo on top
+of a confirmation dialog dilutes both: the dialog stops being the
+final word, and the undo toast becomes a fallback users learn to
+rely on instead of reading the dialog.
+
+**Discarded.** Symmetric undo on every mutating action — feels
+consistent on paper, but the dialog is a stronger signal for
+deletion. "Soft delete + 8s undo, no dialog" — would change the
+trust model for destructive ops; out of scope here.
+
+---
+
+## 19 — CI runs on every pull_request, not only main/develop (2026-05-06)
+
+**Decision.** `.github/workflows/ci.yml` declares `pull_request:` with
+no `branches:` filter (push still gates on `[main, develop]`).
+
+**Why.** Stacked PRs — opening a feature branch on top of an open
+fix branch — get CI feedback before the base merges. Saved a full
+round-trip during this session: PR #2 (form-safety) was based on
+PR #1 (CI green) and could not have validated without this change.
+Per-PR cost is the same; we just allow more PRs to use the channel.
+
+**Discarded.** Adding the specific base branches to the filter
+(`branches: [main, develop, "fix/**", "feat/**"]`) — works, but
+turns into trivia every time a new branch convention shows up.
+Keeping the filter only on push covers the "block merges to
+main/develop on red CI" use case which was its real purpose.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section
