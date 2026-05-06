@@ -357,24 +357,58 @@
   }
 }
 
+/* Name cell layout — avatar + name + draft-badge in a single row. */
+.table__td-name {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-200);
+
+  .table__td-name-text {
+    flex: 0 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+}
+
 .status-pill {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-50);
   padding: 2px var(--sc-spacing-100);
   font-size: var(--sc-font-size-50);
   font-weight: var(--sc-font-weight-medium);
   border: 1px solid;
   border-radius: var(--sc-radius-50);
 
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
+
   &[data-tone='success'] {
     color: var(--sc-label-green-text);
     background: var(--sc-label-green-bg);
     border-color: var(--sc-label-green-border);
+
+    &::before {
+      background: var(--sc-label-green-dot);
+    }
   }
 
   &[data-tone='muted'] {
     color: var(--sc-text-subtle);
     background: var(--sc-bg-default);
     border-color: var(--sc-border-default);
+
+    &::before {
+      background: var(--sc-label-gray-dot);
+    }
   }
 }
 

@@ -67,10 +67,23 @@
   &__icon {
     flex-shrink: 0;
     color: rgb(255 255 255 / 0.5);
+    transition: color var(--sc-transition-fast) var(--sc-easing-default);
 
     .nav-item--active & {
       color: var(--sc-color-gray-0);
     }
+  }
+
+  /*
+   * Parents render their icon in the brand cyan accent (`soft-blue-300`)
+   * instead of white. Communicates "different role" — these aren't
+   * destinations, they toggle a section. Color is a stronger signal
+   * than opacity (no "disabled" association) and stays branded
+   * (`extend` family). Active-branch parents win — they go back to full
+   * white so the "I am here" cue is preserved.
+   */
+  &--parent:not(&--active):not(&--child-active) &__icon {
+    color: var(--sc-color-soft-blue-300);
   }
 
   /*

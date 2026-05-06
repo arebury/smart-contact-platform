@@ -128,6 +128,7 @@
                   <td class="table__td table__td--mono">{{ agent.code }}</td>
                 }
                 <td class="table__td-name">
+                  <aed-entity-avatar [name]="agent.name" />
                   @if (renamingId() === agent.id) {
                     <aed-inline-rename-cell
                       [initialValue]="agent.name"
@@ -137,7 +138,7 @@
                       (cancelled)="onRenameCancel(agent.id)"
                     />
                   } @else {
-                    <span>{{ agent.name }}</span>
+                    <span class="table__td-name-text">{{ agent.name }}</span>
                     @if (agent.isDraft) {
                       <span class="draft-badge">{{ 'common.draft_badge' | translate }}</span>
                     }
