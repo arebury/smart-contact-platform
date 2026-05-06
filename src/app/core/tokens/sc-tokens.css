@@ -665,12 +665,19 @@
   /* 3.3 CUSTOM — Z-index scale                                  */
   /* =========================================================== */
   --sc-z-base: 0;
-  --sc-z-sidebar: 100;
   --sc-z-dropdown: 1000;
   --sc-z-sticky: 1020;
   --sc-z-sticky-form-header: 1030;
   --sc-z-fixed: 1040;
   --sc-z-bulk-action-bar: 1050;
+  /*
+   * The sidebar is an OVERLAY when expanded — it has to sit above every
+   * piece of in-page chrome (the sticky form header on edit pages, the
+   * bulk action bar, fixed elements) but below modals so a confirmation
+   * dialog still tints and blocks the whole viewport, including the
+   * sidebar. That's the slot just below `--sc-z-modal-backdrop`.
+   */
+  --sc-z-sidebar: 1055;
   --sc-z-modal-backdrop: 1060;
   --sc-z-modal: 1070;
   --sc-z-popover: 1080;
