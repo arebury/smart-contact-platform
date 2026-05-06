@@ -43,7 +43,7 @@ import {
   ImpactItem,
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
-  ResultCounterComponent,
+  PageTitleCountComponent,
 } from '@shared/components';
 import {
   AGENT_TYPE_LABEL_KEYS,
@@ -94,7 +94,7 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
-    ResultCounterComponent,
+    PageTitleCountComponent,
     TranslateModule,
   ],
   templateUrl: './agents-list-page.component.html',
@@ -359,7 +359,7 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
     this.agentsStore.updateAgent(id, { name: value });
     this.renamingId.set(null);
     this.messages.add({
-      severity: 'success',
+      severity: 'secondary',
       summary: this.translate.instant('agents.toasts.duplicated', { name: value }),
       life: 3000,
     });

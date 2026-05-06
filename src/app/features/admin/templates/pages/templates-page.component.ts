@@ -29,7 +29,7 @@ import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
   DeleteEntityDialogComponent,
-  ResultCounterComponent,
+  PageTitleCountComponent,
 } from '@shared/components';
 import { Template, TemplateType } from '../data/templates-data';
 import { TemplatesStore } from '../state/templates.store';
@@ -52,7 +52,7 @@ interface ContextMenuPos {
     ClickOutsideDirective,
     DeleteEntityDialogComponent,
     LucideAngularModule,
-    ResultCounterComponent,
+    PageTitleCountComponent,
     TemplateFormPanelComponent,
     TranslateModule,
   ],

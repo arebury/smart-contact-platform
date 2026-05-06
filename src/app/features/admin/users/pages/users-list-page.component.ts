@@ -33,7 +33,7 @@ import {
   DeleteEntityDialogComponent,
   EmptyStateComponent,
   InlineRenameCellComponent,
-  ResultCounterComponent,
+  PageTitleCountComponent,
 } from '@shared/components';
 import { USER_TYPE_LABEL_KEYS, User, UserType } from '../data/users-data';
 import { UsersStore } from '../state/users.store';
@@ -59,7 +59,7 @@ interface ContextMenuPos {
     EmptyStateComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
-    ResultCounterComponent,
+    PageTitleCountComponent,
     TranslateModule,
   ],
   templateUrl: './users-list-page.component.html',
@@ -265,7 +265,7 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
     this.usersStore.updateUser(id, { name: value });
     this.renamingId.set(null);
     this.messages.add({
-      severity: 'success',
+      severity: 'secondary',
       summary: this.translate.instant('users.toasts.duplicated', { name: value }),
       life: 3000,
     });

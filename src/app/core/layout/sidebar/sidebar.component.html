@@ -1,8 +1,18 @@
 <aside class="sidebar" aria-label="Navegación principal">
-  <div class="sidebar__brand">
-    <div class="sidebar__brand-name">{{ 'app.name' | translate }}</div>
-    <div class="sidebar__brand-tagline">{{ 'app.tagline' | translate }}</div>
-  </div>
+  <a class="sidebar__brand" routerLink="/" [attr.aria-label]="'app.name' | translate">
+    <img
+      class="sidebar__brand-isotype"
+      src="/logos/smartcontact-isotype-light.svg"
+      width="32"
+      height="32"
+      alt=""
+      aria-hidden="true"
+    />
+    <span class="sidebar__brand-wordmark">
+      <span class="sidebar__brand-name">{{ 'app.name' | translate }}</span>
+      <span class="sidebar__brand-tagline">{{ 'app.tagline' | translate }}</span>
+    </span>
+  </a>
 
   <nav class="sidebar__nav">
     @for (section of sections; track trackBySectionTitle($index, section)) {
@@ -23,8 +33,8 @@
 
   <div class="sidebar__foot">
     <button type="button" class="sidebar__decisions" (click)="onOpenDesignDecisions()">
-      <lucide-icon [img]="bookOpenIcon" [size]="15" />
-      <span>{{ 'sidebar.design_decisions' | translate }}</span>
+      <lucide-icon class="sidebar__decisions-icon" [img]="bookOpenIcon" [size]="15" />
+      <span class="sidebar__decisions-label">{{ 'sidebar.design_decisions' | translate }}</span>
     </button>
   </div>
 </aside>

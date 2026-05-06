@@ -1,7 +1,12 @@
 <div class="page" [class.page--has-selection]="selectedIds().size > 0">
   <div class="page__inner">
     <header class="page__header">
-      <h1 class="page__title">{{ 'labels.page_title' | translate }}</h1>
+      <h1 class="page__title">
+        {{ 'labels.page_title' | translate }}
+        @if (labels().length > 0) {
+          <aed-page-title-count [total]="labels().length" [filtered]="sorted().length" />
+        }
+      </h1>
 
       <div
         class="page__create-anchor"
@@ -183,11 +188,6 @@
           </tbody>
         </table>
       </div>
-
-      <aed-result-counter
-        [count]="sorted().length"
-        [entityPlural]="'labels.entity_plural' | translate"
-      />
     }
   </div>
 </div>

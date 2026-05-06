@@ -38,9 +38,9 @@ export { ModalComponent } from './modal/modal.component';
 export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';
 
-export { PhotoUploadComponent } from './photo-upload/photo-upload.component';
+export { PageTitleCountComponent } from './page-title-count/page-title-count.component';
 
-export { ResultCounterComponent } from './result-counter/result-counter.component';
+export { PhotoUploadComponent } from './photo-upload/photo-upload.component';
 
 export { SectionCardComponent } from './section-card/section-card.component';
 

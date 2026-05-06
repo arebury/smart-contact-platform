@@ -42,7 +42,7 @@ import {
   ImpactItem,
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
-  ResultCounterComponent,
+  PageTitleCountComponent,
 } from '@shared/components';
 import {
   CHANNEL_LABEL_KEYS,
@@ -85,7 +85,7 @@ const COLUMN_PREF_KEY = 'sc_groups_columns_v1';
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
-    ResultCounterComponent,
+    PageTitleCountComponent,
     TranslateModule,
   ],
   templateUrl: './groups-list-page.component.html',
@@ -324,7 +324,7 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
     this.groupsStore.updateGroup(id, { name: value });
     this.renamingId.set(null);
     this.messages.add({
-      severity: 'success',
+      severity: 'secondary',
       summary: this.translate.instant('groups.toasts.duplicated', { name: value }),
       life: 3000,
     });

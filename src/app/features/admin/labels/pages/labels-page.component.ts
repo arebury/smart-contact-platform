@@ -28,7 +28,7 @@ import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
   LabelChipComponent,
-  ResultCounterComponent,
+  PageTitleCountComponent,
 } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 import { Label, LabelColor } from '../data/labels-data';
@@ -56,7 +56,7 @@ interface ContextMenuPos {
     LabelChipComponent,
     LabelFormPanelComponent,
     LucideAngularModule,
-    ResultCounterComponent,
+    PageTitleCountComponent,
     TranslateModule,
   ],
   templateUrl: './labels-page.component.html',

@@ -537,6 +537,12 @@
   --sc-toast-gap-message: 4px;
   --sc-toast-icon-size: 24px;
   --sc-toast-icon-radius: 6px;
+  /*
+   * Single fixed width for every toast — keeps them visually aligned in
+   * the stack regardless of content length (DD#33). Long messages wrap;
+   * short messages don't shrink the chrome.
+   */
+  --sc-toast-width: 400px;
 
   /* Success */
   --sc-toast-success-bg: var(--sc-color-green-50);
@@ -566,7 +572,17 @@
   /* =========================================================== */
   /* 3.1 CUSTOM — Layout (extends JSON)                          */
   /* =========================================================== */
-  --sc-sidebar-width: 220px;
+  /*
+   * Sidebar has two widths: collapsed (the default + the page gutter)
+   * and expanded (when the user hovers it, lockup + full nav text).
+   * `--sc-sidebar-width` aliases the collapsed value so every page-
+   * layout token (fixed bars, modals offset to the right of the
+   * sidebar) keeps anchoring to the gutter — the expanded sidebar
+   * overlays the page content rather than pushing it.
+   */
+  --sc-sidebar-width-collapsed: 64px;
+  --sc-sidebar-width-expanded: 240px;
+  --sc-sidebar-width: var(--sc-sidebar-width-collapsed);
   --sc-sidebar-bg: var(--sc-color-gray-800);
   --sc-topbar-height: 48px;
   --sc-bulk-action-bar-height: 56px;

@@ -1,9 +1,0 @@
-.result-counter {
-  /* Reserve a fixed row so toggling 0↔N or selection doesn't shift the page */
-  min-height: 28px;
-  display: flex;
-  align-items: center;
-  padding: var(--sc-spacing-200) var(--sc-spacing-100);
-  font-size: var(--sc-font-size-50, 12px);
-  color: var(--sc-text-subtle, #6b7280);
-}

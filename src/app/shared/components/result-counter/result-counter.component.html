@@ -1,9 +1,0 @@
-<div class="result-counter" aria-live="polite">
-  @if (count() === 0) {
-    <span>{{ 'common.result_counter.none' | translate }}</span>
-  } @else {
-    <span>
-      {{ 'common.result_counter.found' | translate: { count: count(), entity: entityPlural() } }}
-    </span>
-  }
-</div>

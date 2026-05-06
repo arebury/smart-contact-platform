@@ -231,13 +231,46 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   }
 
   protected onAgentDrop(event: CdkDragDrop<readonly string[]>): void {
-    if (event.previousIndex === event.currentIndex) return;
-    this.formDirty.set(true);
-    this.form.update((f) => {
-      const next = [...f.assignedAgents];
-      moveItemInArray(next, event.previousIndex, event.currentIndex);
-      return { ...f, assignedAgents: next };
-    });
+    const fromAssigned = event.previousContainer.id === 'assigned-list';
+    const toAssigned = event.container.id === 'assigned-list';
+    const agent = event.item.data as string;
+
+    // Same container — only meaningful for assigned (the available list is
+    // recomputed from the assigned diff, no drag-order to preserve there).
+    if (fromAssigned && toAssigned) {
+      if (event.previousIndex === event.currentIndex) return;
+      this.formDirty.set(true);
+      this.form.update((f) => {
+        const next = [...f.assignedAgents];
+        moveItemInArray(next, event.previousIndex, event.currentIndex);
+        return { ...f, assignedAgents: next };
+      });
+      return;
+    }
+
+    // Available → Assigned: insert at the drop index.
+    if (!fromAssigned && toAssigned) {
+      if (!agent) return;
+      this.formDirty.set(true);
+      this.form.update((f) => {
+        if (f.assignedAgents.includes(agent)) return f;
+        const next = [...f.assignedAgents];
+        next.splice(event.currentIndex, 0, agent);
+        return { ...f, assignedAgents: next };
+      });
+      return;
+    }
+
+    // Assigned → Available: drop = remove from assigned. The roster
+    // recomputes automatically via the `availableAgents()` signal.
+    if (fromAssigned && !toAssigned) {
+      if (!agent) return;
+      this.formDirty.set(true);
+      this.form.update((f) => ({
+        ...f,
+        assignedAgents: f.assignedAgents.filter((a) => a !== agent),
+      }));
+    }
   }
 
   protected onNameRename(name: string): void {

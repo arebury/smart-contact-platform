@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule } from 'lucide-angular';
 import { filter, map, startWith } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import { SidebarNavItemComponent } from './sidebar-nav-item.component';
 @Component({
   selector: 'aed-sidebar',
   standalone: true,
-  imports: [LucideAngularModule, SidebarNavItemComponent, TranslateModule],
+  imports: [LucideAngularModule, RouterLink, SidebarNavItemComponent, TranslateModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

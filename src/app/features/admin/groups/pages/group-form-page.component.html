@@ -177,7 +177,14 @@
       hintKey="groups.form.section.agents_hint"
     >
       <div class="agents">
-        <div class="agents__assigned">
+        <div
+          cdkDropList
+          id="assigned-list"
+          [cdkDropListData]="form().assignedAgents"
+          [cdkDropListConnectedTo]="['available-list']"
+          class="agents__assigned agents__droppable"
+          (cdkDropListDropped)="onAgentDrop($event)"
+        >
           <h3 class="agents__sub">
             {{ 'groups.form.assigned_count' | translate: { count: form().assignedAgents.length } }}
           </h3>
@@ -185,9 +192,9 @@
           @if (form().assignedAgents.length === 0) {
             <div class="agents__empty">{{ 'groups.form.no_agents_assigned' | translate }}</div>
           } @else {
-            <ul cdkDropList class="agents__list" (cdkDropListDropped)="onAgentDrop($event)">
+            <ul class="agents__list">
               @for (agent of form().assignedAgents; track agent; let i = $index) {
-                <li class="agents__row" cdkDrag>
+                <li class="agents__row" cdkDrag [cdkDragData]="agent">
                   <span class="agents__order">{{ i + 1 }}</span>
                   <span class="agents__handle" cdkDragHandle aria-label="Reorder">
                     <lucide-icon [img]="gripIcon" [size]="14" />
@@ -207,7 +214,14 @@
           }
         </div>
 
-        <div class="agents__roster">
+        <div
+          cdkDropList
+          id="available-list"
+          [cdkDropListData]="availableAgents()"
+          [cdkDropListConnectedTo]="['assigned-list']"
+          class="agents__roster agents__droppable"
+          (cdkDropListDropped)="onAgentDrop($event)"
+        >
           <h3 class="agents__sub">
             {{ 'groups.form.available_agents' | translate }}
           </h3>
@@ -216,7 +230,7 @@
           } @else {
             <ul class="agents__list agents__list--roster">
               @for (agent of availableAgents(); track agent) {
-                <li class="agents__roster-row">
+                <li class="agents__roster-row" cdkDrag [cdkDragData]="agent">
                   <span class="agents__name">{{ agent }}</span>
                   <button
                     type="button"

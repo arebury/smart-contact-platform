@@ -67,7 +67,9 @@ export class AppComponent {
 
   /**
    * Map a PrimeNG severity to a Lucide icon. Falls back to Info so an
-   * unrecognised severity still renders an icon square.
+   * unrecognised severity still renders an icon square. The `secondary`
+   * severity is the indigo "neutral notice" variant — same Info glyph as
+   * `info`, the colour palette is what distinguishes them.
    */
   protected iconFor(severity: ToastSeverity | undefined) {
     switch (severity) {
@@ -78,6 +80,7 @@ export class AppComponent {
       case 'error':
         return AlertCircle;
       case 'info':
+      case 'secondary':
       default:
         return Info;
     }

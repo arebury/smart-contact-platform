@@ -1,21 +1,80 @@
 :host {
-  display: block;
-  height: 100%;
+  display: contents;
 }
 
+/*
+ * Sidebar — collapsed by default to its gutter width, expands on hover
+ * to reveal the full lockup, section titles and nav labels.
+ *
+ * Architecture (DD#32):
+ *   - `position: fixed` so the expanded state OVERLAYS the page content
+ *     instead of pushing it. The page reserves `--sc-sidebar-width`
+ *     (= collapsed width) as its left gutter; that gutter never moves.
+ *   - `:hover` → width transitions to `--sc-sidebar-width-expanded`.
+ *   - `overflow: hidden` clips the wordmark, section titles and long
+ *     nav labels when collapsed; everything fades in / unclips on hover.
+ *   - All transitions respect `prefers-reduced-motion`.
+ */
 .sidebar {
-  width: var(--sc-sidebar-width);
-  min-width: var(--sc-sidebar-width);
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: var(--sc-z-sidebar);
+  width: var(--sc-sidebar-width-collapsed);
   height: 100dvh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   background: var(--sc-sidebar-bg);
   color: var(--sc-color-gray-0);
+  transition: width var(--sc-transition-base) var(--sc-easing-emphasized);
+  will-change: width;
+
+  &:hover,
+  &:focus-within {
+    width: var(--sc-sidebar-width-expanded);
+  }
+
+  /* -------- Brand (isotype always visible, wordmark fades in) -------- */
 
   &__brand {
-    padding: var(--sc-spacing-300) var(--sc-spacing-300) var(--sc-spacing-200);
-    border-bottom: 1px solid rgb(255 255 255 / 0.1);
+    height: 64px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+    padding: 0 var(--sc-spacing-200);
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    outline: none;
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: -2px;
+    }
+  }
+
+  &__brand-isotype {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    /* The collapsed sidebar is 64px; with 16px horizontal padding the
+     * isotype lands centered (16 + 32 + 16 = 64). */
+    margin-left: calc((var(--sc-sidebar-width-collapsed) - 32px) / 2 - var(--sc-spacing-200));
+    transition: margin-left var(--sc-transition-base) var(--sc-easing-emphasized);
+  }
+
+  &__brand-wordmark {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.1;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity var(--sc-transition-fast) var(--sc-easing-default) 60ms,
+      transform var(--sc-transition-base) var(--sc-easing-emphasized) 60ms;
+    white-space: nowrap;
   }
 
   &__brand-name {
@@ -26,19 +85,38 @@
   }
 
   &__brand-tagline {
-    margin-top: var(--sc-spacing-50);
+    margin-top: 2px;
     font-size: var(--sc-font-size-50);
-    color: rgb(255 255 255 / 0.4);
-    letter-spacing: 0.05em;
+    color: rgb(255 255 255 / 0.45);
+    letter-spacing: 0.04em;
+    font-style: italic;
   }
+
+  &:hover &__brand-isotype,
+  &:focus-within &__brand-isotype {
+    margin-left: 0;
+  }
+
+  &:hover &__brand-wordmark,
+  &:focus-within &__brand-wordmark {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* -------- Nav -------- */
 
   &__nav {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: var(--sc-spacing-200) 0;
     display: flex;
     flex-direction: column;
     gap: var(--sc-spacing-200);
+    /* Hide scrollbar in collapsed state — it would jitter as the user
+     * scrolls past nav items that are visually clipped. */
+    scrollbar-width: thin;
+    scrollbar-color: rgb(255 255 255 / 0.16) transparent;
   }
 
   &__section {
@@ -47,37 +125,70 @@
   }
 
   &__section-title {
-    padding: var(--sc-spacing-50) var(--sc-spacing-300);
+    height: 24px;
+    padding: 0 var(--sc-spacing-300);
+    display: flex;
+    align-items: center;
     font-size: var(--sc-font-size-50);
     font-weight: var(--sc-font-weight-semibold);
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: rgb(255 255 255 / 0.3);
+    opacity: 0;
+    transition: opacity var(--sc-transition-fast) var(--sc-easing-default);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  &:hover &__section-title,
+  &:focus-within &__section-title {
+    opacity: 1;
+    transition-delay: 80ms;
   }
 
   &__section-items {
     margin-top: var(--sc-spacing-50);
   }
 
+  /*
+   * Children of expandable nav items: hide when the sidebar is collapsed.
+   * Without this, a previously-expanded section would leave its children
+   * rendered in the DOM with their icons visually clipped past the 64px
+   * boundary, which reads as broken. Reach into the child component's
+   * encapsulated styles via `::ng-deep` because `.nav-item__children`
+   * lives inside `<aed-sidebar-nav-item>`.
+   */
+  &:not(:hover):not(:focus-within) ::ng-deep .nav-item__children {
+    display: none;
+  }
+
+  /* -------- Foot -------- */
+
   &__foot {
+    flex-shrink: 0;
     padding: var(--sc-spacing-100);
-    border-top: 1px solid rgb(255 255 255 / 0.1);
+    border-top: 1px solid rgb(255 255 255 / 0.08);
   }
 
   &__decisions {
     width: 100%;
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-200);
     padding: var(--sc-spacing-100) var(--sc-spacing-200);
     font-size: var(--sc-font-size-100);
     color: rgb(255 255 255 / 0.4);
     background: transparent;
     border: 0;
+    border-radius: var(--sc-radius-100);
     cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: color var(--sc-transition-fast) var(--sc-easing-default),
+      background var(--sc-transition-fast) var(--sc-easing-default);
 
     &:hover {
-      color: rgb(255 255 255 / 0.7);
+      color: rgb(255 255 255 / 0.85);
       background: rgb(255 255 255 / 0.05);
     }
 
@@ -85,5 +196,30 @@
       outline: 2px solid var(--sc-color-soft-blue-500);
       outline-offset: -2px;
     }
+  }
+
+  &__decisions-icon {
+    flex-shrink: 0;
+  }
+
+  &__decisions-label {
+    opacity: 0;
+    transition: opacity var(--sc-transition-fast) var(--sc-easing-default);
+  }
+
+  &:hover &__decisions-label,
+  &:focus-within &__decisions-label {
+    opacity: 1;
+    transition-delay: 80ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .sidebar__brand-isotype,
+  .sidebar__brand-wordmark,
+  .sidebar__section-title,
+  .sidebar__decisions-label {
+    transition: none;
   }
 }

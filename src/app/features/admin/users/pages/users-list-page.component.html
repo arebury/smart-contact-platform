@@ -1,7 +1,12 @@
 <div class="page">
   <div class="page__inner">
     <header class="page__header">
-      <h1 class="page__title">{{ 'users.page_title' | translate }}</h1>
+      <h1 class="page__title">
+        {{ 'users.page_title' | translate }}
+        @if (users().length > 0) {
+          <aed-page-title-count [total]="users().length" [filtered]="sorted().length" />
+        }
+      </h1>
 
       <div class="page__actions">
         <button type="button" class="btn btn--ghost" (click)="onExport()">
@@ -196,10 +201,6 @@
           </tbody>
         </table>
       </div>
-      <aed-result-counter
-        [count]="sorted().length"
-        [entityPlural]="'users.entity_plural' | translate"
-      />
     }
   </div>
 </div>

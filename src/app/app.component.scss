@@ -17,8 +17,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--sc-toast-gap-content);
-  min-width: 320px;
-  max-width: 440px;
+  width: var(--sc-toast-width);
   padding: var(--sc-toast-padding-y) var(--sc-toast-padding-x);
   border: 1px solid var(--sc-toast-info-border);
   border-radius: var(--sc-toast-radius);
@@ -45,6 +44,14 @@
     border-color: var(--sc-toast-error-border);
   }
 
+  /* Indigo "neutral notice" — used for state changes that aren't a
+   * celebration (e.g. "Borrador creado", "Renombrado"). Quieter than
+   * success, more present than info. Maps to PrimeNG `severity: 'secondary'`. */
+  &[data-severity='secondary'] {
+    background: var(--sc-toast-indigo-bg);
+    border-color: var(--sc-toast-indigo-border);
+  }
+
   &__icon {
     flex: 0 0 auto;
     width: var(--sc-toast-icon-size);
@@ -66,6 +73,9 @@
     }
     .aed-toast[data-severity='error'] & {
       background: var(--sc-toast-error-icon-bg);
+    }
+    .aed-toast[data-severity='secondary'] & {
+      background: var(--sc-toast-indigo-icon-bg);
     }
   }
 

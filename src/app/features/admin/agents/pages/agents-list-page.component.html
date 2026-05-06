@@ -1,7 +1,12 @@
 <div class="page">
   <div class="page__inner">
     <header class="page__header">
-      <h1 class="page__title">{{ 'agents.page_title' | translate }}</h1>
+      <h1 class="page__title">
+        {{ 'agents.page_title' | translate }}
+        @if (agents().length > 0) {
+          <aed-page-title-count [total]="agents().length" [filtered]="sorted().length" />
+        }
+      </h1>
       <div class="page__actions">
         <button type="button" class="btn btn--ghost" (click)="onExport()">
           <lucide-icon [img]="downloadIcon" [size]="13" />
@@ -252,10 +257,6 @@
           </tbody>
         </table>
       </div>
-      <aed-result-counter
-        [count]="sorted().length"
-        [entityPlural]="'agents.entity_plural' | translate"
-      />
     }
   </div>
 </div>
