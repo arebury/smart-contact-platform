@@ -10,6 +10,98 @@
 
 ---
 
+## 2026-05-06 · Session 7 — Sidebar hover-expand, toast position + indigo, drag-drop fix, AI-slop pass
+
+**Worked on**
+
+- **Sidebar hover-expand + Smart Contact lockup** (Figma file
+  `Dle87qs0Pjq0OjIaaCfmm7`, node 842:27619). Sidebar is now collapsed by
+  default to `--sc-sidebar-width-collapsed: 64px` (the page gutter) and
+  expands to `--sc-sidebar-width-expanded: 240px` on `:hover` /
+  `:focus-within`. CSS-only — no JS state, no toggle button. The expanded
+  sidebar OVERLAYS the page content (Notion / Linear pattern) so the
+  gutter never resizes and nothing on the page reflows during the
+  transition. Brand swapped from text-only to a 32px isotype SVG (always
+  visible, perfectly centered when collapsed) + a wordmark text block
+  that fades in on expand. Section titles + `Decisiones` label fade in
+  on the same hover; previously-expanded child nav items hide entirely
+  when collapsed via `::ng-deep`. App shell switched from flex to
+  `padding-left: var(--sc-sidebar-width)` on the main container to
+  support the fixed-position sidebar overlay. (DD#32)
+- **Logo SVGs** committed at `public/logos/` —
+  `smartcontact-lockup.svg` (clean, no embedded background rect) and
+  `smartcontact-isotype-light.svg` (32×32, white fill for the dark
+  sidebar). Vector, scales cleanly, no production-URL expiry concern.
+- **Toast position + width + indigo variant**. `<p-toast>` moved from
+  `top-right` to `bottom-right` so it stops covering the page header
+  CTAs (the previous "open modal first, then top-right toast" exception
+  turned out to be a non-issue — by the time the toast renders, the
+  modal has closed). Width fixed at `--sc-toast-width: 400px` so all
+  toasts visually align in the stack regardless of message length. The
+  reserved `indigo` toast palette was wired through PrimeNG's
+  `severity: 'secondary'` — picked up by the SCSS via
+  `[data-severity='secondary']` selectors, with the `Info` glyph and
+  the indigo bg / border / icon-square tokens. Reclassified the three
+  "Duplicado como borrador" toasts (groups, agents, users) from
+  `success` → `secondary`: a draft creation is a state change, not a
+  celebration of user intent, so the indigo notice reads more
+  honestly. (DD#33)
+- **Drag-drop bug fix in groups form**. The "Disponibles" list was
+  not a `cdkDropList`, only "Asignados" was — meaning users could
+  reorder within Asignados but couldn't drag a roster agent INTO the
+  group. Both lists are now connected via `cdkDropListConnectedTo`,
+  every row has `cdkDrag [cdkDragData]`, and `onAgentDrop()` handles
+  three branches: same-list (reorder), available→assigned (insert at
+  drop index), and assigned→available (remove). Dropping the assigned
+  list onto the available list also works as a "remove via drag" —
+  symmetric with the existing X-button removal. Receiving lists
+  highlight with a dashed blue tint via the
+  `.cdk-drop-list-receiving` class.
+- **Result-counter → page-title count migration** (AI-slop pass, DD#34).
+  The `<aed-result-counter>` component (a tiny gray "X grupos
+  encontrados" line at the bottom of every list table) was canonical
+  AI-dashboard slop — generic body text, redundant in a non-paginated
+  view. Removed from groups, agents, users, labels, repos and
+  templates. Replaced with a new `<aed-page-title-count>` rendered
+  inline inside each `<h1>`: shows just `· N` when nothing is
+  filtered, switches to `· X de Y` when a search/filter is active.
+  Tabular nums for stable widths, `aria-live="polite"` for screen
+  readers, smaller weight + `--sc-text-subtle` so it reads as
+  meta-info rather than competing with the page heading. The old
+  `result-counter` component file was deleted entirely.
+- **Tokens**. `--sc-sidebar-width-collapsed`,
+  `--sc-sidebar-width-expanded`, `--sc-toast-width` added to
+  `sc-tokens.css` §3.1 with comments explaining the gutter-vs-overlay
+  semantics.
+
+**Decisiones tomadas**
+
+- DD#32 — Sidebar collapses to a 64 px gutter and expands on hover
+  via fixed-position overlay; main content reserves only the gutter.
+- DD#33 — Toast lives bottom-right with a fixed 400 px width; indigo
+  is the canonical "neutral notice" mapped to PrimeNG's
+  `severity: 'secondary'`.
+- DD#34 — List pages drop the bottom-of-table result counter and
+  expose a meta-count inline in the heading instead.
+
+**Bloqueos / decisiones diferidas**
+
+- Tokens JSON / Style Dictionary work still parked (DD#31, Session 6).
+
+**Queued next**
+
+- A11y nicety: add tooltips on collapsed sidebar nav icons so sighted
+  users without screen-reader assistance can learn the destinations
+  without the hover delay. Today they're labelled by their
+  (visually clipped) `<span>` text, which screen readers handle but
+  visual users don't.
+- Audit the rest of the toast dispatch sites for honest `info` /
+  `warn` opportunities now that the visual variants are wired (e.g.
+  cross-tab conflict detection currently fires only an inline
+  banner — a quiet `warn` toast on detection might be additive).
+
+---
+
 ## 2026-05-06 · Session 6 — Bulk bar Figma re-skin, danger zone, programmatic confirm host
 
 **Worked on**

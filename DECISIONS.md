@@ -710,6 +710,106 @@ alone.
 
 ---
 
+## 32 — Sidebar collapses to a 64 px gutter, expands on hover via fixed-position overlay (2026-05-06)
+
+**Decision.** `<aed-sidebar>` is `position: fixed` with width
+`--sc-sidebar-width-collapsed: 64px` by default and transitions to
+`--sc-sidebar-width-expanded: 240px` on `:hover` / `:focus-within`.
+The page-layout reference `--sc-sidebar-width` aliases the collapsed
+value, so every fixed element anchored to the right of the sidebar
+(bulk action bar, etc.) reserves the gutter and never reflows when
+the sidebar expands. The expanded sidebar OVERLAYS the page content
+instead of pushing it. CSS-only — no toggle button, no JS state.
+
+**Why.** The operator profile (calm·dense·operational) values screen
+real estate; a 220 px sidebar always-on stole 14 % of viewport width
+on a 1440 px display while the user is actively working in tables
+that benefit from every extra column. Hovering to expand is the
+Notion / Linear pattern — users discover it on the second day, never
+forget it, and avoid the toggle-button accidental clicks. Overlay
+(rather than push) means no page reflow during the 200 ms expand
+transition, which would otherwise janky-shift the table the user is
+mid-clicking. The brand follows: a 32 px isotype is always visible
+(centered in the 64 px gutter via `margin-left: calc(...)`); the
+"SmartContact / a Digital Virgo tool" wordmark fades in on expand.
+
+**Discarded.** Click-to-toggle pattern (Linear / Slack) — adds a
+button to find and a state to persist; less elegant for an
+always-active sidebar in an admin panel where nav happens
+constantly. Always-expanded fixed 240 px sidebar — wastes pixels on
+list pages where the table benefits from every column. Push-to-shift
+expansion (no overlay) — every page would jitter on cursor entry into
+the sidebar.
+
+---
+
+## 33 — Toasts live bottom-right at a fixed 400 px width; indigo wires PrimeNG `secondary` (2026-05-06)
+
+**Decision.** `<p-toast position="bottom-right">` (was `top-right`)
+plus `--sc-toast-width: 400px` applied as a single fixed width on
+`.aed-toast` (was `min-width: 320px; max-width: 440px`). PrimeNG's
+`severity: 'secondary'` is the canonical "indigo" variant for
+neutral notices (state changes, draft creation), wired in the SCSS
+via `[data-severity='secondary']` and in `iconFor()` so it shares
+the `Info` glyph but uses the indigo palette. Three "duplicado como
+borrador" toasts (groups, agents, users) reclassified
+`success` → `secondary`.
+
+**Why.** Top-right toasts sat directly over the page header CTAs
+("Crear", "Exportar") on every list page — operators reported
+covered controls. The original concern about top-right preserving
+visibility-over-modals dissolved on inspection: by the time a
+post-action toast fires, the modal has closed, so the position is
+irrelevant. Bottom-right anchors the toast to the same corner as
+the bulk action bar (DD#28), keeping notification space conceptually
+unified. Fixed width keeps the visual stack aligned regardless of
+message length — short notices don't shrink to 320 px while long
+ones balloon to 440 px, which previously made stacked toasts read
+as visually unrelated. Indigo for "duplicado": creating a draft
+isn't really a celebration of user intent (the user clicked
+"Duplicar" and got a side-effect — a draft entity); the indigo
+"neutral notice" tone is honest about that.
+
+**Discarded.** Position-aware toasts that flip top↔bottom based on
+modal state — solves a non-problem and adds maintenance. Width
+clamp via `min/max-width` with content-driven sizing — gives the
+inconsistent stack widths we just removed.
+
+---
+
+## 34 — List pages drop the bottom-of-table result counter; meta-count moves inline into the page heading (2026-05-06)
+
+**Decision.** `<aed-result-counter>` (small gray "57 grupos
+encontrados" line under each list table) deleted from groups,
+agents, users, labels, repos and templates. Replaced with
+`<aed-page-title-count>` rendered inside the page `<h1>`: shows
+`· N` when nothing is filtered, `· X de Y` when a search/filter
+narrows the result. Tabular nums, `aria-live="polite"`, smaller
+weight and `--sc-text-subtle` so it reads as meta-info rather than
+competing with the heading. The old `result-counter` component
+folder was deleted entirely.
+
+**Why.** The bottom-of-table tiny-gray-text-with-count pattern is a
+canonical AI-dashboard slop signature flagged by `/impeccable`'s
+"redundant body text" rule. In a non-paginated table the operator
+can already see how many rows are loaded — a separate row at the
+bottom that says "57 found" adds no information and reads as
+generic. Putting the count inline in the heading keeps the
+information glanceable (you read the page title every navigation),
+adds the filter-vs-total context that the bottom counter never
+had ("12 de 57" tells you instantly whether you're looking at a
+filtered subset), and removes one row of vertical chrome from
+every list page.
+
+**Discarded.** Keeping a footer counter but rewording the copy
+(e.g. "Mostrando 12 de 57") — same architectural slop, just
+different wording. A floating pill near the search field — works
+visually but adds another floating element to position; the
+heading is already where the user expects "what am I looking at"
+information.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section
