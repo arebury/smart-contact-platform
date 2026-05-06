@@ -12,10 +12,7 @@
   <ng-template pTemplate="header">
     <div class="head">
       <span class="head__icon" aria-hidden="true">
-        <lucide-icon
-          [img]="mode() === 'duplicate' ? duplicateIcon : arrowIcon"
-          [size]="16"
-        />
+        <lucide-icon [img]="mode() === 'duplicate' ? duplicateIcon : arrowIcon" [size]="16" />
       </span>
       <h2 class="head__title">{{ title() }}</h2>
       <button type="button" class="head__close" (click)="cancel.emit()" aria-label="Cerrar">

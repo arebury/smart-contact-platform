@@ -50,7 +50,7 @@ export class LabelFormPanelComponent implements OnInit, AfterViewInit {
   readonly existingNames = input.required<readonly string[]>();
 
   readonly save = output<LabelFormSubmission>();
-  readonly cancel = output<void>();
+  readonly cancelled = output<void>();
 
   protected readonly alertIcon = AlertTriangle;
   protected readonly colorOptions = computed<readonly ColorDotOption[]>(() =>
@@ -101,7 +101,7 @@ export class LabelFormPanelComponent implements OnInit, AfterViewInit {
       this.onSave();
     } else if (event.key === 'Escape') {
       event.preventDefault();
-      this.cancel.emit();
+      this.cancelled.emit();
     }
   }
 

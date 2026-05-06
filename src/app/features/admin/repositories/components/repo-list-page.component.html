@@ -33,7 +33,7 @@
                 [existingNames]="existingNames()"
                 [entityNameSpanish]="config().entityNameSpanish"
                 (save)="onCreateSubmit($event)"
-                (cancel)="closeCreatePanel()"
+                (cancelled)="closeCreatePanel()"
               />
             </div>
           }
@@ -134,7 +134,7 @@
                         [existingNames]="existingNames()"
                         [entityNameSpanish]="config().entityNameSpanish"
                         (save)="onEditSubmit(item.id, $event)"
-                        (cancel)="closeEditPanel()"
+                        (cancelled)="closeEditPanel()"
                       />
                     </div>
                   }
@@ -223,7 +223,7 @@
   [items]="deleteItems()"
   [entitySingular]="config().entityNameSpanish"
   [entityPlural]="config().entityPluralSpanish"
-  (cancel)="cancelDelete()"
+  (cancelled)="cancelDelete()"
   (confirm)="confirmDelete($event)"
 />
 

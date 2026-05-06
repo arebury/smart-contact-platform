@@ -12,18 +12,18 @@ import { ClickOutsideDirective } from './click-outside.directive';
     <button data-testid="outside" type="button">outside</button>
   `,
 })
-class HostCmp {
+class HostComponent {
   enabled = true;
   hits = 0;
 }
 
 describe('ClickOutsideDirective', () => {
-  let fixture: ComponentFixture<HostCmp>;
-  let host: HostCmp;
+  let fixture: ComponentFixture<HostComponent>;
+  let host: HostComponent;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({ imports: [HostCmp] }).compileComponents();
-    fixture = TestBed.createComponent(HostCmp);
+    await TestBed.configureTestingModule({ imports: [HostComponent] }).compileComponents();
+    fixture = TestBed.createComponent(HostComponent);
     host = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -46,7 +46,7 @@ export class TemplateFormPanelComponent implements OnInit, AfterViewInit {
   readonly existingTitles = input.required<readonly string[]>();
 
   readonly save = output<TemplateFormSubmission>();
-  readonly cancel = output<void>();
+  readonly cancelled = output<void>();
 
   protected readonly alertIcon = AlertTriangle;
   protected readonly chatIcon = MessageSquare;
@@ -95,7 +95,7 @@ export class TemplateFormPanelComponent implements OnInit, AfterViewInit {
       this.onSave();
     } else if (event.key === 'Escape') {
       event.preventDefault();
-      this.cancel.emit();
+      this.cancelled.emit();
     }
   }
 

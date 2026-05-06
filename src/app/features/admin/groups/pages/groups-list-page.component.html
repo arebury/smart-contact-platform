@@ -121,7 +121,7 @@
                     placeholder="Nombre del grupo"
                     [ariaLabel]="'Renombrar ' + group.name"
                     (commit)="onRenameCommit(group.id, $event)"
-                    (cancel)="onRenameCancel(group.id)"
+                    (cancelled)="onRenameCancel(group.id)"
                   />
                 } @else {
                   <span>{{ group.name }}</span>
@@ -235,7 +235,7 @@
   [items]="deleteItems()"
   [entitySingular]="'grupo'"
   [entityPlural]="'grupos'"
-  (cancel)="cancelDelete()"
+  (cancelled)="cancelDelete()"
   (confirm)="confirmDelete($event)"
 />
 
@@ -245,7 +245,7 @@
   [title]="'Aplicar cambio a ' + selectedIds().size + ' grupo(s)'"
   [items]="impactItems()"
   [badge]="impactBadge()"
-  (cancel)="onBulkPreviewCancel()"
+  (cancelled)="onBulkPreviewCancel()"
   (confirm)="onBulkPreviewConfirm($event)"
 />
 

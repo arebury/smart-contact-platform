@@ -19,7 +19,7 @@
               [defaultType]="activeTab()"
               [existingTitles]="existingTitles()"
               (save)="onCreateSubmit($event)"
-              (cancel)="closeCreatePanel()"
+              (cancelled)="closeCreatePanel()"
             />
           </div>
         }
@@ -143,7 +143,7 @@
                         [defaultType]="activeTab()"
                         [existingTitles]="existingTitles()"
                         (save)="onEditSubmit(tpl.id, $event)"
-                        (cancel)="closeEditPanel()"
+                        (cancelled)="closeEditPanel()"
                       />
                     </div>
                   }
@@ -254,7 +254,7 @@
   [entityPlural]="'templates.entity.plural' | translate"
   [singleDetailMessage]="'templates.delete.single_detail' | translate"
   [bulkFooterMessage]="'templates.delete.bulk_footer' | translate"
-  (cancel)="cancelDelete()"
+  (cancelled)="cancelDelete()"
   (confirm)="confirmDelete($event)"
 />
 

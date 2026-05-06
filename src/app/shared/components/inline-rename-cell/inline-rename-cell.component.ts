@@ -42,7 +42,7 @@ export class InlineRenameCellComponent implements AfterViewInit {
   readonly ariaLabel = input<string>('Renombrar');
 
   readonly commit = output<string>();
-  readonly cancel = output<void>();
+  readonly cancelled = output<void>();
 
   protected readonly checkIcon = Check;
   protected readonly closeIcon = X;
@@ -66,7 +66,7 @@ export class InlineRenameCellComponent implements AfterViewInit {
       this.onCommit();
     } else if (event.key === 'Escape') {
       event.preventDefault();
-      this.cancel.emit();
+      this.cancelled.emit();
     }
   }
 
@@ -77,6 +77,6 @@ export class InlineRenameCellComponent implements AfterViewInit {
   }
 
   protected onCancel(): void {
-    this.cancel.emit();
+    this.cancelled.emit();
   }
 }

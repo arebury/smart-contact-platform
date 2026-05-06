@@ -1,13 +1,7 @@
 import { computed, Injectable } from '@angular/core';
 
 import { createLocalStore, LocalStore } from '@core/services';
-import {
-  Agent,
-  AGENTS_SEED,
-  AgentChannel,
-  AgentType,
-  PresenceStatus,
-} from '../data/agents-data';
+import { Agent, AGENTS_SEED, AgentChannel, AgentType, PresenceStatus } from '../data/agents-data';
 
 /** Fields exposed to bulk edit (subset that is safe to set across many rows). */
 export type AgentBulkField = 'status' | 'presenceStatus' | 'agentType' | 'recording' | 'channels';

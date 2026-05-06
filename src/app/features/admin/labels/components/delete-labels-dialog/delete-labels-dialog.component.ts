@@ -28,7 +28,7 @@ export class DeleteLabelsDialogComponent {
   readonly agentCountByLabel = input<ReadonlyMap<number, number>>(new Map());
 
   readonly confirm = output<void>();
-  readonly cancel = output<void>();
+  readonly cancelled = output<void>();
 
   protected readonly trashIcon = Trash2;
 

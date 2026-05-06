@@ -7,7 +7,7 @@
   [canDelete]="mode() === 'edit'"
   (nameChange)="onNameRename($event)"
   (save)="save()"
-  (cancel)="cancel()"
+  (cancelled)="cancel()"
   (delete)="requestDelete()"
 />
 
@@ -281,6 +281,6 @@
   [items]="deleteItems()"
   [entitySingular]="'agente'"
   [entityPlural]="'agentes'"
-  (cancel)="cancelDelete()"
+  (cancelled)="cancelDelete()"
   (confirm)="confirmDelete()"
 />
