@@ -4,10 +4,6 @@
       <h1 class="page__title">{{ 'users.page_title' | translate }}</h1>
 
       <div class="page__actions">
-        <button type="button" class="btn btn--ghost" (click)="onExport()">
-          <lucide-icon [img]="downloadIcon" [size]="13" />
-          <span>{{ 'labels.export_button' | translate }}</span>
-        </button>
         <button type="button" class="btn btn--primary" (click)="onCreateClick()">
           <lucide-icon [img]="plusIcon" [size]="14" />
           <span>{{ 'users.create_button' | translate }}</span>
@@ -16,6 +12,11 @@
     </header>
 
     <div class="page__action-bar">
+      <aed-column-selector
+        [columns]="columnDefs()"
+        [storageKey]="columnPrefKey"
+        (visibilityChange)="onColumnsChange($event)"
+      />
       <div class="page__search">
         <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="14" />
         <input
@@ -37,12 +38,10 @@
           </button>
         }
       </div>
-      <div class="page__action-bar-spacer"></div>
-      <aed-column-selector
-        [columns]="columnDefs()"
-        [storageKey]="columnPrefKey"
-        (visibilityChange)="onColumnsChange($event)"
-      />
+      <button type="button" class="btn btn--ghost" (click)="onExport()">
+        <lucide-icon [img]="downloadIcon" [size]="13" />
+        <span>{{ 'labels.export_button' | translate }}</span>
+      </button>
     </div>
 
     @if (users().length === 0) {

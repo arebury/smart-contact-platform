@@ -2,25 +2,34 @@
   display: inline-block;
 }
 
+/*
+ * Icon-only trigger. Square geometry (36×36) keeps the PrimeNG popover
+ * arrow centered on the button — the previous icon+label layout had the
+ * arrow drifting off the visible center of the trigger because the
+ * popover anchors to the bounding box, not to the icon. The button
+ * shares its height with the search input next to it so the action bar
+ * reads as one row of equally-tall controls.
+ */
 .trigger {
+  width: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
-  padding: var(--sc-spacing-100) var(--sc-spacing-300);
+  justify-content: center;
   background: var(--sc-bg-surface);
-  color: var(--sc-text-primary);
+  color: var(--sc-text-secondary);
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-200);
-  font-size: var(--sc-font-size-200);
   cursor: pointer;
   transition:
     background var(--sc-transition-fast) var(--sc-easing-default),
     border-color var(--sc-transition-fast) var(--sc-easing-default),
-    box-shadow var(--sc-transition-fast) var(--sc-easing-default);
+    color var(--sc-transition-fast) var(--sc-easing-default);
 
   &:hover {
     background: var(--sc-bg-secondary-hover);
     border-color: var(--sc-border-strong);
+    color: var(--sc-text-primary);
   }
 
   &:focus-visible {
@@ -30,10 +39,6 @@
 
   &:active {
     background: var(--sc-bg-secondary-active);
-  }
-
-  &__label {
-    line-height: var(--sc-line-height-200);
   }
 }
 

@@ -68,12 +68,26 @@
   }
 
   &__action-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
     margin-bottom: var(--sc-spacing-300);
+    > .btn {
+      height: 36px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
 
   &__search {
     position: relative;
-    width: 256px;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 480px;
+  }
+
+  &__search-input {
+    height: 36px;
   }
 
   &__search-icon {

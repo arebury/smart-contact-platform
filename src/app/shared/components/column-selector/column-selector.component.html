@@ -2,10 +2,10 @@
   type="button"
   class="trigger"
   [attr.aria-label]="buttonLabel()"
+  [title]="buttonLabel()"
   (click)="popover.toggle($event)"
 >
-  <lucide-icon [img]="columnsIcon" [size]="14" />
-  <span class="trigger__label">{{ buttonLabel() }}</span>
+  <lucide-icon [img]="columnsIcon" [size]="16" />
 </button>
 
 <p-popover #popover [appendTo]="'body'" [showCloseIcon]="false" styleClass="aed-column-popover">

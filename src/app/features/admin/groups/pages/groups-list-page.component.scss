@@ -42,15 +42,24 @@
     align-items: center;
     gap: var(--sc-spacing-200);
     margin-bottom: var(--sc-spacing-300);
-  }
-
-  &__action-bar-spacer {
-    flex: 1;
+    /* Every direct child sits on the same 36 px row so the bar reads
+     * as one row of equally-tall controls (Cols icon · Search · Export). */
+    > .btn {
+      height: 36px;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
   }
 
   &__search {
     position: relative;
-    width: 320px;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 480px;
+  }
+
+  &__search-input {
+    height: 36px;
   }
 
   &__search-icon {
