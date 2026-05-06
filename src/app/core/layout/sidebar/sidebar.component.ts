@@ -74,8 +74,16 @@ export class SidebarComponent {
     void this.router.navigateByUrl(path);
   }
 
-  protected onOpenDesignDecisions(): void {
-    // Hook reserved for the design decisions panel migration. Intentional no-op.
+  protected onOpenDesignDecisions(event: MouseEvent): void {
+    /*
+     * Hook reserved for the design decisions panel migration. We still
+     * blur the trigger here even though there's nothing to navigate to
+     * — otherwise the focus stays on the button after the click and
+     * the sidebar's `:focus-within` rule pins it in the expanded
+     * state forever (the post-`NavigationEnd` blur effect doesn't
+     * cover this case because no navigation actually happens).
+     */
+    (event.currentTarget as HTMLElement).blur();
   }
 
   protected readonly hasItems = computed(() => this.sections.length > 0);

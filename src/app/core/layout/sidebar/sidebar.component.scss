@@ -219,7 +219,14 @@
 
   &__foot {
     flex-shrink: 0;
-    padding: var(--sc-spacing-100);
+    /*
+     * Vertical padding only — no horizontal — so the inner button can
+     * own its left padding via `--sidebar-pad-l-0` and land its icon
+     * on the same column as the nav items above. With horizontal foot
+     * padding the icon was offset by `spacing-100` (8 px) and read as
+     * misaligned in the collapsed state.
+     */
+    padding: var(--sc-spacing-100) 0;
     border-top: 1px solid rgb(255 255 255 / 0.08);
   }
 
