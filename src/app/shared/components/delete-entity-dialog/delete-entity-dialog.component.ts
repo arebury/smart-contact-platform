@@ -87,12 +87,15 @@ export class DeleteEntityDialogComponent {
     // Reset internal state every time the items list changes (i.e. a new
     // delete is requested) so the chip pruning and typed name don't bleed
     // across openings.
-    effect(() => {
-      const next = new Set(this.items().map((item) => item.id));
-      this.visibleIds.set(next);
-      this.confirmText.set('');
-      this.copied.set(false);
-    });
+    effect(
+      () => {
+        const next = new Set(this.items().map((item) => item.id));
+        this.visibleIds.set(next);
+        this.confirmText.set('');
+        this.copied.set(false);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   protected onCopy(): void {

@@ -6,7 +6,7 @@
   [resizable]="false"
   [dismissableMask]="true"
   [closeOnEscape]="true"
-  (visibleChange)="!$event && cancel.emit()"
+  (visibleChange)="!$event && cancelled.emit()"
   styleClass="aed-impact-dialog"
 >
   <ng-template pTemplate="header">
@@ -15,7 +15,7 @@
         <lucide-icon [img]="mode() === 'duplicate' ? duplicateIcon : arrowIcon" [size]="16" />
       </span>
       <h2 class="head__title">{{ title() }}</h2>
-      <button type="button" class="head__close" (click)="cancel.emit()" aria-label="Cerrar">
+      <button type="button" class="head__close" (click)="cancelled.emit()" aria-label="Cerrar">
         <lucide-icon [img]="closeIcon" [size]="14" />
       </button>
     </div>
@@ -59,7 +59,7 @@
 
   <ng-template pTemplate="footer">
     <div class="foot">
-      <button type="button" class="btn btn--ghost" (click)="cancel.emit()">
+      <button type="button" class="btn btn--ghost" (click)="cancelled.emit()">
         {{ cancelLabel() }}
       </button>
       <button

@@ -6,7 +6,7 @@
   [resizable]="false"
   [style]="{ width: '420px' }"
   [dismissableMask]="true"
-  (onHide)="cancel.emit()"
+  (onHide)="cancelled.emit()"
   appendTo="body"
   styleClass="delete-labels-dialog"
 >
@@ -52,7 +52,7 @@
     <button
       type="button"
       class="delete-labels__btn delete-labels__btn--ghost"
-      (click)="cancel.emit()"
+      (click)="cancelled.emit()"
     >
       {{ 'common.cancel' | translate }}
     </button>
