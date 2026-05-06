@@ -199,6 +199,26 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Numeric columns get an explicit narrow width.
+ *
+ * `table.table` runs with `table-layout: fixed` (set globally in
+ * main.scss) so sort indicators don't reshuffle widths when they
+ * appear. A side effect of fixed layout: columns without an explicit
+ * width split the remaining space evenly. The "Agentes" column on
+ * groups + agents only ever holds a 2- or 3-digit number, but it
+ * was claiming the same ~16% of the table as Estrategia or Teléfono.
+ * The right-aligned number then sat at the right edge of a wide,
+ * mostly-empty column — the gap the user reported.
+ *
+ * Floor numeric columns at 96 px and let the freed space flow back
+ * into the content-heavy columns (Nombre, Estrategia, Email).
+ * ------------------------------------------------------------------ */
+.table__th-num,
+.table__td--num {
+  width: 96px;
+}
+
+/* ------------------------------------------------------------------ *
  * Page header primary action — width-stable across pages.
  *
  * Different list pages have different create-button labels ("Nuevo
