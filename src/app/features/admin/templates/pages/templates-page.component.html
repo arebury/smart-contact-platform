@@ -219,9 +219,10 @@
         </table>
       </div>
 
-      <div class="page__footer">
-        <span>{{ 'templates.count' | translate: { count: sorted().length } }}</span>
-      </div>
+      <aed-result-counter
+        [count]="sorted().length"
+        [entityPlural]="'templates.entity_plural' | translate"
+      />
     }
   </div>
 </div>

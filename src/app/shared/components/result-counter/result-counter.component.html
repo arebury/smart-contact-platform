@@ -3,10 +3,7 @@
     <span>{{ 'common.result_counter.none' | translate }}</span>
   } @else {
     <span>
-      {{
-        'common.result_counter.found'
-          | translate: { count: count(), entity: entityPluralKey() | translate }
-      }}
+      {{ 'common.result_counter.found' | translate: { count: count(), entity: entityPlural() } }}
     </span>
   }
 </div>

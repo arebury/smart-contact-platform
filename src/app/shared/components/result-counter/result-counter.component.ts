@@ -5,6 +5,11 @@ import { TranslateModule } from '@ngx-translate/core';
  * Tiny footer shown under list tables: "{N} {entity_plural} encontrados".
  * Always rendered (text changes); the wrapper reserves vertical space so
  * the bulk action bar doesn't overlap it on selection (DD#8).
+ *
+ * `entityPlural` expects an already-translated literal — callers pipe
+ * their i18n key through `| translate` at the call site. Keeps the
+ * component dumb so the repo-list-page can pass a runtime entity name
+ * that doesn't exist as a static i18n key.
  */
 @Component({
   selector: 'aed-result-counter',
@@ -16,6 +21,5 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class ResultCounterComponent {
   readonly count = input.required<number>();
-  /** i18n key whose value is the entity plural ("agentes", "grupos", ...). */
-  readonly entityPluralKey = input.required<string>();
+  readonly entityPlural = input.required<string>();
 }

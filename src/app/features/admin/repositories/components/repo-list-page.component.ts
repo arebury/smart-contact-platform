@@ -26,6 +26,7 @@ import { BreadcrumbService } from '@core/services/breadcrumb.service';
 import { XlsxExportService } from '@core/services/xlsx-export.service';
 import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
 import { DeleteEntityDialogComponent } from '@shared/components/delete-entity-dialog/delete-entity-dialog.component';
+import { ResultCounterComponent } from '@shared/components/result-counter/result-counter.component';
 import { RepoFormPanelComponent, RepoFormSubmission } from './repo-form-panel.component';
 import { RepoEntity, RepoPageConfig, RepoStore } from './repo-types';
 
@@ -51,6 +52,7 @@ interface ContextMenuPos {
     DeleteEntityDialogComponent,
     LucideAngularModule,
     RepoFormPanelComponent,
+    ResultCounterComponent,
     TranslateModule,
   ],
   templateUrl: './repo-list-page.component.html',
