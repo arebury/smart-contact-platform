@@ -8,7 +8,8 @@ import {
   signal,
 } from '@angular/core';
 import { LucideAngularModule, ArrowRight, Copy, X } from 'lucide-angular';
-import { DialogModule } from 'primeng/dialog';
+
+import { ModalComponent } from '../modal/modal.component';
 
 export interface ImpactItem {
   readonly id: number;
@@ -33,7 +34,7 @@ export interface ImpactBadge {
 @Component({
   selector: 'aed-impact-preview-dialog',
   standalone: true,
-  imports: [DialogModule, LucideAngularModule],
+  imports: [LucideAngularModule, ModalComponent],
   templateUrl: './impact-preview-dialog.component.html',
   styleUrl: './impact-preview-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -75,12 +76,13 @@ export class ImpactPreviewDialogComponent {
   }
 
   protected remove(id: number): void {
+    // The "remove" button on a chip is disabled when only one item is
+    // left (template-side guard), so this method is unreachable when
+    // pruning would leave the list empty. Drop the previous auto-close
+    // — same reasoning as DeleteEntityDialog (PR #10): users were
+    // losing the operation by accident.
     const next = new Set(this.removedIds());
     next.add(id);
-    if (next.size === this.items().length) {
-      this.cancelled.emit();
-      return;
-    }
     this.removedIds.set(next);
   }
 

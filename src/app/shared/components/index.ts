@@ -29,6 +29,8 @@ export type {
 
 export { InlineRenameCellComponent } from './inline-rename-cell/inline-rename-cell.component';
 
+export { ModalComponent } from './modal/modal.component';
+
 export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';
 

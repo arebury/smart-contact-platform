@@ -12,9 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LucideAngularModule, AlertTriangle, Check, Copy, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
-import { DialogModule } from 'primeng/dialog';
 
 import { ClipboardService } from '@core/services/clipboard.service';
+import { ModalComponent } from '../modal/modal.component';
 
 export interface DeletableEntity {
   readonly id: number;
@@ -35,7 +35,7 @@ export interface DeletableEntity {
 @Component({
   selector: 'aed-delete-entity-dialog',
   standalone: true,
-  imports: [DialogModule, FormsModule, LucideAngularModule, TranslateModule],
+  imports: [FormsModule, LucideAngularModule, ModalComponent, TranslateModule],
   templateUrl: './delete-entity-dialog.component.html',
   styleUrl: './delete-entity-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -81,6 +81,32 @@ export class DeleteEntityDialogComponent {
       return this.confirmText() === this.singleTarget();
     }
     return this.visibleItems().length > 0;
+  });
+
+  /** i18n title resolved from mode + count, fed into `<aed-modal [title]>`. */
+  protected readonly dialogTitle = computed(() => {
+    if (this.mode() === 'single') {
+      return this.translate.instant('common.delete_dialog.title_single', {
+        entity: this.entitySingular(),
+      });
+    }
+    return this.translate.instant('common.delete_dialog.title_bulk', {
+      count: this.visibleItems().length,
+      entity: this.entityPlural(),
+    });
+  });
+
+  /** Single mode shows the target name in the subtitle (the "what you're about to delete"). */
+  protected readonly dialogSubtitle = computed<string | null>(() => {
+    if (this.mode() === 'single') {
+      return this.translate.instant('common.delete_dialog.body_single', {
+        entity: this.entitySingular(),
+        name: this.singleTarget(),
+      });
+    }
+    return this.translate.instant('common.delete_dialog.body_bulk', {
+      entity: this.entityPlural(),
+    });
   });
 
   constructor() {

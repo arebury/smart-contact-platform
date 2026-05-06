@@ -485,7 +485,33 @@
   --sc-btn-disabled-fg: #c6ccd6;
 
   /* =========================================================== */
-  /* 2.8 SEMANTIC — Toast (Smart Contact design — Figma 1050:354) */
+  /* 2.8 SEMANTIC — Modal (Smart Contact design — Figma 1037:34069) */
+  /* =========================================================== */
+  /*
+   * Master shell with three slots: header (icon + title + subtitle +
+   * close), body (free content), footer (action row). Sits on a tinted
+   * mask via PrimeNG's DialogModule which provides focus trap, ESC,
+   * and animation.
+   *
+   * Header and footer share a single divider color that's a touch
+   * lighter than the default border so the divisions read as quiet
+   * structure, not framing.
+   */
+  --sc-modal-bg: #ffffff;
+  --sc-modal-border: var(--sc-color-blue-100);
+  --sc-modal-divider: var(--sc-color-gray-200);
+  --sc-modal-radius: var(--sc-radius-300);
+  --sc-modal-shadow: 0 24px 48px rgb(15 23 42 / 0.16);
+  --sc-modal-padding-x: 24px;
+  --sc-modal-padding-y: 20px;
+  --sc-modal-head-icon-fg: var(--sc-color-gray-500);
+  --sc-modal-title: var(--sc-color-gray-800);
+  --sc-modal-subtitle: var(--sc-color-gray-600);
+  --sc-modal-close-fg: var(--sc-color-gray-700);
+  --sc-modal-close-bg-hover: var(--sc-color-gray-100);
+
+  /* =========================================================== */
+  /* 2.9 SEMANTIC — Toast (Smart Contact design — Figma 1050:354) */
   /* =========================================================== */
   /*
    * Per-severity background / border / icon-square colors for the
