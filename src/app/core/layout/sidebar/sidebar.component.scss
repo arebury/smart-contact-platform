@@ -143,6 +143,7 @@
   }
 
   &__section-title {
+    position: relative;
     height: 24px;
     padding: 0 var(--sc-spacing-300);
     display: flex;
@@ -158,10 +159,36 @@
     white-space: nowrap;
   }
 
+  /*
+   * Inter-section hairline visible only in the collapsed state. Sits in the
+   * same vertical slot the section title occupies on hover, so the two
+   * crossfade as the sidebar expands: hairline disappears instantly, title
+   * text fades in 80 ms later. Width is the icon column width (24 px) so
+   * the line reads as part of the icon strip, not a full-width divider.
+   * Skipped on the first section — nothing above it to separate from.
+   */
+  &__section:not(:first-child) &__section-title::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 24px;
+    height: 1px;
+    background: rgb(255 255 255 / 0.12);
+    transform: translateX(-50%);
+    transition: opacity var(--sc-transition-fast) var(--sc-easing-default) 80ms;
+  }
+
   &:hover &__section-title,
   &:focus-within &__section-title {
     opacity: 1;
     transition-delay: 80ms;
+  }
+
+  &:hover &__section:not(:first-child) &__section-title::before,
+  &:focus-within &__section:not(:first-child) &__section-title::before {
+    opacity: 0;
+    transition-delay: 0ms;
   }
 
   &__section-items {
@@ -169,16 +196,18 @@
   }
 
   /*
-   * Collapsed-state flattening for nested nav items: when the sidebar is
-   * not hovered, depth-1+ items collapse onto the depth-0 padding so
-   * every icon lines up in a single column. Children stay rendered
-   * (visible icons), letting the user see WHICH page is active inside
-   * a section without having to expand the sidebar.
+   * Collapsed-state padding overrides:
+   *   - Every depth flattens onto a single icon column.
+   *   - The padding value is `--sc-spacing-500` (24 px) so a 16 px icon
+   *     lands centred in the 64 px gutter (24 + 8 = 32 = sidebar midline).
+   *   - On hover, the locals revert to the depth-tiered defaults so the
+   *     expanded view keeps its tree-like indentation.
    */
   &:not(:hover):not(:focus-within) {
-    --sidebar-pad-l-1: var(--sc-spacing-200);
-    --sidebar-pad-l-2: var(--sc-spacing-200);
-    --sidebar-pad-l-3: var(--sc-spacing-200);
+    --sidebar-pad-l-0: var(--sc-spacing-500);
+    --sidebar-pad-l-1: var(--sc-spacing-500);
+    --sidebar-pad-l-2: var(--sc-spacing-500);
+    --sidebar-pad-l-3: var(--sc-spacing-500);
   }
 
   /* -------- Foot -------- */
@@ -194,7 +223,10 @@
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    /* Padding-left flexes from the centred-icon offset (collapsed) to the
+     * label-aligned offset (expanded), mirroring the nav items. */
+    padding: var(--sc-spacing-100) var(--sc-spacing-200) var(--sc-spacing-100)
+      var(--sidebar-pad-l-0, var(--sc-spacing-200));
     font-size: var(--sc-font-size-100);
     color: rgb(255 255 255 / 0.4);
     background: transparent;
@@ -205,7 +237,8 @@
     overflow: hidden;
     transition:
       color var(--sc-transition-fast) var(--sc-easing-default),
-      background var(--sc-transition-fast) var(--sc-easing-default);
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      padding-left var(--sc-transition-base) var(--sc-easing-emphasized);
 
     &:hover {
       color: rgb(255 255 255 / 0.85);
