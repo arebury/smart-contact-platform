@@ -1231,7 +1231,13 @@ hybrid" (proto density + JSON colors) were rejected for the same reason.
 
 ## How to add a new entry
 
-When a session decides something load-bearing, append a numbered section
-here. Lead with **what** in one sentence, then **why** (the actual reason,
-not a paraphrase of the decision), and **what was discarded and why**. Date
-in `YYYY-MM-DD` to anchor it in time.
+**Order is newest-first** — DD#1 is at the bottom, the most recent
+decision sits at the top. When a session decides something load-bearing,
+insert a new numbered section **at the top of the file** (just under the
+header, above the current first entry), with the next number in
+sequence. Lead with **what** in one sentence, then **why** (the actual
+reason, not a paraphrase of the decision), and **what was discarded
+and why**. Date in `YYYY-MM-DD` to anchor it in time.
+
+This footer stays at the bottom; it's a writing-convention reference,
+not a chronological entry.
