@@ -644,7 +644,7 @@
   --sc-sidebar-width-expanded: 240px;
   --sc-sidebar-width: var(--sc-sidebar-width-collapsed);
   --sc-sidebar-bg: var(--sc-color-blue-700);
-  --sc-topbar-height: 48px;
+  --sc-topbar-height: 56px;
   --sc-bulk-action-bar-height: 56px;
 
   /* =========================================================== */

@@ -10,6 +10,198 @@
 
 ---
 
+## 2026-05-06 / 07 · Session 9 — Big surface pass: dark mode, breadcrumbs auto, illustrated avatars, table redesign, column manager v2, prototype-only documentation
+
+> Long session. The user's framing changed mid-way from "fix specific
+> things" to "do all the rest of what we have on the list" and then
+> to "document everything explicitly before we close". The doc weight
+> in this entry reflects the second half — it's the only place a future
+> contributor can recover *why* this many surfaces moved at once.
+
+**Worked on (in shipping order)**
+
+- **Dark mode (DD §5 of `sc-tokens.css`).** New `ThemeService` owns
+  three states (`light` / `dark` / `system`); applies `.aed-dark` to
+  `<html>`, the same selector PrimeNG's Aura preset uses, so flipping
+  the class inverts our custom UI AND every PrimeNG component without
+  per-component wiring. The §5 block in `sc-tokens.css` sets the dark
+  semantic overrides — text, surfaces, borders, icons, button
+  variants, modal, toast, sidebar — all derived from existing
+  primitives. New `/config/sistema` page hosts the three-state
+  segmented control.
+
+- **Sidebar fixes.** Cyan icon tint moved from "every parent that
+  isn't active" to "the parent of the active section only" — the
+  inverse signal. Auto-collapse: a per-nav-item effect watches the
+  current path and clears a peek-opened branch when navigation moves
+  away. Result: only one section open at a time, cyan tracks the
+  active section.
+
+- **Breadcrumbs auto-derived from route data.** Pages no longer
+  hand-roll their trail. Each route declares
+  `data: { breadcrumb: { labelKey, link? } | crumb[] }`;
+  `BreadcrumbService` walks `routerState.snapshot` on every
+  `NavigationEnd`, accumulates the URL, translates the declared
+  labels and emits a signal trail. The bug where empty-path
+  children inherited the parent crumb (`Admin > Grupos > Grumpos`)
+  was fixed by reading `route.routeConfig.data` instead of
+  `route.data` (skipping Angular's default `paramsInheritanceStrategy
+  : 'emptyOnly'` merge). 13 page components shed their breadcrumb
+  boilerplate; 9 of them lost their `ngOnInit/ngOnDestroy` entirely.
+  Section-level crumbs (Administración / Configuración) were dropped
+  from the trail later — sidebar already marks the section in cyan,
+  the redundancy was confusing.
+
+- **TopBar gained chrome.** A `LayoutDashboard` button on the left
+  goes to `/dashboard`; a brand SVG favicon (auto-adapts to
+  light/dark via `prefers-color-scheme`) replaces the missing
+  `favicon.ico`; the avatar trigger is now the
+  `IllustratedAvatarComponent` hashed from "Mario Supervisor" with
+  a 9px green presence dot, a 2px cyan ring on hover/open, and a
+  spring-easing CSS transition. Topbar height bumped 48 → 56px so
+  the avatar's hover ring and presence dot don't crowd the edge.
+
+- **User menu redesigned.** 296px popover, 44px illustrated avatar
+  in the identity block on a tinted surface, name + role + phone on
+  one composite meta line. Trailing 28px icon button on the
+  identity line opens the keyboard-shortcuts overlay (replaces the
+  earlier `?` button in the topbar AND the earlier shortcuts row
+  in the menu — both demoted to a single low-prominence affordance
+  next to the role line). Menu actions are Help + Logout. Spring-
+  feeling enter via cubic-bezier keyframe; `prefers-reduced-motion`
+  respected.
+
+- **Illustrated avatars.** New
+  `IllustratedAvatarComponent` reads from one of two pools:
+  `illustrated/` (24 person portraits, default) or `abstract/` (3
+  non-personal patterns for groups). Hashes the entity name to a
+  pool entry; `[photo]` overrides. `PhotoUploadComponent` accepts
+  `[name]` and renders the illustrated fallback when no photo is
+  uploaded — the form preview matches the list cell. The horizontal
+  `special/group.svg` (5-stacked-portraits strip) is parked for a
+  future "group members" surface where its aspect ratio fits.
+  Agents list migrated to `pool="illustrated"`, groups list to
+  `pool="abstract"`. EntityAvatarComponent is kept around but no
+  longer used by either list page (it stays in the registry for
+  any future non-people, non-functional avatar slot).
+
+- **Tables redesigned (commit `11dceab`).** Replaced the AI-default
+  chrome with a custom `.sc-*` vocabulary:
+  - `.sc-label` (typographic uppercase tracked label on tinted bg)
+    replaces `.status-pill` and `.priority-pill`. **No leading
+    dot.** The dot+text pattern is the most overused admin trope.
+  - `.sc-channel-row` (bare lucide icons tinted per channel: voz
+    green, chat soft-blue, email neutral) replaces three identical
+    chip-with-border-and-bg wrappers.
+  - `.sc-type-tag` (caption-medium tracked) replaces raw enum text
+    in the `type` column.
+  - `.sc-icon-btn` + `.sc-action-divider` turn the export button
+    into a 32px ghost square with a 1px vertical divider before it
+    so primary (Crear) and secondary (column-manager + export)
+    actions read as separate clusters.
+  - `.sc-table-zebra` opt-in 5%-tint on even rows, drops per-row
+    1px borders.
+  - `MoreHorizontal` row-menu icon → `EllipsisVertical`. The
+    horizontal three-dot is the most recognisable AI-default
+    icon there is.
+
+- **Column manager v2 (this commit).** `ColumnSelectorComponent`
+  gained a vertical-grip drag handle per row using
+  `@angular/cdk/drag-drop`. Persisted state shifted from
+  `Set<string>` to `string[]` (visible keys in display order) —
+  one value carries both axes. `code` column in agents and groups
+  ships hidden by default (`defaultVisible: false`). Storage keys
+  bumped to `_v2`. Agents list refactored to a data-driven render
+  loop (`@for (col of orderedColumns()) @switch ...`) so the
+  reorder propagates to both header and body; groups + users keep
+  their existing `(visibilityChange)` binding via a backward-compat
+  output and only get visibility + hide-by-default for now (their
+  data-driven migration is the obvious next step).
+
+- **Prototype-only escape hatches added and explicitly documented.**
+  - **`?` keyboard shortcuts overlay** (`KeyboardShortcutsService` +
+    `KeyboardShortcutsComponent`) — opened by the `?` key globally
+    or by the icon button in the user menu. **Prototype-only**, see
+    DD#37.
+  - **Factory reset** (`/config/sistema` → "Restaurar datos de
+    fábrica"). Wipes every `smartcontact_*` localStorage key and
+    reloads. Theme + column prefs untouched. **Prototype-only**, see
+    DD#38.
+
+- **CI / Netlify deploy unblocked.** Every commit since
+  `c135df7` (dark mode) had failed `ng build --configuration
+  production` because `IllustratedAvatar.photo` was typed
+  `string | null` while `Agent.photo?: string` is `string |
+  undefined`. `tsc --noEmit` didn't catch it; Angular's strict
+  template type-check did. Widened the input type. A second CI
+  failure on the same chain — `NG5002: 'as' is only on the
+  primary @if block` — was fixed by nesting `@if` inside `@else`.
+  Result: `f00a4ae` is the first green CI on `main` since dark
+  mode shipped, which unblocks the Netlify auto-deploy.
+
+**New decisions documented**
+
+- DD#39 — Hybrid table architecture (native `<table>` + `.sc-*`,
+  rejected `<p-table>`).
+- DD#40 — Column manager v2 (CDK Drag-Drop in popover, rejected
+  header drag and `<p-table>` reorder).
+- DD#41 — Avatar system (illustrated + abstract pools,
+  deterministic hash, photo override, hover zoom via CSS).
+- DD#42 — `/config/sistema` is the prototype-only kitchen sink.
+
+**Discarded (and why)**
+
+- **Migrating list tables to PrimeNG `<p-table>`** — would have
+  given reorder + virtual scroll out of the box, but at the cost
+  of the entire `.sc-*` design system pass. DD#39.
+- **Spreadsheet-style header drag for column reorder** — too rare
+  in admin tools, conflicts with sortable headers. DD#40.
+- **Avatar picker UI in agent / user form** — feature creep
+  without a clear use case. The 8 named avatars in
+  `src/assets/avatars/named/` are kept around in case this comes
+  back. DD#41.
+- **Renaming "Código" column to "PIN" in agents** — agents
+  already have a separate `pin?: string` field (numeric phone
+  PIN). Renaming the `code` field would clash with `pin`;
+  renaming only the label would lie about what the cell shows.
+  Held until the user explicitly confirms which field should
+  surface in the list.
+- **Bottom-right floating `?` button** — would collide with the
+  bulk-action-bar that appears on every list page selection,
+  and the FAB convention is for chat / help-center widgets,
+  not keyboard cheat sheets.
+
+**Principles applied (loaded skills)**
+
+- **`/impeccable`** — banned side-stripe borders, gradient text,
+  AI-purple/cyan-on-dark glow palettes, identical-card grids,
+  generic 3-dot icons. Pushed for typographic + tinted-bg labels
+  over dot-and-text pills, OKLCH-aware dark mode tokens, fewer
+  cards in favour of negative space and hierarchy.
+- **`/ui-ux-pro-max`** — used as a critical lens during the
+  table audit ("don't just remove the dot, replace it with
+  something more expressive — typographic uppercase tracked
+  labels, tinted backgrounds"). Surfaced the channels / type /
+  export-button calls.
+- **`/taste-skill`** — pushed for the user-menu redesign:
+  illustrated avatar trigger, presence dot, spring-easing
+  enter, no `Inter`/`MoreHorizontal`/AI-default fingerprints.
+
+**Known follow-ups (deliberately not in this session)**
+
+- Groups + users list pages still render via `@if (isColVisible(...))`
+  — they receive visibility updates but not order. Migrating them to
+  the data-driven `@for + @switch` pattern is a mechanical refactor
+  and the obvious next session.
+- `#3 Tokens JSON / Style Dictionary` — multi-day, structural; only
+  worth it if the design tokens need to leave the web bundle (iOS /
+  Android). Deferred until that requirement materialises.
+- The 8 named avatars in `src/assets/avatars/named/` (Female02,
+  Male05, abstract-02, etc) are unused. Kept for a future manual
+  avatar picker if the deterministic hash stops being good enough.
+
+---
+
 ## 2026-05-06 · Session 8 — Sidebar polish (color, click-collapse, flat icon column, no header count)
 
 **Worked on**

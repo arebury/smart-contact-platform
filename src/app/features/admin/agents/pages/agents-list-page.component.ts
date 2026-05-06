@@ -62,7 +62,10 @@ interface PendingBulkEdit {
   readonly valueLabel: string;
 }
 
-const COLUMN_PREF_KEY = 'sc_agents_columns_v1';
+/* v2 — schema bumped from a Set<string> to an ordered string[] when the
+ * ColumnSelector gained drag-to-reorder + per-column defaultVisible.
+ * Older `_v1` caches no longer parse and are silently ignored. */
+const COLUMN_PREF_KEY = 'sc_agents_columns_v2';
 const AGENT_TYPES: readonly AgentType[] = ['normal', 'cuscare', 'cuscare_carrier', 'admin_cuscare'];
 const PRESENCE_STATES: readonly PresenceStatus[] = [
   'disponible',
@@ -129,10 +132,17 @@ export class AgentsListPageComponent {
   protected readonly renamingId = signal<number | null>(null);
   protected readonly pendingBulkEdit = signal<PendingBulkEdit | null>(null);
   protected readonly columnPrefKey = COLUMN_PREF_KEY;
-  protected readonly visibleColumns = signal<ReadonlySet<string>>(new Set());
+  /** Ordered list of currently-visible column keys. Drives both the
+   *  column-selector menu and the table's data-driven `<thead>` /
+   *  `<tbody>` render loops. */
+  protected readonly orderedColumns = signal<readonly string[]>([]);
 
   protected readonly columnDefs = computed<readonly ColumnDef[]>(() => [
-    { key: 'code', label: this.translate.instant('agents.table.code') },
+    {
+      key: 'code',
+      label: this.translate.instant('agents.table.code'),
+      defaultVisible: false,
+    },
     { key: 'name', label: this.translate.instant('agents.table.name'), locked: true },
     { key: 'extension', label: this.translate.instant('agents.table.extension') },
     { key: 'channels', label: this.translate.instant('agents.table.channels') },
@@ -256,16 +266,8 @@ export class AgentsListPageComponent {
     return this.emailIcon;
   }
 
-  protected isColVisible(key: string): boolean {
-    const set = this.visibleColumns();
-    // Until the ColumnSelector emits its first value the set is empty —
-    // render every column so the table never appears collapsed.
-    if (set.size === 0) return true;
-    return set.has(key);
-  }
-
-  protected onColumnsChange(set: ReadonlySet<string>): void {
-    this.visibleColumns.set(set);
+  protected onOrderedColumnsChange(keys: readonly string[]): void {
+    this.orderedColumns.set(keys);
   }
 
   protected toggleSort(field: SortField): void {

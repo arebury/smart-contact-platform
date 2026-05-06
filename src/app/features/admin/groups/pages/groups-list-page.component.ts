@@ -62,7 +62,9 @@ interface PendingBulkEdit {
   readonly valueLabel: string;
 }
 
-const COLUMN_PREF_KEY = 'sc_groups_columns_v1';
+/* v2 — bumped when ColumnSelector schema changed (set → ordered array)
+ * and when `code` started shipping hidden by default. */
+const COLUMN_PREF_KEY = 'sc_groups_columns_v2';
 
 @Component({
   selector: 'aed-groups-list-page',
@@ -122,7 +124,11 @@ export class GroupsListPageComponent {
   protected readonly visibleColumns = signal<ReadonlySet<string>>(new Set());
 
   protected readonly columnDefs = computed<readonly ColumnDef[]>(() => [
-    { key: 'code', label: this.translate.instant('groups.table.code') },
+    {
+      key: 'code',
+      label: this.translate.instant('groups.table.code'),
+      defaultVisible: false,
+    },
     { key: 'name', label: this.translate.instant('groups.table.name'), locked: true },
     { key: 'phone', label: this.translate.instant('groups.table.phone') },
     { key: 'channels', label: this.translate.instant('groups.table.channels') },

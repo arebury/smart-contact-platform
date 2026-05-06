@@ -961,6 +961,223 @@ configured. The prefix filter keeps the action surgical.
 
 ---
 
+## 39 — Hybrid table architecture: native `<table>` + custom `.sc-*` design system, no PrimeNG p-table (2026-05-07)
+
+**Decision.** The three list pages (agents, users, groups) keep using
+native HTML `<table>` markup styled by a hand-rolled `.sc-*` design
+system (`.sc-label`, `.sc-channel-row`, `.sc-type-tag`, `.sc-icon-btn`,
+`.sc-action-divider`, `.sc-table-zebra` — all in
+`src/styles/_table-elements.scss`). PrimeNG's `<p-table>` is **NOT**
+adopted, even though the project already loads PrimeNG.
+
+**Why.** The audit pass that produced these tokens (commit `11dceab`,
+"replace AI-default chrome with custom design system") explicitly
+called out the dot+text status pill, identical-chip channels column,
+generic ghost export button and `MoreHorizontal` row menu icon as the
+most recognisable AI-default tropes in the screen. The `.sc-*`
+vocabulary replaced each of those with a deliberately edited
+treatment (typographic uppercase tracked label on a tinted bg, bare
+icons tinted per channel, 32px ghost square + 1px divider, vertical
+ellipsis). Migrating to `p-table` would force most of that work to
+either be redone fighting PrimeNG's selectors, or to be lost
+entirely — `p-table` ships a strong opinionated chrome that is the
+exact convention we walked away from.
+
+The hybrid name comes from this split:
+  - **HTML semantics** stay native: `<table>`, `<thead>`, `<tbody>`,
+    `<tr>`, `<th>`, `<td>`. Screen readers, keyboard navigation,
+    print, and copy-paste all work the way browsers expect — no
+    custom ARIA scaffolding required.
+  - **Design system** is custom: every cell type (`status`,
+    `channels`, `type`, `actions`) renders through a `.sc-*` class
+    owned by us, so the visual language is a single source of truth
+    across the three list pages.
+  - **Render logic** is Angular component-driven: each list page
+    composes `aed-illustrated-avatar`, `aed-group-popover`,
+    `aed-inline-rename-cell`, `aed-bulk-edit-menu`, etc into the
+    `<td>` slots it needs. We get the productive pieces of
+    component-driven UI without ceding the chrome to a black-box
+    grid component.
+
+**Discarded.**
+- **`<p-table>` migration** (option a in the audit). Cost: rewrite
+  the three list pages, fight `:host ::ng-deep` to override
+  `.p-datatable-*` selectors that don't accept the `.sc-*` tokens
+  cleanly, lose `cdk drag-drop` integration ergonomics. Benefit:
+  built-in pagination + filters + virtual scroll. We don't need
+  those at the current dataset sizes.
+- **CSS Grid table** (with `display: grid` on `<table>`). Cost:
+  loses semantic table behaviour at a11y boundary. Benefit:
+  finer-grained cell layout. Not worth the trade.
+
+**How to roll back if production needs `p-table`.** Drop
+`src/styles/_table-elements.scss`, remove the `@use 'table-elements'`
+line in `main.scss`, replace each list-page table with `<p-table>`
++ column templates, and accept that the agents/users/groups screens
+will adopt PrimeNG's chrome. Estimate: ~1 day per list page.
+
+---
+
+## 40 — Column manager: visibility + order via CDK Drag-Drop in a popover, never on the header (2026-05-07)
+
+**Decision.** Each list page exposes column **visibility** AND
+**display order** through the same popover (the column-selector icon
+button in the action bar). The popover renders one row per column
+with a checkbox (visibility) and a vertical-grip handle (drag
+target). Reorder is implemented with `@angular/cdk` drag-drop. State
+is persisted to `localStorage` as a `string[]` of visible keys in
+display order. Header columns themselves are NOT draggable.
+
+**Why.** Three options were on the table when reorder was requested:
+
+  - **(a) Migrate to `<p-table>` for `[reorderableColumns]="true"`.**
+    Rejected because of DD#39 — kills the custom design system.
+  - **(b) CDK Drag-Drop inside the column-manager popover.** The
+    convention used by Notion, Linear, Airtable's settings panels,
+    GitHub's project boards. Discoverable via the explicit "columns"
+    affordance, low layout risk (the popover handles overflow
+    locally), no contention with sortable headers (which already
+    consume header clicks).
+  - **(c) Drag from the `<th>` headers themselves**, spreadsheet-
+    style. Rejected as too rare in admin tools — users don't expect
+    `<table>` headers to be draggable, and the gesture collides
+    with the existing sort-on-header-click. Plus it requires
+    custom drop-zone math across cells, a lot of code for a
+    rarely-used affordance.
+
+Locked columns (e.g. `name`) are NOT draggable and pin to the top
+of the menu. The data-driven render loop keeps them at slot 0 of
+every row (after the leading checkbox column). The `<th
+class="table__th-actions">` slot at the row's tail is also fixed —
+not in the column manager at all, hard-coded in the template.
+
+The persisted shape is `string[]` (visible keys in order) instead
+of `Set<string>`. This carries both axes (visibility + order) in
+one value with no schema duplication. Reading the stored list:
+  - keys not in the current declaration are dropped (column
+    removed from code);
+  - newly-declared keys not in the stored list are appended in
+    declaration order, honouring `defaultVisible: false` if set
+    (so a developer can add a hidden-by-default column without
+    surprising existing users).
+
+`storageKey` carries a `_v<N>` suffix; bumping invalidates stale
+caches. Bumped to `_v2` in this commit for agents and groups when
+the schema changed and `code` shipped hidden by default.
+
+**Discarded.**
+- A separate "Reset" button per axis (one for visibility, one for
+  order). The single "Restablecer" link in the popover head resets
+  both — clearer mental model.
+- Header-drag fallback for keyboard users. Reorder is currently
+  mouse-only via the grip. Considered acceptable because the
+  feature is power-user adjacency; keyboard-only users still get
+  visibility checkboxes and the columns render in declaration
+  order if they never reorder.
+
+**How to roll back.** Strip the CDK imports from
+`column-selector.component.ts`, drop the grip from the row
+template, and emit the `Set<string>` again instead of `string[]`.
+The list pages already accept `(visibilityChange)` for backward
+compat — no template changes required to lose reorder, only to
+lose the order axis.
+
+---
+
+## 41 — Avatar system: two pools (illustrated + abstract), deterministic hash, photo override, hover zoom via CSS (2026-05-07)
+
+**Decision.** A single `<aed-illustrated-avatar>` component drives
+every entity-shaped avatar slot in the app. Two SVG pools live under
+`src/assets/avatars/`:
+  - `illustrated/` — 24 person portraits. Default. Used wherever
+    the entity is conceptually a person (agents, users, the topbar
+    supervisor avatar).
+  - `abstract/` — 3 non-personal abstract patterns. Used for
+    entities that are NOT people (groups). Picked via `[pool]
+    ="'abstract'"`.
+
+The component picks one SVG from the active pool by hashing the
+entity name (djb2 + modulo). When `[photo]` is set, the photo wins.
+Hover applies a `transform: scale(1.125)` to the inner SVG inside
+an outer wrapper with `border-radius: 50%; overflow: hidden;` —
+the SVG's own circular clip-path scales along and the outer
+wrapper re-clips, producing the same "image fills more of the
+circle on hover" effect as the Figma source's separate `Default` /
+`Hover` SVG pair without shipping two assets.
+
+`PhotoUploadComponent` accepts an optional `[name]` so its
+no-photo placeholder renders the same hashed illustration the
+list shows — the form preview matches the row cell.
+
+**Why.**
+- **Initials over hashed colour was the original treatment**
+  (`EntityAvatarComponent`). It read fine in dense lists but
+  flat in detail / form views. The illustrated portraits have
+  more personality without claiming photographic realism.
+- **Hashing instead of an avatar picker** keeps the form simple
+  and the avatar consistent across pages without an extra UI
+  surface to maintain. Same name → same illustration, every page,
+  every reload.
+- **Two pools instead of one** because assigning a person face to
+  a group like "Ventas Nacional" reads accidental — the same
+  shape as the original initials problem in reverse. The abstract
+  pool ships only 3 patterns (intentionally low variance — groups
+  rarely number in the dozens, so collisions are tolerable).
+
+**Discarded.**
+- **Manual avatar picker.** Considered for the agent form (the 8
+  named avatars in `src/assets/avatars/named/` are kept around for
+  this in case it's ever wanted). Cut for now: the deterministic
+  hash already removes the "blank face" problem; an admin picking
+  an avatar manually is one more form step without a clear use
+  case yet.
+- **Group avatar as a horizontal stack of member portraits**
+  (`special/group.svg`, the 120×24 strip). Rejected because the
+  strip is too horizontal to fit a row cell — kept as an asset for
+  a future "group members" surface (member roster, dashboard
+  card) where its aspect ratio works.
+- **Loading both `Default.svg` and `Hover.svg` at runtime to
+  toggle on hover.** Rejected because the same effect is one CSS
+  transform on the original asset.
+
+**How to roll back.** Revert agents-list and groups-list HTML to
+the previous `<aed-entity-avatar>` (initials on color); the
+component is still in the registry. Revert the
+`PhotoUploadComponent.name` input to drop the illustrated
+fallback. The 24+3 SVGs can stay shipped — they're small.
+
+---
+
+## 42 — Sistema page is the prototype-only kitchen sink (2026-05-07)
+
+**Decision.** The `/config/sistema` page hosts two unrelated
+features that share the property of being prototype-only or
+prototype-adjacent:
+  - **Apariencia** — the three-state theme picker
+    (Claro / Oscuro / Sistema), production-ready, owned by
+    `ThemeService`.
+  - **Datos** — the "Restaurar datos de fábrica" button, prototype-
+    only, removed when the real backend lands. See DD#38.
+
+**Why this structure.** The two affordances have different
+lifecycles (theme is permanent; reset is temporary), but they
+share the same conceptual "system / settings" home. Splitting
+them into two pages would inflate the config sidebar tree for
+no real reason. Grouping them on `/sistema` lets the prototype
+ship the reset path without giving it more UI weight than it
+deserves, and makes the eventual deletion of the reset section
+(when the backend lands) a clean local change.
+
+**Discarded.** Putting the reset button on a separate
+`/config/datos` page — over-architecture for one button.
+
+**How to apply.** New cross-cutting client-side preferences land
+in this same page as additional `<section class="card">` blocks.
+Production-only items go above the fold; prototype-only items go
+below with a clearly-labelled section title.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section

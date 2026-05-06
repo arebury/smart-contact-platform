@@ -167,13 +167,13 @@
      * to feel deliberately placed, not jammed under the trigger. */
     right: calc(-1 * var(--sc-spacing-100));
     top: calc(100% + var(--sc-spacing-200));
-    width: 280px;
+    width: 296px;
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-300);
     box-shadow: var(--sc-shadow-popover);
     z-index: var(--sc-z-popover);
-    padding: var(--sc-spacing-150);
+    padding: var(--sc-spacing-200);
     /* Spring-feeling enter via cubic-bezier — no library, no JS. */
     animation: top-bar__menu-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
     transform-origin: top right;
@@ -183,7 +183,7 @@
     display: flex;
     align-items: center;
     gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-150);
+    padding: var(--sc-spacing-200) var(--sc-spacing-300) var(--sc-spacing-200) var(--sc-spacing-200);
     border-radius: var(--sc-radius-200);
     background: var(--sc-bg-default);
   }
@@ -216,9 +216,42 @@
     color: var(--sc-color-gray-300);
   }
 
+  /* Trailing icon button on the identity line — opens the keyboard
+   * shortcuts overlay. Demoted from a full menu row because it's a
+   * low-frequency power-user action; an icon-only affordance with a
+   * tooltip preserves discoverability without claiming a row. */
+  &__menu-shortcut {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sc-icon-subtle);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--sc-radius-100);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default),
+      border-color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      background: var(--sc-bg-surface);
+      color: var(--sc-text-secondary);
+      border-color: var(--sc-border-default);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
   &__menu-actions {
-    padding-top: var(--sc-spacing-150);
-    margin-top: var(--sc-spacing-150);
+    padding-top: var(--sc-spacing-200);
+    margin-top: var(--sc-spacing-200);
     border-top: 1px solid var(--sc-border-subtle);
     display: flex;
     flex-direction: column;
@@ -230,7 +263,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-150) var(--sc-spacing-200);
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     background: transparent;
@@ -244,34 +277,14 @@
       color: var(--sc-icon-subtle);
     }
 
-    /* Push the trailing keyboard-hint kbd to the right edge so the
-     * shortcut menu item reads as `[icon] [label] ............ [?]` —
-     * mirrors how Linear / Vercel surface keyboard shortcuts inside
-     * their popovers. */
-    & > span:not(.top-bar__menu-kbd) {
-      flex: 1;
-    }
-
     &:hover {
-      background: var(--sc-bg-default);
+      background: var(--sc-bg-surface);
     }
 
     &:focus-visible {
       outline: 2px solid var(--sc-color-soft-blue-500);
       outline-offset: -2px;
     }
-  }
-
-  &__menu-kbd {
-    font-family: var(--sc-font-family-primary);
-    font-size: var(--sc-font-size-50);
-    font-weight: var(--sc-font-weight-semibold);
-    line-height: 1;
-    padding: 3px 6px;
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-50);
-    background: var(--sc-bg-default);
-    color: var(--sc-text-subtle);
   }
 }
 
