@@ -67,32 +67,10 @@
   &__icon {
     flex-shrink: 0;
     color: rgb(255 255 255 / 0.5);
-    transition: opacity var(--sc-transition-fast) var(--sc-easing-default);
 
     .nav-item--active & {
       color: var(--sc-color-gray-0);
     }
-  }
-
-  /*
-   * Parent items (those with children) are structural, not destinations.
-   * In the COLLAPSED sidebar — where labels are hidden and the icon is
-   * the only signal — render the parent icon at lower opacity so it
-   * reads as a section header rather than a clickable target. As soon
-   * as the sidebar expands (label + chevron visible) the affordance is
-   * unambiguous, so opacity goes back to 1.
-   *
-   * Active branch wins: if the current page lives inside this parent's
-   * subtree, the icon stays bright so the user can see "I am here".
-   *
-   * The opacity ramp is driven by `--sidebar-parent-icon-opacity` on
-   * the `.sidebar` host (set to 0.4 by default, 1.0 on hover) — using
-   * a shared CSS custom property is the only way to react to the
-   * sidebar's hover state from inside this child component's
-   * encapsulated styles without `::ng-deep`.
-   */
-  &--parent:not(&--active):not(&--child-active) &__icon {
-    opacity: var(--sidebar-parent-icon-opacity, 0.4);
   }
 
   /*
