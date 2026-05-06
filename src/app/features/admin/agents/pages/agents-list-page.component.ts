@@ -12,6 +12,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   Copy,
   Download,
+  Headphones,
   LucideAngularModule,
   Mail,
   MessageSquare,
@@ -35,10 +36,13 @@ import {
   ColumnDef,
   ColumnSelectorComponent,
   DeleteEntityDialogComponent,
+  EmptyStateComponent,
+  GroupPopoverComponent,
   ImpactBadge,
   ImpactItem,
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
+  ResultCounterComponent,
 } from '@shared/components';
 import {
   AGENT_TYPE_LABEL_KEYS,
@@ -84,9 +88,12 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
     ClickOutsideDirective,
     ColumnSelectorComponent,
     DeleteEntityDialogComponent,
+    EmptyStateComponent,
+    GroupPopoverComponent,
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
+    ResultCounterComponent,
     TranslateModule,
   ],
   templateUrl: './agents-list-page.component.html',
@@ -113,6 +120,7 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
   protected readonly phoneIcon = Phone;
   protected readonly chatIcon = MessageSquare;
   protected readonly emailIcon = Mail;
+  protected readonly emptyIcon = Headphones;
 
   protected readonly typeKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;

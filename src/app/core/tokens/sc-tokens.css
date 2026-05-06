@@ -418,6 +418,59 @@
   --sc-label-purple-dot: #a855f7;
 
   /* =========================================================== */
+  /* 2.7 SEMANTIC — Toast (Smart Contact design — Figma 1050:354) */
+  /* =========================================================== */
+  /*
+   * Per-severity background / border / icon-square colors for the
+   * notification toast. The "icon" token paints the small rounded
+   * square that holds the severity glyph; the glyph itself is white.
+   *
+   * Title / message / close-icon colors are shared across severities
+   * and reuse the gray semantic scale.
+   */
+
+  /* Shared text colors (shared across all severities) */
+  --sc-toast-title: var(--sc-color-gray-800);
+  --sc-toast-message: var(--sc-color-gray-600);
+  --sc-toast-close: var(--sc-color-gray-800);
+  --sc-toast-icon-fg: var(--sc-color-gray-0, #fff);
+
+  /* Shared geometry */
+  --sc-toast-radius: 12px;
+  --sc-toast-padding-x: 16px;
+  --sc-toast-padding-y: 16px;
+  --sc-toast-gap-content: 8px;
+  --sc-toast-gap-actions: 8px;
+  --sc-toast-gap-message: 4px;
+  --sc-toast-icon-size: 24px;
+  --sc-toast-icon-radius: 6px;
+
+  /* Success */
+  --sc-toast-success-bg: var(--sc-color-green-50);
+  --sc-toast-success-border: var(--sc-color-green-600);
+  --sc-toast-success-icon-bg: var(--sc-color-green-500);
+
+  /* Info */
+  --sc-toast-info-bg: var(--sc-color-electric-blue-50);
+  --sc-toast-info-border: var(--sc-color-electric-blue-500);
+  --sc-toast-info-icon-bg: var(--sc-color-electric-blue-500);
+
+  /* Warning (PrimeNG calls it "warn") */
+  --sc-toast-warn-bg: var(--sc-color-yellow-50);
+  --sc-toast-warn-border: var(--sc-color-yellow-500);
+  --sc-toast-warn-icon-bg: var(--sc-color-yellow-500);
+
+  /* Error */
+  --sc-toast-error-bg: var(--sc-color-red-50);
+  --sc-toast-error-border: var(--sc-color-red-500);
+  --sc-toast-error-icon-bg: var(--sc-color-red-500);
+
+  /* Indigo (reserved for future "neutral notice" — not currently used) */
+  --sc-toast-indigo-bg: var(--sc-color-indigo-50);
+  --sc-toast-indigo-border: var(--sc-color-indigo-500);
+  --sc-toast-indigo-icon-bg: var(--sc-color-indigo-500);
+
+  /* =========================================================== */
   /* 3.1 CUSTOM — Layout (extends JSON)                          */
   /* =========================================================== */
   --sc-sidebar-width: 220px;

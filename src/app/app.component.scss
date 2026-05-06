@@ -4,65 +4,164 @@
 }
 
 /*
- * Custom toast template — replaces the default PrimeNG message body so we
- * can inline a "Deshacer" action button when an undo entry is attached
- * (`message.data.undoEntryId`).
+ * Toast — Smart Contact design system (Figma node 1050:354).
+ *
+ * Light variant: tinted background + saturated border + dark text. The
+ * severity glyph sits inside a small colored square. Layout is horizontal
+ * (icon · body · optional action · close X) so a single line of summary +
+ * the "Deshacer" button fits in one row at top-right.
+ *
+ * All colors flow through `--sc-toast-*` tokens declared in sc-tokens.css.
  */
 .aed-toast {
   display: flex;
   align-items: flex-start;
-  gap: var(--sc-spacing-300);
-  padding: var(--sc-spacing-300) var(--sc-spacing-400);
-  border-left: 4px solid var(--sc-color-info, #2563eb);
-  background: var(--sc-bg-elevated, #ffffff);
-  color: var(--sc-text-primary);
-  min-width: 280px;
+  gap: var(--sc-toast-gap-content);
+  min-width: 320px;
+  max-width: 440px;
+  padding: var(--sc-toast-padding-y) var(--sc-toast-padding-x);
+  border: 1px solid var(--sc-toast-info-border);
+  border-radius: var(--sc-toast-radius);
+  background: var(--sc-toast-info-bg);
+  color: var(--sc-toast-title);
 
   &[data-severity='success'] {
-    border-left-color: var(--sc-color-success, #16a34a);
+    background: var(--sc-toast-success-bg);
+    border-color: var(--sc-toast-success-border);
   }
+
+  &[data-severity='info'] {
+    background: var(--sc-toast-info-bg);
+    border-color: var(--sc-toast-info-border);
+  }
+
   &[data-severity='warn'] {
-    border-left-color: var(--sc-color-warning, #d97706);
+    background: var(--sc-toast-warn-bg);
+    border-color: var(--sc-toast-warn-border);
   }
+
   &[data-severity='error'] {
-    border-left-color: var(--sc-color-danger, #dc2626);
+    background: var(--sc-toast-error-bg);
+    border-color: var(--sc-toast-error-border);
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    width: var(--sc-toast-icon-size);
+    height: var(--sc-toast-icon-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--sc-toast-icon-radius);
+    color: var(--sc-toast-icon-fg);
+
+    .aed-toast[data-severity='success'] & {
+      background: var(--sc-toast-success-icon-bg);
+    }
+    .aed-toast[data-severity='info'] & {
+      background: var(--sc-toast-info-icon-bg);
+    }
+    .aed-toast[data-severity='warn'] & {
+      background: var(--sc-toast-warn-icon-bg);
+    }
+    .aed-toast[data-severity='error'] & {
+      background: var(--sc-toast-error-icon-bg);
+    }
   }
 
   &__body {
     flex: 1 1 auto;
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-toast-gap-message);
   }
 
-  &__summary {
-    font-size: 13px;
-    font-weight: 500;
-    line-height: 1.35;
+  &__title {
+    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--sc-toast-title);
   }
 
-  &__detail {
-    margin-top: 2px;
+  &__message {
+    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+    font-weight: 400;
     font-size: 12px;
-    color: var(--sc-text-subtle);
-    line-height: 1.35;
+    line-height: 18px;
+    color: var(--sc-toast-message);
   }
 
   &__action {
     flex: 0 0 auto;
-    padding: var(--sc-spacing-150) var(--sc-spacing-300);
+    align-self: flex-start;
+    padding: 6px 12px;
     border: 1px solid var(--sc-border-default);
-    background: transparent;
-    color: var(--sc-text-primary);
+    border-radius: 6px;
+    background: var(--sc-bg-elevated, #fff);
+    color: var(--sc-toast-title);
+    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
     font-size: 12px;
     font-weight: 500;
+    line-height: 1;
     cursor: pointer;
+    transition: background var(--sc-transition-fast, 120ms) ease;
 
     &:hover {
-      background: var(--sc-bg-subtle);
+      background: var(--sc-bg-subtle, #f7f8fa);
     }
 
     &:focus-visible {
       outline: 2px solid var(--sc-border-focus, #2563eb);
-      outline-offset: 1px;
+      outline-offset: 2px;
     }
   }
+
+  &__close {
+    flex: 0 0 auto;
+    align-self: flex-start;
+    margin-left: 4px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--sc-toast-close);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+
+    &:hover {
+      background: rgb(0 0 0 / 0.04);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-border-focus, #2563eb);
+      outline-offset: 2px;
+    }
+  }
+}
+
+/*
+ * PrimeNG wraps each toast in `.p-toast-message-content`. Strip its
+ * default padding/background so our `.aed-toast` is the only chrome.
+ */
+:host ::ng-deep .p-toast .p-toast-message {
+  background: transparent;
+  border: 0;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.08);
+  margin-bottom: 12px;
+}
+
+:host ::ng-deep .p-toast .p-toast-message-content {
+  padding: 0;
+  align-items: stretch;
+}
+
+:host ::ng-deep .p-toast .p-toast-message-icon,
+:host ::ng-deep .p-toast .p-toast-icon-close {
+  display: none;
 }

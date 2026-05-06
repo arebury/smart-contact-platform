@@ -18,6 +18,7 @@ import {
   Plus,
   Search,
   Trash2,
+  UserCog,
   X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
@@ -29,7 +30,9 @@ import {
   ColumnDef,
   ColumnSelectorComponent,
   DeleteEntityDialogComponent,
+  EmptyStateComponent,
   InlineRenameCellComponent,
+  ResultCounterComponent,
 } from '@shared/components';
 import { USER_TYPE_LABEL_KEYS, User, UserType } from '../data/users-data';
 import { UsersStore } from '../state/users.store';
@@ -52,8 +55,10 @@ interface ContextMenuPos {
     ClickOutsideDirective,
     ColumnSelectorComponent,
     DeleteEntityDialogComponent,
+    EmptyStateComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
+    ResultCounterComponent,
     TranslateModule,
   ],
   templateUrl: './users-list-page.component.html',
@@ -77,6 +82,7 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
   protected readonly editIcon = Pencil;
   protected readonly trashIcon = Trash2;
   protected readonly copyIcon = Copy;
+  protected readonly emptyIcon = UserCog;
 
   protected readonly typeLabelKeys = USER_TYPE_LABEL_KEYS;
   protected readonly users = this.usersStore.users;

@@ -1,10 +1,15 @@
 <p-toast position="top-right">
   <ng-template let-message pTemplate="message">
-    <div class="aed-toast" [attr.data-severity]="message.severity">
+    <div class="aed-toast" [attr.data-severity]="message.severity ?? 'info'">
+      <div class="aed-toast__icon" aria-hidden="true">
+        <lucide-icon [img]="iconFor(message.severity)" [size]="14" />
+      </div>
       <div class="aed-toast__body">
-        <div class="aed-toast__summary">{{ message.summary }}</div>
+        @if (message.summary) {
+          <div class="aed-toast__title">{{ message.summary }}</div>
+        }
         @if (message.detail) {
-          <div class="aed-toast__detail">{{ message.detail }}</div>
+          <div class="aed-toast__message">{{ message.detail }}</div>
         }
       </div>
       @if (message.data?.undoEntryId; as undoId) {
@@ -12,6 +17,14 @@
           {{ 'common.undo' | translate }}
         </button>
       }
+      <button
+        type="button"
+        class="aed-toast__close"
+        [attr.aria-label]="'common.close' | translate"
+        (click)="onClose()"
+      >
+        <lucide-icon [img]="closeIcon" [size]="14" />
+      </button>
     </div>
   </ng-template>
 </p-toast>
