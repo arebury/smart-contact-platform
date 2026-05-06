@@ -22,8 +22,10 @@
     class="top-bar__user"
     (aedClickOutside)="closeUserMenu()"
     [aedClickOutsideEnabled]="userMenuOpen()"
+    (keydown)="onMenuKeydown($event)"
   >
     <button
+      #avatarBtn
       type="button"
       class="top-bar__avatar"
       aria-haspopup="menu"

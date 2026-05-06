@@ -51,7 +51,8 @@ interface FormState {
 
 type SummaryTab = 'groups' | 'services';
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+/** RFC-permissive email — accepts `user+tag@domain.tld` (delegate addresses). */
+const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
 
 @Component({
   selector: 'aed-user-form-page',

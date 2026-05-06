@@ -479,55 +479,6 @@
   }
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sc-spacing-100);
-  padding: var(--sc-spacing-100) var(--sc-spacing-400);
-  font-size: var(--sc-font-size-200);
-  font-weight: var(--sc-font-weight-medium);
-  border: 1px solid transparent;
-  border-radius: var(--sc-radius-100);
-  cursor: pointer;
-  transition: background var(--sc-transition-fast) var(--sc-easing-default);
-  flex-shrink: 0;
-
-  &:focus-visible {
-    outline: 2px solid var(--sc-color-soft-blue-500);
-    outline-offset: 2px;
-  }
-
-  &:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-  }
-
-  &--danger {
-    color: var(--sc-text-on-error);
-    background: var(--sc-bg-danger);
-    border-color: var(--sc-bg-danger);
-
-    &:hover:not(:disabled) {
-      background: var(--sc-bg-danger-hover);
-      border-color: var(--sc-bg-danger-hover);
-    }
-  }
-
-  &--ghost {
-    color: var(--sc-text-secondary);
-    background: var(--sc-bg-surface);
-    border-color: var(--sc-border-default);
-
-    &:hover:not(:disabled) {
-      background: var(--sc-bg-secondary-hover);
-    }
-  }
-
-  &__spin {
-    animation: btn-spin 1s linear infinite;
-  }
-}
-
 @keyframes btn-spin {
   to {
     transform: rotate(360deg);

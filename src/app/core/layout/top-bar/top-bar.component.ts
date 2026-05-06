@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule } from 'lucide-angular';
@@ -30,6 +38,7 @@ export class TopBarComponent {
 
   protected readonly userMenuOpen = signal(false);
   protected readonly lastIndex = computed(() => this.trail().length - 1);
+  private readonly avatarBtn = viewChild<ElementRef<HTMLButtonElement>>('avatarBtn');
 
   protected readonly userIcon = NAV_ICONS['user'];
   protected readonly phoneIcon = NAV_ICONS['phone'];
@@ -42,6 +51,14 @@ export class TopBarComponent {
 
   protected closeUserMenu(): void {
     this.userMenuOpen.set(false);
+  }
+
+  /** Esc closes the menu and returns focus to the avatar trigger. */
+  protected onMenuKeydown(event: KeyboardEvent): void {
+    if (event.key !== 'Escape' || !this.userMenuOpen()) return;
+    event.preventDefault();
+    this.userMenuOpen.set(false);
+    this.avatarBtn()?.nativeElement.focus();
   }
 
   protected onCrumbClick(path: string | undefined): void {

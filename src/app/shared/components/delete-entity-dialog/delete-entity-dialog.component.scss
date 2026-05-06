@@ -1,4 +1,40 @@
 .delete-entity {
+  &__empty {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sc-spacing-200);
+    padding: var(--sc-spacing-300) var(--sc-spacing-200);
+    color: var(--sc-text-subtle);
+    font-size: 13px;
+    line-height: 1.5;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &__reset {
+    align-self: flex-start;
+    padding: 6px 12px;
+    border: 1px solid var(--sc-border-default);
+    border-radius: var(--sc-radius-100);
+    background: transparent;
+    color: var(--sc-text-primary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--sc-bg-subtle);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
   &__header {
     display: flex;
     flex-direction: column;

@@ -1,0 +1,159 @@
+/*
+ * Canonical button system — Smart Contact design (Figma node 195:283).
+ *
+ * Single canonical size: 12px y / 16px x / 6px radius / 8px gap.
+ * Three fills × per-fill states. Buttons are NEVER resized per page;
+ * if you need a different size, that's a different design decision —
+ * push it back through the design system, don't override here.
+ *
+ * Replaces the previous per-page `.btn` definitions (10+ files).
+ */
+
+.btn {
+  /* shape — fixed across variants */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sc-btn-gap);
+  height: 40px; /* derived: 14px text + 22px line + 12px*2 padding rounds to 40 */
+  padding: var(--sc-btn-padding-y) var(--sc-btn-padding-x);
+  border: 1px solid transparent;
+  border-radius: var(--sc-btn-radius);
+  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 22px;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+
+  /* keyboard focus — works the same on every variant */
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-electric-blue-500);
+    outline-offset: 2px;
+  }
+
+  /* compact variant for table-row contexts (bulk action bar, list toolbars).
+   * Same vertical proportions, just shorter. Reach for this only when the
+   * surrounding density genuinely calls for it — the canonical size is the
+   * default. */
+  &--sm {
+    height: 32px;
+    padding: 6px 12px;
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  /* icon-only square button (e.g. close X, row menu trigger).
+   * Padding on both axes equals the icon insets so the click target is
+   * a square ≥ 32×32 (touch min). */
+  &--icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    gap: 0;
+  }
+
+  /* ---------------------------------------------------------------
+   * PRIMARY — solid dark
+   * --------------------------------------------------------------- */
+  &--primary {
+    background: var(--sc-btn-primary-bg);
+    border-color: var(--sc-btn-primary-border);
+    color: var(--sc-btn-primary-fg);
+
+    &:hover:not(:disabled) {
+      background: var(--sc-btn-primary-bg-hover);
+      border-color: var(--sc-btn-primary-border-hover);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--sc-btn-primary-bg-active);
+      border-color: var(--sc-btn-primary-border-active);
+    }
+  }
+
+  /* PRIMARY SUBTLE — tinted bg, primary text */
+  &--primary-subtle {
+    background: var(--sc-btn-primary-subtle-bg);
+    border-color: var(--sc-btn-primary-subtle-border);
+    color: var(--sc-btn-primary-subtle-fg);
+
+    &:hover:not(:disabled) {
+      background: var(--sc-btn-primary-subtle-bg-hover);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--sc-btn-primary-subtle-bg-active);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+   * SECONDARY — white, gray border (the default "safe" button)
+   * Replaces the legacy `.btn--ghost` variant.
+   * --------------------------------------------------------------- */
+  &--secondary,
+  &--ghost {
+    background: var(--sc-btn-secondary-bg);
+    border-color: var(--sc-btn-secondary-border);
+    color: var(--sc-btn-secondary-fg);
+
+    &:hover:not(:disabled) {
+      background: var(--sc-btn-secondary-bg-hover);
+      border-color: var(--sc-btn-secondary-border-hover);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--sc-btn-secondary-bg-active);
+      border-color: var(--sc-btn-secondary-border-active);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+   * DANGER — solid red, white text
+   * --------------------------------------------------------------- */
+  &--danger {
+    background: var(--sc-btn-danger-bg);
+    border-color: var(--sc-btn-danger-border);
+    color: var(--sc-btn-danger-fg);
+
+    &:hover:not(:disabled) {
+      background: var(--sc-btn-danger-bg-hover);
+      border-color: var(--sc-btn-danger-border-hover);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--sc-btn-danger-bg-active);
+      border-color: var(--sc-btn-danger-border-active);
+    }
+  }
+
+  /* DANGER SUBTLE — tinted red bg, red text. Used by destructive bulk
+   * actions where a full red button would shout too loud. */
+  &--danger-subtle,
+  &--bulk-danger {
+    background: var(--sc-btn-danger-subtle-bg);
+    border-color: var(--sc-btn-danger-subtle-border);
+    color: var(--sc-btn-danger-subtle-fg);
+
+    &:hover:not(:disabled) {
+      background: var(--sc-btn-danger-subtle-bg-hover);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--sc-btn-danger-subtle-bg-active);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+   * Disabled — shared across every variant
+   * --------------------------------------------------------------- */
+  &:disabled,
+  &[aria-disabled='true'] {
+    background: var(--sc-btn-disabled-bg) !important;
+    border-color: var(--sc-btn-disabled-border) !important;
+    color: var(--sc-btn-disabled-fg) !important;
+    cursor: not-allowed;
+  }
+}

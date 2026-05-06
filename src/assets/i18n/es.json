@@ -65,7 +65,9 @@
       "title_bulk": "¿Eliminar {{count}} {{entity}}?",
       "body_single": "Vas a eliminar el {{entity}} «{{name}}». Esta acción no se puede deshacer.",
       "body_bulk": "Esta acción no se puede deshacer. Se eliminarán los siguientes {{entity}}:",
-      "type_to_confirm": "Escribe el nombre para confirmar:"
+      "type_to_confirm": "Escribe el nombre para confirmar:",
+      "empty_pruned": "Has descartado todos los elementos. Restaura la lista o cancela.",
+      "reset": "Restaurar lista"
     }
   },
   "topbar": {
