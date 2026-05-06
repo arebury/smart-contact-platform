@@ -1,5 +1,11 @@
 import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
+import {
+  PreloadAllModules,
+  provideRouter,
+  withComponentInputBinding,
+  withPreloading,
+  withViewTransitions,
+} from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
@@ -17,7 +23,16 @@ export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(appRoutes, withComponentInputBinding(), withViewTransitions()),
+    provideRouter(
+      appRoutes,
+      withComponentInputBinding(),
+      withViewTransitions(),
+      // Preload every lazy-loaded chunk in the background once the app
+      // shell is interactive. Initial paint stays fast (only the shell
+      // is on the critical path), but every subsequent navigation is
+      // instant — no per-route fetch + parse delay on click.
+      withPreloading(PreloadAllModules),
+    ),
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
     providePrimeNG({
