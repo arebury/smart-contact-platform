@@ -54,6 +54,12 @@
       "placeholder": "Seleccionar idioma...",
       "remove": "Quitar {{lang}}"
     },
+    "groups_count": "{{count}} grupos",
+    "groups_more": "+{{count}} más",
+    "result_counter": {
+      "found": "{{count}} {{entity}} encontrados",
+      "none": "Sin resultados"
+    },
     "delete_dialog": {
       "title_single": "¿Eliminar {{entity}}?",
       "title_bulk": "¿Eliminar {{count}} {{entity}}?",
@@ -467,6 +473,13 @@
       "deleted_bulk": "{{count}} usuarios eliminados",
       "duplicated": "Usuario \"{{name}}\" duplicado como borrador"
     },
+    "empty": {
+      "title": "Aún no hay usuarios",
+      "body": "Crea tu primer usuario para dar acceso al panel.",
+      "title_filtered": "No se encontraron usuarios",
+      "body_filtered": "Ajusta el buscador o limpia los filtros para ver más resultados."
+    },
+    "entity_plural": "usuarios",
     "export": {
       "code": "Código",
       "name": "Nombre",
@@ -547,6 +560,13 @@
       "deleted_bulk": "{{count}} grupos eliminados",
       "duplicated": "Grupo \"{{name}}\" duplicado como borrador"
     },
+    "empty": {
+      "title": "Aún no hay grupos",
+      "body": "Crea tu primer grupo para empezar a enrutar interacciones.",
+      "title_filtered": "No se encontraron grupos",
+      "body_filtered": "Ajusta el buscador o limpia los filtros para ver más resultados."
+    },
+    "entity_plural": "grupos",
     "export": {
       "code": "Código",
       "name": "Nombre",
@@ -664,6 +684,20 @@
       "deleted_bulk": "{{count}} agentes eliminados",
       "duplicated": "Agente \"{{name}}\" duplicado como borrador"
     },
+    "errors": {
+      "name_required": "El nombre es obligatorio",
+      "extension_required": "Selecciona una extensión",
+      "channels_required": "Selecciona al menos un canal",
+      "email_invalid": "Introduce un email válido",
+      "pin_invalid": "El PIN debe tener entre 3 y 6 dígitos"
+    },
+    "empty": {
+      "title": "Aún no hay agentes",
+      "body": "Crea tu primer agente para empezar a recibir llamadas y conversaciones.",
+      "title_filtered": "No se encontraron agentes",
+      "body_filtered": "Ajusta el buscador o limpia los filtros para ver más resultados."
+    },
+    "entity_plural": "agentes",
     "export": {
       "code": "Código",
       "name": "Nombre",

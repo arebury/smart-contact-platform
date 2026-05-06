@@ -17,6 +17,10 @@ export type { ColumnDef } from './column-selector/column-selector.component';
 export { DeleteEntityDialogComponent } from './delete-entity-dialog/delete-entity-dialog.component';
 export type { DeletableEntity } from './delete-entity-dialog/delete-entity-dialog.component';
 
+export { EmptyStateComponent } from './empty-state/empty-state.component';
+
+export { GroupPopoverComponent } from './group-popover/group-popover.component';
+
 export { ImpactPreviewDialogComponent } from './impact-preview-dialog/impact-preview-dialog.component';
 export type {
   ImpactBadge,
@@ -29,6 +33,8 @@ export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';
 
 export { PhotoUploadComponent } from './photo-upload/photo-upload.component';
+
+export { ResultCounterComponent } from './result-counter/result-counter.component';
 
 export { SectionCardComponent } from './section-card/section-card.component';
 

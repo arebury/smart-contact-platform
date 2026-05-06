@@ -1,0 +1,84 @@
+.group-popover {
+  position: relative;
+  display: inline-block;
+
+  &__trigger {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: var(--sc-text-disabled, #cbd5e1);
+    text-underline-offset: 3px;
+
+    &:hover {
+      text-decoration-color: var(--sc-text-subtle, #9ca3af);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-border-focus, #2563eb);
+      outline-offset: 2px;
+    }
+  }
+
+  &__panel {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    z-index: 30;
+    min-width: 200px;
+    max-width: 280px;
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    border: 1px solid var(--sc-border-default);
+    background: var(--sc-bg-elevated, #fff);
+    box-shadow: 0 8px 16px rgb(15 23 42 / 0.08);
+    font-size: var(--sc-font-size-50, 12px);
+    color: var(--sc-text-primary);
+
+    /* Animate in subtly without affecting layout */
+    animation: group-popover-fade-in 120ms ease;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__item {
+    line-height: 1.5;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__more {
+    margin-top: var(--sc-spacing-150);
+    padding-top: var(--sc-spacing-150);
+    border-top: 1px solid var(--sc-border-default);
+    color: var(--sc-text-subtle, #6b7280);
+  }
+}
+
+@keyframes group-popover-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group-popover__panel {
+    animation: none;
+  }
+}

@@ -39,10 +39,16 @@
             id="agent-name"
             type="text"
             class="field__input"
+            [class.field__input--error]="!!errors()['name']"
             [value]="form().name"
             (input)="onTextInput('name', $event)"
             autocomplete="name"
           />
+          <span class="field__error" aria-live="polite">
+            @if (errors()['name']; as err) {
+              {{ err | translate }}
+            }
+          </span>
         </div>
 
         <div class="field">
@@ -69,6 +75,7 @@
           <select
             id="agent-ext"
             class="field__input"
+            [class.field__input--error]="!!errors()['extension']"
             [value]="form().extension"
             (change)="onExtensionChange($event)"
           >
@@ -79,6 +86,11 @@
               </option>
             }
           </select>
+          <span class="field__error" aria-live="polite">
+            @if (errors()['extension']; as err) {
+              {{ err | translate }}
+            }
+          </span>
         </div>
 
         <div class="field">
@@ -162,10 +174,16 @@
             id="agent-email"
             type="email"
             class="field__input"
+            [class.field__input--error]="!!errors()['email']"
             [value]="form().email"
             (input)="onTextInput('email', $event)"
             autocomplete="email"
           />
+          <span class="field__error" aria-live="polite">
+            @if (errors()['email']; as err) {
+              {{ err | translate }}
+            }
+          </span>
         </div>
 
         <div class="field">
@@ -177,6 +195,7 @@
             id="agent-pin"
             type="text"
             class="field__input"
+            [class.field__input--error]="!!errors()['pin']"
             inputmode="numeric"
             maxlength="6"
             [value]="form().pin"
@@ -184,6 +203,11 @@
             autocomplete="off"
           />
           <span class="field__help">{{ 'agents.form.fields.pin_hint' | translate }}</span>
+          <span class="field__error" aria-live="polite">
+            @if (errors()['pin']; as err) {
+              {{ err | translate }}
+            }
+          </span>
         </div>
       </div>
     </aed-section-card>
@@ -204,6 +228,11 @@
           </label>
         }
       </div>
+      <span class="field__error" aria-live="polite">
+        @if (errors()['channels']; as err) {
+          {{ err | translate }}
+        }
+      </span>
     </aed-section-card>
 
     <aed-section-card

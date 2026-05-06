@@ -21,6 +21,7 @@ import {
   Plus,
   Search,
   Trash2,
+  Users2,
   X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
@@ -35,10 +36,12 @@ import {
   ColumnDef,
   ColumnSelectorComponent,
   DeleteEntityDialogComponent,
+  EmptyStateComponent,
   ImpactBadge,
   ImpactItem,
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
+  ResultCounterComponent,
 } from '@shared/components';
 import {
   CHANNEL_LABEL_KEYS,
@@ -77,9 +80,11 @@ const COLUMN_PREF_KEY = 'sc_groups_columns_v1';
     ClickOutsideDirective,
     ColumnSelectorComponent,
     DeleteEntityDialogComponent,
+    EmptyStateComponent,
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
+    ResultCounterComponent,
     TranslateModule,
   ],
   templateUrl: './groups-list-page.component.html',
@@ -106,6 +111,7 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
   protected readonly phoneIcon = Phone;
   protected readonly chatIcon = MessageSquare;
   protected readonly emailIcon = Mail;
+  protected readonly emptyIcon = Users2;
 
   protected readonly priorityKeys = PRIORITY_LABEL_KEYS;
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;

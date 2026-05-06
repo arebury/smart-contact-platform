@@ -290,6 +290,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected save(): void {
     if (!this.canSave() || this.saving()) return;
+    if (!this.validate()) return;
 
     this.saving.set(true);
     setTimeout(() => {
@@ -384,5 +385,19 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       photo: null,
       languages: [],
     };
+  }
+
+  private validate(): boolean {
+    const f = this.form();
+    const next: Record<string, string> = {};
+    if (!f.name.trim()) next['name'] = 'agents.errors.name_required';
+    if (!f.extension) next['extension'] = 'agents.errors.extension_required';
+    if (f.channels.size === 0) next['channels'] = 'agents.errors.channels_required';
+    const email = f.email.trim();
+    if (email && !EMAIL_RE.test(email)) next['email'] = 'agents.errors.email_invalid';
+    const pin = f.pin.trim();
+    if (pin && !PIN_RE.test(pin)) next['pin'] = 'agents.errors.pin_invalid';
+    this.errors.set(next);
+    return Object.keys(next).length === 0;
   }
 }

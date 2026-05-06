@@ -69,12 +69,28 @@
     &:focus {
       border-color: var(--sc-color-blue-500);
     }
+
+    &--error,
+    &--error:hover,
+    &--error:focus {
+      border-color: var(--sc-border-error, var(--sc-text-danger));
+    }
   }
 
   &__help {
     margin-top: var(--sc-spacing-50);
     font-size: var(--sc-font-size-50);
     color: var(--sc-text-subtle);
+  }
+
+  &__error {
+    display: block;
+    /* reserve space so toggling validation doesn't shift layout (DD#16) */
+    min-height: 1.25em;
+    margin-top: var(--sc-spacing-50);
+    font-size: var(--sc-font-size-50);
+    line-height: 1.25;
+    color: var(--sc-text-danger);
   }
 }
 
