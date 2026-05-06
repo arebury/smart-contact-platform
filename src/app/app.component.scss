@@ -2,3 +2,67 @@
   display: block;
   height: 100%;
 }
+
+/*
+ * Custom toast template — replaces the default PrimeNG message body so we
+ * can inline a "Deshacer" action button when an undo entry is attached
+ * (`message.data.undoEntryId`).
+ */
+.aed-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-300) var(--sc-spacing-400);
+  border-left: 4px solid var(--sc-color-info, #2563eb);
+  background: var(--sc-bg-elevated, #ffffff);
+  color: var(--sc-text-primary);
+  min-width: 280px;
+
+  &[data-severity='success'] {
+    border-left-color: var(--sc-color-success, #16a34a);
+  }
+  &[data-severity='warn'] {
+    border-left-color: var(--sc-color-warning, #d97706);
+  }
+  &[data-severity='error'] {
+    border-left-color: var(--sc-color-danger, #dc2626);
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__summary {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.35;
+  }
+
+  &__detail {
+    margin-top: 2px;
+    font-size: 12px;
+    color: var(--sc-text-subtle);
+    line-height: 1.35;
+  }
+
+  &__action {
+    flex: 0 0 auto;
+    padding: var(--sc-spacing-150) var(--sc-spacing-300);
+    border: 1px solid var(--sc-border-default);
+    background: transparent;
+    color: var(--sc-text-primary);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--sc-bg-subtle);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-border-focus, #2563eb);
+      outline-offset: 1px;
+    }
+  }
+}

@@ -36,6 +36,11 @@
     "discard_confirm": "Descartar",
     "discard_keep": "Seguir editando",
     "cross_tab_warning": "Este registro está siendo editado en otra pestaña. Los cambios pueden sobrescribirse.",
+    "undo": "Deshacer",
+    "change_reverted": "Cambio revertido",
+    "draft_created": "Borrador creado «{{name}}»",
+    "draft_removed": "Borrador eliminado",
+    "presence_changed": "Presencia de {{name}} → {{status}}",
     "delete_dialog": {
       "title_single": "¿Eliminar {{entity}}?",
       "title_bulk": "¿Eliminar {{count}} {{entity}}?",

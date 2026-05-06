@@ -26,7 +26,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
-import { BreadcrumbService, XlsxExportService } from '@core/services';
+import { BreadcrumbService, UndoStackService, XlsxExportService } from '@core/services';
 import {
   BulkActionBarComponent,
   BulkEditCommit,
@@ -100,6 +100,7 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
+  private readonly undoStack = inject(UndoStackService);
 
   protected readonly plusIcon = Plus;
   protected readonly searchIcon = Search;
@@ -330,6 +331,14 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
     // Enter inline-rename mode immediately so the user can refine the name
     // without a router round-trip.
     this.renamingId.set(draft.id);
+    this.undoStack.push(
+      this.translate.instant('common.draft_created', { name: draft.name }),
+      this.translate.instant('common.draft_removed'),
+      () => {
+        this.agentsStore.deleteAgent(draft.id);
+        if (this.renamingId() === draft.id) this.renamingId.set(null);
+      },
+    );
   }
 
   protected onRowDelete(agent: Agent): void {
@@ -357,7 +366,20 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
 
   protected onPresenceChange(agent: Agent, event: Event): void {
     const value = (event.target as HTMLSelectElement).value as PresenceStatus;
+    const previous = agent.presenceStatus ?? 'disponible';
+    if (value === previous) return;
     this.agentsStore.updatePresence(agent.id, value);
+    this.undoStack.push(
+      this.translate.instant('common.presence_changed', {
+        name: agent.name,
+        status: this.translate.instant(this.presenceKeys[value]),
+      }),
+      this.translate.instant('common.presence_changed', {
+        name: agent.name,
+        status: this.translate.instant(this.presenceKeys[previous]),
+      }),
+      () => this.agentsStore.updatePresence(agent.id, previous),
+    );
   }
 
   protected requestDeleteSelection(): void {
@@ -380,14 +402,25 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
   protected onBulkPreviewConfirm(remainingIds: readonly number[]): void {
     const op = this.pendingBulkEdit();
     if (!op) return;
+    const idSet = new Set(remainingIds);
+    // Snapshot the affected agents before the bulk so undo can restore them.
+    const snapshot = this.agents()
+      .filter((a) => idSet.has(a.id))
+      .map((a) => ({ ...a }));
+
     this.agentsStore.bulkUpdate(remainingIds, op.field, op.value);
     this.pendingBulkEdit.set(null);
     this.clearSelection();
-    this.messages.add({
-      severity: 'success',
-      summary: this.translate.instant('common.bulk_updated', { count: remainingIds.length }),
-      life: 3000,
-    });
+
+    this.undoStack.push(
+      this.translate.instant('common.bulk_updated', { count: remainingIds.length }),
+      this.translate.instant('common.change_reverted'),
+      () => {
+        for (const prev of snapshot) {
+          this.agentsStore.updateAgent(prev.id, prev);
+        }
+      },
+    );
   }
 
   protected onBulkPreviewCancel(): void {
