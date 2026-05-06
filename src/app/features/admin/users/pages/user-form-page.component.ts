@@ -20,7 +20,7 @@ import {
   SectionCardComponent,
   StickyFormHeaderComponent,
 } from '@shared/components';
-import { AVAILABLE_GROUPS_REF } from '../../agents/data/agents-data';
+import { AVAILABLE_GROUPS_REF } from '@shared/data/groups-ref';
 import {
   AVAILABLE_SERVICES,
   DEFAULT_PERMISSIONS,
