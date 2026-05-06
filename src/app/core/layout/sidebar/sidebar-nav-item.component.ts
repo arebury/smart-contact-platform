@@ -2,10 +2,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   input,
   OnInit,
   output,
   signal,
+  untracked,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule } from 'lucide-angular';
@@ -44,6 +46,25 @@ export class SidebarNavItemComponent implements OnInit {
     if (this.item().defaultExpanded) {
       this.expanded.set(true);
     }
+  }
+
+  constructor() {
+    /*
+     * Auto-collapse on navigation away. When the active route leaves this
+     * branch, drop any manual `expanded` state so only the active section
+     * stays open. `effectivelyExpanded` already keeps the active branch
+     * open via `isChildActive`, so this only affects sections the user
+     * peek-opened and then navigated away from.
+     */
+    effect(() => {
+      this.currentPath();
+      const childActive = this.isChildActive();
+      untracked(() => {
+        if (!childActive && this.expanded()) {
+          this.expanded.set(false);
+        }
+      });
+    });
   }
 
   protected readonly hasChildren = computed(() => {
