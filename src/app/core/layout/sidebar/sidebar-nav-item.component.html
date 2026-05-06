@@ -4,6 +4,7 @@
   [class.nav-item--active]="isActive()"
   [class.nav-item--child-active]="!isActive() && isChildActive()"
   [class.nav-item--parent]="hasChildren()"
+  [class.nav-item--expanded]="effectivelyExpanded()"
   [attr.data-depth]="depth()"
   (click)="onClick($event)"
 >
@@ -22,7 +23,7 @@
   }
 </button>
 
-@if (hasChildren() && effectivelyExpanded()) {
+@if (hasChildren()) {
   <div class="nav-item__children">
     @for (child of item().children; track child.labelKey) {
       <aed-sidebar-nav-item
