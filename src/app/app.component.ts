@@ -1,21 +1,35 @@
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import {
+  AlertCircle,
+  AlertTriangle,
+  CheckCircle2,
+  Info,
+  LucideAngularModule,
+  X,
+} from 'lucide-angular';
+import { MessageService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 
 import { UndoStackService } from '@core/services';
 
+type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'contrast';
+
 @Component({
   selector: 'aed-root',
   standalone: true,
-  imports: [ConfirmDialogModule, RouterOutlet, ToastModule, TranslateModule],
+  imports: [ConfirmDialogModule, LucideAngularModule, RouterOutlet, ToastModule, TranslateModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
+  private readonly messages = inject(MessageService);
   protected readonly undoStack = inject(UndoStackService);
+
+  protected readonly closeIcon = X;
 
   /**
    * Global Ctrl/Cmd+Z — run the most recent undoable action. Skip when the
@@ -43,5 +57,32 @@ export class AppComponent {
 
   protected onUndoClick(entryId: string): void {
     this.undoStack.runById(entryId);
+  }
+
+  /**
+   * Map a PrimeNG severity to a Lucide icon. Falls back to Info so an
+   * unrecognised severity still renders an icon square.
+   */
+  protected iconFor(severity: ToastSeverity | undefined) {
+    switch (severity) {
+      case 'success':
+        return CheckCircle2;
+      case 'warn':
+        return AlertTriangle;
+      case 'error':
+        return AlertCircle;
+      case 'info':
+      default:
+        return Info;
+    }
+  }
+
+  /**
+   * Manual dismiss on the toast's close X. PrimeNG `MessageService.clear()`
+   * with no key clears every active toast — acceptable here because the
+   * app rarely shows two simultaneous toasts.
+   */
+  protected onClose(): void {
+    this.messages.clear();
   }
 }
