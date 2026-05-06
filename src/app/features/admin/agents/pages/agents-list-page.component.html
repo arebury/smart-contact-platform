@@ -216,7 +216,9 @@
                               [attr.aria-label]="'Cambiar presencia de ' + agent.name"
                             >
                               @for (p of presenceStates; track p) {
-                                <option [value]="p">{{ presenceKeys[p] | translate }}</option>
+                                <option [value]="p" [selected]="p === presence">
+                                  {{ presenceKeys[p] | translate }}
+                                </option>
                               }
                             </select>
                           </span>

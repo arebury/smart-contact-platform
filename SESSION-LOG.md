@@ -10,6 +10,84 @@
 
 ---
 
+## 2026-05-07 · Session 10 — Post-Session-9 polish + sticky action bar + closing-out fixes
+
+> Continuation immediately after Session 9 closed. The user iterated
+> on the deployed prototype and surfaced four follow-ups, all
+> shipped. This is the actual close of the recent block.
+
+**Worked on**
+
+- **Topbar avatar ring rendered as an oval at certain pixel densities.**
+  `inline-flex` left the button on the inline baseline, where inherited
+  `line-height` added a few pixels of vertical room and the resulting
+  rectangle (slightly taller than 32 px) got `border-radius: full`
+  clipped to an oval. Locked the button to a true square via
+  `flex: 0 0 32px`, explicit width/height, `line-height: 0`, and
+  `display: flex` (not inline-flex). Plus the green dot's halo flips
+  to cyan on hover/open so the dot doesn't punch a "bite" out of the
+  cyan ring at the bottom-right corner.
+
+- **Column manager — initial state, toggle, and reorder all hit the
+  same hydration race.** `isVisible` returned `ordered().includes(key)`,
+  but `ordered` was empty until the hydration effect emitted, so the
+  popover paint showed every checkbox unchecked even though the table
+  rendered the declared default-visible columns. Same with `toggle`
+  (treated empty `ordered` as "not visible" → click ADDED instead of
+  removed) and `onDrop` (filtered against an empty Set → wiped every
+  column from the table on first drag). Fix: route all three through
+  `isVisible` which has a defaultVisible fallback. After the first
+  user action, the persisted state takes over.
+
+- **Locked column indicator.** Replaced the `<span>fijada</span>` text
+  with a small Lock lucide icon + 65 % opacity on the row. The
+  affordance reads without claiming three full words of column space.
+
+- **Drag-to-reorder UX.** Removed `cdkDragHandle` from the grip; the
+  whole `<li>` is the drag target, with `cursor: grab` painted across
+  the row body. The grip becomes a purely visual hint. Discoverable
+  the moment the user hovers any non-locked row instead of having to
+  find an 18 px handle.
+
+- **Presence column showed "Disponible" for every row** even though
+  the dot color was correct per agent — `<select [value]="presence">`
+  in Angular templates doesn't reactively update which option appears
+  selected after first render under OnPush. Added
+  `[selected]="p === presence"` on each option so the displayed text
+  always matches the bound value.
+
+- **Sticky action bar** on agents / users / groups list pages.
+  `position: sticky; top: 0` on `.page__action-bar` with a 12 px
+  surface→transparent gradient on a `::after` pseudo-element so
+  scrolling content emerges from under the bar gradually instead
+  of cutting off at a hard edge. Explicitly NO `backdrop-filter:
+  blur(...)` — that's the AI-SaaS-default fingerprint walked away
+  from in DD#39. Documented as DD#43 + roadmap "Future-leaning,
+  already prototyped" because the value scales with dataset size.
+
+- **`Decisiones de diseño` footer link now visibly leaves the app.**
+  Github icon + a small `ArrowUpRight` external-link arrow trailing
+  the label. Arrow fades in with the label when the sidebar
+  expands (collapsed state shows only the github icon; the arrow
+  would just add noise there).
+
+**Discarded in this round**
+
+- **`backdrop-filter: blur` on the sticky bar** — AI-SaaS default,
+  rejected explicitly in DD#43.
+- **Hide-on-scroll-down / show-on-scroll-up sticky bar** (Linear
+  pattern). Distracting motion while reading; breaks the "always
+  reachable" expectation.
+- **Compact-when-stuck** action bar (smaller padding + icon-only
+  buttons once `top: 0`). Useful at 200+ entities; held for the
+  next iteration. Documented in roadmap.
+
+**New decision documented**
+
+- DD#43 — Sticky action bar with gradient mask, no backdrop blur.
+
+---
+
 ## 2026-05-06 / 07 · Session 9 — Big surface pass: dark mode, breadcrumbs auto, illustrated avatars, table redesign, column manager v2, prototype-only documentation
 
 > Long session. The user's framing changed mid-way from "fix specific

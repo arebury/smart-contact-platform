@@ -1178,6 +1178,56 @@ below with a clearly-labelled section title.
 
 ---
 
+## 43 — List-page action bar is sticky on scroll, with a 12 px gradient mask, no backdrop blur (2026-05-07)
+
+**Decision.** The `.page__action-bar` (column manager + search +
+export divider + export button) on agents, users and groups uses
+`position: sticky; top: 0;` so it stays reachable as the user
+scrolls long lists. A `::after` pseudo-element below the bar paints
+a 12 px `surface → transparent` gradient so table content slides
+under the bar gradually instead of cutting off at a hard edge.
+**No `backdrop-filter: blur(...)`** — that's the AI-SaaS-default
+fingerprint and we walk away from it everywhere else (DD#39).
+
+**Why.**
+- For long lists (200+ entries on the production-scale future),
+  search is iterative: type → scroll → refine → repeat. A sticky
+  search input removes the round-trip.
+- The column manager + export are secondary tools but useful
+  mid-scroll (e.g. selecting rows then exporting just the visible
+  set). Keeping them anchored saves a return trip.
+- The pattern is convention in admin tools (Linear, Notion, GitHub,
+  Airtable). The "edited" version vs convention is the gradient
+  mask + the explicit no-blur rule.
+
+**Discarded.**
+- **`backdrop-filter: blur(20px)`** — recognisable AI-SaaS pattern.
+  Solid surface + soft gradient looks deliberate.
+- **Hide-on-scroll-down / show-on-scroll-up** (Linear pattern) —
+  rejected because the motion is distracting while reading and
+  breaks the "always reachable" expectation that justifies sticky
+  in the first place.
+- **Compact-when-stuck** (smaller padding + icon-only buttons once
+  the bar reaches `top: 0`) — useful when the dataset is large and
+  every vertical pixel counts. Documented as the next iteration in
+  `roadmap.md` "Future-leaning, already prototyped". Needs an
+  `IntersectionObserver` sentinel because CSS doesn't expose a
+  `:stuck` pseudo-class. Held off because today's seed (~30
+  entities) doesn't make the trade-off worth the complexity.
+
+**Real estate accounting (1366×768 enterprise laptop).** Topbar
+(56) + page header (~80) + sticky action bar (~60) = ~196 px of
+fixed chrome before the table starts. On a 768 px viewport that
+leaves ~520 px for table content, ~7-8 rows visible. Acceptable;
+if an audit ever calls it cramped, "compact-when-stuck" is the
+next move.
+
+**How to roll back.** Revert the `position: sticky` block + the
+`::after` pseudo on the three list pages' SCSS files. The action
+bar returns to in-flow scrolling. ~5 minutes.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section

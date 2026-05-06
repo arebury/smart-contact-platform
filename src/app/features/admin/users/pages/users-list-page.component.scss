@@ -42,6 +42,25 @@
     align-items: center;
     gap: var(--sc-spacing-200);
     margin-bottom: var(--sc-spacing-300);
+    /* Sticky on scroll — see DD#43 / agents-list-page.component.scss
+     * for the rationale; pattern shared across all three list pages. */
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--sc-bg-surface);
+    padding-block: var(--sc-spacing-200);
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      height: 12px;
+      background: linear-gradient(to bottom, var(--sc-bg-surface), transparent);
+      pointer-events: none;
+    }
+
     > .btn {
       height: 36px;
       padding-top: 0;

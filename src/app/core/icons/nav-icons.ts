@@ -1,5 +1,6 @@
 import {
   Activity,
+  ArrowUpRight,
   BarChart3,
   BookOpen,
   Brain,
@@ -44,6 +45,7 @@ import {
  */
 export const NAV_ICONS = {
   activity: Activity,
+  'arrow-up-right': ArrowUpRight,
   'bar-chart-3': BarChart3,
   'book-open': BookOpen,
   brain: Brain,

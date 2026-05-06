@@ -172,6 +172,30 @@ the registry entry in `shared/components/index.ts`, and remove the
 TopBar trigger button (`?` only). The rest of the codebase is
 unaffected.
 
+## Future-leaning, already prototyped
+
+These features ship in this prototype to demo behaviour, but their
+real value lands when production datasets grow past the size that
+fits in one viewport. Today they're nice-to-have; at 200+ entities
+per list they become structural.
+
+- **Sticky action bar (search + column manager + export)** on the
+  three list pages (agents, users, groups). At today's seed sizes
+  (~30 entities) the action bar barely scrolls out of view, so the
+  feature reads as polish. At 200+ entities it stops being polish:
+  the user iterates search → scroll → refine → repeat without ever
+  losing the input. Already implemented; documented in DD#43.
+
+  Watch for: the sticky bar costs ~60 px of vertical real estate
+  on every page. On 1366×768 laptops with the topbar (56) + page
+  header (~80) + sticky bar (~60) + bulk-action-bar (56 when active)
+  fixed, the table window can shrink to ~520 px (~7 rows). If a
+  future audit decides this is too cramped, the next iteration is
+  "compact when stuck" (smaller padding + icon-only buttons when
+  the bar has reached `top: 0`), tracked there. Linear and Notion
+  do this; would need an `IntersectionObserver` sentinel because
+  CSS doesn't expose a `:stuck` pseudo-class.
+
 ## Known debt
 
 - Routes resolve to `loadComponent: placeholder` for everything except `/admin/labels`. Each feature flips its own routes when migrated.

@@ -36,6 +36,7 @@ export class SidebarComponent {
 
   protected readonly sections = NAV_SECTIONS;
   protected readonly githubIcon = NAV_ICONS['github'];
+  protected readonly externalIcon = NAV_ICONS['arrow-up-right'];
 
   /**
    * Where the "Decisiones de diseño" footer button points to. Open in a

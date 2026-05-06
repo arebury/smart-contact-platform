@@ -42,6 +42,26 @@
     align-items: center;
     gap: var(--sc-spacing-200);
     margin-bottom: var(--sc-spacing-300);
+    /* Sticky on scroll — see DD#43 / agents-list-page.component.scss
+     * for the rationale; the pattern is identical across all three
+     * list pages. */
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--sc-bg-surface);
+    padding-block: var(--sc-spacing-200);
+
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 100%;
+      height: 12px;
+      background: linear-gradient(to bottom, var(--sc-bg-surface), transparent);
+      pointer-events: none;
+    }
+
     /* Every direct child sits on the same 36 px row so the bar reads
      * as one row of equally-tall controls (Cols icon · Search · Export). */
     > .btn {
