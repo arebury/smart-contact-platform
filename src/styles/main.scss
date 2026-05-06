@@ -3,16 +3,15 @@
  * Order matters: tokens must be loaded before any component overrides.
  */
 
+/* Sass `@use` rules must precede any `@import`. */
 @use 'reset';
+@use 'buttons';
 
 /* Design tokens (single source of truth — see src/app/core/tokens/sc-tokens.css) */
 @import '../app/core/tokens/sc-tokens.css';
 
 /* PrimeIcons */
 @import 'primeicons/primeicons.css';
-
-/* Canonical button system — replaces per-page `.btn` definitions */
-@use 'buttons';
 
 html,
 body {
