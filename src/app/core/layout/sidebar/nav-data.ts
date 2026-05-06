@@ -30,7 +30,7 @@ export const NAV_SECTIONS: readonly NavSection[] = [
     items: [
       {
         labelKey: 'sidebar.supervision',
-        icon: 'headphones',
+        icon: 'activity',
         iconSize: 16,
         children: [
           {
