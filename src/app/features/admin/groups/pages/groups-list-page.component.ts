@@ -26,7 +26,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
-import { BreadcrumbService, XlsxExportService } from '@core/services';
+import { BreadcrumbService, UndoStackService, XlsxExportService } from '@core/services';
 import {
   BulkActionBarComponent,
   BulkEditCommit,
@@ -93,6 +93,7 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
+  private readonly undoStack = inject(UndoStackService);
 
   protected readonly plusIcon = Plus;
   protected readonly searchIcon = Search;
@@ -297,6 +298,14 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
     this.openMenuId.set(null);
     if (!draft) return;
     this.renamingId.set(draft.id);
+    this.undoStack.push(
+      this.translate.instant('common.draft_created', { name: draft.name }),
+      this.translate.instant('common.draft_removed'),
+      () => {
+        this.groupsStore.deleteGroup(draft.id);
+        if (this.renamingId() === draft.id) this.renamingId.set(null);
+      },
+    );
   }
 
   protected onRowDelete(group: Group): void {
@@ -338,14 +347,24 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
   protected onBulkPreviewConfirm(remainingIds: readonly number[]): void {
     const op = this.pendingBulkEdit();
     if (!op) return;
+    const idSet = new Set(remainingIds);
+    const snapshot = this.groups()
+      .filter((g) => idSet.has(g.id))
+      .map((g) => ({ ...g }));
+
     this.groupsStore.bulkUpdate(remainingIds, op.field, op.value);
     this.pendingBulkEdit.set(null);
     this.clearSelection();
-    this.messages.add({
-      severity: 'success',
-      summary: this.translate.instant('common.bulk_updated', { count: remainingIds.length }),
-      life: 3000,
-    });
+
+    this.undoStack.push(
+      this.translate.instant('common.bulk_updated', { count: remainingIds.length }),
+      this.translate.instant('common.change_reverted'),
+      () => {
+        for (const prev of snapshot) {
+          this.groupsStore.updateGroup(prev.id, prev);
+        }
+      },
+    );
   }
 
   protected onBulkPreviewCancel(): void {

@@ -23,7 +23,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
-import { BreadcrumbService, XlsxExportService } from '@core/services';
+import { BreadcrumbService, UndoStackService, XlsxExportService } from '@core/services';
 import {
   BulkActionBarComponent,
   ColumnDef,
@@ -67,6 +67,7 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
+  private readonly undoStack = inject(UndoStackService);
 
   protected readonly plusIcon = Plus;
   protected readonly searchIcon = Search;
@@ -238,6 +239,14 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
     this.openMenuId.set(null);
     if (!draft) return;
     this.renamingId.set(draft.id);
+    this.undoStack.push(
+      this.translate.instant('common.draft_created', { name: draft.name }),
+      this.translate.instant('common.draft_removed'),
+      () => {
+        this.usersStore.deleteUser(draft.id);
+        if (this.renamingId() === draft.id) this.renamingId.set(null);
+      },
+    );
   }
 
   protected onRowDelete(user: User): void {
