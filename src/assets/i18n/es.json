@@ -651,6 +651,8 @@
         "channels_hint": "Tipos de comunicación que puede atender",
         "languages": "Idiomas",
         "languages_hint": "Idiomas que domina el agente para enrutamiento",
+        "labels": "Etiquetas",
+        "labels_hint": "Categorías que ayudan a filtrar y organizar agentes",
         "groups": "Grupos asignados",
         "groups_hint": "Colas de atención en las que el agente participa",
         "permissions": "Permisos",
@@ -671,8 +673,11 @@
         "phone": "Teléfono móvil",
         "email": "Email",
         "pin": "PIN",
-        "pin_hint": "3-6 dígitos. Se usa para auto-activación desde el teléfono."
+        "pin_hint": "3-6 dígitos. Se usa para auto-activación desde el teléfono.",
+        "labels": "Etiquetas asignadas"
       },
+      "labels_placeholder": "Añadir etiqueta…",
+      "labels_empty": "Aún no hay etiquetas. Crea una desde la sección Etiquetas.",
       "permissions": {
         "devices": "Dispositivos",
         "calls": "Llamadas salientes",

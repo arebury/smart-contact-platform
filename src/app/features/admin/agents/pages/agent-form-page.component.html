@@ -275,6 +275,36 @@
     </aed-section-card>
 
     <aed-section-card
+      titleKey="agents.form.section.labels"
+      hintKey="agents.form.section.labels_hint"
+    >
+      <div class="field">
+        <label class="field__label" for="agent-label">
+          {{ 'agents.form.fields.labels' | translate }}
+        </label>
+        @if (availableLabels().length === 0) {
+          <p class="field__help">{{ 'agents.form.labels_empty' | translate }}</p>
+        } @else {
+          <select id="agent-label" class="field__input" [value]="''" (change)="onLabelAdd($event)">
+            <option value="">{{ 'agents.form.labels_placeholder' | translate }}</option>
+            @for (label of addableLabels(); track label.id) {
+              <option [value]="label.id">{{ label.name }}</option>
+            }
+          </select>
+        }
+        <div class="label-chips">
+          @for (chip of selectedLabelChips(); track chip.id) {
+            <aed-label-chip
+              [label]="{ name: chip.name, color: chip.color }"
+              [removable]="true"
+              (remove)="onLabelRemove(chip.id)"
+            />
+          }
+        </div>
+      </div>
+    </aed-section-card>
+
+    <aed-section-card
       titleKey="agents.form.section.groups"
       hintKey="agents.form.section.groups_hint"
     >
