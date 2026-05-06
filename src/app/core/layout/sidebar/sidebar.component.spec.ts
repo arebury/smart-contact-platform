@@ -18,7 +18,7 @@ describe('SidebarComponent', () => {
 
   it('renders the brand and both nav sections', () => {
     const html = fixture.nativeElement as HTMLElement;
-    expect(html.querySelector('.sidebar__brand-name')).not.toBeNull();
+    expect(html.querySelector('.sidebar__brand')).not.toBeNull();
     expect(html.querySelectorAll('.sidebar__section').length).toBe(2);
   });
 
