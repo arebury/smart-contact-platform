@@ -73,7 +73,7 @@
                   [attr.aria-label]="'labels.select_all' | translate"
                 />
               </th>
-              @for (col of orderedColumns(); track col) {
+              @for (col of visibleColumnKeys(); track col) {
                 @switch (col) {
                   @case ('code') {
                     <th class="table__th-sort" (click)="toggleSort('code')">
@@ -136,7 +136,7 @@
                     [attr.aria-label]="agent.name"
                   />
                 </td>
-                @for (col of orderedColumns(); track col) {
+                @for (col of visibleColumnKeys(); track col) {
                   @switch (col) {
                     @case ('code') {
                       <td class="table__td table__td--mono">{{ agent.code }}</td>

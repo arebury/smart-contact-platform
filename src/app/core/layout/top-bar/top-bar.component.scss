@@ -147,7 +147,12 @@
   /* Presence dot — 9px green pill with a 2px surface-coloured halo so
    * it reads as a sticker on the avatar rather than a stray dot. The
    * halo lifts cleanly in dark mode because it picks up the surface
-   * variable. */
+   * variable.
+   *
+   * On hover/open, the halo flips to the same cyan as the avatar's
+   * outer ring so the two paint a continuous arc — without that swap
+   * the dot's surface-coloured halo punches a visible "bite" out of
+   * the cyan ring at the bottom-right. */
   &__avatar-presence {
     position: absolute;
     right: 0;
@@ -158,6 +163,12 @@
     border-radius: 50%;
     box-shadow: 0 0 0 2px var(--sc-bg-surface);
     pointer-events: none;
+    transition: box-shadow 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &__avatar:hover &__avatar-presence,
+  &__avatar--open &__avatar-presence {
+    box-shadow: 0 0 0 2px var(--sc-color-soft-blue-300);
   }
 
   &__menu {

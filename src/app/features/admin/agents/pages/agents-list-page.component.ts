@@ -135,7 +135,23 @@ export class AgentsListPageComponent {
   /** Ordered list of currently-visible column keys. Drives both the
    *  column-selector menu and the table's data-driven `<thead>` /
    *  `<tbody>` render loops. */
-  protected readonly orderedColumns = signal<readonly string[]>([]);
+  private readonly orderedColumns = signal<readonly string[]>([]);
+
+  /**
+   * Effective column order rendered by the table. Falls back to the
+   * declared columnDefs (filtered by `defaultVisible`) when the
+   * column-selector hasn't emitted yet — without this guard the
+   * `<thead>` / `<tbody>` `@for` loops iterate over an empty array
+   * on first paint and the table renders rows with only the leading
+   * checkbox + trailing actions, no content cells.
+   */
+  protected readonly visibleColumnKeys = computed<readonly string[]>(() => {
+    const ordered = this.orderedColumns();
+    if (ordered.length > 0) return ordered;
+    return this.columnDefs()
+      .filter((c) => c.defaultVisible !== false)
+      .map((c) => c.key);
+  });
 
   protected readonly columnDefs = computed<readonly ColumnDef[]>(() => [
     {

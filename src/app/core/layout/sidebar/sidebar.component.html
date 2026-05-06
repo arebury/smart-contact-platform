@@ -37,9 +37,16 @@
   </nav>
 
   <div class="sidebar__foot">
-    <button type="button" class="sidebar__decisions" (click)="onOpenDesignDecisions($event)">
-      <lucide-icon class="sidebar__decisions-icon" [img]="bookOpenIcon" [size]="15" />
+    <a
+      class="sidebar__decisions"
+      [href]="decisionsHref"
+      target="_blank"
+      rel="noopener noreferrer"
+      [title]="'sidebar.design_decisions_hint' | translate"
+      (click)="onOpenDesignDecisions($event)"
+    >
+      <lucide-icon class="sidebar__decisions-icon" [img]="githubIcon" [size]="15" />
       <span class="sidebar__decisions-label">{{ 'sidebar.design_decisions' | translate }}</span>
-    </button>
+    </a>
   </div>
 </aside>

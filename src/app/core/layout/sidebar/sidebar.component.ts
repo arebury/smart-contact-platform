@@ -35,7 +35,17 @@ export class SidebarComponent {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly sections = NAV_SECTIONS;
-  protected readonly bookOpenIcon = NAV_ICONS['book-open'];
+  protected readonly githubIcon = NAV_ICONS['github'];
+
+  /**
+   * Where the "Decisiones de diseño" footer button points to. Open in a
+   * new tab so the prototype stays in place. Opens the markdown file
+   * directly on GitHub — Markdown rendering is fine and every commit
+   * keeps the file fresh, no in-app panel to maintain. Prototype-only:
+   * production replaces this with whatever real audit / decision-log
+   * surface gets adopted.
+   */
+  protected readonly decisionsHref = 'https://github.com/arebury/aed/blob/main/DECISIONS.md';
 
   /** Active URL (after stripping /crear, /editar/:id and folding repo subpaths). */
   protected readonly currentPath = toSignal(
@@ -76,12 +86,12 @@ export class SidebarComponent {
 
   protected onOpenDesignDecisions(event: MouseEvent): void {
     /*
-     * Hook reserved for the design decisions panel migration. We still
-     * blur the trigger here even though there's nothing to navigate to
-     * — otherwise the focus stays on the button after the click and
-     * the sidebar's `:focus-within` rule pins it in the expanded
-     * state forever (the post-`NavigationEnd` blur effect doesn't
-     * cover this case because no navigation actually happens).
+     * Blur the trigger so the sidebar's `:focus-within` rule doesn't
+     * pin the panel expanded after the click — same reason as the
+     * `RouterLink` blur effect above, but the open-in-new-tab here
+     * doesn't trigger a `NavigationEnd`, so we have to blur manually.
+     * The `<a target="_blank">` does the actual opening; this method
+     * only handles focus housekeeping.
      */
     (event.currentTarget as HTMLElement).blur();
   }

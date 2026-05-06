@@ -247,6 +247,7 @@
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
+    text-decoration: none;
     transition:
       color var(--sc-transition-fast) var(--sc-easing-default),
       background var(--sc-transition-fast) var(--sc-easing-default),
