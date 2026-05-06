@@ -1,27 +1,30 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Trash2 } from 'lucide-angular';
-import { DialogModule } from 'primeng/dialog';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Trash2 } from 'lucide-angular';
 
 import { LabelChipComponent } from '@shared/components/label-chip/label-chip.component';
+import { ModalComponent } from '@shared/components/modal/modal.component';
 import { Label } from '../../data/labels-data';
 
 /**
  * Confirmation dialog for deleting one or many labels. Renders as a single
  * sentence in single mode, or a stack of chips with totals in bulk mode.
  *
- * Backed by `p-dialog` so we inherit the focus-trap, ESC-to-close and
- * accessibility plumbing from PrimeNG.
+ * Renders through the canonical `aed-modal` shell (Figma 1037:34069) — same
+ * focus trap, ESC handling, header chrome and footer geometry as every other
+ * dialog in the app.
  */
 @Component({
   selector: 'aed-delete-labels-dialog',
   standalone: true,
-  imports: [DialogModule, LabelChipComponent, LucideAngularModule, TranslateModule],
+  imports: [LabelChipComponent, ModalComponent, TranslateModule],
   templateUrl: './delete-labels-dialog.component.html',
   styleUrl: './delete-labels-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteLabelsDialogComponent {
+  private readonly translate = inject(TranslateService);
+
   readonly labels = input.required<readonly Label[]>();
   readonly visible = input.required<boolean>();
   /** Map of labelId -> agent count, supplied by the page. */
@@ -38,4 +41,10 @@ export class DeleteLabelsDialogComponent {
     const counts = this.agentCountByLabel();
     return this.labels().reduce((sum, label) => sum + (counts.get(label.id) ?? 0), 0);
   });
+
+  protected readonly dialogTitle = computed(() =>
+    this.isSingle()
+      ? this.translate.instant('labels.delete.title_single')
+      : this.translate.instant('labels.delete.title_bulk', { count: this.labels().length }),
+  );
 }

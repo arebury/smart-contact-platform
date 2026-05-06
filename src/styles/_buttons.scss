@@ -129,10 +129,9 @@
     }
   }
 
-  /* DANGER SUBTLE — tinted red bg, red text. Used by destructive bulk
-   * actions where a full red button would shout too loud. */
-  &--danger-subtle,
-  &--bulk-danger {
+  /* DANGER SUBTLE — tinted red bg, red text. Used wherever a full red
+   * button would shout too loud against a colored surface. */
+  &--danger-subtle {
     background: var(--sc-btn-danger-subtle-bg);
     border-color: var(--sc-btn-danger-subtle-border);
     color: var(--sc-btn-danger-subtle-fg);
@@ -143,6 +142,24 @@
 
     &:active:not(:disabled) {
       background: var(--sc-btn-danger-subtle-bg-active);
+    }
+  }
+
+  /* BULK DANGER — solid red on the (light) bulk action bar. Matches
+   * Figma 81:10765: white "Eliminar" + trash icon on red-600. */
+  &--bulk-danger {
+    background: var(--sc-btn-danger-bg);
+    border-color: var(--sc-btn-danger-border);
+    color: var(--sc-btn-danger-fg);
+
+    &:hover:not(:disabled) {
+      background: var(--sc-btn-danger-bg-hover);
+      border-color: var(--sc-btn-danger-border-hover);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--sc-btn-danger-bg-active);
+      border-color: var(--sc-btn-danger-border-active);
     }
   }
 

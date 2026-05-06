@@ -1,20 +1,8 @@
-<button
-  type="button"
-  class="trigger"
-  (click)="popover.toggle($event)"
-  [attr.aria-label]="buttonLabel()"
->
-  <lucide-icon [img]="editIcon" [size]="13" />
-  <span>{{ buttonLabel() }}</span>
-  <lucide-icon class="trigger__chev" [img]="chevronIcon" [size]="13" />
-</button>
-
-<p-popover #popover [appendTo]="'body'" [showCloseIcon]="false" styleClass="aed-bulk-edit-popover">
-  <div class="panel">
-    <label class="row">
-      <span class="row__label">Campo</span>
+<div class="bulk-edit" role="group" aria-label="Editar en bloque">
+  <label class="bulk-edit__pair">
+    <span class="bulk-edit__lead">Cambiar</span>
+    <span class="bulk-edit__select">
       <select
-        class="row__select"
         [value]="selectedFieldKey()"
         (change)="onFieldChange($event)"
         aria-label="Campo a editar"
@@ -23,16 +11,14 @@
           <option [value]="f.key">{{ f.label }}</option>
         }
       </select>
-    </label>
-
-    <span class="arrow" aria-hidden="true">
-      <lucide-icon [img]="arrowIcon" [size]="13" />
+      <lucide-icon class="bulk-edit__chev" [img]="chevronIcon" [size]="16" />
     </span>
+  </label>
 
-    <label class="row">
-      <span class="row__label">Nuevo valor</span>
+  <label class="bulk-edit__pair">
+    <span class="bulk-edit__lead">a</span>
+    <span class="bulk-edit__select">
       <select
-        class="row__select"
         [value]="selectedValue()"
         (change)="onValueChange($event)"
         aria-label="Nuevo valor"
@@ -41,12 +27,16 @@
           <option [value]="v.value">{{ v.label }}</option>
         }
       </select>
-    </label>
+      <lucide-icon class="bulk-edit__chev" [img]="chevronIcon" [size]="16" />
+    </span>
+  </label>
 
-    <div class="actions">
-      <button type="button" class="btn btn--primary" (click)="onCommit(popover.hide.bind(popover))">
-        Previsualizar impacto
-      </button>
-    </div>
-  </div>
-</p-popover>
+  <button
+    type="button"
+    class="btn btn--secondary bulk-edit__apply"
+    [disabled]="!canApply()"
+    (click)="onApply()"
+  >
+    Aplicar
+  </button>
+</div>

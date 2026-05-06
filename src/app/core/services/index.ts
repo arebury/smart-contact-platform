@@ -9,6 +9,9 @@ export type { XlsxExportOptions } from './xlsx-export.service';
 export { createLocalStore } from './local-store.factory';
 export type { LocalStore, LocalStoreConfig } from './local-store.factory';
 
+export { ConfirmHostService } from './confirm-host.service';
+export type { ConfirmRequest } from './confirm-host.service';
+
 export { DiscardDialogService } from './discard-dialog.service';
 
 export { CrossTabLockService } from './cross-tab-lock.service';

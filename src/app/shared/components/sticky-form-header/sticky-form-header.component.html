@@ -47,12 +47,6 @@
   </div>
 
   <div class="sticky-header__actions">
-    @if (canDelete()) {
-      <button type="button" class="btn btn--ghost-danger" (click)="delete.emit()">
-        <lucide-icon [img]="trashIcon" [size]="13" />
-        <span>{{ 'common.delete' | translate }}</span>
-      </button>
-    }
     <button type="button" class="btn btn--ghost" (click)="cancelled.emit()">
       {{ 'common.cancel' | translate }}
     </button>

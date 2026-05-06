@@ -1,67 +1,37 @@
-<p-dialog
+<aed-modal
   [visible]="visible()"
-  [modal]="true"
-  [closable]="false"
-  [draggable]="false"
-  [resizable]="false"
-  [style]="{ width: '420px' }"
-  [dismissableMask]="true"
-  (onHide)="cancelled.emit()"
-  appendTo="body"
-  styleClass="delete-labels-dialog"
+  [icon]="trashIcon"
+  [title]="dialogTitle()"
+  width="440px"
+  (cancelled)="cancelled.emit()"
 >
-  <ng-template pTemplate="header">
-    <div class="delete-labels__header">
-      <span class="delete-labels__icon" aria-hidden="true">
-        <lucide-icon [img]="trashIcon" [size]="16" />
-      </span>
-      <h2 class="delete-labels__title">
-        @if (isSingle()) {
-          {{ 'labels.delete.title_single' | translate }}
-        } @else {
-          {{ 'labels.delete.title_bulk' | translate: { count: labels().length } }}
-        }
-      </h2>
+  @if (isSingle()) {
+    <p class="delete-labels__text">
+      {{ 'labels.delete.body_single' | translate: { name: labels()[0]!.name } }}
+      @if (totalAffectedAgents() > 0) {
+        {{ 'labels.delete.affected_agents' | translate: { count: totalAffectedAgents() } }}
+      }
+    </p>
+  } @else {
+    <p class="delete-labels__text">
+      {{ 'labels.delete.body_bulk' | translate }}
+      @if (totalAffectedAgents() > 0) {
+        {{ 'labels.delete.affected_agents' | translate: { count: totalAffectedAgents() } }}
+      }
+    </p>
+    <div class="delete-labels__chips">
+      @for (label of labels(); track label.id) {
+        <aed-label-chip [label]="label" size="xs" />
+      }
     </div>
-  </ng-template>
+  }
 
-  <div class="delete-labels__body">
-    @if (isSingle()) {
-      <p class="delete-labels__text">
-        {{ 'labels.delete.body_single' | translate: { name: labels()[0]!.name } }}
-        @if (totalAffectedAgents() > 0) {
-          {{ 'labels.delete.affected_agents' | translate: { count: totalAffectedAgents() } }}
-        }
-      </p>
-    } @else {
-      <p class="delete-labels__text">
-        {{ 'labels.delete.body_bulk' | translate }}
-        @if (totalAffectedAgents() > 0) {
-          {{ 'labels.delete.affected_agents' | translate: { count: totalAffectedAgents() } }}
-        }
-      </p>
-      <div class="delete-labels__chips">
-        @for (label of labels(); track label.id) {
-          <aed-label-chip [label]="label" size="xs" />
-        }
-      </div>
-    }
-  </div>
-
-  <ng-template pTemplate="footer">
-    <button
-      type="button"
-      class="delete-labels__btn delete-labels__btn--ghost"
-      (click)="cancelled.emit()"
-    >
+  <div modal-actions>
+    <button type="button" class="btn btn--secondary" (click)="cancelled.emit()">
       {{ 'common.cancel' | translate }}
     </button>
-    <button
-      type="button"
-      class="delete-labels__btn delete-labels__btn--danger"
-      (click)="confirm.emit()"
-    >
+    <button type="button" class="btn btn--danger" (click)="confirm.emit()">
       {{ 'common.delete' | translate }}
     </button>
-  </ng-template>
-</p-dialog>
+  </div>
+</aed-modal>

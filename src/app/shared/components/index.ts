@@ -14,10 +14,14 @@ export type { ColorDotOption } from './color-dot-picker/color-dot-picker.compone
 export { ColumnSelectorComponent } from './column-selector/column-selector.component';
 export type { ColumnDef } from './column-selector/column-selector.component';
 
+export { ConfirmHostComponent } from './confirm-host/confirm-host.component';
+
 export { DeleteEntityDialogComponent } from './delete-entity-dialog/delete-entity-dialog.component';
 export type { DeletableEntity } from './delete-entity-dialog/delete-entity-dialog.component';
 
 export { EmptyStateComponent } from './empty-state/empty-state.component';
+
+export { FormDangerZoneComponent } from './form-danger-zone/form-danger-zone.component';
 
 export { GroupPopoverComponent } from './group-popover/group-popover.component';
 

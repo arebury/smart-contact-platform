@@ -10,17 +10,23 @@ import {
   X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
-import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 
 import { UndoStackService } from '@core/services';
+import { ConfirmHostComponent } from '@shared/components';
 
 type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'contrast';
 
 @Component({
   selector: 'aed-root',
   standalone: true,
-  imports: [ConfirmDialogModule, LucideAngularModule, RouterOutlet, ToastModule, TranslateModule],
+  imports: [
+    ConfirmHostComponent,
+    LucideAngularModule,
+    RouterOutlet,
+    ToastModule,
+    TranslateModule,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

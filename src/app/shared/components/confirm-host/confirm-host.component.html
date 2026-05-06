@@ -1,0 +1,19 @@
+@if (host.state(); as s) {
+  <aed-modal
+    [visible]="host.visible()"
+    [title]="s.title"
+    [subtitle]="s.body"
+    [icon]="alertIcon"
+    width="440px"
+    (cancelled)="host.reject()"
+  >
+    <div modal-actions>
+      <button type="button" class="btn btn--secondary" (click)="host.reject()">
+        {{ s.rejectLabel }}
+      </button>
+      <button type="button" [class]="acceptClass()" (click)="host.accept()">
+        {{ s.acceptLabel }}
+      </button>
+    </div>
+  </aed-modal>
+}

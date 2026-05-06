@@ -68,6 +68,9 @@
       "type_to_confirm": "Escribe el nombre para confirmar:",
       "empty_pruned": "Has descartado todos los elementos. Restaura la lista o cancela.",
       "reset": "Restaurar lista"
+    },
+    "danger_zone": {
+      "title": "Zona de riesgo"
     }
   },
   "topbar": {
@@ -464,7 +467,8 @@
         "status": "Estado",
         "status_active": "Usuario activo: puede iniciar sesión y operar.",
         "status_inactive": "Usuario inactivo: no podrá iniciar sesión hasta reactivarlo."
-      }
+      },
+      "danger_zone_description": "Eliminar este usuario revoca su acceso al panel y borra sus permisos. La acción no se puede deshacer."
     },
     "errors": {
       "name_required": "El nombre es obligatorio",
@@ -551,7 +555,8 @@
       "no_agents_assigned": "Aún no hay agentes asignados",
       "all_assigned": "Todos los agentes están asignados",
       "add_agent": "Añadir agente",
-      "remove_agent": "Quitar agente"
+      "remove_agent": "Quitar agente",
+      "danger_zone_description": "Eliminar este grupo lo retira de las reglas y rutas que lo referencian. La acción no se puede deshacer."
     },
     "errors": {
       "name_required": "El nombre es obligatorio",
@@ -684,7 +689,8 @@
         "devices": "Dispositivos",
         "calls": "Llamadas salientes",
         "transfers": "Transferencias"
-      }
+      },
+      "danger_zone_description": "Eliminar este agente lo desasigna de todos los grupos donde participa. La acción no se puede deshacer."
     },
     "toasts": {
       "created": "Agente \"{{name}}\" creado",

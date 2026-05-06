@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { Check, Loader2, LucideAngularModule, Pencil, Trash2, X } from 'lucide-angular';
+import { Check, Loader2, LucideAngularModule, Pencil, X } from 'lucide-angular';
 
 /**
  * Sticky bar at the top of every Create/Edit page (Users, Groups, Agents…).
@@ -39,18 +39,14 @@ export class StickyFormHeaderComponent {
   readonly canSave = input(true);
   /** Replaces Save with a spinner while true. */
   readonly saving = input(false);
-  /** When true, shows the inline edit pencil + Delete button (edit mode). */
-  readonly canDelete = input(false);
 
   readonly nameChange = output<string>();
   readonly save = output<void>();
   readonly cancelled = output<void>();
-  readonly delete = output<void>();
 
   protected readonly pencilIcon = Pencil;
   protected readonly checkIcon = Check;
   protected readonly closeIcon = X;
-  protected readonly trashIcon = Trash2;
   protected readonly loaderIcon = Loader2;
 
   protected readonly editing = signal(false);

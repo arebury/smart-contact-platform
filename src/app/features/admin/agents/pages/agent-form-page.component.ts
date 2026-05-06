@@ -16,6 +16,7 @@ import { DirtyAware } from '@core/guards';
 import { BreadcrumbService, CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
+  FormDangerZoneComponent,
   LabelChipComponent,
   PhotoUploadComponent,
   SectionCardComponent,
@@ -73,6 +74,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
   standalone: true,
   imports: [
     DeleteEntityDialogComponent,
+    FormDangerZoneComponent,
     LabelChipComponent,
     PhotoUploadComponent,
     SectionCardComponent,

@@ -7,8 +7,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { LucideAngularModule, Pencil, ChevronDown, ArrowRight } from 'lucide-angular';
-import { PopoverModule } from 'primeng/popover';
+import { LucideAngularModule, ChevronDown } from 'lucide-angular';
 
 export interface BulkEditFieldOption {
   /** Stable key passed back to the caller. */
@@ -32,10 +31,10 @@ export interface BulkEditCommit {
 }
 
 /**
- * Compact "Editar" trigger that opens a popover with a field selector and a
- * value picker. The caller decides what fields are available and what the
- * value choices are; this component just orchestrates the picker and emits
- * a single `commit` once the user has chosen.
+ * Inline `Cambiar [field] a [value] [Aplicar]` editor that lives in the
+ * bulk action bar. Caller supplies the fields and value choices; this
+ * component orchestrates the picker and emits a single `commit` once
+ * Aplicar is pressed.
  *
  * The actual mutation typically opens an `ImpactPreviewDialog` on top so the
  * user can prune affected rows before applying. This menu intentionally does
@@ -44,20 +43,19 @@ export interface BulkEditCommit {
 @Component({
   selector: 'aed-bulk-edit-menu',
   standalone: true,
-  imports: [LucideAngularModule, PopoverModule],
+  imports: [LucideAngularModule],
   templateUrl: './bulk-edit-menu.component.html',
   styleUrl: './bulk-edit-menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BulkEditMenuComponent {
   readonly fields = input.required<readonly BulkEditFieldOption[]>();
+  /** Retained for source compatibility; no longer rendered. */
   readonly buttonLabel = input<string>('Editar');
 
   readonly commit = output<BulkEditCommit>();
 
-  protected readonly editIcon = Pencil;
   protected readonly chevronIcon = ChevronDown;
-  protected readonly arrowIcon = ArrowRight;
 
   protected readonly selectedFieldKey = signal<string>('');
   protected readonly selectedValue = signal<string>('');
@@ -66,8 +64,13 @@ export class BulkEditMenuComponent {
     () => this.fields().find((f) => f.key === this.selectedFieldKey()) ?? this.fields()[0],
   );
 
+  protected readonly canApply = computed(() => {
+    const field = this.selectedField();
+    if (!field) return false;
+    return field.values.some((v) => v.value === this.selectedValue());
+  });
+
   constructor() {
-    // Default the selection to the first available field/value pair.
     effect(() => {
       const first = this.fields()[0];
       if (!first) return;
@@ -87,7 +90,7 @@ export class BulkEditMenuComponent {
     this.selectedValue.set((event.target as HTMLSelectElement).value);
   }
 
-  protected onCommit(close: () => void): void {
+  protected onApply(): void {
     const field = this.selectedField();
     if (!field) return;
     const value = this.selectedValue();
@@ -99,6 +102,5 @@ export class BulkEditMenuComponent {
       value: valueOpt.value,
       valueLabel: valueOpt.label,
     });
-    close();
   }
 }

@@ -1,0 +1,17 @@
+<section class="danger-zone" [attr.aria-labelledby]="'danger-zone-title'">
+  <div class="danger-zone__copy">
+    <h2 id="danger-zone-title" class="danger-zone__title">
+      {{ titleKey() | translate }}
+    </h2>
+    <p class="danger-zone__description">{{ descriptionKey() | translate }}</p>
+  </div>
+  <button
+    type="button"
+    class="btn btn--danger-subtle danger-zone__action"
+    [disabled]="disabled()"
+    (click)="action.emit()"
+  >
+    <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
+    <span>{{ actionKey() | translate }}</span>
+  </button>
+</section>

@@ -18,6 +18,7 @@ import { DirtyAware } from '@core/guards';
 import { BreadcrumbService, CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
+  FormDangerZoneComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
   ToggleSwitchComponent,
@@ -55,6 +56,7 @@ interface FormState {
     CdkDrag,
     CdkDropList,
     DeleteEntityDialogComponent,
+    FormDangerZoneComponent,
     LucideAngularModule,
     SectionCardComponent,
     StickyFormHeaderComponent,

@@ -4,53 +4,66 @@
 
 .bulk-bar {
   position: fixed;
-  bottom: 0;
-  left: var(--sc-sidebar-width);
-  right: 0;
-  min-height: var(--sc-bulk-action-bar-height);
-  padding: var(--sc-spacing-200) var(--sc-spacing-500);
+  bottom: var(--sc-spacing-400);
+  left: calc(var(--sc-sidebar-width) + var(--sc-spacing-500));
+  right: var(--sc-spacing-500);
+  padding: var(--sc-spacing-300);
   display: flex;
   align-items: center;
-  justify-content: space-between;
   flex-wrap: wrap;
-  gap: var(--sc-spacing-200);
-  background: var(--sc-color-gray-800);
-  color: var(--sc-text-inverse);
+  gap: var(--sc-spacing-300) var(--sc-spacing-500);
+  background: var(--sc-bg-surface);
+  color: var(--sc-text-primary);
   z-index: var(--sc-z-bulk-action-bar);
-  box-shadow: var(--sc-shadow-popover);
+  border-radius: var(--sc-radius-200);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
 
   &__summary {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-100);
     font-size: var(--sc-font-size-200);
-    line-height: var(--sc-line-height-200);
-    color: rgb(255 255 255 / 0.9);
+    line-height: var(--sc-line-height-220);
+    font-weight: var(--sc-font-weight-medium);
+    color: var(--sc-color-soft-blue-950);
   }
 
   &__clear {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     background: transparent;
     border: 0;
-    color: rgb(255 255 255 / 0.4);
+    color: var(--sc-icon-secondary);
     padding: var(--sc-spacing-50);
+    margin-left: var(--sc-spacing-50);
     cursor: pointer;
-    transition: color var(--sc-transition-fast) var(--sc-easing-default);
     border-radius: var(--sc-radius-100);
+    transition: color var(--sc-transition-fast) var(--sc-easing-default),
+      background var(--sc-transition-fast) var(--sc-easing-default);
 
     &:hover {
-      color: var(--sc-text-inverse);
+      color: var(--sc-text-primary);
+      background: var(--sc-color-gray-100);
     }
 
     &:focus-visible {
       outline: 2px solid var(--sc-color-soft-blue-500);
       outline-offset: 2px;
     }
+
+    &:active {
+      transform: scale(0.98);
+    }
   }
 
   &__actions {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-300);
+    flex: 1 1 auto;
+    min-width: 0;
+    justify-content: flex-end;
     font-size: var(--sc-font-size-200);
   }
 }

@@ -4,11 +4,9 @@
   [name]="form().name || (mode() === 'create' ? ('groups.form.create_title' | translate) : '')"
   [canSave]="canSave()"
   [saving]="saving()"
-  [canDelete]="mode() === 'edit'"
   (nameChange)="onNameRename($event)"
   (save)="save()"
   (cancelled)="cancel()"
-  (delete)="requestDelete()"
 />
 
 <div class="page">
@@ -236,6 +234,13 @@
         </div>
       </div>
     </aed-section-card>
+
+    @if (mode() === 'edit') {
+      <aed-form-danger-zone
+        descriptionKey="groups.form.danger_zone_description"
+        (action)="requestDelete()"
+      />
+    }
   </div>
 </div>
 
