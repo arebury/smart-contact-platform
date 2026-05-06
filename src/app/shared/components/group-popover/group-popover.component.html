@@ -1,3 +1,9 @@
+<!--
+  Wrapper hosts hover/focus listeners so the panel stays open while the
+  cursor crosses trigger→panel. The inner <button> is the real focusable
+  trigger; the div is an event-region only.
+-->
+<!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
 <div
   class="group-popover"
   (mouseenter)="onEnter()"
