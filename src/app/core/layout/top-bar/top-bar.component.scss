@@ -117,15 +117,23 @@
    * avatar is the trigger now; we wrap it in a button that fades a
    * 2px ring in on hover/open. The ring is `box-shadow` (no layout
    * cost) and tinted toward the brand cyan so the affordance reads
-   * as branded, not as a default focus halo. */
+   * as branded, not as a default focus halo.
+   *
+   * `flex: 0 0 32px` + explicit `width/height` + `line-height: 0`
+   * lock the button to a true square. `inline-flex` alone leaves the
+   * button on the inline baseline, where the inherited line-height
+   * adds vertical room — pushing the button out of square and the
+   * border-radius:full produces an oval, not a circle. */
   &__avatar {
+    flex: 0 0 32px;
     width: 32px;
     height: 32px;
     padding: 0;
+    line-height: 0;
     background: transparent;
     border: 0;
     border-radius: var(--sc-radius-full);
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;

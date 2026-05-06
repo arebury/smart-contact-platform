@@ -25,16 +25,9 @@
     <ul class="panel__list" cdkDropList (cdkDropListDropped)="onDrop($event)">
       @for (col of menuItems(); track col.key) {
         <li class="row" [class.row--locked]="col.locked" cdkDrag [cdkDragDisabled]="!!col.locked">
-          <button
-            type="button"
-            class="row__grip"
-            cdkDragHandle
-            [disabled]="!!col.locked"
-            [attr.aria-label]="'Reordenar ' + col.label"
-            tabindex="-1"
-          >
+          <span class="row__grip" [class.row__grip--hidden]="col.locked" aria-hidden="true">
             <lucide-icon [img]="gripIcon" [size]="13" />
-          </button>
+          </span>
           <label class="row__label-block">
             <input
               type="checkbox"
@@ -44,7 +37,12 @@
             />
             <span class="row__label">{{ col.label }}</span>
             @if (col.locked) {
-              <span class="row__hint" aria-hidden="true">fijada</span>
+              <lucide-icon
+                class="row__lock"
+                [img]="lockIcon"
+                [size]="11"
+                [attr.aria-label]="'Columna fijada'"
+              />
             }
           </label>
         </li>

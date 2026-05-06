@@ -1,10 +1,4 @@
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDragHandle,
-  CdkDropList,
-  moveItemInArray,
-} from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -14,7 +8,7 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { Columns3, GripVertical, LucideAngularModule, RotateCcw } from 'lucide-angular';
+import { Columns3, GripVertical, Lock, LucideAngularModule, RotateCcw } from 'lucide-angular';
 import { PopoverModule } from 'primeng/popover';
 
 export interface ColumnDef {
@@ -59,7 +53,7 @@ type OrderedVisible = readonly string[];
 @Component({
   selector: 'aed-column-selector',
   standalone: true,
-  imports: [CdkDrag, CdkDragHandle, CdkDropList, LucideAngularModule, PopoverModule],
+  imports: [CdkDrag, CdkDropList, LucideAngularModule, PopoverModule],
   templateUrl: './column-selector.component.html',
   styleUrl: './column-selector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,6 +78,7 @@ export class ColumnSelectorComponent {
   protected readonly columnsIcon = Columns3;
   protected readonly resetIcon = RotateCcw;
   protected readonly gripIcon = GripVertical;
+  protected readonly lockIcon = Lock;
 
   /** Default = the column declaration order, filtered by `defaultVisible`. */
   private readonly defaultOrdered = computed<OrderedVisible>(() =>
@@ -120,7 +115,18 @@ export class ColumnSelectorComponent {
   });
 
   protected isVisible(key: string): boolean {
-    return this.ordered().includes(key);
+    const ordered = this.ordered();
+    /* Until the hydration effect emits, `ordered` is empty. Without
+     * this fallback every checkbox renders unchecked on first paint —
+     * misleading because the table itself defaults to declared-visible
+     * columns. Mirror the same default rule the table uses (declared
+     * `defaultVisible !== false` = visible) so the popover state
+     * matches what the user sees in the table cells. */
+    if (ordered.length === 0) {
+      const col = this.columns().find((c) => c.key === key);
+      return !!col && col.defaultVisible !== false;
+    }
+    return ordered.includes(key);
   }
 
   constructor() {
