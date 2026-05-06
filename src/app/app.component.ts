@@ -13,7 +13,11 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
 import { UndoStackService } from '@core/services';
-import { CommandPaletteComponent, ConfirmHostComponent } from '@shared/components';
+import {
+  CommandPaletteComponent,
+  ConfirmHostComponent,
+  KeyboardShortcutsComponent,
+} from '@shared/components';
 
 type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'contrast';
 
@@ -23,6 +27,7 @@ type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'cont
   imports: [
     CommandPaletteComponent,
     ConfirmHostComponent,
+    KeyboardShortcutsComponent,
     LucideAngularModule,
     RouterOutlet,
     ToastModule,

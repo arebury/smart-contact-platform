@@ -896,6 +896,41 @@ between the two Figma typography pages.
 
 ---
 
+## 37 — Command palette and shortcuts overlay are prototype-only (2026-05-06)
+
+**Decision.** The `<aed-command-palette>` (⌘K / Ctrl+K) and
+`<aed-keyboard-shortcuts>` (`?`) overlays are mounted in this
+prototype to demo a "modern-SaaS personality" upgrade, but they are
+explicitly NOT marked as production features. Final dev decides
+whether to keep them based on whether the demo earns the complexity
+they introduce (global keydown listener, modal-layer chrome,
+command catalogue). Their absence is also explicitly OK — the rest
+of the app works unchanged without them.
+
+**Why.** Command palettes are the canonical "modern SaaS"
+signature (Linear / Notion / Vercel / Stripe / GitHub all ship one),
+and an admin tool with this many list pages benefits from a
+"jump anywhere" shortcut. But the cost is real: a global keydown
+handler, a service-driven modal mounted in the app shell, a
+command catalogue derived from the nav tree, and a maintenance
+contract for adding new commands as features ship. The team
+hasn't agreed yet that the cost is justified — the prototype
+lets the team feel it before deciding.
+
+**How to roll back if not adopted.** Delete the component folders
+(`shared/components/command-palette/`, `shared/components/keyboard-
+shortcuts/`), drop the `<aed-…>` tags from `app.component.html`,
+remove the registry entries in `shared/components/index.ts` and
+`core/services/index.ts`, delete the `.page__search-kbd` rule in
+`main.scss`, and strip the `<kbd class="page__search-kbd">⌘K</kbd>`
+markup from the six list-page templates. ~30 minutes of cleanup.
+
+**Discarded.** Shipping the palette as a "1.0 feature" without the
+team having seen it — technically simpler but bypasses the team's
+input on a load-bearing UX call.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section

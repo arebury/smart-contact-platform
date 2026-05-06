@@ -134,6 +134,29 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 - ⬜ Verified `npm install && npm run build` actually produces `dist/aed/browser`
 - ⬜ Deploy verified on Netlify (`aedmigration.netlify.app` currently serves an unrelated build)
 
+## Roadmap — prototype-only, NOT for production
+
+These features ship in this prototype to demo the experience, but require
+a product/dev decision before going into the production codebase:
+
+- **Command palette (⌘K / Ctrl+K)** — `<aed-command-palette>` +
+  `CommandPaletteService`. Modern-SaaS signature move (Linear / Notion /
+  Vercel / Stripe). Demo'd here so the team can decide whether the
+  palette earns its complexity (global keydown listener, modal layer,
+  command catalogue). See `app.component.html` mounting + `core/services/
+  command-palette.service.ts`. The `<kbd>⌘K</kbd>` hint inside list-page
+  search inputs (`main.scss → .page__search-kbd`) belongs to the same
+  feature flag.
+
+- **Keyboard-shortcuts overlay (`?`)** — `<aed-keyboard-shortcuts>`,
+  same scope as the palette. Built so the prototype documents its own
+  shortcuts; same product decision applies.
+
+If either is rolled back: delete the corresponding component folder,
+remove the `<aed-…>` tag from `app.component.html`, drop the registry
+entry in `shared/components/index.ts`. The rest of the codebase is
+unaffected.
+
 ## Known debt
 
 - Routes resolve to `loadComponent: placeholder` for everything except `/admin/labels`. Each feature flips its own routes when migrated.

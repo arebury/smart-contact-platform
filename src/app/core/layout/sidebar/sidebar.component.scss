@@ -213,30 +213,6 @@
     --sidebar-pad-l-1: var(--sc-spacing-500);
     --sidebar-pad-l-2: var(--sc-spacing-500);
     --sidebar-pad-l-3: var(--sc-spacing-500);
-
-    /*
-     * Parents are NOT navigation destinations — they only toggle their
-     * children's visibility. In the collapsed sidebar where every icon
-     * looks alike, that's confusing: parent icons read as clickable
-     * targets that go nowhere obvious. Hide them; the sidebar becomes a
-     * clean strip of leaves (real destinations) and the section
-     * dividers carry the structural cue. (DD#37)
-     */
-    ::ng-deep .nav-item--parent {
-      display: none;
-    }
-  }
-
-  /*
-   * Expanded sidebar: hide a parent's children when the parent is
-   * NOT effectively-expanded (manually toggled OR active branch).
-   * Children always render in DOM so they can show in the collapsed
-   * column above; this rule restores the user-toggled hierarchy in
-   * the expanded view.
-   */
-  &:hover ::ng-deep .nav-item--parent:not(.nav-item--expanded) + .nav-item__children,
-  &:focus-within ::ng-deep .nav-item--parent:not(.nav-item--expanded) + .nav-item__children {
-    display: none;
   }
 
   /* -------- Foot -------- */

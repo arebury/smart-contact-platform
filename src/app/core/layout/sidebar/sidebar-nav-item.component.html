@@ -23,7 +23,7 @@
   }
 </button>
 
-@if (hasChildren()) {
+@if (hasChildren() && effectivelyExpanded()) {
   <div class="nav-item__children">
     @for (child of item().children; track child.labelKey) {
       <aed-sidebar-nav-item

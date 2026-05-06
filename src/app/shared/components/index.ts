@@ -27,6 +27,8 @@ export { EntityAvatarComponent } from './entity-avatar/entity-avatar.component';
 
 export { FormDangerZoneComponent } from './form-danger-zone/form-danger-zone.component';
 
+export { KeyboardShortcutsComponent } from './keyboard-shortcuts/keyboard-shortcuts.component';
+
 export { GroupPopoverComponent } from './group-popover/group-popover.component';
 
 export { ImpactPreviewDialogComponent } from './impact-preview-dialog/impact-preview-dialog.component';
