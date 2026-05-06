@@ -843,3 +843,132 @@
   --p-overlay-popover-border-radius: var(--sc-radius-300);
   --p-overlay-popover-shadow: var(--sc-shadow-popover);
 }
+
+/* =============================================================== */
+/* 5. DARK MODE — semantic token overrides                          */
+/* =============================================================== */
+/*
+ * Activated by adding `.aed-dark` to `<html>` (driven by `ThemeService`).
+ * Same selector PrimeNG uses (`darkModeSelector` in app.config.ts) so
+ * flipping the class also inverts every PrimeNG component.
+ *
+ * Only SEMANTIC tokens (§2) are overridden here. Primitives (§1) and
+ * custom extensions (§3) stay as-is — the brand palette is the same;
+ * only the tokens that map roles to colours change. PrimeNG `--p-*`
+ * (§4) inherit through their `--sc-*` references and don't need
+ * separate dark declarations.
+ */
+.aed-dark {
+  /* 2.1 — Text */
+  --sc-text-primary: var(--sc-color-gray-50);
+  --sc-text-secondary: var(--sc-color-gray-300);
+  --sc-text-subtle: var(--sc-color-gray-500);
+  --sc-text-disabled: var(--sc-color-gray-700);
+  --sc-text-inverse: var(--sc-color-gray-900);
+  --sc-text-on-primary: var(--sc-color-gray-0);
+  --sc-text-on-secondary: var(--sc-color-gray-50);
+  --sc-text-on-accent: var(--sc-color-gray-950);
+
+  /* 2.2 — Background */
+  --sc-bg-default: var(--sc-color-gray-950);
+  --sc-bg-surface: var(--sc-color-gray-900);
+  --sc-bg-subtle: var(--sc-color-blue-900);
+  --sc-bg-subtle-hover: var(--sc-color-blue-800);
+  --sc-bg-subtle-active: var(--sc-color-blue-700);
+  --sc-bg-disabled: var(--sc-color-gray-800);
+
+  /* Primary (brand) — slightly lighter on dark for AA contrast */
+  --sc-bg-primary: var(--sc-color-blue-500);
+  --sc-bg-primary-hover: var(--sc-color-blue-400);
+  --sc-bg-primary-active: var(--sc-color-blue-300);
+  --sc-bg-primary-subtle: var(--sc-color-blue-900);
+  --sc-bg-primary-subtle-hover: var(--sc-color-blue-800);
+  --sc-bg-primary-subtle-active: var(--sc-color-blue-700);
+
+  /* Secondary (gray) */
+  --sc-bg-secondary: var(--sc-color-gray-300);
+  --sc-bg-secondary-hover: var(--sc-color-gray-800);
+  --sc-bg-secondary-active: var(--sc-color-gray-700);
+  --sc-bg-secondary-subtle: var(--sc-color-gray-900);
+
+  /* Status — bgs darken, text lifts */
+  --sc-bg-success-subtle: rgb(16 101 52 / 0.18);
+  --sc-bg-warning-subtle: rgb(146 64 14 / 0.18);
+  --sc-bg-danger-subtle: rgb(127 29 29 / 0.22);
+  --sc-bg-danger-subtle-hover: rgb(127 29 29 / 0.32);
+  --sc-bg-danger-subtle-active: rgb(127 29 29 / 0.42);
+  --sc-bg-info-subtle: rgb(7 41 110 / 0.22);
+  --sc-bg-indigo-subtle: rgb(57 13 96 / 0.22);
+
+  /* 2.3 — Border */
+  --sc-border-default: var(--sc-color-gray-800);
+  --sc-border-strong: var(--sc-color-gray-600);
+  --sc-border-subtle: var(--sc-color-gray-900);
+  --sc-border-disabled: var(--sc-color-gray-800);
+
+  --sc-border-secondary: var(--sc-color-blue-700);
+  --sc-border-secondary-hover: var(--sc-color-blue-600);
+  --sc-border-secondary-active: var(--sc-color-blue-500);
+
+  /* 2.4 — Icons */
+  --sc-icon-primary: var(--sc-color-gray-200);
+  --sc-icon-secondary: var(--sc-color-gray-400);
+  --sc-icon-subtle: var(--sc-color-gray-500);
+  --sc-icon-disabled: var(--sc-color-gray-700);
+
+  /* 2.7 — Buttons (only the bg/border tokens that change tone) */
+  --sc-btn-primary-bg: var(--sc-color-blue-500);
+  --sc-btn-primary-border: var(--sc-color-blue-500);
+  --sc-btn-primary-bg-hover: var(--sc-color-blue-400);
+  --sc-btn-primary-border-hover: var(--sc-color-blue-400);
+  --sc-btn-primary-bg-active: var(--sc-color-blue-300);
+  --sc-btn-primary-border-active: var(--sc-color-blue-200);
+
+  --sc-btn-primary-subtle-bg: var(--sc-color-blue-900);
+  --sc-btn-primary-subtle-border: var(--sc-color-blue-700);
+  --sc-btn-primary-subtle-fg: var(--sc-color-blue-200);
+  --sc-btn-primary-subtle-bg-hover: var(--sc-color-blue-800);
+  --sc-btn-primary-subtle-bg-active: var(--sc-color-blue-700);
+
+  --sc-btn-secondary-bg: var(--sc-color-gray-900);
+  --sc-btn-secondary-border: var(--sc-color-gray-700);
+  --sc-btn-secondary-fg: var(--sc-color-gray-100);
+  --sc-btn-secondary-bg-hover: var(--sc-color-gray-800);
+  --sc-btn-secondary-border-hover: var(--sc-color-gray-600);
+  --sc-btn-secondary-bg-active: var(--sc-color-gray-700);
+  --sc-btn-secondary-border-active: var(--sc-color-gray-500);
+
+  --sc-btn-danger-subtle-bg: rgb(127 29 29 / 0.22);
+  --sc-btn-danger-subtle-border: rgb(127 29 29 / 0.4);
+  --sc-btn-danger-subtle-fg: var(--sc-color-red-300);
+  --sc-btn-danger-subtle-bg-hover: rgb(127 29 29 / 0.32);
+  --sc-btn-danger-subtle-bg-active: rgb(127 29 29 / 0.42);
+
+  --sc-btn-disabled-bg: var(--sc-color-gray-800);
+  --sc-btn-disabled-border: var(--sc-color-gray-800);
+  --sc-btn-disabled-fg: var(--sc-color-gray-600);
+
+  /* 2.8 — Modal */
+  --sc-modal-bg: var(--sc-color-gray-900);
+  --sc-modal-border: var(--sc-color-gray-800);
+  --sc-modal-divider: var(--sc-color-gray-800);
+  --sc-modal-title: var(--sc-color-gray-50);
+  --sc-modal-subtitle: var(--sc-color-gray-300);
+  --sc-modal-close-fg: var(--sc-color-gray-300);
+  --sc-modal-close-bg-hover: var(--sc-color-gray-800);
+  --sc-modal-shadow: 0 24px 48px rgb(0 0 0 / 0.5);
+
+  /* 2.9 — Toast */
+  --sc-toast-title: var(--sc-color-gray-50);
+  --sc-toast-message: var(--sc-color-gray-300);
+  --sc-toast-close: var(--sc-color-gray-200);
+  --sc-toast-success-bg: rgb(20 83 45 / 0.4);
+  --sc-toast-info-bg: rgb(7 41 110 / 0.4);
+  --sc-toast-warn-bg: rgb(146 64 14 / 0.4);
+  --sc-toast-error-bg: rgb(127 29 29 / 0.4);
+  --sc-toast-indigo-bg: rgb(57 13 96 / 0.4);
+
+  /* 3.1 — Sidebar bg one step darker than the page so it still reads
+   * as "the chrome" against the surface, not a peer panel. */
+  --sc-sidebar-bg: var(--sc-color-blue-900);
+}

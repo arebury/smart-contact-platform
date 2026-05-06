@@ -21,5 +21,9 @@ export const configRoutes: Routes = [
   },
   { path: 'personalizacion', loadComponent: placeholder },
   { path: 'integraciones', loadComponent: placeholder },
-  { path: 'sistema', loadComponent: placeholder },
+  {
+    path: 'sistema',
+    loadComponent: () =>
+      import('./pages/sistema-page.component').then((m) => m.SistemaPageComponent),
+  },
 ];

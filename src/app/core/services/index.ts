@@ -19,5 +19,8 @@ export { DiscardDialogService } from './discard-dialog.service';
 
 export { CrossTabLockService } from './cross-tab-lock.service';
 
+export { ThemeService } from './theme.service';
+export type { ThemeMode } from './theme.service';
+
 export { UndoStackService } from './undo-stack.service';
 export type { UndoEntry } from './undo-stack.service';

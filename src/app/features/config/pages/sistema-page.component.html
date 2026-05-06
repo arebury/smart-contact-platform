@@ -1,0 +1,56 @@
+<div class="page">
+  <div class="page__inner">
+    <header class="page__header">
+      <div class="page__icon" aria-hidden="true">
+        <lucide-icon [img]="settingsIcon" [size]="16" />
+      </div>
+      <div>
+        <h1 class="page__title">{{ 'config.sistema.heading' | translate }}</h1>
+        <p class="page__subtitle">{{ 'config.sistema.subtitle' | translate }}</p>
+      </div>
+    </header>
+
+    <section class="card">
+      <div class="card__head">
+        <span class="card__head-title">
+          {{ 'config.sistema.appearance.title' | translate }}
+        </span>
+        <span class="card__head-hint">
+          {{ 'config.sistema.appearance.hint' | translate }}
+        </span>
+      </div>
+      <div class="card__body">
+        <div class="theme-row">
+          <div class="theme-row__copy">
+            <span class="theme-row__label">
+              {{ 'config.sistema.appearance.theme_label' | translate }}
+            </span>
+            <p class="theme-row__hint">
+              {{ 'config.sistema.appearance.theme_hint' | translate }}
+            </p>
+          </div>
+
+          <div
+            class="theme-toggle"
+            role="radiogroup"
+            [attr.aria-label]="'config.sistema.appearance.theme_label' | translate"
+          >
+            @for (option of themeOptions; track option.value) {
+              <button
+                type="button"
+                class="theme-toggle__option"
+                role="radio"
+                [class.theme-toggle__option--active]="theme.mode() === option.value"
+                [attr.aria-checked]="theme.mode() === option.value"
+                (click)="select(option.value)"
+              >
+                <lucide-icon [img]="option.icon" [size]="14" />
+                <span>{{ option.labelKey | translate }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

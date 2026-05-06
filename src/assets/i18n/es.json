@@ -782,6 +782,20 @@
         "regenerated_many": "Se regeneraron {{count}} contraseñas. Descarga el archivo con las credenciales temporales.",
         "csv_downloaded": "Archivo CSV descargado"
       }
+    },
+    "sistema": {
+      "title": "Sistema",
+      "heading": "Sistema",
+      "subtitle": "Preferencias generales de la aplicación",
+      "appearance": {
+        "title": "Apariencia",
+        "hint": "(afecta a este navegador)",
+        "theme_label": "Tema",
+        "theme_hint": "Elige cómo se muestra la interfaz. La opción Sistema sigue la preferencia de tu sistema operativo.",
+        "theme_light": "Claro",
+        "theme_dark": "Oscuro",
+        "theme_system": "Sistema"
+      }
     }
   },
   "errors": {
