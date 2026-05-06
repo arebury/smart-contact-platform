@@ -7,6 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="SmartContact — Supervisor module" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
+
+    <!--
+      Brand fonts. The Smart Contact design system pairs Inter (primary,
+      everything except captions) with Open Sans (secondary, captions
+      only). Without these `<link>` tags both `font-family` tokens fell
+      back to system-ui, which silently drifted every screen away from
+      the Figma. `preconnect` warms the TLS handshake before the font
+      request fires; `display=swap` paints the page with the fallback
+      first and swaps in the brand font once it loads (avoids invisible
+      text during the font fetch).
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap"
+    />
   </head>
   <body>
     <aed-root></aed-root>

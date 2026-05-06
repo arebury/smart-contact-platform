@@ -163,16 +163,21 @@
   --sc-font-size-800: 48px;
   --sc-font-size-900: 64px;
 
-  /* Line height scale (px) */
+  /* Line height scale (px). Each value pairs with the same-numbered
+   * font-size step where possible — e.g. font-size-450 (20) pairs with
+   * line-height-450 (30). Values aligned to the Smart Contact Figma
+   * typography spec (DD#36). */
   --sc-line-height-50: 15px;
   --sc-line-height-100: 18px;
   --sc-line-height-200: 21px;
   --sc-line-height-220: 22px;
   --sc-line-height-300: 24px;
-  --sc-line-height-400: 27px;
+  --sc-line-height-400: 28px; /* H4 (was 27) */
+  --sc-line-height-450: 30px; /* H3 */
   --sc-line-height-500: 36px;
   --sc-line-height-600: 42px;
-  --sc-line-height-700: 54px;
+  --sc-line-height-650: 48px; /* H1 */
+  --sc-line-height-700: 52px; /* display1 (was 54) */
   --sc-line-height-800: 72px;
   --sc-line-height-900: 96px;
 
@@ -352,17 +357,72 @@
   /* =========================================================== */
   /* 2.5 SEMANTIC — Typography roles                             */
   /* =========================================================== */
-  --sc-font-size-display-1: var(--sc-font-size-700);
-  --sc-font-size-h1: var(--sc-font-size-650);
-  --sc-font-size-h2: var(--sc-font-size-500);
-  --sc-font-size-h3: var(--sc-font-size-450);
-  --sc-font-size-h4: var(--sc-font-size-400);
-  --sc-font-size-subtitle-1: var(--sc-font-size-300);
-  --sc-font-size-subtitle-2: var(--sc-font-size-200);
-  --sc-font-size-body-1: var(--sc-font-size-300);
-  --sc-font-size-body-2: var(--sc-font-size-200);
-  --sc-font-size-caption: var(--sc-font-size-100);
-  --sc-font-size-caption-bold: var(--sc-font-size-100);
+  /*
+   * Each role bundles three tokens: font-size, line-height, font-weight.
+   * Use them together when applying a type style (e.g. an H3 sets
+   * `font-size: var(--sc-font-size-h3); line-height: var(--sc-line-height-h3);
+   * font-weight: var(--sc-font-weight-h3)`). Values track the Smart Contact
+   * Figma typography spec (DD#36).
+   *
+   * Family rule: roles `display-1` through `body-3` use the primary
+   * family (Inter); `caption` and `caption-bold` use the secondary
+   * family (Open Sans).
+   */
+
+  /* Sizes */
+  --sc-font-size-display-1: var(--sc-font-size-700); /* 36 */
+  --sc-font-size-h1: var(--sc-font-size-650); /* 32 */
+  --sc-font-size-h2: var(--sc-font-size-500); /* 24 */
+  --sc-font-size-h3: var(--sc-font-size-450); /* 20 */
+  --sc-font-size-h4: var(--sc-font-size-400); /* 18 */
+  --sc-font-size-subtitle-1: var(--sc-font-size-300); /* 16 */
+  --sc-font-size-subtitle-2: var(--sc-font-size-200); /* 14 */
+  --sc-font-size-body-1: var(--sc-font-size-300); /* 16 */
+  --sc-font-size-body-2: var(--sc-font-size-200); /* 14 */
+  --sc-font-size-body-3: var(--sc-font-size-200); /* 14, semibold variant */
+  --sc-font-size-caption: var(--sc-font-size-100); /* 12 */
+  --sc-font-size-caption-bold: var(--sc-font-size-100); /* 12 */
+
+  /* Line heights */
+  --sc-line-height-display-1: var(--sc-line-height-700); /* 52 */
+  --sc-line-height-h1: var(--sc-line-height-650); /* 48 */
+  --sc-line-height-h2: var(--sc-line-height-500); /* 36 */
+  --sc-line-height-h3: var(--sc-line-height-450); /* 30 */
+  --sc-line-height-h4: var(--sc-line-height-400); /* 28 */
+  --sc-line-height-subtitle-1: var(--sc-line-height-300); /* 24 */
+  --sc-line-height-subtitle-2: var(--sc-line-height-220); /* 22 */
+  --sc-line-height-body-1: var(--sc-line-height-300); /* 24 */
+  --sc-line-height-body-2: var(--sc-line-height-220); /* 22 */
+  --sc-line-height-body-3: var(--sc-line-height-220); /* 22 */
+  --sc-line-height-caption: var(--sc-line-height-100); /* 18 */
+
+  /* Weights */
+  --sc-font-weight-display-1: var(--sc-font-weight-regular); /* 400 */
+  --sc-font-weight-h1: var(--sc-font-weight-semibold); /* 600 */
+  --sc-font-weight-h2: var(--sc-font-weight-semibold); /* 600 */
+  --sc-font-weight-h3: var(--sc-font-weight-semibold); /* 600 */
+  --sc-font-weight-h4: var(--sc-font-weight-semibold); /* 600 */
+  --sc-font-weight-subtitle-1: var(--sc-font-weight-semibold); /* 600 */
+  --sc-font-weight-subtitle-2: var(--sc-font-weight-semibold); /* 600 */
+  --sc-font-weight-body-1: var(--sc-font-weight-regular); /* 400 */
+  --sc-font-weight-body-2: var(--sc-font-weight-regular); /* 400 */
+  --sc-font-weight-body-3: var(--sc-font-weight-semibold); /* 600 */
+  --sc-font-weight-caption: var(--sc-font-weight-regular); /* 400 */
+  --sc-font-weight-caption-bold: var(--sc-font-weight-semibold); /* 600 */
+
+  /* Family selector — primary for everything except captions. */
+  --sc-font-family-display-1: var(--sc-font-family-primary);
+  --sc-font-family-h1: var(--sc-font-family-primary);
+  --sc-font-family-h2: var(--sc-font-family-primary);
+  --sc-font-family-h3: var(--sc-font-family-primary);
+  --sc-font-family-h4: var(--sc-font-family-primary);
+  --sc-font-family-subtitle-1: var(--sc-font-family-primary);
+  --sc-font-family-subtitle-2: var(--sc-font-family-primary);
+  --sc-font-family-body-1: var(--sc-font-family-primary);
+  --sc-font-family-body-2: var(--sc-font-family-primary);
+  --sc-font-family-body-3: var(--sc-font-family-primary);
+  --sc-font-family-caption: var(--sc-font-family-secondary);
+  --sc-font-family-caption-bold: var(--sc-font-family-secondary);
 
   /* =========================================================== */
   /* 2.6 SEMANTIC — Label / tag palette                          */

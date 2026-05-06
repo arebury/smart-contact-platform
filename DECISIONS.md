@@ -853,6 +853,49 @@ separate interaction model.
 
 ---
 
+## 36 — Typography roles match the Figma spec 1:1; brand fonts loaded explicitly (2026-05-06)
+
+**Decision.** Updated `sc-tokens.css` so every Smart Contact Figma
+typography role (display-1, H1–H4, subtitle-1/2, body-1/2/3, caption,
+caption-bold) has exact-pixel parity with the design system: font-size,
+line-height, font-weight and font-family are all addressable as
+`--sc-font-{size,weight,family}-{role}` and `--sc-line-height-{role}`.
+Inter (400/500/600/700) and Open Sans (400/600) now load explicitly
+from Google Fonts in `index.html` with `preconnect` warm-up and
+`display=swap` so the page paints with the fallback first. Four
+page-title SCSS files (`labels`, `repos-list`, `repos-hub`, `templates`)
+that referenced `--sc-line-height-400` for an H3 now use the semantic
+`--sc-line-height-h3` token directly.
+
+**Why.** Two gaps were hidden in the previous setup:
+1.  The token `--sc-font-family-primary: 'Inter', system-ui, sans-serif`
+    was declared, but no `<link>` to Google Fonts existed in
+    `index.html`. The browser silently fell back to `system-ui` for
+    every screen, drifting the entire UI away from the Figma. This is
+    the kind of mismatch that goes unnoticed in design review until a
+    visiting designer points at a heading and says "that's not Inter."
+2.  Four primitive line-heights were 1–2 px off (`-400: 27 → 28`,
+    `-700: 54 → 52`) and two were missing (`-450: 30` for H3,
+    `-650: 48` for H1). The `27` line-height was accidentally adopted
+    by four list-page titles that wanted H3, baking the drift in.
+
+Adding **explicit semantic role tokens** (instead of forcing every
+consumer to compose `font-size + line-height + weight + family`
+manually) closes the loop: a future component that needs an H4 just
+references `--sc-font-size-h4` + `--sc-line-height-h4` +
+`--sc-font-weight-h4` and gets exactly the Figma value.
+
+**Discarded.** A bundled CSS class per role (`.sc-text-h3 { ... }`) —
+nicer DX but pulls the project away from the token-only architecture
+and adds a parallel system. The role tokens give the same parity
+without introducing a class layer. Loading H5 / Public Sans (a third
+family that appears in one Figma node but not the canonical
+type-scale node) — punted; introduces a third font for a use case
+nobody needs today and the spec itself is internally inconsistent
+between the two Figma typography pages.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section
