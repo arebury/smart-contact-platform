@@ -10,10 +10,16 @@
   >
     @if (photo(); as src) {
       <img class="photo-upload__image" [src]="src" alt="" />
-    } @else if (name(); as entityName) {
-      <aed-illustrated-avatar class="photo-upload__illustrated" [name]="entityName" [size]="64" />
     } @else {
-      <lucide-icon [img]="placeholderIcon" [size]="28" class="photo-upload__placeholder" />
+      @if (name(); as entityName) {
+        <aed-illustrated-avatar
+          class="photo-upload__illustrated"
+          [name]="entityName"
+          [size]="64"
+        />
+      } @else {
+        <lucide-icon [img]="placeholderIcon" [size]="28" class="photo-upload__placeholder" />
+      }
     }
     <span class="photo-upload__overlay" [class.photo-upload__overlay--visible]="hovering()">
       <lucide-icon [img]="cameraIcon" [size]="16" />
