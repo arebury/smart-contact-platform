@@ -62,8 +62,8 @@ export class BulkEditMenuComponent {
   protected readonly selectedFieldKey = signal<string>('');
   protected readonly selectedValue = signal<string>('');
 
-  protected readonly selectedField = computed(() =>
-    this.fields().find((f) => f.key === this.selectedFieldKey()) ?? this.fields()[0],
+  protected readonly selectedField = computed(
+    () => this.fields().find((f) => f.key === this.selectedFieldKey()) ?? this.fields()[0],
   );
 
   constructor() {

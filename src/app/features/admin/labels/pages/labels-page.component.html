@@ -18,7 +18,7 @@
             <aed-label-form-panel
               [existingNames]="existingNames()"
               (save)="onCreateSubmit($event)"
-              (cancel)="closeCreatePanel()"
+              (cancelled)="closeCreatePanel()"
             />
           </div>
         }
@@ -118,7 +118,7 @@
                         [initial]="label"
                         [existingNames]="existingNames()"
                         (save)="onEditSubmit(label.id, $event)"
-                        (cancel)="closeEditPanel()"
+                        (cancelled)="closeEditPanel()"
                       />
                     </div>
                   }
@@ -216,7 +216,7 @@
   [visible]="!!deleteTarget()"
   [agentCountByLabel]="agentCountByLabel()"
   (confirm)="confirmDelete()"
-  (cancel)="cancelDelete()"
+  (cancelled)="cancelDelete()"
 />
 
 <aed-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">

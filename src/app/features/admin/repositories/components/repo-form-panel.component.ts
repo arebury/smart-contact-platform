@@ -41,7 +41,7 @@ export class RepoFormPanelComponent<T extends RepoEntity> implements OnInit, Aft
   readonly entityNameSpanish = input.required<string>();
 
   readonly save = output<RepoFormSubmission>();
-  readonly cancel = output<void>();
+  readonly cancelled = output<void>();
 
   protected readonly alertIcon = AlertTriangle;
   protected readonly values = signal<Record<string, string>>({});
@@ -80,7 +80,7 @@ export class RepoFormPanelComponent<T extends RepoEntity> implements OnInit, Aft
       this.onSave();
     } else if (event.key === 'Escape') {
       event.preventDefault();
-      this.cancel.emit();
+      this.cancelled.emit();
     }
   }
 

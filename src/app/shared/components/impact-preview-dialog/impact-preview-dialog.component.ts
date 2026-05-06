@@ -47,7 +47,7 @@ export class ImpactPreviewDialogComponent {
   readonly confirmLabel = input<string>('Aplicar');
   readonly cancelLabel = input<string>('Cancelar');
 
-  readonly cancel = output<void>();
+  readonly cancelled = output<void>();
   /** Emits the surviving ids in the order they were originally given. */
   readonly confirm = output<readonly number[]>();
 
@@ -65,17 +65,20 @@ export class ImpactPreviewDialogComponent {
 
   constructor() {
     // Reset chip pruning whenever a new operation is requested.
-    effect(() => {
-      this.items();
-      this.removedIds.set(new Set());
-    });
+    effect(
+      () => {
+        this.items();
+        this.removedIds.set(new Set());
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   protected remove(id: number): void {
     const next = new Set(this.removedIds());
     next.add(id);
     if (next.size === this.items().length) {
-      this.cancel.emit();
+      this.cancelled.emit();
       return;
     }
     this.removedIds.set(next);

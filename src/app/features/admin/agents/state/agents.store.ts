@@ -1,13 +1,7 @@
 import { computed, Injectable } from '@angular/core';
 
 import { createLocalStore, LocalStore } from '@core/services';
-import {
-  Agent,
-  AGENTS_SEED,
-  AgentChannel,
-  AgentType,
-  PresenceStatus,
-} from '../data/agents-data';
+import { Agent, AGENTS_SEED, AgentChannel, AgentType, PresenceStatus } from '../data/agents-data';
 
 /** Fields exposed to bulk edit (subset that is safe to set across many rows). */
 export type AgentBulkField = 'status' | 'presenceStatus' | 'agentType' | 'recording' | 'channels';
@@ -91,23 +85,25 @@ export class AgentsStore {
     const idSet = new Set(ids);
     for (const agent of this.agents()) {
       if (!idSet.has(agent.id)) continue;
-      const patch: Partial<Agent> = {};
+      let patch: Partial<Agent>;
       switch (field) {
         case 'status':
-          patch.status = value as Agent['status'];
+          patch = { status: value as Agent['status'] };
           break;
         case 'presenceStatus':
-          patch.presenceStatus = value as PresenceStatus;
+          patch = { presenceStatus: value as PresenceStatus };
           break;
         case 'agentType':
-          patch.agentType = value as AgentType;
+          patch = { agentType: value as AgentType };
           break;
         case 'recording':
-          patch.permissions = { ...agent.permissions, recording: !!value };
+          patch = { permissions: { ...agent.permissions, recording: !!value } };
           break;
         case 'channels':
-          patch.channels = value as readonly AgentChannel[];
+          patch = { channels: value as readonly AgentChannel[] };
           break;
+        default:
+          continue;
       }
       this.store.updateItem(agent.id, patch);
     }

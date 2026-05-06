@@ -55,7 +55,7 @@ export class DeleteEntityDialogComponent {
   /** Optional footer paragraph for bulk mode. */
   readonly bulkFooterMessage = input<string | null>(null);
 
-  readonly cancel = output<void>();
+  readonly cancelled = output<void>();
   /** Emits the ids that survived chip pruning (bulk) or `null` for single. */
   readonly confirm = output<readonly number[] | null>();
 
@@ -87,12 +87,15 @@ export class DeleteEntityDialogComponent {
     // Reset internal state every time the items list changes (i.e. a new
     // delete is requested) so the chip pruning and typed name don't bleed
     // across openings.
-    effect(() => {
-      const next = new Set(this.items().map((item) => item.id));
-      this.visibleIds.set(next);
-      this.confirmText.set('');
-      this.copied.set(false);
-    });
+    effect(
+      () => {
+        const next = new Set(this.items().map((item) => item.id));
+        this.visibleIds.set(next);
+        this.confirmText.set('');
+        this.copied.set(false);
+      },
+      { allowSignalWrites: true },
+    );
   }
 
   protected onCopy(): void {
@@ -119,7 +122,7 @@ export class DeleteEntityDialogComponent {
     const next = new Set(this.visibleIds());
     next.delete(id);
     if (next.size === 0) {
-      this.cancel.emit();
+      this.cancelled.emit();
       return;
     }
     this.visibleIds.set(next);

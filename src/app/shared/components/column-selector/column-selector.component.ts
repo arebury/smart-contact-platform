@@ -56,9 +56,7 @@ export class ColumnSelectorComponent {
 
   /** Default = all keys; never includes locked columns separately because they
    * stay visible regardless of the persisted set. */
-  private readonly defaultVisible = computed(
-    () => new Set(this.columns().map((c) => c.key)),
-  );
+  private readonly defaultVisible = computed(() => new Set(this.columns().map((c) => c.key)));
 
   protected readonly visible = signal<ReadonlySet<string>>(new Set());
 

@@ -110,7 +110,7 @@
                     placeholder="Nombre del usuario"
                     [ariaLabel]="'Renombrar ' + user.name"
                     (commit)="onRenameCommit(user.id, $event)"
-                    (cancel)="onRenameCancel(user.id)"
+                    (cancelled)="onRenameCancel(user.id)"
                   />
                 } @else {
                   <span>{{ user.name }}</span>
@@ -217,7 +217,7 @@
   [items]="deleteItems()"
   [entitySingular]="'usuario'"
   [entityPlural]="'usuarios'"
-  (cancel)="cancelDelete()"
+  (cancelled)="cancelDelete()"
   (confirm)="confirmDelete($event)"
 />
 

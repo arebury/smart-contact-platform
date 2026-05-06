@@ -78,7 +78,7 @@
   </div>
 
   <div class="panel__actions">
-    <button type="button" class="panel__btn panel__btn--ghost" (click)="cancel.emit()">
+    <button type="button" class="panel__btn panel__btn--ghost" (click)="cancelled.emit()">
       {{ 'common.cancel' | translate }}
     </button>
     <button type="button" class="panel__btn panel__btn--primary" (click)="onSave()">

@@ -124,7 +124,7 @@
                     placeholder="Nombre del agente"
                     [ariaLabel]="'Renombrar ' + agent.name"
                     (commit)="onRenameCommit(agent.id, $event)"
-                    (cancel)="onRenameCancel(agent.id)"
+                    (cancelled)="onRenameCancel(agent.id)"
                   />
                 } @else {
                   <span>{{ agent.name }}</span>
@@ -160,6 +160,7 @@
               @if (isColVisible('presence')) {
                 <td class="table__td">
                   @if (agent.presenceStatus; as presence) {
+                    <!-- eslint-disable-next-line @angular-eslint/template/click-events-have-key-events, @angular-eslint/template/interactive-supports-focus -->
                     <span
                       class="presence-edit"
                       [attr.data-presence]="presence"
@@ -273,7 +274,7 @@
   [items]="deleteItems()"
   [entitySingular]="'agente'"
   [entityPlural]="'agentes'"
-  (cancel)="cancelDelete()"
+  (cancelled)="cancelDelete()"
   (confirm)="confirmDelete($event)"
 />
 
@@ -283,7 +284,7 @@
   [title]="'Aplicar cambio a ' + selectedIds().size + ' agente(s)'"
   [items]="impactItems()"
   [badge]="impactBadge()"
-  (cancel)="onBulkPreviewCancel()"
+  (cancelled)="onBulkPreviewCancel()"
   (confirm)="onBulkPreviewConfirm($event)"
 />
 

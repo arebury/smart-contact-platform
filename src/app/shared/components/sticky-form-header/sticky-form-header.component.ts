@@ -44,7 +44,7 @@ export class StickyFormHeaderComponent {
 
   readonly nameChange = output<string>();
   readonly save = output<void>();
-  readonly cancel = output<void>();
+  readonly cancelled = output<void>();
   readonly delete = output<void>();
 
   protected readonly pencilIcon = Pencil;

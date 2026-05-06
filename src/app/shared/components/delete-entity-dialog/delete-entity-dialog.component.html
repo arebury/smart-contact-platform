@@ -6,7 +6,7 @@
   [resizable]="false"
   [style]="{ width: '420px' }"
   [dismissableMask]="true"
-  (onHide)="cancel.emit()"
+  (onHide)="cancelled.emit()"
   appendTo="body"
   styleClass="delete-entity-dialog"
 >
@@ -96,7 +96,7 @@
     <button
       type="button"
       class="delete-entity__btn delete-entity__btn--ghost"
-      (click)="cancel.emit()"
+      (click)="cancelled.emit()"
     >
       {{ 'common.cancel' | translate }}
     </button>

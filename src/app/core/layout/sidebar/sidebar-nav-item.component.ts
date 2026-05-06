@@ -4,6 +4,7 @@ import {
   computed,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   signal,
 } from '@angular/core';
@@ -27,7 +28,7 @@ import type { NavItem } from './nav-data';
   styleUrl: './sidebar-nav-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SidebarNavItemComponent {
+export class SidebarNavItemComponent implements OnInit {
   @Input({ required: true }) item!: NavItem;
   @Input() depth = 0;
   @Input({ required: true }) currentPath!: string;
