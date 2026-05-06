@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -27,7 +19,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
-import { BreadcrumbService, UndoStackService, XlsxExportService } from '@core/services';
+import { UndoStackService, XlsxExportService } from '@core/services';
 import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
@@ -101,8 +93,7 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
   styleUrl: './agents-list-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AgentsListPageComponent implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
+export class AgentsListPageComponent {
   private readonly agentsStore = inject(AgentsStore);
   private readonly xlsx = inject(XlsxExportService);
   private readonly messages = inject(MessageService);
@@ -258,17 +249,6 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
     if (!op) return null;
     return { fieldLabel: op.fieldLabel, newValueLabel: op.valueLabel };
   });
-
-  ngOnInit(): void {
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
-      { label: this.translate.instant('sidebar.agents') },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected channelIcon(channel: AgentChannel) {
     if (channel === 'phone') return this.phoneIcon;

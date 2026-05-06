@@ -15,7 +15,7 @@ import { GripVertical, LucideAngularModule, Plus, Trash2, X } from 'lucide-angul
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
-import { BreadcrumbService, CrossTabLockService } from '@core/services';
+import { CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
   FormDangerZoneComponent,
@@ -68,7 +68,6 @@ interface FormState {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly groupsStore = inject(GroupsStore);
@@ -145,20 +144,9 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         this.conflictWarning.set(true),
       );
     }
-
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
-      { label: this.translate.instant('sidebar.groups'), path: '/admin/grupos' },
-      {
-        label: this.translate.instant(
-          this.editingId() ? 'groups.form.edit_breadcrumb' : 'groups.form.create_breadcrumb',
-        ),
-      },
-    ]);
   }
 
   ngOnDestroy(): void {
-    this.breadcrumbs.clear();
     this.releaseLock?.();
     this.releaseLock = null;
   }

@@ -12,10 +12,12 @@ const placeholder = () =>
 export const configRoutes: Routes = [
   {
     path: 'aed',
+    data: { breadcrumb: { labelKey: 'config.aed.title' } },
     loadComponent: () => import('./pages/aed-page.component').then((m) => m.AedPageComponent),
   },
   {
     path: 'seguridad',
+    data: { breadcrumb: { labelKey: 'config.seguridad.title' } },
     loadComponent: () =>
       import('./pages/seguridad-page.component').then((m) => m.SeguridadPageComponent),
   },
@@ -23,6 +25,7 @@ export const configRoutes: Routes = [
   { path: 'integraciones', loadComponent: placeholder },
   {
     path: 'sistema',
+    data: { breadcrumb: { labelKey: 'config.sistema.title' } },
     loadComponent: () =>
       import('./pages/sistema-page.component').then((m) => m.SistemaPageComponent),
   },

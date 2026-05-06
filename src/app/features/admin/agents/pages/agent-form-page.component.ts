@@ -13,7 +13,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
-import { BreadcrumbService, CrossTabLockService } from '@core/services';
+import { CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
   FormDangerZoneComponent,
@@ -87,7 +87,6 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly agentsStore = inject(AgentsStore);
@@ -189,20 +188,9 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         this.conflictWarning.set(true),
       );
     }
-
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
-      { label: this.translate.instant('sidebar.agents'), path: '/admin/agentes' },
-      {
-        label: this.translate.instant(
-          this.editingId() ? 'agents.form.edit_breadcrumb' : 'agents.form.create_breadcrumb',
-        ),
-      },
-    ]);
   }
 
   ngOnDestroy(): void {
-    this.breadcrumbs.clear();
     this.releaseLock?.();
     this.releaseLock = null;
   }

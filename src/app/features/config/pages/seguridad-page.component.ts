@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   AlertTriangle,
@@ -24,7 +16,6 @@ import {
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { BreadcrumbService } from '@core/services';
 import { ToggleSwitchComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 
@@ -52,8 +43,7 @@ interface RegenerationResult {
   styleUrl: './seguridad-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SeguridadPageComponent implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
+export class SeguridadPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly agentsStore = inject(AgentsStore);
@@ -107,17 +97,6 @@ export class SeguridadPageComponent implements OnInit, OnDestroy {
     () =>
       this.selectedIds().size > 0 && this.confirmText() === CONFIRM_PHRASE && !this.processing(),
   );
-
-  ngOnInit(): void {
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.configuration') },
-      { label: this.translate.instant('config.seguridad.title') },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected toggleAccordion(): void {
     this.regenOpen.update((v) => !v);

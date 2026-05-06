@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -23,7 +15,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
-import { BreadcrumbService, XlsxExportService } from '@core/services';
+import { XlsxExportService } from '@core/services';
 import { clampToViewport } from '@core/utils/viewport';
 import { BulkActionBarComponent, LabelChipComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
@@ -58,8 +50,7 @@ interface ContextMenuPos {
   styleUrl: './labels-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LabelsPageComponent implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
+export class LabelsPageComponent {
   private readonly labelsStore = inject(LabelsStore);
   private readonly agentsStore = inject(AgentsStore);
   private readonly xlsx = inject(XlsxExportService);
@@ -114,18 +105,6 @@ export class LabelsPageComponent implements OnInit, OnDestroy {
     suffixSingular: 'seleccionada',
     suffixPlural: 'seleccionadas',
   } as const;
-
-  ngOnInit(): void {
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
-      { label: this.translate.instant('sidebar.repositories'), path: '/admin/repositorios' },
-      { label: this.translate.instant('labels.breadcrumb') },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected onCreateClick(): void {
     this.editingId.set(null);

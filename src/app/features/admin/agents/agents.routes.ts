@@ -11,12 +11,14 @@ export const AGENTS_ROUTES: Routes = [
   },
   {
     path: 'crear',
+    data: { breadcrumb: { labelKey: 'agents.form.create_breadcrumb' } },
     loadComponent: () =>
       import('./pages/agent-form-page.component').then((m) => m.AgentFormPageComponent),
     canDeactivate: [formDirtyGuard],
   },
   {
     path: 'editar/:id',
+    data: { breadcrumb: { labelKey: 'agents.form.edit_breadcrumb' } },
     loadComponent: () =>
       import('./pages/agent-form-page.component').then((m) => m.AgentFormPageComponent),
     canDeactivate: [formDirtyGuard],

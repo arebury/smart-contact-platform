@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import {
   Box,
   ChevronRight,
@@ -15,8 +15,6 @@ import {
   Variable,
 } from 'lucide-angular';
 import type { LucideIconData } from '../components/repo-types';
-
-import { BreadcrumbService } from '@core/services/breadcrumb.service';
 
 interface HubItem {
   readonly labelKey: string;
@@ -44,10 +42,8 @@ interface HubCategory {
   styleUrl: './repositorios-hub-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RepositoriosHubPageComponent implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
+export class RepositoriosHubPageComponent {
   private readonly router = inject(Router);
-  private readonly translate = inject(TranslateService);
 
   protected readonly chevronIcon = ChevronRight;
 
@@ -150,17 +146,6 @@ export class RepositoriosHubPageComponent implements OnInit, OnDestroy {
       ],
     },
   ];
-
-  ngOnInit(): void {
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
-      { label: this.translate.instant('sidebar.repositories') },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected onItemClick(item: HubItem): void {
     if (!item.ready) return;

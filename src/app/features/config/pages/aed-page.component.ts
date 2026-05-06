@@ -1,17 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Hash, Info, LucideAngularModule, Save, Search, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { BreadcrumbService } from '@core/services';
 import { COUNTRY_PREFIXES, CountryPrefix } from '../data/country-prefixes';
 
 /**
@@ -29,8 +20,7 @@ import { COUNTRY_PREFIXES, CountryPrefix } from '../data/country-prefixes';
   styleUrl: './aed-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AedPageComponent implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
+export class AedPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
 
@@ -63,17 +53,6 @@ export class AedPageComponent implements OnInit, OnDestroy {
     if (codes.size === 0) return [] as readonly CountryPrefix[];
     return this.countries.filter((c) => codes.has(c.code));
   });
-
-  ngOnInit(): void {
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.configuration') },
-      { label: this.translate.instant('config.aed.title') },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected isSelected(code: string): boolean {
     return this.selectedCodes().has(code);

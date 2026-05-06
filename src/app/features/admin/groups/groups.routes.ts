@@ -11,12 +11,14 @@ export const GROUPS_ROUTES: Routes = [
   },
   {
     path: 'crear',
+    data: { breadcrumb: { labelKey: 'groups.form.create_breadcrumb' } },
     loadComponent: () =>
       import('./pages/group-form-page.component').then((m) => m.GroupFormPageComponent),
     canDeactivate: [formDirtyGuard],
   },
   {
     path: 'editar/:id',
+    data: { breadcrumb: { labelKey: 'groups.form.edit_breadcrumb' } },
     loadComponent: () =>
       import('./pages/group-form-page.component').then((m) => m.GroupFormPageComponent),
     canDeactivate: [formDirtyGuard],

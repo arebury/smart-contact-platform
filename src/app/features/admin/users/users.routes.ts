@@ -11,12 +11,14 @@ export const USERS_ROUTES: Routes = [
   },
   {
     path: 'crear',
+    data: { breadcrumb: { labelKey: 'users.form.create_breadcrumb' } },
     loadComponent: () =>
       import('./pages/user-form-page.component').then((m) => m.UserFormPageComponent),
     canDeactivate: [formDirtyGuard],
   },
   {
     path: 'editar/:id',
+    data: { breadcrumb: { labelKey: 'users.form.edit_breadcrumb' } },
     loadComponent: () =>
       import('./pages/user-form-page.component').then((m) => m.UserFormPageComponent),
     canDeactivate: [formDirtyGuard],

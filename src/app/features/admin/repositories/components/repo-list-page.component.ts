@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   Download,
@@ -22,7 +13,6 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives/click-outside.directive';
-import { BreadcrumbService } from '@core/services/breadcrumb.service';
 import { XlsxExportService } from '@core/services/xlsx-export.service';
 import { clampToViewport } from '@core/utils/viewport';
 import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
@@ -58,8 +48,7 @@ interface ContextMenuPos {
   styleUrl: './repo-list-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RepoListPageComponent<T extends RepoEntity> implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
+export class RepoListPageComponent<T extends RepoEntity> {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly xlsx = inject(XlsxExportService);
@@ -119,19 +108,6 @@ export class RepoListPageComponent<T extends RepoEntity> implements OnInit, OnDe
     suffixSingular: 'seleccionado',
     suffixPlural: 'seleccionados',
   }));
-
-  ngOnInit(): void {
-    const cfg = this.config();
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
-      { label: this.translate.instant('sidebar.repositories'), path: '/admin/repositorios' },
-      { label: this.translate.instant(cfg.breadcrumbExtraKey) },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected getCellValue(item: T, key: string): string {
     const cfg = this.config();

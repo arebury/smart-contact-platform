@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -27,7 +19,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
-import { BreadcrumbService, UndoStackService, XlsxExportService } from '@core/services';
+import { UndoStackService, XlsxExportService } from '@core/services';
 import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
@@ -92,8 +84,7 @@ const COLUMN_PREF_KEY = 'sc_groups_columns_v1';
   styleUrl: './groups-list-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupsListPageComponent implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
+export class GroupsListPageComponent {
   private readonly groupsStore = inject(GroupsStore);
   private readonly xlsx = inject(XlsxExportService);
   private readonly messages = inject(MessageService);
@@ -228,17 +219,6 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
     if (!op) return null;
     return { fieldLabel: op.fieldLabel, newValueLabel: op.valueLabel };
   });
-
-  ngOnInit(): void {
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
-      { label: this.translate.instant('sidebar.groups') },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected channelIcon(channel: GroupChannel) {
     if (channel === 'phone') return this.phoneIcon;

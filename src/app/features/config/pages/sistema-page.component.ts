@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Monitor, Moon, Settings, Sun } from 'lucide-angular';
 
-import { BreadcrumbService, ThemeService, type ThemeMode } from '@core/services';
+import { ThemeService, type ThemeMode } from '@core/services';
 
 interface ThemeOption {
   readonly value: ThemeMode;
@@ -27,9 +27,7 @@ interface ThemeOption {
   styleUrl: './sistema-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SistemaPageComponent implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
-  private readonly translate = inject(TranslateService);
+export class SistemaPageComponent {
   protected readonly theme = inject(ThemeService);
 
   protected readonly settingsIcon = Settings;
@@ -39,17 +37,6 @@ export class SistemaPageComponent implements OnInit, OnDestroy {
     { value: 'dark', labelKey: 'config.sistema.appearance.theme_dark', icon: Moon },
     { value: 'system', labelKey: 'config.sistema.appearance.theme_system', icon: Monitor },
   ];
-
-  ngOnInit(): void {
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.configuration') },
-      { label: this.translate.instant('config.sistema.title') },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected select(mode: ThemeMode): void {
     this.theme.set(mode);

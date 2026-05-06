@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -24,7 +16,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
-import { BreadcrumbService, UndoStackService, XlsxExportService } from '@core/services';
+import { UndoStackService, XlsxExportService } from '@core/services';
 import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
@@ -64,8 +56,7 @@ interface ContextMenuPos {
   styleUrl: './users-list-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UsersListPageComponent implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
+export class UsersListPageComponent {
   private readonly usersStore = inject(UsersStore);
   private readonly xlsx = inject(XlsxExportService);
   private readonly messages = inject(MessageService);
@@ -169,17 +160,6 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
     suffixSingular: 'seleccionado',
     suffixPlural: 'seleccionados',
   } as const;
-
-  ngOnInit(): void {
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
-      { label: this.translate.instant('sidebar.users') },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected typeLabel(type: UserType): string {
     return this.translate.instant(this.typeLabelKeys[type]);

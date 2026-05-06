@@ -1,5 +1,5 @@
 export { BreadcrumbService } from './breadcrumb.service';
-export type { BreadcrumbItem } from './breadcrumb.service';
+export type { BreadcrumbItem, BreadcrumbCrumb, BreadcrumbDecl } from './breadcrumb.service';
 
 export { ClipboardService } from './clipboard.service';
 

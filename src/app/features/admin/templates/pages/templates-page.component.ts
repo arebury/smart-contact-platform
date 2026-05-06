@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   Download,
@@ -24,7 +16,6 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
-import { BreadcrumbService } from '@core/services';
 import { clampToViewport } from '@core/utils/viewport';
 import { BulkActionBarComponent, DeleteEntityDialogComponent } from '@shared/components';
 import { Template, TemplateType } from '../data/templates-data';
@@ -55,8 +46,7 @@ interface ContextMenuPos {
   styleUrl: './templates-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TemplatesPageComponent implements OnInit, OnDestroy {
-  private readonly breadcrumbs = inject(BreadcrumbService);
+export class TemplatesPageComponent {
   private readonly templatesStore = inject(TemplatesStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
@@ -123,18 +113,6 @@ export class TemplatesPageComponent implements OnInit, OnDestroy {
     suffixSingular: 'seleccionada',
     suffixPlural: 'seleccionadas',
   } as const;
-
-  ngOnInit(): void {
-    this.breadcrumbs.set([
-      { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
-      { label: this.translate.instant('sidebar.repositories'), path: '/admin/repositorios' },
-      { label: this.translate.instant('templates.breadcrumb') },
-    ]);
-  }
-
-  ngOnDestroy(): void {
-    this.breadcrumbs.clear();
-  }
 
   protected switchTab(tab: TemplateType): void {
     this.activeTab.set(tab);
