@@ -23,6 +23,7 @@
           <div class="profile-summary">
             <aed-photo-upload
               [photo]="form().photo"
+              [name]="form().name"
               [ariaLabel]="'common.photo.change' | translate"
               (photoChange)="onPhotoChange($event)"
             />

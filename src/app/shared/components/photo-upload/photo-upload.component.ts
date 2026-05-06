@@ -12,6 +12,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Camera, LucideAngularModule, UserCog } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
+import { IllustratedAvatarComponent } from '../illustrated-avatar/illustrated-avatar.component';
+
 const MAX_BYTES = 800 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
 
@@ -20,11 +22,20 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
  * (Agents + Users): hover overlay with camera icon, hidden file input,
  * "Eliminar foto" link below. Validates type + size locally and bubbles
  * up the data URL via `(photoChange)`.
+ *
+ * When the entity has no uploaded photo, the placeholder defers to one
+ * of three states, in order of preference:
+ *   1. `[name]` set — render the {@link IllustratedAvatarComponent}
+ *      hashed from the name. Same portrait the lists show, so the form
+ *      preview matches what the user sees in the table cell.
+ *   2. No name — fall back to the generic `UserCog` lucide glyph
+ *      (the original behaviour, kept for entity types that aren't
+ *      person-shaped).
  */
 @Component({
   selector: 'aed-photo-upload',
   standalone: true,
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [IllustratedAvatarComponent, LucideAngularModule, TranslateModule],
   templateUrl: './photo-upload.component.html',
   styleUrl: './photo-upload.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,6 +45,9 @@ export class PhotoUploadComponent {
   private readonly translate = inject(TranslateService);
 
   readonly photo = input<string | null | undefined>(null);
+  /** Optional entity name; when set, drives the illustrated-portrait
+   *  fallback so the form preview matches the list cell. */
+  readonly name = input<string | null | undefined>(null);
   /** Tooltip / aria-label override; defaults to a generic "Cambiar foto". */
   readonly ariaLabel = input<string>('Cambiar foto');
 

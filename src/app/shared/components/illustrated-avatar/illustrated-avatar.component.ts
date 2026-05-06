@@ -26,8 +26,11 @@ const ILLUSTRATED_COUNT = 24;
 })
 export class IllustratedAvatarComponent {
   readonly name = input.required<string>();
-  /** When set, overrides the illustration with the user's uploaded photo. */
-  readonly photo = input<string | null>(null);
+  /** When set, overrides the illustration with the user's uploaded photo.
+   *  Accepts `undefined` so it can be wired directly to optional fields
+   *  on entity types (e.g. `Agent.photo?: string`) without `?? null`
+   *  glue at every call site. */
+  readonly photo = input<string | null | undefined>(null);
   /** Pixel size of the rendered circle. Defaults to 40px. */
   readonly size = input<number>(40);
 
