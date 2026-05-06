@@ -22,6 +22,13 @@
       titleKey="agents.form.section.identity"
       hintKey="agents.form.section.identity_hint"
     >
+      <div class="identity-row">
+        <aed-photo-upload
+          [photo]="form().photo"
+          [ariaLabel]="'common.photo.change' | translate"
+          (photoChange)="onPhotoChange($event)"
+        />
+      </div>
       <div class="grid grid--2">
         <div class="field">
           <label class="field__label" for="agent-name">
@@ -196,6 +203,45 @@
             <span>{{ 'agents.channel.' + channel | translate }}</span>
           </label>
         }
+      </div>
+    </aed-section-card>
+
+    <aed-section-card
+      titleKey="agents.form.section.languages"
+      hintKey="agents.form.section.languages_hint"
+    >
+      <div class="field">
+        <label class="field__label" for="agent-language">
+          {{ 'common.languages.label' | translate }}
+        </label>
+        <select
+          id="agent-language"
+          class="field__input"
+          [value]="''"
+          (change)="onLanguageAdd($event)"
+        >
+          <option value="">{{ 'common.languages.placeholder' | translate }}</option>
+          @for (lang of availableLanguages; track lang) {
+            @if (!form().languages.includes(lang)) {
+              <option [value]="lang">{{ lang }}</option>
+            }
+          }
+        </select>
+        <div class="language-chips">
+          @for (lang of form().languages; track lang) {
+            <span class="language-chip">
+              {{ lang }}
+              <button
+                type="button"
+                class="language-chip__remove"
+                (click)="onLanguageRemove(lang)"
+                [attr.aria-label]="'common.languages.remove' | translate: { lang }"
+              >
+                ×
+              </button>
+            </span>
+          }
+        </div>
       </div>
     </aed-section-card>
 

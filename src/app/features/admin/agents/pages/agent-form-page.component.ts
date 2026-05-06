@@ -16,6 +16,7 @@ import { DirtyAware } from '@core/guards';
 import { BreadcrumbService, CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
+  PhotoUploadComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
 } from '@shared/components';
@@ -30,6 +31,7 @@ import {
   AgentType,
   AVAILABLE_EXTENSIONS,
   AVAILABLE_GROUPS_REF,
+  AVAILABLE_LANGUAGES,
   CALL_PERMISSIONS,
   DEFAULT_AGENT_PERMISSIONS,
   DEVICE_PERMISSIONS,
@@ -54,6 +56,8 @@ interface FormState {
   pickupType: PickupType;
   groupIds: ReadonlySet<number>;
   permissions: AgentPermissions;
+  photo: string | null;
+  languages: readonly string[];
 }
 
 const PIN_RE = /^\d{3,6}$/;
@@ -64,6 +68,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   standalone: true,
   imports: [
     DeleteEntityDialogComponent,
+    PhotoUploadComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
     TranslateModule,
@@ -87,6 +92,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly channels = AGENT_CHANNELS;
   protected readonly availableExtensions = AVAILABLE_EXTENSIONS;
   protected readonly availableGroups = AVAILABLE_GROUPS_REF;
+  protected readonly availableLanguages = AVAILABLE_LANGUAGES;
   protected readonly devicePermissions = DEVICE_PERMISSIONS;
   protected readonly callPermissions = CALL_PERMISSIONS;
   protected readonly transferPermissions = TRANSFER_PERMISSIONS;
@@ -149,6 +155,8 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         pickupType: agent.pickupType ?? 'auto',
         groupIds: new Set(agent.groups.map((g) => g.id)),
         permissions: { ...agent.permissions },
+        photo: agent.photo ?? null,
+        languages: agent.languages ? [...agent.languages] : [],
       });
       this.releaseLock = this.crossTab.acquire('agent', agent.id, () =>
         this.conflictWarning.set(true),
@@ -255,6 +263,27 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     }));
   }
 
+  protected onPhotoChange(photo: string | null): void {
+    this.formDirty.set(true);
+    this.form.update((f) => ({ ...f, photo }));
+  }
+
+  protected onLanguageAdd(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const lang = select.value;
+    select.value = '';
+    if (!lang) return;
+    this.form.update((f) =>
+      f.languages.includes(lang) ? f : { ...f, languages: [...f.languages, lang] },
+    );
+    this.formDirty.set(true);
+  }
+
+  protected onLanguageRemove(lang: string): void {
+    this.formDirty.set(true);
+    this.form.update((f) => ({ ...f, languages: f.languages.filter((l) => l !== lang) }));
+  }
+
   protected onNameRename(name: string): void {
     this.updateField('name', name);
   }
@@ -283,6 +312,8 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         groups,
         permissions: f.permissions,
         pickupType: f.pickupType,
+        photo: f.photo ?? undefined,
+        languages: f.languages.length > 0 ? f.languages : undefined,
       };
 
       const editingId = this.editingId();
@@ -350,6 +381,8 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       pickupType: 'auto',
       groupIds: new Set(),
       permissions: { ...DEFAULT_AGENT_PERMISSIONS },
+      photo: null,
+      languages: [],
     };
   }
 }

@@ -16,9 +16,11 @@ import { DirtyAware } from '@core/guards';
 import { BreadcrumbService, CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
+  PhotoUploadComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
 } from '@shared/components';
+import { AVAILABLE_GROUPS_REF } from '../../agents/data/agents-data';
 import {
   AVAILABLE_SERVICES,
   DEFAULT_PERMISSIONS,
@@ -44,7 +46,10 @@ interface FormState {
   permissions: UserPermissions;
   groups: ReadonlySet<number>;
   services: ReadonlySet<string>;
+  photo: string | null;
 }
+
+type SummaryTab = 'groups' | 'services';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -53,6 +58,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   standalone: true,
   imports: [
     DeleteEntityDialogComponent,
+    PhotoUploadComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
     TranslateModule,
@@ -75,6 +81,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly sectionDefs = SECTION_DEFS;
   protected readonly permissionDefs = PERMISSION_DEFS;
   protected readonly availableServices = AVAILABLE_SERVICES;
+  protected readonly availableGroupsById = new Map(AVAILABLE_GROUPS_REF.map((g) => [g.id, g.name]));
 
   protected readonly editingId = signal<number | null>(null);
   protected readonly initial = signal<User | null>(null);
@@ -87,6 +94,8 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly conflictWarning = signal(false);
   private releaseLock: (() => void) | null = null;
 
+  protected readonly summaryTab = signal<SummaryTab>('groups');
+
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
 
   protected readonly canSave = computed(() => {
@@ -98,6 +107,12 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const u = this.initial();
     return u ? [{ id: u.id, name: u.name }] : [];
   });
+
+  protected readonly assignedGroupNames = computed(() =>
+    Array.from(this.form().groups)
+      .map((id) => this.availableGroupsById.get(id))
+      .filter((name): name is string => !!name),
+  );
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -119,6 +134,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         permissions: { ...user.permissions },
         groups: new Set(user.assignedGroups),
         services: new Set(user.assignedServices),
+        photo: user.photo ?? null,
       });
       this.releaseLock = this.crossTab.acquire('user', user.id, () =>
         this.conflictWarning.set(true),
@@ -210,6 +226,15 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     });
   }
 
+  protected onPhotoChange(photo: string | null): void {
+    this.formDirty.set(true);
+    this.form.update((f) => ({ ...f, photo }));
+  }
+
+  protected setSummaryTab(tab: SummaryTab): void {
+    this.summaryTab.set(tab);
+  }
+
   protected hasService(name: string): boolean {
     return this.form().services.has(name);
   }
@@ -235,6 +260,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         permissions: f.permissions,
         assignedGroups: Array.from(f.groups),
         assignedServices: Array.from(f.services),
+        photo: f.photo ?? undefined,
       };
 
       const editingId = this.editingId();
@@ -300,6 +326,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       permissions: { ...DEFAULT_PERMISSIONS },
       groups: new Set(),
       services: new Set(),
+      photo: null,
     };
   }
 

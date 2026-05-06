@@ -28,6 +28,8 @@ export { InlineRenameCellComponent } from './inline-rename-cell/inline-rename-ce
 export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';
 
+export { PhotoUploadComponent } from './photo-upload/photo-upload.component';
+
 export { SectionCardComponent } from './section-card/section-card.component';
 
 export { StickyFormHeaderComponent } from './sticky-form-header/sticky-form-header.component';
