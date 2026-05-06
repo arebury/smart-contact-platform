@@ -18,7 +18,7 @@
     [attr.aria-expanded]="open()"
     [attr.aria-label]="'common.groups_count' | translate: { count: count() }"
   >
-    {{ 'common.groups_count' | translate: { count: count() } }}
+    {{ 'common.groups_count_short' | translate: { count: count() } }}
   </button>
   @if (open() && count() > 0) {
     <div class="group-popover__panel" role="tooltip">

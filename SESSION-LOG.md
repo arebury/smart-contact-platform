@@ -10,6 +10,140 @@
 
 ---
 
+## 2026-05-07 · Session 11 — Iterations after Session 10's "closing": DECISIONS reordered, row-menu legacy, button width, palette icons, numeric column
+
+> Series of small visual / UX corrections after the user reviewed the
+> deployed Session 10 build. None individually load-bearing; together
+> they close ~all the rough edges the user surfaced before saying
+> "cerramos".
+
+**Worked on**
+
+- **`DECISIONS.md` reversed to newest-first.** DD#43 leads, DD#1 closes
+  the body, the "How to add a new entry" footer stays at the bottom
+  with explicit "insert at the top" wording so future contributors
+  don't drift back to ascending order. Cross-references (DD#X) all
+  still resolve because the numbers haven't changed.
+
+- **Row + context menu: legacy structure restored.** 1 px separator
+  between Editar/Duplicar and Eliminar; Eliminar gets the destructive
+  red treatment (`--sc-label-red-text` / `-bg`). The pattern lives
+  globally in `_table-elements.scss` (`.row-menu__separator`,
+  `.context-menu__separator`, plus a `.is-danger` modifier the buttons
+  opt in to) so all three list pages (agents, users, groups) share
+  one source.
+
+- **Page-header primary button is width-stable across list pages.**
+  "Nuevo agente" / "Nuevo usuario" / "Nuevo grupo" used to resize the
+  button visibly when navigating between pages — chrome shifting
+  under the user. New global rule
+  `.page__actions > .btn--primary { min-width: 144px; justify-content
+  : center; }` floors the geometry.
+
+- **Command palette icons match the sidebar.** The "Acciones"
+  category shipped without icons while "Páginas" had them — palette
+  vocabulary felt disconnected from the chrome. Each create command
+  now carries the matching nav icon (`users-round` / `headphones` /
+  `user-round`).
+
+- **Presence select first-paint bug.** `<select [value]="presence">`
+  under OnPush + signals didn't reactively pick the right option on
+  first render; the dot color was right per-agent (driven by the
+  `data-presence` attribute) but every row's select displayed
+  "Disponible" until the user changed it. Switched to
+  `[attr.selected]="p === presence ? '' : null"` on each `<option>`
+  — the browser honours the `selected` HTML attribute on first paint
+  without waiting for Angular to reconcile.
+
+- **Avatar topbar trigger.** Was rendering as an oval at certain
+  pixel densities because `inline-flex` left it on the inline
+  baseline; locked to a true square via `flex: 0 0 32px`,
+  `display: flex`, `line-height: 0`. The presence-dot's halo also
+  flips to cyan on hover/open so it doesn't punch a notch out of
+  the cyan ring at the bottom-right.
+
+- **Column manager initial state + drag.** Multiple race conditions
+  with the hydration effect: the popover's checkboxes rendered all
+  unchecked on first paint (the table fell back to defaults but the
+  selector didn't), and `toggle` / `onDrop` operated on an empty
+  `ordered` array (so the first uncheck actually re-added a column
+  and the first drag committed an empty list, wiping the table).
+  All three paths now resolve current state through `isVisible(key)`
+  which honours the `defaultVisible` fallback. Plus the grip handle
+  is gone — the entire `<li>` row is now the drag target with
+  `cursor: grab`, more discoverable than a 18 px handle.
+
+- **Locked column indicator.** Replaced the `<span>fijada</span>`
+  text with a small `Lock` lucide icon + 65 % opacity on the row.
+
+- **Sidebar "Decisiones de diseño" external link.** Github icon
+  swap (was `BookOpen`); link goes to `DECISIONS.md` on GitHub in
+  a new tab; trailing `ArrowUpRight` icon makes the new-tab gesture
+  explicit when the sidebar is expanded.
+
+- **Sticky action bar** on the three list pages with a 12 px
+  surface→transparent gradient mask. No `backdrop-filter: blur`
+  (rejected explicitly — AI-SaaS-default fingerprint).
+
+- **Group avatars** swapped to the user's three Group02/03/04 SVGs
+  (64×64, single-circle, same spec as illustrated 24). Replaced the
+  3-pattern abstract pool the previous iteration had set up.
+
+- **Numeric columns width.** "Agentes" count column was claiming
+  ~16 % of the table under `table-layout: fixed` for what's only ever
+  a 2-3 digit number. The right-aligned number sat at the right edge
+  of a mostly-empty column — visible gap from the previous column.
+  Floored `.table__th-num` / `.table__td--num` to 96 px globally so
+  the freed space flows into the content-heavy columns.
+
+- **Column rename: presence → "Estado", status → "Activación".** The
+  domain word for an agent's live state is "Estado" in Spanish (the
+  contact-center term); the previous "Presencia" reads as a literal
+  translation. The active/inactive column had to give up "Estado" to
+  resolve the clash — renamed to "Activación" since that's what the
+  toggle actually controls (account activation, not state).
+
+- **Groups column de-duplication.** `aed-group-popover` rendered its
+  trigger as "{{ count }} grupos" inside the column whose header
+  already says GRUPOS. Split into two i18n keys: `common.groups_count`
+  (kept for the aria-label, screen readers don't have column context)
+  and `common.groups_count_short` (just the number, used in the
+  visible trigger).
+
+- **CI/Netlify deploy chain unblocked again.** Two production-build
+  failures (NG2 strict-template type mismatch on `Agent.photo`,
+  NG5002 `'as' on @else if`) plus a prettier line-break check kept
+  Netlify on the last green build. All three fixed; current `main`
+  commit f00a4ae onwards deploys cleanly.
+
+**Discarded**
+
+- **Backdrop-blur on the sticky bar** — rejected as the AI-SaaS
+  default (DD#43).
+- **Hide-on-scroll-down sticky pattern** — distracting motion;
+  breaks the "always reachable" expectation that justifies sticky
+  in the first place.
+- **Header-drag column reorder** — too rare in admin tools, conflicts
+  with sortable headers (DD#40).
+- **Manual avatar picker** — feature creep without a clear use case;
+  named/ avatars stay parked for if/when this comes back (DD#41).
+
+**New decision documented**
+
+- DD#43 — Sticky action bar with gradient mask, no backdrop blur.
+
+**Token coverage audit confirmed**
+
+- 396 `var(--sc-*)` / `var(--p-*)` references across components.
+- 40 hex-colour usages remain — all of them as fallbacks inside the
+  `var(--sc-..., #fff)` pattern. The token is canonical; the hex is
+  the offline backup.
+- PrimeNG ↔ SC mapping in `sc-tokens.css` §4. Dark-mode overrides in
+  §5. `.aed-dark` selector matches PrimeNG's Aura `darkModeSelector`
+  so the dark-mode flip is one class.
+
+---
+
 ## 2026-05-07 · Session 10 — Post-Session-9 polish + sticky action bar + closing-out fixes
 
 > Continuation immediately after Session 9 closed. The user iterated

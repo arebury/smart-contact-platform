@@ -55,6 +55,7 @@
       "remove": "Quitar {{lang}}"
     },
     "groups_count": "{{count}} grupos",
+    "groups_count_short": "{{count}}",
     "groups_more": "+{{count}} más",
     "result_counter": {
       "found": "{{count}} {{entity}} encontrados",
@@ -602,8 +603,8 @@
       "extension": "Extensión",
       "channels": "Canales",
       "type": "Tipo",
-      "presence": "Presencia",
-      "status": "Estado",
+      "presence": "Estado",
+      "status": "Activación",
       "groups": "Grupos"
     },
     "type": {
