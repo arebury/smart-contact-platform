@@ -230,7 +230,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     }));
   }
 
-  protected onAgentDrop(event: CdkDragDrop<readonly string[]>): void {
+  protected onAgentDrop(event: CdkDragDrop<string[]>): void {
     const fromAssigned = event.previousContainer.id === 'assigned-list';
     const toAssigned = event.container.id === 'assigned-list';
     const agent = event.item.data as string;

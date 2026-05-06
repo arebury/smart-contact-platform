@@ -28,7 +28,7 @@
             [id]="'repo-field-' + field.key"
             class="panel__textarea"
             rows="3"
-            [value]="values()[field.key] ?? ''"
+            [value]="values()[field.key]"
             [placeholder]="field.placeholderKey ? (field.placeholderKey | translate) : ''"
             (input)="onChange(field.key, $any($event.target).value)"
             (keydown)="onKey($event, false)"
@@ -38,7 +38,7 @@
           <select
             [id]="'repo-field-' + field.key"
             class="panel__select"
-            [value]="values()[field.key] ?? ''"
+            [value]="values()[field.key]"
             (change)="onChange(field.key, $any($event.target).value)"
             (keydown)="onKey($event)"
           >
@@ -54,7 +54,7 @@
             type="text"
             class="panel__input"
             [class.panel__input--error]="!!error() && field.key === 'name'"
-            [value]="values()[field.key] ?? ''"
+            [value]="values()[field.key]"
             [placeholder]="field.placeholderKey ? (field.placeholderKey | translate) : ''"
             (input)="onChange(field.key, $any($event.target).value)"
             (keydown)="onKey($event)"
