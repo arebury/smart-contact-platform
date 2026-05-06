@@ -16,10 +16,12 @@ import { DirtyAware } from '@core/guards';
 import { BreadcrumbService, CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
+  LabelChipComponent,
   PhotoUploadComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
 } from '@shared/components';
+import { LabelsStore } from '@features/admin/labels/state/labels.store';
 import {
   AGENT_CHANNELS,
   AGENT_TYPES,
@@ -58,6 +60,7 @@ interface FormState {
   permissions: AgentPermissions;
   photo: string | null;
   languages: readonly string[];
+  labelIds: ReadonlySet<number>;
 }
 
 const PIN_RE = /^\d{3,6}$/;
@@ -68,6 +71,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   standalone: true,
   imports: [
     DeleteEntityDialogComponent,
+    LabelChipComponent,
     PhotoUploadComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
@@ -85,6 +89,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly crossTab = inject(CrossTabLockService);
+  private readonly labelsStore = inject(LabelsStore);
 
   protected readonly agentTypes = AGENT_TYPES;
   protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
@@ -93,6 +98,22 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly availableExtensions = AVAILABLE_EXTENSIONS;
   protected readonly availableGroups = AVAILABLE_GROUPS_REF;
   protected readonly availableLanguages = AVAILABLE_LANGUAGES;
+  protected readonly availableLabels = this.labelsStore.labels;
+
+  /** Selected labels resolved to {id, name, color} for chip rendering. */
+  protected readonly selectedLabelChips = computed(() => {
+    const ids = this.form().labelIds;
+    return this.labelsStore
+      .labels()
+      .filter((label) => ids.has(label.id))
+      .map((label) => ({ id: label.id, name: label.name, color: label.color }));
+  });
+
+  /** Labels still available to add — current store minus already-selected. */
+  protected readonly addableLabels = computed(() => {
+    const ids = this.form().labelIds;
+    return this.labelsStore.labels().filter((label) => !ids.has(label.id));
+  });
   protected readonly devicePermissions = DEVICE_PERMISSIONS;
   protected readonly callPermissions = CALL_PERMISSIONS;
   protected readonly transferPermissions = TRANSFER_PERMISSIONS;
@@ -157,6 +178,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         permissions: { ...agent.permissions },
         photo: agent.photo ?? null,
         languages: agent.languages ? [...agent.languages] : [],
+        labelIds: new Set(agent.labels ?? []),
       });
       this.releaseLock = this.crossTab.acquire('agent', agent.id, () =>
         this.conflictWarning.set(true),
@@ -284,6 +306,29 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.form.update((f) => ({ ...f, languages: f.languages.filter((l) => l !== lang) }));
   }
 
+  protected onLabelAdd(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    const id = Number(select.value);
+    select.value = '';
+    if (!id) return;
+    this.form.update((f) => {
+      if (f.labelIds.has(id)) return f;
+      const next = new Set(f.labelIds);
+      next.add(id);
+      return { ...f, labelIds: next };
+    });
+    this.formDirty.set(true);
+  }
+
+  protected onLabelRemove(id: number): void {
+    this.formDirty.set(true);
+    this.form.update((f) => {
+      const next = new Set(f.labelIds);
+      next.delete(id);
+      return { ...f, labelIds: next };
+    });
+  }
+
   protected onNameRename(name: string): void {
     this.updateField('name', name);
   }
@@ -315,6 +360,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         pickupType: f.pickupType,
         photo: f.photo ?? undefined,
         languages: f.languages.length > 0 ? f.languages : undefined,
+        labels: f.labelIds.size > 0 ? Array.from(f.labelIds) : undefined,
       };
 
       const editingId = this.editingId();
@@ -384,6 +430,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       permissions: { ...DEFAULT_AGENT_PERMISSIONS },
       photo: null,
       languages: [],
+      labelIds: new Set(),
     };
   }
 

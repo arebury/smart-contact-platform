@@ -115,6 +115,15 @@
   margin-top: var(--sc-spacing-200);
 }
 
+.label-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-150);
+  /* Reserve a row so toggling chips doesn't shift the section that follows (DD#8) */
+  min-height: 32px;
+  margin-top: var(--sc-spacing-200);
+}
+
 .language-chip {
   display: inline-flex;
   align-items: center;

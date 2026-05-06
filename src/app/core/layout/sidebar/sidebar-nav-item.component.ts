@@ -2,10 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  EventEmitter,
-  Input,
+  input,
   OnInit,
-  Output,
+  output,
   signal,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
@@ -19,6 +18,10 @@ import type { NavItem } from './nav-data';
  * children when expanded. Indentation, font size and active highlight all key
  * off the `depth` prop so a single component supports the prototype's 4+ level
  * nesting (DD#302).
+ *
+ * `currentPath` is a signal input — non-signal `@Input()` would break the
+ * `isActive` / `isChildActive` computeds, since plain inputs don't trigger
+ * computed re-evaluation when the parent route changes.
  */
 @Component({
   selector: 'aed-sidebar-nav-item',
@@ -29,31 +32,33 @@ import type { NavItem } from './nav-data';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarNavItemComponent implements OnInit {
-  @Input({ required: true }) item!: NavItem;
-  @Input() depth = 0;
-  @Input({ required: true }) currentPath!: string;
+  readonly item = input.required<NavItem>();
+  readonly depth = input<number>(0);
+  readonly currentPath = input.required<string>();
 
-  @Output() readonly navigate = new EventEmitter<string>();
+  readonly navigate = output<string>();
 
   protected readonly expanded = signal(false);
 
   ngOnInit(): void {
-    if (this.item.defaultExpanded) {
+    if (this.item().defaultExpanded) {
       this.expanded.set(true);
     }
   }
 
-  protected readonly hasChildren = computed(
-    () => !!this.item.children && this.item.children.length > 0,
-  );
+  protected readonly hasChildren = computed(() => {
+    const children = this.item().children;
+    return !!children && children.length > 0;
+  });
 
   protected readonly isActive = computed(
-    () => !!this.item.path && this.item.path === this.currentPath,
+    () => !!this.item().path && this.item().path === this.currentPath(),
   );
 
   protected readonly isChildActive = computed(() => {
-    if (!this.item.children) return false;
-    return this.containsActive(this.item.children, this.currentPath);
+    const children = this.item().children;
+    if (!children) return false;
+    return this.containsActive(children, this.currentPath());
   });
 
   protected resolveIcon(name: keyof typeof NAV_ICONS) {
@@ -65,8 +70,9 @@ export class SidebarNavItemComponent implements OnInit {
       this.expanded.update((v) => !v);
       return;
     }
-    if (this.item.path) {
-      this.navigate.emit(this.item.path);
+    const path = this.item().path;
+    if (path) {
+      this.navigate.emit(path);
     }
   }
 

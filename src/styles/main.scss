@@ -30,3 +30,62 @@ body {
   font-size: 13px;
   line-height: 1.45;
 }
+
+/*
+ * Global button micro-interactions (DD#21).
+ *
+ * Hover/focus changes use a short transition so the state feels alive but
+ * not draggy. Press (`:active`) snaps with `scale(0.98)` and zero
+ * transition — the user's click should produce an instant tactile
+ * response, not a fade-out of the prior hover state.
+ *
+ * Applies to every `.btn`, `.btn--*`, the empty-state CTA, the toast
+ * action button, and the inline-rename commit/cancel buttons. Component
+ * scoped overrides can opt out by setting `transition-duration: 0` on
+ * `:active`, but should keep the press transform for consistency.
+ */
+.btn,
+.empty-state__cta,
+.aed-toast__action,
+.rename__btn,
+.profile-tabs__tab {
+  transition:
+    background-color 100ms ease,
+    border-color 100ms ease,
+    color 100ms ease,
+    box-shadow 100ms ease;
+
+  &:active {
+    transform: scale(0.98);
+    transition-duration: 0ms;
+  }
+
+  /* Disabled buttons must NOT animate on press — they're inert. */
+  &:disabled,
+  &[aria-disabled='true'] {
+    transform: none;
+    cursor: not-allowed;
+
+    &:active {
+      transform: none;
+    }
+  }
+}
+
+/*
+ * Honour `prefers-reduced-motion`: drop the press transform entirely so
+ * users with motion sensitivity get a calm interface.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .empty-state__cta,
+  .aed-toast__action,
+  .rename__btn,
+  .profile-tabs__tab {
+    transition: none;
+
+    &:active {
+      transform: none;
+    }
+  }
+}
