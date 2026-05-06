@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  HostListener,
   inject,
   OnDestroy,
   OnInit,
@@ -11,7 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
-import { BreadcrumbService } from '@core/services';
+import { DirtyAware } from '@core/guards';
+import { BreadcrumbService, CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
   SectionCardComponent,
@@ -70,13 +72,14 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   styleUrl: './agent-form-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AgentFormPageComponent implements OnInit, OnDestroy {
+export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly breadcrumbs = inject(BreadcrumbService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly agentsStore = inject(AgentsStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly crossTab = inject(CrossTabLockService);
 
   protected readonly agentTypes = AGENT_TYPES;
   protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
@@ -101,6 +104,12 @@ export class AgentFormPageComponent implements OnInit, OnDestroy {
   protected readonly errors = signal<Readonly<Record<string, string>>>({});
   protected readonly saving = signal(false);
   protected readonly deleteVisible = signal(false);
+
+  /** Set on the first user-triggered field change; cleared after save / delete. */
+  readonly formDirty = signal(false);
+  /** True while another tab also holds the edit lock (DD#169). */
+  protected readonly conflictWarning = signal(false);
+  private releaseLock: (() => void) | null = null;
 
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
 
@@ -141,6 +150,9 @@ export class AgentFormPageComponent implements OnInit, OnDestroy {
         groupIds: new Set(agent.groups.map((g) => g.id)),
         permissions: { ...agent.permissions },
       });
+      this.releaseLock = this.crossTab.acquire('agent', agent.id, () =>
+        this.conflictWarning.set(true),
+      );
     }
 
     this.breadcrumbs.set([
@@ -156,9 +168,25 @@ export class AgentFormPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.breadcrumbs.clear();
+    this.releaseLock?.();
+    this.releaseLock = null;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  protected onBeforeUnload(event: BeforeUnloadEvent): void {
+    if (this.formDirty() && !this.saving()) event.preventDefault();
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  protected onKeydown(event: KeyboardEvent): void {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+      event.preventDefault();
+      if (this.canSave() && !this.saving()) this.save();
+    }
   }
 
   protected updateField<K extends keyof FormState>(key: K, value: FormState[K]): void {
+    this.formDirty.set(true);
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
@@ -192,6 +220,7 @@ export class AgentFormPageComponent implements OnInit, OnDestroy {
   }
 
   protected toggleChannel(channel: AgentChannel): void {
+    this.formDirty.set(true);
     this.form.update((f) => {
       const next = new Set(f.channels);
       if (next.has(channel)) next.delete(channel);
@@ -205,6 +234,7 @@ export class AgentFormPageComponent implements OnInit, OnDestroy {
   }
 
   protected toggleGroup(id: number): void {
+    this.formDirty.set(true);
     this.form.update((f) => {
       const next = new Set(f.groupIds);
       if (next.has(id)) next.delete(id);
@@ -218,6 +248,7 @@ export class AgentFormPageComponent implements OnInit, OnDestroy {
   }
 
   protected togglePermission(key: keyof AgentPermissions): void {
+    this.formDirty.set(true);
     this.form.update((f) => ({
       ...f,
       permissions: { ...f.permissions, [key]: !f.permissions[key] },
@@ -271,6 +302,7 @@ export class AgentFormPageComponent implements OnInit, OnDestroy {
         });
       }
       this.saving.set(false);
+      this.formDirty.set(false);
       void this.router.navigateByUrl('/admin/agentes');
     }, 400);
   }
@@ -293,6 +325,7 @@ export class AgentFormPageComponent implements OnInit, OnDestroy {
     const agent = this.initial();
     this.agentsStore.deleteAgent(id);
     this.deleteVisible.set(false);
+    this.formDirty.set(false);
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('agents.toasts.deleted_single', {

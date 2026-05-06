@@ -13,6 +13,11 @@
 
 <div class="page">
   <div class="page__inner">
+    @if (conflictWarning()) {
+      <div class="cross-tab-warning" role="alert">
+        {{ 'common.cross_tab_warning' | translate }}
+      </div>
+    }
     <aed-section-card
       titleKey="users.form.section.identity"
       hintKey="users.form.section.identity_hint"
@@ -32,9 +37,11 @@
             (input)="onTextInput('name', $event)"
             autocomplete="name"
           />
-          @if (errors()['name']; as err) {
-            <span class="field__error">{{ err | translate }}</span>
-          }
+          <span class="field__error" aria-live="polite">
+            @if (errors()['name']; as err) {
+              {{ err | translate }}
+            }
+          </span>
         </div>
 
         <div class="field">
@@ -51,9 +58,11 @@
             (input)="onTextInput('email', $event)"
             autocomplete="email"
           />
-          @if (errors()['email']; as err) {
-            <span class="field__error">{{ err | translate }}</span>
-          }
+          <span class="field__error" aria-live="polite">
+            @if (errors()['email']; as err) {
+              {{ err | translate }}
+            }
+          </span>
         </div>
 
         <div class="field">

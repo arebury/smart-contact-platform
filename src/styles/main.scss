@@ -19,3 +19,14 @@ body {
   background: var(--sc-bg-default);
   color: var(--sc-text-primary);
 }
+
+/* DD#169 cross-tab edit conflict banner — shared across all form pages */
+.cross-tab-warning {
+  margin-bottom: var(--sc-spacing-400);
+  padding: var(--sc-spacing-300) var(--sc-spacing-400);
+  border-left: 3px solid var(--sc-color-warning, #d97706);
+  background: var(--sc-color-warning-bg, #fef3c7);
+  color: var(--sc-color-warning-fg, #92400e);
+  font-size: 13px;
+  line-height: 1.45;
+}

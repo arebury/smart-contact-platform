@@ -13,6 +13,11 @@
 
 <div class="page">
   <div class="page__inner">
+    @if (conflictWarning()) {
+      <div class="cross-tab-warning" role="alert">
+        {{ 'common.cross_tab_warning' | translate }}
+      </div>
+    }
     <aed-section-card
       titleKey="agents.form.section.identity"
       hintKey="agents.form.section.identity_hint"

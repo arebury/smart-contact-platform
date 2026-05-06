@@ -13,6 +13,11 @@
 
 <div class="page">
   <div class="page__inner">
+    @if (conflictWarning()) {
+      <div class="cross-tab-warning" role="alert">
+        {{ 'common.cross_tab_warning' | translate }}
+      </div>
+    }
     <aed-section-card
       titleKey="groups.form.section.identity"
       hintKey="groups.form.section.identity_hint"
@@ -31,9 +36,11 @@
             [value]="form().name"
             (input)="onTextInput('name', $event)"
           />
-          @if (errors()['name']; as err) {
-            <span class="field__error">{{ err | translate }}</span>
-          }
+          <span class="field__error" aria-live="polite">
+            @if (errors()['name']; as err) {
+              {{ err | translate }}
+            }
+          </span>
         </div>
 
         <div class="field">
@@ -102,9 +109,11 @@
           </label>
         }
       </div>
-      @if (errors()['channels']; as err) {
-        <span class="field__error">{{ err | translate }}</span>
-      }
+      <span class="field__error" aria-live="polite">
+        @if (errors()['channels']; as err) {
+          {{ err | translate }}
+        }
+      </span>
     </aed-section-card>
 
     <aed-section-card
