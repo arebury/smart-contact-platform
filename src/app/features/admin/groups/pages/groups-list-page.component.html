@@ -123,6 +123,7 @@
                   <td class="table__td table__td--mono">{{ group.code }}</td>
                 }
                 <td class="table__td-name">
+                  <aed-entity-avatar [name]="group.name" />
                   @if (renamingId() === group.id) {
                     <aed-inline-rename-cell
                       [initialValue]="group.name"
@@ -132,7 +133,7 @@
                       (cancelled)="onRenameCancel(group.id)"
                     />
                   } @else {
-                    <span>{{ group.name }}</span>
+                    <span class="table__td-name-text">{{ group.name }}</span>
                     @if (group.isDraft) {
                       <span class="draft-badge">{{ 'common.draft_badge' | translate }}</span>
                     }

@@ -21,6 +21,8 @@ export type { DeletableEntity } from './delete-entity-dialog/delete-entity-dialo
 
 export { EmptyStateComponent } from './empty-state/empty-state.component';
 
+export { EntityAvatarComponent } from './entity-avatar/entity-avatar.component';
+
 export { FormDangerZoneComponent } from './form-danger-zone/form-danger-zone.component';
 
 export { GroupPopoverComponent } from './group-popover/group-popover.component';

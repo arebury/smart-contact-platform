@@ -1,0 +1,9 @@
+<span
+  class="avatar"
+  [class.avatar--sm]="size() === 'sm'"
+  [style.background]="bgVar()"
+  [style.color]="fgVar()"
+  aria-hidden="true"
+>
+  {{ initials() }}
+</span>

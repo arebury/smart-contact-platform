@@ -222,6 +222,25 @@
   }
 }
 
+/*
+ * Name cell: avatar + name + draft-badge laid out in a single row.
+ * The cell isn't `display: flex` by default (it's a `<td>`) so we
+ * scope the layout to a wrapper rule.
+ */
+.table__td-name {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-200);
+
+  .table__td-name-text {
+    flex: 0 1 auto;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+}
+
 .draft-badge {
   display: inline-block;
   font-size: var(--sc-font-size-50);
@@ -272,12 +291,26 @@
 }
 
 .priority-pill {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-50);
   padding: 2px var(--sc-spacing-100);
   font-size: var(--sc-font-size-50);
   font-weight: var(--sc-font-weight-medium);
   border: 1px solid;
   border-radius: var(--sc-radius-50);
+
+  /* Solid colour dot before the label — adds saturation without
+   * loading up the whole pill. Falls back to `currentColor` so each
+   * priority's dot matches its text/border tone (no extra tokens). */
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex-shrink: 0;
+  }
 
   &[data-priority='Baja'] {
     color: var(--sc-text-subtle);
@@ -289,18 +322,30 @@
     color: var(--sc-label-blue-text);
     background: var(--sc-label-blue-bg);
     border-color: var(--sc-label-blue-border);
+
+    &::before {
+      background: var(--sc-label-blue-dot);
+    }
   }
 
   &[data-priority='Alta'] {
     color: var(--sc-label-amber-text);
     background: var(--sc-label-amber-bg);
     border-color: var(--sc-label-amber-border);
+
+    &::before {
+      background: var(--sc-label-amber-dot);
+    }
   }
 
   &[data-priority='Máxima'] {
     color: var(--sc-label-red-text);
     background: var(--sc-label-red-bg);
     border-color: var(--sc-label-red-border);
+
+    &::before {
+      background: var(--sc-label-red-dot);
+    }
   }
 }
 

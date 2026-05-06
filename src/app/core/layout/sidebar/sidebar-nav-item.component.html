@@ -3,6 +3,7 @@
   class="nav-item"
   [class.nav-item--active]="isActive()"
   [class.nav-item--child-active]="!isActive() && isChildActive()"
+  [class.nav-item--parent]="hasChildren()"
   [attr.data-depth]="depth()"
   (click)="onClick($event)"
 >

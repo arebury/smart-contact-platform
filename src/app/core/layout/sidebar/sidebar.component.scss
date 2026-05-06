@@ -32,6 +32,13 @@
   --sidebar-pad-l-2: var(--sc-spacing-800);
   --sidebar-pad-l-3: var(--sc-spacing-900);
   --sidebar-label-opacity: 0;
+  /*
+   * Parent nav-item icon opacity ramp. Collapsed default = 0.4
+   * (subordinate, "this is structural"). On hover/focus-within = 1.0
+   * (full presence, the chevron + label make the affordance clear).
+   * Active-branch parents override this in nav-item.scss.
+   */
+  --sidebar-parent-icon-opacity: 0.4;
 
   position: fixed;
   inset: 0 auto 0 0;
@@ -52,6 +59,7 @@
     width: var(--sc-sidebar-width-expanded);
     transition-delay: 0ms;
     --sidebar-label-opacity: 1;
+    --sidebar-parent-icon-opacity: 1;
   }
 
   /* -------- Brand (isotype always visible, wordmark fades in) ----- */
