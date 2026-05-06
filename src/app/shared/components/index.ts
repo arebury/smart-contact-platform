@@ -25,6 +25,8 @@ export { EmptyStateComponent } from './empty-state/empty-state.component';
 
 export { EntityAvatarComponent } from './entity-avatar/entity-avatar.component';
 
+export { IllustratedAvatarComponent } from './illustrated-avatar/illustrated-avatar.component';
+
 export { FormDangerZoneComponent } from './form-danger-zone/form-danger-zone.component';
 
 export { KeyboardShortcutsComponent } from './keyboard-shortcuts/keyboard-shortcuts.component';
