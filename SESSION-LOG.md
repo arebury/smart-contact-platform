@@ -10,6 +10,97 @@
 
 ---
 
+## 2026-05-06 · Session 4 — CI green, form-safety pass, undo stack
+
+**Worked on**
+- **CI repaired** ([PR #1](https://github.com/arebury/aed/pull/1)). CI was
+  red on every commit since #1 — never green. Three classes of failure
+  stacked:
+  - 6 files in the latest feat commit were not Prettier-formatted.
+  - `@angular-eslint/no-output-native` flagged 7 outputs literally named
+    `cancel` (a DOM event); renamed to `cancelled` across 8 components
+    and the 23 template bindings + 11 self-emit `(click)="cancel.emit()"`
+    references.
+  - Test host class in `click-outside.directive.spec.ts` violated
+    `component-class-suffix` (`HostCmp` → `HostComponent`).
+  - Tail problems revealed once lint passed: a11y rule `click-events-have-key-events`
+    on two `(click)="$event.stopPropagation()"` wrappers (silenced with
+    `eslint-disable-next-line`); `Partial<Agent>` readonly compile error
+    inside `bulkUpdate` (refactored to fresh literals per case);
+    `NG0600` from dialog effects writing signals (added
+    `{ allowSignalWrites: true }`); pre-existing `LabelsPage` spec
+    failure (test isolation — `providedIn: 'root'` store cached between
+    fixture creations, fixed by deferring fixture creation into each
+    test).
+- **Form-safety pass** ([PR #2](https://github.com/arebury/aed/pull/2)).
+  Closed the four critical safety gaps from the mirror-eval:
+  - `DiscardDialogService` (wraps `ConfirmationService`),
+    `CrossTabLockService` (DD#169 port), `formDirtyGuard` (`CanDeactivateFn`).
+  - Agent / Group / User form pages: `formDirty: signal()` marked in
+    every mutator; HostListener Ctrl/Cmd+S → save; HostListener
+    `beforeunload` → block when dirty + not saving; cross-tab lock
+    acquired in edit mode + banner on conflict; reset `formDirty`
+    after save / delete.
+  - Routes wired with `canDeactivate: [formDirtyGuard]`.
+  - No-CLS validation slot in Users + Groups: `<span class="field__error">`
+    always rendered with `min-height: 1.25em` and `aria-live="polite"`;
+    `@if` only gates the text content.
+- **Undo stack** ([PR #3](https://github.com/arebury/aed/pull/3)). Closed
+  the cross-cutting undo gap from the mirror-eval (DD#293):
+  - `UndoStackService` (capacity 20, 9s expiry, 8s toast life).
+  - Custom toast template in `app.component.html` renders a "Deshacer"
+    button when the message carries `data.undoEntryId`.
+  - Global Ctrl/Cmd+Z handler in `AppComponent` that skips text fields.
+  - Wired in: agents (presence + bulk + duplicate), groups (bulk +
+    duplicate), users (duplicate). Delete intentionally excluded
+    (DD#2173 from prototype).
+- **Workflow gate widened**: `ci.yml` now triggers on every
+  `pull_request`, not only those targeting `main`/`develop`. Lets
+  stacked PRs get CI feedback before the base merges.
+
+**Decisiones tomadas** (see DECISIONS.md #11–#18 for the full
+rationale of each)
+- `cancel` is a forbidden output name; rename pattern is `cancel` →
+  `cancelled` (past-tense Angular convention for "what happened").
+- Form-dirty contract is a `Signal<boolean>` (not a method), read by
+  the guard. Lets components define dirtiness however they want.
+- DiscardDialog reuses PrimeNG `ConfirmationService` instead of a
+  custom modal — `<p-confirmDialog />` already mounted in the shell.
+- Cross-tab lock service returns an explicit release function (not
+  `effect` + `onCleanup`) so the form's lifecycle owns the cleanup.
+- Form keyboard shortcuts (Ctrl+S, beforeunload) live as `@HostListener`
+  in each form, not a shared directive — 9 lines × 3 forms beats
+  abstraction overhead for what's essentially boilerplate.
+- Validation messages render into a reserved slot; `@if` toggles the
+  text, not the element. CSS `min-height: 1.25em` + `aria-live="polite"`.
+- Undo stack is a non-reactive service holding a mutable array. The
+  visible UI is the toast; reactivity inside the service buys nothing.
+- Bulk-update undo snapshots full entity objects (not field-level diffs)
+  and restores via `updateAgent`/`updateGroup`. Cost is negligible,
+  restoration is exact, no per-field switch needed.
+- Delete is **not** undoable — DD#2173 from prototype, intentional.
+- Ctrl+Z skips when focus is in an input/textarea/select/contentEditable
+  so the browser's native undo for typed text is preserved.
+- CI workflow triggers on any `pull_request` (no `branches:` filter)
+  so stacked PRs run.
+
+**Bloqueos / decisiones diferidas**
+- `ng build` and `ng lint` still don't run locally on Node 25. CI is
+  the source of truth. `nvm install 20` remains a prerequisite for
+  fast local iteration.
+- Form-parity gaps from the mirror-eval still pending: photo upload
+  (Agents + Users), Languages multi-select (Agents), mini-TOC sidebar
+  for long forms, profile-summary sidebar in User form.
+
+**Queued next**
+- **Sprint 3 — User+Agent form parity**: photo upload, languages
+  multi-select, mini-TOC sidebar, User profile sidebar.
+- **Sprint 4 — List polish**: frozen Name column, group-count popover
+  in Agents, result counter footer, empty/loading states.
+- `ToggleSwitchComponent` migration (still pending from Session 3).
+
+---
+
 ## 2026-05-06 · Session 3 — Bulk + duplicate parity, list polish, no-CLS pass
 
 **Worked on**
