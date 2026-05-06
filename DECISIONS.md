@@ -591,6 +591,125 @@ readers say the wrong thing.
 
 ---
 
+## 28 — Bulk action bar is a floating light card with an inline edit form (2026-05-06)
+
+**Decision.** `<aed-bulk-action-bar>` renders as a white, rounded
+(`radius-200`), drop-shadow card inset from the viewport edges
+(`bottom: spacing-400`, `left: sidebar-width + spacing-500`,
+`right: spacing-500`), not as an edge-to-edge dark bar pinned to the
+bottom. The "Editar" popover trigger is gone; in its place,
+`<aed-bulk-edit-menu>` renders an inline `Cambiar [select] a [select]
+[Aplicar]` form directly in the bar. `.btn--bulk-danger` is now solid
+red-600 (it was subtle red — that pairing only made sense on the old
+dark bar).
+
+**Why.** Figma 81:10750 specifies a floating light card with rounded
+corners and shadow on all sides — matching every other surface in the
+app. The dark edge-to-edge bar was a pre-Figma carryover. The popover
+trigger added one click between "I selected rows" and "I committed
+the change"; on a high-frequency operational tool that click is
+friction. Inline form removes the click and the overlay (no more
+z-index / popover-positioning concerns). The `BulkEditCommit` output
+contract stayed identical so the 6 list pages projecting
+`<aed-bulk-edit-menu>` didn't have to change.
+
+**Discarded.** Keeping the popover with a re-skin only — preserves
+the extra click. Making the inline form a separate component and
+changing the selector — would have churned every consumer for no
+benefit. Solid-red `Eliminar` regardless of bar surface — was the
+right Figma reading.
+
+---
+
+## 29 — Destructive actions live in an end-of-form danger zone, not the sticky header (2026-05-06)
+
+**Decision.** The "Eliminar" button on Group / Agent / User edit pages
+moved out of `<aed-sticky-form-header>` and into a shared
+`<aed-form-danger-zone>` rendered at the bottom of each form (only
+when `mode() === 'edit'`). The zone is a single white card with a
+`red-200` border, gray-800 title, gray-600 description, and a
+right-aligned `btn--danger-subtle` trigger.
+`<aed-sticky-form-header>` lost `canDelete`, the `delete` output,
+the `trashIcon`, and the now-dead `--ghost-danger` button class.
+
+**Why.** The header is the page's highest-protagonism zone — putting
+the most irreversible action there competes with primary actions
+(Save) and breaks symmetry with the form-detail patterns where
+Delete already lives in the footer. The Stripe / GitHub / Linear
+"danger zone" pattern is the canonical low-protagonism placement:
+same horizontal padding as the form's section-cards, but at the
+very bottom so the operator only encounters it deliberately. Subtle
+red button (not solid) — solid red would re-introduce the protagonism
+the move was meant to remove.
+
+**Discarded.** Sticky footer mirroring the sticky header — keeps the
+button always-visible, which is exactly the prominence we wanted
+to remove. Severity `border-left` stripe — banned by impeccable
+guidelines (most overused AI design tell). All-caps "DANGER ZONE"
+heading — wrong tone for the calm·dense·operational brief.
+
+---
+
+## 30 — Programmatic confirms render through a single `aed-modal`-backed host (2026-05-06)
+
+**Decision.** A `ConfirmHostService` (`@core/services`) exposes
+`request(opts): Promise<boolean>` plus `visible` / `state` signals.
+A single `<aed-confirm-host>` component, mounted once in
+`app.component.html`, binds those signals to an `<aed-modal>` and
+routes button clicks back into the service.
+`DiscardDialogService.confirm()` keeps its public signature and now
+calls `confirmHost.request({...})` internally. `ConfirmDialogModule`
++ PrimeNG's `ConfirmationService` removed from `app.config.ts` and
+`app.component.ts`.
+
+**Why.** `ConfirmationService` rendered the raw PrimeNG
+`<p-confirmDialog>` chrome — different geometry, no leading icon
+slot, no `aria-labelledby` to a stable id, none of the Figma
+1037:34069 visual decisions. The DX of `await`-ing a Promise was
+worth keeping; the visual layer just needed to route through the
+canonical shell. One host instance handles every programmatic
+confirm in the app (today: discard-changes; tomorrow: sign-out,
+bulk discard, etc.) so a future tone change is a single edit.
+
+**Discarded.** Convert each consumer to a declarative
+`<aed-discard-dialog>` per page — works but loses centralization
+and forces every dirty-aware page to wire it up. Keep
+`<p-confirmDialog>` and theme it via overrides — possible, but the
+overrides would have to fight PrimeNG header geometry, and the
+icon slot still wouldn't exist.
+
+---
+
+## 31 — Tokens JSON (DTCG) deferred; `sc-tokens.css` stays the source of truth (2026-05-06)
+
+**Decision.** No tokens JSON spec yet. `sc-tokens.css` remains the
+single source of truth for visual decisions: primitives in §1,
+semantic aliases in §2, custom extensions (shadow, z-index, motion)
+in §3, PrimeNG `--p-*` overrides pointing at `--sc-*` in §4. New
+tokens are added directly here.
+
+**Why.** A full DTCG / Style Dictionary / Tokens Studio pipeline is
+the right end state — bidirectional Figma ⇄ JSON ⇄ code sync, no
+drift, scriptable theme changes — but the migration is still fresh
+and the tokens are still cristalizing. Building the pipeline now
+would freeze decisions that may still need to flex. Deferred until
+the design system stabilizes, with a phased rollout queued for when
+the moment arrives:
+
+1. Mirror today's `sc-tokens.css` into a DTCG-format `tokens.json`.
+   Documentation pass only — no behavior change.
+2. Flip the dependency: `tokens.json` becomes the source; a build
+   step regenerates `sc-tokens.css` (and the `--p-*` overrides).
+3. Integrate Tokens Studio (Figma plugin) so designer-side edits
+   round-trip into the JSON.
+
+**Discarded for now.** Standing up Style Dictionary today —
+premature infrastructure. Hand-maintained JSON + manual CSS regen
+— gives drift between the two artifacts with no real win over CSS
+alone.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section

@@ -10,6 +10,85 @@
 
 ---
 
+## 2026-05-06 · Session 6 — Bulk bar Figma re-skin, danger zone, programmatic confirm host
+
+**Worked on**
+
+- **Bulk action bar Figma alignment** (Figma node 81:10750). The dark,
+  edge-to-edge bottom bar moved to a light, floating, rounded-corner card
+  inset from the viewport edges (`bottom: spacing-400`,
+  `left: sidebar-width + spacing-500`, `right: spacing-500`,
+  `radius-200`, drop shadow on all four sides). The "Editar" popover
+  trigger was replaced by an inline `Cambiar [select] a [select] [Aplicar]`
+  form rendered directly in the bar — same `BulkEditCommit` output, no
+  consumer churn across the 6 list pages. PrimeNG `popover` dependency
+  dropped from `aed-bulk-edit-menu`. `.btn--bulk-danger` flipped from
+  subtle red to solid red-600 to match the canonical danger button on a
+  light surface. Native `<select>` styled to match the Figma dropdown
+  (white bg, gray-300 border, 36px tall, 6px radius, custom chevron).
+- **Danger zone refactor**. The "Eliminar" button left the sticky form
+  header on Group / Agent / User edit pages and moved to a new shared
+  `<aed-form-danger-zone>` component rendered at the bottom of each form.
+  Visual treatment: full red-200 border, white surface, no severity
+  stripe, gray-800 title + gray-600 description + `btn--danger-subtle`
+  trigger inline-right. Solid red was deliberately rejected — the whole
+  point of the move is to lower destructive-action protagonism, so the
+  button color stayed soft. `canDelete` / `delete` output / `trashIcon`
+  / `--ghost-danger` button class all removed from
+  `aed-sticky-form-header`. Three per-entity description i18n keys
+  added (`{groups,users,agents}.form.danger_zone_description`) plus a
+  shared title `common.danger_zone.title`.
+- **Programmatic confirm host migrated to `aed-modal`**. The
+  "¿Descartar cambios?" dialog (used by the `formDirtyGuard` route guard
+  and anywhere `await discardDialog.confirm()` is called) was rendering
+  the raw PrimeNG `<p-confirmDialog>` chrome — wrong shell, didn't match
+  the Figma 1037:34069 modal. New architecture: a `ConfirmHostService`
+  exposes `request(opts): Promise<boolean>` plus signals; a single
+  `<aed-confirm-host>` component, mounted once in `app.component.html`,
+  binds those signals to an `<aed-modal>`. `DiscardDialogService.confirm()`
+  keeps the same public API, internally calls `confirmHost.request(...)`.
+  `ConfirmDialogModule` + `ConfirmationService` removed from `app.config.ts`
+  and `app.component.ts`. Same canonical shell as every other dialog now.
+- **`delete-labels-dialog` migration to `aed-modal`**. Was the last
+  dialog still rendering `<p-dialog>` directly with custom header / footer
+  templates. Now uses the canonical shell — removes ~50 lines of bespoke
+  header / button SCSS, picks up `btn--secondary` / `btn--danger` from
+  the global button system.
+- **Communication-style memory**. User flagged they're not a developer;
+  saved a `feedback_communication_style.md` memory so future sessions
+  default to plain Spanish in chat (code, commits, docs stay technical).
+
+**Decisiones tomadas**
+
+- Bulk bar IA flip is a real change, not a paint job: dropdown-popover
+  trigger gone, inline form in its place. Decision logged as DD#28.
+- Destructive actions on edit pages move from the sticky header to an
+  end-of-form danger zone (Stripe / GitHub pattern). Decision logged
+  as DD#29.
+- Programmatic confirms route through one `aed-modal`-backed host
+  instead of PrimeNG's `ConfirmationService`. Decision logged as DD#30.
+- DTCG-style tokens JSON as future single source of truth — punted to
+  a later session. Decision logged as DD#31 with the proposed phasing
+  (mirror current CSS into JSON first, then bidirectional Figma
+  sync via Style Dictionary or Tokens Studio later).
+
+**Bloqueos / decisiones diferidas**
+
+- Tokens JSON / Style Dictionary work intentionally deferred — too big
+  for this turn, deserves its own session.
+
+**Queued next**
+
+- Audit the rest of the app for any remaining raw `<p-dialog>` usages
+  (inventory came back clean today: only `aed-modal`, `aed-confirm-host`,
+  `aed-delete-entity-dialog`, `aed-impact-preview-dialog`,
+  `aed-delete-labels-dialog` use the canonical shell now). Re-check
+  before adding any new dialog.
+- Start the tokens JSON spec (DD#31 phase 1: extract today's CSS into
+  a DTCG-format mirror, no behavior change) when there's an opening.
+
+---
+
 ## 2026-05-06 · Session 5 — Mirror-eval close, design system Figma, polish pass · **MIGRATION CLOSED**
 
 **Worked on** (13 PRs merged in order — PRs #1–4 are the Session 4 block from
