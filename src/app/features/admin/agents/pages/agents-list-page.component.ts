@@ -43,7 +43,6 @@ import {
   ImpactItem,
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
-  PageTitleCountComponent,
 } from '@shared/components';
 import {
   AGENT_TYPE_LABEL_KEYS,
@@ -94,7 +93,6 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
-    PageTitleCountComponent,
     TranslateModule,
   ],
   templateUrl: './agents-list-page.component.html',

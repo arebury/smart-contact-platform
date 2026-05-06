@@ -7,7 +7,7 @@
   display: flex;
   align-items: center;
   gap: var(--sc-spacing-100);
-  padding: var(--sc-spacing-100) var(--sc-spacing-200) var(--sc-spacing-100) var(--sc-spacing-200);
+  padding: var(--sc-spacing-100) var(--sc-spacing-200);
   font-size: var(--sc-font-size-200);
   line-height: var(--sc-line-height-200);
   text-align: left;
@@ -17,22 +17,27 @@
   cursor: pointer;
   transition:
     background var(--sc-transition-fast) var(--sc-easing-default),
-    color var(--sc-transition-fast) var(--sc-easing-default);
+    color var(--sc-transition-fast) var(--sc-easing-default),
+    padding-left var(--sc-transition-base) var(--sc-easing-emphasized);
 
-  /* Indentation by depth (mirrors pl-3/pl-8/pl-12/pl-14 of the React proto) */
+  /*
+   * Indentation by depth — defaults match the React prototype's
+   * pl-3 / pl-8 / pl-12 / pl-14 ramp. The sidebar's collapsed state
+   * overrides these locals to flatten every depth onto the icon column.
+   */
   &[data-depth='0'] {
-    padding-left: var(--sc-spacing-200);
+    padding-left: var(--sidebar-pad-l-0, var(--sc-spacing-200));
   }
   &[data-depth='1'] {
-    padding-left: var(--sc-spacing-600);
+    padding-left: var(--sidebar-pad-l-1, var(--sc-spacing-600));
   }
   &[data-depth='2'] {
-    padding-left: var(--sc-spacing-800);
+    padding-left: var(--sidebar-pad-l-2, var(--sc-spacing-800));
   }
   &[data-depth='3'],
   &[data-depth='4'],
   &[data-depth='5'] {
-    padding-left: var(--sc-spacing-900);
+    padding-left: var(--sidebar-pad-l-3, var(--sc-spacing-900));
     font-size: var(--sc-font-size-100);
     line-height: var(--sc-line-height-100);
   }
@@ -68,19 +73,37 @@
     }
   }
 
+  /*
+   * Label and chevron fade with the sidebar's expand state. Hiding them
+   * (rather than relying on `overflow: hidden` to clip) prevents the
+   * "V…" partial-letter bleed that appears when ~12 px of label width
+   * is briefly visible before the column edge.
+   */
   &__label {
     flex: 1;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    opacity: var(--sidebar-label-opacity, 1);
+    transition: opacity var(--sc-transition-fast) var(--sc-easing-default);
   }
 
   &__chevron {
     flex-shrink: 0;
     color: rgb(255 255 255 / 0.3);
+    opacity: var(--sidebar-label-opacity, 1);
+    transition: opacity var(--sc-transition-fast) var(--sc-easing-default);
   }
 }
 
 .nav-item__children {
   display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-item,
+  .nav-item__label,
+  .nav-item__chevron {
+    transition: none;
+  }
 }

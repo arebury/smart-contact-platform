@@ -583,7 +583,7 @@
   --sc-sidebar-width-collapsed: 64px;
   --sc-sidebar-width-expanded: 240px;
   --sc-sidebar-width: var(--sc-sidebar-width-collapsed);
-  --sc-sidebar-bg: var(--sc-color-gray-800);
+  --sc-sidebar-bg: var(--sc-color-blue-700);
   --sc-topbar-height: 48px;
   --sc-bulk-action-bar-height: 56px;
 

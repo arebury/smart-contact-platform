@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -25,6 +32,7 @@ import { SidebarNavItemComponent } from './sidebar-nav-item.component';
 })
 export class SidebarComponent {
   private readonly router = inject(Router);
+  private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly sections = NAV_SECTIONS;
   protected readonly bookOpenIcon = NAV_ICONS['book-open'];
@@ -38,6 +46,23 @@ export class SidebarComponent {
     ),
     { initialValue: normalizeRoutePath(this.router.url) },
   );
+
+  constructor() {
+    /**
+     * After every navigation, blur whatever element inside the sidebar
+     * still has focus — otherwise the `:focus-within` rule keeps the
+     * sidebar in its expanded state forever after a click. The keyboard
+     * `Tab` flow still works (focus is only blurred AFTER navigation
+     * completes, never during user-driven traversal).
+     */
+    effect(() => {
+      this.currentPath();
+      const active = document.activeElement;
+      if (active instanceof HTMLElement && this.host.nativeElement.contains(active)) {
+        active.blur();
+      }
+    });
+  }
 
   protected readonly trackBySectionTitle = (_: number, section: { titleKey: string }): string =>
     section.titleKey;

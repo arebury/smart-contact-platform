@@ -15,13 +15,13 @@
   @if (hasChildren()) {
     <lucide-icon
       class="nav-item__chevron"
-      [img]="expanded() ? resolveIcon('chevron-down') : resolveIcon('chevron-right')"
+      [img]="effectivelyExpanded() ? resolveIcon('chevron-down') : resolveIcon('chevron-right')"
       [size]="14"
     />
   }
 </button>
 
-@if (hasChildren() && expanded()) {
+@if (hasChildren() && effectivelyExpanded()) {
   <div class="nav-item__children">
     @for (child of item().children; track child.labelKey) {
       <aed-sidebar-nav-item

@@ -61,6 +61,14 @@ export class SidebarNavItemComponent implements OnInit {
     return this.containsActive(children, this.currentPath());
   });
 
+  /**
+   * `expanded` (manual user toggle) OR the active branch flag — when the
+   * current route lives somewhere inside this section, render its children
+   * automatically so the collapsed sidebar shows the active page's icon
+   * without the user having to click the parent first.
+   */
+  protected readonly effectivelyExpanded = computed(() => this.expanded() || this.isChildActive());
+
   protected resolveIcon(name: keyof typeof NAV_ICONS) {
     return NAV_ICONS[name];
   }

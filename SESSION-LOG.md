@@ -10,6 +10,70 @@
 
 ---
 
+## 2026-05-06 · Session 8 — Sidebar polish (color, click-collapse, flat icon column, no header count)
+
+**Worked on**
+
+- **Sidebar uses brand blue-700 (`#1B273D`)** instead of the legacy
+  `gray-800`. The token `--sc-sidebar-bg` now points to
+  `--sc-color-blue-700` — this matches the Smart Contact Figma file's
+  brand sidebar color and unifies the palette: every dark surface in
+  the chrome reads as the same hue.
+- **Click no longer keeps the sidebar expanded.** A new effect on the
+  sidebar component blurs whatever element inside the sidebar still
+  has focus after every `NavigationEnd`. The `:focus-within`
+  rule that supports keyboard `Tab` traversal still works (focus
+  is only released AFTER a successful navigation).
+- **All nav icons visible when collapsed** (DD#35). When the sidebar
+  is collapsed, depth-1+ items now flatten onto the depth-0 padding
+  via local CSS variables (`--sidebar-pad-l-{0,1,2,3}`), and child
+  containers no longer hide. A new `effectivelyExpanded` computed in
+  `<aed-sidebar-nav-item>` auto-expands any branch whose child path
+  is currently active, so the collapsed sidebar shows the active
+  page's icon (and its siblings) without the user having to click
+  the parent first. Visual hierarchy is preserved on hover via the
+  same depth padding ramp; in collapsed state, hierarchy is communicated
+  by icon size (16 / 14 / 13 px) only.
+- **No more "V…" partial label**. `nav-item__label` and
+  `nav-item__chevron` now fade their opacity off (binding to a
+  `--sidebar-label-opacity` local that flips on hover/focus-within)
+  instead of relying on `overflow: hidden` to clip the leftmost
+  letter. The collapsed sidebar reads as a clean column of icons,
+  no truncation artefacts.
+- **Hover-out delay**. The sidebar's width transition has a
+  `100ms` delay on collapse and `0ms` on expand. Cursor jitter
+  past the collapsed gutter no longer triggers a collapse-expand
+  flicker; expansion still feels immediate.
+- **Header count removed**. `<aed-page-title-count>` deleted from all
+  six list pages and from the shared barrel; component folder
+  removed. The "·14" inline counter was the same AI-dashboard slop
+  pattern as the old result-counter (just relocated to the heading)
+  — reverted DD#34 in practice. Future filter-feedback signals will
+  live in the search bar, not the title.
+
+**Decisiones tomadas**
+
+- DD#35 — Collapsed sidebar shows the full icon column (top-level +
+  children of the active or manually-expanded branches), with
+  flat padding and hidden labels. Hierarchy on hover only.
+- DD#34 reverted in practice (header count is slop too). The
+  decision entry in `DECISIONS.md` is amended in place to record
+  the reversal.
+
+**Bloqueos / decisiones diferidas**
+
+- Tokens JSON / Style Dictionary still parked (DD#31).
+
+**Queued next**
+
+- The active state on collapsed nav items could be stronger — today
+  it's a `rgb(255 255 255 / 0.15)` background. Worth a polish pass.
+- If a section grows beyond the viewport height when collapsed (lots
+  of expanded children), the `.sidebar__nav` shows a thin scrollbar.
+  Acceptable for now; revisit if it bothers anyone.
+
+---
+
 ## 2026-05-06 · Session 7 — Sidebar hover-expand, toast position + indigo, drag-drop fix, AI-slop pass
 
 **Worked on**

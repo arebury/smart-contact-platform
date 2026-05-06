@@ -777,36 +777,79 @@ inconsistent stack widths we just removed.
 
 ---
 
-## 34 — List pages drop the bottom-of-table result counter; meta-count moves inline into the page heading (2026-05-06)
+## 34 — List-page count removed entirely; no header / footer count component (2026-05-06, amended)
 
-**Decision.** `<aed-result-counter>` (small gray "57 grupos
-encontrados" line under each list table) deleted from groups,
-agents, users, labels, repos and templates. Replaced with
-`<aed-page-title-count>` rendered inside the page `<h1>`: shows
-`· N` when nothing is filtered, `· X de Y` when a search/filter
-narrows the result. Tabular nums, `aria-live="polite"`, smaller
-weight and `--sc-text-subtle` so it reads as meta-info rather than
-competing with the heading. The old `result-counter` component
-folder was deleted entirely.
+**Decision (current).** No count component lives on the list pages.
+The bottom-of-table `<aed-result-counter>` was removed in Session 7,
+and the inline `<aed-page-title-count>` (rendered inside the
+`<h1>` as `· 14` or `· 12 de 57`) — added in the same session as
+its replacement — was removed in Session 8 and the component folder
+deleted.
 
-**Why.** The bottom-of-table tiny-gray-text-with-count pattern is a
-canonical AI-dashboard slop signature flagged by `/impeccable`'s
-"redundant body text" rule. In a non-paginated table the operator
-can already see how many rows are loaded — a separate row at the
-bottom that says "57 found" adds no information and reads as
-generic. Putting the count inline in the heading keeps the
-information glanceable (you read the page title every navigation),
-adds the filter-vs-total context that the bottom counter never
-had ("12 de 57" tells you instantly whether you're looking at a
-filtered subset), and removes one row of vertical chrome from
-every list page.
+**Why this changed.** The first iteration of this entry kept a
+counter "with sense" inline in the heading, on the theory that
+filter context is meaningful. In review the inline `·` separator +
+small grey number read as the same AI-dashboard touch the original
+footer counter was — just relocated. In a non-paginated table the
+operator already sees the rows; the counter was decorative chrome,
+not information.
 
-**Discarded.** Keeping a footer counter but rewording the copy
-(e.g. "Mostrando 12 de 57") — same architectural slop, just
-different wording. A floating pill near the search field — works
-visually but adds another floating element to position; the
-heading is already where the user expects "what am I looking at"
-information.
+**Where filter feedback should live (when needed).** Inside or
+adjacent to the search input, surfaced only when a filter is
+active (e.g. a small "12 resultados" hint that disappears when
+the search clears). Out of scope for this session — added when
+a real flow demands it.
+
+**Discarded.** Keeping the inline header count "with sense" — it's
+still slop in disguise. A floating pill near the search field —
+adds positioning complexity for marginal information value.
+
+---
+
+## 35 — Collapsed sidebar shows the full icon column; hierarchy on hover only (2026-05-06)
+
+**Decision.** When the sidebar is collapsed (no hover, no
+`:focus-within`), depth-1+ nav items collapse onto the depth-0
+left padding via `--sidebar-pad-l-{0,1,2,3}` locals declared on
+`.sidebar`. Children of expandable parents stay rendered (no
+`display: none`), so every icon — top-level parents, their
+children, grandchildren — sits in a single clean vertical column.
+Labels and chevrons fade to `opacity: 0` so partial letters
+("V…") never bleed past the gutter edge. A new `effectivelyExpanded`
+computed (`expanded() || isChildActive()`) auto-renders the
+children of whichever branch contains the current route — the
+active page's icon is always visible without the user having to
+click the parent first. Hierarchy in the collapsed view is
+communicated by **icon size** (16 / 14 / 13 px from the existing
+`iconSize` ramp), not indentation. After every `NavigationEnd`
+the sidebar component blurs whatever inside it still has focus,
+so a click on a nav item doesn't pin the sidebar in its expanded
+state via `:focus-within`. The width transition has a `100 ms`
+delay on collapse and `0 ms` on expand, so cursor jitter past the
+gutter doesn't flicker.
+
+**Why.** Without flattening, a previously-expanded section's
+children showed their icons at `padding-left: 32 / 48 px`, which
+is past or near the 64 px collapsed-gutter edge — partially
+clipped, reading as broken. Without auto-expanding the active
+branch, navigating to a deep route (e.g. `/admin/agentes` under
+"Administración") rendered the section's children, but navigating
+to a sibling deep route under a different section that wasn't
+`defaultExpanded` would not. Flattening + auto-expand together
+guarantee that the collapsed sidebar always shows the active
+page's icon, and clicking it from the collapsed state works
+without pre-expansion. Hiding labels via `opacity` (instead of
+relying on `overflow: hidden` to clip them) is the only way to
+prevent the "V…" partial-letter bleed at the column edge —
+clipping leaves ~12 px of letter visible.
+
+**Discarded.** Keep the previous "only top-level parents visible
+when collapsed" behaviour — loses the active-page-context cue.
+Show ALL children of ALL sections when collapsed (regardless of
+expand state) — too dense, no respect for user-controlled
+expansion. Tooltip-only labels on hover of individual icons —
+fights with the whole-sidebar hover-expand pattern; would need a
+separate interaction model.
 
 ---
 

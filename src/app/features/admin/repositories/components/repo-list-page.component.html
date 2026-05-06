@@ -7,12 +7,7 @@
             <lucide-icon [img]="config().icon" [size]="20" />
           </span>
         }
-        <h1 class="page__title">
-          {{ config().titleKey | translate }}
-          @if (items().length > 0) {
-            <aed-page-title-count [total]="items().length" [filtered]="sorted().length" />
-          }
-        </h1>
+        <h1 class="page__title">{{ config().titleKey | translate }}</h1>
       </div>
 
       <div class="page__actions">

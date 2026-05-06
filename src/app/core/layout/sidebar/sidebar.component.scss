@@ -10,12 +10,29 @@
  *   - `position: fixed` so the expanded state OVERLAYS the page content
  *     instead of pushing it. The page reserves `--sc-sidebar-width`
  *     (= collapsed width) as its left gutter; that gutter never moves.
- *   - `:hover` → width transitions to `--sc-sidebar-width-expanded`.
- *   - `overflow: hidden` clips the wordmark, section titles and long
- *     nav labels when collapsed; everything fades in / unclips on hover.
+ *   - `:hover` / `:focus-within` → width transitions to
+ *     `--sc-sidebar-width-expanded`.
+ *   - When collapsed, depth-based padding is collapsed via local CSS
+ *     custom properties so child icons line up with parent icons in a
+ *     single clean column. Labels and chevrons fade to `opacity: 0`
+ *     so partial letters never bleed past the gutter.
+ *   - Hover-OUT is delayed by 100 ms to forgive cursor jitter; hover-IN
+ *     is instant.
  *   - All transitions respect `prefers-reduced-motion`.
  */
 .sidebar {
+  /*
+   * Depth padding is read from these locals by `<aed-sidebar-nav-item>`.
+   * When the sidebar is collapsed (no hover / no focus-within) we flatten
+   * every depth onto the same icon column so the column reads as a
+   * single, clean strip of icons.
+   */
+  --sidebar-pad-l-0: var(--sc-spacing-200);
+  --sidebar-pad-l-1: var(--sc-spacing-600);
+  --sidebar-pad-l-2: var(--sc-spacing-800);
+  --sidebar-pad-l-3: var(--sc-spacing-900);
+  --sidebar-label-opacity: 0;
+
   position: fixed;
   inset: 0 auto 0 0;
   z-index: var(--sc-z-sidebar);
@@ -26,12 +43,15 @@
   overflow: hidden;
   background: var(--sc-sidebar-bg);
   color: var(--sc-color-gray-0);
-  transition: width var(--sc-transition-base) var(--sc-easing-emphasized);
+  /* Hover-OUT delayed by 100 ms; hover-IN instant (overridden below). */
+  transition: width var(--sc-transition-base) var(--sc-easing-emphasized) 100ms;
   will-change: width;
 
   &:hover,
   &:focus-within {
     width: var(--sc-sidebar-width-expanded);
+    transition-delay: 0ms;
+    --sidebar-label-opacity: 1;
   }
 
   /* -------- Brand (isotype always visible, wordmark fades in) -------- */
@@ -113,8 +133,6 @@
     display: flex;
     flex-direction: column;
     gap: var(--sc-spacing-200);
-    /* Hide scrollbar in collapsed state — it would jitter as the user
-     * scrolls past nav items that are visually clipped. */
     scrollbar-width: thin;
     scrollbar-color: rgb(255 255 255 / 0.16) transparent;
   }
@@ -151,15 +169,16 @@
   }
 
   /*
-   * Children of expandable nav items: hide when the sidebar is collapsed.
-   * Without this, a previously-expanded section would leave its children
-   * rendered in the DOM with their icons visually clipped past the 64px
-   * boundary, which reads as broken. Reach into the child component's
-   * encapsulated styles via `::ng-deep` because `.nav-item__children`
-   * lives inside `<aed-sidebar-nav-item>`.
+   * Collapsed-state flattening for nested nav items: when the sidebar is
+   * not hovered, depth-1+ items collapse onto the depth-0 padding so
+   * every icon lines up in a single column. Children stay rendered
+   * (visible icons), letting the user see WHICH page is active inside
+   * a section without having to expand the sidebar.
    */
-  &:not(:hover):not(:focus-within) ::ng-deep .nav-item__children {
-    display: none;
+  &:not(:hover):not(:focus-within) {
+    --sidebar-pad-l-1: var(--sc-spacing-200);
+    --sidebar-pad-l-2: var(--sc-spacing-200);
+    --sidebar-pad-l-3: var(--sc-spacing-200);
   }
 
   /* -------- Foot -------- */

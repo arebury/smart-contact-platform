@@ -42,7 +42,6 @@ import {
   ImpactItem,
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
-  PageTitleCountComponent,
 } from '@shared/components';
 import {
   CHANNEL_LABEL_KEYS,
@@ -85,7 +84,6 @@ const COLUMN_PREF_KEY = 'sc_groups_columns_v1';
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
-    PageTitleCountComponent,
     TranslateModule,
   ],
   templateUrl: './groups-list-page.component.html',

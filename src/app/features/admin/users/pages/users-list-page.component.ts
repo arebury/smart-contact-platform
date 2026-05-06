@@ -33,7 +33,6 @@ import {
   DeleteEntityDialogComponent,
   EmptyStateComponent,
   InlineRenameCellComponent,
-  PageTitleCountComponent,
 } from '@shared/components';
 import { USER_TYPE_LABEL_KEYS, User, UserType } from '../data/users-data';
 import { UsersStore } from '../state/users.store';
@@ -59,7 +58,6 @@ interface ContextMenuPos {
     EmptyStateComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
-    PageTitleCountComponent,
     TranslateModule,
   ],
   templateUrl: './users-list-page.component.html',

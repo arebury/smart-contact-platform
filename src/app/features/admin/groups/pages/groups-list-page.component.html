@@ -1,12 +1,7 @@
 <div class="page">
   <div class="page__inner">
     <header class="page__header">
-      <h1 class="page__title">
-        {{ 'groups.page_title' | translate }}
-        @if (groups().length > 0) {
-          <aed-page-title-count [total]="groups().length" [filtered]="sorted().length" />
-        }
-      </h1>
+      <h1 class="page__title">{{ 'groups.page_title' | translate }}</h1>
       <div class="page__actions">
         <button type="button" class="btn btn--ghost" (click)="onExport()">
           <lucide-icon [img]="downloadIcon" [size]="13" />
