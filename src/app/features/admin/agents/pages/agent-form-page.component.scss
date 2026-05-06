@@ -84,6 +84,46 @@
   gap: var(--sc-spacing-400);
 }
 
+.identity-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: var(--sc-spacing-400);
+}
+
+.language-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-150);
+  /* Reserve a row so toggling chips doesn't shift the section that follows */
+  min-height: 32px;
+  margin-top: var(--sc-spacing-200);
+}
+
+.language-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-150);
+  padding: var(--sc-spacing-100) var(--sc-spacing-250);
+  border: 1px solid var(--sc-border-default);
+  background: var(--sc-bg-elevated, #fff);
+  font-size: var(--sc-font-size-100);
+  color: var(--sc-text-primary);
+
+  &__remove {
+    border: 0;
+    background: transparent;
+    color: var(--sc-text-subtle);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      color: var(--sc-text-primary);
+    }
+  }
+}
+
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

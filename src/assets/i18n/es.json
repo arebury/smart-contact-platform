@@ -41,6 +41,19 @@
     "draft_created": "Borrador creado «{{name}}»",
     "draft_removed": "Borrador eliminado",
     "presence_changed": "Presencia de {{name}} → {{status}}",
+    "photo": {
+      "select": "Seleccionar foto",
+      "change": "Cambiar foto",
+      "remove": "Eliminar foto",
+      "hint": "JPG, GIF o PNG. Max 800k",
+      "invalid_type": "Formato no válido. Usa JPG, PNG o GIF.",
+      "too_large": "La imagen supera los 800 KB."
+    },
+    "languages": {
+      "label": "Idioma",
+      "placeholder": "Seleccionar idioma...",
+      "remove": "Quitar {{lang}}"
+    },
     "delete_dialog": {
       "title_single": "¿Eliminar {{entity}}?",
       "title_bulk": "¿Eliminar {{count}} {{entity}}?",
@@ -416,6 +429,7 @@
       "create_breadcrumb": "Nuevo usuario",
       "edit_breadcrumb": "Editar usuario",
       "section": {
+        "summary": "Resumen de perfil",
         "identity": "Identidad",
         "identity_hint": "Datos básicos y rol del usuario",
         "sections": "Secciones",
@@ -424,6 +438,12 @@
         "permissions_hint": "Acciones avanzadas que el usuario puede realizar",
         "services": "Servicios asignados",
         "services_hint": "Servicios VUI bajo supervisión del usuario"
+      },
+      "summary": {
+        "tab_groups": "Grupos",
+        "tab_services": "Servicios",
+        "no_groups": "No hay grupos seleccionados",
+        "no_services": "No hay servicios seleccionados"
       },
       "fields": {
         "name": "Nombre completo",
@@ -607,6 +627,8 @@
         "contact_hint": "Teléfono, email y PIN del agente",
         "channels": "Canales",
         "channels_hint": "Tipos de comunicación que puede atender",
+        "languages": "Idiomas",
+        "languages_hint": "Idiomas que domina el agente para enrutamiento",
         "groups": "Grupos asignados",
         "groups_hint": "Colas de atención en las que el agente participa",
         "permissions": "Permisos",

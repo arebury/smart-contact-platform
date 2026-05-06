@@ -1,0 +1,76 @@
+.photo-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  &__button {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border: 1px solid var(--sc-border-default);
+    border-radius: 9999px;
+    background: var(--sc-bg-subtle, #f3f4f6);
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-border-focus, #2563eb);
+      outline-offset: 2px;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__placeholder {
+    color: var(--sc-text-disabled, #d1d5db);
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgb(0 0 0 / 0.3);
+    color: #fff;
+    opacity: 0;
+    transition: opacity 120ms ease;
+
+    &--visible {
+      opacity: 1;
+    }
+  }
+
+  &__input {
+    display: none;
+  }
+
+  &__hint {
+    font-size: 11px;
+    color: var(--sc-text-disabled, #9ca3af);
+    /* Reserve space so toggling the remove link doesn't shift layout */
+    min-height: 14px;
+  }
+
+  &__remove {
+    border: 0;
+    background: transparent;
+    padding: 0;
+    font-size: 11px;
+    color: var(--sc-text-subtle, #9ca3af);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--sc-text-primary);
+    }
+  }
+}

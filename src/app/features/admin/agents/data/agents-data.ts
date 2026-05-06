@@ -134,6 +134,15 @@ export interface ExtensionOption {
   readonly type: ExtensionType;
 }
 
+export const AVAILABLE_LANGUAGES: readonly string[] = [
+  'Español',
+  'Inglés',
+  'Francés',
+  'Portugués',
+  'Alemán',
+  'Italiano',
+];
+
 export const AVAILABLE_EXTENSIONS: readonly ExtensionOption[] = [
   { number: '100', type: 'webrtc' },
   { number: '101', type: 'webrtc' },
