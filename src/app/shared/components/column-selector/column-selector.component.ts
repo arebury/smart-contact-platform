@@ -171,7 +171,14 @@ export class ColumnSelectorComponent {
 
   protected toggle(col: ColumnDef): void {
     if (col.locked) return;
-    const current = [...this.ordered()];
+    /* Resolve the current visible list via `isVisible` so the fallback
+     * default state is honoured. Without this, the first toggle on a
+     * fresh page would operate on an empty `ordered` array — clicking
+     * to UNCHECK a default-visible column would actually re-ADD it,
+     * because it wasn't in `ordered` yet. */
+    const current = this.menuItems()
+      .filter((c) => this.isVisible(c.key))
+      .map((c) => c.key);
     const idx = current.indexOf(col.key);
     if (idx >= 0) current.splice(idx, 1);
     else current.push(col.key);
@@ -186,10 +193,14 @@ export class ColumnSelectorComponent {
     if (target?.locked) return; // Don't drop above a locked row.
     moveItemInArray(items, event.previousIndex, event.currentIndex);
 
-    // Recompute the ordered-visible list from the new menu order:
-    // a key is visible iff it was already visible before the drag.
-    const wasVisible = new Set(this.ordered());
-    const next = items.filter((c) => wasVisible.has(c.key)).map((c) => c.key);
+    /* Recompute the ordered-visible list from the new menu order: a key
+     * is visible iff it was already visible before the drag. We use
+     * `isVisible` (not `this.ordered()` directly) so the fallback
+     * default-visible state on first paint is honoured — without this,
+     * dragging before the hydration effect had emitted would treat
+     * every key as "not visible" and commit an empty list, dropping
+     * every column from the table. */
+    const next = items.filter((c) => this.isVisible(c.key)).map((c) => c.key);
     this.commit(next);
   }
 
