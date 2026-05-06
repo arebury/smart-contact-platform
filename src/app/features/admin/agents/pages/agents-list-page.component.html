@@ -211,12 +211,11 @@
                             <span class="presence-edit__dot" aria-hidden="true"></span>
                             <select
                               class="presence-edit__select"
-                              [value]="presence"
                               (change)="onPresenceChange(agent, $event)"
                               [attr.aria-label]="'Cambiar presencia de ' + agent.name"
                             >
                               @for (p of presenceStates; track p) {
-                                <option [value]="p" [selected]="p === presence">
+                                <option [value]="p" [attr.selected]="p === presence ? '' : null">
                                   {{ presenceKeys[p] | translate }}
                                 </option>
                               }
@@ -269,7 +268,13 @@
                           <lucide-icon [img]="copyIcon" [size]="13" />
                           <span>{{ 'common.duplicate' | translate }}</span>
                         </button>
-                        <button type="button" role="menuitem" (click)="onRowDelete(agent)">
+                        <div class="row-menu__separator" role="separator" aria-hidden="true"></div>
+                        <button
+                          type="button"
+                          class="is-danger"
+                          role="menuitem"
+                          (click)="onRowDelete(agent)"
+                        >
                           <lucide-icon [img]="trashIcon" [size]="13" />
                           <span>{{ 'common.delete' | translate }}</span>
                         </button>
@@ -310,7 +315,8 @@
       <lucide-icon [img]="copyIcon" [size]="13" />
       <span>{{ 'common.duplicate' | translate }}</span>
     </button>
-    <button type="button" role="menuitem" (click)="onContextDelete()">
+    <div class="context-menu__separator" role="separator" aria-hidden="true"></div>
+    <button type="button" class="is-danger" role="menuitem" (click)="onContextDelete()">
       <lucide-icon [img]="trashIcon" [size]="13" />
       <span>{{ 'common.delete' | translate }}</span>
     </button>

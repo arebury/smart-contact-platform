@@ -64,17 +64,25 @@ export class CommandPaletteService {
     };
     NAV_SECTIONS.forEach((s) => walk(s.items));
 
-    /* Quick "create" actions for the entities the user manages every day. */
-    const create: ReadonlyArray<{ readonly path: string; readonly key: string }> = [
-      { path: '/admin/grupos/crear', key: 'groups.create_button' },
-      { path: '/admin/agentes/crear', key: 'agents.create_button' },
-      { path: '/admin/usuarios/crear', key: 'users.create_button' },
+    /* Quick "create" actions for the entities the user manages every
+     * day. The icon for each one mirrors the corresponding sidebar
+     * entry so the palette's visual language matches what the user
+     * already sees in the chrome — no separate icon vocabulary. */
+    const create: ReadonlyArray<{
+      readonly path: string;
+      readonly key: string;
+      readonly icon: NavIconKey;
+    }> = [
+      { path: '/admin/grupos/crear', key: 'groups.create_button', icon: 'users-round' },
+      { path: '/admin/agentes/crear', key: 'agents.create_button', icon: 'headphones' },
+      { path: '/admin/usuarios/crear', key: 'users.create_button', icon: 'user-round' },
     ];
     for (const c of create) {
       cmds.push({
         id: `action:${c.path}`,
         label: this.translate.instant(c.key),
         category: 'Acciones',
+        icon: c.icon,
         keywords: ['crear', 'nuevo'],
         action: () => void this.router.navigateByUrl(c.path),
       });
