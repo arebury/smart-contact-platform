@@ -32,53 +32,65 @@
     </ol>
   </div>
 
-  <!--
+  <div class="top-bar__trail">
+    <button
+      type="button"
+      class="top-bar__shortcut"
+      (click)="openShortcuts()"
+      [attr.aria-label]="'topbar.keyboard_shortcuts' | translate"
+      [attr.title]="'topbar.keyboard_shortcuts' | translate"
+    >
+      ?
+    </button>
+
+    <!--
     Wrapper hosts the keydown listener so Esc can close the menu from
     anywhere inside it (avatar trigger or menu items). The avatar
     `<button>` below is the real focusable target — silencing the
     a11y rule, same intentional pattern as the group-popover wrapper.
   -->
-  <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus,@angular-eslint/template/click-events-have-key-events -->
-  <div
-    class="top-bar__user"
-    (aedClickOutside)="closeUserMenu()"
-    [aedClickOutsideEnabled]="userMenuOpen()"
-    (keydown)="onMenuKeydown($event)"
-  >
-    <button
-      #avatarBtn
-      type="button"
-      class="top-bar__avatar"
-      aria-haspopup="menu"
-      [attr.aria-expanded]="userMenuOpen()"
-      (click)="toggleUserMenu()"
+    <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus,@angular-eslint/template/click-events-have-key-events -->
+    <div
+      class="top-bar__user"
+      (aedClickOutside)="closeUserMenu()"
+      [aedClickOutsideEnabled]="userMenuOpen()"
+      (keydown)="onMenuKeydown($event)"
     >
-      <lucide-icon [img]="userIcon" [size]="15" />
-    </button>
+      <button
+        #avatarBtn
+        type="button"
+        class="top-bar__avatar"
+        aria-haspopup="menu"
+        [attr.aria-expanded]="userMenuOpen()"
+        (click)="toggleUserMenu()"
+      >
+        <lucide-icon [img]="userIcon" [size]="15" />
+      </button>
 
-    @if (userMenuOpen()) {
-      <div class="top-bar__menu" role="menu">
-        <div class="top-bar__menu-header">
-          <div class="top-bar__menu-name">Mario Supervisor</div>
-          <div class="top-bar__menu-role">
-            <span class="top-bar__role-badge">{{ 'topbar.user.role_admin' | translate }}</span>
+      @if (userMenuOpen()) {
+        <div class="top-bar__menu" role="menu">
+          <div class="top-bar__menu-header">
+            <div class="top-bar__menu-name">Mario Supervisor</div>
+            <div class="top-bar__menu-role">
+              <span class="top-bar__role-badge">{{ 'topbar.user.role_admin' | translate }}</span>
+            </div>
+            <div class="top-bar__menu-phone">
+              <lucide-icon [img]="phoneIcon" [size]="12" />
+              <span>+34 917 945 449</span>
+            </div>
           </div>
-          <div class="top-bar__menu-phone">
-            <lucide-icon [img]="phoneIcon" [size]="12" />
-            <span>+34 917 945 449</span>
+          <div class="top-bar__menu-actions">
+            <button type="button" class="top-bar__menu-item" role="menuitem">
+              <lucide-icon [img]="helpIcon" [size]="15" />
+              <span>{{ 'topbar.user.help' | translate }}</span>
+            </button>
+            <button type="button" class="top-bar__menu-item" role="menuitem">
+              <lucide-icon [img]="logoutIcon" [size]="15" />
+              <span>{{ 'topbar.user.logout' | translate }}</span>
+            </button>
           </div>
         </div>
-        <div class="top-bar__menu-actions">
-          <button type="button" class="top-bar__menu-item" role="menuitem">
-            <lucide-icon [img]="helpIcon" [size]="15" />
-            <span>{{ 'topbar.user.help' | translate }}</span>
-          </button>
-          <button type="button" class="top-bar__menu-item" role="menuitem">
-            <lucide-icon [img]="logoutIcon" [size]="15" />
-            <span>{{ 'topbar.user.logout' | translate }}</span>
-          </button>
-        </div>
-      </div>
-    }
+      }
+    </div>
   </div>
 </header>

@@ -14,6 +14,7 @@ import { LucideAngularModule } from 'lucide-angular';
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { NAV_ICONS } from '../../icons/nav-icons';
 import { BreadcrumbService } from '../../services/breadcrumb.service';
+import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
 
 /**
  * TopBar — breadcrumb trail on the left, avatar with user menu on the right.
@@ -33,6 +34,7 @@ import { BreadcrumbService } from '../../services/breadcrumb.service';
 export class TopBarComponent {
   private readonly router = inject(Router);
   private readonly breadcrumbs = inject(BreadcrumbService);
+  private readonly shortcuts = inject(KeyboardShortcutsService);
 
   protected readonly trail = this.breadcrumbs.trail;
 
@@ -48,6 +50,10 @@ export class TopBarComponent {
 
   protected goToDashboard(): void {
     void this.router.navigateByUrl('/dashboard');
+  }
+
+  protected openShortcuts(): void {
+    this.shortcuts.toggle();
   }
 
   protected toggleUserMenu(): void {

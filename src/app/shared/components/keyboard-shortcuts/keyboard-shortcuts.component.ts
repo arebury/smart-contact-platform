@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component, HostListener, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { LucideAngularModule, X } from 'lucide-angular';
 
 import { CommandPaletteService } from '@core/services/command-palette.service';
+import { KeyboardShortcutsService } from '@core/services/keyboard-shortcuts.service';
 
 interface ShortcutGroup {
   readonly title: string;
@@ -29,9 +30,10 @@ interface ShortcutGroup {
 })
 export class KeyboardShortcutsComponent {
   private readonly palette = inject(CommandPaletteService);
+  private readonly shortcuts = inject(KeyboardShortcutsService);
 
   protected readonly closeIcon = X;
-  protected readonly visible = signal(false);
+  protected readonly visible = this.shortcuts.visible;
 
   protected readonly groups: readonly ShortcutGroup[] = [
     {
@@ -65,7 +67,7 @@ export class KeyboardShortcutsComponent {
      * presses Esc to dismiss panels, that takes priority. */
     if (this.visible() && event.key === 'Escape') {
       event.preventDefault();
-      this.visible.set(false);
+      this.shortcuts.close();
       return;
     }
 
@@ -76,16 +78,16 @@ export class KeyboardShortcutsComponent {
       /* Don't double up with the command palette already open. */
       if (this.palette.visible()) return;
       event.preventDefault();
-      this.visible.update((v) => !v);
+      this.shortcuts.toggle();
     }
   }
 
   protected onBackdropClick(): void {
-    this.visible.set(false);
+    this.shortcuts.close();
   }
 
   protected onClose(): void {
-    this.visible.set(false);
+    this.shortcuts.close();
   }
 }
 

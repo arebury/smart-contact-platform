@@ -931,6 +931,36 @@ input on a load-bearing UX call.
 
 ---
 
+## 38 — Factory-reset for app data is prototype-only (2026-05-06)
+
+**Decision.** The "Restaurar datos de fábrica" button in
+`/config/sistema` (`SistemaPageComponent.resetData()`) is a
+prototype-only affordance. It clears every `smartcontact_*`
+localStorage key and reloads so each store re-seeds from its
+in-code defaults. Production strips this button.
+
+**Why.** The whole app runs on `createLocalStore` — there is no
+backend, so the only "source of truth" is each store's `defaults`
+seed. A tester exploring the prototype can easily delete seed
+agents/groups/users while clicking around and end up with an empty
+list and no way back short of clearing browser storage manually.
+The button is the supported escape hatch.
+
+It deliberately does NOT clear theme, column visibility prefs, or
+any non-data UI state — only keys under the `smartcontact_` prefix.
+
+**How to roll back when production lands.** Remove the "Datos"
+section from `sistema-page.component.html`, drop `resetData()` and
+its imports from the component, delete the i18n keys under
+`config.sistema.data.*` in `assets/i18n/es.json`, and remove this
+DD entry. ~10 minutes of cleanup.
+
+**Discarded.** A `localStorage.clear()` button — too aggressive,
+would also wipe theme + column prefs that the user actively
+configured. The prefix filter keeps the action surgical.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section

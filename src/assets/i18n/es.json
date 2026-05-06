@@ -75,6 +75,7 @@
   },
   "topbar": {
     "go_to_dashboard": "Ir al dashboard",
+    "keyboard_shortcuts": "Atajos de teclado (?)",
     "user": {
       "help": "Centro de ayuda",
       "logout": "Cerrar sesión",
@@ -796,6 +797,15 @@
         "theme_light": "Claro",
         "theme_dark": "Oscuro",
         "theme_system": "Sistema"
+      },
+      "data": {
+        "title": "Datos",
+        "hint": "(prototipo)",
+        "reset_label": "Restaurar datos de fábrica",
+        "reset_hint": "Borra los cambios que hayas hecho en agentes, grupos, usuarios, etiquetas, plantillas y repositorios, y devuelve la aplicación a su estado inicial. Las preferencias de tema y de columnas se mantienen.",
+        "reset_button": "Restaurar",
+        "confirm_title": "¿Restaurar datos de fábrica?",
+        "confirm_body": "Esta acción borrará todos los cambios que hayas hecho en agentes, grupos, usuarios, etiquetas, plantillas y repositorios. La página se recargará."
       }
     }
   },

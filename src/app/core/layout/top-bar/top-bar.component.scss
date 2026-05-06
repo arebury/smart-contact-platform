@@ -105,6 +105,40 @@
     color: var(--sc-color-gray-400);
   }
 
+  &__trail {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-100);
+  }
+
+  &__shortcut {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-icon-subtle);
+    background: transparent;
+    border: 1px solid var(--sc-border-default);
+    border-radius: var(--sc-radius-100);
+    cursor: pointer;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      background: var(--sc-color-gray-100);
+      color: var(--sc-text-secondary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
   &__user {
     position: relative;
   }

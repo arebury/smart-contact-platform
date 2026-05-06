@@ -134,7 +134,7 @@
                   <td class="table__td table__td--mono">{{ agent.code }}</td>
                 }
                 <td class="table__td-name">
-                  <aed-entity-avatar [name]="agent.name" />
+                  <aed-illustrated-avatar [name]="agent.name" [photo]="agent.photo" [size]="32" />
                   @if (renamingId() === agent.id) {
                     <aed-inline-rename-cell
                       [initialValue]="agent.name"

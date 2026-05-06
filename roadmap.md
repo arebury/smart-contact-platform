@@ -148,13 +148,28 @@ a product/dev decision before going into the production codebase:
   search inputs (`main.scss → .page__search-kbd`) belongs to the same
   feature flag.
 
-- **Keyboard-shortcuts overlay (`?`)** — `<aed-keyboard-shortcuts>`,
-  same scope as the palette. Built so the prototype documents its own
-  shortcuts; same product decision applies.
+- **Keyboard-shortcuts overlay (`?`)** — `<aed-keyboard-shortcuts>` +
+  `KeyboardShortcutsService` + the visible `?` trigger button in the
+  TopBar (`top-bar.component.html → .top-bar__shortcut`). Same scope
+  as the palette. Built so the prototype documents its own shortcuts;
+  same product decision applies. If kept, the `?` button stays. If
+  dropped, also remove the trigger button from the TopBar.
 
-If either is rolled back: delete the corresponding component folder,
-remove the `<aed-…>` tag from `app.component.html`, drop the registry
-entry in `shared/components/index.ts`. The rest of the codebase is
+- **Factory-reset for app data** — `SistemaPageComponent.resetData()`
+  (the "Restaurar datos de fábrica" button in `/config/sistema`).
+  Wipes every `smartcontact_*` localStorage key and reloads so each
+  store re-seeds from its in-code defaults. Exists because the
+  prototype runs entirely on `createLocalStore`, so a tester who
+  deletes seed agents/groups/users while exploring has no
+  out-of-the-box way back. Production replaces the seed data with
+  a real backend, at which point this button stops making sense and
+  should be removed (along with its i18n keys under
+  `config.sistema.data.*`).
+
+If any of these are rolled back: delete the corresponding component
+folder, remove the `<aed-…>` tag from `app.component.html`, drop
+the registry entry in `shared/components/index.ts`, and remove the
+TopBar trigger button (`?` only). The rest of the codebase is
 unaffected.
 
 ## Known debt

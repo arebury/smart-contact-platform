@@ -52,5 +52,32 @@
         </div>
       </div>
     </section>
+
+    <section class="card">
+      <div class="card__head">
+        <span class="card__head-title">
+          {{ 'config.sistema.data.title' | translate }}
+        </span>
+        <span class="card__head-hint">
+          {{ 'config.sistema.data.hint' | translate }}
+        </span>
+      </div>
+      <div class="card__body">
+        <div class="data-row">
+          <div class="data-row__copy">
+            <span class="data-row__label">
+              {{ 'config.sistema.data.reset_label' | translate }}
+            </span>
+            <p class="data-row__hint">
+              {{ 'config.sistema.data.reset_hint' | translate }}
+            </p>
+          </div>
+          <button type="button" class="btn btn--danger" (click)="resetData()">
+            <lucide-icon [img]="resetIcon" [size]="14" />
+            <span>{{ 'config.sistema.data.reset_button' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    </section>
   </div>
 </div>
