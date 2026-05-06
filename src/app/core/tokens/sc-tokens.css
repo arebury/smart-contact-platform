@@ -418,7 +418,74 @@
   --sc-label-purple-dot: #a855f7;
 
   /* =========================================================== */
-  /* 2.7 SEMANTIC — Toast (Smart Contact design — Figma 1050:354) */
+  /* 2.7 SEMANTIC — Button (Smart Contact design — Figma 195:283)*/
+  /* =========================================================== */
+  /*
+   * Three "fills" × four "tones": primary (solid dark), secondary
+   * (subtle white), danger (solid red), each with default / hover /
+   * active / disabled. Variant-token names match the Figma layer names
+   * exactly so a future redesign maps 1:1.
+   *
+   * Subtle and text variants share the secondary geometry; only the
+   * background, border and color differ. Same padding (12px y / 16px x),
+   * same gap (8px), same radius (6px) across every variant — buttons are
+   * one canonical size.
+   */
+
+  /* Shared button geometry */
+  --sc-btn-padding-x: 16px;
+  --sc-btn-padding-y: 12px;
+  --sc-btn-gap: 8px;
+  --sc-btn-radius: 6px;
+
+  /* Primary (solid dark) */
+  --sc-btn-primary-bg: var(--sc-color-blue-700);
+  --sc-btn-primary-border: var(--sc-color-blue-700);
+  --sc-btn-primary-fg: #ffffff;
+  --sc-btn-primary-bg-hover: var(--sc-color-blue-800);
+  --sc-btn-primary-border-hover: var(--sc-color-blue-800);
+  --sc-btn-primary-bg-active: var(--sc-color-blue-900);
+  --sc-btn-primary-border-active: var(--sc-color-blue-950);
+
+  /* Primary subtle (tinted bg + accent border) */
+  --sc-btn-primary-subtle-bg: var(--sc-color-blue-50);
+  --sc-btn-primary-subtle-border: var(--sc-color-blue-200);
+  --sc-btn-primary-subtle-fg: var(--sc-color-blue-700);
+  --sc-btn-primary-subtle-bg-hover: var(--sc-color-blue-100);
+  --sc-btn-primary-subtle-bg-active: var(--sc-color-blue-200);
+
+  /* Secondary (white, gray border) */
+  --sc-btn-secondary-bg: #ffffff;
+  --sc-btn-secondary-border: var(--sc-color-blue-200);
+  --sc-btn-secondary-fg: var(--sc-color-gray-800);
+  --sc-btn-secondary-bg-hover: var(--sc-color-gray-100);
+  --sc-btn-secondary-border-hover: var(--sc-color-blue-300);
+  --sc-btn-secondary-bg-active: var(--sc-color-gray-200);
+  --sc-btn-secondary-border-active: var(--sc-color-blue-400);
+
+  /* Danger (solid red) */
+  --sc-btn-danger-bg: var(--sc-color-red-600);
+  --sc-btn-danger-border: var(--sc-color-red-600);
+  --sc-btn-danger-fg: #ffffff;
+  --sc-btn-danger-bg-hover: var(--sc-color-red-700);
+  --sc-btn-danger-border-hover: var(--sc-color-red-700);
+  --sc-btn-danger-bg-active: var(--sc-color-red-800);
+  --sc-btn-danger-border-active: var(--sc-color-red-800);
+
+  /* Danger subtle */
+  --sc-btn-danger-subtle-bg: var(--sc-color-red-50);
+  --sc-btn-danger-subtle-border: var(--sc-color-red-200);
+  --sc-btn-danger-subtle-fg: var(--sc-color-red-600);
+  --sc-btn-danger-subtle-bg-hover: var(--sc-color-red-100);
+  --sc-btn-danger-subtle-bg-active: var(--sc-color-red-200);
+
+  /* Disabled (shared across variants) */
+  --sc-btn-disabled-bg: #dadfe6;
+  --sc-btn-disabled-border: #eceff3;
+  --sc-btn-disabled-fg: #c6ccd6;
+
+  /* =========================================================== */
+  /* 2.8 SEMANTIC — Toast (Smart Contact design — Figma 1050:354) */
   /* =========================================================== */
   /*
    * Per-severity background / border / icon-square colors for the

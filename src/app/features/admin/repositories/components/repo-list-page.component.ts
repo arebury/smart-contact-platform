@@ -24,6 +24,7 @@ import { MessageService } from 'primeng/api';
 import { ClickOutsideDirective } from '@core/directives/click-outside.directive';
 import { BreadcrumbService } from '@core/services/breadcrumb.service';
 import { XlsxExportService } from '@core/services/xlsx-export.service';
+import { clampToViewport } from '@core/utils/viewport';
 import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
 import { DeleteEntityDialogComponent } from '@shared/components/delete-entity-dialog/delete-entity-dialog.component';
 import { ResultCounterComponent } from '@shared/components/result-counter/result-counter.component';
@@ -240,7 +241,8 @@ export class RepoListPageComponent<T extends RepoEntity> implements OnInit, OnDe
 
   protected onContextMenu(event: MouseEvent, itemId: number): void {
     event.preventDefault();
-    this.contextMenu.set({ x: event.clientX, y: event.clientY, itemId });
+    const { x, y } = clampToViewport(event.clientX, event.clientY);
+    this.contextMenu.set({ x, y, itemId });
   }
 
   protected closeContextMenu(): void {

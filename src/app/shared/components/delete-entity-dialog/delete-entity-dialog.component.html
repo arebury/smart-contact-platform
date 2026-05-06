@@ -71,21 +71,30 @@
       <p class="delete-entity__text">
         {{ 'common.delete_dialog.body_bulk' | translate: { entity: entityPlural() } }}
       </p>
-      <div class="delete-entity__chips">
-        @for (item of visibleItems(); track item.id) {
-          <span class="delete-entity__chip">
-            <span>{{ item.name }}</span>
-            <button
-              type="button"
-              class="delete-entity__chip-remove"
-              [attr.aria-label]="'common.remove_from_list' | translate: { name: item.name }"
-              (click)="removeChip(item.id)"
-            >
-              <lucide-icon [img]="closeIcon" [size]="10" />
-            </button>
-          </span>
-        }
-      </div>
+      @if (visibleItems().length === 0) {
+        <div class="delete-entity__empty" role="status">
+          <p>{{ 'common.delete_dialog.empty_pruned' | translate }}</p>
+          <button type="button" class="delete-entity__reset" (click)="resetChips()">
+            {{ 'common.delete_dialog.reset' | translate }}
+          </button>
+        </div>
+      } @else {
+        <div class="delete-entity__chips">
+          @for (item of visibleItems(); track item.id) {
+            <span class="delete-entity__chip">
+              <span>{{ item.name }}</span>
+              <button
+                type="button"
+                class="delete-entity__chip-remove"
+                [attr.aria-label]="'common.remove_from_list' | translate: { name: item.name }"
+                (click)="removeChip(item.id)"
+              >
+                <lucide-icon [img]="closeIcon" [size]="10" />
+              </button>
+            </span>
+          }
+        </div>
+      }
       @if (bulkFooterMessage(); as footer) {
         <p class="delete-entity__detail">{{ footer }}</p>
       }

@@ -121,11 +121,17 @@ export class DeleteEntityDialogComponent {
   protected removeChip(id: number): void {
     const next = new Set(this.visibleIds());
     next.delete(id);
-    if (next.size === 0) {
-      this.cancelled.emit();
-      return;
-    }
+    // Keep the dialog open even when the last chip is pruned. The user
+    // sees an empty-state message and Confirm stays disabled (canConfirm
+    // tracks `visibleItems().length > 0`); they can still cancel
+    // explicitly. Auto-closing here was a footgun — users lost their
+    // delete action by accident.
     this.visibleIds.set(next);
+  }
+
+  /** Re-stage every original item — recovery from "I pruned everything by accident". */
+  protected resetChips(): void {
+    this.visibleIds.set(new Set(this.items().map((item) => item.id)));
   }
 
   protected onConfirm(): void {

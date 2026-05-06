@@ -25,6 +25,7 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { BreadcrumbService, UndoStackService, XlsxExportService } from '@core/services';
+import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
   ColumnDef,
@@ -323,7 +324,8 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
 
   protected onContextMenu(event: MouseEvent, userId: number): void {
     event.preventDefault();
-    this.contextMenu.set({ x: event.clientX, y: event.clientY, userId });
+    const { x, y } = clampToViewport(event.clientX, event.clientY);
+    this.contextMenu.set({ x, y, userId });
   }
 
   protected closeContextMenu(): void {

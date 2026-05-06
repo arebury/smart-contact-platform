@@ -1,6 +1,12 @@
 <p-toast position="top-right">
   <ng-template let-message pTemplate="message">
-    <div class="aed-toast" [attr.data-severity]="message.severity ?? 'info'">
+    <div
+      class="aed-toast"
+      role="status"
+      aria-live="assertive"
+      aria-atomic="true"
+      [attr.data-severity]="message.severity ?? 'info'"
+    >
       <div class="aed-toast__icon" aria-hidden="true">
         <lucide-icon [img]="iconFor(message.severity)" [size]="14" />
       </div>

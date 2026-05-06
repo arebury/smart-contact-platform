@@ -24,6 +24,7 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { BreadcrumbService, XlsxExportService } from '@core/services';
+import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
   LabelChipComponent,
@@ -214,7 +215,8 @@ export class LabelsPageComponent implements OnInit, OnDestroy {
 
   protected onContextMenu(event: MouseEvent, labelId: number): void {
     event.preventDefault();
-    this.contextMenu.set({ x: event.clientX, y: event.clientY, labelId });
+    const { x, y } = clampToViewport(event.clientX, event.clientY);
+    this.contextMenu.set({ x, y, labelId });
   }
 
   protected closeContextMenu(): void {

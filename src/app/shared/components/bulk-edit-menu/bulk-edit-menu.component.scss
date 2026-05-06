@@ -98,36 +98,3 @@
   justify-content: flex-end;
   margin-top: var(--sc-spacing-100);
 }
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sc-spacing-100);
-  padding: var(--sc-spacing-200) var(--sc-spacing-400);
-  border: 1px solid transparent;
-  border-radius: var(--sc-radius-200);
-  font-size: var(--sc-font-size-200);
-  font-weight: var(--sc-font-weight-medium);
-  cursor: pointer;
-  transition:
-    background var(--sc-transition-fast) var(--sc-easing-default),
-    transform var(--sc-transition-base) var(--sc-easing-emphasized);
-
-  &--primary {
-    background: var(--sc-bg-primary);
-    color: var(--sc-text-on-primary);
-
-    &:hover {
-      background: var(--sc-bg-primary-hover);
-    }
-
-    &:active {
-      transform: scale(0.97);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--p-focus-ring-color);
-      outline-offset: 2px;
-    }
-  }
-}

@@ -18,12 +18,21 @@
     }
   </ol>
 
+  <!--
+    Wrapper hosts the keydown listener so Esc can close the menu from
+    anywhere inside it (avatar trigger or menu items). The avatar
+    `<button>` below is the real focusable target — silencing the
+    a11y rule, same intentional pattern as the group-popover wrapper.
+  -->
+  <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus,@angular-eslint/template/click-events-have-key-events -->
   <div
     class="top-bar__user"
     (aedClickOutside)="closeUserMenu()"
     [aedClickOutsideEnabled]="userMenuOpen()"
+    (keydown)="onMenuKeydown($event)"
   >
     <button
+      #avatarBtn
       type="button"
       class="top-bar__avatar"
       aria-haspopup="menu"
