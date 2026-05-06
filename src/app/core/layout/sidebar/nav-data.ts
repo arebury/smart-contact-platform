@@ -47,7 +47,7 @@ export const NAV_SECTIONS: readonly NavSection[] = [
           },
           {
             labelKey: 'sidebar.nodo_ia',
-            icon: 'brain-circuit',
+            icon: 'brain',
             iconSize: 14,
             path: '/nodo-ia',
           },
@@ -59,13 +59,13 @@ export const NAV_SECTIONS: readonly NavSection[] = [
           },
           {
             labelKey: 'sidebar.conversaciones',
-            icon: 'message-square',
+            icon: 'messages-square',
             iconSize: 14,
             path: '/conversaciones',
           },
           {
             labelKey: 'sidebar.estadisticas',
-            icon: 'bar-chart-3',
+            icon: 'chart-no-axes-combined',
             iconSize: 14,
             children: [
               {
@@ -76,7 +76,7 @@ export const NAV_SECTIONS: readonly NavSection[] = [
               },
               {
                 labelKey: 'sidebar.analizador',
-                icon: 'activity',
+                icon: 'route',
                 iconSize: 13,
                 path: '/analizador',
               },
@@ -84,7 +84,7 @@ export const NAV_SECTIONS: readonly NavSection[] = [
           },
           {
             labelKey: 'sidebar.scc',
-            icon: 'radio',
+            icon: 'table-2',
             iconSize: 14,
             path: '/scc',
           },
@@ -109,7 +109,7 @@ export const NAV_SECTIONS: readonly NavSection[] = [
         children: [
           {
             labelKey: 'sidebar.users',
-            icon: 'user-cog',
+            icon: 'user-round',
             iconSize: 14,
             path: '/admin/usuarios',
           },

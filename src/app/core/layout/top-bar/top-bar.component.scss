@@ -54,7 +54,10 @@
   }
 
   &__crumb-current {
-    color: var(--sc-color-gray-700);
+    /* Active crumb uses the brand "extend 700" (soft-blue-700, #328a99)
+     * so the current page reads as accented rather than just a darker
+     * gray. Matches the Figma breadcrumb spec. */
+    color: var(--sc-color-soft-blue-700);
     font-weight: var(--sc-font-weight-medium);
   }
 

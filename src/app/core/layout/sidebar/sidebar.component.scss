@@ -54,14 +54,25 @@
     --sidebar-label-opacity: 1;
   }
 
-  /* -------- Brand (isotype always visible, wordmark fades in) -------- */
+  /* -------- Brand (single canonical lockup SVG) ------------------- */
+  /*
+   * Brand uses one source SVG (`smartcontact-logo-extended.svg`,
+   * 212×56 viewBox = isotype + wordmark "SmartContact / a Digital
+   * Virgo tool"). Rendered at 40 px tall the SVG is ~151 px wide; the
+   * isotype within sits centred at viewBox-x≈28, which scales to
+   * rendered-x≈20. With the brand's 12 px left padding, the isotype
+   * lands at sidebar-x = 12 + 20 = 32 — exact centre of the 64 px
+   * collapsed gutter. When the sidebar expands, `overflow: hidden`
+   * on the `.sidebar` host stops being the limiter and the wordmark
+   * portion of the lockup becomes visible. No second image, no
+   * crossfade — one SVG is the full asset.
+   */
 
   &__brand {
     height: 64px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
     padding: 0 var(--sc-spacing-200);
     border-bottom: 1px solid rgb(255 255 255 / 0.08);
     color: inherit;
@@ -75,52 +86,11 @@
     }
   }
 
-  &__brand-isotype {
+  &__brand-lockup {
     flex-shrink: 0;
-    width: 32px;
-    height: 32px;
-    /* The collapsed sidebar is 64px; with 16px horizontal padding the
-     * isotype lands centered (16 + 32 + 16 = 64). */
-    margin-left: calc((var(--sc-sidebar-width-collapsed) - 32px) / 2 - var(--sc-spacing-200));
-    transition: margin-left var(--sc-transition-base) var(--sc-easing-emphasized);
-  }
-
-  &__brand-wordmark {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.1;
-    opacity: 0;
-    transform: translateX(-4px);
-    transition:
-      opacity var(--sc-transition-fast) var(--sc-easing-default) 60ms,
-      transform var(--sc-transition-base) var(--sc-easing-emphasized) 60ms;
-    white-space: nowrap;
-  }
-
-  &__brand-name {
-    font-size: var(--sc-font-size-300);
-    font-weight: var(--sc-font-weight-semibold);
-    letter-spacing: -0.01em;
-    color: var(--sc-color-gray-0);
-  }
-
-  &__brand-tagline {
-    margin-top: 2px;
-    font-size: var(--sc-font-size-50);
-    color: rgb(255 255 255 / 0.45);
-    letter-spacing: 0.04em;
-    font-style: italic;
-  }
-
-  &:hover &__brand-isotype,
-  &:focus-within &__brand-isotype {
-    margin-left: 0;
-  }
-
-  &:hover &__brand-wordmark,
-  &:focus-within &__brand-wordmark {
-    opacity: 1;
-    transform: translateX(0);
+    height: 40px;
+    width: auto;
+    display: block;
   }
 
   /* -------- Nav -------- */
@@ -271,8 +241,6 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sidebar,
-  .sidebar__brand-isotype,
-  .sidebar__brand-wordmark,
   .sidebar__section-title,
   .sidebar__decisions-label {
     transition: none;
