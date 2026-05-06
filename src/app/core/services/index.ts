@@ -9,6 +9,9 @@ export type { XlsxExportOptions } from './xlsx-export.service';
 export { createLocalStore } from './local-store.factory';
 export type { LocalStore, LocalStoreConfig } from './local-store.factory';
 
+export { CommandPaletteService } from './command-palette.service';
+export type { PaletteCommand } from './command-palette.service';
+
 export { ConfirmHostService } from './confirm-host.service';
 export type { ConfirmRequest } from './confirm-host.service';
 

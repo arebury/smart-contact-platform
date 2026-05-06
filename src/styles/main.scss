@@ -55,6 +55,35 @@ textarea {
 }
 
 /*
+ * Keyboard-shortcut hint inside list-page search inputs. Sits at the
+ * right edge of `.page__search` and disappears the moment the user
+ * focuses the input or starts typing — the affordance is "press ⌘K to
+ * jump anywhere" (the global command palette), not "press this to
+ * search this list."
+ */
+.page__search-kbd {
+  position: absolute;
+  right: var(--sc-spacing-200);
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--sc-font-family-primary);
+  font-size: var(--sc-font-size-50);
+  font-weight: var(--sc-font-weight-semibold);
+  letter-spacing: 0.02em;
+  padding: 2px 6px;
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-50);
+  background: var(--sc-bg-default);
+  color: var(--sc-text-subtle);
+  pointer-events: none;
+  user-select: none;
+}
+
+.page__search:focus-within .page__search-kbd {
+  display: none;
+}
+
+/*
  * Tables get a fixed layout so the column widths don't reshuffle when
  * the sort indicator (▲ / ▼) appears on a header. Per-page styles can
  * still set explicit `width:` on individual `<th>` if a column needs a

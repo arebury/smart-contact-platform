@@ -13,14 +13,21 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
 import { UndoStackService } from '@core/services';
-import { ConfirmHostComponent } from '@shared/components';
+import { CommandPaletteComponent, ConfirmHostComponent } from '@shared/components';
 
 type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'contrast';
 
 @Component({
   selector: 'aed-root',
   standalone: true,
-  imports: [ConfirmHostComponent, LucideAngularModule, RouterOutlet, ToastModule, TranslateModule],
+  imports: [
+    CommandPaletteComponent,
+    ConfirmHostComponent,
+    LucideAngularModule,
+    RouterOutlet,
+    ToastModule,
+    TranslateModule,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

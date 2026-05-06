@@ -14,6 +14,8 @@ export type { ColorDotOption } from './color-dot-picker/color-dot-picker.compone
 export { ColumnSelectorComponent } from './column-selector/column-selector.component';
 export type { ColumnDef } from './column-selector/column-selector.component';
 
+export { CommandPaletteComponent } from './command-palette/command-palette.component';
+
 export { ConfirmHostComponent } from './confirm-host/confirm-host.component';
 
 export { DeleteEntityDialogComponent } from './delete-entity-dialog/delete-entity-dialog.component';
