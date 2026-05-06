@@ -9,10 +9,12 @@
 
   &__inner {
     max-width: 960px;
+    margin: 0 auto;
     padding: var(--sc-spacing-500) var(--sc-spacing-600);
 
     &--two-col {
       max-width: 1200px;
+      margin: 0 auto;
       display: grid;
       grid-template-columns: 280px minmax(0, 1fr);
       gap: var(--sc-spacing-500);

@@ -43,10 +43,10 @@
 
   &__title {
     margin: 0;
-    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 28px;
+    font-family: var(--sc-font-family-h4);
+    font-weight: var(--sc-font-weight-h4);
+    font-size: var(--sc-font-size-h4);
+    line-height: var(--sc-line-height-h4);
     color: var(--sc-modal-title);
     /* Long titles wrap; never truncate (the user needs to read what
      * they're confirming). */
@@ -55,10 +55,10 @@
 
   &__subtitle {
     margin: 0;
-    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 22px;
+    font-family: var(--sc-font-family-body-2);
+    font-weight: var(--sc-font-weight-body-2);
+    font-size: var(--sc-font-size-body-2);
+    line-height: var(--sc-line-height-body-2);
     color: var(--sc-modal-subtitle);
   }
 

@@ -23,16 +23,19 @@
 
   &__title {
     margin: 0;
-    font-size: var(--sc-font-size-200);
-    line-height: var(--sc-line-height-220);
-    font-weight: var(--sc-font-weight-semibold);
+    font-family: var(--sc-font-family-subtitle-2);
+    font-size: var(--sc-font-size-subtitle-2);
+    line-height: var(--sc-line-height-subtitle-2);
+    font-weight: var(--sc-font-weight-subtitle-2);
     color: var(--sc-text-primary);
   }
 
   &__description {
     margin: 0;
-    font-size: var(--sc-font-size-200);
-    line-height: var(--sc-line-height-220);
+    font-family: var(--sc-font-family-body-2);
+    font-size: var(--sc-font-size-body-2);
+    line-height: var(--sc-line-height-body-2);
+    font-weight: var(--sc-font-weight-body-2);
     color: var(--sc-text-secondary);
     max-width: 72ch;
   }

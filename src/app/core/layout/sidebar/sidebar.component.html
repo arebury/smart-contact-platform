@@ -1,8 +1,16 @@
 <aside class="sidebar" aria-label="Navegación principal">
   <a class="sidebar__brand" routerLink="/" [attr.aria-label]="'app.name' | translate">
     <img
-      class="sidebar__brand-lockup"
-      src="/logos/smartcontact-logo-extended.svg"
+      class="sidebar__brand-isotype"
+      src="/logos/smartcontact-isotype-light.svg"
+      width="40"
+      height="40"
+      alt=""
+      aria-hidden="true"
+    />
+    <img
+      class="sidebar__brand-wordmark"
+      src="/logos/smartcontact-wordmark-light.svg"
       height="40"
       alt="SmartContact, a Digital Virgo tool"
     />
@@ -11,7 +19,10 @@
   <nav class="sidebar__nav">
     @for (section of sections; track trackBySectionTitle($index, section)) {
       <div class="sidebar__section">
-        <div class="sidebar__section-title">{{ section.titleKey | translate }}</div>
+        <div class="sidebar__section-slot">
+          <span class="sidebar__section-divider" aria-hidden="true"></span>
+          <span class="sidebar__section-title">{{ section.titleKey | translate }}</span>
+        </div>
         <div class="sidebar__section-items">
           @for (item of section.items; track trackByItemKey($index, item)) {
             <aed-sidebar-nav-item

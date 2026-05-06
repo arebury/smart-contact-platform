@@ -54,18 +54,15 @@
     --sidebar-label-opacity: 1;
   }
 
-  /* -------- Brand (single canonical lockup SVG) ------------------- */
+  /* -------- Brand (isotype always visible, wordmark fades in) ----- */
   /*
-   * Brand uses one source SVG (`smartcontact-logo-extended.svg`,
-   * 212×56 viewBox = isotype + wordmark "SmartContact / a Digital
-   * Virgo tool"). Rendered at 40 px tall the SVG is ~151 px wide; the
-   * isotype within sits centred at viewBox-x≈28, which scales to
-   * rendered-x≈20. With the brand's 12 px left padding, the isotype
-   * lands at sidebar-x = 12 + 20 = 32 — exact centre of the 64 px
-   * collapsed gutter. When the sidebar expands, `overflow: hidden`
-   * on the `.sidebar` host stops being the limiter and the wordmark
-   * portion of the lockup becomes visible. No second image, no
-   * crossfade — one SVG is the full asset.
+   * Two SVGs: a 40×40 isotype that's always visible (centered in the
+   * 64 px gutter when collapsed, anchored left when expanded) and a
+   * wordmark-only SVG ("SmartContact / a Digital Virgo tool") that
+   * fades to opacity 0 when the sidebar is collapsed. The wordmark
+   * also `transform: translateX(-4px)` while collapsed so the fade-in
+   * has a small slide-from-the-isotype motion when the sidebar
+   * expands.
    */
 
   &__brand {
@@ -73,6 +70,9 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
+    gap: var(--sc-spacing-200);
+    /* Padding-left is calculated to center the 40 px isotype inside
+     * the 64 px collapsed gutter: (64 - 40) / 2 = 12 = spacing-200. */
     padding: 0 var(--sc-spacing-200);
     border-bottom: 1px solid rgb(255 255 255 / 0.08);
     color: inherit;
@@ -86,11 +86,29 @@
     }
   }
 
-  &__brand-lockup {
+  &__brand-isotype {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: block;
+  }
+
+  &__brand-wordmark {
     flex-shrink: 0;
     height: 40px;
     width: auto;
     display: block;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity var(--sc-transition-fast) var(--sc-easing-default) 60ms,
+      transform var(--sc-transition-base) var(--sc-easing-emphasized) 60ms;
+  }
+
+  &:hover &__brand-wordmark,
+  &:focus-within &__brand-wordmark {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   /* -------- Nav -------- */
@@ -112,9 +130,31 @@
     flex-direction: column;
   }
 
-  &__section-title {
+  /*
+   * Section header slot: a 24-px-tall row that hosts BOTH the section
+   * title text and the inter-section divider line as siblings. They
+   * cross-fade when the sidebar's expand state changes (DD#37):
+   *
+   *   collapsed  →  divider visible (opacity 1), title hidden (opacity 0)
+   *   expanded   →  title visible, divider hidden
+   *
+   * Decoupling the divider from the title (instead of nesting it as
+   * the title's `::before`) is necessary because a child of an element
+   * with `opacity: 0` is itself invisible — without this split the
+   * line would disappear together with the title text in the very
+   * collapsed state where it's most useful.
+   */
+
+  &__section-slot {
     position: relative;
     height: 24px;
+    display: block;
+    pointer-events: none;
+  }
+
+  &__section-title {
+    position: absolute;
+    inset: 0;
     padding: 0 var(--sc-spacing-300);
     display: flex;
     align-items: center;
@@ -125,30 +165,23 @@
     color: rgb(255 255 255 / 0.3);
     opacity: 0;
     transition: opacity var(--sc-transition-fast) var(--sc-easing-default);
-    pointer-events: none;
     white-space: nowrap;
   }
 
-  /*
-   * Inter-section hairline visible only in the collapsed state. Sits in
-   * the same vertical slot the section title occupies on hover, so the
-   * two crossfade as the sidebar expands: hairline disappears instantly,
-   * title text fades in 80 ms later. Color is `--sc-color-blue-500`
-   * (the Figma divider colour `#344A70`) — readable on the blue-700
-   * sidebar background, where a faint white tint disappears. Width is
-   * inset from the sidebar edges so the line tracks the sidebar's width
-   * (40 px wide when collapsed, ~216 px when expanded). Skipped on the
-   * first section — nothing above it to separate from.
-   */
-  &__section:not(:first-child) &__section-title::before {
-    content: '';
+  &__section-divider {
     position: absolute;
     left: var(--sc-spacing-200);
     right: var(--sc-spacing-200);
     top: 50%;
     height: 1px;
     background: var(--sc-color-blue-500);
-    transition: opacity var(--sc-transition-fast) var(--sc-easing-default) 80ms;
+    opacity: 1;
+    transition: opacity var(--sc-transition-fast) var(--sc-easing-default);
+  }
+
+  /* First section has no divider — nothing above it to separate from. */
+  &__section:first-child &__section-divider {
+    display: none;
   }
 
   &:hover &__section-title,
@@ -157,8 +190,8 @@
     transition-delay: 80ms;
   }
 
-  &:hover &__section:not(:first-child) &__section-title::before,
-  &:focus-within &__section:not(:first-child) &__section-title::before {
+  &:hover &__section-divider,
+  &:focus-within &__section-divider {
     opacity: 0;
     transition-delay: 0ms;
   }
@@ -241,7 +274,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sidebar,
+  .sidebar__brand-wordmark,
   .sidebar__section-title,
+  .sidebar__section-divider,
   .sidebar__decisions-label {
     transition: none;
   }
