@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule } from 'lucide-angular';
+import { Keyboard, LucideAngularModule } from 'lucide-angular';
 
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { NAV_ICONS } from '../../icons/nav-icons';
@@ -58,6 +58,7 @@ export class TopBarComponent {
   protected readonly helpIcon = NAV_ICONS['help-circle'];
   protected readonly logoutIcon = NAV_ICONS['log-out'];
   protected readonly dashboardIcon = NAV_ICONS['layout-dashboard'];
+  protected readonly shortcutsIcon = Keyboard;
 
   protected goToDashboard(): void {
     void this.router.navigateByUrl('/dashboard');

@@ -32,69 +32,67 @@
     </ol>
   </div>
 
-  <div class="top-bar__trail">
-    <button
-      type="button"
-      class="top-bar__shortcut"
-      (click)="openShortcuts()"
-      [attr.aria-label]="'topbar.keyboard_shortcuts' | translate"
-      [attr.title]="'topbar.keyboard_shortcuts' | translate"
-    >
-      ?
-    </button>
-
-    <!--
+  <!--
     Wrapper hosts the keydown listener so Esc can close the menu from
     anywhere inside it (avatar trigger or menu items). The avatar
     `<button>` below is the real focusable target — silencing the
     a11y rule, same intentional pattern as the group-popover wrapper.
   -->
-    <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus,@angular-eslint/template/click-events-have-key-events -->
-    <div
-      class="top-bar__user"
-      (aedClickOutside)="closeUserMenu()"
-      [aedClickOutsideEnabled]="userMenuOpen()"
-      (keydown)="onMenuKeydown($event)"
+  <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus,@angular-eslint/template/click-events-have-key-events -->
+  <div
+    class="top-bar__user"
+    (aedClickOutside)="closeUserMenu()"
+    [aedClickOutsideEnabled]="userMenuOpen()"
+    (keydown)="onMenuKeydown($event)"
+  >
+    <button
+      #avatarBtn
+      type="button"
+      class="top-bar__avatar"
+      [class.top-bar__avatar--open]="userMenuOpen()"
+      aria-haspopup="menu"
+      [attr.aria-expanded]="userMenuOpen()"
+      [attr.aria-label]="userName"
+      (click)="toggleUserMenu()"
     >
-      <button
-        #avatarBtn
-        type="button"
-        class="top-bar__avatar"
-        [class.top-bar__avatar--open]="userMenuOpen()"
-        aria-haspopup="menu"
-        [attr.aria-expanded]="userMenuOpen()"
-        [attr.aria-label]="userName"
-        (click)="toggleUserMenu()"
-      >
-        <aed-illustrated-avatar [name]="userName" [size]="32" />
-        <span class="top-bar__avatar-presence" aria-hidden="true"></span>
-      </button>
+      <aed-illustrated-avatar [name]="userName" [size]="32" />
+      <span class="top-bar__avatar-presence" aria-hidden="true"></span>
+    </button>
 
-      @if (userMenuOpen()) {
-        <div class="top-bar__menu" role="menu">
-          <div class="top-bar__menu-identity">
-            <aed-illustrated-avatar [name]="userName" [size]="44" />
-            <div class="top-bar__menu-meta">
-              <span class="top-bar__menu-name">{{ userName }}</span>
-              <span class="top-bar__menu-role">
-                {{ 'topbar.user.role_admin' | translate }}
-                <span class="top-bar__menu-sep" aria-hidden="true">·</span>
-                {{ userPhone }}
-              </span>
-            </div>
-          </div>
-          <div class="top-bar__menu-actions">
-            <button type="button" class="top-bar__menu-item" role="menuitem">
-              <lucide-icon [img]="helpIcon" [size]="14" />
-              <span>{{ 'topbar.user.help' | translate }}</span>
-            </button>
-            <button type="button" class="top-bar__menu-item" role="menuitem">
-              <lucide-icon [img]="logoutIcon" [size]="14" />
-              <span>{{ 'topbar.user.logout' | translate }}</span>
-            </button>
+    @if (userMenuOpen()) {
+      <div class="top-bar__menu" role="menu">
+        <div class="top-bar__menu-identity">
+          <aed-illustrated-avatar [name]="userName" [size]="44" />
+          <div class="top-bar__menu-meta">
+            <span class="top-bar__menu-name">{{ userName }}</span>
+            <span class="top-bar__menu-role">
+              {{ 'topbar.user.role_admin' | translate }}
+              <span class="top-bar__menu-sep" aria-hidden="true">·</span>
+              {{ userPhone }}
+            </span>
           </div>
         </div>
-      }
-    </div>
+        <div class="top-bar__menu-actions">
+          <button
+            type="button"
+            class="top-bar__menu-item"
+            role="menuitem"
+            (click)="openShortcuts()"
+          >
+            <lucide-icon [img]="shortcutsIcon" [size]="14" />
+            <span>{{ 'topbar.keyboard_shortcuts' | translate }}</span>
+            <span class="top-bar__menu-kbd" aria-hidden="true">?</span>
+          </button>
+          <button type="button" class="top-bar__menu-item" role="menuitem">
+            <lucide-icon [img]="helpIcon" [size]="14" />
+            <span>{{ 'topbar.user.help' | translate }}</span>
+          </button>
+          <button type="button" class="top-bar__menu-item" role="menuitem">
+            <lucide-icon [img]="logoutIcon" [size]="14" />
+            <span>{{ 'topbar.user.logout' | translate }}</span>
+          </button>
+        </div>
+      </div>
+    }
   </div>
 </header>

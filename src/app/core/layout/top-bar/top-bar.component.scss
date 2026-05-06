@@ -5,7 +5,11 @@
 .top-bar {
   height: var(--sc-topbar-height);
   min-height: var(--sc-topbar-height);
-  padding: 0 var(--sc-spacing-400);
+  /* Right padding goes a step further than the rest because the avatar
+   * carries a hover-ring + presence dot that visually extend ~3px past
+   * its nominal circle — without the extra room the cluster looks
+   * jammed against the viewport edge. */
+  padding: 0 var(--sc-spacing-500) 0 var(--sc-spacing-400);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -105,40 +109,6 @@
     color: var(--sc-color-gray-400);
   }
 
-  &__trail {
-    display: flex;
-    align-items: center;
-    gap: var(--sc-spacing-100);
-  }
-
-  &__shortcut {
-    width: 28px;
-    height: 28px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--sc-font-size-100);
-    font-weight: var(--sc-font-weight-semibold);
-    color: var(--sc-icon-subtle);
-    background: transparent;
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-100);
-    cursor: pointer;
-    transition:
-      background var(--sc-transition-fast) var(--sc-easing-default),
-      color var(--sc-transition-fast) var(--sc-easing-default);
-
-    &:hover {
-      background: var(--sc-color-gray-100);
-      color: var(--sc-text-secondary);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--sc-color-soft-blue-500);
-      outline-offset: 2px;
-    }
-  }
-
   &__user {
     position: relative;
   }
@@ -192,9 +162,12 @@
 
   &__menu {
     position: absolute;
-    right: 0;
-    top: calc(100% + var(--sc-spacing-150));
-    width: 264px;
+    /* Drop the popover a touch off the avatar's right edge so it
+     * doesn't crowd the topbar's right padding — we want the menu
+     * to feel deliberately placed, not jammed under the trigger. */
+    right: calc(-1 * var(--sc-spacing-100));
+    top: calc(100% + var(--sc-spacing-200));
+    width: 280px;
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-300);
@@ -271,6 +244,14 @@
       color: var(--sc-icon-subtle);
     }
 
+    /* Push the trailing keyboard-hint kbd to the right edge so the
+     * shortcut menu item reads as `[icon] [label] ............ [?]` —
+     * mirrors how Linear / Vercel surface keyboard shortcuts inside
+     * their popovers. */
+    & > span:not(.top-bar__menu-kbd) {
+      flex: 1;
+    }
+
     &:hover {
       background: var(--sc-bg-default);
     }
@@ -279,6 +260,18 @@
       outline: 2px solid var(--sc-color-soft-blue-500);
       outline-offset: -2px;
     }
+  }
+
+  &__menu-kbd {
+    font-family: var(--sc-font-family-primary);
+    font-size: var(--sc-font-size-50);
+    font-weight: var(--sc-font-weight-semibold);
+    line-height: 1;
+    padding: 3px 6px;
+    border: 1px solid var(--sc-border-default);
+    border-radius: var(--sc-radius-50);
+    background: var(--sc-bg-default);
+    color: var(--sc-text-subtle);
   }
 }
 
