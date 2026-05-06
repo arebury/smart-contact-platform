@@ -184,7 +184,8 @@
     cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
-    transition: color var(--sc-transition-fast) var(--sc-easing-default),
+    transition:
+      color var(--sc-transition-fast) var(--sc-easing-default),
       background var(--sc-transition-fast) var(--sc-easing-default);
 
     &:hover {

@@ -20,13 +20,7 @@ type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'cont
 @Component({
   selector: 'aed-root',
   standalone: true,
-  imports: [
-    ConfirmHostComponent,
-    LucideAngularModule,
-    RouterOutlet,
-    ToastModule,
-    TranslateModule,
-  ],
+  imports: [ConfirmHostComponent, LucideAngularModule, RouterOutlet, ToastModule, TranslateModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

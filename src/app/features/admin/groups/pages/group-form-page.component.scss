@@ -304,7 +304,9 @@ input[type='checkbox'] {
 }
 
 .agents__droppable.cdk-drop-list-dragging .agents__list .agents__row:not(.cdk-drag-placeholder),
-.agents__droppable.cdk-drop-list-dragging .agents__list .agents__roster-row:not(.cdk-drag-placeholder) {
+.agents__droppable.cdk-drop-list-dragging
+  .agents__list
+  .agents__roster-row:not(.cdk-drag-placeholder) {
   transition: transform 200ms cubic-bezier(0, 0, 0.2, 1);
 }
 

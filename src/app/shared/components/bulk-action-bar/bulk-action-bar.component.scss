@@ -39,7 +39,8 @@
     margin-left: var(--sc-spacing-50);
     cursor: pointer;
     border-radius: var(--sc-radius-100);
-    transition: color var(--sc-transition-fast) var(--sc-easing-default),
+    transition:
+      color var(--sc-transition-fast) var(--sc-easing-default),
       background var(--sc-transition-fast) var(--sc-easing-default);
 
     &:hover {
