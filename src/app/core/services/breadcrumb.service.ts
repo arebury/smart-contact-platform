@@ -95,7 +95,15 @@ export class BreadcrumbService {
     while (route) {
       url = appendSegments(url, route);
 
-      const decl = (route.data as RouteData | undefined)?.breadcrumb;
+      /*
+       * Read from `routeConfig.data` instead of `route.data` so we see
+       * only declarations the route ITSELF makes. Angular's default
+       * `paramsInheritanceStrategy: 'emptyOnly'` merges parent `data`
+       * into empty-path children — without this guard, the parent's
+       * breadcrumb appears twice (once on the parent, once inherited
+       * by the empty-path leaf), e.g. `Admin > Grupos > Grupos`.
+       */
+      const decl = (route.routeConfig?.data as RouteData | undefined)?.breadcrumb;
       if (decl) {
         const crumbs = Array.isArray(decl) ? decl : [decl as BreadcrumbCrumb];
         for (const c of crumbs) {
