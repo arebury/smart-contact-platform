@@ -118,11 +118,13 @@
               type="text"
               class="field__input"
               [class.field__input--error]="!!errors()['name']"
+              [attr.aria-describedby]="errors()['name'] ? 'user-name-error' : null"
+              [attr.aria-invalid]="!!errors()['name']"
               [value]="form().name"
               (input)="onTextInput('name', $event)"
               autocomplete="name"
             />
-            <span class="field__error" aria-live="polite">
+            <span id="user-name-error" class="field__error" aria-live="polite">
               @if (errors()['name']; as err) {
                 {{ err | translate }}
               }
@@ -139,11 +141,13 @@
               type="email"
               class="field__input"
               [class.field__input--error]="!!errors()['email']"
+              [attr.aria-describedby]="errors()['email'] ? 'user-email-error' : null"
+              [attr.aria-invalid]="!!errors()['email']"
               [value]="form().email"
               (input)="onTextInput('email', $event)"
               autocomplete="email"
             />
-            <span class="field__error" aria-live="polite">
+            <span id="user-email-error" class="field__error" aria-live="polite">
               @if (errors()['email']; as err) {
                 {{ err | translate }}
               }
@@ -183,14 +187,11 @@
         </div>
 
         <div class="field field--inline">
-          <label class="toggle">
-            <input
-              type="checkbox"
-              [checked]="form().status === 'active'"
-              (change)="onStatusToggle($event)"
-            />
-            <span class="toggle__track"><span class="toggle__thumb"></span></span>
-          </label>
+          <aed-toggle-switch
+            [checked]="form().status === 'active'"
+            [ariaLabel]="'users.form.fields.status' | translate"
+            (checkedChange)="onStatusChange($event)"
+          />
           <div>
             <span class="field__label-inline">{{ 'users.form.fields.status' | translate }}</span>
             <span class="field__help">

@@ -20,6 +20,7 @@ import {
   DeleteEntityDialogComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
+  ToggleSwitchComponent,
 } from '@shared/components';
 import {
   CHANNEL_LABEL_KEYS,
@@ -57,6 +58,7 @@ interface FormState {
     LucideAngularModule,
     SectionCardComponent,
     StickyFormHeaderComponent,
+    ToggleSwitchComponent,
     TranslateModule,
   ],
   templateUrl: './group-form-page.component.html',
@@ -193,8 +195,8 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.updateField('chatStrategy', (event.target as HTMLSelectElement).value);
   }
 
-  protected onTypificationToggle(event: Event): void {
-    this.updateField('typification', (event.target as HTMLInputElement).checked);
+  protected onTypificationChange(checked: boolean): void {
+    this.updateField('typification', checked);
   }
 
   protected toggleChannel(channel: GroupChannel): void {

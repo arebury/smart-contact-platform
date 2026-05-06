@@ -20,6 +20,7 @@ import {
   PhotoUploadComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
+  ToggleSwitchComponent,
 } from '@shared/components';
 import { LabelsStore } from '@features/admin/labels/state/labels.store';
 import {
@@ -76,6 +77,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
     PhotoUploadComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
+    ToggleSwitchComponent,
     TranslateModule,
   ],
   templateUrl: './agent-form-page.component.html',
@@ -245,8 +247,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     return this.availableExtensions.find((e) => e.number === extension)?.type ?? null;
   }
 
-  protected onStatusToggle(event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
+  protected onStatusChange(checked: boolean): void {
     this.updateField('status', checked ? 'active' : 'inactive');
   }
 

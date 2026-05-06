@@ -33,10 +33,12 @@
             type="text"
             class="field__input"
             [class.field__input--error]="!!errors()['name']"
+            [attr.aria-describedby]="errors()['name'] ? 'group-name-error' : null"
+            [attr.aria-invalid]="!!errors()['name']"
             [value]="form().name"
             (input)="onTextInput('name', $event)"
           />
-          <span class="field__error" aria-live="polite">
+          <span id="group-name-error" class="field__error" aria-live="polite">
             @if (errors()['name']; as err) {
               {{ err | translate }}
             }
@@ -73,14 +75,11 @@
         </div>
 
         <div class="field field--inline">
-          <label class="toggle">
-            <input
-              type="checkbox"
-              [checked]="form().typification"
-              (change)="onTypificationToggle($event)"
-            />
-            <span class="toggle__track"><span class="toggle__thumb"></span></span>
-          </label>
+          <aed-toggle-switch
+            [checked]="form().typification"
+            [ariaLabel]="'groups.form.fields.typification' | translate"
+            (checkedChange)="onTypificationChange($event)"
+          />
           <div>
             <span class="field__label-inline">
               {{ 'groups.form.fields.typification' | translate }}
