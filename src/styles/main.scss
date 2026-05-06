@@ -6,6 +6,7 @@
 /* Sass `@use` rules must precede any `@import`. */
 @use 'reset';
 @use 'buttons';
+@use 'table-elements';
 
 /* Design tokens (single source of truth — see src/app/core/tokens/sc-tokens.css) */
 @import '../app/core/tokens/sc-tokens.css';

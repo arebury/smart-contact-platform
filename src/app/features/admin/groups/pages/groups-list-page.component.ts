@@ -4,10 +4,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   Copy,
   Download,
+  EllipsisVertical,
   LucideAngularModule,
   Mail,
   MessageSquare,
-  MoreHorizontal,
   Pencil,
   Phone,
   Plus,
@@ -96,7 +96,7 @@ export class GroupsListPageComponent {
   protected readonly searchIcon = Search;
   protected readonly closeIcon = X;
   protected readonly downloadIcon = Download;
-  protected readonly moreIcon = MoreHorizontal;
+  protected readonly moreIcon = EllipsisVertical;
   protected readonly editIcon = Pencil;
   protected readonly trashIcon = Trash2;
   protected readonly copyIcon = Copy;
@@ -224,6 +224,19 @@ export class GroupsListPageComponent {
     if (channel === 'phone') return this.phoneIcon;
     if (channel === 'chat') return this.chatIcon;
     return this.emailIcon;
+  }
+
+  protected priorityTone(priority: string): 'muted' | 'info' | 'warning' | 'danger' {
+    switch (priority) {
+      case 'Media':
+        return 'info';
+      case 'Alta':
+        return 'warning';
+      case 'Máxima':
+        return 'danger';
+      default:
+        return 'muted';
+    }
   }
 
   protected isColVisible(key: string): boolean {

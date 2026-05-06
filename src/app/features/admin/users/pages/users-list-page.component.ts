@@ -5,7 +5,7 @@ import {
   Copy,
   Download,
   LucideAngularModule,
-  MoreHorizontal,
+  EllipsisVertical,
   Pencil,
   Plus,
   Search,
@@ -68,7 +68,7 @@ export class UsersListPageComponent {
   protected readonly searchIcon = Search;
   protected readonly closeIcon = X;
   protected readonly downloadIcon = Download;
-  protected readonly moreIcon = MoreHorizontal;
+  protected readonly moreIcon = EllipsisVertical;
   protected readonly editIcon = Pencil;
   protected readonly trashIcon = Trash2;
   protected readonly copyIcon = Copy;

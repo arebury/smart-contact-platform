@@ -39,9 +39,15 @@
           <kbd class="page__search-kbd" aria-hidden="true">⌘K</kbd>
         }
       </div>
-      <button type="button" class="btn btn--ghost" (click)="onExport()">
-        <lucide-icon [img]="downloadIcon" [size]="13" />
-        <span>{{ 'labels.export_button' | translate }}</span>
+      <span class="sc-action-divider" aria-hidden="true"></span>
+      <button
+        type="button"
+        class="sc-icon-btn"
+        (click)="onExport()"
+        [attr.aria-label]="'labels.export_button' | translate"
+        [attr.title]="'labels.export_button' | translate"
+      >
+        <lucide-icon [img]="downloadIcon" [size]="14" />
       </button>
     </div>
 
@@ -55,7 +61,7 @@
       />
     } @else {
       <div class="table-card">
-        <table class="table">
+        <table class="table sc-table-zebra">
           <thead>
             <tr>
               <th class="table__th-check" (click)="toggleSelectAll()">
@@ -156,17 +162,24 @@
                 }
                 @if (isColVisible('channels')) {
                   <td class="table__td">
-                    <span class="channels">
+                    <span class="sc-channel-row">
                       @for (channel of agent.channels; track channel) {
-                        <span class="channels__chip">
-                          <lucide-icon [img]="channelIcon(channel)" [size]="12" />
+                        <span class="sc-channel-row__item" [attr.data-channel]="channel">
+                          <lucide-icon [img]="channelIcon(channel)" [size]="14" />
                         </span>
                       }
                     </span>
                   </td>
                 }
                 @if (isColVisible('type')) {
-                  <td class="table__td">{{ typeKeys[agent.agentType] | translate }}</td>
+                  <td class="table__td">
+                    <span
+                      class="sc-type-tag"
+                      [attr.data-emphasis]="agent.agentType === 'admin_cuscare' ? 'strong' : null"
+                    >
+                      {{ typeKeys[agent.agentType] | translate }}
+                    </span>
+                  </td>
                 }
                 @if (isColVisible('presence')) {
                   <td class="table__td">
@@ -197,7 +210,7 @@
                 @if (isColVisible('status')) {
                   <td class="table__td">
                     <span
-                      class="status-pill"
+                      class="sc-label"
                       [attr.data-tone]="agent.status === 'active' ? 'success' : 'muted'"
                     >
                       {{ 'agents.status.' + agent.status | translate }}

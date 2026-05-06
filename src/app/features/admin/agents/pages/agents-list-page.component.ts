@@ -8,7 +8,7 @@ import {
   LucideAngularModule,
   Mail,
   MessageSquare,
-  MoreHorizontal,
+  EllipsisVertical,
   Pencil,
   Phone,
   Plus,
@@ -105,7 +105,7 @@ export class AgentsListPageComponent {
   protected readonly searchIcon = Search;
   protected readonly closeIcon = X;
   protected readonly downloadIcon = Download;
-  protected readonly moreIcon = MoreHorizontal;
+  protected readonly moreIcon = EllipsisVertical;
   protected readonly editIcon = Pencil;
   protected readonly trashIcon = Trash2;
   protected readonly copyIcon = Copy;

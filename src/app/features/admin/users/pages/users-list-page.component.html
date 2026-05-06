@@ -40,9 +40,15 @@
           <kbd class="page__search-kbd" aria-hidden="true">⌘K</kbd>
         }
       </div>
-      <button type="button" class="btn btn--ghost" (click)="onExport()">
-        <lucide-icon [img]="downloadIcon" [size]="13" />
-        <span>{{ 'labels.export_button' | translate }}</span>
+      <span class="sc-action-divider" aria-hidden="true"></span>
+      <button
+        type="button"
+        class="sc-icon-btn"
+        (click)="onExport()"
+        [attr.aria-label]="'labels.export_button' | translate"
+        [attr.title]="'labels.export_button' | translate"
+      >
+        <lucide-icon [img]="downloadIcon" [size]="14" />
       </button>
     </div>
 
@@ -56,7 +62,7 @@
       />
     } @else {
       <div class="table-card">
-        <table class="table">
+        <table class="table sc-table-zebra">
           <thead>
             <tr>
               <th class="table__th-check" (click)="toggleSelectAll()">
@@ -139,12 +145,14 @@
                   <td class="table__td table__td--mono">{{ user.identifier || '—' }}</td>
                 }
                 @if (isColVisible('type')) {
-                  <td class="table__td">{{ typeLabel(user.type) }}</td>
+                  <td class="table__td">
+                    <span class="sc-type-tag">{{ typeLabel(user.type) }}</span>
+                  </td>
                 }
                 @if (isColVisible('status')) {
                   <td class="table__td">
                     <span
-                      class="status-pill"
+                      class="sc-label"
                       [attr.data-tone]="user.status === 'active' ? 'success' : 'muted'"
                     >
                       {{ 'users.status.' + user.status | translate }}
