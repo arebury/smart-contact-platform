@@ -10,6 +10,138 @@
 
 ---
 
+## 2026-05-06 · Session 5 — Mirror-eval close, design system Figma, polish pass · **MIGRATION CLOSED**
+
+**Worked on** (13 PRs merged in order — PRs #1–4 are the Session 4 block from
+earlier the same day; this entry covers PRs #5–13 plus the wrap-up.)
+
+- **Form parity** ([PR #5](https://github.com/arebury/aed/pull/5)). Closed
+  the prototype gaps the mirror-eval flagged for the long forms:
+  `<aed-photo-upload>` shared component (round avatar with hover overlay,
+  JPG/PNG/GIF up to 800 KB, "Eliminar foto" link); `AVAILABLE_LANGUAGES`
+  + multi-select chip pattern in the Agent form; two-column layout in
+  the User form with a sticky 280px summary sidebar (photo + name + email
+  / type / identifier rows + Grupos/Servicios tab strip).
+
+- **Cleanup** ([PR #6](https://github.com/arebury/aed/pull/6)). Moved
+  `AVAILABLE_GROUPS_REF` + the `AgentGroupRef` type from the Agents
+  feature to `shared/data/groups-ref.ts` so the User form stops crossing
+  feature boundaries with relative imports. Re-exported under the old
+  name for back-compat.
+
+- **List polish + toast Figma** ([PR #7](https://github.com/arebury/aed/pull/7)).
+  Three new shared primitives: `<aed-empty-state>` (centered card with
+  CTA, `min-height: 320px` so empty↔populated doesn't shift the page
+  header), `<aed-group-popover>` (count trigger that reveals 5 group
+  names + "+N más" on hover or focus, floats above the table), and
+  `<aed-result-counter>` (small footer "{N} {entity_plural} encontrados",
+  reserved row so the bulk action bar doesn't overlap). Inline
+  validation parity in the Agent form. Toast template rebuilt to match
+  the Smart Contact Figma design (tinted bg + saturated border + colored
+  square severity icon + Inter SemiBold 14/22 / 12/18); new
+  `--sc-toast-*` tokens.
+
+- **Counter wiring** ([PR #8](https://github.com/arebury/aed/pull/8)).
+  Result counter into Labels, Templates and the generic `repo-list-page`
+  (which fans out to all 9 repository instances). Refactor:
+  `entityPluralKey` (translate key) → `entityPlural` (already-translated
+  literal) so the repo-list-page can pass `config().entityPluralSpanish`
+  without registering 9 i18n keys.
+
+- **Bug-fix wave + agent labels** ([PR #9](https://github.com/arebury/aed/pull/9)).
+  Sidebar active highlight was broken because `<aed-sidebar-nav-item>`
+  used plain `@Input()`s — converted to `input()` signals so the
+  computed re-fires on route change. Toast double-X (one ours, one
+  PrimeNG's) — fixed the wrong selector (`.p-toast-icon-close` →
+  `.p-toast-close-button`). CTA click felt fuzzy — added a global
+  micro-interaction layer (100ms hover transitions, `:active { scale(0.98);
+  transition: 0 }` for tactile snap, `prefers-reduced-motion` opt-out).
+  Closed the last prototype gap: agent labels UI in the form (chip
+  picker between Channels and Groups, reuses `<aed-label-chip>`).
+
+- **Canonical button + a11y Sprint A** ([PR #10](https://github.com/arebury/aed/pull/10)).
+  Single global `.btn` system in `src/styles/_buttons.scss` matching
+  the Smart Contact Figma button (node 195:283). Three fills × four
+  states, one canonical size. Deleted the 10 per-page `.btn { … }`
+  duplications (~11 KB of SCSS). Sprint A from the UX audit: tables
+  get `table-layout: fixed`; global `:focus-visible` on inputs/selects/
+  textareas; bulk-delete dialog no longer auto-cancels on last chip
+  removal (now offers "Restaurar lista"); top-bar user menu Esc
+  closes + returns focus; context menu `clampToViewport()` helper
+  applied to all 6 list pages; toast `role="status" aria-live="assertive"`;
+  sticky form header `min(80vw, 320px)` for mobile; email regex accepts
+  `user+tag@…`. Slop removal (per /impeccable absolute_bans):
+  `.cross-tab-warning` and `<aed-sidebar-nav-item>` active state both
+  drop the side-stripe pattern for full borders / background tints.
+  `.impeccable.md` design context committed.
+
+- **Canonical modal** ([PR #11](https://github.com/arebury/aed/pull/11)).
+  `<aed-modal>` shell matching Figma 1037:34069. Three slots (header
+  rendered from inputs, body via default `<ng-content>`, footer via
+  `<ng-content select="[modal-actions]">`). Wraps PrimeNG `<p-dialog>`
+  for focus trap / ESC / mask but hides its chrome. `aria-labelledby`
+  / `aria-describedby` on stable per-instance ids. New `--sc-modal-*`
+  tokens. `<aed-delete-entity-dialog>` and `<aed-impact-preview-dialog>`
+  refactored to compose it; ~160 lines of bespoke chrome SCSS deleted
+  in the process.
+
+- **Performance fix** ([PR #12](https://github.com/arebury/aed/pull/12)).
+  Added `withPreloading(PreloadAllModules)` to the router config. Every
+  page is `loadComponent`/`loadChildren`, so without preloading each
+  navigation paid a fetch + parse cost (~50–200 ms perceived as a
+  "fuzzy" delay between click and render). With preloading the chunks
+  load in the background after the shell is interactive; subsequent
+  navigations are instant.
+
+- **Polish final pass** ([PR #13](https://github.com/arebury/aed/pull/13)).
+  `<aed-toggle-switch>` shared component replaces the 4 inline
+  `<input type="checkbox">`-styled-as-toggle duplications (real
+  `role="switch"` input). `100vh` → `100dvh` in the app shell + sidebar
+  (iOS Safari URL-bar crop fixed). A11y P2: `aria-describedby` +
+  `aria-invalid` on every error-bearing input (Users, Groups, Agents);
+  `aria-hidden` on spinner icons; `prefers-reduced-motion` opt-out for
+  the spin keyframes. Last hex hardcode (`#fff` in photo-upload) →
+  `var(--sc-color-gray-0)`.
+
+**Decisiones tomadas** (full rationale in DECISIONS.md #20–27)
+- #20 `ResultCounter` takes an already-translated literal, not a key
+- #21 Press feedback is `scale(0.98)` with zero transition (snap, not fade)
+- #22 Side-stripe borders > 1px are banned (carry-over from /impeccable)
+- #23 `.btn` is a global system; per-page `.btn` definitions are forbidden
+- #24 Bulk-delete keeps the dialog open at zero chips (auto-cancel was a footgun)
+- #25 Modal slots project via attribute selector `[modal-actions]`, not template refs
+- #26 Routes preload with `PreloadAllModules` (admin panel; navigation > initial bytes)
+- #27 Toggle switch is a real `<input type="checkbox" role="switch">`, never a button
+
+**Bloqueos / decisiones diferidas**
+- None outstanding. The audit backlog and the mirror-eval are both
+  exhausted save for items requiring real backend (skeleton screens
+  during fetch) or out-of-plan product work (the 16 placeholder routes).
+
+**Migration status: CLOSED.**
+- Functional parity with the React prototype: complete (last gap, agent
+  labels UI, closed in PR #9).
+- Smart Contact design system: applied via canonical Button (PR #10),
+  Modal (PR #11), Toast (PR #7), and Toggle Switch (PR #13). All flow
+  through `--sc-*` tokens; per-component hex was eliminated.
+- A11y: focus rings, `aria-live` on toasts and validation,
+  `aria-describedby` on errors, Esc closes overlays, viewport bounds on
+  context menus, `role="switch"` on toggles, `prefers-reduced-motion`
+  honoured by every keyframe + transform.
+- Performance: lazy chunks preload; navigation is instant after the
+  initial paint.
+- CI: green across lint, format, test, build on every PR this session.
+- **No backend integration planned** — `localStorage` via
+  `createLocalStore` stays as the persistence layer. Skeleton-loading
+  states therefore have no meaningful trigger and were intentionally
+  not built.
+
+**Queued next**
+- Nothing. Future work is product (the placeholder routes when they
+  become priorities), not migration debt.
+
+---
+
 ## 2026-05-06 · Session 4 — CI green, form-safety pass, undo stack
 
 **Worked on**

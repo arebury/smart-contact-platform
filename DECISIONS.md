@@ -402,6 +402,195 @@ main/develop on red CI" use case which was its real purpose.
 
 ---
 
+## 20 — `ResultCounter` takes an already-translated literal, not a key (2026-05-06)
+
+**Decision.** `<aed-result-counter>` declares a single `entityPlural:
+string` input. Callers translate at the binding site —
+`[entityPlural]="'agents.entity_plural' | translate"` for static
+features, `[entityPlural]="config().entityPluralSpanish"` for the
+generic `repo-list-page` whose plural name varies per repository
+instance.
+
+**Why.** Two consumer shapes — static i18n keys (Agents, Groups, Users,
+Labels, Templates) and a runtime string (the 9 repo instances each
+have their own `entityPluralSpanish` in their config). One signature
+that fits both is a literal string; the alternative would be two
+inputs (`entityPluralKey` *or* `entityPlural`) with a runtime
+"exactly-one-of" check. The component stays dumb, the caller decides
+where the string comes from.
+
+**Discarded.** Two inputs with a guard — extra surface, easy to
+mis-bind. A `TranslateModule` import inside the counter so it can
+take a key — couples a leaf component to i18n infra it doesn't need.
+
+---
+
+## 21 — Press feedback is `scale(0.98)` with zero transition (2026-05-06)
+
+**Decision.** Every `.btn`, `.empty-state__cta`, `.aed-toast__action`,
+`.rename__btn` and `.profile-tabs__tab` gets a global rule in
+`main.scss`: 100ms transitions on hover-state changes (background,
+border, color, shadow) and `:active { transform: scale(0.98);
+transition-duration: 0ms }`. `prefers-reduced-motion` removes both
+effects.
+
+**Why.** Click on a CTA used to feel "fuzzy" — a 150ms hover-fade
+that lingered as the page navigated read as lag. The press snap is
+the opposite: instant tactile feedback the moment the click lands,
+and because the transition duration is zero on `:active`, there's no
+fade-out animation racing the navigation. Hover stays soft (100ms)
+because hover *is* a continuous gesture.
+
+**Discarded.** Removing transitions entirely — hover changes look
+abrupt and unfinished. Bouncier press (`scale(0.95)`, spring easing)
+— reads as toy-like, doesn't match the calm/dense brand. Box-shadow
+press feedback — visible, but doesn't communicate the same "I
+pressed it" signal a transform does.
+
+---
+
+## 22 — Side-stripe borders > 1px are banned (2026-05-06)
+
+**Decision.** No element in the codebase uses `border-left:` or
+`border-right:` greater than 1px as a colored severity / accent
+stripe. Existing offenders (the cross-tab warning banner, the
+sidebar nav-item active state) were rewritten to use full borders +
+background tint + bold weight instead.
+
+**Why.** Carry-over from `/impeccable absolute_bans`: the side-stripe
+pattern is the single most overused "design touch" in admin and
+medical UIs, regardless of the colour or radius applied. It always
+reads as templated. Background tint + full border communicates the
+same severity hierarchy without the cliché.
+
+**Discarded.** Inset box-shadow as a "thin stripe" alternative —
+same visual outcome, same problem. Coloured icons next to the title
+without any container tint — fine for inline notices, not for
+banner-style elements that need to register as "the whole row is
+warning".
+
+---
+
+## 23 — `.btn` is a global system; per-page redefinitions forbidden (2026-05-06)
+
+**Decision.** The canonical button system lives in
+`src/styles/_buttons.scss`, imported once from `main.scss`. It defines
+`.btn` plus the `--primary / --secondary / --ghost / --danger /
+--primary-subtle / --danger-subtle / --bulk-danger / --sm / --icon`
+modifiers. Every per-page SCSS that previously declared its own
+`.btn { … }` block (10 files) has had that block deleted.
+
+**Why.** The user reported that adjacent buttons looked different
+sizes — and they were: 10 different `.btn` definitions across pages,
+each drifted slightly during their original commits. A single source
+of truth from the Smart Contact Figma (node 195:283) keeps every
+button identical no matter where it's rendered. Templates didn't
+change; the global rule just reaches them.
+
+**Discarded.** A wrapper component `<aed-btn>` — would force every
+template to migrate from `class="btn btn--primary"` to
+`<aed-btn variant="primary">`, which is more churn than the bug
+warranted. Library-style `@mixin btn-base` — same boilerplate,
+SCSS-only, harder to extend later.
+
+---
+
+## 24 — Bulk-delete dialog stays open at zero chips (2026-05-06)
+
+**Decision.** When the user prunes the last chip from
+`<aed-delete-entity-dialog>` bulk mode, the dialog no longer auto-
+cancels. Instead it shows an empty-state row ("Has descartado todos
+los elementos. Restaura la lista o cancela.") with a "Restaurar lista"
+button that re-stages the original ids. Confirm stays disabled
+because `canConfirm` reads `visibleItems().length > 0`. Same pattern
+landed in `<aed-impact-preview-dialog>` (the chip-remove button is
+template-disabled when only one item remains, so the auto-cancel
+path can't even be reached).
+
+**Why.** Auto-closing the dialog when the last chip is pruned was a
+footgun: the user was actively configuring a delete, removed an item
+they didn't mean to, and the whole action vanished. They had to start
+over from the list page. Keeping the dialog open with a recovery
+button preserves intent and matches the "destructive ops route through
+a deliberate confirm gate" rule (DD#18).
+
+**Discarded.** Disabling the chip-remove button when one chip is
+left in delete-entity (so you can't reach zero) — works for impact-
+preview but is wrong in delete-bulk where prune-and-cancel is a
+legitimate "actually I don't want to delete any of these" intent.
+The empty-state with reset preserves both flows.
+
+---
+
+## 25 — Modal slots project via attribute selector (2026-05-06)
+
+**Decision.** `<aed-modal>` projects its action row via
+`<ng-content select="[modal-actions]">`. Consumers wrap the buttons
+in a sentinel `<div modal-actions>` block inside the modal's content.
+
+**Why.** The body of a modal varies wildly per consumer (forms,
+chip lists, copy-to-confirm inputs); the action row is always a
+horizontal flex of 1–2 buttons. An attribute selector lets the
+caller put the actions block anywhere in the markup (it gets
+plucked out and rendered in the modal's footer slot) without
+forcing a `TemplateRef` import + outlet dance. Every existing
+consumer already has the buttons inline; the modal just rehomes
+them.
+
+**Discarded.** `pTemplate="footer"` template projection — same
+ergonomics as PrimeNG, requires `TemplateRef` and a separate file-
+level template ref. A second `<ng-content>` without a selector —
+ambiguous about which content is body vs footer.
+
+---
+
+## 26 — Routes preload with `PreloadAllModules` (2026-05-06)
+
+**Decision.** `provideRouter(appRoutes, ..., withPreloading(PreloadAllModules))`
+in `app.config.ts`. Every lazy chunk fetches in the background as
+soon as the shell is interactive.
+
+**Why.** The whole app is `loadComponent` / `loadChildren`. Before
+preloading, each navigation paid a fetch + parse cost on the click
+— ~50–200 ms perceived as a small lag between cursor and content.
+For an admin panel where the user navigates constantly, that delay
+is the most visible perf complaint. Preloading shifts the cost off
+the click and onto the post-paint background, which is exactly when
+the user has nothing to do anyway.
+
+**Discarded.** `QuicklinkStrategy` (only preload visible links) —
+right answer for a marketing site where most chunks won't be
+visited in a session; wrong here because the user navigates
+*everywhere*. Removing lazy loading entirely (single bundle) —
+inflates initial paint and main-thread parse for no gain on a
+client-only app of this size.
+
+---
+
+## 27 — Toggle switch is a real `<input type="checkbox" role="switch">` (2026-05-06)
+
+**Decision.** `<aed-toggle-switch>` wraps a real
+`<input type="checkbox" role="switch">` with a CSS-painted track and
+thumb on top. The visible UI is a floated absolute layer; the input
+itself fills the same box transparently so clicks, focus and form
+submission all hit the native control.
+
+**Why.** A `<button>`-based toggle has to manually wire keyboard
+support (Space toggles, Enter doesn't), screen-reader role, and form
+participation. `<input type="checkbox" role="switch">` gets all of
+that for free from the platform. The `role="switch"` override is the
+right ARIA semantics for a binary toggle (vs the default "checkbox"
+which announces "checked" instead of "on/off"). `prefers-reduced-motion`
+removes the thumb-slide animation but keeps the colour change.
+
+**Discarded.** A `<button aria-pressed="true|false">` — works but
+re-implements form association manually. Pure CSS-only with no input
+— breaks `<form>` submission. `<input type="checkbox">` *without*
+`role="switch"` — visually a switch, semantically a checkbox; screen
+readers say the wrong thing.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section
