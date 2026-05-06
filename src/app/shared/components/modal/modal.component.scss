@@ -1,0 +1,124 @@
+/*
+ * Modal card chrome. The PrimeNG `<p-dialog>` host is reset to
+ * transparent (see `:host ::ng-deep .aed-modal-host` below) so the
+ * visible chrome is entirely this `.aed-modal` block.
+ */
+.aed-modal {
+  display: flex;
+  flex-direction: column;
+  background: var(--sc-modal-bg);
+  border: 1px solid var(--sc-modal-border);
+  border-radius: var(--sc-modal-radius);
+  box-shadow: var(--sc-modal-shadow);
+  /* Cap height so very long body content scrolls inside the modal */
+  max-height: min(85vh, 720px);
+
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
+    border-bottom: 1px solid var(--sc-modal-divider);
+  }
+
+  &__head-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sc-modal-head-icon-fg);
+    /* Reserve a fixed slot so adding/removing the icon never shifts the
+     * title baseline. */
+    width: 16px;
+    height: 28px; /* matches title line-height so they align on baseline */
+  }
+
+  &__head-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--sc-modal-title);
+    /* Long titles wrap; never truncate (the user needs to read what
+     * they're confirming). */
+    word-break: break-word;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: var(--sc-modal-subtitle);
+  }
+
+  &__close {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--sc-modal-close-fg);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--sc-modal-close-bg-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
+    color: var(--sc-modal-title);
+  }
+
+  &__foot {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
+    border-top: 1px solid var(--sc-modal-divider);
+  }
+}
+
+/*
+ * PrimeNG `<p-dialog>` wraps our content in a styled container that
+ * paints its own background, border and padding. Strip those so the
+ * `.aed-modal` card we render is the only visible chrome.
+ */
+:host ::ng-deep .aed-modal-host {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+:host ::ng-deep .aed-modal-host .p-dialog-content {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+}

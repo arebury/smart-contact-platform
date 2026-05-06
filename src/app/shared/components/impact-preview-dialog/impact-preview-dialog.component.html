@@ -1,26 +1,10 @@
-<p-dialog
+<aed-modal
   [visible]="visible()"
-  [modal]="true"
-  [closable]="false"
-  [draggable]="false"
-  [resizable]="false"
-  [dismissableMask]="true"
-  [closeOnEscape]="true"
-  (visibleChange)="!$event && cancelled.emit()"
-  styleClass="aed-impact-dialog"
+  [icon]="mode() === 'duplicate' ? duplicateIcon : arrowIcon"
+  [title]="title()"
+  width="520px"
+  (cancelled)="cancelled.emit()"
 >
-  <ng-template pTemplate="header">
-    <div class="head">
-      <span class="head__icon" aria-hidden="true">
-        <lucide-icon [img]="mode() === 'duplicate' ? duplicateIcon : arrowIcon" [size]="16" />
-      </span>
-      <h2 class="head__title">{{ title() }}</h2>
-      <button type="button" class="head__close" (click)="cancelled.emit()" aria-label="Cerrar">
-        <lucide-icon [img]="closeIcon" [size]="14" />
-      </button>
-    </div>
-  </ng-template>
-
   @if (badge(); as b) {
     <div class="badge">
       <span class="badge__field">{{ b.fieldLabel }}</span>
@@ -57,19 +41,12 @@
     }
   </ul>
 
-  <ng-template pTemplate="footer">
-    <div class="foot">
-      <button type="button" class="btn btn--ghost" (click)="cancelled.emit()">
-        {{ cancelLabel() }}
-      </button>
-      <button
-        type="button"
-        class="btn btn--primary"
-        (click)="onConfirm()"
-        [disabled]="!canConfirm()"
-      >
-        {{ confirmLabel() }}
-      </button>
-    </div>
-  </ng-template>
-</p-dialog>
+  <div modal-actions>
+    <button type="button" class="btn btn--secondary" (click)="cancelled.emit()">
+      {{ cancelLabel() }}
+    </button>
+    <button type="button" class="btn btn--primary" (click)="onConfirm()" [disabled]="!canConfirm()">
+      {{ confirmLabel() }}
+    </button>
+  </div>
+</aed-modal>

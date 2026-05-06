@@ -1,0 +1,54 @@
+<p-dialog
+  [visible]="visible()"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  [showHeader]="false"
+  [dismissableMask]="false"
+  [style]="{ width: width() }"
+  styleClass="aed-modal-host"
+  (onHide)="onClose()"
+>
+  <section
+    class="aed-modal"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-labelledby]="titleId()"
+    [attr.aria-describedby]="subtitle() ? subtitleId() : null"
+  >
+    <header class="aed-modal__head">
+      @if (icon(); as ic) {
+        <div class="aed-modal__head-icon" aria-hidden="true">
+          <lucide-icon [img]="ic" [size]="16" />
+        </div>
+      }
+      <div class="aed-modal__head-text">
+        <h2 class="aed-modal__title" [id]="titleId()">{{ title() }}</h2>
+        @if (subtitle(); as sub) {
+          <p class="aed-modal__subtitle" [id]="subtitleId()">{{ sub }}</p>
+        }
+      </div>
+      @if (closable()) {
+        <button
+          type="button"
+          class="aed-modal__close"
+          [attr.aria-label]="'common.close' | translate"
+          (click)="onClose()"
+        >
+          <lucide-icon [img]="closeIcon" [size]="16" />
+        </button>
+      }
+    </header>
+
+    <div class="aed-modal__body">
+      <ng-content />
+    </div>
+
+    @if (hasFooter()) {
+      <footer class="aed-modal__foot">
+        <ng-content select="[modal-actions]" />
+      </footer>
+    }
+  </section>
+</p-dialog>
