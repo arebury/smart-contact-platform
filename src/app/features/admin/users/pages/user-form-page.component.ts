@@ -19,6 +19,7 @@ import {
   PhotoUploadComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
+  ToggleSwitchComponent,
 } from '@shared/components';
 import { AVAILABLE_GROUPS_REF } from '@shared/data/groups-ref';
 import {
@@ -62,6 +63,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
     PhotoUploadComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
+    ToggleSwitchComponent,
     TranslateModule,
   ],
   templateUrl: './user-form-page.component.html',
@@ -186,8 +188,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.updateField('type', (event.target as HTMLSelectElement).value as UserType);
   }
 
-  protected onStatusToggle(event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
+  protected onStatusChange(checked: boolean): void {
     this.updateField('status', checked ? 'active' : 'inactive');
   }
 

@@ -40,11 +40,13 @@
             type="text"
             class="field__input"
             [class.field__input--error]="!!errors()['name']"
+            [attr.aria-describedby]="errors()['name'] ? 'agent-name-error' : null"
+            [attr.aria-invalid]="!!errors()['name']"
             [value]="form().name"
             (input)="onTextInput('name', $event)"
             autocomplete="name"
           />
-          <span class="field__error" aria-live="polite">
+          <span id="agent-name-error" class="field__error" aria-live="polite">
             @if (errors()['name']; as err) {
               {{ err | translate }}
             }
@@ -76,6 +78,8 @@
             id="agent-ext"
             class="field__input"
             [class.field__input--error]="!!errors()['extension']"
+            [attr.aria-describedby]="errors()['extension'] ? 'agent-ext-error' : null"
+            [attr.aria-invalid]="!!errors()['extension']"
             [value]="form().extension"
             (change)="onExtensionChange($event)"
           >
@@ -86,7 +90,7 @@
               </option>
             }
           </select>
-          <span class="field__error" aria-live="polite">
+          <span id="agent-ext-error" class="field__error" aria-live="polite">
             @if (errors()['extension']; as err) {
               {{ err | translate }}
             }
@@ -125,14 +129,11 @@
         </div>
 
         <div class="field field--inline">
-          <label class="toggle">
-            <input
-              type="checkbox"
-              [checked]="form().status === 'active'"
-              (change)="onStatusToggle($event)"
-            />
-            <span class="toggle__track"><span class="toggle__thumb"></span></span>
-          </label>
+          <aed-toggle-switch
+            [checked]="form().status === 'active'"
+            [ariaLabel]="'agents.form.fields.status' | translate"
+            (checkedChange)="onStatusChange($event)"
+          />
           <div>
             <span class="field__label-inline">
               {{ 'agents.form.fields.status' | translate }}
@@ -175,11 +176,13 @@
             type="email"
             class="field__input"
             [class.field__input--error]="!!errors()['email']"
+            [attr.aria-describedby]="errors()['email'] ? 'agent-email-error' : null"
+            [attr.aria-invalid]="!!errors()['email']"
             [value]="form().email"
             (input)="onTextInput('email', $event)"
             autocomplete="email"
           />
-          <span class="field__error" aria-live="polite">
+          <span id="agent-email-error" class="field__error" aria-live="polite">
             @if (errors()['email']; as err) {
               {{ err | translate }}
             }
@@ -196,14 +199,20 @@
             type="text"
             class="field__input"
             [class.field__input--error]="!!errors()['pin']"
+            [attr.aria-describedby]="
+              errors()['pin'] ? 'agent-pin-error agent-pin-hint' : 'agent-pin-hint'
+            "
+            [attr.aria-invalid]="!!errors()['pin']"
             inputmode="numeric"
             maxlength="6"
             [value]="form().pin"
             (input)="onTextInput('pin', $event)"
             autocomplete="off"
           />
-          <span class="field__help">{{ 'agents.form.fields.pin_hint' | translate }}</span>
-          <span class="field__error" aria-live="polite">
+          <span id="agent-pin-hint" class="field__help">
+            {{ 'agents.form.fields.pin_hint' | translate }}
+          </span>
+          <span id="agent-pin-error" class="field__error" aria-live="polite">
             @if (errors()['pin']; as err) {
               {{ err | translate }}
             }

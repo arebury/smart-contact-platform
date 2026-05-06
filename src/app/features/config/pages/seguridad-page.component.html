@@ -58,10 +58,10 @@
               {{ 'config.seguridad.policies.special_chars_hint' | translate }}
             </p>
           </div>
-          <label class="toggle">
-            <input type="checkbox" checked />
-            <span class="toggle__track"><span class="toggle__thumb"></span></span>
-          </label>
+          <aed-toggle-switch
+            [checked]="true"
+            [ariaLabel]="'config.seguridad.policies.special_chars' | translate"
+          />
         </div>
       </div>
     </section>
@@ -213,7 +213,12 @@
                   (click)="regenerate()"
                 >
                   @if (processing()) {
-                    <lucide-icon [img]="loaderIcon" [size]="14" class="btn__spin" />
+                    <lucide-icon
+                      [img]="loaderIcon"
+                      [size]="14"
+                      class="btn__spin"
+                      [attr.aria-hidden]="true"
+                    />
                     <span>{{ 'config.seguridad.regen.processing' | translate }}</span>
                   } @else {
                     <lucide-icon [img]="keyIcon" [size]="14" />

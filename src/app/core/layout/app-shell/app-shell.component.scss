@@ -5,7 +5,9 @@
 
 .app-shell {
   display: flex;
-  height: 100vh;
+  /* `100dvh` follows the dynamic viewport — on iOS Safari the URL bar
+   * sliding up/down no longer crops the bottom row of content. */
+  height: 100dvh;
   width: 100vw;
   overflow: hidden;
 

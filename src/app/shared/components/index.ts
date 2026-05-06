@@ -41,3 +41,5 @@ export { ResultCounterComponent } from './result-counter/result-counter.componen
 export { SectionCardComponent } from './section-card/section-card.component';
 
 export { StickyFormHeaderComponent } from './sticky-form-header/sticky-form-header.component';
+
+export { ToggleSwitchComponent } from './toggle-switch/toggle-switch.component';

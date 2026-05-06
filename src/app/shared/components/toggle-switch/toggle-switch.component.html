@@ -1,0 +1,16 @@
+<label class="toggle" [class.toggle--disabled]="disabled()">
+  <input
+    type="checkbox"
+    class="toggle__input"
+    role="switch"
+    [id]="inputId"
+    [checked]="checked()"
+    [disabled]="disabled()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-labelledby]="ariaLabelledBy()"
+    (change)="onChange($event)"
+  />
+  <span class="toggle__track" aria-hidden="true">
+    <span class="toggle__thumb"></span>
+  </span>
+</label>

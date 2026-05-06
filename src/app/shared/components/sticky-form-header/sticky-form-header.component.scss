@@ -161,3 +161,12 @@
     transform: rotate(360deg);
   }
 }
+
+/* Disable the spin for users with motion sensitivity. The button label
+ * already reads "Cargando…" so the loading state stays communicated
+ * without the rotation. */
+@media (prefers-reduced-motion: reduce) {
+  .btn__spin {
+    animation: none;
+  }
+}

@@ -63,7 +63,7 @@
       (click)="save.emit()"
     >
       @if (saving()) {
-        <lucide-icon [img]="loaderIcon" [size]="13" class="btn__spin" />
+        <lucide-icon [img]="loaderIcon" [size]="13" class="btn__spin" [attr.aria-hidden]="true" />
         <span>{{ 'common.loading' | translate }}</span>
       } @else {
         <span>{{ 'common.save' | translate }}</span>

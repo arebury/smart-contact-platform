@@ -25,6 +25,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { BreadcrumbService } from '@core/services';
+import { ToggleSwitchComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 
 const CONFIRM_PHRASE = 'REGENERAR';
@@ -46,7 +47,7 @@ interface RegenerationResult {
 @Component({
   selector: 'aed-seguridad-page',
   standalone: true,
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
   templateUrl: './seguridad-page.component.html',
   styleUrl: './seguridad-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
