@@ -31,6 +31,11 @@
     "columns": "Columnas",
     "edit_field": "Editar campo",
     "preview_impact": "Previsualizar impacto",
+    "discard_title": "¿Descartar cambios?",
+    "discard_body": "Los cambios no guardados se perderán.",
+    "discard_confirm": "Descartar",
+    "discard_keep": "Seguir editando",
+    "cross_tab_warning": "Este registro está siendo editado en otra pestaña. Los cambios pueden sobrescribirse.",
     "delete_dialog": {
       "title_single": "¿Eliminar {{entity}}?",
       "title_bulk": "¿Eliminar {{count}} {{entity}}?",

@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  HostListener,
   inject,
   OnDestroy,
   OnInit,
@@ -11,7 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
-import { BreadcrumbService } from '@core/services';
+import { DirtyAware } from '@core/guards';
+import { BreadcrumbService, CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
   SectionCardComponent,
@@ -59,13 +61,14 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   styleUrl: './user-form-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserFormPageComponent implements OnInit, OnDestroy {
+export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly breadcrumbs = inject(BreadcrumbService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly usersStore = inject(UsersStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly crossTab = inject(CrossTabLockService);
 
   protected readonly userTypes = USER_TYPES;
   protected readonly typeLabelKeys = USER_TYPE_LABEL_KEYS;
@@ -79,6 +82,10 @@ export class UserFormPageComponent implements OnInit, OnDestroy {
   protected readonly errors = signal<Readonly<Record<string, string>>>({});
   protected readonly saving = signal(false);
   protected readonly deleteVisible = signal(false);
+
+  readonly formDirty = signal(false);
+  protected readonly conflictWarning = signal(false);
+  private releaseLock: (() => void) | null = null;
 
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
 
@@ -113,6 +120,9 @@ export class UserFormPageComponent implements OnInit, OnDestroy {
         groups: new Set(user.assignedGroups),
         services: new Set(user.assignedServices),
       });
+      this.releaseLock = this.crossTab.acquire('user', user.id, () =>
+        this.conflictWarning.set(true),
+      );
     }
 
     this.breadcrumbs.set([
@@ -128,9 +138,25 @@ export class UserFormPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.breadcrumbs.clear();
+    this.releaseLock?.();
+    this.releaseLock = null;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  protected onBeforeUnload(event: BeforeUnloadEvent): void {
+    if (this.formDirty() && !this.saving()) event.preventDefault();
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  protected onKeydown(event: KeyboardEvent): void {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+      event.preventDefault();
+      if (this.canSave() && !this.saving()) this.save();
+    }
   }
 
   protected updateField<K extends keyof FormState>(key: K, value: FormState[K]): void {
+    this.formDirty.set(true);
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
@@ -149,6 +175,7 @@ export class UserFormPageComponent implements OnInit, OnDestroy {
   }
 
   protected toggleSection(key: keyof UserSections): void {
+    this.formDirty.set(true);
     this.form.update((f) => ({
       ...f,
       sections: { ...f.sections, [key]: !f.sections[key] },
@@ -156,6 +183,7 @@ export class UserFormPageComponent implements OnInit, OnDestroy {
   }
 
   protected togglePermission(key: keyof UserPermissions): void {
+    this.formDirty.set(true);
     this.form.update((f) => ({
       ...f,
       permissions: { ...f.permissions, [key]: !f.permissions[key] },
@@ -163,6 +191,7 @@ export class UserFormPageComponent implements OnInit, OnDestroy {
   }
 
   protected toggleGroup(id: number): void {
+    this.formDirty.set(true);
     this.form.update((f) => {
       const next = new Set(f.groups);
       if (next.has(id)) next.delete(id);
@@ -172,6 +201,7 @@ export class UserFormPageComponent implements OnInit, OnDestroy {
   }
 
   protected toggleService(name: string): void {
+    this.formDirty.set(true);
     this.form.update((f) => {
       const next = new Set(f.services);
       if (next.has(name)) next.delete(name);
@@ -225,6 +255,7 @@ export class UserFormPageComponent implements OnInit, OnDestroy {
       }
 
       this.saving.set(false);
+      this.formDirty.set(false);
       void this.router.navigateByUrl('/admin/usuarios');
     }, 400);
   }
@@ -247,6 +278,7 @@ export class UserFormPageComponent implements OnInit, OnDestroy {
     const user = this.initial();
     this.usersStore.deleteUser(id);
     this.deleteVisible.set(false);
+    this.formDirty.set(false);
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('users.toasts.deleted_single', {

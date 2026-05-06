@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  HostListener,
   inject,
   OnDestroy,
   OnInit,
@@ -13,7 +14,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { GripVertical, LucideAngularModule, Plus, Trash2, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { BreadcrumbService } from '@core/services';
+import { DirtyAware } from '@core/guards';
+import { BreadcrumbService, CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
   SectionCardComponent,
@@ -61,13 +63,14 @@ interface FormState {
   styleUrl: './group-form-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupFormPageComponent implements OnInit, OnDestroy {
+export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly breadcrumbs = inject(BreadcrumbService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly groupsStore = inject(GroupsStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly crossTab = inject(CrossTabLockService);
 
   protected readonly priorities = GROUP_PRIORITIES;
   protected readonly priorityKeys = PRIORITY_LABEL_KEYS;
@@ -88,6 +91,10 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
   protected readonly errors = signal<Readonly<Record<string, string>>>({});
   protected readonly saving = signal(false);
   protected readonly deleteVisible = signal(false);
+
+  readonly formDirty = signal(false);
+  protected readonly conflictWarning = signal(false);
+  private releaseLock: (() => void) | null = null;
 
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
 
@@ -130,6 +137,9 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
         capacityValue: group.capacityValue ?? '',
         assignedAgents: [...group.assignedAgents],
       });
+      this.releaseLock = this.crossTab.acquire('group', group.id, () =>
+        this.conflictWarning.set(true),
+      );
     }
 
     this.breadcrumbs.set([
@@ -145,9 +155,25 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.breadcrumbs.clear();
+    this.releaseLock?.();
+    this.releaseLock = null;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  protected onBeforeUnload(event: BeforeUnloadEvent): void {
+    if (this.formDirty() && !this.saving()) event.preventDefault();
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  protected onKeydown(event: KeyboardEvent): void {
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+      event.preventDefault();
+      if (this.canSave() && !this.saving()) this.save();
+    }
   }
 
   protected updateField<K extends keyof FormState>(key: K, value: FormState[K]): void {
+    this.formDirty.set(true);
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
@@ -172,6 +198,7 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
   }
 
   protected toggleChannel(channel: GroupChannel): void {
+    this.formDirty.set(true);
     this.form.update((f) => {
       const next = new Set(f.channels);
       if (next.has(channel)) next.delete(channel);
@@ -185,12 +212,14 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
   }
 
   protected addAgent(name: string): void {
+    this.formDirty.set(true);
     this.form.update((f) =>
       f.assignedAgents.includes(name) ? f : { ...f, assignedAgents: [...f.assignedAgents, name] },
     );
   }
 
   protected removeAgent(name: string): void {
+    this.formDirty.set(true);
     this.form.update((f) => ({
       ...f,
       assignedAgents: f.assignedAgents.filter((a) => a !== name),
@@ -199,6 +228,7 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
 
   protected onAgentDrop(event: CdkDragDrop<readonly string[]>): void {
     if (event.previousIndex === event.currentIndex) return;
+    this.formDirty.set(true);
     this.form.update((f) => {
       const next = [...f.assignedAgents];
       moveItemInArray(next, event.previousIndex, event.currentIndex);
@@ -248,6 +278,7 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
         });
       }
       this.saving.set(false);
+      this.formDirty.set(false);
       void this.router.navigateByUrl('/admin/grupos');
     }, 400);
   }
@@ -270,6 +301,7 @@ export class GroupFormPageComponent implements OnInit, OnDestroy {
     const group = this.initial();
     this.groupsStore.deleteGroup(id);
     this.deleteVisible.set(false);
+    this.formDirty.set(false);
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('groups.toasts.deleted_single', {

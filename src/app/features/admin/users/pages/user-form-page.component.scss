@@ -82,8 +82,11 @@
   }
 
   &__error {
+    display: block;
+    min-height: 1.25em; /* reserve space so toggling validation doesn't shift layout */
     margin-top: var(--sc-spacing-50);
     font-size: var(--sc-font-size-50);
+    line-height: 1.25;
     color: var(--sc-text-danger);
   }
 
