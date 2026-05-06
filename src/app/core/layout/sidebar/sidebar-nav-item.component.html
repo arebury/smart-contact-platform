@@ -4,7 +4,7 @@
   [class.nav-item--active]="isActive()"
   [class.nav-item--child-active]="!isActive() && isChildActive()"
   [attr.data-depth]="depth()"
-  (click)="onClick()"
+  (click)="onClick($event)"
 >
   <lucide-icon
     class="nav-item__icon"

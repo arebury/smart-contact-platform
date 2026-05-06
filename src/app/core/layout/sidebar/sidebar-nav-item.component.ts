@@ -73,9 +73,24 @@ export class SidebarNavItemComponent implements OnInit {
     return NAV_ICONS[name];
   }
 
-  protected onClick(): void {
+  protected onClick(event: MouseEvent): void {
     if (this.hasChildren()) {
       this.expanded.update((v) => !v);
+      /*
+       * Parent click toggles expanded but doesn't navigate, so the
+       * post-`NavigationEnd` blur effect on the sidebar host never
+       * fires — without an explicit blur the focus stays on the
+       * button and the sidebar's `:focus-within` rule keeps the
+       * whole panel expanded after the cursor leaves.
+       *
+       * Only blur on a mouse activation (`event.detail > 0`).
+       * Keyboard activations (Enter / Space) come through with
+       * `detail === 0` and we keep the focus so the user can
+       * `Tab` straight into the children we just revealed.
+       */
+      if (event.detail > 0) {
+        (event.currentTarget as HTMLElement).blur();
+      }
       return;
     }
     const path = this.item().path;
