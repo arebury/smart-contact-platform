@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
 
 import { createLocalStore, LocalStore } from '@core/services';
-import { Group, GROUPS_SEED } from '../data/groups-data';
+import { Group, GROUPS_SEED, GroupChannel, GroupPriority } from '../data/groups-data';
+
+/** Fields exposed to bulk edit on the Groups list. */
+export type GroupBulkField = 'priority' | 'strategy' | 'channels';
 
 function nextCode(items: readonly Group[]): string {
   const maxN = items.reduce((max, g) => {
@@ -48,8 +51,29 @@ export class GroupsStore {
     const { id: _id, code: _code, ...rest } = source;
     return this.addGroup({
       ...rest,
-      name: `${source.name} (copia)`,
+      name: `Copia de ${source.name}`,
       isDraft: true,
     });
+  }
+
+  bulkUpdate(ids: readonly number[], field: GroupBulkField, value: unknown): void {
+    if (ids.length === 0) return;
+    const idSet = new Set(ids);
+    for (const group of this.groups()) {
+      if (!idSet.has(group.id)) continue;
+      const patch: Partial<Group> = {};
+      switch (field) {
+        case 'priority':
+          patch.priority = value as GroupPriority;
+          break;
+        case 'strategy':
+          patch.strategy = value as string;
+          break;
+        case 'channels':
+          patch.channels = value as readonly GroupChannel[];
+          break;
+      }
+      this.store.updateItem(group.id, patch);
+    }
   }
 }

@@ -142,6 +142,74 @@ tokens) for one-off label uses (over-engineering).
 
 ---
 
+## 8 — Layout shift is a defect, not a stylistic nit (2026-05-06)
+
+**Decision.** Components that toggle visibility or change state must not
+push surrounding content. Bulk action bars overlay (always-reserved
+bottom padding, `position: fixed`). Inline editors share the resting
+cell's height. Validation slots reserve `min-height` so messages appear
+*into* an allocated space.
+
+**Concretely.** Three sites refactored: list pages no longer animate
+`padding-bottom` on selection (always reserved). `InlineRenameCellComponent`
+matches name-cell line-height with `min-height: 1.6em`. Presence selector
+on Agents reserves `min-width: 96px` so the longest option label doesn't
+re-flow the row.
+
+**Why.** Visual stability is part of the "elegancia" the brand promises.
+A bar that pops in by jolting content reads cheap, even when the rest
+of the design is right.
+
+**Discarded.** Animating the shift (transform/opacity instead of layout)
+— still better than CLS but loses focus when the user is mid-interaction.
+"Just adapt to whatever happens" — only acceptable when the user explicitly
+caused new content to appear (e.g. duplicated row pinned to top).
+
+---
+
+## 9 — Inline duplicate edits the cell, not a new ghost row (2026-05-06)
+
+**Decision.** When the user duplicates an entity from the list, the store
+creates the draft (pinned to top via `isDraft`), and the list page enters
+"renaming" mode for that row's name cell only. The cell renders an
+`InlineRenameCellComponent` instead of the resting span. Cancel deletes
+the just-created draft so no orphan "Copia de …" remains.
+
+**Why.** The React prototype renders a separate ghost row below the source
+with the editable name. Replicated literally in Angular, that ghost row
+would push the rest of the table down — CLS. Editing the cell of the
+already-pinned draft preserves the same UX (autofocus, edit-and-confirm,
+toast on commit) without the shift.
+
+**Discarded.** Literal port (ghost row below source) — broke the no-CLS
+rule. "Edit only after navigating to form" — too many clicks for the
+common case of "duplicate then change one word".
+
+---
+
+## 10 — `bulkUpdate` lives on the store, `BulkEditMenu` is field-shape-agnostic (2026-05-06)
+
+**Decision.** Each domain store owns `bulkUpdate(ids, field, value)` with
+a tightly typed `XBulkField` enum. The shared `BulkEditMenuComponent`
+takes a generic `BulkEditFieldOption[]` shape and emits a `BulkEditCommit`
+event — it knows nothing about Agents, Groups, etc. The list page
+translates that commit into the domain field and opens
+`ImpactPreviewDialog` with the affected rows for the user to prune
+before commit.
+
+**Why.** Field validation lives in the store (only fields the schema
+allows). UX of "pick a field, pick a value, preview impact" is identical
+across entities, so the menu stays generic. Keeps the dialog and the
+store as separate concerns the page composes.
+
+**Discarded.** A single `BulkEditPanel` that owns both the picker and
+the dialog — reduces parent boilerplate but couples picker UX changes
+to dialog UX changes. "Inline bulk edit in the action bar" (proto-style
+dropdown that mutates immediately) — surprises the user; preview-then-confirm
+is safer and matches the destructive-action pattern.
+
+---
+
 ## How to add a new entry
 
 When a session decides something load-bearing, append a numbered section

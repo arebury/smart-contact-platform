@@ -10,6 +10,91 @@
 
 ---
 
+## 2026-05-06 · Session 3 — Bulk + duplicate parity, list polish, no-CLS pass
+
+**Worked on**
+- Cuatro primitivas compartidas nuevas en `src/app/shared/components/`:
+  `InlineRenameCellComponent` (input que reemplaza la celda nombre tras un
+  duplicate, sin layout shift) · `ColumnSelectorComponent` (popover PrimeNG
+  + persistencia versionada en `localStorage`) · `ImpactPreviewDialogComponent`
+  (preview de operación bulk con chips removibles al hover) ·
+  `BulkEditMenuComponent` (popover con field-picker → value-picker que emite
+  un `commit` para que el caller abra el impact preview).
+- `AgentsStore`: `bulkUpdate(ids, field, value)` + `updatePresence(id, p)` +
+  `duplicate` ahora marca status=inactive y prefija "Copia de …".
+- `GroupsStore`: `bulkUpdate(ids, field, value)` con priority/strategy/channels.
+- Las 3 listas (Agents / Groups / Users) cableadas con: row-click → edit
+  (arregla "no me deja entrar"), inline rename tras duplicate, column selector,
+  bulk edit + impact preview (Agents y Groups; Users mantiene paridad sin
+  bulk edit), `common.draft_badge` en lugar del namespace de Users, micro-
+  interacciones (button press scale, focus rings via `--p-focus-ring-color`,
+  draft badge animado, presence dot con halo de color tonal).
+- **No-CLS pass**: removed la transición `padding-bottom` que pushaba contenido
+  cuando aparecía el bulk action bar. Padding ahora siempre reservado; la
+  barra overlaya. Inline rename con misma altura que el span resting.
+  Validación de campos pendiente de aplicar el mismo patrón en forms.
+- Recuperados via `git cat-file -p <blob>` 4 archivos del shell que macOS
+  borró por sí solo (`app-shell.component.{ts,html,scss,spec.ts}`); más
+  duplicados " 2.ts" creados por el FS bajo presión. Disco al 95%.
+
+**Decisiones tomadas**
+- **Layout-shift-as-defect**: nueva regla de diseño persistida en memoria
+  (`feedback_no_layout_shift.md`). Bulk bars overlayan; inline editors,
+  validation slots y presence selector reservan espacio mínimo.
+- **Inline duplicate sin nueva fila**: en vez de la "fila debajo del source"
+  del prototipo (que empujaría el resto del listado hacia abajo), el draft
+  se crea normal — al pinnear arriba ya aparece como fila propia — y solo
+  la celda nombre entra en modo edit. Cancelar borra el draft para no
+  dejar "Copia de …" huérfanos.
+- **Column selector keyspace**: `sc_<entity>_columns_v1` con sufijo `_vN`
+  para invalidar prefs del usuario cuando se renombre/elimine una columna.
+- `common.draft_badge` reemplaza `users.draft_badge` (UX-audit issue).
+
+**Bloqueos / decisiones diferidas**
+- **macOS FS / disco 95%**: borrados espontáneos durante writes; bash
+  commands lentos; archivos " 2.ts" duplicados aparecen solos. El
+  `nvm install 20` + liberar disco siguen siendo prerequisitos para
+  validación local sólida.
+- **GitHub Actions** sigue rojo desde CI #1 (lint/format/test). Netlify
+  deploya OK. Auditar en una PR aparte después de esta.
+- **Mirror gap aún por cerrar** (queue siguiente).
+
+**Mirror-evaluation — qué falta del prototipo**
+Inventariado contra `docs/prototype-reference/` después de cerrar
+duplication + bulk:
+
+*List pages*
+- Result counter footer ("N agentes encontrados" — pequeño, abajo)
+- Group/Agent count popover en columna Grupos (mostrar primeros N + "+M más")
+- Frozen "Name" column visualmente sticky al hacer scroll horizontal
+- Confirmación textual en bulk delete cuando count ≥ 3 (UX-audit pending)
+
+*Form pages — paridad de secciones*
+- Cross-tab warning (entidad eliminada en otra pestaña)
+- Navigation guard con `DiscardDialog` (cambios sin guardar)
+- Atajo `Ctrl+S` para guardar
+- Validación inline on-blur con slot reservado (no shift)
+- Photo upload (Agents, Users)
+- Mini-TOC sidebar para forms largos (Agents tiene 5 secciones)
+- Sticky form header mostrando entity-type en edit mode
+- Languages multi-select en Agents
+- Sidebar resumen en User form
+
+*Cross-cutting*
+- `ToggleSwitchComponent` custom (hoy se usa `<input type="checkbox">`
+  estilizado; el prototipo tiene un switch propio)
+- Undo stack con toast actions de 8s (presence change, delete, bulk update)
+
+**Queued next**
+- PR aparte: arreglar GitHub Actions CI (`gh run view --log-failed`).
+- Iniciar el "form parity pass": cross-tab warning + nav guard + Ctrl+S
+  + inline validation con slot reservado, como infra compartida sobre las
+  3 features.
+- Implementar `ToggleSwitchComponent` y migrar los checkboxes-as-toggle
+  de los forms al nuevo componente.
+
+---
+
 ## 2026-05-05 · Session 2 — Phase 3 closes + UX audit + docs pack
 
 **Worked on**

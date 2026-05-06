@@ -24,9 +24,17 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { BreadcrumbService, XlsxExportService } from '@core/services';
-import { BulkActionBarComponent, DeleteEntityDialogComponent } from '@shared/components';
+import {
+  BulkActionBarComponent,
+  ColumnDef,
+  ColumnSelectorComponent,
+  DeleteEntityDialogComponent,
+  InlineRenameCellComponent,
+} from '@shared/components';
 import { USER_TYPE_LABEL_KEYS, User, UserType } from '../data/users-data';
 import { UsersStore } from '../state/users.store';
+
+const COLUMN_PREF_KEY = 'sc_users_columns_v1';
 
 type SortField = 'name' | 'email' | 'type' | 'identifier' | 'status';
 
@@ -42,7 +50,9 @@ interface ContextMenuPos {
   imports: [
     BulkActionBarComponent,
     ClickOutsideDirective,
+    ColumnSelectorComponent,
     DeleteEntityDialogComponent,
+    InlineRenameCellComponent,
     LucideAngularModule,
     TranslateModule,
   ],
@@ -77,6 +87,17 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
   protected readonly contextMenu = signal<ContextMenuPos | null>(null);
   protected readonly openMenuId = signal<number | null>(null);
   protected readonly deleteTarget = signal<readonly User[] | null>(null);
+  protected readonly renamingId = signal<number | null>(null);
+  protected readonly columnPrefKey = COLUMN_PREF_KEY;
+  protected readonly visibleColumns = signal<ReadonlySet<string>>(new Set());
+
+  protected readonly columnDefs = computed<readonly ColumnDef[]>(() => [
+    { key: 'name', label: this.translate.instant('users.table.name'), locked: true },
+    { key: 'email', label: this.translate.instant('users.table.email') },
+    { key: 'identifier', label: this.translate.instant('users.table.identifier') },
+    { key: 'type', label: this.translate.instant('users.table.type') },
+    { key: 'status', label: this.translate.instant('users.table.status') },
+  ]);
 
   protected readonly filtered = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
@@ -158,6 +179,16 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
     return this.translate.instant(this.typeLabelKeys[type]);
   }
 
+  protected isColVisible(key: string): boolean {
+    const set = this.visibleColumns();
+    if (set.size === 0) return true;
+    return set.has(key);
+  }
+
+  protected onColumnsChange(set: ReadonlySet<string>): void {
+    this.visibleColumns.set(set);
+  }
+
   protected toggleSort(field: SortField): void {
     if (this.sortField() === field) {
       this.sortDir.update((d) => (d === 'asc' ? 'desc' : 'asc'));
@@ -192,6 +223,11 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
     void this.router.navigateByUrl('/admin/usuarios/crear');
   }
 
+  protected onRowClick(user: User): void {
+    if (this.renamingId() === user.id) return;
+    void this.router.navigateByUrl(`/admin/usuarios/editar/${user.id}`);
+  }
+
   protected onRowEdit(user: User): void {
     this.openMenuId.set(null);
     void this.router.navigateByUrl(`/admin/usuarios/editar/${user.id}`);
@@ -201,16 +237,28 @@ export class UsersListPageComponent implements OnInit, OnDestroy {
     const draft = this.usersStore.duplicate(user.id);
     this.openMenuId.set(null);
     if (!draft) return;
-    this.messages.add({
-      severity: 'success',
-      summary: this.translate.instant('users.toasts.duplicated', { name: draft.name }),
-      life: 3000,
-    });
+    this.renamingId.set(draft.id);
   }
 
   protected onRowDelete(user: User): void {
     this.deleteTarget.set([user]);
     this.openMenuId.set(null);
+  }
+
+  protected onRenameCommit(id: number, value: string): void {
+    this.usersStore.updateUser(id, { name: value });
+    this.renamingId.set(null);
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('users.toasts.duplicated', { name: value }),
+      life: 3000,
+    });
+  }
+
+  protected onRenameCancel(id: number): void {
+    const target = this.usersStore.getUser(id);
+    this.renamingId.set(null);
+    if (target?.isDraft) this.usersStore.deleteUser(id);
   }
 
   protected requestDeleteSelection(): void {

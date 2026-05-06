@@ -1,4 +1,4 @@
-<div class="page" [class.page--has-selection]="selectedIds().size > 0">
+<div class="page">
   <div class="page__inner">
     <header class="page__header">
       <h1 class="page__title">{{ 'users.page_title' | translate }}</h1>
@@ -37,6 +37,12 @@
           </button>
         }
       </div>
+      <div class="page__action-bar-spacer"></div>
+      <aed-column-selector
+        [columns]="columnDefs()"
+        [storageKey]="columnPrefKey"
+        (visibilityChange)="onColumnsChange($event)"
+      />
     </div>
 
     <div class="table-card">
@@ -55,18 +61,26 @@
             <th class="table__th-sort" (click)="toggleSort('name')">
               {{ 'users.table.name' | translate }}
             </th>
-            <th class="table__th-sort" (click)="toggleSort('email')">
-              {{ 'users.table.email' | translate }}
-            </th>
-            <th class="table__th-sort" (click)="toggleSort('identifier')">
-              {{ 'users.table.identifier' | translate }}
-            </th>
-            <th class="table__th-sort" (click)="toggleSort('type')">
-              {{ 'users.table.type' | translate }}
-            </th>
-            <th class="table__th-sort" (click)="toggleSort('status')">
-              {{ 'users.table.status' | translate }}
-            </th>
+            @if (isColVisible('email')) {
+              <th class="table__th-sort" (click)="toggleSort('email')">
+                {{ 'users.table.email' | translate }}
+              </th>
+            }
+            @if (isColVisible('identifier')) {
+              <th class="table__th-sort" (click)="toggleSort('identifier')">
+                {{ 'users.table.identifier' | translate }}
+              </th>
+            }
+            @if (isColVisible('type')) {
+              <th class="table__th-sort" (click)="toggleSort('type')">
+                {{ 'users.table.type' | translate }}
+              </th>
+            }
+            @if (isColVisible('status')) {
+              <th class="table__th-sort" (click)="toggleSort('status')">
+                {{ 'users.table.status' | translate }}
+              </th>
+            }
             <th class="table__th-actions" aria-hidden="true"></th>
           </tr>
         </thead>
@@ -76,6 +90,8 @@
               class="table__row"
               [class.table__row--selected]="selectedIds().has(user.id)"
               [class.table__row--draft]="user.isDraft"
+              [class.table__row--clickable]="renamingId() !== user.id"
+              (click)="onRowClick(user)"
               (contextmenu)="onContextMenu($event, user.id)"
             >
               <td class="table__td-check" (click)="toggleSelect(user.id); $event.stopPropagation()">
@@ -88,23 +104,41 @@
                 />
               </td>
               <td class="table__td-name">
-                <span>{{ user.name }}</span>
-                @if (user.isDraft) {
-                  <span class="draft-badge">{{ 'users.draft_badge' | translate }}</span>
+                @if (renamingId() === user.id) {
+                  <aed-inline-rename-cell
+                    [initialValue]="user.name"
+                    placeholder="Nombre del usuario"
+                    [ariaLabel]="'Renombrar ' + user.name"
+                    (commit)="onRenameCommit(user.id, $event)"
+                    (cancel)="onRenameCancel(user.id)"
+                  />
+                } @else {
+                  <span>{{ user.name }}</span>
+                  @if (user.isDraft) {
+                    <span class="draft-badge">{{ 'common.draft_badge' | translate }}</span>
+                  }
                 }
               </td>
-              <td class="table__td">{{ user.email }}</td>
-              <td class="table__td table__td--mono">{{ user.identifier || '—' }}</td>
-              <td class="table__td">{{ typeLabel(user.type) }}</td>
-              <td class="table__td">
-                <span
-                  class="status-pill"
-                  [attr.data-tone]="user.status === 'active' ? 'success' : 'muted'"
-                >
-                  {{ 'users.status.' + user.status | translate }}
-                </span>
-              </td>
-              <td class="table__td-actions">
+              @if (isColVisible('email')) {
+                <td class="table__td">{{ user.email }}</td>
+              }
+              @if (isColVisible('identifier')) {
+                <td class="table__td table__td--mono">{{ user.identifier || '—' }}</td>
+              }
+              @if (isColVisible('type')) {
+                <td class="table__td">{{ typeLabel(user.type) }}</td>
+              }
+              @if (isColVisible('status')) {
+                <td class="table__td">
+                  <span
+                    class="status-pill"
+                    [attr.data-tone]="user.status === 'active' ? 'success' : 'muted'"
+                  >
+                    {{ 'users.status.' + user.status | translate }}
+                  </span>
+                </td>
+              }
+              <td class="table__td-actions" (click)="$event.stopPropagation()">
                 <div
                   class="row-menu"
                   (aedClickOutside)="closeRowMenu()"

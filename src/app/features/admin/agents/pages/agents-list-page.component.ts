@@ -27,14 +27,28 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { BreadcrumbService, XlsxExportService } from '@core/services';
-import { BulkActionBarComponent, DeleteEntityDialogComponent } from '@shared/components';
+import {
+  BulkActionBarComponent,
+  BulkEditCommit,
+  BulkEditFieldOption,
+  BulkEditMenuComponent,
+  ColumnDef,
+  ColumnSelectorComponent,
+  DeleteEntityDialogComponent,
+  ImpactBadge,
+  ImpactItem,
+  ImpactPreviewDialogComponent,
+  InlineRenameCellComponent,
+} from '@shared/components';
 import {
   AGENT_TYPE_LABEL_KEYS,
   Agent,
   AgentChannel,
+  AgentType,
   PRESENCE_LABEL_KEYS,
+  PresenceStatus,
 } from '../data/agents-data';
-import { AgentsStore } from '../state/agents.store';
+import { AgentBulkField, AgentsStore } from '../state/agents.store';
 
 type SortField = 'name' | 'code' | 'extension' | 'type' | 'status';
 
@@ -44,13 +58,34 @@ interface ContextMenuPos {
   readonly agentId: number;
 }
 
+interface PendingBulkEdit {
+  readonly field: AgentBulkField;
+  readonly fieldLabel: string;
+  readonly value: unknown;
+  readonly valueLabel: string;
+}
+
+const COLUMN_PREF_KEY = 'sc_agents_columns_v1';
+const AGENT_TYPES: readonly AgentType[] = ['normal', 'cuscare', 'cuscare_carrier', 'admin_cuscare'];
+const PRESENCE_STATES: readonly PresenceStatus[] = [
+  'disponible',
+  'no_disponible',
+  'bano',
+  'comida',
+  'formacion',
+];
+
 @Component({
   selector: 'aed-agents-list-page',
   standalone: true,
   imports: [
     BulkActionBarComponent,
+    BulkEditMenuComponent,
     ClickOutsideDirective,
+    ColumnSelectorComponent,
     DeleteEntityDialogComponent,
+    ImpactPreviewDialogComponent,
+    InlineRenameCellComponent,
     LucideAngularModule,
     TranslateModule,
   ],
@@ -80,6 +115,7 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
 
   protected readonly typeKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
+  protected readonly presenceStates = PRESENCE_STATES;
   protected readonly agents = this.agentsStore.agents;
 
   protected readonly searchQuery = signal('');
@@ -89,6 +125,56 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
   protected readonly contextMenu = signal<ContextMenuPos | null>(null);
   protected readonly openMenuId = signal<number | null>(null);
   protected readonly deleteTarget = signal<readonly Agent[] | null>(null);
+  protected readonly renamingId = signal<number | null>(null);
+  protected readonly pendingBulkEdit = signal<PendingBulkEdit | null>(null);
+  protected readonly columnPrefKey = COLUMN_PREF_KEY;
+  protected readonly visibleColumns = signal<ReadonlySet<string>>(new Set());
+
+  protected readonly columnDefs = computed<readonly ColumnDef[]>(() => [
+    { key: 'code', label: this.translate.instant('agents.table.code') },
+    { key: 'name', label: this.translate.instant('agents.table.name'), locked: true },
+    { key: 'extension', label: this.translate.instant('agents.table.extension') },
+    { key: 'channels', label: this.translate.instant('agents.table.channels') },
+    { key: 'type', label: this.translate.instant('agents.table.type') },
+    { key: 'presence', label: this.translate.instant('agents.table.presence') },
+    { key: 'status', label: this.translate.instant('agents.table.status') },
+    { key: 'groups', label: this.translate.instant('agents.table.groups') },
+  ]);
+
+  protected readonly bulkEditFields = computed<readonly BulkEditFieldOption[]>(() => [
+    {
+      key: 'status',
+      label: this.translate.instant('agents.table.status'),
+      values: [
+        { value: 'active', label: this.translate.instant('agents.status.active') },
+        { value: 'inactive', label: this.translate.instant('agents.status.inactive') },
+      ],
+    },
+    {
+      key: 'presenceStatus',
+      label: this.translate.instant('agents.table.presence'),
+      values: PRESENCE_STATES.map((p) => ({
+        value: p,
+        label: this.translate.instant(this.presenceKeys[p]),
+      })),
+    },
+    {
+      key: 'agentType',
+      label: this.translate.instant('agents.table.type'),
+      values: AGENT_TYPES.map((t) => ({
+        value: t,
+        label: this.translate.instant(this.typeKeys[t]),
+      })),
+    },
+    {
+      key: 'recording',
+      label: this.translate.instant('agents.permission.recording'),
+      values: [
+        { value: 'true', label: this.translate.instant('common.yes') },
+        { value: 'false', label: this.translate.instant('common.no') },
+      ],
+    },
+  ]);
 
   protected readonly filtered = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
@@ -150,6 +236,19 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
     suffixPlural: 'seleccionados',
   } as const;
 
+  protected readonly impactItems = computed<readonly ImpactItem[]>(() => {
+    const ids = this.selectedIds();
+    return this.agents()
+      .filter((a) => ids.has(a.id))
+      .map((a) => ({ id: a.id, name: a.name, hint: `(ext. ${a.extension || '—'})` }));
+  });
+
+  protected readonly impactBadge = computed<ImpactBadge | null>(() => {
+    const op = this.pendingBulkEdit();
+    if (!op) return null;
+    return { fieldLabel: op.fieldLabel, newValueLabel: op.valueLabel };
+  });
+
   ngOnInit(): void {
     this.breadcrumbs.set([
       { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
@@ -165,6 +264,18 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
     if (channel === 'phone') return this.phoneIcon;
     if (channel === 'chat') return this.chatIcon;
     return this.emailIcon;
+  }
+
+  protected isColVisible(key: string): boolean {
+    const set = this.visibleColumns();
+    // Until the ColumnSelector emits its first value the set is empty —
+    // render every column so the table never appears collapsed.
+    if (set.size === 0) return true;
+    return set.has(key);
+  }
+
+  protected onColumnsChange(set: ReadonlySet<string>): void {
+    this.visibleColumns.set(set);
   }
 
   protected toggleSort(field: SortField): void {
@@ -201,6 +312,12 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
     void this.router.navigateByUrl('/admin/agentes/crear');
   }
 
+  /** Row-body click → enter edit. Ignored if user is renaming this row. */
+  protected onRowClick(agent: Agent): void {
+    if (this.renamingId() === agent.id) return;
+    void this.router.navigateByUrl(`/admin/agentes/editar/${agent.id}`);
+  }
+
   protected onRowEdit(agent: Agent): void {
     this.openMenuId.set(null);
     void this.router.navigateByUrl(`/admin/agentes/editar/${agent.id}`);
@@ -210,11 +327,9 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
     const draft = this.agentsStore.duplicate(agent.id);
     this.openMenuId.set(null);
     if (!draft) return;
-    this.messages.add({
-      severity: 'success',
-      summary: this.translate.instant('agents.toasts.duplicated', { name: draft.name }),
-      life: 3000,
-    });
+    // Enter inline-rename mode immediately so the user can refine the name
+    // without a router round-trip.
+    this.renamingId.set(draft.id);
   }
 
   protected onRowDelete(agent: Agent): void {
@@ -222,10 +337,61 @@ export class AgentsListPageComponent implements OnInit, OnDestroy {
     this.openMenuId.set(null);
   }
 
+  protected onRenameCommit(id: number, value: string): void {
+    this.agentsStore.updateAgent(id, { name: value });
+    this.renamingId.set(null);
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('agents.toasts.duplicated', { name: value }),
+      life: 3000,
+    });
+  }
+
+  /** Cancel the inline rename — also drops the just-created draft so the user
+   * doesn't end up with a stray "Copia de …" they didn't want. */
+  protected onRenameCancel(id: number): void {
+    const target = this.agentsStore.getAgent(id);
+    this.renamingId.set(null);
+    if (target?.isDraft) this.agentsStore.deleteAgent(id);
+  }
+
+  protected onPresenceChange(agent: Agent, event: Event): void {
+    const value = (event.target as HTMLSelectElement).value as PresenceStatus;
+    this.agentsStore.updatePresence(agent.id, value);
+  }
+
   protected requestDeleteSelection(): void {
     const ids = this.selectedIds();
     const targets = this.agents().filter((a) => ids.has(a.id));
     if (targets.length > 0) this.deleteTarget.set(targets);
+  }
+
+  protected onBulkEditCommit(commit: BulkEditCommit): void {
+    const field = commit.fieldKey as AgentBulkField;
+    const value: unknown = field === 'recording' ? commit.value === 'true' : commit.value;
+    this.pendingBulkEdit.set({
+      field,
+      fieldLabel: commit.fieldLabel,
+      value,
+      valueLabel: commit.valueLabel,
+    });
+  }
+
+  protected onBulkPreviewConfirm(remainingIds: readonly number[]): void {
+    const op = this.pendingBulkEdit();
+    if (!op) return;
+    this.agentsStore.bulkUpdate(remainingIds, op.field, op.value);
+    this.pendingBulkEdit.set(null);
+    this.clearSelection();
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('common.bulk_updated', { count: remainingIds.length }),
+      life: 3000,
+    });
+  }
+
+  protected onBulkPreviewCancel(): void {
+    this.pendingBulkEdit.set(null);
   }
 
   protected confirmDelete(remainingIds: readonly number[] | null): void {

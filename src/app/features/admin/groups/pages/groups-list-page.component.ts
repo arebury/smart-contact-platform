@@ -27,9 +27,29 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { BreadcrumbService, XlsxExportService } from '@core/services';
-import { BulkActionBarComponent, DeleteEntityDialogComponent } from '@shared/components';
-import { CHANNEL_LABEL_KEYS, Group, GroupChannel, PRIORITY_LABEL_KEYS } from '../data/groups-data';
-import { GroupsStore } from '../state/groups.store';
+import {
+  BulkActionBarComponent,
+  BulkEditCommit,
+  BulkEditFieldOption,
+  BulkEditMenuComponent,
+  ColumnDef,
+  ColumnSelectorComponent,
+  DeleteEntityDialogComponent,
+  ImpactBadge,
+  ImpactItem,
+  ImpactPreviewDialogComponent,
+  InlineRenameCellComponent,
+} from '@shared/components';
+import {
+  CHANNEL_LABEL_KEYS,
+  CHAT_STRATEGIES,
+  GROUP_PRIORITIES,
+  Group,
+  GroupChannel,
+  PHONE_STRATEGIES,
+  PRIORITY_LABEL_KEYS,
+} from '../data/groups-data';
+import { GroupBulkField, GroupsStore } from '../state/groups.store';
 
 type SortField = 'name' | 'code' | 'priority' | 'agents' | 'strategy';
 
@@ -39,13 +59,26 @@ interface ContextMenuPos {
   readonly groupId: number;
 }
 
+interface PendingBulkEdit {
+  readonly field: GroupBulkField;
+  readonly fieldLabel: string;
+  readonly value: unknown;
+  readonly valueLabel: string;
+}
+
+const COLUMN_PREF_KEY = 'sc_groups_columns_v1';
+
 @Component({
   selector: 'aed-groups-list-page',
   standalone: true,
   imports: [
     BulkActionBarComponent,
+    BulkEditMenuComponent,
     ClickOutsideDirective,
+    ColumnSelectorComponent,
     DeleteEntityDialogComponent,
+    ImpactPreviewDialogComponent,
+    InlineRenameCellComponent,
     LucideAngularModule,
     TranslateModule,
   ],
@@ -84,6 +117,36 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
   protected readonly contextMenu = signal<ContextMenuPos | null>(null);
   protected readonly openMenuId = signal<number | null>(null);
   protected readonly deleteTarget = signal<readonly Group[] | null>(null);
+  protected readonly renamingId = signal<number | null>(null);
+  protected readonly pendingBulkEdit = signal<PendingBulkEdit | null>(null);
+  protected readonly columnPrefKey = COLUMN_PREF_KEY;
+  protected readonly visibleColumns = signal<ReadonlySet<string>>(new Set());
+
+  protected readonly columnDefs = computed<readonly ColumnDef[]>(() => [
+    { key: 'code', label: this.translate.instant('groups.table.code') },
+    { key: 'name', label: this.translate.instant('groups.table.name'), locked: true },
+    { key: 'phone', label: this.translate.instant('groups.table.phone') },
+    { key: 'channels', label: this.translate.instant('groups.table.channels') },
+    { key: 'priority', label: this.translate.instant('groups.table.priority') },
+    { key: 'strategy', label: this.translate.instant('groups.table.strategy') },
+    { key: 'agents', label: this.translate.instant('groups.table.agents') },
+  ]);
+
+  protected readonly bulkEditFields = computed<readonly BulkEditFieldOption[]>(() => [
+    {
+      key: 'priority',
+      label: this.translate.instant('groups.table.priority'),
+      values: GROUP_PRIORITIES.map((p) => ({
+        value: p,
+        label: this.translate.instant(this.priorityKeys[p]),
+      })),
+    },
+    {
+      key: 'strategy',
+      label: this.translate.instant('groups.table.strategy'),
+      values: [...PHONE_STRATEGIES, ...CHAT_STRATEGIES].map((s) => ({ value: s, label: s })),
+    },
+  ]);
 
   protected readonly filtered = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
@@ -145,6 +208,19 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
     suffixPlural: 'seleccionados',
   } as const;
 
+  protected readonly impactItems = computed<readonly ImpactItem[]>(() => {
+    const ids = this.selectedIds();
+    return this.groups()
+      .filter((g) => ids.has(g.id))
+      .map((g) => ({ id: g.id, name: g.name, hint: `(${g.assignedAgents.length} agentes)` }));
+  });
+
+  protected readonly impactBadge = computed<ImpactBadge | null>(() => {
+    const op = this.pendingBulkEdit();
+    if (!op) return null;
+    return { fieldLabel: op.fieldLabel, newValueLabel: op.valueLabel };
+  });
+
   ngOnInit(): void {
     this.breadcrumbs.set([
       { label: this.translate.instant('sidebar.administration'), path: '/admin/usuarios' },
@@ -160,6 +236,16 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
     if (channel === 'phone') return this.phoneIcon;
     if (channel === 'chat') return this.chatIcon;
     return this.emailIcon;
+  }
+
+  protected isColVisible(key: string): boolean {
+    const set = this.visibleColumns();
+    if (set.size === 0) return true;
+    return set.has(key);
+  }
+
+  protected onColumnsChange(set: ReadonlySet<string>): void {
+    this.visibleColumns.set(set);
   }
 
   protected toggleSort(field: SortField): void {
@@ -196,6 +282,11 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
     void this.router.navigateByUrl('/admin/grupos/crear');
   }
 
+  protected onRowClick(group: Group): void {
+    if (this.renamingId() === group.id) return;
+    void this.router.navigateByUrl(`/admin/grupos/editar/${group.id}`);
+  }
+
   protected onRowEdit(group: Group): void {
     this.openMenuId.set(null);
     void this.router.navigateByUrl(`/admin/grupos/editar/${group.id}`);
@@ -205,11 +296,7 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
     const draft = this.groupsStore.duplicate(group.id);
     this.openMenuId.set(null);
     if (!draft) return;
-    this.messages.add({
-      severity: 'success',
-      summary: this.translate.instant('groups.toasts.duplicated', { name: draft.name }),
-      life: 3000,
-    });
+    this.renamingId.set(draft.id);
   }
 
   protected onRowDelete(group: Group): void {
@@ -217,10 +304,52 @@ export class GroupsListPageComponent implements OnInit, OnDestroy {
     this.openMenuId.set(null);
   }
 
+  protected onRenameCommit(id: number, value: string): void {
+    this.groupsStore.updateGroup(id, { name: value });
+    this.renamingId.set(null);
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('groups.toasts.duplicated', { name: value }),
+      life: 3000,
+    });
+  }
+
+  protected onRenameCancel(id: number): void {
+    const target = this.groupsStore.getGroup(id);
+    this.renamingId.set(null);
+    if (target?.isDraft) this.groupsStore.deleteGroup(id);
+  }
+
   protected requestDeleteSelection(): void {
     const ids = this.selectedIds();
     const targets = this.groups().filter((g) => ids.has(g.id));
     if (targets.length > 0) this.deleteTarget.set(targets);
+  }
+
+  protected onBulkEditCommit(commit: BulkEditCommit): void {
+    this.pendingBulkEdit.set({
+      field: commit.fieldKey as GroupBulkField,
+      fieldLabel: commit.fieldLabel,
+      value: commit.value,
+      valueLabel: commit.valueLabel,
+    });
+  }
+
+  protected onBulkPreviewConfirm(remainingIds: readonly number[]): void {
+    const op = this.pendingBulkEdit();
+    if (!op) return;
+    this.groupsStore.bulkUpdate(remainingIds, op.field, op.value);
+    this.pendingBulkEdit.set(null);
+    this.clearSelection();
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('common.bulk_updated', { count: remainingIds.length }),
+      life: 3000,
+    });
+  }
+
+  protected onBulkPreviewCancel(): void {
+    this.pendingBulkEdit.set(null);
   }
 
   protected confirmDelete(remainingIds: readonly number[] | null): void {

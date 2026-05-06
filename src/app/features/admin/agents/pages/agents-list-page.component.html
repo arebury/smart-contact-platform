@@ -1,4 +1,4 @@
-<div class="page" [class.page--has-selection]="selectedIds().size > 0">
+<div class="page">
   <div class="page__inner">
     <header class="page__header">
       <h1 class="page__title">{{ 'agents.page_title' | translate }}</h1>
@@ -36,6 +36,12 @@
           </button>
         }
       </div>
+      <div class="page__action-bar-spacer"></div>
+      <aed-column-selector
+        [columns]="columnDefs()"
+        [storageKey]="columnPrefKey"
+        (visibilityChange)="onColumnsChange($event)"
+      />
     </div>
 
     <div class="table-card">
@@ -51,24 +57,38 @@
                 [attr.aria-label]="'labels.select_all' | translate"
               />
             </th>
-            <th class="table__th-sort" (click)="toggleSort('code')">
-              {{ 'agents.table.code' | translate }}
-            </th>
+            @if (isColVisible('code')) {
+              <th class="table__th-sort" (click)="toggleSort('code')">
+                {{ 'agents.table.code' | translate }}
+              </th>
+            }
             <th class="table__th-sort" (click)="toggleSort('name')">
               {{ 'agents.table.name' | translate }}
             </th>
-            <th class="table__th-sort" (click)="toggleSort('extension')">
-              {{ 'agents.table.extension' | translate }}
-            </th>
-            <th>{{ 'agents.table.channels' | translate }}</th>
-            <th class="table__th-sort" (click)="toggleSort('type')">
-              {{ 'agents.table.type' | translate }}
-            </th>
-            <th>{{ 'agents.table.presence' | translate }}</th>
-            <th class="table__th-sort" (click)="toggleSort('status')">
-              {{ 'agents.table.status' | translate }}
-            </th>
-            <th class="table__th-num">{{ 'agents.table.groups' | translate }}</th>
+            @if (isColVisible('extension')) {
+              <th class="table__th-sort" (click)="toggleSort('extension')">
+                {{ 'agents.table.extension' | translate }}
+              </th>
+            }
+            @if (isColVisible('channels')) {
+              <th>{{ 'agents.table.channels' | translate }}</th>
+            }
+            @if (isColVisible('type')) {
+              <th class="table__th-sort" (click)="toggleSort('type')">
+                {{ 'agents.table.type' | translate }}
+              </th>
+            }
+            @if (isColVisible('presence')) {
+              <th>{{ 'agents.table.presence' | translate }}</th>
+            }
+            @if (isColVisible('status')) {
+              <th class="table__th-sort" (click)="toggleSort('status')">
+                {{ 'agents.table.status' | translate }}
+              </th>
+            }
+            @if (isColVisible('groups')) {
+              <th class="table__th-num">{{ 'agents.table.groups' | translate }}</th>
+            }
             <th class="table__th-actions" aria-hidden="true"></th>
           </tr>
         </thead>
@@ -78,6 +98,8 @@
               class="table__row"
               [class.table__row--selected]="selectedIds().has(agent.id)"
               [class.table__row--draft]="agent.isDraft"
+              [class.table__row--clickable]="renamingId() !== agent.id"
+              (click)="onRowClick(agent)"
               (contextmenu)="onContextMenu($event, agent.id)"
             >
               <td
@@ -92,51 +114,88 @@
                   [attr.aria-label]="agent.name"
                 />
               </td>
-              <td class="table__td table__td--mono">{{ agent.code }}</td>
+              @if (isColVisible('code')) {
+                <td class="table__td table__td--mono">{{ agent.code }}</td>
+              }
               <td class="table__td-name">
-                <span>{{ agent.name }}</span>
-                @if (agent.isDraft) {
-                  <span class="draft-badge">{{ 'users.draft_badge' | translate }}</span>
-                }
-              </td>
-              <td class="table__td table__td--mono">
-                <span class="ext">
-                  {{ agent.extension }}
-                  <span class="ext__type">{{
-                    'agents.ext.' + agent.extensionType | translate
-                  }}</span>
-                </span>
-              </td>
-              <td class="table__td">
-                <span class="channels">
-                  @for (channel of agent.channels; track channel) {
-                    <span class="channels__chip">
-                      <lucide-icon [img]="channelIcon(channel)" [size]="12" />
-                    </span>
-                  }
-                </span>
-              </td>
-              <td class="table__td">{{ typeKeys[agent.agentType] | translate }}</td>
-              <td class="table__td">
-                @if (agent.presenceStatus; as presence) {
-                  <span class="presence" [attr.data-presence]="presence">
-                    <span class="presence__dot" aria-hidden="true"></span>
-                    <span>{{ presenceKeys[presence] | translate }}</span>
-                  </span>
+                @if (renamingId() === agent.id) {
+                  <aed-inline-rename-cell
+                    [initialValue]="agent.name"
+                    placeholder="Nombre del agente"
+                    [ariaLabel]="'Renombrar ' + agent.name"
+                    (commit)="onRenameCommit(agent.id, $event)"
+                    (cancel)="onRenameCancel(agent.id)"
+                  />
                 } @else {
-                  <span class="table__td--empty">—</span>
+                  <span>{{ agent.name }}</span>
+                  @if (agent.isDraft) {
+                    <span class="draft-badge">{{ 'common.draft_badge' | translate }}</span>
+                  }
                 }
               </td>
-              <td class="table__td">
-                <span
-                  class="status-pill"
-                  [attr.data-tone]="agent.status === 'active' ? 'success' : 'muted'"
-                >
-                  {{ 'agents.status.' + agent.status | translate }}
-                </span>
-              </td>
-              <td class="table__td table__td--num">{{ agent.groups.length }}</td>
-              <td class="table__td-actions">
+              @if (isColVisible('extension')) {
+                <td class="table__td table__td--mono">
+                  <span class="ext">
+                    {{ agent.extension }}
+                    <span class="ext__type">{{
+                      'agents.ext.' + agent.extensionType | translate
+                    }}</span>
+                  </span>
+                </td>
+              }
+              @if (isColVisible('channels')) {
+                <td class="table__td">
+                  <span class="channels">
+                    @for (channel of agent.channels; track channel) {
+                      <span class="channels__chip">
+                        <lucide-icon [img]="channelIcon(channel)" [size]="12" />
+                      </span>
+                    }
+                  </span>
+                </td>
+              }
+              @if (isColVisible('type')) {
+                <td class="table__td">{{ typeKeys[agent.agentType] | translate }}</td>
+              }
+              @if (isColVisible('presence')) {
+                <td class="table__td">
+                  @if (agent.presenceStatus; as presence) {
+                    <span
+                      class="presence-edit"
+                      [attr.data-presence]="presence"
+                      (click)="$event.stopPropagation()"
+                    >
+                      <span class="presence-edit__dot" aria-hidden="true"></span>
+                      <select
+                        class="presence-edit__select"
+                        [value]="presence"
+                        (change)="onPresenceChange(agent, $event)"
+                        [attr.aria-label]="'Cambiar presencia de ' + agent.name"
+                      >
+                        @for (p of presenceStates; track p) {
+                          <option [value]="p">{{ presenceKeys[p] | translate }}</option>
+                        }
+                      </select>
+                    </span>
+                  } @else {
+                    <span class="table__td--empty">—</span>
+                  }
+                </td>
+              }
+              @if (isColVisible('status')) {
+                <td class="table__td">
+                  <span
+                    class="status-pill"
+                    [attr.data-tone]="agent.status === 'active' ? 'success' : 'muted'"
+                  >
+                    {{ 'agents.status.' + agent.status | translate }}
+                  </span>
+                </td>
+              }
+              @if (isColVisible('groups')) {
+                <td class="table__td table__td--num">{{ agent.groups.length }}</td>
+              }
+              <td class="table__td-actions" (click)="$event.stopPropagation()">
                 <div
                   class="row-menu"
                   (aedClickOutside)="closeRowMenu()"
@@ -218,7 +277,22 @@
   (confirm)="confirmDelete($event)"
 />
 
+<aed-impact-preview-dialog
+  [visible]="!!pendingBulkEdit()"
+  [mode]="'bulkEdit'"
+  [title]="'Aplicar cambio a ' + selectedIds().size + ' agente(s)'"
+  [items]="impactItems()"
+  [badge]="impactBadge()"
+  (cancel)="onBulkPreviewCancel()"
+  (confirm)="onBulkPreviewConfirm($event)"
+/>
+
 <aed-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
+  <aed-bulk-edit-menu
+    [fields]="bulkEditFields()"
+    [buttonLabel]="'Editar'"
+    (commit)="onBulkEditCommit($event)"
+  />
   <button type="button" class="btn btn--bulk-danger" (click)="requestDeleteSelection()">
     {{ 'common.delete' | translate }}
   </button>

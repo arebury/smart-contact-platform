@@ -1,4 +1,4 @@
-<div class="page" [class.page--has-selection]="selectedIds().size > 0">
+<div class="page">
   <div class="page__inner">
     <header class="page__header">
       <h1 class="page__title">{{ 'groups.page_title' | translate }}</h1>
@@ -36,6 +36,12 @@
           </button>
         }
       </div>
+      <div class="page__action-bar-spacer"></div>
+      <aed-column-selector
+        [columns]="columnDefs()"
+        [storageKey]="columnPrefKey"
+        (visibilityChange)="onColumnsChange($event)"
+      />
     </div>
 
     <div class="table-card">
@@ -51,23 +57,35 @@
                 [attr.aria-label]="'labels.select_all' | translate"
               />
             </th>
-            <th class="table__th-sort" (click)="toggleSort('code')">
-              {{ 'groups.table.code' | translate }}
-            </th>
+            @if (isColVisible('code')) {
+              <th class="table__th-sort" (click)="toggleSort('code')">
+                {{ 'groups.table.code' | translate }}
+              </th>
+            }
             <th class="table__th-sort" (click)="toggleSort('name')">
               {{ 'groups.table.name' | translate }}
             </th>
-            <th>{{ 'groups.table.phone' | translate }}</th>
-            <th>{{ 'groups.table.channels' | translate }}</th>
-            <th class="table__th-sort" (click)="toggleSort('priority')">
-              {{ 'groups.table.priority' | translate }}
-            </th>
-            <th class="table__th-sort" (click)="toggleSort('strategy')">
-              {{ 'groups.table.strategy' | translate }}
-            </th>
-            <th class="table__th-sort table__th-num" (click)="toggleSort('agents')">
-              {{ 'groups.table.agents' | translate }}
-            </th>
+            @if (isColVisible('phone')) {
+              <th>{{ 'groups.table.phone' | translate }}</th>
+            }
+            @if (isColVisible('channels')) {
+              <th>{{ 'groups.table.channels' | translate }}</th>
+            }
+            @if (isColVisible('priority')) {
+              <th class="table__th-sort" (click)="toggleSort('priority')">
+                {{ 'groups.table.priority' | translate }}
+              </th>
+            }
+            @if (isColVisible('strategy')) {
+              <th class="table__th-sort" (click)="toggleSort('strategy')">
+                {{ 'groups.table.strategy' | translate }}
+              </th>
+            }
+            @if (isColVisible('agents')) {
+              <th class="table__th-sort table__th-num" (click)="toggleSort('agents')">
+                {{ 'groups.table.agents' | translate }}
+              </th>
+            }
             <th class="table__th-actions" aria-hidden="true"></th>
           </tr>
         </thead>
@@ -77,6 +95,8 @@
               class="table__row"
               [class.table__row--selected]="selectedIds().has(group.id)"
               [class.table__row--draft]="group.isDraft"
+              [class.table__row--clickable]="renamingId() !== group.id"
+              (click)="onRowClick(group)"
               (contextmenu)="onContextMenu($event, group.id)"
             >
               <td
@@ -91,31 +111,53 @@
                   [attr.aria-label]="group.name"
                 />
               </td>
-              <td class="table__td table__td--mono">{{ group.code }}</td>
+              @if (isColVisible('code')) {
+                <td class="table__td table__td--mono">{{ group.code }}</td>
+              }
               <td class="table__td-name">
-                <span>{{ group.name }}</span>
-                @if (group.isDraft) {
-                  <span class="draft-badge">{{ 'users.draft_badge' | translate }}</span>
+                @if (renamingId() === group.id) {
+                  <aed-inline-rename-cell
+                    [initialValue]="group.name"
+                    placeholder="Nombre del grupo"
+                    [ariaLabel]="'Renombrar ' + group.name"
+                    (commit)="onRenameCommit(group.id, $event)"
+                    (cancel)="onRenameCancel(group.id)"
+                  />
+                } @else {
+                  <span>{{ group.name }}</span>
+                  @if (group.isDraft) {
+                    <span class="draft-badge">{{ 'common.draft_badge' | translate }}</span>
+                  }
                 }
               </td>
-              <td class="table__td table__td--mono">{{ group.phone }}</td>
-              <td class="table__td">
-                <span class="channels">
-                  @for (channel of group.channels; track channel) {
-                    <span class="channels__chip" [title]="channelKeys[channel] | translate">
-                      <lucide-icon [img]="channelIcon(channel)" [size]="12" />
-                    </span>
-                  }
-                </span>
-              </td>
-              <td class="table__td">
-                <span class="priority-pill" [attr.data-priority]="group.priority">
-                  {{ priorityKeys[group.priority] | translate }}
-                </span>
-              </td>
-              <td class="table__td">{{ group.strategy }}</td>
-              <td class="table__td table__td--num">{{ group.assignedAgents.length }}</td>
-              <td class="table__td-actions">
+              @if (isColVisible('phone')) {
+                <td class="table__td table__td--mono">{{ group.phone }}</td>
+              }
+              @if (isColVisible('channels')) {
+                <td class="table__td">
+                  <span class="channels">
+                    @for (channel of group.channels; track channel) {
+                      <span class="channels__chip" [title]="channelKeys[channel] | translate">
+                        <lucide-icon [img]="channelIcon(channel)" [size]="12" />
+                      </span>
+                    }
+                  </span>
+                </td>
+              }
+              @if (isColVisible('priority')) {
+                <td class="table__td">
+                  <span class="priority-pill" [attr.data-priority]="group.priority">
+                    {{ priorityKeys[group.priority] | translate }}
+                  </span>
+                </td>
+              }
+              @if (isColVisible('strategy')) {
+                <td class="table__td">{{ group.strategy }}</td>
+              }
+              @if (isColVisible('agents')) {
+                <td class="table__td table__td--num">{{ group.assignedAgents.length }}</td>
+              }
+              <td class="table__td-actions" (click)="$event.stopPropagation()">
                 <div
                   class="row-menu"
                   (aedClickOutside)="closeRowMenu()"
@@ -197,7 +239,22 @@
   (confirm)="confirmDelete($event)"
 />
 
+<aed-impact-preview-dialog
+  [visible]="!!pendingBulkEdit()"
+  [mode]="'bulkEdit'"
+  [title]="'Aplicar cambio a ' + selectedIds().size + ' grupo(s)'"
+  [items]="impactItems()"
+  [badge]="impactBadge()"
+  (cancel)="onBulkPreviewCancel()"
+  (confirm)="onBulkPreviewConfirm($event)"
+/>
+
 <aed-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
+  <aed-bulk-edit-menu
+    [fields]="bulkEditFields()"
+    [buttonLabel]="'Editar'"
+    (commit)="onBulkEditCommit($event)"
+  />
   <button type="button" class="btn btn--bulk-danger" (click)="requestDeleteSelection()">
     {{ 'common.delete' | translate }}
   </button>

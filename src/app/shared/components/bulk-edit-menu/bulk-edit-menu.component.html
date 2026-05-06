@@ -1,0 +1,52 @@
+<button
+  type="button"
+  class="trigger"
+  (click)="popover.toggle($event)"
+  [attr.aria-label]="buttonLabel()"
+>
+  <lucide-icon [img]="editIcon" [size]="13" />
+  <span>{{ buttonLabel() }}</span>
+  <lucide-icon class="trigger__chev" [img]="chevronIcon" [size]="13" />
+</button>
+
+<p-popover #popover [appendTo]="'body'" [showCloseIcon]="false" styleClass="aed-bulk-edit-popover">
+  <div class="panel">
+    <label class="row">
+      <span class="row__label">Campo</span>
+      <select
+        class="row__select"
+        [value]="selectedFieldKey()"
+        (change)="onFieldChange($event)"
+        aria-label="Campo a editar"
+      >
+        @for (f of fields(); track f.key) {
+          <option [value]="f.key">{{ f.label }}</option>
+        }
+      </select>
+    </label>
+
+    <span class="arrow" aria-hidden="true">
+      <lucide-icon [img]="arrowIcon" [size]="13" />
+    </span>
+
+    <label class="row">
+      <span class="row__label">Nuevo valor</span>
+      <select
+        class="row__select"
+        [value]="selectedValue()"
+        (change)="onValueChange($event)"
+        aria-label="Nuevo valor"
+      >
+        @for (v of selectedField()?.values ?? []; track v.value) {
+          <option [value]="v.value">{{ v.label }}</option>
+        }
+      </select>
+    </label>
+
+    <div class="actions">
+      <button type="button" class="btn btn--primary" (click)="onCommit(popover.hide.bind(popover))">
+        Previsualizar impacto
+      </button>
+    </div>
+  </div>
+</p-popover>

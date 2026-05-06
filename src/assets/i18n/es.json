@@ -26,6 +26,11 @@
     "copy_failed": "No se pudo copiar al portapapeles",
     "click_to_copy": "Clic para copiar",
     "remove_from_list": "Quitar {{name}} de la lista",
+    "draft_badge": "Borrador",
+    "bulk_updated": "{{count}} elementos actualizados",
+    "columns": "Columnas",
+    "edit_field": "Editar campo",
+    "preview_impact": "Previsualizar impacto",
     "delete_dialog": {
       "title_single": "¿Eliminar {{entity}}?",
       "title_bulk": "¿Eliminar {{count}} {{entity}}?",

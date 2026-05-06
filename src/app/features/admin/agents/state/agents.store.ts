@@ -1,7 +1,16 @@
 import { computed, Injectable } from '@angular/core';
 
 import { createLocalStore, LocalStore } from '@core/services';
-import { Agent, AGENTS_SEED } from '../data/agents-data';
+import {
+  Agent,
+  AGENTS_SEED,
+  AgentChannel,
+  AgentType,
+  PresenceStatus,
+} from '../data/agents-data';
+
+/** Fields exposed to bulk edit (subset that is safe to set across many rows). */
+export type AgentBulkField = 'status' | 'presenceStatus' | 'agentType' | 'recording' | 'channels';
 
 function nextCode(items: readonly Agent[]): string {
   const maxN = items.reduce((max, a) => {
@@ -60,11 +69,48 @@ export class AgentsStore {
     const { id: _id, code: _code, ...rest } = source;
     return this.addAgent({
       ...rest,
-      name: `${source.name} (copia)`,
+      name: `Copia de ${source.name}`,
       extension: '',
       pin: '',
+      status: 'inactive',
       isDraft: true,
     });
+  }
+
+  /** Update a single field on a presence-only fast path (avoids spreading full record). */
+  updatePresence(id: number, presence: PresenceStatus): void {
+    this.store.updateItem(id, { presenceStatus: presence });
+  }
+
+  /**
+   * Apply a single-field change to many agents at once. Used by the bulk action
+   * bar's "Editar" menu — mirrors the React prototype's `bulkUpdate(ids, field, value)`.
+   */
+  bulkUpdate(ids: readonly number[], field: AgentBulkField, value: unknown): void {
+    if (ids.length === 0) return;
+    const idSet = new Set(ids);
+    for (const agent of this.agents()) {
+      if (!idSet.has(agent.id)) continue;
+      const patch: Partial<Agent> = {};
+      switch (field) {
+        case 'status':
+          patch.status = value as Agent['status'];
+          break;
+        case 'presenceStatus':
+          patch.presenceStatus = value as PresenceStatus;
+          break;
+        case 'agentType':
+          patch.agentType = value as AgentType;
+          break;
+        case 'recording':
+          patch.permissions = { ...agent.permissions, recording: !!value };
+          break;
+        case 'channels':
+          patch.channels = value as readonly AgentChannel[];
+          break;
+      }
+      this.store.updateItem(agent.id, patch);
+    }
   }
 
   /** Strip a list of label ids from every agent that references them. */

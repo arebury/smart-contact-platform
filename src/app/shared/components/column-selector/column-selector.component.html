@@ -1,0 +1,44 @@
+<button
+  type="button"
+  class="trigger"
+  [attr.aria-label]="buttonLabel()"
+  (click)="popover.toggle($event)"
+>
+  <lucide-icon [img]="columnsIcon" [size]="14" />
+  <span class="trigger__label">{{ buttonLabel() }}</span>
+</button>
+
+<p-popover #popover [appendTo]="'body'" [showCloseIcon]="false" styleClass="aed-column-popover">
+  <div class="panel" role="menu">
+    <div class="panel__head">
+      <span>{{ buttonLabel() }}</span>
+      <button
+        type="button"
+        class="panel__reset"
+        (click)="reset(); popover.hide()"
+        aria-label="Restablecer"
+      >
+        <lucide-icon [img]="resetIcon" [size]="12" />
+        <span>Restablecer</span>
+      </button>
+    </div>
+    <ul class="panel__list">
+      @for (col of columns(); track col.key) {
+        <li>
+          <label class="row" [class.row--locked]="col.locked">
+            <input
+              type="checkbox"
+              [checked]="isVisible(col.key)"
+              [disabled]="!!col.locked"
+              (change)="toggle(col)"
+            />
+            <span class="row__label">{{ col.label }}</span>
+            @if (col.locked) {
+              <span class="row__hint" aria-hidden="true">fijada</span>
+            }
+          </label>
+        </li>
+      }
+    </ul>
+  </div>
+</p-popover>

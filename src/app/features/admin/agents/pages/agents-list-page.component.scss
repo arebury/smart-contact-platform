@@ -8,11 +8,9 @@
   flex: 1;
   overflow-y: auto;
   background: var(--sc-bg-surface);
-  transition: padding-bottom var(--sc-transition-base) var(--sc-easing-default);
-
-  &--has-selection {
-    padding-bottom: calc(var(--sc-bulk-action-bar-height) + var(--sc-spacing-300));
-  }
+  /* Always reserve room for the overlaid bulk action bar so toggling the
+   * selection never shifts table content (no CLS). */
+  padding-bottom: calc(var(--sc-bulk-action-bar-height) + var(--sc-spacing-300));
 
   &__inner {
     max-width: 1600px;
@@ -40,7 +38,14 @@
   }
 
   &__action-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
     margin-bottom: var(--sc-spacing-300);
+  }
+
+  &__action-bar-spacer {
+    flex: 1;
   }
 
   &__search {
@@ -191,6 +196,7 @@
 
   &__row {
     border-bottom: 1px solid var(--sc-border-subtle);
+    transition: background var(--sc-transition-fast) var(--sc-easing-default);
 
     &:hover {
       background: var(--sc-bg-default);
@@ -202,6 +208,10 @@
 
     &--draft {
       background: var(--sc-label-amber-bg);
+    }
+
+    &--clickable {
+      cursor: pointer;
     }
   }
 
@@ -256,18 +266,6 @@
   }
 }
 
-.draft-badge {
-  font-size: var(--sc-font-size-50);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--sc-label-amber-text);
-  background: var(--sc-label-amber-bg);
-  border: 1px solid var(--sc-label-amber-border);
-  border-radius: var(--sc-radius-50);
-  padding: 2px var(--sc-spacing-100);
-  font-weight: var(--sc-font-weight-semibold);
-}
-
 .ext {
   display: inline-flex;
   align-items: center;
@@ -302,31 +300,98 @@
   }
 }
 
-.presence {
+.presence-edit {
   display: inline-flex;
   align-items: center;
   gap: var(--sc-spacing-50);
+  padding: 2px var(--sc-spacing-100);
   font-size: var(--sc-font-size-100);
+  border-radius: var(--sc-radius-100);
+  border: 1px solid transparent;
+  transition:
+    border-color var(--sc-transition-fast) var(--sc-easing-default),
+    background var(--sc-transition-fast) var(--sc-easing-default);
+
+  &:hover {
+    background: var(--sc-bg-secondary-hover);
+    border-color: var(--sc-border-default);
+  }
+
+  &:focus-within {
+    border-color: var(--sc-bg-primary);
+    background: var(--sc-bg-surface);
+  }
 
   &__dot {
     width: 8px;
     height: 8px;
     border-radius: var(--sc-radius-full);
     background: var(--sc-color-gray-400);
+    transition: background var(--sc-transition-base) var(--sc-easing-default);
+    box-shadow: 0 0 0 2px transparent;
   }
 
-  &[data-presence='disponible'] .presence__dot {
+  &__select {
+    appearance: none;
+    background: transparent;
+    border: 0;
+    padding: 0 var(--sc-spacing-200) 0 0;
+    margin: 0;
+    font: inherit;
+    color: var(--sc-text-secondary);
+    cursor: pointer;
+    outline: none;
+    /* Reserve enough width for the longest option label so the cell never
+     * shifts when presence changes. */
+    min-width: 96px;
+  }
+
+  &[data-presence='disponible'] .presence-edit__dot {
     background: var(--sc-label-green-dot);
+    box-shadow: 0 0 0 3px var(--sc-label-green-bg);
   }
 
-  &[data-presence='no_disponible'] .presence__dot {
+  &[data-presence='no_disponible'] .presence-edit__dot {
     background: var(--sc-label-red-dot);
+    box-shadow: 0 0 0 3px var(--sc-label-red-bg);
   }
 
-  &[data-presence='bano'] .presence__dot,
-  &[data-presence='comida'] .presence__dot,
-  &[data-presence='formacion'] .presence__dot {
+  &[data-presence='bano'] .presence-edit__dot,
+  &[data-presence='comida'] .presence-edit__dot,
+  &[data-presence='formacion'] .presence-edit__dot {
     background: var(--sc-label-amber-dot);
+    box-shadow: 0 0 0 3px var(--sc-label-amber-bg);
+  }
+}
+
+.draft-badge {
+  display: inline-block;
+  font-size: var(--sc-font-size-50);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sc-label-amber-text);
+  background: var(--sc-label-amber-bg);
+  border: 1px solid var(--sc-label-amber-border);
+  border-radius: var(--sc-radius-50);
+  padding: 2px var(--sc-spacing-100);
+  font-weight: var(--sc-font-weight-semibold);
+  animation: draft-in var(--sc-transition-base) var(--sc-easing-emphasized);
+}
+
+@keyframes draft-in {
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draft-badge {
+    animation: none;
   }
 }
 
