@@ -160,22 +160,24 @@
   }
 
   /*
-   * Inter-section hairline visible only in the collapsed state. Sits in the
-   * same vertical slot the section title occupies on hover, so the two
-   * crossfade as the sidebar expands: hairline disappears instantly, title
-   * text fades in 80 ms later. Width is the icon column width (24 px) so
-   * the line reads as part of the icon strip, not a full-width divider.
-   * Skipped on the first section — nothing above it to separate from.
+   * Inter-section hairline visible only in the collapsed state. Sits in
+   * the same vertical slot the section title occupies on hover, so the
+   * two crossfade as the sidebar expands: hairline disappears instantly,
+   * title text fades in 80 ms later. Color is `--sc-color-blue-500`
+   * (the Figma divider colour `#344A70`) — readable on the blue-700
+   * sidebar background, where a faint white tint disappears. Width is
+   * inset from the sidebar edges so the line tracks the sidebar's width
+   * (40 px wide when collapsed, ~216 px when expanded). Skipped on the
+   * first section — nothing above it to separate from.
    */
   &__section:not(:first-child) &__section-title::before {
     content: '';
     position: absolute;
-    left: 50%;
+    left: var(--sc-spacing-200);
+    right: var(--sc-spacing-200);
     top: 50%;
-    width: 24px;
     height: 1px;
-    background: rgb(255 255 255 / 0.12);
-    transform: translateX(-50%);
+    background: var(--sc-color-blue-500);
     transition: opacity var(--sc-transition-fast) var(--sc-easing-default) 80ms;
   }
 
