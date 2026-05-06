@@ -252,7 +252,10 @@
           </tbody>
         </table>
       </div>
-      <aed-result-counter [count]="sorted().length" entityPluralKey="agents.entity_plural" />
+      <aed-result-counter
+        [count]="sorted().length"
+        [entityPlural]="'agents.entity_plural' | translate"
+      />
     }
   </div>
 </div>

@@ -112,6 +112,7 @@
     "row_menu": "Más acciones",
     "no_description": "Sin descripción",
     "count": "{{count}} labels",
+    "entity_plural": "labels",
     "empty": {
       "title": "Aún no hay labels",
       "text": "Crea tu primera label para organizar y filtrar tus agentes",
@@ -174,6 +175,7 @@
     "page_title": "Plantillas",
     "create_button": "Nueva plantilla",
     "count": "{{count}} plantillas",
+    "entity_plural": "plantillas",
     "entity": {
       "singular": "plantilla",
       "plural": "plantillas"
