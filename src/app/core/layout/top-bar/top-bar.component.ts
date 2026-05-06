@@ -44,6 +44,11 @@ export class TopBarComponent {
   protected readonly phoneIcon = NAV_ICONS['phone'];
   protected readonly helpIcon = NAV_ICONS['help-circle'];
   protected readonly logoutIcon = NAV_ICONS['log-out'];
+  protected readonly dashboardIcon = NAV_ICONS['layout-dashboard'];
+
+  protected goToDashboard(): void {
+    void this.router.navigateByUrl('/dashboard');
+  }
 
   protected toggleUserMenu(): void {
     this.userMenuOpen.update((open) => !open);

@@ -74,6 +74,7 @@
     }
   },
   "topbar": {
+    "go_to_dashboard": "Ir al dashboard",
     "user": {
       "help": "Centro de ayuda",
       "logout": "Cerrar sesión",

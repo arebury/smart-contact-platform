@@ -22,12 +22,10 @@ export const appRoutes: Routes = [
       },
       {
         path: 'admin',
-        data: { breadcrumb: { labelKey: 'sidebar.administration', link: '/admin/usuarios' } },
         loadChildren: () => import('./features/admin/admin.routes').then((m) => m.adminRoutes),
       },
       {
         path: 'config',
-        data: { breadcrumb: { labelKey: 'sidebar.configuration', link: false } },
         loadChildren: () => import('./features/config/config.routes').then((m) => m.configRoutes),
       },
       {

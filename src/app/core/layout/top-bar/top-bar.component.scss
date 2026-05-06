@@ -12,6 +12,46 @@
   background: var(--sc-bg-surface);
   border-bottom: 1px solid var(--sc-border-default);
 
+  &__lead {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+    min-width: 0;
+  }
+
+  &__home {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sc-icon-subtle);
+    background: transparent;
+    border: 0;
+    border-radius: var(--sc-radius-100);
+    cursor: pointer;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      background: var(--sc-color-gray-100);
+      color: var(--sc-text-secondary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
+  &__lead-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--sc-border-default);
+    flex-shrink: 0;
+  }
+
   &__crumbs {
     list-style: none;
     margin: 0;
