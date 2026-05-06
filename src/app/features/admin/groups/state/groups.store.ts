@@ -61,17 +61,19 @@ export class GroupsStore {
     const idSet = new Set(ids);
     for (const group of this.groups()) {
       if (!idSet.has(group.id)) continue;
-      const patch: Partial<Group> = {};
+      let patch: Partial<Group>;
       switch (field) {
         case 'priority':
-          patch.priority = value as GroupPriority;
+          patch = { priority: value as GroupPriority };
           break;
         case 'strategy':
-          patch.strategy = value as string;
+          patch = { strategy: value as string };
           break;
         case 'channels':
-          patch.channels = value as readonly GroupChannel[];
+          patch = { channels: value as readonly GroupChannel[] };
           break;
+        default:
+          continue;
       }
       this.store.updateItem(group.id, patch);
     }

@@ -85,23 +85,25 @@ export class AgentsStore {
     const idSet = new Set(ids);
     for (const agent of this.agents()) {
       if (!idSet.has(agent.id)) continue;
-      const patch: Partial<Agent> = {};
+      let patch: Partial<Agent>;
       switch (field) {
         case 'status':
-          patch.status = value as Agent['status'];
+          patch = { status: value as Agent['status'] };
           break;
         case 'presenceStatus':
-          patch.presenceStatus = value as PresenceStatus;
+          patch = { presenceStatus: value as PresenceStatus };
           break;
         case 'agentType':
-          patch.agentType = value as AgentType;
+          patch = { agentType: value as AgentType };
           break;
         case 'recording':
-          patch.permissions = { ...agent.permissions, recording: !!value };
+          patch = { permissions: { ...agent.permissions, recording: !!value } };
           break;
         case 'channels':
-          patch.channels = value as readonly AgentChannel[];
+          patch = { channels: value as readonly AgentChannel[] };
           break;
+        default:
+          continue;
       }
       this.store.updateItem(agent.id, patch);
     }
