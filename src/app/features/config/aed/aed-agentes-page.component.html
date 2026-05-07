@@ -241,9 +241,7 @@
                   class="field__input"
                   [value]="form().iframeUrl"
                   (input)="onTextInput('iframeUrl', $event)"
-                  [placeholder]="
-                    'config.aed.subpages.agentes.iframe.url_placeholder' | translate
-                  "
+                  [placeholder]="'config.aed.subpages.agentes.iframe.url_placeholder' | translate"
                 />
               </div>
               <div class="field">
@@ -267,11 +265,7 @@
       </div>
 
       <div class="settings-card__foot">
-        <a
-          href="#"
-          class="settings-card__link"
-          (click)="$event.preventDefault()"
-        >
+        <a href="#" class="settings-card__link" (click)="$event.preventDefault()">
           {{ 'config.aed.subpages.agentes.learn_more' | translate }}
         </a>
         <div class="settings-card__actions">
@@ -280,12 +274,7 @@
               {{ 'common.discard' | translate }}
             </button>
           }
-          <button
-            type="button"
-            class="btn btn--primary"
-            [disabled]="!canSave()"
-            (click)="save()"
-          >
+          <button type="button" class="btn btn--primary" [disabled]="!canSave()" (click)="save()">
             {{ (saving() ? 'common.saving' : 'common.save') | translate }}
           </button>
         </div>

@@ -309,12 +309,7 @@
               {{ 'common.discard' | translate }}
             </button>
           }
-          <button
-            type="button"
-            class="btn btn--primary"
-            [disabled]="!canSave()"
-            (click)="save()"
-          >
+          <button type="button" class="btn btn--primary" [disabled]="!canSave()" (click)="save()">
             {{ (saving() ? 'common.saving' : 'common.save') | translate }}
           </button>
         </div>

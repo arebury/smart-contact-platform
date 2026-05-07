@@ -123,9 +123,7 @@ export class AedServicioPageComponent {
   protected readonly conversacionesDirty = signal(false);
   protected readonly conversacionesSaving = signal(false);
 
-  protected readonly canSaveEstados = computed(
-    () => this.estadosDirty() && !this.estadosSaving(),
-  );
+  protected readonly canSaveEstados = computed(() => this.estadosDirty() && !this.estadosSaving());
   protected readonly canSaveConversaciones = computed(
     () => this.conversacionesDirty() && !this.conversacionesSaving(),
   );
@@ -181,10 +179,7 @@ export class AedServicioPageComponent {
     this.estadosDirty.set(true);
   }
 
-  protected onPausaInput<K extends 'pausaStandard' | 'pausaNavegador'>(
-    key: K,
-    event: Event,
-  ): void {
+  protected onPausaInput<K extends 'pausaStandard' | 'pausaNavegador'>(key: K, event: Event): void {
     const parsed = Number((event.target as HTMLInputElement).value);
     if (Number.isFinite(parsed) && parsed >= 0) {
       this.form.update((f) => ({ ...f, [key]: parsed }));
