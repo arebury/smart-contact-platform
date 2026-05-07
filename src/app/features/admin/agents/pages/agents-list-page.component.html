@@ -264,10 +264,12 @@
                           <lucide-icon [img]="editIcon" [size]="13" />
                           <span>{{ 'common.edit' | translate }}</span>
                         </button>
-                        <button type="button" role="menuitem" (click)="onRowDuplicate(agent)">
-                          <lucide-icon [img]="copyIcon" [size]="13" />
-                          <span>{{ 'common.duplicate' | translate }}</span>
-                        </button>
+                        @if (selectedIds().size <= 1) {
+                          <button type="button" role="menuitem" (click)="onRowDuplicate(agent)">
+                            <lucide-icon [img]="copyIcon" [size]="13" />
+                            <span>{{ 'common.duplicate' | translate }}</span>
+                          </button>
+                        }
                         <div class="row-menu__separator" role="separator" aria-hidden="true"></div>
                         <button
                           type="button"
@@ -311,10 +313,12 @@
       <lucide-icon [img]="editIcon" [size]="13" />
       <span>{{ 'common.edit' | translate }}</span>
     </button>
-    <button type="button" role="menuitem" (click)="onContextDuplicate()">
-      <lucide-icon [img]="copyIcon" [size]="13" />
-      <span>{{ 'common.duplicate' | translate }}</span>
-    </button>
+    @if (selectedIds().size <= 1) {
+      <button type="button" role="menuitem" (click)="onContextDuplicate()">
+        <lucide-icon [img]="copyIcon" [size]="13" />
+        <span>{{ 'common.duplicate' | translate }}</span>
+      </button>
+    }
     <div class="context-menu__separator" role="separator" aria-hidden="true"></div>
     <button type="button" class="is-danger" role="menuitem" (click)="onContextDelete()">
       <lucide-icon [img]="trashIcon" [size]="13" />

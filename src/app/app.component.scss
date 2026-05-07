@@ -116,15 +116,44 @@
     font-weight: 500;
     line-height: 1;
     cursor: pointer;
-    transition: background var(--sc-transition-fast, 120ms) ease;
+    /* Scale 1.04 grows the chip ~1px each side — enough to feel reactive
+     * without shifting surrounding layout (transforms don't trigger CLS).
+     * Pair with the background change so the hover reads as both "warmer"
+     * and "lifted". */
+    transform-origin: center;
+    transition:
+      background var(--sc-transition-fast, 120ms) ease,
+      transform var(--sc-transition-fast, 120ms) ease;
 
     &:hover {
       background: var(--sc-bg-subtle, #f7f8fa);
+      transform: scale(1.04);
+    }
+
+    &:active {
+      transform: scale(0.98);
     }
 
     &:focus-visible {
       outline: 2px solid var(--sc-border-focus, #2563eb);
       outline-offset: 2px;
+    }
+  }
+
+  /* Solid variant: paint with the primary token so the action reads as
+   * the dominant CTA when the toast carries a high-stakes message
+   * (e.g. "Cambios sin guardar — Reanudar"). Same micro-interaction so
+   * the family stays coherent. Trigger by adding `data-action="solid"`
+   * on the toast root, or `.aed-toast__action--solid` on the button. */
+  &[data-action='solid'] &__action,
+  &__action--solid {
+    background: var(--sc-bg-primary);
+    border-color: var(--sc-bg-primary);
+    color: var(--sc-text-on-primary);
+
+    &:hover {
+      background: var(--sc-bg-primary-hover);
+      border-color: var(--sc-bg-primary-hover);
     }
   }
 
@@ -174,4 +203,15 @@
 :host ::ng-deep .p-toast .p-toast-message-icon,
 :host ::ng-deep .p-toast .p-toast-close-button {
   display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aed-toast__action {
+    transition: background var(--sc-transition-fast, 120ms) ease;
+
+    &:hover,
+    &:active {
+      transform: none;
+    }
+  }
 }

@@ -167,7 +167,13 @@ export class UsersListPageComponent {
 
   protected isColVisible(key: string): boolean {
     const set = this.visibleColumns();
-    if (set.size === 0) return true;
+    /* See groups-list-page.component.ts for context — same fallback so a
+     * future `defaultVisible: false` column doesn't render on first
+     * paint. */
+    if (set.size === 0) {
+      const col = this.columnDefs().find((c) => c.key === key);
+      return !!col && col.defaultVisible !== false;
+    }
     return set.has(key);
   }
 

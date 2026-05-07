@@ -247,7 +247,15 @@ export class GroupsListPageComponent {
 
   protected isColVisible(key: string): boolean {
     const set = this.visibleColumns();
-    if (set.size === 0) return true;
+    /* Before column-selector emits its first visibilityChange the set is
+     * empty. Falling back to `true` here would render every column on
+     * first paint, including those declared `defaultVisible: false` —
+     * which is why "código" appeared toggled on entry. Mirror the
+     * column-selector's own default rule so the table matches. */
+    if (set.size === 0) {
+      const col = this.columnDefs().find((c) => c.key === key);
+      return !!col && col.defaultVisible !== false;
+    }
     return set.has(key);
   }
 
