@@ -7,6 +7,195 @@
 
 ---
 
+## 46 — Three AED defaults pages built end-to-end from Figma, per-card dirty/save flows, shared SCSS primitives (2026-05-07)
+
+**Decision.** `/config/aed/servicio`, `/config/aed/agentes` and
+`/config/aed/grupos` ship the real Figma forms (nodes 258:9396,
+224:9167, 224:9482) — not placeholders.
+
+- Servicio carries **two** independent SettingsCards (Estados +
+  Conversaciones), each with its own dirty/saving signals and Save
+  button — matches the Figma source which draws two footers. Tag
+  input + chips for unavailability states, status visibility list
+  with coloured dots, callblending webhook + 6-event notification
+  picker.
+- Agentes carries one card. The "Llamadas" accordion uses a real
+  `<table>` for the destino × LLAMADA × TRANSFERENCIAS grid, with
+  `<th scope>` for both axes and column headers that double as
+  "select-all-in-column" toggles via `aria-label` on the embedded
+  checkbox. Iframe configurable: switch + URL/Título inputs that
+  only render when the switch is on (no dead inputs in disabled
+  state).
+- Grupos carries one card with Capacidad (radio + number),
+  Tiempos (2 numbers), Voz/desbordamiento (codec select + 2
+  switches), Enrutamiento (2 selects), Apertura de ficha (3 radios).
+
+Shared chrome — `.settings-card`, `.sub-section`, `.divider`,
+`.field`, `.grid--2`, `.radio-row`, `.switch-field`, `.btn` — lives
+in `features/config/aed/aed-defaults-page.component.scss` and is
+loaded by all three pages via `styleUrls`. Page-specific extras
+(accordion + table for Agentes; tag-input/chips/visibility/events
+list for Servicio) sit alongside in their own component SCSS.
+
+**Why the per-card save (Servicio).** The Figma draws two footers
+intentionally — Estados and Conversaciones are conceptually
+independent areas; saving one shouldn't save the other. The cost
+is two pairs of `dirty()` / `saving()` signals and two Save / Discard
+handlers; the win is matching what the user expects from the design
+and avoiding an "I changed something in Conversaciones, why did
+Estados save too?" surprise.
+
+**Why a real `<table>` for the destino grid.** Per the ui-ux-pro-max
+consult: a 4-row × 2-column matrix with row-axis labels and column-
+axis labels is exactly what `<table>` semantics serves. A CSS grid
+would visually match but lose the row/column relationship for
+screen readers. Column-header checkboxes carry `aria-label="Marcar
+todos en LLAMADA"` so the icon-only intent is readable.
+
+**Why dirty-only Discard.** Following the `agent-form-page`
+convention: Save is always present (disabled until dirty), Discard
+appears only when there are changes. Avoids menu noise when the
+user is just browsing settings.
+
+**Discarded.**
+- *One global Save at page level for Servicio* — simpler in code,
+  but breaks the Figma's two-card mental model and would require
+  resolving inter-card dirty interactions. Two saves is closer to
+  the source of truth.
+- *Sticky page-level "Cambios sin guardar" pill* (the secondary
+  recommendation from the UX consult). Kept it on the shelf — none
+  of these pages today is long enough to lose Save out of viewport.
+  If the iframe section grows or new sub-sections land, revisit.
+- *Reactive Forms / FormGroup.* Each page is a flat list of
+  primitives with no validators worth the FormGroup overhead.
+  Signals + plain `(input)/(change)` handlers are smaller and
+  matched the rest of the codebase.
+
+**How to roll back.** Replace the three component templates with
+the previous `aed-sub-placeholder.component.html` (deleted in this
+push, recoverable from git). Drop the new `*.scss` files. The shell
++ sidebar stay; only the page contents revert. ~10 minutes.
+
+---
+
+## 45 — AED becomes the inner-shell hub; Numeración especial migrates to Sistema as a section (2026-05-07)
+
+**Decision.** The `/config/aed/*` URL space is now the home for the
+SettingsShell pattern (DD#44). Three sub-routes: Servicio, Agentes,
+Grupos — defaults that apply to those entities globally. The `/aed`
+root redirects to `/aed/servicio` so the rail always shows a
+selected item on first visit.
+
+The previous `/config/aed` page content (numeración especial — the
+country-prefix multi-select with chips and search) was extracted to
+`features/config/sections/numeracion-especial-section.component.*`
+and embedded inside Sistema as one of five cross-cutting prefs
+sections (Apariencia · Datos · Políticas de contraseñas ·
+Regeneración masiva · Numeración especial).
+
+The settings sidebar items mirror Figma 224:9167 exactly: Servicio
+("Estados y conversaciones"), Agentes ("Parámetros por defecto"),
+Grupos ("Parámetros por defecto"), with Phone / UserRound /
+UsersRound icons.
+
+**Why.** The user's IA put the inner shell on AED, not on the whole
+of `/config/*`. AED is its own product surface — its config is
+naturally per-area (services / agents / groups) — whereas Sistema
+is a single page of cross-cutting browser-level preferences. Having
+the shell only on AED keeps Sistema's flat presentation and avoids
+the redundancy of two stacked sidebars (main + settings) on every
+config child.
+
+Numeración especial is conceptually a system-level cross-cutting
+preference (which prefixes count as "special"), so it sits more
+naturally next to Apariencia / Datos than under "AED defaults".
+
+**Discarded.**
+- *Wrap every `/config/*` route in the shell.* Was the first
+  implementation. Reverted because the user clarified the shell is
+  AED-specific.
+- *Keep AED as a single page (numeración especial) and add the new
+  sub-pages as siblings.* Couldn't — the user's IA explicitly puts
+  Servicio/Agentes/Grupos under AED.
+- *Inline the country picker into Sistema's component class.* Would
+  have ballooned Sistema to ~600 lines and mixed two unrelated save
+  flows (Sistema's reset vs Numeración especial's discard/save).
+  Extracting to a section component keeps each piece self-contained.
+
+**How to roll back.** Restore the old `pages/aed-page.component.*`
+files (deleted; recoverable from git), revert `config.routes.ts` to
+the flat `/config/aed` route, drop the `aed/` and `sections/`
+folders, remove the `<aed-numeracion-especial-section />` from
+Sistema's template. ~15 minutes.
+
+---
+
+## 44 — SettingsShell pattern: 256px sticky rail + main outlet, scoped to /config/aed/* only (2026-05-07)
+
+**Decision.** A new `SettingsShellComponent` (in
+`features/config/layout/`) wraps the AED hub routes with a
+two-column layout: a sticky 256px settings sidebar on the left
+(white surface + 1px right border) and a `<router-outlet>` on
+the right that paints the muted page canvas
+(`var(--sc-bg-secondary-subtle)`).
+
+The sidebar (`SettingsSidebarComponent`) renders:
+- Header: "Configuración AED" / "Ajustes de la plataforma"
+  (Inter 16/12, primary/subtle text).
+- Nav: a `<nav aria-label="Configuración AED">` with three
+  `<a routerLink>` items, each with a 32px chip-icon, label,
+  and sub-label.
+- Footer: `SmartContact · v2.4.0` (small, subtle).
+
+`RouterLinkActive="nav-item--active"` paints the active item;
+`ariaCurrentWhenActive="page"` sets `aria-current="page"` on the
+active anchor so screen readers announce the current section.
+
+The shell uses `position: sticky; top: 0; height: 100dvh` on the
+rail so the sidebar pins to the top of the scrolling
+`.app-shell__content` while the main column scrolls normally.
+
+**Why.** Figma node 224:9167 plus 258:9396 / 224:9482 share this
+exact pattern. The user's brief was explicit: "Lo importante que
+quiero que entiendas es el settings sidebar y el main container."
+Anchoring Save/Discard / context to a fixed rail beats threading
+"context breadcrumbs" through every page header for a multi-page
+config area.
+
+Scoped to `/config/aed/*` (and not `/config/*` as a whole) per
+DD#45 — the shell is conceptually the "AED hub", not a generic
+settings frame.
+
+**Why no skip-link / no focus trap.** This is not a modal. The
+rail and main are both reachable via Tab in visual order. A
+skip-link is a nice-to-have but adds chrome that today's surfaces
+don't justify; revisit when an audit calls it out.
+
+**Why no mobile collapse yet.** The product is a supervisor admin
+tool — desktop usage dominates and the breakpoint coverage was out
+of scope for this session. The recommended path (per the ui-ux-pro-
+max consult) is collapsing to a `<select>` above main below 768px;
+flagged in SESSION-LOG as queued.
+
+**Discarded.**
+- *Rail with the same items as the main app sidebar's "Configuración"
+  tree (Seguridad / Personalización / AED / Integraciones / Sistema)*
+  — was the first implementation, before the user clarified the
+  layout is AED-specific.
+- *Backdrop-blur or glass on the rail.* Same reasoning as DD#43:
+  blur is the AI-SaaS fingerprint we walk away from. Solid surface
+  + 1px border is the deliberate choice.
+- *Compact-when-stuck rail.* Same reasoning as DD#43: not yet
+  worth the IntersectionObserver complexity at today's content
+  volume.
+
+**How to roll back.** Revert `config.routes.ts` to flatten the
+`/aed/*` routes back into `/config/*`. Delete the `layout/` folder.
+Each AED sub-page can render standalone (they don't reach into
+the shell or sidebar). ~5 minutes.
+
+---
+
 ## 43 — List-page action bar is sticky on scroll, with a 12 px gradient mask, no backdrop blur (2026-05-07)
 
 **Decision.** The `.page__action-bar` (column manager + search +

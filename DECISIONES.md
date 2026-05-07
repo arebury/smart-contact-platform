@@ -15,6 +15,144 @@
 
 ---
 
+## DD#46 — Las tres páginas de configuración de AED (Servicio, Agentes, Grupos) ya están construidas (2026-05-07)
+
+**Qué.** Las tres rutas dentro del hub AED (`/config/aed/servicio`,
+`/config/aed/agentes`, `/config/aed/grupos`) ya tienen contenido real,
+copiado del Figma. Cada página es un formulario:
+
+- **Servicio** tiene **dos cards**: uno para Estados (estados
+  personalizados con chips, visibilidad de estados con puntos de
+  color, dos switches de permisos, dos campos de pausa por
+  inactividad) y otro para Conversaciones (descuelgue por defecto,
+  alerting, Callblending con webhook + 6 eventos seleccionables).
+  Cada card guarda independientemente: si tocas Estados, solo se
+  habilita el botón Guardar de ese card.
+- **Agentes** tiene un solo card con: la tabla de Llamadas
+  (4 filas × 2 columnas con cabeceras que también marcan toda la
+  columna), 3 switches de dispositivos, 1 de visualización, e iframe
+  configurable que solo muestra los inputs si el switch está activo.
+- **Grupos** tiene un solo card con: capacidad máxima
+  (Fija/Variable + número), tiempos de gestión, codec de voz +
+  switches de desbordamiento, prioridad y estrategia de
+  enrutamiento, y radios para apertura de ficha.
+
+**Por qué.** El Figma marca la pauta: los formularios largos
+necesitan estructura clara (sub-secciones con divisores, títulos en
+peso medio sin negrita, botón Guardar al final del card). Para
+Servicio: el Figma dibuja dos botones Guardar a propósito — Estados
+y Conversaciones son temas conceptualmente distintos, y el usuario
+no debería tener que pulsar un único Guardar que afecte a ambos.
+
+Para la tabla de Agentes (destinos × llamada × transferencias),
+elegimos `<table>` real en vez de un grid CSS. Razón:
+los lectores de pantalla anuncian "Fijos, columna LLAMADA, no
+marcado" cuando hay una tabla semántica. Con un grid CSS pierdes
+esa relación. Las cabeceras de columna además funcionan como
+"marcar todos en esta columna" — un pequeño extra que ahorra clicks.
+
+El botón Descartar solo aparece cuando hay cambios. Mientras estés
+solo mirando la página, no hay ruido de menú.
+
+**Qué se descartó.**
+- *Un único Guardar global para Servicio.* Más simple en código,
+  pero rompe el modelo mental del Figma y crearía sorpresas tipo
+  "toqué Conversaciones, ¿por qué se guardó también Estados?".
+- *Píldora "Cambios sin guardar" pegada al header de página.* Era
+  útil para formularios MUY largos. Hoy ninguna de las tres
+  páginas pierde el botón Guardar de vista al hacer scroll, así
+  que se queda guardado para futuro.
+- *Reactive Forms / FormGroup.* Cada página son campos planos sin
+  validaciones complicadas. Signals + handlers `(input)/(change)`
+  pesan menos y siguen el patrón del resto del código.
+
+---
+
+## DD#45 — AED se convierte en el hub con sidebar interno; "Numeración especial" se mueve a Sistema (2026-05-07)
+
+**Qué.** La sección AED del menú principal ahora es un "hub" con
+sidebar propio (DD#44) y tres páginas hijas: Servicio, Agentes y
+Grupos. Cuando entras a AED sin ruta concreta, te lleva
+automáticamente a Servicio (la primera).
+
+Lo que antes era la página AED (numeración especial — el selector
+de prefijos de países con buscador y chips) se ha extraído como una
+sección reutilizable y ahora vive **dentro de Sistema**, junto a
+Apariencia, Datos, Políticas de contraseñas y Regeneración masiva.
+
+Los tres items del sidebar interno copian el Figma: Servicio
+("Estados y conversaciones"), Agentes ("Parámetros por defecto"),
+Grupos ("Parámetros por defecto"), con sus iconos correspondientes.
+
+**Por qué.** El usuario aclaró que la nueva arquitectura del menú
+de configuración pone el sidebar interno solo bajo AED, no sobre
+todo `/config/*`. Tiene sentido: AED es un producto en sí mismo,
+y su configuración se reparte de forma natural entre tres áreas
+(servicios, agentes, grupos). En cambio Sistema es una sola página
+de preferencias generales del navegador, y no necesita un sidebar
+adicional.
+
+Numeración especial encaja mejor en Sistema porque es una
+preferencia transversal del cliente (qué prefijos cuentan como
+"especiales"), no un parámetro de AED.
+
+**Qué se descartó.**
+- *Envolver todas las rutas de `/config/*` en el sidebar.* Fue la
+  primera implementación, antes de que el usuario aclarara que el
+  sidebar es exclusivo de AED.
+- *Dejar AED como una página única (numeración especial) y poner
+  Servicio/Agentes/Grupos como hermanas.* No: la nueva IA pone
+  esas tres específicamente dentro de AED.
+- *Meter el código del selector de países dentro del propio
+  componente Sistema.* Habría hinchado Sistema a unas 600 líneas
+  y mezclado dos flujos de guardado independientes. Sacarlo como
+  componente sección mantiene cada cosa autocontenida.
+
+---
+
+## DD#44 — Layout "settings shell": sidebar fijo de 256px + main, solo bajo AED (2026-05-07)
+
+**Qué.** Una nueva layout (componente `SettingsShellComponent`)
+que envuelve las rutas `/config/aed/*` con dos columnas:
+
+- A la izquierda, un sidebar blanco de 256px que se queda pegado
+  arriba al hacer scroll. Lleva un encabezado ("Configuración AED" +
+  "Ajustes de la plataforma"), una lista de navegación con tres
+  items, y un pie con la versión ("SmartContact · v2.4.0").
+- A la derecha, el contenido principal con fondo gris claro
+  (`#f7f8fa`) que aloja la página activa.
+
+El item activo del sidebar se pinta con icono oscuro y fondo sutil,
+y además recibe `aria-current="page"` para que los lectores de
+pantalla anuncien "página actual".
+
+**Por qué.** El Figma de referencia (nodes 224:9167, 258:9396,
+224:9482) marca exactamente este patrón. El usuario fue claro: "lo
+importante que quiero que entiendas es el settings sidebar y el
+main container". Para una zona de configuración con varias
+páginas, tener una barra siempre visible que diga dónde estás y a
+qué otras páginas puedes ir es mejor que ir poniendo migas de pan
+arriba.
+
+Solo se aplica bajo AED (DD#45). El resto de páginas de config
+(Sistema, Seguridad, etc.) usan layout normal — meterles el
+sidebar también sería redundante porque el sidebar principal de la
+app ya las lista a todas.
+
+**Qué se descartó.**
+- *Sidebar con los items del menú principal de Configuración*
+  (Seguridad / Personalización / AED / Integraciones / Sistema).
+  Fue la primera versión, hasta que el usuario aclaró que el
+  sidebar es exclusivo de AED.
+- *Efecto blur translúcido sobre el sidebar.* Misma razón que en
+  DD#43: el blur es el cliché de las apps de IA actuales y
+  queremos diferenciarnos.
+- *Versión móvil colapsable a hamburguesa.* Es una herramienta
+  de supervisor — uso desktop dominante. Queda anotado para
+  cuando se aborde el responsive completo (breakpoint <768px).
+
+---
+
 ## DD#43 — La barra de acciones de las listas se queda fija al hacer scroll (2026-05-07)
 
 **Qué.** En las páginas de Agentes, Usuarios y Grupos, la barra que

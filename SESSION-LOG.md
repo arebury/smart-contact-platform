@@ -10,6 +10,113 @@
 
 ---
 
+## 2026-05-07 · Session 12 — Bug round + AED hub restructure with SettingsShell, three settings sub-pages built from Figma
+
+> Started with five small items from the user (two bugs, a UX
+> analysis, a toast micro-interaction, and a documentation
+> initiative), and ended with a full restructure of `/config/*` plus
+> three new settings forms built end-to-end from Figma.
+
+**Worked on**
+
+- **Bug — "Duplicar" appearing in bulk-mode menus.** Both the row-3-dot
+  and right-click context menus on agents and groups now hide
+  Duplicar when `selectedIds().size > 1`. Pre-existing logic shipped
+  Duplicar unconditionally; a single `@if` block guards it.
+
+- **Bug — "Código" column shown by default in groups.** Root cause was
+  in `isColVisible(key)`: when the visible-set was empty (first paint
+  before column-selector hydrates) it returned `true` for every column
+  — overriding `defaultVisible: false` declared on the `code` column.
+  Fixed by mirroring the column-selector's own default rule. Same
+  silent fix landed in users-list-page for the next time someone
+  declares a `defaultVisible: false` column there.
+
+- **Sticky agent-edit header — analysis only.** Recommended keep
+  sticky: 14 sections, save/cancel always reachable, paritäry with
+  groups/users. Already `position: sticky; top: 0` in
+  StickyFormHeaderComponent. No code change.
+
+- **Toast action — micro-interaction + solid variant.** `.aed-toast__
+  action` now scales 1.04 on hover, 0.98 on active, with
+  `prefers-reduced-motion` fallback. Added an opt-in `--solid` variant
+  for high-stakes actions (paint with primary token).
+
+- **`DECISIONES.md` (Spanish).** New humanised counterpart to
+  DECISIONS.md. Seeded with DD#43/42/41 in plain Spanish (Qué / Por
+  qué / Qué se descartó). Session-end protocol updated to also write
+  here when DD entries land.
+
+- **SettingsShell + SettingsSidebar.** New layout shell at
+  `features/config/layout/`. 256px sticky rail + main outlet, scoped
+  to `/config/aed/*` after the user clarified the layout belongs
+  there (not on every config page). RouterLinkActive +
+  `ariaCurrentWhenActive="page"` so screen readers announce the
+  active section.
+
+- **AED hub restructure (`/config/aed/*`).** Hub redirects from
+  `/aed` → `/aed/servicio`. Three children: `/servicio`, `/agentes`,
+  `/grupos`. Sidebar items mirror Figma 224:9167 (Phone / UserRound /
+  UsersRound icons + Estados-y-conversaciones / Parámetros-por-defecto
+  hints). The previous AED page (numeración especial) was extracted
+  into `NumeracionEspecialSectionComponent` and embedded inside
+  Sistema as a 5th section (Sistema also kept the password-policy +
+  bulk-regen sections from earlier in the session).
+
+- **Three full Figma builds.** Replaced the placeholder sub-pages with
+  the real forms:
+  - **Servicio** (258:9396): two SettingsCards (Estados +
+    Conversaciones) with independent dirty/save flows. Tag-input +
+    chips for unavailability states, peer-state visibility list
+    with coloured dots, callblending webhook + 6-event picker.
+  - **Agentes** (224:9167): single card with Llamadas accordion
+    (`<table>` semantic — column headers double as
+    select-all-in-column toggles), 3+1 switches, iframe
+    configurable that reveals URL/Título only when enabled.
+  - **Grupos** (224:9482): single card with Capacidad (radio +
+    number), Tiempos de gestión (2 numbers), Voz/desbordamiento
+    (codec select + 2 switches), Enrutamiento (2 selects),
+    Apertura de ficha (3 radios).
+  Shared chrome lives in `aed-defaults-page.component.scss`; each
+  page additionally loads its own page-specific extras.
+
+- **UX/a11y guidance applied** (per the ui-ux-pro-max consult mid-
+  session): destino × col-toggle as real `<table>` for SR semantics;
+  iframe inputs only render when the switch is on (no dead inputs);
+  dirty-only Discard button (no churn until needed); Discard reverts
+  to seed defaults; common save/discard/seconds copy lifted to
+  `common.*` so the three pages share footer copy.
+
+- **Playwright MCP convention.** User installed the MCP server but it
+  loads on next session start. Memory note saved: when Playwright is
+  available, drive the browser proactively to validate UI changes
+  instead of asking the user to manually test each loop.
+
+**Decisions that landed (see DECISIONS.md)**
+
+- **DD#44** SettingsShell pattern (sticky 256px rail + main outlet),
+  scoped to `/config/aed/*` only. Other config children stay plain.
+- **DD#45** AED becomes the inner-shell hub (Servicio/Agentes/Grupos)
+  and Numeración especial migrates to Sistema as a section.
+- **DD#46** All three AED defaults pages built per Figma, with
+  per-card dirty/save flows and a shared SCSS for primitives.
+
+**Open / queued for next session**
+
+- Visual validation of the three AED pages against the Figma. Will
+  drive Playwright myself in the next session — no manual user pass
+  needed.
+- `aed-bg-default` token used in some accordion hover paths is
+  fine but worth a quick audit when the design-system pass happens.
+- Real backend wiring for save flows (today they're 600ms simulated
+  + toast).
+- Three placeholders in main app sidebar (personalización,
+  integraciones) still load the global PlaceholderPageComponent —
+  not in scope for this session, but they're visually inconsistent
+  with the new pages now.
+
+---
+
 ## 2026-05-07 · Session 11 — Iterations after Session 10's "closing": DECISIONS reordered, row-menu legacy, button width, palette icons, numeric column
 
 > Series of small visual / UX corrections after the user reviewed the
