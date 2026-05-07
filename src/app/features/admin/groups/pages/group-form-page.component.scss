@@ -13,16 +13,19 @@
     padding: var(--sc-spacing-500) var(--sc-spacing-600);
 
     /*
-     * Identity-panel layout — left column is a sticky persona card
-     * showing live state (CRM-style: Salesforce / Linear / Stripe),
-     * right column scrolls with the form sections. Distinct from the
-     * SettingsShell nav-rail (`/config/*`) — this rail is content,
-     * not navigation.
+     * Identity-panel layout — edge-to-edge two-column shell mirroring
+     * `aed-settings-shell` in shape: a sticky full-height rail on the
+     * left + a scrollable form column on the right. Distinct from the
+     * SettingsShell rail in *content* (here it's a persona card, not
+     * navigation) but identical in *format*.
      */
     &--with-panel {
+      max-width: none;
+      margin: 0;
+      padding: 0;
       display: grid;
-      grid-template-columns: 280px minmax(0, 1fr);
-      gap: var(--sc-spacing-500);
+      grid-template-columns: 256px minmax(0, 1fr);
+      gap: 0;
 
       @media (max-width: 960px) {
         grid-template-columns: 1fr;
@@ -32,28 +35,36 @@
 
   &__form {
     min-width: 0;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: var(--sc-spacing-500) var(--sc-spacing-600);
     display: flex;
     flex-direction: column;
+    width: 100%;
   }
 }
 
-/* Identity panel — sticky persona card mirrored across grupos / agentes
- * / usuarios edit forms. Always-visible glanceable state while editing
- * other sections of the form. */
+/* Identity panel — full-height sticky rail mirrored across grupos /
+ * agentes / usuarios edit forms. Visual format matches SettingsShell;
+ * content is a persona card with live state. */
 .ipanel {
   position: sticky;
-  top: var(--aed-form-panel-top, 80px);
+  top: var(--aed-form-panel-top, 64px);
   align-self: start;
+  height: calc(100dvh - var(--aed-form-panel-top, 64px));
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-300);
-  padding: var(--sc-spacing-400);
+  padding: var(--sc-spacing-400) var(--sc-spacing-500);
   background: var(--sc-bg-surface);
-  border: 1px solid var(--sc-border-default);
-  border-radius: var(--sc-radius-200);
+  border-right: 1px solid var(--sc-border-default);
+  overflow-y: auto;
 
   @media (max-width: 960px) {
     position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--sc-border-default);
   }
 
   &__category {
@@ -149,7 +160,7 @@
 
 .grid {
   display: grid;
-  gap: var(--sc-spacing-400);
+  gap: var(--sc-spacing-300);
 
   &--2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -164,7 +175,7 @@
     flex-direction: row;
     align-items: center;
     gap: var(--sc-spacing-200);
-    margin-top: var(--sc-spacing-300);
+    margin-top: var(--sc-spacing-200);
   }
 
   &__label,
@@ -172,7 +183,7 @@
     font-size: var(--sc-font-size-100);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
-    margin-bottom: var(--sc-spacing-50);
+    margin-bottom: 2px;
   }
 
   &__required {
@@ -187,7 +198,7 @@
   }
 
   &__input {
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    padding: 6px var(--sc-spacing-200);
     font-family: inherit;
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);
