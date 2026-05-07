@@ -1,15 +1,6 @@
 <div class="page">
   <div class="page__inner page__inner--with-shell">
     <aside class="shell-persona" aria-label="Resumen del agente">
-      <button
-        type="button"
-        class="shell-persona__back"
-        (click)="cancel()"
-        [attr.aria-label]="'common.back' | translate"
-      >
-        <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
-        <span>{{ 'common.back' | translate }}</span>
-      </button>
       <span class="shell-persona__eyebrow">
         {{ 'agents.entity_singular' | translate }}
       </span>
