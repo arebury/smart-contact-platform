@@ -98,19 +98,39 @@
                 </select>
               </div>
 
-              <div class="field field--inline">
-                <aed-toggle-switch
-                  [checked]="form().status === 'active'"
-                  [ariaLabel]="'agents.form.fields.status' | translate"
-                  (checkedChange)="onStatusChange($event)"
-                />
-                <div>
-                  <span class="field__label-inline">
-                    {{ 'agents.form.fields.status' | translate }}
-                  </span>
-                  <span class="field__help">
-                    {{ 'agents.form.fields.status_' + form().status | translate }}
-                  </span>
+              <div class="status-block">
+                <span class="field__label">{{ 'agents.form.fields.status' | translate }}</span>
+                <div class="toggle-cards">
+                  <button
+                    type="button"
+                    class="toggle-card"
+                    [class.toggle-card--active]="form().status === 'active'"
+                    (click)="onStatusChange(true)"
+                  >
+                    <span class="toggle-card__icon" aria-hidden="true">
+                      <lucide-icon [img]="checkIcon" [size]="16" />
+                    </span>
+                    <span class="toggle-card__copy">
+                      <span class="toggle-card__title">{{ 'agents.status.active' | translate }}</span>
+                      <span class="toggle-card__desc">{{ 'agents.form.fields.status_active' | translate }}</span>
+                    </span>
+                    <span class="toggle-card__radio" aria-hidden="true"></span>
+                  </button>
+                  <button
+                    type="button"
+                    class="toggle-card"
+                    [class.toggle-card--active]="form().status === 'inactive'"
+                    (click)="onStatusChange(false)"
+                  >
+                    <span class="toggle-card__icon" aria-hidden="true">
+                      <lucide-icon [img]="powerOffIcon" [size]="16" />
+                    </span>
+                    <span class="toggle-card__copy">
+                      <span class="toggle-card__title">{{ 'agents.status.inactive' | translate }}</span>
+                      <span class="toggle-card__desc">{{ 'agents.form.fields.status_inactive' | translate }}</span>
+                    </span>
+                    <span class="toggle-card__radio" aria-hidden="true"></span>
+                  </button>
                 </div>
               </div>
             </div>

@@ -625,3 +625,124 @@ input[type='checkbox'] {
     animation: none;
   }
 }
+
+
+/* Status block — replaces the old toggle switch row with two cards
+ * (Active / Inactive). Pattern from Beyond UI 2FA selection. Each card
+ * is a button-card with icon + title + description + radio indicator.
+ * Active state has brand-color border and filled radio. */
+.status-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-150);
+  margin-top: var(--sc-spacing-300);
+}
+
+.toggle-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sc-spacing-200);
+}
+
+.toggle-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sc-spacing-200);
+  padding: var(--sc-spacing-300);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-300);
+  background: var(--sc-bg-surface);
+  text-align: left;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    border-color var(--sc-transition-fast) var(--sc-easing-default),
+    background var(--sc-transition-fast) var(--sc-easing-default),
+    box-shadow var(--sc-transition-fast) var(--sc-easing-default);
+
+  &:hover {
+    border-color: var(--sc-border-strong);
+    background: color-mix(in oklch, var(--sc-bg-primary-subtle) 30%, var(--sc-bg-surface));
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-soft-blue-500);
+    outline-offset: 2px;
+  }
+
+  &--active {
+    border-color: var(--sc-bg-primary);
+    background: var(--sc-bg-primary-subtle);
+    box-shadow: 0 0 0 1px var(--sc-bg-primary);
+
+    .toggle-card__icon {
+      background: var(--sc-bg-primary);
+      color: var(--sc-text-on-primary);
+    }
+
+    .toggle-card__radio {
+      border-color: var(--sc-bg-primary);
+
+      &::after {
+        transform: scale(1);
+      }
+    }
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--sc-radius-200);
+    background: var(--sc-bg-secondary-subtle);
+    color: var(--sc-text-secondary);
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default);
+  }
+
+  &__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__title {
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-text-primary);
+  }
+
+  &__desc {
+    font-size: var(--sc-font-size-50);
+    color: var(--sc-text-secondary);
+    line-height: 1.4;
+  }
+
+  &__radio {
+    flex: 0 0 auto;
+    position: relative;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid var(--sc-border-strong);
+    background: var(--sc-bg-surface);
+    transition: border-color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 50%;
+      background: var(--sc-bg-primary);
+      transform: scale(0);
+      transition: transform var(--sc-transition-fast) var(--sc-easing-default);
+    }
+  }
+}

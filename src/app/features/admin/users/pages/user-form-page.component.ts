@@ -13,9 +13,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   ArrowLeft,
   Boxes,
+  Check,
   IdCard,
   LayoutGrid,
   LucideAngularModule,
+  PowerOff,
   ShieldCheck,
   Trash2,
 } from 'lucide-angular';
@@ -108,6 +110,8 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private releaseLock: (() => void) | null = null;
 
   protected readonly backIcon = ArrowLeft;
+  protected readonly checkIcon = Check;
+  protected readonly powerOffIcon = PowerOff;
   protected readonly activeSection = signal<string>('user-section-identity');
   protected readonly navSections = computed<readonly FormNavSection[]>(() => {
     const base: FormNavSection[] = [

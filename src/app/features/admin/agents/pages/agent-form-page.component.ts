@@ -12,11 +12,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   ArrowLeft,
+  Check,
   IdCard,
   Languages as LanguagesIcon,
   LucideAngularModule,
   MessageSquare,
   Phone,
+  PowerOff,
   ShieldCheck,
   Tag,
   Trash2,
@@ -133,6 +135,8 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     return this.labelsStore.labels().filter((label) => !ids.has(label.id));
   });
   protected readonly backIcon = ArrowLeft;
+  protected readonly checkIcon = Check;
+  protected readonly powerOffIcon = PowerOff;
   protected readonly activeSection = signal<string>('agent-section-identity');
   protected readonly navSections = computed<readonly FormNavSection[]>(() => {
     const base: FormNavSection[] = [
