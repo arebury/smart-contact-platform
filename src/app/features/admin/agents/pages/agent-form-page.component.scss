@@ -89,8 +89,8 @@
   align-items: center;
   gap: var(--sc-spacing-300);
   padding: var(--sc-spacing-500) var(--sc-spacing-500);
-  background: var(--sc-bg-primary-subtle);
-  border-left: 1px solid var(--sc-border-default);
+  background: var(--sc-sidebar-bg);
+  border-left: 1px solid var(--sc-color-blue-800);
   overflow-y: auto;
 
   &__eyebrow {
@@ -98,13 +98,10 @@
     font-weight: var(--sc-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--sc-text-secondary);
+    color: rgb(255 255 255 / 0.55);
   }
 
   &__photo {
-    /* Photo — circle with a status ring around it. The ring conveys
-     * presence/availability at a glance, the way Slack/Linear do.
-     * Color comes from the modifier class set by the parent. */
     --ring-color: var(--sc-color-gray-300);
     display: flex;
     justify-content: center;
@@ -114,14 +111,13 @@
     background:
       radial-gradient(circle, var(--sc-bg-surface) 60%, transparent 60%),
       conic-gradient(var(--ring-color) 0 100%);
-    box-shadow: 0 0 0 2px var(--sc-bg-primary-subtle);
+    /* Outer halo on the dark rail — gives the avatar separation. */
+    box-shadow: 0 0 0 2px rgb(255 255 255 / 0.08);
 
-    /* Presence ring colors — match the agents-list dot palette so the
-     * agent's status reads identically across the platform. */
-    &--presence-Disponible { --ring-color: #1a8a4a; }
-    &--presence-Ocupado, &--presence-EnLlamada { --ring-color: #c44b1a; }
-    &--presence-NoMolestar { --ring-color: #b91c4b; }
-    &--presence-Ausente, &--presence-Pausa { --ring-color: #b07e1a; }
+    &--presence-Disponible { --ring-color: #2bd577; }
+    &--presence-Ocupado, &--presence-EnLlamada { --ring-color: #ff8b4d; }
+    &--presence-NoMolestar { --ring-color: #ff5577; }
+    &--presence-Ausente, &--presence-Pausa { --ring-color: #ffc857; }
     &--presence-Desconectado { --ring-color: var(--sc-color-gray-400); }
 
     ::ng-deep .photo-upload {
@@ -135,6 +131,15 @@
     ::ng-deep .photo-upload__illustrated {
       width: 132px;
       height: 132px;
+      display: block;
+    }
+    /* Make the projected illustrated avatar SVG actually fill its
+     * 132px wrapper (the SVG renders at its hardcoded `[size]="64"`
+     * inside the component otherwise). */
+    ::ng-deep .photo-upload__illustrated svg,
+    ::ng-deep .photo-upload__illustrated > * {
+      width: 100% !important;
+      height: 100% !important;
     }
     ::ng-deep .photo-upload__image {
       width: 100%;
@@ -148,8 +153,6 @@
   }
 
   &__name {
-    /* Click-to-edit feel: looks like a heading until you focus it,
-     * then reveals input chrome. Always editable, no toggle state. */
     width: 100%;
     margin: 0;
     padding: var(--sc-spacing-100) var(--sc-spacing-200);
@@ -159,7 +162,7 @@
     font-size: var(--sc-font-size-subtitle-1);
     font-weight: var(--sc-font-weight-subtitle-1);
     line-height: var(--sc-line-height-subtitle-1);
-    color: var(--sc-text-primary);
+    color: #fff;
     text-align: center;
     border-radius: var(--sc-radius-200);
     outline: none;
@@ -169,19 +172,41 @@
       border-color var(--sc-transition-fast) var(--sc-easing-default);
 
     &::placeholder {
-      color: var(--sc-text-subtle);
+      color: rgb(255 255 255 / 0.4);
     }
 
     &:hover {
-      background: var(--sc-bg-surface);
+      background: rgb(255 255 255 / 0.06);
     }
 
     &:focus {
-      background: var(--sc-bg-surface);
-      border-color: var(--sc-color-blue-300);
+      background: rgb(255 255 255 / 0.1);
+      border-color: rgb(255 255 255 / 0.25);
       cursor: text;
     }
   }
+}
+
+/* Persona content blocks rendered on the dark rail — invert text colors
+ * and re-skin the stats card so it stands out against the navy bg. */
+.shell-persona .ipanel__pills .pill {
+  background: rgb(255 255 255 / 0.1);
+  color: #fff;
+  border-color: transparent;
+}
+.shell-persona .ipanel__pills .pill--type {
+  background: rgb(255 255 255 / 0.95);
+  color: var(--sc-bg-primary);
+}
+.shell-persona .ipanel__stats {
+  background: rgb(255 255 255 / 0.06);
+  border-color: rgb(255 255 255 / 0.08);
+}
+.shell-persona .ipanel__stats dt {
+  color: rgb(255 255 255 / 0.55);
+}
+.shell-persona .ipanel__stats dd {
+  color: #fff;
 }
 
 /* Persona-card content blocks — used inside `.shell-persona`. */
@@ -561,8 +586,7 @@ input[type='checkbox'] {
   align-items: center;
   gap: var(--sc-spacing-300);
   margin-top: var(--sc-spacing-500);
-  padding: var(--sc-spacing-150) var(--sc-spacing-150)
-    var(--sc-spacing-150) var(--sc-spacing-400);
+  padding: 6px 6px 6px var(--sc-spacing-400);
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-full);
@@ -582,7 +606,7 @@ input[type='checkbox'] {
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-100);
-    padding: var(--sc-spacing-150) var(--sc-spacing-300);
+    padding: 8px var(--sc-spacing-300);
     border: 0;
     border-radius: var(--sc-radius-full);
     background: var(--sc-bg-primary);
@@ -639,8 +663,8 @@ input[type='checkbox'] {
 }
 
 .toggle-cards {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: var(--sc-spacing-200);
 }
 
