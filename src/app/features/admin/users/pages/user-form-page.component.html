@@ -8,50 +8,56 @@
   (nameChange)="onNameRename($event)"
   (save)="save()"
   (cancelled)="cancel()"
->
-  <aed-photo-upload
-    header-leading
-    [photo]="form().photo"
-    [name]="form().name"
-    [ariaLabel]="'common.photo.change' | translate"
-    (photoChange)="onPhotoChange($event)"
-  />
-</aed-sticky-form-header>
+/>
 
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Resumen del usuario">
-      <div class="ipanel__summary">
-        <span class="ipanel__eyebrow">
-          <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
-          {{ 'users.entity_singular' | translate }}
-        </span>
-        @if (form().email) {
-          <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
-        }
-        <div class="ipanel__pills">
-          <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
-          <span class="pill pill--status pill--status-{{ form().status }}">
-            {{ 'users.status.' + form().status | translate }}
-          </span>
+      <div class="ipanel__identity">
+        <div class="ipanel__photo">
+          <aed-photo-upload
+            [photo]="form().photo"
+            [name]="form().name"
+            [ariaLabel]="'common.photo.change' | translate"
+            (photoChange)="onPhotoChange($event)"
+          />
         </div>
-        <dl class="ipanel__stats">
-          <div class="ipanel__stat">
-            <dt>{{ 'users.form.section.groups' | translate }}</dt>
-            <dd>
-              @if (assignedGroupNames().length === 0) {
-                —
-              } @else {
-                {{ assignedGroupNames().join(' · ') }}
-              }
-            </dd>
+        <div class="ipanel__identity-text">
+          <span class="ipanel__eyebrow">
+            <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
+            {{ 'users.entity_singular' | translate }}
+          </span>
+          @if (form().email) {
+            <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
+          }
+          <div class="ipanel__pills">
+            <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
+            <span class="pill pill--status pill--status-{{ form().status }}">
+              {{ 'users.status.' + form().status | translate }}
+            </span>
           </div>
-          <div class="ipanel__stat">
-            <dt>{{ 'users.form.section.services' | translate }}</dt>
-            <dd>{{ form().services.size }}</dd>
-          </div>
-        </dl>
+        </div>
       </div>
+
+      <dl class="ipanel__stats">
+        <div class="ipanel__stat">
+          <dt>{{ 'users.form.section.groups' | translate }}</dt>
+          <dd>
+            @if (assignedGroupNames().length === 0) {
+              —
+            } @else {
+              {{ assignedGroupNames().join(' · ') }}
+            }
+          </dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'users.form.section.services' | translate }}</dt>
+          <dd>{{ form().services.size }}</dd>
+        </div>
+      </dl>
+
+      <hr class="ipanel__divider" aria-hidden="true" />
+
       <div class="ipanel__nav">
         <aed-form-section-nav [sections]="navSections" [compact]="true" />
       </div>

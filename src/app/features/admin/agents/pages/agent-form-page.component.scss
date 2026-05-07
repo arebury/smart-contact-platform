@@ -47,6 +47,8 @@
   height: calc(100dvh - var(--aed-form-panel-top, 64px));
   display: flex;
   flex-direction: column;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-400) var(--sc-spacing-400);
   background: var(--sc-bg-surface);
   border-right: 1px solid var(--sc-border-default);
   overflow-y: auto;
@@ -58,21 +60,45 @@
     border-bottom: 1px solid var(--sc-border-default);
   }
 
-  &__summary {
+  /* Identity strip — photo on the left, supporting identity (eyebrow
+   * + pills) stacked on the right. Compact horizontal arrangement
+   * mirrors the aircall-shell rail without duplicating the name (the
+   * name lives in the StickyFormHeader). */
+  &__identity {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-300);
+    min-width: 0;
+  }
+
+  &__photo {
+    flex: 0 0 auto;
+    /* aed-photo-upload renders a 64×64 button by default; that's the
+     * compact size we want here. No size override needed. */
+  }
+
+  &__identity-text {
+    flex: 1 1 auto;
+    min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-300);
-    padding: var(--sc-spacing-400) var(--sc-spacing-500);
-    border-bottom: 1px solid var(--sc-border-subtle);
+    gap: var(--sc-spacing-150);
+  }
+
+  &__divider {
+    margin: var(--sc-spacing-200) 0;
+    border: 0;
+    border-top: 1px solid var(--sc-border-subtle);
   }
 
   &__nav {
-    padding: var(--sc-spacing-300) var(--sc-spacing-300);
+    /* No padding — the rail itself already has padding; the divider
+     * above does the visual job of separating nav from stats. */
   }
 
-  /* Small entity tag at the top of the rail. A 4px brand-color marker
-   * + entity word (sentence case, subtle). Replaces what would have been
-   * the persona name (which now lives in the header). */
+  /* Small entity tag inside the identity strip. A 6px brand-color dot
+   * + entity word (uppercase, subtle). The name lives in the
+   * StickyFormHeader so the rail eyebrow is supporting metadata. */
   &__eyebrow {
     display: inline-flex;
     align-items: center;
@@ -98,16 +124,18 @@
     min-height: 24px;
   }
 
-  /* Stats list — sentence-case label on the left, value on the right.
-   * Drops the heavy all-caps eyebrow per row that made the panel feel
-   * like a 2010 dashboard. */
+  /* Stats container — bordered card so the data reads as a discrete
+   * unit, not a continuation of the identity strip. Sentence-case
+   * label on the left, value on the right. */
   &__stats {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-100);
-    padding-top: var(--sc-spacing-300);
-    border-top: 1px solid var(--sc-border-subtle);
+    gap: var(--sc-spacing-150);
+    padding: var(--sc-spacing-300) var(--sc-spacing-300);
+    background: var(--sc-bg-default);
+    border: 1px solid var(--sc-border-subtle);
+    border-radius: var(--sc-radius-200);
   }
 
   &__stat {

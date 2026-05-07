@@ -8,55 +8,67 @@
   (nameChange)="onNameRename($event)"
   (save)="save()"
   (cancelled)="cancel()"
->
-  <aed-photo-upload
-    header-leading
-    [photo]="form().photo"
-    [name]="form().name"
-    [ariaLabel]="'common.photo.change' | translate"
-    (photoChange)="onPhotoChange($event)"
-  />
-</aed-sticky-form-header>
+/>
 
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Resumen del agente">
-      <div class="ipanel__summary">
-        <span class="ipanel__eyebrow">
-          <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
-          {{ 'agents.entity_singular' | translate }}
-        </span>
-        <div class="ipanel__pills">
-          <span class="pill pill--type">{{ typeLabelKeys[form().agentType] | translate }}</span>
-          <span class="pill pill--status pill--status-{{ form().status }}">
-            {{ 'agents.status.' + form().status | translate }}
-          </span>
-          <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
-            <span class="pill__dot" aria-hidden="true"></span>
-            {{ presenceKeys[form().presenceStatus] | translate }}
-          </span>
+      <!-- Identity strip — photo + entity meta side-by-side. Mirrors
+           the aircall-shell persona but compact: the name + save still
+           live in the StickyFormHeader, so the rail only carries the
+           supporting identity (eyebrow + pills + presence dot). -->
+      <div class="ipanel__identity">
+        <div class="ipanel__photo">
+          <aed-photo-upload
+            [photo]="form().photo"
+            [name]="form().name"
+            [ariaLabel]="'common.photo.change' | translate"
+            (photoChange)="onPhotoChange($event)"
+          />
         </div>
-        <dl class="ipanel__stats">
-          <div class="ipanel__stat">
-            <dt>{{ 'agents.form.fields.extension' | translate }}</dt>
-            <dd class="ipanel__mono">{{ form().extension || '—' }}</dd>
+        <div class="ipanel__identity-text">
+          <span class="ipanel__eyebrow">
+            <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
+            {{ 'agents.entity_singular' | translate }}
+          </span>
+          <div class="ipanel__pills">
+            <span class="pill pill--type">{{ typeLabelKeys[form().agentType] | translate }}</span>
+            <span class="pill pill--status pill--status-{{ form().status }}">
+              {{ 'agents.status.' + form().status | translate }}
+            </span>
+            <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
+              <span class="pill__dot" aria-hidden="true"></span>
+              {{ presenceKeys[form().presenceStatus] | translate }}
+            </span>
           </div>
-          <div class="ipanel__stat">
-            <dt>{{ 'agents.form.section.groups' | translate }}</dt>
-            <dd>{{ form().groupIds.size }}</dd>
-          </div>
-          <div class="ipanel__stat">
-            <dt>{{ 'agents.form.section.languages' | translate }}</dt>
-            <dd>
-              @if (form().languages.length === 0) {
-                —
-              } @else {
-                {{ form().languages.join(' · ') }}
-              }
-            </dd>
-          </div>
-        </dl>
+        </div>
       </div>
+
+      <!-- Stats live in their own bordered container so they read as
+           a discrete data card, not a continuation of the identity. -->
+      <dl class="ipanel__stats">
+        <div class="ipanel__stat">
+          <dt>{{ 'agents.form.fields.extension' | translate }}</dt>
+          <dd class="ipanel__mono">{{ form().extension || '—' }}</dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'agents.form.section.groups' | translate }}</dt>
+          <dd>{{ form().groupIds.size }}</dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'agents.form.section.languages' | translate }}</dt>
+          <dd>
+            @if (form().languages.length === 0) {
+              —
+            } @else {
+              {{ form().languages.join(' · ') }}
+            }
+          </dd>
+        </div>
+      </dl>
+
+      <hr class="ipanel__divider" aria-hidden="true" />
+
       <div class="ipanel__nav">
         <aed-form-section-nav [sections]="navSections" [compact]="true" />
       </div>
