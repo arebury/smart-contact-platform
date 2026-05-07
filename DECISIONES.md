@@ -15,6 +15,48 @@
 
 ---
 
+## DD#47 — Las listas de admin pasan a una sola fila de chrome, con un contador en vivo (2026-05-08)
+
+**Qué.** Las páginas de lista de **agentes**, **grupos** y
+**usuarios** dejan de tener dos filas en la cabecera (la del título
+con el botón Crear y, debajo, la barra con búsqueda + columnas +
+exportar). Ahora todo va en **una sola fila pegada arriba**:
+
+- A la izquierda: el título y, justo al lado, un contador en vivo
+  ("23 grupos") que se actualiza al filtrar.
+- A la derecha, en orden: búsqueda, selector de columnas, exportar,
+  un separador fino y, al final, el botón principal **Crear**. El
+  separador deja claro que las acciones secundarias y la principal
+  son grupos distintos.
+- El sombreado suave que tenía la barra antigua para que la tabla
+  se "deslice" por debajo se queda igual; solo cambia que ahora
+  cuelga de la cabecera, no de una segunda fila.
+
+**Por qué.** La doble fila empujaba la tabla hacia abajo sin
+aportar información extra. El patrón de Linear / Notion / Stripe
+hace que la tabla aparezca antes y agrupa las acciones por
+importancia. El contador en vivo soluciona la duda silenciosa de
+"¿cuántos quedaron tras filtrar?" que la versión anterior dejaba
+sin responder.
+
+**Qué se descartó.**
+
+- **Poner el contador en una línea debajo del título** —
+  añadía una fila vertical sin haber quitado la otra. Sale negativo.
+- **Llevar la búsqueda solo a un Cmd-K modal** — más rápido para
+  power users, peor para los demás. Se mantiene la búsqueda inline
+  con el hint del teclado como pista.
+- **Aplicarlo también a Etiquetas y Plantillas en el mismo commit.**
+  Comparten la cabecera vieja y se beneficiarían, pero esas dos
+  páginas tienen extras (filtro por tipo en Plantillas, editor de
+  color inline en Etiquetas) que merecen su propia revisión.
+
+**Estado.** Vive en la rama `explore/form-aircall-shell`. Aún no
+está en `main`. Etiquetas y Plantillas siguen con la cabecera de dos
+filas.
+
+---
+
 ## DD#46 — Las tres páginas de configuración de AED (Servicio, Agentes, Grupos) ya están construidas (2026-05-07)
 
 **Qué.** Las tres rutas dentro del hub AED (`/config/aed/servicio`,

@@ -10,7 +10,68 @@
 
 ---
 
-## 2026-05-07 · Session 12 — Bug round + AED hub restructure with SettingsShell, three settings sub-pages built from Figma
+## 2026-05-08 · Session 13 — Form persona refinement on two prototype branches + admin list audit
+
+> Polished the four prototype edit-form layouts and ran a list-page
+> audit on `agents` / `groups` / `users` (single-row chrome). Two of
+> the four prototype branches got real layout changes this session;
+> the other two stayed put.
+
+**Worked on** (current branches: `explore/form-aircall-shell`,
+`explore/form-hybrid-rail`)
+
+- **Persona rail back to white** (`form-aircall-shell`). Earlier in
+  the experiment the rail used `--sc-sidebar-bg` (deep navy) with
+  inverted text + bright presence ring. The dark surface competed
+  with the form column and read as a separate app, so reverted to
+  `--sc-bg-surface`: name input, eyebrow, pills, stats card, photo
+  halo and presence-ring colours all back to light-mode tokens
+  (`#1a8a4a`, `#c44b1a`, `#b91c4b`, `#b07e1a`). Avatar + status
+  ring now carry the identity moment instead of the panel colour.
+
+- **Abstract avatar on group form** (`form-aircall-shell`). Mirrored
+  the groups-list `IllustratedAvatar pool="abstract"` inside the
+  persona rail so the form has the same visual identity as the
+  table. 132px round wrapper, locked to `initial()?.name ?? form().name`
+  so renaming doesn't regenerate the artwork on every keystroke.
+
+- **List audit — single-row chrome** (`form-aircall-shell`, all three
+  admin lists). Replaced the two-row `header + page__action-bar`
+  pattern with a single sticky `header` (Linear/Notion/Stripe shape):
+  identity (title + live `N <entity_plural>` count, tabular-nums) on
+  the left; search → cols → export → primary CTA on the right with a
+  divider before the CTA so secondary/primary actions sit in
+  separate clusters. Search width pinned to 280px (was elastic up
+  to 480px). Close-icon size 13 → 14 to match the rest of the bar.
+  `.page__action-bar` removed. Templates / labels list pages were
+  *not* swept this round.
+
+- **Compact identity strip** (`form-hybrid-rail`). Restructured the
+  rail to look like the aircall-shell persona but smaller:
+  - Photo moves out of the StickyFormHeader into the rail at 64×64,
+    aligned beside the entity meta — eyebrow + pills stacked to its
+    right. No name in the rail (still in the StickyFormHeader).
+  - Stats sit in their own bordered container below
+    (`background: bg-default; border: 1px solid border-subtle;
+    border-radius: radius-200`). Three-tier hierarchy: identity →
+    data → navigation.
+  - 1px divider between stats and the section nav. Compact form-
+    section-nav stays.
+  - Groups pick up the abstract `IllustratedAvatar` (pool="abstract",
+    same as the table). Agents and users use the existing
+    `aed-photo-upload` (it renders 64×64 by default — no override).
+
+**Open / parked**
+
+- Templates and Labels list pages keep the two-row chrome — separate
+  sweep when we touch those areas next.
+- Three other prototype branches (`form-identity-panel`,
+  `form-nav-rail-index`) untouched this session; still parked for
+  the team review.
+- Per-branch Netlify deploys validating each prototype URL — already
+  rebuilding on push, no action this session.
+
+
 
 > Started with five small items from the user (two bugs, a UX
 > analysis, a toast micro-interaction, and a documentation

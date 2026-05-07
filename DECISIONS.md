@@ -7,6 +7,55 @@
 
 ---
 
+## 47 — Admin list pages collapse to single-row chrome; live entity count beside the title (2026-05-08)
+
+**Decision.** Agents / groups / users list pages drop the
+two-row `header + page__action-bar` pattern in favour of a single
+sticky `.page__header`. Identity (title + a live `N <entity_plural>`
+count, tabular-nums) sits on the left; search → cols → export → primary
+CTA cluster on the right with a divider before the CTA so the visual
+weight is "secondary actions · primary action."
+
+- Search width is pinned to 280px (was elastic 1fr up to 480px) so
+  the right cluster reads as a tight group rather than an elastic
+  strip.
+- The bottom 12px surface→transparent gradient that softens the
+  scroll cutoff moves with the header — same affordance, one row
+  fewer.
+- Close-icon size 13 → 14 so all chrome icons sit on the same scale
+  (consistency rule from ui-ux-pro-max).
+- The count uses `font-variant-numeric: tabular-nums` so it doesn't
+  twitch as the table filters.
+
+**Why.** Two rows of chrome were pushing the table down without
+adding information. The Linear / Notion / Stripe shape gets the
+table to first paint sooner and clusters the actions semantically
+(secondary tools vs primary CTA). The live count gives a constant
+"where am I after filtering" cue that the original layout was
+missing entirely.
+
+**Discarded.**
+
+- Putting count in a subtitle line under the title — added a
+  vertical row without giving up the action-bar one. Net loss.
+- Moving search into a `Cmd-K` only modal (no inline input) —
+  faster keyboard path but worse for occasional users; kept the
+  inline search with the kbd hint as the discoverability cue.
+- Sweeping templates / labels list pages in the same commit — they
+  share the old shape and would benefit, but they have unrelated
+  concerns (templates has a kind-filter rail, labels has an inline
+  colour editor) that deserve their own pass.
+
+**Files.**
+
+- `src/app/features/admin/{agents,groups,users}/pages/*-list-page.component.html`
+- `src/app/features/admin/{agents,groups,users}/pages/*-list-page.component.scss`
+
+(Lives on the `explore/form-aircall-shell` branch — not yet on
+`main`. Templates and labels still carry the old two-row pattern.)
+
+---
+
 ## 46 — Three AED defaults pages built end-to-end from Figma, per-card dirty/save flows, shared SCSS primitives (2026-05-07)
 
 **Decision.** `/config/aed/servicio`, `/config/aed/agentes` and
