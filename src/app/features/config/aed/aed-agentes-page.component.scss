@@ -1,0 +1,120 @@
+/*
+ * Agentes-specific extras: the Llamadas accordion + the
+ * destino × LLAMADA × TRANSFERENCIAS table. Shared layout primitives
+ * live in aed-defaults-page.component.scss (loaded alongside via
+ * styleUrls).
+ */
+
+.accordion {
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+  overflow: hidden;
+
+  &__head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sc-spacing-100);
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    background: var(--sc-bg-secondary-subtle);
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+    transition: background var(--sc-transition-fast, 120ms) ease;
+
+    &:hover {
+      background: var(--sc-bg-secondary-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-border-focus, var(--sc-color-blue-500));
+      outline-offset: -2px;
+    }
+
+    &--open {
+      border-bottom: 1px solid var(--sc-border-default);
+    }
+  }
+
+  &__title {
+    font-size: var(--sc-font-size-100, 14px);
+    font-weight: var(--sc-font-weight-medium, 500);
+    color: var(--sc-text-secondary);
+  }
+
+  &__chevron {
+    color: var(--sc-icon-subtle);
+    flex-shrink: 0;
+  }
+
+  &__body {
+    padding: var(--sc-spacing-300);
+    background: var(--sc-bg-surface);
+  }
+}
+
+.permisos-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--sc-font-size-100, 13px);
+
+  th,
+  td {
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  &__th-label {
+    font-size: var(--sc-font-size-50, 12px);
+    font-weight: var(--sc-font-weight-bold, 700);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--sc-text-secondary);
+    width: 40%;
+  }
+
+  &__th-col {
+    text-align: center;
+    width: 30%;
+  }
+
+  &__col-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-100);
+    cursor: pointer;
+    user-select: none;
+    font-size: var(--sc-font-size-50, 12px);
+    font-weight: var(--sc-font-weight-bold, 700);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--sc-text-secondary);
+
+    > input[type='checkbox'] {
+      accent-color: var(--sc-bg-primary);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+  }
+
+  &__th-row {
+    font-weight: var(--sc-font-weight-regular, 400);
+    color: var(--sc-text-primary);
+    border-top: 1px solid var(--sc-border-subtle);
+  }
+
+  &__cell {
+    text-align: center;
+    border-top: 1px solid var(--sc-border-subtle);
+
+    > input[type='checkbox'] {
+      accent-color: var(--sc-bg-primary);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+  }
+}

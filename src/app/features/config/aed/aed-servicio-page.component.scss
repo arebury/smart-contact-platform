@@ -1,0 +1,141 @@
+/*
+ * Servicio-specific extras: tag-input + chips, status visibility list
+ * with coloured dots, events list. Shared layout primitives live in
+ * aed-defaults-page.component.scss (loaded alongside via styleUrls).
+ */
+
+.tag-input {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-200);
+
+  &__field {
+    flex: 1;
+    max-width: 380px;
+  }
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-100);
+  list-style: none;
+  margin: var(--sc-spacing-200) 0 0;
+  padding: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  height: 26px;
+  padding: 0 var(--sc-spacing-200);
+  background: var(--sc-bg-secondary-subtle);
+  border: 1px solid var(--sc-border-default);
+  border-radius: 999px;
+  font-size: var(--sc-font-size-50, 12px);
+  color: var(--sc-text-secondary);
+
+  &__label {
+    line-height: 18px;
+  }
+
+  &__remove {
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: var(--sc-icon-subtle);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    transition: color var(--sc-transition-fast, 120ms) ease;
+
+    &:hover {
+      color: var(--sc-text-secondary);
+    }
+  }
+}
+
+.visibility-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-100);
+}
+
+.visibility {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-200);
+  cursor: pointer;
+  font-size: var(--sc-font-size-100, 13px);
+
+  > input[type='checkbox'] {
+    accent-color: var(--sc-bg-primary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+
+  &__label {
+    color: var(--sc-text-primary);
+    min-width: 130px;
+  }
+
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+
+    &[data-tone='cyan'] {
+      background: var(--sc-color-cyan-500, #5ad3e6);
+    }
+    &[data-tone='green'] {
+      background: var(--sc-color-green-500, #22c55e);
+    }
+    &[data-tone='amber'] {
+      background: var(--sc-color-amber-500, #f59e0b);
+    }
+    &[data-tone='red'] {
+      background: var(--sc-color-red-500, #ef4444);
+    }
+    &[data-tone='gray'] {
+      background: var(--sc-color-gray-400, #aeb6c2);
+    }
+  }
+}
+
+.events-list {
+  list-style: none;
+  margin: var(--sc-spacing-100) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-100);
+}
+
+.event {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  cursor: pointer;
+  font-size: var(--sc-font-size-100, 13px);
+  color: var(--sc-text-secondary);
+
+  > input[type='checkbox'] {
+    accent-color: var(--sc-bg-primary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+  }
+}
+
+.field__caption {
+  margin: 0 0 var(--sc-spacing-100);
+  font-size: var(--sc-font-size-50, 12px);
+  line-height: 18px;
+  color: var(--sc-text-subtle);
+}

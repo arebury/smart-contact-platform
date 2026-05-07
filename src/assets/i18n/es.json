@@ -11,7 +11,12 @@
     "back_to_home": "Volver al inicio",
     "cancel": "Cancelar",
     "save": "Guardar",
+    "saving": "Guardando…",
+    "discard": "Descartar",
     "create": "Crear",
+    "units": {
+      "seconds": "seg"
+    },
     "delete": "Eliminar",
     "duplicate": "Duplicar",
     "edit": "Editar",
@@ -760,21 +765,155 @@
         "saved_many": "Numeración especial guardada ({{count}} países)"
       },
       "subpages": {
-        "empty_title": "En construcción",
         "servicio": {
           "heading": "Servicio",
-          "subtitle": "Estados y conversaciones del servicio",
-          "empty_body": "Aquí vivirán los parámetros por defecto que aplican al servicio (estados disponibles, gestión de conversaciones, etc.). Por ahora la sección está preparada como esqueleto."
+          "subtitle": "Estados de agentes, parámetros de conversaciones y configuración operativa.",
+          "estados": {
+            "title": "Estados",
+            "hint": "Personaliza los estados de no disponibilidad y configura la visibilidad de estados entre agentes.",
+            "tags_label": "Estados de no disponibilidad personalizados",
+            "tags_hint": "Estos estados estarán disponibles para que los agentes los seleccionen cuando no estén disponibles.",
+            "tag_placeholder": "Pulsa Enter o pulsa el botón de añadir.",
+            "add": "Añadir",
+            "visibilidad_title": "Visibilidad de estados de otros agentes",
+            "visibilidad_hint": "Selecciona qué estados son visibles para el resto del equipo.",
+            "state_postConversando": "Post-conversando",
+            "state_conversando": "Conversando",
+            "state_administrativo": "Administrativo",
+            "state_noDisponible": "No disponible",
+            "state_desconectado": "Desconectado",
+            "permisos_title": "Permisos de agentes",
+            "permisos_hint": "Estos permisos sirven para configurar diferentes parámetros.",
+            "filtrar_label": "Permitir filtrar los estados posibles",
+            "filtrar_hint": "Los agentes podrán ver y filtrar los estados disponibles según su configuración.",
+            "admin_label": "Permitir el trabajo administrativo",
+            "admin_hint": "Los agentes podrán activar el estado administrativo durante su jornada.",
+            "pausa_title": "Pausa por inactividad",
+            "pausa_hint": "Define los tiempos de bloqueo automático por falta de respuesta.",
+            "standard_label": "Standard",
+            "standard_hint": "Tiempo de bloqueo por cada rechazo o falta de respuesta.",
+            "navegador_label": "Navegador (multicanal)",
+            "navegador_hint": "Número máximo de alertings no atendidos.",
+            "alertings": "alertings",
+            "learn_more": "Saber más sobre gestión de estados"
+          },
+          "conv": {
+            "title": "Conversaciones",
+            "hint": "Define el comportamiento por defecto en la gestión de conversaciones y llamadas salientes.",
+            "descuelgue_label": "Tipo de descuelgue por defecto",
+            "alerting_label": "Alerting del servicio",
+            "alerting_nombre": "Nombre",
+            "alerting_telefono": "Número de teléfono",
+            "callblending_title": "Callblending",
+            "callblending_hint": "Configura la integración de notificaciones para llamadas salientes.",
+            "url_label": "URL de notificación",
+            "url_placeholder": "https://ejemplo.com/webhook",
+            "timeout_label": "Timeout en llamada saliente",
+            "eventos_label": "Eventos de notificación",
+            "evento_emision": "Emisión",
+            "evento_llamadaEnCurso": "Llamada en curso",
+            "evento_llamadaNoAtendida": "Llamada no atendida",
+            "evento_llamadaAtendida": "Llamada atendida por agente",
+            "evento_llamadaFinalizada": "Llamada finalizada",
+            "evento_llamadaRechazada": "Llamada rechazada",
+            "learn_more": "Saber más sobre configuración de conversaciones"
+          },
+          "toast": {
+            "estados_saved": "Estados guardados",
+            "conversaciones_saved": "Configuración de conversaciones guardada"
+          }
         },
         "agentes": {
           "heading": "Agentes",
-          "subtitle": "Permisos y valores predeterminados aplicados a todos los agentes",
-          "empty_body": "Próximamente: permisos de llamadas (destinos × llamada × transferencias), permisos de dispositivos, opciones de visualización e iframe configurable."
+          "subtitle": "Permisos y valores predeterminados aplicados a todos los agentes.",
+          "card_title": "Parámetros por defecto para agentes",
+          "card_hint": "Establece los permisos y valores predeterminados que se aplicarán a todos los agentes de la plataforma.",
+          "llamadas": {
+            "title": "Llamadas",
+            "destino": "Destino",
+            "col_llamada": "Llamada",
+            "col_transferencias": "Transferencias",
+            "toggle_all_llamada": "Marcar todos los destinos en Llamada",
+            "toggle_all_transfer": "Marcar todos los destinos en Transferencias",
+            "row_fijos": "Fijos",
+            "row_moviles": "Móviles",
+            "row_internacionales": "Internacionales",
+            "row_especial": "Numeración especial"
+          },
+          "dispositivos": {
+            "title": "Permisos de dispositivos",
+            "gestion_label": "Gestión de dispositivos",
+            "gestion_hint": "Los agentes podrán añadir y eliminar sus propios dispositivos.",
+            "activacion_label": "Activación por grupo de servicio AED",
+            "activacion_hint": "Permite a los agentes activarse o desactivarse por grupo de servicio.",
+            "externos_label": "Dispositivos externos",
+            "externos_hint": "Los agentes podrán usar terminales físicos externos como dispositivo activo."
+          },
+          "visualizacion": {
+            "title": "Visualización",
+            "orden_label": "Orden aleatorio de agentes",
+            "orden_hint": "Los agentes se mostrarán en orden aleatorio en las listas y paneles."
+          },
+          "iframe": {
+            "title": "Iframe configurable",
+            "hint": "Permite embeber URLs externas en el panel del agente.",
+            "activate_label": "Activar iframe configurable",
+            "activate_hint": "Los agentes podrán tener una URL fija cargada en un iframe dentro de su interfaz.",
+            "url_label": "URL del iframe",
+            "url_placeholder": "https://ejemplo.com",
+            "titulo_label": "Título (opcional)",
+            "titulo_placeholder": "Mi herramienta"
+          },
+          "learn_more": "Saber más sobre parámetros de agentes",
+          "toast": {
+            "saved": "Parámetros de agentes guardados"
+          }
         },
         "grupos": {
           "heading": "Grupos",
-          "subtitle": "Parámetros por defecto que se aplicarán a todos los grupos",
-          "empty_body": "Próximamente: valores por defecto que heredan los grupos al crearse."
+          "subtitle": "Capacidad, tiempos y enrutamiento para los grupos de servicio.",
+          "card_title": "Parámetros por defecto para grupos",
+          "card_hint": "Define la capacidad, los tiempos de gestión y la estrategia de enrutamiento para los grupos de servicio.",
+          "capacidad": {
+            "title": "Capacidad máxima",
+            "hint": "Define cómo se calcula el límite de conversaciones en cola.",
+            "fija": "Fija",
+            "variable": "Variable",
+            "limite_label": "Límite de cola",
+            "limite_info": "Número máximo de conversaciones que pueden estar a la espera al mismo tiempo.",
+            "limite_suffix": "conversaciones en cola"
+          },
+          "tiempos": {
+            "title": "Tiempos de gestión",
+            "hint": "Valores por defecto aplicados al procesamiento de llamadas del grupo.",
+            "transferencia": "Tiempo de transferencia",
+            "max_cola": "Tiempo max. espera en cola"
+          },
+          "voz": {
+            "title": "Voz y desbordamiento",
+            "tipo_label": "Tipo de voz",
+            "desbordar_llamadas": "Desbordar llamadas",
+            "desbordar_llamadas_hint": "Redirige llamadas al superar la capacidad del grupo.",
+            "desbordar_sesion": "Desbordar sesión",
+            "desbordar_sesion_hint": "Redirige sesiones activas al superar el límite de concurrencia."
+          },
+          "enrutamiento": {
+            "title": "Enrutamiento",
+            "hint": "Configura la prioridad y estrategia de distribución de conversaciones.",
+            "prioridad": "Prioridad",
+            "estrategia": "Estrategia de distribución"
+          },
+          "apertura": {
+            "title": "Apertura de ficha",
+            "hint": "Define cuándo se abre la ficha del contacto durante una conversación.",
+            "automatica": "Automática",
+            "manual": "Manual",
+            "ninguna": "Ninguna"
+          },
+          "learn_more": "Saber más sobre parámetros de grupos",
+          "toast": {
+            "saved": "Parámetros de grupos guardados"
+          }
         }
       }
     },
