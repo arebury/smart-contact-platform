@@ -8,15 +8,7 @@
   (nameChange)="onNameRename($event)"
   (save)="save()"
   (cancelled)="cancel()"
->
-  <aed-photo-upload
-    header-leading
-    [photo]="form().photo"
-    [name]="form().name"
-    [ariaLabel]="'common.photo.change' | translate"
-    (photoChange)="onPhotoChange($event)"
-  />
-</aed-sticky-form-header>
+/>
 
 <div class="page">
   <div class="page__inner page__inner--with-shell">
@@ -172,6 +164,14 @@
     </main>
 
     <aside class="shell-persona" aria-label="Resumen del usuario">
+      <div class="shell-persona__photo">
+        <aed-photo-upload
+          [photo]="form().photo"
+          [name]="form().name"
+          [ariaLabel]="'common.photo.change' | translate"
+          (photoChange)="onPhotoChange($event)"
+        />
+      </div>
       @if (form().email) {
         <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
       }

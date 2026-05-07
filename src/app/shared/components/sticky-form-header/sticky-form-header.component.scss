@@ -15,6 +15,43 @@
   gap: var(--sc-spacing-300);
   box-shadow: var(--sc-shadow-xs);
 
+  &__back {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-100);
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    border: 0;
+    background: transparent;
+    color: var(--sc-text-subtle);
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    border-radius: var(--sc-radius-100);
+    cursor: pointer;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default),
+      transform var(--sc-transition-fast) var(--sc-easing-default);
+
+    lucide-icon {
+      transition: transform var(--sc-transition-fast) var(--sc-easing-default);
+    }
+
+    &:hover {
+      background: var(--sc-bg-secondary-subtle);
+      color: var(--sc-text-primary);
+
+      lucide-icon {
+        transform: translateX(-2px);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
   &__leading {
     flex: 0 0 auto;
     display: flex;

@@ -1,4 +1,13 @@
 <header class="sticky-header">
+  <button
+    type="button"
+    class="sticky-header__back"
+    (click)="cancelled.emit()"
+    [attr.aria-label]="'common.back' | translate"
+  >
+    <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
+    <span>{{ 'common.back' | translate }}</span>
+  </button>
   <div class="sticky-header__leading">
     <ng-content select="[header-leading]" />
   </div>
@@ -61,10 +70,6 @@
   </div>
 
   <div class="sticky-header__actions">
-    <button type="button" class="btn btn--ghost btn--back" (click)="cancelled.emit()">
-      <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
-      <span>{{ 'common.back' | translate }}</span>
-    </button>
     <button
       type="button"
       class="btn btn--primary"

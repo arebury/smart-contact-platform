@@ -63,9 +63,11 @@
   height: calc(100dvh - var(--aed-form-panel-top, 64px));
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--sc-spacing-400);
-  padding: var(--sc-spacing-500) var(--sc-spacing-500);
-  background: var(--sc-bg-surface);
+  padding: var(--sc-spacing-600) var(--sc-spacing-500);
+  /* Soft brand-tinted surface — differentiates the persona rail. */
+  background: var(--sc-bg-primary-subtle);
   border-left: 1px solid var(--sc-border-default);
   overflow-y: auto;
 }
@@ -74,6 +76,7 @@
 .ipanel__pills {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--sc-spacing-100);
   min-height: 24px;
 }
@@ -82,9 +85,12 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-100);
-  padding-top: var(--sc-spacing-300);
-  border-top: 1px solid var(--sc-border-subtle);
+  gap: var(--sc-spacing-200);
+  width: 100%;
+  padding: var(--sc-spacing-300) var(--sc-spacing-400);
+  background: var(--sc-bg-surface);
+  border: 1px solid var(--sc-border-subtle);
+  border-radius: var(--sc-radius-300);
 }
 
 .ipanel__stat {

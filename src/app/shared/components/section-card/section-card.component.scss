@@ -21,8 +21,10 @@
 
   &__head {
     padding: var(--sc-spacing-300) var(--sc-spacing-400);
-    /* Drop the tinted strip — modern forms keep a continuous surface;
-     * the title earns hierarchy through type weight, not background. */
+    /* Subtle brand-tinted strip — the page was reading too white. Light
+     * enough that it doesn't dominate; just enough to give each card head
+     * a clear identity and a touch of color. */
+    background: color-mix(in oklch, var(--sc-bg-primary-subtle) 50%, var(--sc-bg-surface));
     border-bottom: 1px solid var(--sc-border-subtle);
     display: flex;
     align-items: baseline;
