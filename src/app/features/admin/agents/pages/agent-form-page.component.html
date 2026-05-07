@@ -18,7 +18,7 @@
       >
         <aed-photo-upload
           [photo]="form().photo"
-          [name]="form().name"
+          [name]="initial()?.name ?? form().name"
           [ariaLabel]="'common.photo.change' | translate"
           (photoChange)="onPhotoChange($event)"
         />
