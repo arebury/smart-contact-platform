@@ -22,10 +22,14 @@
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Resumen del agente">
       <div class="ipanel__summary">
+        <span class="ipanel__eyebrow">
+          <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
+          {{ 'agents.entity_singular' | translate }}
+        </span>
         <div class="ipanel__pills">
           <span class="pill pill--type">{{ typeLabelKeys[form().agentType] | translate }}</span>
           <span class="pill pill--status pill--status-{{ form().status }}">
-            {{ 'agents.form.fields.status_' + form().status | translate }}
+            {{ 'agents.status.' + form().status | translate }}
           </span>
           <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
             <span class="pill__dot" aria-hidden="true"></span>

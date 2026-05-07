@@ -70,6 +70,27 @@
     padding: var(--sc-spacing-300) var(--sc-spacing-300);
   }
 
+  /* Small entity tag at the top of the rail. A 4px brand-color marker
+   * + entity word (sentence case, subtle). Replaces what would have been
+   * the persona name (which now lives in the header). */
+  &__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-150);
+    font-size: 11px;
+    font-weight: var(--sc-font-weight-semibold, 600);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sc-text-subtle);
+  }
+
+  &__eyebrow-marker {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sc-bg-primary);
+  }
+
   &__pills {
     display: flex;
     flex-wrap: wrap;
@@ -77,32 +98,41 @@
     min-height: 24px;
   }
 
+  /* Stats list — sentence-case label on the left, value on the right.
+   * Drops the heavy all-caps eyebrow per row that made the panel feel
+   * like a 2010 dashboard. */
   &__stats {
     margin: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-100);
     padding-top: var(--sc-spacing-300);
     border-top: 1px solid var(--sc-border-subtle);
   }
 
   &__stat {
     display: flex;
-    flex-direction: column;
-    gap: 2px;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sc-spacing-200);
 
     dt {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      font-size: var(--sc-font-size-100);
       color: var(--sc-text-subtle);
-      font-weight: var(--sc-font-weight-semibold, 600);
+      font-weight: var(--sc-font-weight-regular, 400);
+      flex: 0 0 auto;
     }
 
     dd {
       margin: 0;
       font-size: var(--sc-font-size-100);
       color: var(--sc-text-primary);
+      font-weight: var(--sc-font-weight-medium, 500);
+      text-align: right;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 

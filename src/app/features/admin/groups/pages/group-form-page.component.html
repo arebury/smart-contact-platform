@@ -14,6 +14,10 @@
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Resumen del grupo">
       <div class="ipanel__summary">
+        <span class="ipanel__eyebrow">
+          <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
+          {{ 'groups.entity_singular' | translate }}
+        </span>
         <div class="ipanel__pills">
           <span class="pill pill--priority pill--priority-{{ form().priority }}">
             {{ priorityKeys[form().priority] | translate }}

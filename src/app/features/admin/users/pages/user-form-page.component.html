@@ -22,13 +22,17 @@
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Resumen del usuario">
       <div class="ipanel__summary">
+        <span class="ipanel__eyebrow">
+          <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
+          {{ 'users.entity_singular' | translate }}
+        </span>
         @if (form().email) {
           <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
         }
         <div class="ipanel__pills">
           <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
           <span class="pill pill--status pill--status-{{ form().status }}">
-            {{ 'users.form.fields.status_' + form().status | translate }}
+            {{ 'users.status.' + form().status | translate }}
           </span>
         </div>
         <dl class="ipanel__stats">
