@@ -120,28 +120,29 @@
 .pill {
   display: inline-flex;
   align-items: center;
-  padding: 2px var(--sc-spacing-200);
+  padding: 3px var(--sc-spacing-200);
   border-radius: var(--sc-radius-full);
   font-size: 11px;
   font-weight: var(--sc-font-weight-medium, 500);
-  border: 1px solid var(--sc-border-default);
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
   background: var(--sc-bg-surface);
   color: var(--sc-text-secondary);
 
+  /* Type pill carries the brand accent — primary identifier of the
+   * user's role gets the brand color treatment. */
   &--type {
-    background: var(--sc-bg-secondary-subtle);
-    border-color: transparent;
+    background: var(--sc-bg-primary-subtle);
+    color: var(--sc-bg-primary);
   }
 
   &--status-active {
     background: color-mix(in oklch, #1a8a4a 12%, var(--sc-bg-surface));
     color: #1a6a3a;
-    border-color: transparent;
   }
   &--status-inactive {
     background: var(--sc-bg-secondary-subtle);
     color: var(--sc-text-subtle);
-    border-color: transparent;
   }
 }
 

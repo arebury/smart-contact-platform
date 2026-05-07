@@ -1,4 +1,4 @@
-<section class="section-card">
+<section class="section-card" [attr.id]="anchorId()" [attr.data-section-anchor]="anchorId()">
   <header class="section-card__head">
     <h2 class="section-card__title">{{ titleKey() | translate }}</h2>
     @if (hintKey()) {

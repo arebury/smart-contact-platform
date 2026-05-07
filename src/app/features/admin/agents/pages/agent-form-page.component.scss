@@ -117,28 +117,29 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sc-spacing-100);
-  padding: 2px var(--sc-spacing-200);
+  padding: 3px var(--sc-spacing-200);
   border-radius: var(--sc-radius-full);
   font-size: 11px;
   font-weight: var(--sc-font-weight-medium, 500);
-  border: 1px solid var(--sc-border-default);
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
   background: var(--sc-bg-surface);
   color: var(--sc-text-secondary);
 
+  /* Type pill carries the brand accent — it's the primary identifier
+   * of the agent's role, so it earns the brand color treatment. */
   &--type {
-    background: var(--sc-bg-secondary-subtle);
-    border-color: transparent;
+    background: var(--sc-bg-primary-subtle);
+    color: var(--sc-bg-primary);
   }
 
   &--status-active {
     background: color-mix(in oklch, #1a8a4a 12%, var(--sc-bg-surface));
     color: #1a6a3a;
-    border-color: transparent;
   }
   &--status-inactive {
     background: var(--sc-bg-secondary-subtle);
     color: var(--sc-text-subtle);
-    border-color: transparent;
   }
 
   &__dot {
@@ -146,6 +147,7 @@
     height: 6px;
     border-radius: 50%;
     background: currentColor;
+    flex: 0 0 auto;
   }
 
   /* Presence colors aligned with the agents list dot palette */
@@ -154,6 +156,28 @@
   &--presence-NoMolestar { color: #b91c4b; }
   &--presence-Ausente, &--presence-Pausa { color: #b07e1a; }
   &--presence-Desconectado { color: var(--sc-text-subtle); }
+
+  /* "Live" pulse on the presence dot when the agent is available — a
+   * subtle 2s breath so the panel feels alive, not flat. Drops to a
+   * static dot under reduced-motion. */
+  &--presence-Disponible &__dot {
+    animation: ipanel-dot-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+}
+
+@keyframes ipanel-dot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in oklch, currentColor 50%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in oklch, currentColor 0%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill--presence-Disponible .pill__dot {
+    animation: none;
+  }
 }
 
 .grid {

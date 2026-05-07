@@ -120,33 +120,66 @@
 .pill {
   display: inline-flex;
   align-items: center;
-  padding: 2px var(--sc-spacing-200);
+  gap: var(--sc-spacing-100);
+  padding: 3px var(--sc-spacing-200);
   border-radius: var(--sc-radius-full);
   font-size: 11px;
   font-weight: var(--sc-font-weight-medium, 500);
-  border: 1px solid var(--sc-border-default);
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
   background: var(--sc-bg-surface);
   color: var(--sc-text-secondary);
 
+  /* Channel chips carry the brand subtle bg — they identify the group's
+   * supported communication modes, central to the entity's identity. */
   &--channel {
-    background: var(--sc-bg-secondary-subtle);
-    border-color: transparent;
+    background: var(--sc-bg-primary-subtle);
+    color: var(--sc-bg-primary);
   }
 
   &--priority-Alta {
-    background: color-mix(in oklch, var(--sc-text-danger) 10%, var(--sc-bg-surface));
+    background: color-mix(in oklch, var(--sc-text-danger) 12%, var(--sc-bg-surface));
     color: var(--sc-text-danger);
-    border-color: transparent;
+    /* High-priority pulses subtly — visible cue that this group needs
+     * attention even when scanning the panel quickly. */
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      box-shadow: 0 0 0 0 currentColor;
+      animation: pill-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      pointer-events: none;
+      opacity: 0.4;
+    }
   }
   &--priority-Media {
     background: color-mix(in oklch, #c47a00 12%, var(--sc-bg-surface));
     color: #8a5500;
-    border-color: transparent;
   }
   &--priority-Baja {
     background: var(--sc-bg-secondary-subtle);
     color: var(--sc-text-secondary);
-    border-color: transparent;
+  }
+}
+
+@keyframes pill-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 0.4;
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in oklch, currentColor 0%, transparent);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill--priority-Alta::before {
+    animation: none;
+    display: none;
   }
 }
 
