@@ -97,9 +97,21 @@
     flex: 0 0 auto;
     display: flex;
     justify-content: flex-end;
-    gap: 8px;
+    gap: var(--sc-spacing-200);
     padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
     border-top: 1px solid var(--sc-modal-divider);
+  }
+
+  /* Bodyless dialogs (confirm-host etc.) have no body padding between
+   * head and foot, so the head's border-bottom + foot's border-top
+   * collapse into a single visible line in the gap. Drop both — the
+   * dialog reads as one continuous block. */
+  &--bodyless &__head {
+    border-bottom: 0;
+  }
+
+  &--bodyless &__foot {
+    border-top: 0;
   }
 }
 
