@@ -143,6 +143,29 @@
     color: var(--sc-text-subtle);
   }
 
+  &__photo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--sc-bg-default);
+
+    aed-illustrated-avatar {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    /* The avatar component renders at its hardcoded [size] inside an
+     * SVG; force it to fill the 132px wrapper consistently. */
+    ::ng-deep svg {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+
   &__name {
     width: 100%;
     margin: 0;

@@ -4,6 +4,13 @@
       <span class="shell-persona__eyebrow">
         {{ 'groups.entity_singular' | translate }}
       </span>
+      <div class="shell-persona__photo">
+        <aed-illustrated-avatar
+          [name]="initial()?.name ?? form().name || 'Grupo'"
+          pool="abstract"
+          [size]="132"
+        />
+      </div>
       <input
         class="shell-persona__name"
         type="text"

@@ -32,6 +32,7 @@ import {
   FormDangerZoneComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  IllustratedAvatarComponent,
   SectionCardComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
@@ -70,6 +71,7 @@ interface FormState {
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
     FormSectionNavComponent,
+    IllustratedAvatarComponent,
     LucideAngularModule,
     SectionCardComponent,
       ToggleSwitchComponent,
