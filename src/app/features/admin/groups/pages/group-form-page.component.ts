@@ -13,10 +13,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   ArrowLeft,
+  GitBranch,
   GripVertical,
+  IdCard,
   LucideAngularModule,
+  MessageSquare,
   Plus,
   Trash2,
+  Users as UsersIcon,
   X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
@@ -94,15 +98,20 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly activeSection = signal<string>('group-section-identity');
   protected readonly navSections = computed<readonly FormNavSection[]>(() => {
     const base: FormNavSection[] = [
-      { id: 'group-section-identity', labelKey: 'groups.form.section.identity' },
-      { id: 'group-section-channels', labelKey: 'groups.form.section.channels' },
-      { id: 'group-section-strategy', labelKey: 'groups.form.section.strategy' },
-      { id: 'group-section-agents', labelKey: 'groups.form.section.agents' },
+      { id: 'group-section-identity', labelKey: 'groups.form.section.identity', icon: IdCard },
+      { id: 'group-section-channels', labelKey: 'groups.form.section.channels', icon: MessageSquare },
+      { id: 'group-section-strategy', labelKey: 'groups.form.section.strategy', icon: GitBranch },
+      { id: 'group-section-agents', labelKey: 'groups.form.section.agents', icon: UsersIcon },
     ];
     if (this.mode() === 'edit') {
-      base.push({ id: 'group-section-danger', labelKey: 'common.delete' });
+      base.push({ id: 'group-section-danger', labelKey: 'common.delete', icon: Trash2 });
     }
     return base;
+  });
+
+  protected readonly activeIcon = computed(() => {
+    const id = this.activeSection();
+    return this.navSections().find((s) => s.id === id)?.icon ?? null;
   });
 
   protected readonly plusIcon = Plus;

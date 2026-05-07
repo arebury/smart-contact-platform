@@ -10,7 +10,18 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ArrowLeft, LucideAngularModule } from 'lucide-angular';
+import {
+  ArrowLeft,
+  IdCard,
+  Languages as LanguagesIcon,
+  LucideAngularModule,
+  MessageSquare,
+  Phone,
+  ShieldCheck,
+  Tag,
+  Trash2,
+  Users as UsersIcon,
+} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -125,18 +136,23 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly activeSection = signal<string>('agent-section-identity');
   protected readonly navSections = computed<readonly FormNavSection[]>(() => {
     const base: FormNavSection[] = [
-      { id: 'agent-section-identity', labelKey: 'agents.form.section.identity' },
-      { id: 'agent-section-contact', labelKey: 'agents.form.section.contact' },
-      { id: 'agent-section-channels', labelKey: 'agents.form.section.channels' },
-      { id: 'agent-section-languages', labelKey: 'agents.form.section.languages' },
-      { id: 'agent-section-labels', labelKey: 'agents.form.section.labels' },
-      { id: 'agent-section-groups', labelKey: 'agents.form.section.groups' },
-      { id: 'agent-section-permissions', labelKey: 'agents.form.section.permissions' },
+      { id: 'agent-section-identity', labelKey: 'agents.form.section.identity', icon: IdCard },
+      { id: 'agent-section-contact', labelKey: 'agents.form.section.contact', icon: Phone },
+      { id: 'agent-section-channels', labelKey: 'agents.form.section.channels', icon: MessageSquare },
+      { id: 'agent-section-languages', labelKey: 'agents.form.section.languages', icon: LanguagesIcon },
+      { id: 'agent-section-labels', labelKey: 'agents.form.section.labels', icon: Tag },
+      { id: 'agent-section-groups', labelKey: 'agents.form.section.groups', icon: UsersIcon },
+      { id: 'agent-section-permissions', labelKey: 'agents.form.section.permissions', icon: ShieldCheck },
     ];
     if (this.mode() === 'edit') {
-      base.push({ id: 'agent-section-danger', labelKey: 'common.delete' });
+      base.push({ id: 'agent-section-danger', labelKey: 'common.delete', icon: Trash2 });
     }
     return base;
+  });
+
+  protected readonly activeIcon = computed(() => {
+    const id = this.activeSection();
+    return this.navSections().find((s) => s.id === id)?.icon ?? null;
   });
 
   protected readonly devicePermissions = DEVICE_PERMISSIONS;

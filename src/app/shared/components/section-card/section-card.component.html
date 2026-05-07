@@ -1,5 +1,10 @@
 <section class="section-card" [attr.id]="anchorId()" [attr.data-section-anchor]="anchorId()">
   <header class="section-card__head">
+    @if (icon(); as ic) {
+      <span class="section-card__head-icon" aria-hidden="true">
+        <lucide-icon [img]="ic" [size]="14" />
+      </span>
+    }
     <h2 class="section-card__title">{{ titleKey() | translate }}</h2>
     @if (hintKey()) {
       <span class="section-card__hint">{{ hintKey()! | translate }}</span>

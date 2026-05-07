@@ -14,7 +14,12 @@
           role="tab"
           (click)="onJump($event, section.id)"
         >
-          {{ section.labelKey | translate }}
+          @if (section.icon; as ic) {
+            <span class="form-nav__icon" aria-hidden="true">
+              <lucide-icon [img]="ic" [size]="14" />
+            </span>
+          }
+          <span class="form-nav__label">{{ section.labelKey | translate }}</span>
         </a>
       </li>
     }

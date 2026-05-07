@@ -20,7 +20,8 @@
     <main class="shell-form">
       @switch (activeSection()) {
         @case ('user-section-identity') {
-          <aed-section-card titleKey="users.form.section.identity">
+          <aed-section-card
+            [icon]="activeIcon()" titleKey="users.form.section.identity">
             <div class="grid grid--2">
               <div class="field">
                 <label class="field__label" for="user-email">
@@ -95,6 +96,7 @@
 
         @case ('user-section-sections') {
           <aed-section-card
+            [icon]="activeIcon()"
             titleKey="users.form.section.sections"
             hintKey="users.form.section.sections_hint"
           >
@@ -114,7 +116,8 @@
         }
 
         @case ('user-section-permissions') {
-          <aed-section-card titleKey="users.form.section.permissions">
+          <aed-section-card
+            [icon]="activeIcon()" titleKey="users.form.section.permissions">
             <div class="checkbox-grid">
               @for (def of permissionDefs; track def.key) {
                 <label class="checkbox-row">
@@ -132,6 +135,7 @@
 
         @case ('user-section-services') {
           <aed-section-card
+            [icon]="activeIcon()"
             titleKey="users.form.section.services"
             hintKey="users.form.section.services_hint"
           >

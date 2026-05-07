@@ -10,7 +10,15 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ArrowLeft, LucideAngularModule } from 'lucide-angular';
+import {
+  ArrowLeft,
+  Boxes,
+  IdCard,
+  LayoutGrid,
+  LucideAngularModule,
+  ShieldCheck,
+  Trash2,
+} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -103,15 +111,20 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly activeSection = signal<string>('user-section-identity');
   protected readonly navSections = computed<readonly FormNavSection[]>(() => {
     const base: FormNavSection[] = [
-      { id: 'user-section-identity', labelKey: 'users.form.section.identity' },
-      { id: 'user-section-sections', labelKey: 'users.form.section.sections' },
-      { id: 'user-section-permissions', labelKey: 'users.form.section.permissions' },
-      { id: 'user-section-services', labelKey: 'users.form.section.services' },
+      { id: 'user-section-identity', labelKey: 'users.form.section.identity', icon: IdCard },
+      { id: 'user-section-sections', labelKey: 'users.form.section.sections', icon: LayoutGrid },
+      { id: 'user-section-permissions', labelKey: 'users.form.section.permissions', icon: ShieldCheck },
+      { id: 'user-section-services', labelKey: 'users.form.section.services', icon: Boxes },
     ];
     if (this.mode() === 'edit') {
-      base.push({ id: 'user-section-danger', labelKey: 'common.delete' });
+      base.push({ id: 'user-section-danger', labelKey: 'common.delete', icon: Trash2 });
     }
     return base;
+  });
+
+  protected readonly activeIcon = computed(() => {
+    const id = this.activeSection();
+    return this.navSections().find((s) => s.id === id)?.icon ?? null;
   });
 
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
