@@ -13,7 +13,7 @@
      */
     &--with-shell {
       display: grid;
-      grid-template-columns: 240px minmax(0, 1fr) 280px;
+      grid-template-columns: 280px minmax(0, 1fr) 240px;
       gap: 0;
       min-height: calc(100dvh - var(--aed-form-panel-top, 0px));
     }
@@ -30,7 +30,7 @@
   gap: var(--sc-spacing-300);
   padding: var(--sc-spacing-400) var(--sc-spacing-300);
   background: var(--sc-bg-surface);
-  border-right: 1px solid var(--sc-border-default);
+  border-left: 1px solid var(--sc-border-default);
   overflow-y: auto;
 
   &__back {
@@ -90,8 +90,44 @@
   gap: var(--sc-spacing-300);
   padding: var(--sc-spacing-500) var(--sc-spacing-500);
   background: var(--sc-sidebar-bg);
-  border-left: 1px solid var(--sc-color-blue-800);
+  border-right: 1px solid var(--sc-color-blue-800);
   overflow-y: auto;
+
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-100);
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    border: 0;
+    background: transparent;
+    color: rgb(255 255 255 / 0.55);
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    border-radius: var(--sc-radius-200);
+    cursor: pointer;
+    align-self: flex-start;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default);
+
+    lucide-icon {
+      transition: transform var(--sc-transition-fast) var(--sc-easing-default);
+    }
+
+    &:hover {
+      background: rgb(255 255 255 / 0.08);
+      color: #fff;
+      lucide-icon {
+        transform: translateX(-2px);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid rgb(255 255 255 / 0.4);
+      outline-offset: 2px;
+    }
+  }
 
   &__eyebrow {
     font-size: 11px;
@@ -191,6 +227,17 @@
   background: rgb(255 255 255 / 0.95);
   color: var(--sc-bg-primary);
 }
+
+/* Status pills — semantic green/red */
+.shell-persona .ipanel__pills .pill--status-active {
+  background: color-mix(in oklch, #2bd577 25%, transparent);
+  color: #84efb6;
+}
+.shell-persona .ipanel__pills .pill--status-inactive {
+  background: color-mix(in oklch, #ff5577 25%, transparent);
+  color: #ffb3c2;
+}
+
 .shell-persona .ipanel__stats {
   background: rgb(255 255 255 / 0.06);
   border-color: rgb(255 255 255 / 0.08);

@@ -1,20 +1,61 @@
 <div class="page">
   <div class="page__inner page__inner--with-shell">
-    <aside class="shell-nav" aria-label="Secciones del usuario">
+    <aside class="shell-persona" aria-label="Resumen del usuario">
       <button
         type="button"
-        class="shell-nav__back"
+        class="shell-persona__back"
         (click)="cancel()"
         [attr.aria-label]="'common.back' | translate"
       >
         <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
         <span>{{ 'common.back' | translate }}</span>
       </button>
-      <aed-form-section-nav
-        [sections]="navSections()"
-        [activeId]="activeSection()"
-        (activeChange)="activeSection.set($event)"
+      <span class="shell-persona__eyebrow">
+        {{ 'users.entity_singular' | translate }}
+      </span>
+      <div
+        class="shell-persona__photo shell-persona__photo--status-{{ form().status }}"
+      >
+        <aed-photo-upload
+          [photo]="form().photo"
+          [name]="form().name"
+          [ariaLabel]="'common.photo.change' | translate"
+          (photoChange)="onPhotoChange($event)"
+        />
+      </div>
+      <input
+        class="shell-persona__name"
+        type="text"
+        [value]="form().name"
+        (input)="onNameRename($any($event.target).value)"
+        [placeholder]="'users.form.fields.name' | translate"
+        [attr.aria-label]="'common.edit' | translate"
       />
+      @if (form().email) {
+        <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
+      }
+      <div class="ipanel__pills">
+        <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
+        <span class="pill pill--status pill--status-{{ form().status }}">
+          {{ 'users.status.' + form().status | translate }}
+        </span>
+      </div>
+      <dl class="ipanel__stats">
+        <div class="ipanel__stat">
+          <dt>{{ 'users.form.section.groups' | translate }}</dt>
+          <dd>
+            @if (assignedGroupNames().length === 0) {
+              —
+            } @else {
+              {{ assignedGroupNames().join(' · ') }}
+            }
+          </dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'users.form.section.services' | translate }}</dt>
+          <dd>{{ form().services.size }}</dd>
+        </div>
+      </dl>
     </aside>
 
     <main class="shell-form">
@@ -203,53 +244,12 @@
       }
     </main>
 
-    <aside class="shell-persona" aria-label="Resumen del usuario">
-      <span class="shell-persona__eyebrow">
-        {{ 'users.entity_singular' | translate }}
-      </span>
-      <div
-        class="shell-persona__photo shell-persona__photo--status-{{ form().status }}"
-      >
-        <aed-photo-upload
-          [photo]="form().photo"
-          [name]="form().name"
-          [ariaLabel]="'common.photo.change' | translate"
-          (photoChange)="onPhotoChange($event)"
-        />
-      </div>
-      <input
-        class="shell-persona__name"
-        type="text"
-        [value]="form().name"
-        (input)="onNameRename($any($event.target).value)"
-        [placeholder]="'users.form.fields.name' | translate"
-        [attr.aria-label]="'common.edit' | translate"
+    <aside class="shell-nav" aria-label="Secciones del usuario">
+      <aed-form-section-nav
+        [sections]="navSections()"
+        [activeId]="activeSection()"
+        (activeChange)="activeSection.set($event)"
       />
-      @if (form().email) {
-        <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
-      }
-      <div class="ipanel__pills">
-        <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
-        <span class="pill pill--status pill--status-{{ form().status }}">
-          {{ 'users.status.' + form().status | translate }}
-        </span>
-      </div>
-      <dl class="ipanel__stats">
-        <div class="ipanel__stat">
-          <dt>{{ 'users.form.section.groups' | translate }}</dt>
-          <dd>
-            @if (assignedGroupNames().length === 0) {
-              —
-            } @else {
-              {{ assignedGroupNames().join(' · ') }}
-            }
-          </dd>
-        </div>
-        <div class="ipanel__stat">
-          <dt>{{ 'users.form.section.services' | translate }}</dt>
-          <dd>{{ form().services.size }}</dd>
-        </div>
-      </dl>
     </aside>
   </div>
 </div>

@@ -1,20 +1,51 @@
 <div class="page">
   <div class="page__inner page__inner--with-shell">
-    <aside class="shell-nav" aria-label="Secciones del grupo">
+    <aside class="shell-persona" aria-label="Resumen del grupo">
       <button
         type="button"
-        class="shell-nav__back"
+        class="shell-persona__back"
         (click)="cancel()"
         [attr.aria-label]="'common.back' | translate"
       >
         <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
         <span>{{ 'common.back' | translate }}</span>
       </button>
-      <aed-form-section-nav
-        [sections]="navSections()"
-        [activeId]="activeSection()"
-        (activeChange)="activeSection.set($event)"
+      <span class="shell-persona__eyebrow">
+        {{ 'groups.entity_singular' | translate }}
+      </span>
+      <input
+        class="shell-persona__name"
+        type="text"
+        [value]="form().name"
+        (input)="onNameRename($any($event.target).value)"
+        [placeholder]="'groups.form.fields.name' | translate"
+        [attr.aria-label]="'common.edit' | translate"
       />
+      <div class="ipanel__pills">
+        <span class="pill pill--priority pill--priority-{{ form().priority }}">
+          {{ priorityKeys[form().priority] | translate }}
+        </span>
+        @for (channel of channels; track channel) {
+          @if (hasChannel(channel)) {
+            <span class="pill pill--channel">{{ channelKeys[channel] | translate }}</span>
+          }
+        }
+      </div>
+      <dl class="ipanel__stats">
+        <div class="ipanel__stat">
+          <dt>{{ 'groups.form.fields.phone_strategy' | translate }}</dt>
+          <dd>{{ form().strategy }}</dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'groups.form.section.agents' | translate }}</dt>
+          <dd>
+            {{
+              'groups.form.assigned_count'
+                | translate: { count: form().assignedAgents.length }
+            }}
+          </dd>
+        </div>
+      </dl>
     </aside>
 
     <main class="shell-form">
@@ -266,43 +297,12 @@
       }
     </main>
 
-    <aside class="shell-persona" aria-label="Resumen del grupo">
-      <span class="shell-persona__eyebrow">
-        {{ 'groups.entity_singular' | translate }}
-      </span>
-      <input
-        class="shell-persona__name"
-        type="text"
-        [value]="form().name"
-        (input)="onNameRename($any($event.target).value)"
-        [placeholder]="'groups.form.fields.name' | translate"
-        [attr.aria-label]="'common.edit' | translate"
+    <aside class="shell-nav" aria-label="Secciones del grupo">
+      <aed-form-section-nav
+        [sections]="navSections()"
+        [activeId]="activeSection()"
+        (activeChange)="activeSection.set($event)"
       />
-      <div class="ipanel__pills">
-        <span class="pill pill--priority pill--priority-{{ form().priority }}">
-          {{ priorityKeys[form().priority] | translate }}
-        </span>
-        @for (channel of channels; track channel) {
-          @if (hasChannel(channel)) {
-            <span class="pill pill--channel">{{ channelKeys[channel] | translate }}</span>
-          }
-        }
-      </div>
-      <dl class="ipanel__stats">
-        <div class="ipanel__stat">
-          <dt>{{ 'groups.form.fields.phone_strategy' | translate }}</dt>
-          <dd>{{ form().strategy }}</dd>
-        </div>
-        <div class="ipanel__stat">
-          <dt>{{ 'groups.form.section.agents' | translate }}</dt>
-          <dd>
-            {{
-              'groups.form.assigned_count'
-                | translate: { count: form().assignedAgents.length }
-            }}
-          </dd>
-        </div>
-      </dl>
     </aside>
   </div>
 </div>
