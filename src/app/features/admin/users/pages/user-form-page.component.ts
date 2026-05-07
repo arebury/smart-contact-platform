@@ -17,6 +17,8 @@ import { CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
   FormDangerZoneComponent,
+  FormSectionNavComponent,
+  type FormNavSection,
   PhotoUploadComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
@@ -60,6 +62,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
   imports: [
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
+    FormSectionNavComponent,
     PhotoUploadComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
@@ -95,6 +98,13 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   readonly formDirty = signal(false);
   protected readonly conflictWarning = signal(false);
   private releaseLock: (() => void) | null = null;
+
+  protected readonly navSections: readonly FormNavSection[] = [
+    { id: 'user-section-identity', labelKey: 'users.form.section.identity' },
+    { id: 'user-section-sections', labelKey: 'users.form.section.sections' },
+    { id: 'user-section-permissions', labelKey: 'users.form.section.permissions' },
+    { id: 'user-section-services', labelKey: 'users.form.section.services' },
+  ];
 
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
 

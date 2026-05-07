@@ -1,0 +1,70 @@
+/*
+ * Form section nav — visual language pulled from `aed-settings-sidebar`
+ * (same neutral surface, same hover/active treatment) so the create/edit
+ * shells feel like a sibling of `/config/*`. No icons here: section
+ * names are the navigable units, not destinations, so a clean text list
+ * reads better than icon chips.
+ */
+:host {
+  display: block;
+  height: 100%;
+}
+
+.form-nav {
+  display: flex;
+  flex-direction: column;
+  padding: var(--sc-spacing-300) var(--sc-spacing-200);
+  background: var(--sc-bg-surface);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+
+  /* When embedded inside another rail (hybrid identity panel), drop the
+   * outer card chrome — the parent already provides the surface. */
+  &--compact {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+.form-nav__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.form-nav__item {
+  display: block;
+  padding: var(--sc-spacing-100) var(--sc-spacing-200);
+  border-radius: var(--sc-radius-100);
+  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  font-size: var(--sc-font-size-100, 14px);
+  line-height: 22px;
+  font-weight: var(--sc-font-weight-medium, 500);
+  color: var(--sc-text-secondary);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background var(--sc-transition-fast, 120ms) ease,
+    color var(--sc-transition-fast, 120ms) ease;
+
+  &:hover {
+    background: var(--sc-bg-secondary-subtle);
+    color: var(--sc-text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-border-focus, var(--sc-color-blue-500));
+    outline-offset: 2px;
+  }
+
+  &--active {
+    background: var(--sc-bg-secondary-subtle);
+    color: var(--sc-text-primary);
+    font-weight: var(--sc-font-weight-semibold, 600);
+  }
+}

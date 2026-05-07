@@ -1,9 +1,10 @@
 <aed-sticky-form-header
   [mode]="mode()"
   [entityKey]="mode() === 'create' ? 'groups.form.create_title' : 'groups.entity_singular'"
-  [name]="form().name || (mode() === 'create' ? ('groups.form.create_title' | translate) : '')"
+  [name]="form().name"
   [canSave]="canSave()"
   [saving]="saving()"
+  namePlaceholderKey="groups.form.fields.name"
   (nameChange)="onNameRename($event)"
   (save)="save()"
   (cancelled)="cancel()"
@@ -12,35 +13,36 @@
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Resumen del grupo">
-      <span class="ipanel__category">{{ 'groups.entity_singular' | translate }}</span>
-      <h2 class="ipanel__name">
-        {{ form().name || ('groups.form.create_title' | translate) }}
-      </h2>
-      <div class="ipanel__pills">
-        <span class="pill pill--priority pill--priority-{{ form().priority }}">
-          {{ priorityKeys[form().priority] | translate }}
-        </span>
-        @for (channel of channels; track channel) {
-          @if (hasChannel(channel)) {
-            <span class="pill pill--channel">{{ channelKeys[channel] | translate }}</span>
+      <div class="ipanel__summary">
+        <div class="ipanel__pills">
+          <span class="pill pill--priority pill--priority-{{ form().priority }}">
+            {{ priorityKeys[form().priority] | translate }}
+          </span>
+          @for (channel of channels; track channel) {
+            @if (hasChannel(channel)) {
+              <span class="pill pill--channel">{{ channelKeys[channel] | translate }}</span>
+            }
           }
-        }
+        </div>
+        <dl class="ipanel__stats">
+          <div class="ipanel__stat">
+            <dt>{{ 'groups.form.fields.phone_strategy' | translate }}</dt>
+            <dd>{{ form().strategy }}</dd>
+          </div>
+          <div class="ipanel__stat">
+            <dt>{{ 'groups.form.section.agents' | translate }}</dt>
+            <dd>
+              {{
+                'groups.form.assigned_count'
+                  | translate: { count: form().assignedAgents.length }
+              }}
+            </dd>
+          </div>
+        </dl>
       </div>
-      <dl class="ipanel__stats">
-        <div class="ipanel__stat">
-          <dt>{{ 'groups.form.fields.phone_strategy' | translate }}</dt>
-          <dd>{{ form().strategy }}</dd>
-        </div>
-        <div class="ipanel__stat">
-          <dt>{{ 'groups.form.section.agents' | translate }}</dt>
-          <dd>
-            {{
-              'groups.form.assigned_count'
-                | translate: { count: form().assignedAgents.length }
-            }}
-          </dd>
-        </div>
-      </dl>
+      <div class="ipanel__nav">
+        <aed-form-section-nav [sections]="navSections" [compact]="true" />
+      </div>
     </aside>
     <div class="page__form">
     @if (conflictWarning()) {
@@ -48,30 +50,11 @@
         {{ 'common.cross_tab_warning' | translate }}
       </div>
     }
-    <aed-section-card titleKey="groups.form.section.identity">
+    <aed-section-card
+      anchorId="group-section-identity"
+      titleKey="groups.form.section.identity"
+    >
       <div class="grid grid--2">
-        <div class="field">
-          <label class="field__label" for="group-name">
-            {{ 'groups.form.fields.name' | translate }}
-            <span class="field__required" aria-hidden="true">*</span>
-          </label>
-          <input
-            id="group-name"
-            type="text"
-            class="field__input"
-            [class.field__input--error]="!!errors()['name']"
-            [attr.aria-describedby]="errors()['name'] ? 'group-name-error' : null"
-            [attr.aria-invalid]="!!errors()['name']"
-            [value]="form().name"
-            (input)="onTextInput('name', $event)"
-          />
-          <span id="group-name-error" class="field__error" aria-live="polite">
-            @if (errors()['name']; as err) {
-              {{ err | translate }}
-            }
-          </span>
-        </div>
-
         <div class="field">
           <label class="field__label" for="group-phone">
             {{ 'groups.form.fields.phone' | translate }}
@@ -119,7 +102,10 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card titleKey="groups.form.section.channels">
+    <aed-section-card
+      anchorId="group-section-channels"
+      titleKey="groups.form.section.channels"
+    >
       <div class="channel-grid">
         @for (channel of channels; track channel) {
           <label class="checkbox-row">
@@ -140,6 +126,7 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="group-section-strategy"
       titleKey="groups.form.section.strategy"
       hintKey="groups.form.section.strategy_hint"
     >
@@ -199,6 +186,7 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="group-section-agents"
       titleKey="groups.form.section.agents"
       hintKey="groups.form.section.agents_hint"
     >

@@ -44,9 +44,11 @@
   }
 }
 
-/* Identity panel — full-height sticky rail mirrored across grupos /
- * agentes / usuarios edit forms. Visual format matches SettingsShell;
- * content is a persona card with live state. */
+/* Identity panel (hybrid) — full-height sticky rail. Top half is a live
+ * persona summary (pills + stats), bottom half is a section navigation
+ * index. Mirrored across grupos / agentes / usuarios edit forms. Format
+ * matches SettingsShell visually; content is contextual to the entity
+ * being edited, not navigation of the hub. */
 .ipanel {
   position: sticky;
   top: var(--aed-form-panel-top, 64px);
@@ -54,8 +56,6 @@
   height: calc(100dvh - var(--aed-form-panel-top, 64px));
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-300);
-  padding: var(--sc-spacing-400) var(--sc-spacing-500);
   background: var(--sc-bg-surface);
   border-right: 1px solid var(--sc-border-default);
   overflow-y: auto;
@@ -67,24 +67,16 @@
     border-bottom: 1px solid var(--sc-border-default);
   }
 
-  &__category {
-    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--sc-text-subtle);
-    font-weight: var(--sc-font-weight-semibold, 600);
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-300);
+    padding: var(--sc-spacing-400) var(--sc-spacing-500);
+    border-bottom: 1px solid var(--sc-border-subtle);
   }
 
-  &__name {
-    margin: 0;
-    font-family: var(--sc-font-family-subtitle-1);
-    font-size: var(--sc-font-size-subtitle-1);
-    line-height: 1.25;
-    font-weight: var(--sc-font-weight-subtitle-1);
-    color: var(--sc-text-primary);
-    /* Reserve a row so name preview never collapses to 0 height when empty */
-    min-height: 1.25em;
+  &__nav {
+    padding: var(--sc-spacing-300) var(--sc-spacing-300);
   }
 
   &__pills {

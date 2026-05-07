@@ -30,6 +30,9 @@ export type { IllustratedAvatarPool } from './illustrated-avatar/illustrated-ava
 
 export { FormDangerZoneComponent } from './form-danger-zone/form-danger-zone.component';
 
+export { FormSectionNavComponent } from './form-section-nav/form-section-nav.component';
+export type { FormNavSection } from './form-section-nav/form-section-nav.component';
+
 export { KeyboardShortcutsComponent } from './keyboard-shortcuts/keyboard-shortcuts.component';
 
 export { GroupPopoverComponent } from './group-popover/group-popover.component';

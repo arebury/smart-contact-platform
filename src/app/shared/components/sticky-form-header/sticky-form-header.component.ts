@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { Check, Loader2, LucideAngularModule, Pencil, X } from 'lucide-angular';
+import { ArrowLeft, Check, Loader2, LucideAngularModule, Pencil, X } from 'lucide-angular';
 
 /**
  * Sticky bar at the top of every Create/Edit page (Users, Groups, Agents…).
@@ -39,6 +39,8 @@ export class StickyFormHeaderComponent {
   readonly canSave = input(true);
   /** Replaces Save with a spinner while true. */
   readonly saving = input(false);
+  /** i18n key for the create-mode name input placeholder. */
+  readonly namePlaceholderKey = input<string>('common.name_placeholder');
 
   readonly nameChange = output<string>();
   readonly save = output<void>();
@@ -48,6 +50,7 @@ export class StickyFormHeaderComponent {
   protected readonly checkIcon = Check;
   protected readonly closeIcon = X;
   protected readonly loaderIcon = Loader2;
+  protected readonly backIcon = ArrowLeft;
 
   protected readonly editing = signal(false);
   protected readonly draftName = signal('');

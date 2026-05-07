@@ -17,6 +17,8 @@ import { CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
   FormDangerZoneComponent,
+  FormSectionNavComponent,
+  type FormNavSection,
   LabelChipComponent,
   PhotoUploadComponent,
   SectionCardComponent,
@@ -75,6 +77,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
   imports: [
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
+    FormSectionNavComponent,
     LabelChipComponent,
     PhotoUploadComponent,
     SectionCardComponent,
@@ -118,6 +121,16 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const ids = this.form().labelIds;
     return this.labelsStore.labels().filter((label) => !ids.has(label.id));
   });
+  protected readonly navSections: readonly FormNavSection[] = [
+    { id: 'agent-section-identity', labelKey: 'agents.form.section.identity' },
+    { id: 'agent-section-contact', labelKey: 'agents.form.section.contact' },
+    { id: 'agent-section-channels', labelKey: 'agents.form.section.channels' },
+    { id: 'agent-section-languages', labelKey: 'agents.form.section.languages' },
+    { id: 'agent-section-labels', labelKey: 'agents.form.section.labels' },
+    { id: 'agent-section-groups', labelKey: 'agents.form.section.groups' },
+    { id: 'agent-section-permissions', labelKey: 'agents.form.section.permissions' },
+  ];
+
   protected readonly devicePermissions = DEVICE_PERMISSIONS;
   protected readonly callPermissions = CALL_PERMISSIONS;
   protected readonly transferPermissions = TRANSFER_PERMISSIONS;

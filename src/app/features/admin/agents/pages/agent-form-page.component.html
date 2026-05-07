@@ -1,61 +1,61 @@
 <aed-sticky-form-header
   [mode]="mode()"
   [entityKey]="mode() === 'create' ? 'agents.form.create_title' : 'agents.entity_singular'"
-  [name]="form().name || (mode() === 'create' ? ('agents.form.create_title' | translate) : '')"
+  [name]="form().name"
   [canSave]="canSave()"
   [saving]="saving()"
+  namePlaceholderKey="agents.form.fields.name"
   (nameChange)="onNameRename($event)"
   (save)="save()"
   (cancelled)="cancel()"
-/>
+>
+  <aed-photo-upload
+    header-leading
+    [photo]="form().photo"
+    [name]="form().name"
+    [ariaLabel]="'common.photo.change' | translate"
+    (photoChange)="onPhotoChange($event)"
+  />
+</aed-sticky-form-header>
 
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Resumen del agente">
-      <span class="ipanel__category">{{ 'agents.entity_singular' | translate }}</span>
-      <div class="ipanel__photo">
-        <aed-photo-upload
-          [photo]="form().photo"
-          [name]="form().name"
-          [ariaLabel]="'common.photo.change' | translate"
-          (photoChange)="onPhotoChange($event)"
-        />
+      <div class="ipanel__summary">
+        <div class="ipanel__pills">
+          <span class="pill pill--type">{{ typeLabelKeys[form().agentType] | translate }}</span>
+          <span class="pill pill--status pill--status-{{ form().status }}">
+            {{ 'agents.form.fields.status_' + form().status | translate }}
+          </span>
+          <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
+            <span class="pill__dot" aria-hidden="true"></span>
+            {{ presenceKeys[form().presenceStatus] | translate }}
+          </span>
+        </div>
+        <dl class="ipanel__stats">
+          <div class="ipanel__stat">
+            <dt>{{ 'agents.form.fields.extension' | translate }}</dt>
+            <dd class="ipanel__mono">{{ form().extension || '—' }}</dd>
+          </div>
+          <div class="ipanel__stat">
+            <dt>{{ 'agents.form.section.groups' | translate }}</dt>
+            <dd>{{ form().groupIds.size }}</dd>
+          </div>
+          <div class="ipanel__stat">
+            <dt>{{ 'agents.form.section.languages' | translate }}</dt>
+            <dd>
+              @if (form().languages.length === 0) {
+                —
+              } @else {
+                {{ form().languages.join(' · ') }}
+              }
+            </dd>
+          </div>
+        </dl>
       </div>
-      <h2 class="ipanel__name">
-        {{ form().name || ('agents.form.create_title' | translate) }}
-      </h2>
-      <div class="ipanel__pills">
-        <span class="pill pill--type">{{ typeLabelKeys[form().agentType] | translate }}</span>
-        <span class="pill pill--status pill--status-{{ form().status }}">
-          {{ 'agents.form.fields.status_' + form().status | translate }}
-        </span>
-        <span
-          class="pill pill--presence pill--presence-{{ form().presenceStatus }}"
-        >
-          <span class="pill__dot" aria-hidden="true"></span>
-          {{ presenceKeys[form().presenceStatus] | translate }}
-        </span>
+      <div class="ipanel__nav">
+        <aed-form-section-nav [sections]="navSections" [compact]="true" />
       </div>
-      <dl class="ipanel__stats">
-        <div class="ipanel__stat">
-          <dt>{{ 'agents.form.fields.extension' | translate }}</dt>
-          <dd class="ipanel__mono">{{ form().extension || '—' }}</dd>
-        </div>
-        <div class="ipanel__stat">
-          <dt>{{ 'agents.form.section.groups' | translate }}</dt>
-          <dd>{{ form().groupIds.size }}</dd>
-        </div>
-        <div class="ipanel__stat">
-          <dt>{{ 'agents.form.section.languages' | translate }}</dt>
-          <dd>
-            @if (form().languages.length === 0) {
-              —
-            } @else {
-              {{ form().languages.join(' · ') }}
-            }
-          </dd>
-        </div>
-      </dl>
     </aside>
     <div class="page__form">
     @if (conflictWarning()) {
@@ -63,31 +63,11 @@
         {{ 'common.cross_tab_warning' | translate }}
       </div>
     }
-    <aed-section-card titleKey="agents.form.section.identity">
+    <aed-section-card
+      anchorId="agent-section-identity"
+      titleKey="agents.form.section.identity"
+    >
       <div class="grid grid--2">
-        <div class="field">
-          <label class="field__label" for="agent-name">
-            {{ 'agents.form.fields.name' | translate }}
-            <span class="field__required" aria-hidden="true">*</span>
-          </label>
-          <input
-            id="agent-name"
-            type="text"
-            class="field__input"
-            [class.field__input--error]="!!errors()['name']"
-            [attr.aria-describedby]="errors()['name'] ? 'agent-name-error' : null"
-            [attr.aria-invalid]="!!errors()['name']"
-            [value]="form().name"
-            (input)="onTextInput('name', $event)"
-            autocomplete="name"
-          />
-          <span id="agent-name-error" class="field__error" aria-live="polite">
-            @if (errors()['name']; as err) {
-              {{ err | translate }}
-            }
-          </span>
-        </div>
-
         <div class="field">
           <label class="field__label" for="agent-type">
             {{ 'agents.form.fields.type' | translate }}
@@ -181,7 +161,10 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card titleKey="agents.form.section.contact">
+    <aed-section-card
+      anchorId="agent-section-contact"
+      titleKey="agents.form.section.contact"
+    >
       <div class="grid grid--2">
         <div class="field">
           <label class="field__label" for="agent-phone">
@@ -253,7 +236,10 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card titleKey="agents.form.section.channels">
+    <aed-section-card
+      anchorId="agent-section-channels"
+      titleKey="agents.form.section.channels"
+    >
       <div class="channel-grid">
         @for (channel of channels; track channel) {
           <label class="checkbox-row">
@@ -274,6 +260,7 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="agent-section-languages"
       titleKey="agents.form.section.languages"
       hintKey="agents.form.section.languages_hint"
     >
@@ -313,6 +300,7 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="agent-section-labels"
       titleKey="agents.form.section.labels"
       hintKey="agents.form.section.labels_hint"
     >
@@ -343,6 +331,7 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="agent-section-groups"
       titleKey="agents.form.section.groups"
       hintKey="agents.form.section.groups_hint"
     >
@@ -360,7 +349,10 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card titleKey="agents.form.section.permissions">
+    <aed-section-card
+      anchorId="agent-section-permissions"
+      titleKey="agents.form.section.permissions"
+    >
       <div class="permission-blocks">
         <div class="permission-block">
           <h3 class="permission-block__title">

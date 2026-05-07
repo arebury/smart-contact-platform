@@ -1,54 +1,56 @@
 <aed-sticky-form-header
   [mode]="mode()"
   [entityKey]="mode() === 'create' ? 'users.form.create_title' : 'users.entity_singular'"
-  [name]="form().name || (mode() === 'create' ? ('users.form.create_title' | translate) : '')"
+  [name]="form().name"
   [canSave]="canSave()"
   [saving]="saving()"
+  namePlaceholderKey="users.form.fields.name"
   (nameChange)="onNameRename($event)"
   (save)="save()"
   (cancelled)="cancel()"
-/>
+>
+  <aed-photo-upload
+    header-leading
+    [photo]="form().photo"
+    [name]="form().name"
+    [ariaLabel]="'common.photo.change' | translate"
+    (photoChange)="onPhotoChange($event)"
+  />
+</aed-sticky-form-header>
 
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Resumen del usuario">
-      <span class="ipanel__category">{{ 'users.entity_singular' | translate }}</span>
-      <div class="ipanel__photo">
-        <aed-photo-upload
-          [photo]="form().photo"
-          [name]="form().name"
-          [ariaLabel]="'common.photo.change' | translate"
-          (photoChange)="onPhotoChange($event)"
-        />
-      </div>
-      <h2 class="ipanel__name">
-        {{ form().name || ('users.form.create_title' | translate) }}
-      </h2>
-      @if (form().email) {
-        <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
-      }
-      <div class="ipanel__pills">
-        <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
-        <span class="pill pill--status pill--status-{{ form().status }}">
-          {{ 'users.form.fields.status_' + form().status | translate }}
-        </span>
-      </div>
-      <dl class="ipanel__stats">
-        <div class="ipanel__stat">
-          <dt>{{ 'users.form.section.groups' | translate }}</dt>
-          <dd>
-            @if (assignedGroupNames().length === 0) {
-              —
-            } @else {
-              {{ assignedGroupNames().join(' · ') }}
-            }
-          </dd>
+      <div class="ipanel__summary">
+        @if (form().email) {
+          <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
+        }
+        <div class="ipanel__pills">
+          <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
+          <span class="pill pill--status pill--status-{{ form().status }}">
+            {{ 'users.form.fields.status_' + form().status | translate }}
+          </span>
         </div>
-        <div class="ipanel__stat">
-          <dt>{{ 'users.form.section.services' | translate }}</dt>
-          <dd>{{ form().services.size }}</dd>
-        </div>
-      </dl>
+        <dl class="ipanel__stats">
+          <div class="ipanel__stat">
+            <dt>{{ 'users.form.section.groups' | translate }}</dt>
+            <dd>
+              @if (assignedGroupNames().length === 0) {
+                —
+              } @else {
+                {{ assignedGroupNames().join(' · ') }}
+              }
+            </dd>
+          </div>
+          <div class="ipanel__stat">
+            <dt>{{ 'users.form.section.services' | translate }}</dt>
+            <dd>{{ form().services.size }}</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="ipanel__nav">
+        <aed-form-section-nav [sections]="navSections" [compact]="true" />
+      </div>
     </aside>
 
     <div class="page__form">
@@ -58,31 +60,11 @@
         </div>
       }
 
-      <aed-section-card titleKey="users.form.section.identity">
+      <aed-section-card
+        anchorId="user-section-identity"
+        titleKey="users.form.section.identity"
+      >
         <div class="grid grid--2">
-          <div class="field">
-            <label class="field__label" for="user-name">
-              {{ 'users.form.fields.name' | translate }}
-              <span class="field__required" aria-hidden="true">*</span>
-            </label>
-            <input
-              id="user-name"
-              type="text"
-              class="field__input"
-              [class.field__input--error]="!!errors()['name']"
-              [attr.aria-describedby]="errors()['name'] ? 'user-name-error' : null"
-              [attr.aria-invalid]="!!errors()['name']"
-              [value]="form().name"
-              (input)="onTextInput('name', $event)"
-              autocomplete="name"
-            />
-            <span id="user-name-error" class="field__error" aria-live="polite">
-              @if (errors()['name']; as err) {
-                {{ err | translate }}
-              }
-            </span>
-          </div>
-
           <div class="field">
             <label class="field__label" for="user-email">
               {{ 'users.form.fields.email' | translate }}
@@ -154,6 +136,7 @@
       </aed-section-card>
 
       <aed-section-card
+        anchorId="user-section-sections"
         titleKey="users.form.section.sections"
         hintKey="users.form.section.sections_hint"
       >
@@ -171,7 +154,10 @@
         </div>
       </aed-section-card>
 
-      <aed-section-card titleKey="users.form.section.permissions">
+      <aed-section-card
+        anchorId="user-section-permissions"
+        titleKey="users.form.section.permissions"
+      >
         <div class="checkbox-grid">
           @for (def of permissionDefs; track def.key) {
             <label class="checkbox-row">
@@ -187,6 +173,7 @@
       </aed-section-card>
 
       <aed-section-card
+        anchorId="user-section-services"
         titleKey="users.form.section.services"
         hintKey="users.form.section.services_hint"
       >
