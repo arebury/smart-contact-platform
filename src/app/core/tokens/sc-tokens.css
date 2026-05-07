@@ -219,8 +219,11 @@
   /* =========================================================== */
   --sc-text-primary: var(--sc-color-gray-800);
   --sc-text-secondary: var(--sc-color-gray-600);
-  --sc-text-subtle: var(--sc-color-gray-400);
-  --sc-text-disabled: var(--sc-color-gray-300);
+  /* Was gray-400 (#aeb6c2 ~2.5:1 vs white) — failed WCAG AA. Bumped to
+   * gray-500 (#8f97a3 ~3.5:1) so subtle labels and helper text actually
+   * read. Disabled stays gray-400 (still readable, signals affordance). */
+  --sc-text-subtle: var(--sc-color-gray-500);
+  --sc-text-disabled: var(--sc-color-gray-400);
   --sc-text-inverse: var(--sc-color-gray-0);
   --sc-text-accent: var(--sc-color-soft-blue-600);
   --sc-text-link: var(--sc-color-soft-blue-600);

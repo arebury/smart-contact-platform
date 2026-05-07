@@ -8,12 +8,23 @@
 .sticky-header {
   background: var(--sc-bg-surface);
   border-bottom: 1px solid var(--sc-border-default);
-  padding: var(--sc-spacing-300) var(--sc-spacing-600);
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--sc-spacing-300);
+  flex-direction: column;
   box-shadow: var(--sc-shadow-xs);
+
+  &__nav-row {
+    display: flex;
+    align-items: center;
+    padding: var(--sc-spacing-150) var(--sc-spacing-400);
+  }
+
+  &__main-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sc-spacing-300);
+    padding: var(--sc-spacing-200) var(--sc-spacing-600) var(--sc-spacing-300);
+  }
 
   &__back {
     flex: 0 0 auto;

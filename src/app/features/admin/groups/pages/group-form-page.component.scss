@@ -18,7 +18,7 @@
       display: grid;
       grid-template-columns: 240px minmax(0, 1fr) 280px;
       gap: 0;
-      min-height: calc(100dvh - var(--aed-form-panel-top, 64px));
+      min-height: calc(100dvh - var(--aed-form-panel-top, 96px));
     }
   }
 }
@@ -26,9 +26,9 @@
 /* Left rail — section nav. Sticky full-height like the SettingsShell. */
 .shell-nav {
   position: sticky;
-  top: var(--aed-form-panel-top, 64px);
+  top: var(--aed-form-panel-top, 96px);
   align-self: start;
-  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  height: calc(100dvh - var(--aed-form-panel-top, 96px));
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-300);
@@ -58,9 +58,9 @@
 /* Right rail — persona summary. Sticky like the nav. */
 .shell-persona {
   position: sticky;
-  top: var(--aed-form-panel-top, 64px);
+  top: var(--aed-form-panel-top, 96px);
   align-self: start;
-  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  height: calc(100dvh - var(--aed-form-panel-top, 96px));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -219,7 +219,7 @@
   }
 
   &__hint {
-    color: var(--sc-text-disabled);
+    color: var(--sc-text-subtle);
     margin-left: var(--sc-spacing-50);
     font-weight: var(--sc-font-weight-regular);
   }

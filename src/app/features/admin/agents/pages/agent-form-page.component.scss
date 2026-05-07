@@ -15,16 +15,16 @@
       display: grid;
       grid-template-columns: 240px minmax(0, 1fr) 280px;
       gap: 0;
-      min-height: calc(100dvh - var(--aed-form-panel-top, 64px));
+      min-height: calc(100dvh - var(--aed-form-panel-top, 96px));
     }
   }
 }
 
 .shell-nav {
   position: sticky;
-  top: var(--aed-form-panel-top, 64px);
+  top: var(--aed-form-panel-top, 96px);
   align-self: start;
-  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  height: calc(100dvh - var(--aed-form-panel-top, 96px));
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-300);
@@ -52,9 +52,9 @@
 
 .shell-persona {
   position: sticky;
-  top: var(--aed-form-panel-top, 64px);
+  top: var(--aed-form-panel-top, 96px);
   align-self: start;
-  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  height: calc(100dvh - var(--aed-form-panel-top, 96px));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -67,31 +67,21 @@
   overflow-y: auto;
 
   &__photo {
-    /* Big square frame with soft warm bg — ID-card style (Roger Struck
-     * reference). Photo lives prominently here instead of cramped in
-     * the header. */
+    /* Just the photo — no rectangle frame. The avatar is already a
+     * circle; let it stand on its own against the rail's tinted bg. */
     display: flex;
-    align-items: center;
     justify-content: center;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    max-width: 200px;
-    background: color-mix(in oklch, var(--sc-color-soft-blue-100) 50%, var(--sc-bg-surface));
-    border-radius: var(--sc-radius-300);
-    padding: var(--sc-spacing-400);
 
-    /* Scale up the projected PhotoUpload to fill the frame — drop the
-     * hint text + remove button, those don't make sense at this scale. */
     ::ng-deep .photo-upload {
       gap: 0;
     }
     ::ng-deep .photo-upload__button {
-      width: 120px;
-      height: 120px;
+      width: 140px;
+      height: 140px;
     }
     ::ng-deep .photo-upload__illustrated {
-      width: 120px;
-      height: 120px;
+      width: 140px;
+      height: 140px;
     }
     ::ng-deep .photo-upload__hint,
     ::ng-deep .photo-upload__remove {
@@ -257,7 +247,7 @@
   }
 
   &__hint {
-    color: var(--sc-text-disabled);
+    color: var(--sc-text-subtle);
     margin-left: var(--sc-spacing-50);
     font-weight: var(--sc-font-weight-regular);
   }

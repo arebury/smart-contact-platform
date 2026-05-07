@@ -1,13 +1,17 @@
 <header class="sticky-header">
-  <button
-    type="button"
-    class="sticky-header__back"
-    (click)="cancelled.emit()"
-    [attr.aria-label]="'common.back' | translate"
-  >
-    <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
-    <span>{{ 'common.back' | translate }}</span>
-  </button>
+  <div class="sticky-header__nav-row">
+    <button
+      type="button"
+      class="sticky-header__back"
+      (click)="cancelled.emit()"
+      [attr.aria-label]="'common.back' | translate"
+    >
+      <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
+      <span>{{ 'common.back' | translate }}</span>
+    </button>
+  </div>
+
+  <div class="sticky-header__main-row">
   <div class="sticky-header__leading">
     <ng-content select="[header-leading]" />
   </div>
@@ -83,5 +87,6 @@
         <span>{{ 'common.save' | translate }}</span>
       }
     </button>
+  </div>
   </div>
 </header>

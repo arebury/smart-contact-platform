@@ -17,7 +17,7 @@
     box-shadow var(--sc-transition-fast, 120ms) ease;
   /* Anchor offset for `aed-form-section-nav` jump-to-anchor — clears the
    * StickyFormHeader when scrolling into view. */
-  scroll-margin-top: var(--aed-form-anchor-offset, 80px);
+  scroll-margin-top: var(--aed-form-anchor-offset, 112px);
 
   &__head {
     padding: var(--sc-spacing-300) var(--sc-spacing-400);

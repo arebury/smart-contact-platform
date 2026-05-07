@@ -100,6 +100,20 @@
     gap: var(--sc-spacing-300);
     padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
     border-top: 1px solid var(--sc-modal-divider);
+
+    /* Consumers wrap their action buttons in a `<div modal-actions>`
+     * (or `<span modal-actions>`) so they project as a single slot. The
+     * foot's gap stops at that wrapper — without this rule the buttons
+     * inside would render flush. Cascade flex + gap into any direct
+     * child so the buttons always breathe regardless of wrapping. */
+    > [modal-actions],
+    > div,
+    > span {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--sc-spacing-300);
+    }
   }
 
   /* Bodyless dialogs (confirm-host etc.) have no body padding between
