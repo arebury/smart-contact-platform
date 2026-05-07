@@ -1,0 +1,135 @@
+/*
+ * Settings sidebar — Smart Contact design system
+ * (Figma node 224:9167 → "SettingsSidebar").
+ *
+ * Fixed-width column that pins to the start of `.app-shell__content`
+ * via the parent shell's `position: sticky`. The sidebar itself just
+ * paints the surface, header, nav and footer — the layout component
+ * handles positioning so the sidebar can be re-used in other
+ * sticky-rail surfaces if we ever add one.
+ */
+:host {
+  display: block;
+  height: 100%;
+}
+
+.settings-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--sc-bg-surface);
+  border-right: 1px solid var(--sc-border-default);
+}
+
+.settings-sidebar__head {
+  padding: var(--sc-spacing-300) var(--sc-spacing-500);
+  border-bottom: 1px solid var(--sc-border-default);
+}
+
+.settings-sidebar__title {
+  margin: 0;
+  font-family: var(--sc-font-family-subtitle-1);
+  font-size: var(--sc-font-size-subtitle-1);
+  line-height: var(--sc-line-height-subtitle-1);
+  font-weight: var(--sc-font-weight-subtitle-1);
+  color: var(--sc-text-primary);
+}
+
+.settings-sidebar__subtitle {
+  margin: 2px 0 0;
+  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  font-size: var(--sc-font-size-50, 12px);
+  line-height: 18px;
+  color: var(--sc-text-subtle);
+}
+
+.settings-sidebar__nav {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-100);
+  padding: var(--sc-spacing-300) var(--sc-spacing-500);
+  overflow-y: auto;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  padding: var(--sc-spacing-100) var(--sc-spacing-200);
+  border-radius: var(--sc-radius-200);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--sc-transition-fast, 120ms) ease;
+
+  &:hover {
+    background: var(--sc-bg-secondary-subtle);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-border-focus, var(--sc-color-blue-500));
+    outline-offset: 2px;
+  }
+
+  &--active {
+    background: var(--sc-bg-secondary-subtle);
+
+    /* Active item paints the icon chip with the brand surface — same
+     * cue as the Figma source. Hover on top stays subtle so the
+     * "current section" reading wins. */
+    .nav-item__icon {
+      background: var(--sc-bg-primary);
+      color: var(--sc-text-on-primary);
+      border-color: transparent;
+    }
+
+    .nav-item__label {
+      color: var(--sc-text-primary);
+    }
+  }
+}
+
+.nav-item__icon {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--sc-radius-200);
+  background: var(--sc-color-gray-100, #eceff3);
+  color: var(--sc-text-secondary);
+  border: 1px solid transparent;
+}
+
+.nav-item__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.nav-item__label {
+  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  font-size: var(--sc-font-size-100, 14px);
+  line-height: 22px;
+  font-weight: var(--sc-font-weight-medium, 500);
+  color: var(--sc-text-secondary);
+}
+
+.nav-item__hint {
+  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  font-size: var(--sc-font-size-50, 12px);
+  line-height: 18px;
+  color: var(--sc-text-subtle);
+}
+
+.settings-sidebar__foot {
+  padding: var(--sc-spacing-200) var(--sc-spacing-500);
+  border-top: 1px solid var(--sc-border-subtle);
+  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  font-size: 11px;
+  line-height: 16px;
+  color: var(--sc-text-subtle);
+}

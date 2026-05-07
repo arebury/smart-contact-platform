@@ -729,6 +729,14 @@
     }
   },
   "config": {
+    "sidebar": {
+      "title": "Configuración AED",
+      "subtitle": "Ajustes de la plataforma",
+      "version": "SmartContact · v2.4.0",
+      "seguridad_hint": "Políticas y credenciales",
+      "aed_hint": "Numeración especial",
+      "sistema_hint": "Apariencia, datos y políticas"
+    },
     "aed": {
       "title": "AED",
       "heading": "Configuración AED",
@@ -753,6 +761,11 @@
       "title": "Seguridad",
       "heading": "Seguridad",
       "subtitle": "Políticas de seguridad y credenciales de la plataforma",
+      "subtitle_empty": "Sección preparada para futuras configuraciones de seguridad",
+      "empty": {
+        "title": "Sin opciones por ahora",
+        "body": "Las políticas de contraseñas y la regeneración masiva se han movido a Ajustes de sistema. Esta sección queda lista para futuras configuraciones específicas de seguridad."
+      },
       "policies": {
         "title": "Políticas de contraseñas",
         "min_length": "Longitud mínima",
