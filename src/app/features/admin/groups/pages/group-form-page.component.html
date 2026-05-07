@@ -4,6 +4,8 @@
   [name]="form().name"
   [canSave]="canSave()"
   [saving]="saving()"
+  [hideBack]="true"
+  [hideTitleBlock]="true"
   namePlaceholderKey="groups.form.fields.name"
   (nameChange)="onNameRename($event)"
   (save)="save()"
@@ -13,7 +15,15 @@
 <div class="page">
   <div class="page__inner page__inner--with-shell">
     <aside class="shell-nav" aria-label="Secciones del grupo">
-      <span class="shell-nav__category">{{ 'groups.entity_singular' | translate }}</span>
+      <button
+        type="button"
+        class="shell-nav__back"
+        (click)="cancel()"
+        [attr.aria-label]="'common.back' | translate"
+      >
+        <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
+        <span>{{ 'common.back' | translate }}</span>
+      </button>
       <aed-form-section-nav
         [sections]="navSections()"
         [activeId]="activeSection()"
@@ -249,6 +259,17 @@
     </main>
 
     <aside class="shell-persona" aria-label="Resumen del grupo">
+      <span class="shell-persona__eyebrow">
+        {{ 'groups.entity_singular' | translate }}
+      </span>
+      <input
+        class="shell-persona__name"
+        type="text"
+        [value]="form().name"
+        (input)="onNameRename($any($event.target).value)"
+        [placeholder]="'groups.form.fields.name' | translate"
+        [attr.aria-label]="'common.edit' | translate"
+      />
       <div class="ipanel__pills">
         <span class="pill pill--priority pill--priority-{{ form().priority }}">
           {{ priorityKeys[form().priority] | translate }}

@@ -37,13 +37,39 @@
   border-right: 1px solid var(--sc-border-default);
   overflow-y: auto;
 
-  &__category {
-    padding: 0 var(--sc-spacing-200);
-    font-size: 11px;
-    font-weight: var(--sc-font-weight-semibold, 600);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-100);
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    border: 0;
+    background: transparent;
     color: var(--sc-text-subtle);
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    border-radius: var(--sc-radius-200);
+    cursor: pointer;
+    align-self: flex-start;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default);
+
+    lucide-icon {
+      transition: transform var(--sc-transition-fast) var(--sc-easing-default);
+    }
+
+    &:hover {
+      background: var(--sc-bg-secondary-subtle);
+      color: var(--sc-text-primary);
+      lucide-icon {
+        transform: translateX(-2px);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: 2px;
+    }
   }
 }
 
@@ -67,12 +93,53 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sc-spacing-400);
-  padding: var(--sc-spacing-600) var(--sc-spacing-500);
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-500) var(--sc-spacing-500);
   /* Soft brand-tinted surface — differentiates the persona rail. */
   background: var(--sc-bg-primary-subtle);
   border-left: 1px solid var(--sc-border-default);
   overflow-y: auto;
+
+  &__eyebrow {
+    font-size: 11px;
+    font-weight: var(--sc-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sc-text-secondary);
+  }
+
+  &__name {
+    width: 100%;
+    margin: 0;
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    border: 1px solid transparent;
+    background: transparent;
+    font-family: inherit;
+    font-size: var(--sc-font-size-subtitle-1);
+    font-weight: var(--sc-font-weight-subtitle-1);
+    line-height: var(--sc-line-height-subtitle-1);
+    color: var(--sc-text-primary);
+    text-align: center;
+    border-radius: var(--sc-radius-200);
+    outline: none;
+    cursor: text;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      border-color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &::placeholder {
+      color: var(--sc-text-subtle);
+    }
+
+    &:hover {
+      background: var(--sc-bg-surface);
+    }
+
+    &:focus {
+      background: var(--sc-bg-surface);
+      border-color: var(--sc-color-blue-300);
+    }
+  }
 }
 
 /* Persona-card content blocks — used inside `.shell-persona`. */

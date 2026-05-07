@@ -1,20 +1,23 @@
 <header class="sticky-header">
-  <div class="sticky-header__nav-row">
-    <button
-      type="button"
-      class="sticky-header__back"
-      (click)="cancelled.emit()"
-      [attr.aria-label]="'common.back' | translate"
-    >
-      <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
-      <span>{{ 'common.back' | translate }}</span>
-    </button>
-  </div>
+  @if (!hideBack()) {
+    <div class="sticky-header__nav-row">
+      <button
+        type="button"
+        class="sticky-header__back"
+        (click)="cancelled.emit()"
+        [attr.aria-label]="'common.back' | translate"
+      >
+        <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
+        <span>{{ 'common.back' | translate }}</span>
+      </button>
+    </div>
+  }
 
   <div class="sticky-header__main-row">
   <div class="sticky-header__leading">
     <ng-content select="[header-leading]" />
   </div>
+  @if (!hideTitleBlock()) {
   <div class="sticky-header__title-block">
     <span class="sticky-header__entity">{{ entityKey() | translate }}</span>
     @if (mode() === 'create') {
@@ -72,6 +75,7 @@
       }
     }
   </div>
+  }
 
   <div class="sticky-header__actions">
     <button

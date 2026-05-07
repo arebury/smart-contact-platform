@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ArrowLeft, LucideAngularModule } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -79,6 +80,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
     FormDangerZoneComponent,
     FormSectionNavComponent,
     LabelChipComponent,
+    LucideAngularModule,
     PhotoUploadComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
@@ -121,6 +123,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const ids = this.form().labelIds;
     return this.labelsStore.labels().filter((label) => !ids.has(label.id));
   });
+  protected readonly backIcon = ArrowLeft;
   protected readonly activeSection = signal<string>('agent-section-identity');
   protected readonly navSections = computed<readonly FormNavSection[]>(() => {
     const base: FormNavSection[] = [

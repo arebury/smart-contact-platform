@@ -46,7 +46,9 @@
     font-size: var(--sc-font-size-caption);
     line-height: var(--sc-line-height-caption);
     font-weight: var(--sc-font-weight-caption);
-    color: var(--sc-text-subtle);
+    /* text-secondary (gray-600) instead of text-subtle — small caption
+     * on a tinted bg needs higher contrast (4.5:1+) than a plain label. */
+    color: var(--sc-text-secondary);
   }
 
   &__body {

@@ -41,6 +41,11 @@ export class StickyFormHeaderComponent {
   readonly saving = input(false);
   /** i18n key for the create-mode name input placeholder. */
   readonly namePlaceholderKey = input<string>('common.name_placeholder');
+  /** When true, the header skips the back-button + entity title block.
+   * Used by the aircall-shell where back lives in the section nav and
+   * the name lives in the persona card. */
+  readonly hideBack = input(false);
+  readonly hideTitleBlock = input(false);
 
   readonly nameChange = output<string>();
   readonly save = output<void>();
