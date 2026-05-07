@@ -22,7 +22,6 @@ import {
   type FormNavSection,
   PhotoUploadComponent,
   SectionCardComponent,
-  StickyFormHeaderComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
 import { AVAILABLE_GROUPS_REF } from '@shared/data/groups-ref';
@@ -67,8 +66,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
     LucideAngularModule,
     PhotoUploadComponent,
     SectionCardComponent,
-    StickyFormHeaderComponent,
-    ToggleSwitchComponent,
+      ToggleSwitchComponent,
     TranslateModule,
   ],
   templateUrl: './user-form-page.component.html',

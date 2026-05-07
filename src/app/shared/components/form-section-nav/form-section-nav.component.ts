@@ -1,11 +1,17 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { LucideAngularModule, Phone } from 'lucide-angular';
+
+/** Lucide icon ref type — same approach as `aed-settings-sidebar`. */
+type LucideIconRef = typeof Phone;
 
 export interface FormNavSection {
   /** Stable id used to identify the section. Parent owns the active state. */
   readonly id: string;
   /** i18n key for the link label. */
   readonly labelKey: string;
+  /** Lucide icon shown to the left of the label. Optional. */
+  readonly icon?: LucideIconRef;
 }
 
 /**
@@ -16,7 +22,7 @@ export interface FormNavSection {
 @Component({
   selector: 'aed-form-section-nav',
   standalone: true,
-  imports: [TranslateModule],
+  imports: [LucideAngularModule, TranslateModule],
   templateUrl: './form-section-nav.component.html',
   styleUrl: './form-section-nav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

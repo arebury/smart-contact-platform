@@ -1,17 +1,3 @@
-<aed-sticky-form-header
-  [mode]="mode()"
-  [entityKey]="mode() === 'create' ? 'users.form.create_title' : 'users.entity_singular'"
-  [name]="form().name"
-  [canSave]="canSave()"
-  [saving]="saving()"
-  [hideBack]="true"
-  [hideTitleBlock]="true"
-  namePlaceholderKey="users.form.fields.name"
-  (nameChange)="onNameRename($event)"
-  (save)="save()"
-  (cancelled)="cancel()"
-/>
-
 <div class="page">
   <div class="page__inner page__inner--with-shell">
     <aside class="shell-nav" aria-label="Secciones del usuario">
@@ -170,6 +156,24 @@
             (action)="requestDelete()"
           />
         }
+      }
+
+      @if (formDirty()) {
+        <div class="save-bar" role="status" aria-live="polite">
+          <span class="save-bar__label">{{ 'common.unsaved_changes' | translate }}</span>
+          <button
+            type="button"
+            class="btn btn--primary save-bar__btn"
+            [disabled]="!canSave() || saving()"
+            (click)="save()"
+          >
+            @if (saving()) {
+              {{ 'common.saving' | translate }}
+            } @else {
+              {{ 'common.save_changes' | translate }}
+            }
+          </button>
+        </div>
       }
     </main>
 

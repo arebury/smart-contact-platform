@@ -11,6 +11,8 @@
     "back": "Atrás",
     "back_to_home": "Volver al inicio",
     "name_placeholder": "Nombre",
+    "unsaved_changes": "Cambios sin guardar",
+    "save_changes": "Guardar cambios",
     "cancel": "Cancelar",
     "save": "Guardar",
     "saving": "Guardando…",

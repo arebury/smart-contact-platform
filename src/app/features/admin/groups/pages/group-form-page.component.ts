@@ -29,7 +29,6 @@ import {
   FormSectionNavComponent,
   type FormNavSection,
   SectionCardComponent,
-  StickyFormHeaderComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
 import {
@@ -69,8 +68,7 @@ interface FormState {
     FormSectionNavComponent,
     LucideAngularModule,
     SectionCardComponent,
-    StickyFormHeaderComponent,
-    ToggleSwitchComponent,
+      ToggleSwitchComponent,
     TranslateModule,
   ],
   templateUrl: './group-form-page.component.html',

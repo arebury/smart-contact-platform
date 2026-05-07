@@ -23,7 +23,6 @@ import {
   LabelChipComponent,
   PhotoUploadComponent,
   SectionCardComponent,
-  StickyFormHeaderComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
 import { LabelsStore } from '@features/admin/labels/state/labels.store';
@@ -83,8 +82,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
     LucideAngularModule,
     PhotoUploadComponent,
     SectionCardComponent,
-    StickyFormHeaderComponent,
-    ToggleSwitchComponent,
+      ToggleSwitchComponent,
     TranslateModule,
   ],
   templateUrl: './agent-form-page.component.html',
