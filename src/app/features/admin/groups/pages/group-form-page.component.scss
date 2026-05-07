@@ -95,9 +95,8 @@
   align-items: center;
   gap: var(--sc-spacing-300);
   padding: var(--sc-spacing-500) var(--sc-spacing-500);
-  /* Soft brand-tinted surface — differentiates the persona rail. */
-  background: var(--sc-sidebar-bg);
-  border-right: 1px solid var(--sc-color-blue-800);
+  background: var(--sc-bg-surface);
+  border-right: 1px solid var(--sc-border-default);
   overflow-y: auto;
 
 
@@ -108,7 +107,7 @@
     padding: var(--sc-spacing-100) var(--sc-spacing-200);
     border: 0;
     background: transparent;
-    color: rgb(255 255 255 / 0.55);
+    color: var(--sc-text-subtle);
     font-size: var(--sc-font-size-100);
     font-weight: var(--sc-font-weight-medium);
     border-radius: var(--sc-radius-200);
@@ -123,15 +122,15 @@
     }
 
     &:hover {
-      background: rgb(255 255 255 / 0.08);
-      color: #fff;
+      background: var(--sc-bg-secondary-subtle);
+      color: var(--sc-text-primary);
       lucide-icon {
         transform: translateX(-2px);
       }
     }
 
     &:focus-visible {
-      outline: 2px solid rgb(255 255 255 / 0.4);
+      outline: 2px solid var(--sc-color-soft-blue-500);
       outline-offset: 2px;
     }
   }
@@ -141,7 +140,7 @@
     font-weight: var(--sc-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: rgb(255 255 255 / 0.55);
+    color: var(--sc-text-subtle);
   }
 
   &__name {
@@ -154,7 +153,7 @@
     font-size: var(--sc-font-size-subtitle-1);
     font-weight: var(--sc-font-weight-subtitle-1);
     line-height: var(--sc-line-height-subtitle-1);
-    color: #fff;
+    color: var(--sc-text-primary);
     text-align: center;
     border-radius: var(--sc-radius-200);
     outline: none;
@@ -164,54 +163,18 @@
       border-color var(--sc-transition-fast) var(--sc-easing-default);
 
     &::placeholder {
-      color: rgb(255 255 255 / 0.4);
+      color: var(--sc-text-subtle);
     }
 
     &:hover {
-      background: rgb(255 255 255 / 0.06);
+      background: var(--sc-bg-secondary-subtle);
     }
 
     &:focus {
-      background: rgb(255 255 255 / 0.1);
-      border-color: rgb(255 255 255 / 0.25);
+      background: var(--sc-bg-default);
+      border-color: var(--sc-border-default);
     }
   }
-}
-
-/* Persona content blocks rendered on the dark rail — invert text. */
-.shell-persona .ipanel__pills .pill {
-  background: rgb(255 255 255 / 0.1);
-  color: #fff;
-  border-color: transparent;
-  transition:
-    background 200ms cubic-bezier(0.16, 1, 0.3, 1),
-    color 200ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.shell-persona .ipanel__pills .pill--channel {
-  background: rgb(255 255 255 / 0.95);
-  color: var(--sc-bg-primary);
-}
-.shell-persona .ipanel__pills .pill--priority-Alta {
-  background: color-mix(in oklch, #ff5577 30%, transparent);
-  color: #ffb3c2;
-}
-.shell-persona .ipanel__pills .pill--priority-Media {
-  background: color-mix(in oklch, #ffc857 30%, transparent);
-  color: #ffe0a3;
-}
-.shell-persona .ipanel__pills .pill--priority-Baja {
-  background: rgb(255 255 255 / 0.1);
-  color: rgb(255 255 255 / 0.7);
-}
-.shell-persona .ipanel__stats {
-  background: rgb(255 255 255 / 0.06);
-  border-color: rgb(255 255 255 / 0.08);
-}
-.shell-persona .ipanel__stats dt {
-  color: rgb(255 255 255 / 0.55);
-}
-.shell-persona .ipanel__stats dd {
-  color: #fff;
 }
 
 /* Persona-card content blocks — used inside `.shell-persona`. */
