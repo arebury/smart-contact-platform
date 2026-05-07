@@ -10,17 +10,10 @@
 />
 
 <div class="page">
-  <div class="page__inner">
-    @if (conflictWarning()) {
-      <div class="cross-tab-warning" role="alert">
-        {{ 'common.cross_tab_warning' | translate }}
-      </div>
-    }
-    <aed-section-card
-      titleKey="agents.form.section.identity"
-      hintKey="agents.form.section.identity_hint"
-    >
-      <div class="identity-row">
+  <div class="page__inner page__inner--with-panel">
+    <aside class="ipanel" aria-label="Resumen del agente">
+      <span class="ipanel__category">{{ 'agents.entity_singular' | translate }}</span>
+      <div class="ipanel__photo">
         <aed-photo-upload
           [photo]="form().photo"
           [name]="form().name"
@@ -28,6 +21,49 @@
           (photoChange)="onPhotoChange($event)"
         />
       </div>
+      <h2 class="ipanel__name">
+        {{ form().name || ('agents.form.create_title' | translate) }}
+      </h2>
+      <div class="ipanel__pills">
+        <span class="pill pill--type">{{ typeLabelKeys[form().agentType] | translate }}</span>
+        <span class="pill pill--status pill--status-{{ form().status }}">
+          {{ 'agents.form.fields.status_' + form().status | translate }}
+        </span>
+        <span
+          class="pill pill--presence pill--presence-{{ form().presenceStatus }}"
+        >
+          <span class="pill__dot" aria-hidden="true"></span>
+          {{ presenceKeys[form().presenceStatus] | translate }}
+        </span>
+      </div>
+      <dl class="ipanel__stats">
+        <div class="ipanel__stat">
+          <dt>{{ 'agents.form.fields.extension' | translate }}</dt>
+          <dd class="ipanel__mono">{{ form().extension || '—' }}</dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'agents.form.section.groups' | translate }}</dt>
+          <dd>{{ form().groupIds.size }}</dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'agents.form.section.languages' | translate }}</dt>
+          <dd>
+            @if (form().languages.length === 0) {
+              —
+            } @else {
+              {{ form().languages.join(' · ') }}
+            }
+          </dd>
+        </div>
+      </dl>
+    </aside>
+    <div class="page__form">
+    @if (conflictWarning()) {
+      <div class="cross-tab-warning" role="alert">
+        {{ 'common.cross_tab_warning' | translate }}
+      </div>
+    }
+    <aed-section-card titleKey="agents.form.section.identity">
       <div class="grid grid--2">
         <div class="field">
           <label class="field__label" for="agent-name">
@@ -145,10 +181,7 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card
-      titleKey="agents.form.section.contact"
-      hintKey="agents.form.section.contact_hint"
-    >
+    <aed-section-card titleKey="agents.form.section.contact">
       <div class="grid grid--2">
         <div class="field">
           <label class="field__label" for="agent-phone">
@@ -220,10 +253,7 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card
-      titleKey="agents.form.section.channels"
-      hintKey="agents.form.section.channels_hint"
-    >
+    <aed-section-card titleKey="agents.form.section.channels">
       <div class="channel-grid">
         @for (channel of channels; track channel) {
           <label class="checkbox-row">
@@ -330,10 +360,7 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card
-      titleKey="agents.form.section.permissions"
-      hintKey="agents.form.section.permissions_hint"
-    >
+    <aed-section-card titleKey="agents.form.section.permissions">
       <div class="permission-blocks">
         <div class="permission-block">
           <h3 class="permission-block__title">
@@ -397,6 +424,7 @@
         (action)="requestDelete()"
       />
     }
+    </div>
   </div>
 </div>
 

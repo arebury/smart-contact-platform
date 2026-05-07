@@ -10,16 +10,45 @@
 />
 
 <div class="page">
-  <div class="page__inner">
+  <div class="page__inner page__inner--with-panel">
+    <aside class="ipanel" aria-label="Resumen del grupo">
+      <span class="ipanel__category">{{ 'groups.entity_singular' | translate }}</span>
+      <h2 class="ipanel__name">
+        {{ form().name || ('groups.form.create_title' | translate) }}
+      </h2>
+      <div class="ipanel__pills">
+        <span class="pill pill--priority pill--priority-{{ form().priority }}">
+          {{ priorityKeys[form().priority] | translate }}
+        </span>
+        @for (channel of channels; track channel) {
+          @if (hasChannel(channel)) {
+            <span class="pill pill--channel">{{ channelKeys[channel] | translate }}</span>
+          }
+        }
+      </div>
+      <dl class="ipanel__stats">
+        <div class="ipanel__stat">
+          <dt>{{ 'groups.form.fields.phone_strategy' | translate }}</dt>
+          <dd>{{ form().strategy }}</dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'groups.form.section.agents' | translate }}</dt>
+          <dd>
+            {{
+              'groups.form.assigned_count'
+                | translate: { count: form().assignedAgents.length }
+            }}
+          </dd>
+        </div>
+      </dl>
+    </aside>
+    <div class="page__form">
     @if (conflictWarning()) {
       <div class="cross-tab-warning" role="alert">
         {{ 'common.cross_tab_warning' | translate }}
       </div>
     }
-    <aed-section-card
-      titleKey="groups.form.section.identity"
-      hintKey="groups.form.section.identity_hint"
-    >
+    <aed-section-card titleKey="groups.form.section.identity">
       <div class="grid grid--2">
         <div class="field">
           <label class="field__label" for="group-name">
@@ -90,10 +119,7 @@
       </div>
     </aed-section-card>
 
-    <aed-section-card
-      titleKey="groups.form.section.channels"
-      hintKey="groups.form.section.channels_hint"
-    >
+    <aed-section-card titleKey="groups.form.section.channels">
       <div class="channel-grid">
         @for (channel of channels; track channel) {
           <label class="checkbox-row">
@@ -255,6 +281,7 @@
         (action)="requestDelete()"
       />
     }
+    </div>
   </div>
 </div>
 

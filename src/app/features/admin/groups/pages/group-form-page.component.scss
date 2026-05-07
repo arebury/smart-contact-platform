@@ -8,9 +8,142 @@
   background: var(--sc-bg-default);
 
   &__inner {
-    max-width: 1080px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: var(--sc-spacing-500) var(--sc-spacing-600);
+
+    /*
+     * Identity-panel layout — left column is a sticky persona card
+     * showing live state (CRM-style: Salesforce / Linear / Stripe),
+     * right column scrolls with the form sections. Distinct from the
+     * SettingsShell nav-rail (`/config/*`) — this rail is content,
+     * not navigation.
+     */
+    &--with-panel {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: var(--sc-spacing-500);
+
+      @media (max-width: 960px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  &__form {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/* Identity panel — sticky persona card mirrored across grupos / agentes
+ * / usuarios edit forms. Always-visible glanceable state while editing
+ * other sections of the form. */
+.ipanel {
+  position: sticky;
+  top: var(--aed-form-panel-top, 80px);
+  align-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-400);
+  background: var(--sc-bg-surface);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+
+  @media (max-width: 960px) {
+    position: static;
+  }
+
+  &__category {
+    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sc-text-subtle);
+    font-weight: var(--sc-font-weight-semibold, 600);
+  }
+
+  &__name {
+    margin: 0;
+    font-family: var(--sc-font-family-subtitle-1);
+    font-size: var(--sc-font-size-subtitle-1);
+    line-height: 1.25;
+    font-weight: var(--sc-font-weight-subtitle-1);
+    color: var(--sc-text-primary);
+    /* Reserve a row so name preview never collapses to 0 height when empty */
+    min-height: 1.25em;
+  }
+
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sc-spacing-100);
+    /* Reserve a row so toggling channels doesn't shift the stats below (DD#16) */
+    min-height: 24px;
+  }
+
+  &__stats {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-200);
+    padding-top: var(--sc-spacing-300);
+    border-top: 1px solid var(--sc-border-subtle);
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    dt {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--sc-text-subtle);
+      font-weight: var(--sc-font-weight-semibold, 600);
+    }
+
+    dd {
+      margin: 0;
+      font-size: var(--sc-font-size-100);
+      color: var(--sc-text-primary);
+    }
+  }
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px var(--sc-spacing-200);
+  border-radius: var(--sc-radius-full);
+  font-size: 11px;
+  font-weight: var(--sc-font-weight-medium, 500);
+  border: 1px solid var(--sc-border-default);
+  background: var(--sc-bg-surface);
+  color: var(--sc-text-secondary);
+
+  &--channel {
+    background: var(--sc-bg-secondary-subtle);
+    border-color: transparent;
+  }
+
+  &--priority-Alta {
+    background: color-mix(in oklch, var(--sc-text-danger) 10%, var(--sc-bg-surface));
+    color: var(--sc-text-danger);
+    border-color: transparent;
+  }
+  &--priority-Media {
+    background: color-mix(in oklch, #c47a00 12%, var(--sc-bg-surface));
+    color: #8a5500;
+    border-color: transparent;
+  }
+  &--priority-Baja {
+    background: var(--sc-bg-secondary-subtle);
+    color: var(--sc-text-secondary);
+    border-color: transparent;
   }
 }
 

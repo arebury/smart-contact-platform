@@ -51,8 +51,6 @@ interface FormState {
   photo: string | null;
 }
 
-type SummaryTab = 'groups' | 'services';
-
 /** RFC-permissive email — accepts `user+tag@domain.tld` (delegate addresses). */
 const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
 
@@ -97,8 +95,6 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   readonly formDirty = signal(false);
   protected readonly conflictWarning = signal(false);
   private releaseLock: (() => void) | null = null;
-
-  protected readonly summaryTab = signal<SummaryTab>('groups');
 
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
 
@@ -221,10 +217,6 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected onPhotoChange(photo: string | null): void {
     this.formDirty.set(true);
     this.form.update((f) => ({ ...f, photo }));
-  }
-
-  protected setSummaryTab(tab: SummaryTab): void {
-    this.summaryTab.set(tab);
   }
 
   protected hasService(name: string): boolean {

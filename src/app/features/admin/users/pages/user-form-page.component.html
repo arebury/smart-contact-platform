@@ -10,102 +10,55 @@
 />
 
 <div class="page">
-  <div class="page__inner page__inner--two-col">
-    @if (conflictWarning()) {
-      <div class="cross-tab-warning" role="alert">
-        {{ 'common.cross_tab_warning' | translate }}
+  <div class="page__inner page__inner--with-panel">
+    <aside class="ipanel" aria-label="Resumen del usuario">
+      <span class="ipanel__category">{{ 'users.entity_singular' | translate }}</span>
+      <div class="ipanel__photo">
+        <aed-photo-upload
+          [photo]="form().photo"
+          [name]="form().name"
+          [ariaLabel]="'common.photo.change' | translate"
+          (photoChange)="onPhotoChange($event)"
+        />
       </div>
-    }
-
-    <aside class="profile-sidebar">
-      <div class="profile-sidebar__sticky">
-        <aed-section-card titleKey="users.form.section.summary">
-          <div class="profile-summary">
-            <aed-photo-upload
-              [photo]="form().photo"
-              [name]="form().name"
-              [ariaLabel]="'common.photo.change' | translate"
-              (photoChange)="onPhotoChange($event)"
-            />
-            <div class="profile-summary__name">
-              {{ form().name || '—' }}
-            </div>
-            <dl class="profile-summary__list">
-              <div class="profile-summary__row">
-                <dt>{{ 'users.form.fields.email' | translate }}</dt>
-                <dd>{{ form().email || '—' }}</dd>
-              </div>
-              <div class="profile-summary__row">
-                <dt>{{ 'users.form.fields.type' | translate }}</dt>
-                <dd>{{ typeLabelKeys[form().type] | translate }}</dd>
-              </div>
-              <div class="profile-summary__row">
-                <dt>{{ 'users.form.fields.identifier' | translate }}</dt>
-                <dd class="profile-summary__mono">{{ form().identifier || '—' }}</dd>
-              </div>
-            </dl>
-
-            <div class="profile-tabs">
-              <div class="profile-tabs__bar" role="tablist">
-                <button
-                  type="button"
-                  role="tab"
-                  class="profile-tabs__tab"
-                  [class.profile-tabs__tab--active]="summaryTab() === 'groups'"
-                  [attr.aria-selected]="summaryTab() === 'groups'"
-                  (click)="setSummaryTab('groups')"
-                >
-                  {{ 'users.form.summary.tab_groups' | translate }} ({{ form().groups.size }})
-                </button>
-                <button
-                  type="button"
-                  role="tab"
-                  class="profile-tabs__tab"
-                  [class.profile-tabs__tab--active]="summaryTab() === 'services'"
-                  [attr.aria-selected]="summaryTab() === 'services'"
-                  (click)="setSummaryTab('services')"
-                >
-                  {{ 'users.form.summary.tab_services' | translate }} ({{ form().services.size }})
-                </button>
-              </div>
-              <div class="profile-tabs__panel" role="tabpanel">
-                @if (summaryTab() === 'groups') {
-                  @if (assignedGroupNames().length === 0) {
-                    <p class="profile-tabs__empty">
-                      {{ 'users.form.summary.no_groups' | translate }}
-                    </p>
-                  } @else {
-                    <div class="profile-tabs__chips">
-                      @for (name of assignedGroupNames(); track name) {
-                        <span class="profile-tabs__chip">{{ name }}</span>
-                      }
-                    </div>
-                  }
-                } @else {
-                  @if (form().services.size === 0) {
-                    <p class="profile-tabs__empty">
-                      {{ 'users.form.summary.no_services' | translate }}
-                    </p>
-                  } @else {
-                    <div class="profile-tabs__chips">
-                      @for (service of form().services; track service) {
-                        <span class="profile-tabs__chip">{{ service }}</span>
-                      }
-                    </div>
-                  }
-                }
-              </div>
-            </div>
-          </div>
-        </aed-section-card>
+      <h2 class="ipanel__name">
+        {{ form().name || ('users.form.create_title' | translate) }}
+      </h2>
+      @if (form().email) {
+        <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
+      }
+      <div class="ipanel__pills">
+        <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
+        <span class="pill pill--status pill--status-{{ form().status }}">
+          {{ 'users.form.fields.status_' + form().status | translate }}
+        </span>
       </div>
+      <dl class="ipanel__stats">
+        <div class="ipanel__stat">
+          <dt>{{ 'users.form.section.groups' | translate }}</dt>
+          <dd>
+            @if (assignedGroupNames().length === 0) {
+              —
+            } @else {
+              {{ assignedGroupNames().join(' · ') }}
+            }
+          </dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'users.form.section.services' | translate }}</dt>
+          <dd>{{ form().services.size }}</dd>
+        </div>
+      </dl>
     </aside>
 
-    <div class="profile-form">
-      <aed-section-card
-        titleKey="users.form.section.identity"
-        hintKey="users.form.section.identity_hint"
-      >
+    <div class="page__form">
+      @if (conflictWarning()) {
+        <div class="cross-tab-warning" role="alert">
+          {{ 'common.cross_tab_warning' | translate }}
+        </div>
+      }
+
+      <aed-section-card titleKey="users.form.section.identity">
         <div class="grid grid--2">
           <div class="field">
             <label class="field__label" for="user-name">
@@ -218,10 +171,7 @@
         </div>
       </aed-section-card>
 
-      <aed-section-card
-        titleKey="users.form.section.permissions"
-        hintKey="users.form.section.permissions_hint"
-      >
+      <aed-section-card titleKey="users.form.section.permissions">
         <div class="checkbox-grid">
           @for (def of permissionDefs; track def.key) {
             <label class="checkbox-row">
