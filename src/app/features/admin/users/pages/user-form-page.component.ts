@@ -99,12 +99,19 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly conflictWarning = signal(false);
   private releaseLock: (() => void) | null = null;
 
-  protected readonly navSections: readonly FormNavSection[] = [
-    { id: 'user-section-identity', labelKey: 'users.form.section.identity' },
-    { id: 'user-section-sections', labelKey: 'users.form.section.sections' },
-    { id: 'user-section-permissions', labelKey: 'users.form.section.permissions' },
-    { id: 'user-section-services', labelKey: 'users.form.section.services' },
-  ];
+  protected readonly activeSection = signal<string>('user-section-identity');
+  protected readonly navSections = computed<readonly FormNavSection[]>(() => {
+    const base: FormNavSection[] = [
+      { id: 'user-section-identity', labelKey: 'users.form.section.identity' },
+      { id: 'user-section-sections', labelKey: 'users.form.section.sections' },
+      { id: 'user-section-permissions', labelKey: 'users.form.section.permissions' },
+      { id: 'user-section-services', labelKey: 'users.form.section.services' },
+    ];
+    if (this.mode() === 'edit') {
+      base.push({ id: 'user-section-danger', labelKey: 'common.delete' });
+    }
+    return base;
+  });
 
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
 

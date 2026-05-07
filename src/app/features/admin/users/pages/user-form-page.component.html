@@ -19,183 +19,185 @@
 </aed-sticky-form-header>
 
 <div class="page">
-  <div class="page__inner page__inner--with-panel">
-    <aside class="ipanel" aria-label="Resumen del usuario">
-      <div class="ipanel__summary">
-        <span class="ipanel__eyebrow">
-          <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
-          {{ 'users.entity_singular' | translate }}
-        </span>
-        @if (form().email) {
-          <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
-        }
-        <div class="ipanel__pills">
-          <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
-          <span class="pill pill--status pill--status-{{ form().status }}">
-            {{ 'users.status.' + form().status | translate }}
-          </span>
-        </div>
-        <dl class="ipanel__stats">
-          <div class="ipanel__stat">
-            <dt>{{ 'users.form.section.groups' | translate }}</dt>
-            <dd>
-              @if (assignedGroupNames().length === 0) {
-                —
-              } @else {
-                {{ assignedGroupNames().join(' · ') }}
-              }
-            </dd>
-          </div>
-          <div class="ipanel__stat">
-            <dt>{{ 'users.form.section.services' | translate }}</dt>
-            <dd>{{ form().services.size }}</dd>
-          </div>
-        </dl>
-      </div>
-      <div class="ipanel__nav">
-        <aed-form-section-nav [sections]="navSections" [compact]="true" />
-      </div>
+  <div class="page__inner page__inner--with-shell">
+    <aside class="shell-nav" aria-label="Secciones del usuario">
+      <span class="shell-nav__category">{{ 'users.entity_singular' | translate }}</span>
+      <aed-form-section-nav
+        [sections]="navSections()"
+        [activeId]="activeSection()"
+        (activeChange)="activeSection.set($event)"
+      />
     </aside>
 
-    <div class="page__form">
-      <aed-section-card
-        anchorId="user-section-identity"
-        titleKey="users.form.section.identity"
-      >
-        <div class="grid grid--2">
-          <div class="field">
-            <label class="field__label" for="user-email">
-              {{ 'users.form.fields.email' | translate }}
-              <span class="field__required" aria-hidden="true">*</span>
-            </label>
-            <input
-              id="user-email"
-              type="email"
-              class="field__input"
-              [class.field__input--error]="!!errors()['email']"
-              [attr.aria-describedby]="errors()['email'] ? 'user-email-error' : null"
-              [attr.aria-invalid]="!!errors()['email']"
-              [value]="form().email"
-              (input)="onTextInput('email', $event)"
-              autocomplete="email"
-            />
-            <span id="user-email-error" class="field__error" aria-live="polite">
-              @if (errors()['email']; as err) {
-                {{ err | translate }}
+    <main class="shell-form">
+      @switch (activeSection()) {
+        @case ('user-section-identity') {
+          <aed-section-card titleKey="users.form.section.identity">
+            <div class="grid grid--2">
+              <div class="field">
+                <label class="field__label" for="user-email">
+                  {{ 'users.form.fields.email' | translate }}
+                  <span class="field__required" aria-hidden="true">*</span>
+                </label>
+                <input
+                  id="user-email"
+                  type="email"
+                  class="field__input"
+                  [class.field__input--error]="!!errors()['email']"
+                  [attr.aria-describedby]="errors()['email'] ? 'user-email-error' : null"
+                  [attr.aria-invalid]="!!errors()['email']"
+                  [value]="form().email"
+                  (input)="onTextInput('email', $event)"
+                  autocomplete="email"
+                />
+                <span id="user-email-error" class="field__error" aria-live="polite">
+                  @if (errors()['email']; as err) {
+                    {{ err | translate }}
+                  }
+                </span>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="user-identifier">
+                  {{ 'users.form.fields.identifier' | translate }}
+                  <span class="field__hint">({{ 'common.optional' | translate }})</span>
+                </label>
+                <input
+                  id="user-identifier"
+                  type="text"
+                  class="field__input"
+                  [value]="form().identifier"
+                  (input)="onTextInput('identifier', $event)"
+                />
+                <span class="field__help">{{ 'users.form.fields.identifier_hint' | translate }}</span>
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="user-type">
+                  {{ 'users.form.fields.type' | translate }}
+                </label>
+                <select
+                  id="user-type"
+                  class="field__input"
+                  [value]="form().type"
+                  (change)="onTypeChange($event)"
+                >
+                  @for (type of userTypes; track type) {
+                    <option [value]="type">{{ typeLabelKeys[type] | translate }}</option>
+                  }
+                </select>
+              </div>
+            </div>
+
+            <div class="field field--inline">
+              <aed-toggle-switch
+                [checked]="form().status === 'active'"
+                [ariaLabel]="'users.form.fields.status' | translate"
+                (checkedChange)="onStatusChange($event)"
+              />
+              <div>
+                <span class="field__label-inline">{{ 'users.form.fields.status' | translate }}</span>
+                <span class="field__help">
+                  {{ 'users.form.fields.status_' + form().status | translate }}
+                </span>
+              </div>
+            </div>
+          </aed-section-card>
+        }
+
+        @case ('user-section-sections') {
+          <aed-section-card
+            titleKey="users.form.section.sections"
+            hintKey="users.form.section.sections_hint"
+          >
+            <div class="checkbox-grid">
+              @for (def of sectionDefs; track def.key) {
+                <label class="checkbox-row" [class.checkbox-row--child]="!!def.parent">
+                  <input
+                    type="checkbox"
+                    [checked]="form().sections[def.key]"
+                    (change)="toggleSection(def.key)"
+                  />
+                  <span>{{ def.labelKey | translate }}</span>
+                </label>
               }
-            </span>
-          </div>
+            </div>
+          </aed-section-card>
+        }
 
-          <div class="field">
-            <label class="field__label" for="user-identifier">
-              {{ 'users.form.fields.identifier' | translate }}
-              <span class="field__hint">({{ 'common.optional' | translate }})</span>
-            </label>
-            <input
-              id="user-identifier"
-              type="text"
-              class="field__input"
-              [value]="form().identifier"
-              (input)="onTextInput('identifier', $event)"
-            />
-            <span class="field__help">{{ 'users.form.fields.identifier_hint' | translate }}</span>
-          </div>
-
-          <div class="field">
-            <label class="field__label" for="user-type">
-              {{ 'users.form.fields.type' | translate }}
-            </label>
-            <select
-              id="user-type"
-              class="field__input"
-              [value]="form().type"
-              (change)="onTypeChange($event)"
-            >
-              @for (type of userTypes; track type) {
-                <option [value]="type">{{ typeLabelKeys[type] | translate }}</option>
+        @case ('user-section-permissions') {
+          <aed-section-card titleKey="users.form.section.permissions">
+            <div class="checkbox-grid">
+              @for (def of permissionDefs; track def.key) {
+                <label class="checkbox-row">
+                  <input
+                    type="checkbox"
+                    [checked]="form().permissions[def.key]"
+                    (change)="togglePermission(def.key)"
+                  />
+                  <span>{{ def.labelKey | translate }}</span>
+                </label>
               }
-            </select>
-          </div>
-        </div>
+            </div>
+          </aed-section-card>
+        }
 
-        <div class="field field--inline">
-          <aed-toggle-switch
-            [checked]="form().status === 'active'"
-            [ariaLabel]="'users.form.fields.status' | translate"
-            (checkedChange)="onStatusChange($event)"
+        @case ('user-section-services') {
+          <aed-section-card
+            titleKey="users.form.section.services"
+            hintKey="users.form.section.services_hint"
+          >
+            <div class="checkbox-grid checkbox-grid--services">
+              @for (service of availableServices; track service) {
+                <label class="checkbox-row">
+                  <input
+                    type="checkbox"
+                    [checked]="hasService(service)"
+                    (change)="toggleService(service)"
+                  />
+                  <span>{{ service }}</span>
+                </label>
+              }
+            </div>
+          </aed-section-card>
+        }
+
+        @case ('user-section-danger') {
+          <aed-form-danger-zone
+            descriptionKey="users.form.danger_zone_description"
+            (action)="requestDelete()"
           />
-          <div>
-            <span class="field__label-inline">{{ 'users.form.fields.status' | translate }}</span>
-            <span class="field__help">
-              {{ 'users.form.fields.status_' + form().status | translate }}
-            </span>
-          </div>
-        </div>
-      </aed-section-card>
-
-      <aed-section-card
-        anchorId="user-section-sections"
-        titleKey="users.form.section.sections"
-        hintKey="users.form.section.sections_hint"
-      >
-        <div class="checkbox-grid">
-          @for (def of sectionDefs; track def.key) {
-            <label class="checkbox-row" [class.checkbox-row--child]="!!def.parent">
-              <input
-                type="checkbox"
-                [checked]="form().sections[def.key]"
-                (change)="toggleSection(def.key)"
-              />
-              <span>{{ def.labelKey | translate }}</span>
-            </label>
-          }
-        </div>
-      </aed-section-card>
-
-      <aed-section-card
-        anchorId="user-section-permissions"
-        titleKey="users.form.section.permissions"
-      >
-        <div class="checkbox-grid">
-          @for (def of permissionDefs; track def.key) {
-            <label class="checkbox-row">
-              <input
-                type="checkbox"
-                [checked]="form().permissions[def.key]"
-                (change)="togglePermission(def.key)"
-              />
-              <span>{{ def.labelKey | translate }}</span>
-            </label>
-          }
-        </div>
-      </aed-section-card>
-
-      <aed-section-card
-        anchorId="user-section-services"
-        titleKey="users.form.section.services"
-        hintKey="users.form.section.services_hint"
-      >
-        <div class="checkbox-grid checkbox-grid--services">
-          @for (service of availableServices; track service) {
-            <label class="checkbox-row">
-              <input
-                type="checkbox"
-                [checked]="hasService(service)"
-                (change)="toggleService(service)"
-              />
-              <span>{{ service }}</span>
-            </label>
-          }
-        </div>
-      </aed-section-card>
-
-      @if (mode() === 'edit') {
-        <aed-form-danger-zone
-          descriptionKey="users.form.danger_zone_description"
-          (action)="requestDelete()"
-        />
+        }
       }
-    </div>
+    </main>
+
+    <aside class="shell-persona" aria-label="Resumen del usuario">
+      @if (form().email) {
+        <p class="ipanel__email" [title]="form().email">{{ form().email }}</p>
+      }
+      <div class="ipanel__pills">
+        <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
+        <span class="pill pill--status pill--status-{{ form().status }}">
+          {{ 'users.status.' + form().status | translate }}
+        </span>
+      </div>
+      <dl class="ipanel__stats">
+        <div class="ipanel__stat">
+          <dt>{{ 'users.form.section.groups' | translate }}</dt>
+          <dd>
+            @if (assignedGroupNames().length === 0) {
+              —
+            } @else {
+              {{ assignedGroupNames().join(' · ') }}
+            }
+          </dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'users.form.section.services' | translate }}</dt>
+          <dd>{{ form().services.size }}</dd>
+        </div>
+      </dl>
+    </aside>
   </div>
 </div>
 

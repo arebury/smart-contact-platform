@@ -8,139 +8,109 @@
   background: var(--sc-bg-default);
 
   &__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--sc-spacing-500) var(--sc-spacing-600);
-
     /*
-     * Identity-panel layout — see group-form for the full pattern doc.
+     * Aircall-style 3-column shell — see group-form for the pattern doc.
      */
-    &--with-panel {
-      max-width: none;
-      margin: 0;
-      padding: 0;
+    &--with-shell {
       display: grid;
-      grid-template-columns: 256px minmax(0, 1fr);
+      grid-template-columns: 240px minmax(0, 1fr) 280px;
       gap: 0;
-
-      @media (max-width: 960px) {
-        grid-template-columns: 1fr;
-      }
+      min-height: calc(100dvh - var(--aed-form-panel-top, 64px));
     }
-  }
-
-  &__form {
-    min-width: 0;
-    max-width: 880px;
-    margin: 0 auto;
-    padding: var(--sc-spacing-500) var(--sc-spacing-600);
-    display: flex;
-    flex-direction: column;
-    width: 100%;
   }
 }
 
-.ipanel {
+.shell-nav {
   position: sticky;
   top: var(--aed-form-panel-top, 64px);
   align-self: start;
   height: calc(100dvh - var(--aed-form-panel-top, 64px));
   display: flex;
   flex-direction: column;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-400) var(--sc-spacing-300);
   background: var(--sc-bg-surface);
   border-right: 1px solid var(--sc-border-default);
   overflow-y: auto;
 
-  @media (max-width: 960px) {
-    position: static;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--sc-border-default);
-  }
-
-  &__summary {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sc-spacing-300);
-    padding: var(--sc-spacing-400) var(--sc-spacing-500);
-    border-bottom: 1px solid var(--sc-border-subtle);
-  }
-
-  &__nav {
-    padding: var(--sc-spacing-300) var(--sc-spacing-300);
-  }
-
-  /* Small entity tag at the top of the rail. A 4px brand-color marker
-   * + entity word (sentence case, subtle). Replaces what would have been
-   * the persona name (which now lives in the header). */
-  &__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sc-spacing-150);
+  &__category {
+    padding: 0 var(--sc-spacing-200);
     font-size: 11px;
     font-weight: var(--sc-font-weight-semibold, 600);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--sc-text-subtle);
   }
+}
 
-  &__eyebrow-marker {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--sc-bg-primary);
+.shell-form {
+  min-width: 0;
+  padding: var(--sc-spacing-500) var(--sc-spacing-600);
+  display: flex;
+  flex-direction: column;
+}
+
+.shell-persona {
+  position: sticky;
+  top: var(--aed-form-panel-top, 64px);
+  align-self: start;
+  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-400);
+  padding: var(--sc-spacing-500) var(--sc-spacing-500);
+  background: var(--sc-bg-surface);
+  border-left: 1px solid var(--sc-border-default);
+  overflow-y: auto;
+}
+
+/* Persona-card content blocks — used inside `.shell-persona`. */
+.ipanel__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-100);
+  min-height: 24px;
+}
+
+.ipanel__stats {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-100);
+  padding-top: var(--sc-spacing-300);
+  border-top: 1px solid var(--sc-border-subtle);
+}
+
+.ipanel__stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sc-spacing-200);
+
+  dt {
+    font-size: var(--sc-font-size-100);
+    color: var(--sc-text-subtle);
+    font-weight: var(--sc-font-weight-regular, 400);
+    flex: 0 0 auto;
   }
 
-  &__pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sc-spacing-100);
-    min-height: 24px;
-  }
-
-  /* Stats list — sentence-case label on the left, value on the right.
-   * Drops the heavy all-caps eyebrow per row that made the panel feel
-   * like a 2010 dashboard. */
-  &__stats {
+  dd {
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sc-spacing-100);
-    padding-top: var(--sc-spacing-300);
-    border-top: 1px solid var(--sc-border-subtle);
+    font-size: var(--sc-font-size-100);
+    color: var(--sc-text-primary);
+    font-weight: var(--sc-font-weight-medium, 500);
+    text-align: right;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
+}
 
-  &__stat {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--sc-spacing-200);
-
-    dt {
-      font-size: var(--sc-font-size-100);
-      color: var(--sc-text-subtle);
-      font-weight: var(--sc-font-weight-regular, 400);
-      flex: 0 0 auto;
-    }
-
-    dd {
-      margin: 0;
-      font-size: var(--sc-font-size-100);
-      color: var(--sc-text-primary);
-      font-weight: var(--sc-font-weight-medium, 500);
-      text-align: right;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-
-  &__mono {
-    font-family:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-      'Courier New', monospace;
-  }
+.ipanel__mono {
+  font-family:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
 }
 
 .pill {

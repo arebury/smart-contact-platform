@@ -8,136 +8,108 @@
   background: var(--sc-bg-default);
 
   &__inner {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: var(--sc-spacing-500) var(--sc-spacing-600);
-
     /*
-     * Identity-panel layout — edge-to-edge two-column shell mirroring
-     * `aed-settings-shell` in shape: a sticky full-height rail on the
-     * left + a scrollable form column on the right. Distinct from the
-     * SettingsShell rail in *content* (here it's a persona card, not
-     * navigation) but identical in *format*.
+     * Aircall-style 3-column shell: nav rail (left) + active section
+     * (center) + persona summary (right). Each pane has one job, no
+     * scroll competition. Distinct from the 2-col SettingsShell —
+     * here we're inside an object detail view, not navigating the hub.
      */
-    &--with-panel {
-      max-width: none;
-      margin: 0;
-      padding: 0;
+    &--with-shell {
       display: grid;
-      grid-template-columns: 256px minmax(0, 1fr);
+      grid-template-columns: 240px minmax(0, 1fr) 280px;
       gap: 0;
-
-      @media (max-width: 960px) {
-        grid-template-columns: 1fr;
-      }
+      min-height: calc(100dvh - var(--aed-form-panel-top, 64px));
     }
-  }
-
-  &__form {
-    min-width: 0;
-    max-width: 880px;
-    margin: 0 auto;
-    padding: var(--sc-spacing-500) var(--sc-spacing-600);
-    display: flex;
-    flex-direction: column;
-    width: 100%;
   }
 }
 
-/* Identity panel (hybrid) — full-height sticky rail. Top half is a live
- * persona summary (pills + stats), bottom half is a section navigation
- * index. Mirrored across grupos / agentes / usuarios edit forms. Format
- * matches SettingsShell visually; content is contextual to the entity
- * being edited, not navigation of the hub. */
-.ipanel {
+/* Left rail — section nav. Sticky full-height like the SettingsShell. */
+.shell-nav {
   position: sticky;
   top: var(--aed-form-panel-top, 64px);
   align-self: start;
   height: calc(100dvh - var(--aed-form-panel-top, 64px));
   display: flex;
   flex-direction: column;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-400) var(--sc-spacing-300);
   background: var(--sc-bg-surface);
   border-right: 1px solid var(--sc-border-default);
   overflow-y: auto;
 
-  @media (max-width: 960px) {
-    position: static;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--sc-border-default);
-  }
-
-  &__summary {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sc-spacing-300);
-    padding: var(--sc-spacing-400) var(--sc-spacing-500);
-    border-bottom: 1px solid var(--sc-border-subtle);
-  }
-
-  &__nav {
-    padding: var(--sc-spacing-300) var(--sc-spacing-300);
-  }
-
-  &__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sc-spacing-150);
+  &__category {
+    padding: 0 var(--sc-spacing-200);
     font-size: 11px;
     font-weight: var(--sc-font-weight-semibold, 600);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--sc-text-subtle);
   }
+}
 
-  &__eyebrow-marker {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--sc-bg-primary);
+/* Center pane — active section's form. Capped width for readability. */
+.shell-form {
+  min-width: 0;
+  padding: var(--sc-spacing-500) var(--sc-spacing-600);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Right rail — persona summary. Sticky like the nav. */
+.shell-persona {
+  position: sticky;
+  top: var(--aed-form-panel-top, 64px);
+  align-self: start;
+  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-400);
+  padding: var(--sc-spacing-500) var(--sc-spacing-500);
+  background: var(--sc-bg-surface);
+  border-left: 1px solid var(--sc-border-default);
+  overflow-y: auto;
+}
+
+/* Persona-card content blocks — used inside `.shell-persona`. */
+.ipanel__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-100);
+  min-height: 24px;
+}
+
+.ipanel__stats {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-100);
+  padding-top: var(--sc-spacing-300);
+  border-top: 1px solid var(--sc-border-subtle);
+}
+
+.ipanel__stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sc-spacing-200);
+
+  dt {
+    font-size: var(--sc-font-size-100);
+    color: var(--sc-text-subtle);
+    font-weight: var(--sc-font-weight-regular, 400);
+    flex: 0 0 auto;
   }
 
-  &__pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sc-spacing-100);
-    /* Reserve a row so toggling channels doesn't shift the stats below (DD#16) */
-    min-height: 24px;
-  }
-
-  &__stats {
+  dd {
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sc-spacing-100);
-    padding-top: var(--sc-spacing-300);
-    border-top: 1px solid var(--sc-border-subtle);
-  }
-
-  &__stat {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--sc-spacing-200);
-
-    dt {
-      font-size: var(--sc-font-size-100);
-      color: var(--sc-text-subtle);
-      font-weight: var(--sc-font-weight-regular, 400);
-      flex: 0 0 auto;
-    }
-
-    dd {
-      margin: 0;
-      font-size: var(--sc-font-size-100);
-      color: var(--sc-text-primary);
-      font-weight: var(--sc-font-weight-medium, 500);
-      text-align: right;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    font-size: var(--sc-font-size-100);
+    color: var(--sc-text-primary);
+    font-weight: var(--sc-font-weight-medium, 500);
+    text-align: right;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 

@@ -86,12 +86,19 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly chatStrategies = CHAT_STRATEGIES;
   protected readonly rosterAgents = ROSTER_AGENTS;
 
-  protected readonly navSections: readonly FormNavSection[] = [
-    { id: 'group-section-identity', labelKey: 'groups.form.section.identity' },
-    { id: 'group-section-channels', labelKey: 'groups.form.section.channels' },
-    { id: 'group-section-strategy', labelKey: 'groups.form.section.strategy' },
-    { id: 'group-section-agents', labelKey: 'groups.form.section.agents' },
-  ];
+  protected readonly activeSection = signal<string>('group-section-identity');
+  protected readonly navSections = computed<readonly FormNavSection[]>(() => {
+    const base: FormNavSection[] = [
+      { id: 'group-section-identity', labelKey: 'groups.form.section.identity' },
+      { id: 'group-section-channels', labelKey: 'groups.form.section.channels' },
+      { id: 'group-section-strategy', labelKey: 'groups.form.section.strategy' },
+      { id: 'group-section-agents', labelKey: 'groups.form.section.agents' },
+    ];
+    if (this.mode() === 'edit') {
+      base.push({ id: 'group-section-danger', labelKey: 'common.delete' });
+    }
+    return base;
+  });
 
   protected readonly plusIcon = Plus;
   protected readonly closeIcon = X;
