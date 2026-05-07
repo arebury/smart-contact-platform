@@ -1,55 +1,57 @@
 <div class="page">
   <div class="page__inner">
     <header class="page__header">
-      <h1 class="page__title">{{ 'groups.page_title' | translate }}</h1>
+      <div class="page__heading">
+        <h1 class="page__title">{{ 'groups.page_title' | translate }}</h1>
+        <span class="page__count" aria-live="polite">
+          {{ sorted().length }} {{ 'groups.entity_plural' | translate }}
+        </span>
+      </div>
       <div class="page__actions">
+        <div class="page__search">
+          <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="14" />
+          <input
+            type="text"
+            class="page__search-input"
+            [placeholder]="'groups.search_placeholder' | translate"
+            [value]="searchQuery()"
+            (input)="searchQuery.set($any($event.target).value)"
+            (keydown)="onSearchKey($event)"
+          />
+          @if (searchQuery()) {
+            <button
+              type="button"
+              class="page__search-clear"
+              (click)="searchQuery.set('')"
+              [attr.aria-label]="'labels.clear_search' | translate"
+            >
+              <lucide-icon [img]="closeIcon" [size]="14" />
+            </button>
+          } @else {
+            <kbd class="page__search-kbd" aria-hidden="true">⌘K</kbd>
+          }
+        </div>
+        <aed-column-selector
+          [columns]="columnDefs()"
+          [storageKey]="columnPrefKey"
+          (visibilityChange)="onColumnsChange($event)"
+        />
+        <button
+          type="button"
+          class="sc-icon-btn"
+          (click)="onExport()"
+          [attr.aria-label]="'labels.export_button' | translate"
+          [attr.title]="'labels.export_button' | translate"
+        >
+          <lucide-icon [img]="downloadIcon" [size]="14" />
+        </button>
+        <span class="sc-action-divider" aria-hidden="true"></span>
         <button type="button" class="btn btn--primary" (click)="onCreateClick()">
           <lucide-icon [img]="plusIcon" [size]="14" />
           <span>{{ 'groups.create_button' | translate }}</span>
         </button>
       </div>
     </header>
-
-    <div class="page__action-bar">
-      <aed-column-selector
-        [columns]="columnDefs()"
-        [storageKey]="columnPrefKey"
-        (visibilityChange)="onColumnsChange($event)"
-      />
-      <div class="page__search">
-        <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="14" />
-        <input
-          type="text"
-          class="page__search-input"
-          [placeholder]="'groups.search_placeholder' | translate"
-          [value]="searchQuery()"
-          (input)="searchQuery.set($any($event.target).value)"
-          (keydown)="onSearchKey($event)"
-        />
-        @if (searchQuery()) {
-          <button
-            type="button"
-            class="page__search-clear"
-            (click)="searchQuery.set('')"
-            [attr.aria-label]="'labels.clear_search' | translate"
-          >
-            <lucide-icon [img]="closeIcon" [size]="13" />
-          </button>
-        } @else {
-          <kbd class="page__search-kbd" aria-hidden="true">⌘K</kbd>
-        }
-      </div>
-      <span class="sc-action-divider" aria-hidden="true"></span>
-      <button
-        type="button"
-        class="sc-icon-btn"
-        (click)="onExport()"
-        [attr.aria-label]="'labels.export_button' | translate"
-        [attr.title]="'labels.export_button' | translate"
-      >
-        <lucide-icon [img]="downloadIcon" [size]="14" />
-      </button>
-    </div>
 
     @if (groups().length === 0) {
       <aed-empty-state
