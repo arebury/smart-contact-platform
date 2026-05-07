@@ -6,34 +6,57 @@ const placeholder = () =>
   );
 
 /**
- * Config feature routes. Every child renders inside SettingsShell so
- * the inner sidebar (Figma node 224:9167) is shared across pages.
+ * Config feature routes.
+ *
+ * `/config/aed/*` lives inside SettingsShell — three placeholder
+ * sub-pages today (Servicio / Agentes / Grupos) backed by the Figma
+ * 224:9167 family. The hub redirects to `/aed/servicio` so the rail
+ * always has a selected item on first visit.
+ *
+ * Other config children render as plain pages (no inner shell, like
+ * before): Seguridad (placeholder), Personalización / Integraciones
+ * (still unbuilt), and Sistema (now also home to "Numeración
+ * especial" — see DD#45).
  */
 export const configRoutes: Routes = [
   {
-    path: '',
+    path: 'aed',
     loadComponent: () =>
       import('./layout/settings-shell.component').then((m) => m.SettingsShellComponent),
     children: [
+      { path: '', pathMatch: 'full', redirectTo: 'servicio' },
       {
-        path: 'aed',
-        data: { breadcrumb: { labelKey: 'config.aed.title' } },
-        loadComponent: () => import('./pages/aed-page.component').then((m) => m.AedPageComponent),
+        path: 'servicio',
+        data: { breadcrumb: { labelKey: 'config.aed.subpages.servicio.heading' } },
+        loadComponent: () =>
+          import('./aed/aed-servicio-page.component').then((m) => m.AedServicioPageComponent),
       },
       {
-        path: 'seguridad',
-        data: { breadcrumb: { labelKey: 'config.seguridad.title' } },
+        path: 'agentes',
+        data: { breadcrumb: { labelKey: 'config.aed.subpages.agentes.heading' } },
         loadComponent: () =>
-          import('./pages/seguridad-page.component').then((m) => m.SeguridadPageComponent),
+          import('./aed/aed-agentes-page.component').then((m) => m.AedAgentesPageComponent),
       },
-      { path: 'personalizacion', loadComponent: placeholder },
-      { path: 'integraciones', loadComponent: placeholder },
       {
-        path: 'sistema',
-        data: { breadcrumb: { labelKey: 'config.sistema.title' } },
+        path: 'grupos',
+        data: { breadcrumb: { labelKey: 'config.aed.subpages.grupos.heading' } },
         loadComponent: () =>
-          import('./pages/sistema-page.component').then((m) => m.SistemaPageComponent),
+          import('./aed/aed-grupos-page.component').then((m) => m.AedGruposPageComponent),
       },
     ],
+  },
+  {
+    path: 'seguridad',
+    data: { breadcrumb: { labelKey: 'config.seguridad.title' } },
+    loadComponent: () =>
+      import('./pages/seguridad-page.component').then((m) => m.SeguridadPageComponent),
+  },
+  { path: 'personalizacion', loadComponent: placeholder },
+  { path: 'integraciones', loadComponent: placeholder },
+  {
+    path: 'sistema',
+    data: { breadcrumb: { labelKey: 'config.sistema.title' } },
+    loadComponent: () =>
+      import('./pages/sistema-page.component').then((m) => m.SistemaPageComponent),
   },
 ];

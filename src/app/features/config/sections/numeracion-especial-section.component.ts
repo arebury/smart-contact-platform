@@ -3,24 +3,29 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Hash, Info, LucideAngularModule, Save, Search, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { COUNTRY_PREFIXES, CountryPrefix } from '../data/country-prefixes';
+import { COUNTRY_PREFIXES, type CountryPrefix } from '../data/country-prefixes';
 
 /**
- * AED configuration page (`/config/aed`).
+ * Numeración especial section — country-prefix multi-select with
+ * search, chips and a dirty-only save bar.
  *
- * Hosts the "Numeración especial" picker: search, multi-select country
- * prefix list (~250 entries), removable chips, and a save bar that only
- * appears when the selection is dirty.
+ * Lifted out of the old AedPageComponent so it can sit inside Sistema
+ * as one of the 5 cross-cutting prefs sections (the rest live as
+ * inline blocks). Dropping the page chrome means the host paints
+ * nothing — Sistema's own `.page` and `.card` are the visual frame.
+ *
+ * Per DD#45: AED is now the inner-shell hub for Servicio/Agentes/Grupos
+ * defaults, so the country picker no longer fits there conceptually.
  */
 @Component({
-  selector: 'aed-aed-page',
+  selector: 'aed-numeracion-especial-section',
   standalone: true,
   imports: [LucideAngularModule, TranslateModule],
-  templateUrl: './aed-page.component.html',
-  styleUrl: './aed-page.component.scss',
+  templateUrl: './numeracion-especial-section.component.html',
+  styleUrl: './numeracion-especial-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AedPageComponent {
+export class NumeracionEspecialSectionComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
 
@@ -86,7 +91,6 @@ export class AedPageComponent {
   protected save(): void {
     if (this.saving()) return;
     this.saving.set(true);
-    // Simulated async save — matches the prototype's setTimeout(600).
     setTimeout(() => {
       this.saving.set(false);
       this.dirty.set(false);

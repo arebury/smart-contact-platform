@@ -26,6 +26,8 @@ import { ConfirmHostService, ThemeService, type ThemeMode } from '@core/services
 import { ToggleSwitchComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 
+import { NumeracionEspecialSectionComponent } from '../sections/numeracion-especial-section.component';
+
 interface ThemeOption {
   readonly value: ThemeMode;
   readonly labelKey: string;
@@ -67,7 +69,12 @@ const APP_DATA_PREFIX = 'smartcontact_';
 @Component({
   selector: 'aed-sistema-page',
   standalone: true,
-  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+  imports: [
+    LucideAngularModule,
+    NumeracionEspecialSectionComponent,
+    ToggleSwitchComponent,
+    TranslateModule,
+  ],
   templateUrl: './sistema-page.component.html',
   styleUrl: './sistema-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

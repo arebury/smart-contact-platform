@@ -733,9 +733,12 @@
       "title": "Configuración AED",
       "subtitle": "Ajustes de la plataforma",
       "version": "SmartContact · v2.4.0",
-      "seguridad_hint": "Políticas y credenciales",
-      "aed_hint": "Numeración especial",
-      "sistema_hint": "Apariencia, datos y políticas"
+      "servicio_label": "Servicio",
+      "servicio_hint": "Estados y conversaciones",
+      "agentes_label": "Agentes",
+      "agentes_hint": "Parámetros por defecto",
+      "grupos_label": "Grupos",
+      "grupos_hint": "Parámetros por defecto"
     },
     "aed": {
       "title": "AED",
@@ -755,6 +758,24 @@
       "toast": {
         "saved_one": "Numeración especial guardada (1 país)",
         "saved_many": "Numeración especial guardada ({{count}} países)"
+      },
+      "subpages": {
+        "empty_title": "En construcción",
+        "servicio": {
+          "heading": "Servicio",
+          "subtitle": "Estados y conversaciones del servicio",
+          "empty_body": "Aquí vivirán los parámetros por defecto que aplican al servicio (estados disponibles, gestión de conversaciones, etc.). Por ahora la sección está preparada como esqueleto."
+        },
+        "agentes": {
+          "heading": "Agentes",
+          "subtitle": "Permisos y valores predeterminados aplicados a todos los agentes",
+          "empty_body": "Próximamente: permisos de llamadas (destinos × llamada × transferencias), permisos de dispositivos, opciones de visualización e iframe configurable."
+        },
+        "grupos": {
+          "heading": "Grupos",
+          "subtitle": "Parámetros por defecto que se aplicarán a todos los grupos",
+          "empty_body": "Próximamente: valores por defecto que heredan los grupos al crearse."
+        }
       }
     },
     "seguridad": {

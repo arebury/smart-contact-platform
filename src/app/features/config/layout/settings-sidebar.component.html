@@ -8,11 +8,12 @@
     </p>
   </div>
 
-  <nav class="settings-sidebar__nav" aria-label="Configuración">
+  <nav class="settings-sidebar__nav" aria-label="Configuración AED">
     @for (item of items; track item.path) {
       <a
         class="nav-item"
         routerLinkActive="nav-item--active"
+        ariaCurrentWhenActive="page"
         [routerLink]="item.path"
       >
         <span class="nav-item__icon" aria-hidden="true">

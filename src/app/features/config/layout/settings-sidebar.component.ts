@@ -1,26 +1,25 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Database, LucideAngularModule, Settings, Shield } from 'lucide-angular';
+import { LucideAngularModule, Phone, UserRound, UsersRound } from 'lucide-angular';
 
 interface SettingsNavItem {
   readonly path: string;
   readonly labelKey: string;
   readonly hintKey: string;
-  readonly icon: typeof Settings;
+  readonly icon: typeof Phone;
 }
 
 /**
- * Inner navigation rail for `/config/*`. Sits between the global app
- * sidebar and the page content (Figma node 224:9167). Fixed width,
- * sticky to the top of the scrollable content area, scrollable
- * internally if the nav grows past the viewport.
+ * Inner navigation rail for the AED hub (`/config/aed/*`). Three
+ * items mirror the Figma source (224:9167): Servicio (Estados y
+ * conversaciones), Agentes (Parámetros por defecto), Grupos
+ * (Parámetros por defecto). Stuck to the start of the scrollable
+ * content area; the shell handles the sticky behaviour.
  *
- * Items mirror the config children that have real pages today
- * (Seguridad, AED, Sistema). Placeholder routes (Personalización,
- * Integraciones) stay out until they're built — surfacing them here
- * twice (main sidebar + settings sidebar) without a destination
- * inflates the inventory.
+ * `aria-current="page"` is applied via the active class so screen
+ * readers announce "current page" — RouterLinkActive only sets the
+ * class, not the aria attribute, so we mirror it manually below.
  */
 @Component({
   selector: 'aed-settings-sidebar',
@@ -33,22 +32,22 @@ interface SettingsNavItem {
 export class SettingsSidebarComponent {
   protected readonly items: readonly SettingsNavItem[] = [
     {
-      path: '/config/seguridad',
-      labelKey: 'config.seguridad.title',
-      hintKey: 'config.sidebar.seguridad_hint',
-      icon: Shield,
+      path: '/config/aed/servicio',
+      labelKey: 'config.sidebar.servicio_label',
+      hintKey: 'config.sidebar.servicio_hint',
+      icon: Phone,
     },
     {
-      path: '/config/aed',
-      labelKey: 'config.aed.title',
-      hintKey: 'config.sidebar.aed_hint',
-      icon: Database,
+      path: '/config/aed/agentes',
+      labelKey: 'config.sidebar.agentes_label',
+      hintKey: 'config.sidebar.agentes_hint',
+      icon: UserRound,
     },
     {
-      path: '/config/sistema',
-      labelKey: 'config.sistema.title',
-      hintKey: 'config.sidebar.sistema_hint',
-      icon: Settings,
+      path: '/config/aed/grupos',
+      labelKey: 'config.sidebar.grupos_label',
+      hintKey: 'config.sidebar.grupos_hint',
+      icon: UsersRound,
     },
   ];
 }

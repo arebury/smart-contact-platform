@@ -1,12 +1,13 @@
 /*
- * Seguridad page — minimal placeholder, rendered directly under
- * .app-shell__content. Host paints its own surface so the page has
- * a canvas.
+ * Shared template/styles for the three AED sub-pages while the real
+ * parámetros panels are unbuilt. Each sub-page (Servicio / Agentes /
+ * Grupos) wires its own labels and icon, but the chrome is identical.
+ *
+ * Lives inside SettingsShell (Figma 224:9167), so the host doesn't
+ * paint a background — the shell already owns the muted canvas.
  */
 :host {
   display: block;
-  height: 100%;
-  background: var(--sc-bg-surface);
 }
 
 .page {
