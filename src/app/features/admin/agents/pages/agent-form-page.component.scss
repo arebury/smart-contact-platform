@@ -45,6 +45,9 @@
 
 .shell-form {
   min-width: 0;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
   padding: var(--sc-spacing-500) var(--sc-spacing-600);
   display: flex;
   flex-direction: column;
@@ -381,18 +384,24 @@
   gap: var(--sc-spacing-400);
 }
 
+/* Permission groups — flat headers, no nested card chrome. The
+ * surrounding SectionCard already provides elevation + radius;
+ * card-in-card was an anti-pattern (impeccable Rule 4) and made the
+ * permission section feel boxed-in. */
 .permission-block {
-  border: 1px solid var(--sc-border-subtle);
-  border-radius: var(--sc-radius-100);
-  padding: var(--sc-spacing-300);
-  background: var(--sc-bg-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-200);
+
+  & + & {
+    padding-top: var(--sc-spacing-300);
+    border-top: 1px solid var(--sc-border-subtle);
+  }
 
   &__title {
-    margin: 0 0 var(--sc-spacing-200);
+    margin: 0;
     font-size: var(--sc-font-size-100);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--sc-text-subtle);
+    color: var(--sc-text-secondary);
     font-weight: var(--sc-font-weight-semibold);
   }
 }
