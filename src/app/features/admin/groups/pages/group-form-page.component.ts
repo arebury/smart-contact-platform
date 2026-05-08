@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { GripVertical, LucideAngularModule, Plus, Trash2, X } from 'lucide-angular';
+import { GripVertical, LucideAngularModule, Phone, Plus, Trash2, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -99,6 +99,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly closeIcon = X;
   protected readonly trashIcon = Trash2;
   protected readonly gripIcon = GripVertical;
+  protected readonly phoneIcon = Phone;
 
   protected readonly editingId = signal<number | null>(null);
   protected readonly initial = signal<Group | null>(null);

@@ -8,58 +8,35 @@
   (nameChange)="onNameRename($event)"
   (save)="save()"
   (cancelled)="cancel()"
-/>
+>
+  <span header-leading>
+    <aed-illustrated-avatar
+      [name]="initial()?.name ?? form().name || 'Grupo'"
+      pool="abstract"
+      [size]="44"
+    />
+  </span>
+  @if (mode() === 'edit') {
+    <span header-pills>
+      <span class="pill pill--priority pill--priority-{{ form().priority }}">
+        {{ priorityKeys[form().priority] | translate }}
+      </span>
+    </span>
+    <span header-meta>
+      @if (form().phone) {
+        <span class="header-meta__chunk">
+          <lucide-icon [img]="phoneIcon" [size]="13" [attr.aria-hidden]="true" />
+          <span>{{ form().phone }}</span>
+        </span>
+      }
+    </span>
+  }
+</aed-sticky-form-header>
 
 <div class="page">
   <div class="page__inner page__inner--with-panel">
-    <aside class="ipanel" aria-label="Resumen del grupo">
-      <div class="ipanel__identity">
-        <div class="ipanel__photo">
-          <aed-illustrated-avatar
-            [name]="initial()?.name ?? form().name || 'Grupo'"
-            pool="abstract"
-            [size]="64"
-          />
-        </div>
-        <div class="ipanel__identity-text">
-          <span class="ipanel__eyebrow">
-            <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
-            {{ 'groups.entity_singular' | translate }}
-          </span>
-          <div class="ipanel__pills">
-            <span class="pill pill--priority pill--priority-{{ form().priority }}">
-              {{ priorityKeys[form().priority] | translate }}
-            </span>
-            @for (channel of channels; track channel) {
-              @if (hasChannel(channel)) {
-                <span class="pill pill--channel">{{ channelKeys[channel] | translate }}</span>
-              }
-            }
-          </div>
-        </div>
-      </div>
-
-      <dl class="ipanel__stats">
-        <div class="ipanel__stat">
-          <dt>{{ 'groups.form.fields.phone_strategy' | translate }}</dt>
-          <dd>{{ form().strategy }}</dd>
-        </div>
-        <div class="ipanel__stat">
-          <dt>{{ 'groups.form.section.agents' | translate }}</dt>
-          <dd>
-            {{
-              'groups.form.assigned_count'
-                | translate: { count: form().assignedAgents.length }
-            }}
-          </dd>
-        </div>
-      </dl>
-
-      <hr class="ipanel__divider" aria-hidden="true" />
-
-      <div class="ipanel__nav">
-        <aed-form-section-nav [sections]="navSections" [compact]="true" />
-      </div>
+    <aside class="ipanel" aria-label="Índice del formulario">
+      <aed-form-section-nav [sections]="navSections" [compact]="true" />
     </aside>
     <div class="page__form">
     <aed-section-card

@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { LucideAngularModule, Mail } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -63,6 +64,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
     FormSectionNavComponent,
+    LucideAngularModule,
     PhotoUploadComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
@@ -83,6 +85,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected readonly userTypes = USER_TYPES;
   protected readonly typeLabelKeys = USER_TYPE_LABEL_KEYS;
+  protected readonly mailIcon = Mail;
   protected readonly sectionDefs = SECTION_DEFS;
   protected readonly permissionDefs = PERMISSION_DEFS;
   protected readonly availableServices = AVAILABLE_SERVICES;

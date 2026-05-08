@@ -24,10 +24,10 @@
       margin: 0;
       padding: 0;
       display: grid;
-      grid-template-columns: 256px minmax(0, 1fr);
+      grid-template-columns: 220px minmax(0, 1fr);
       gap: 0;
 
-      @media (max-width: 960px) {
+      @media (max-width: 1024px) {
         grid-template-columns: 1fr;
       }
     }
@@ -35,7 +35,7 @@
 
   &__form {
     min-width: 0;
-    max-width: 880px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: var(--sc-spacing-500) var(--sc-spacing-600);
     display: flex;
@@ -44,11 +44,8 @@
   }
 }
 
-/* Identity panel (hybrid) — full-height sticky rail. Top half is a live
- * persona summary (pills + stats), bottom half is a section navigation
- * index. Mirrored across grupos / agentes / usuarios edit forms. Format
- * matches SettingsShell visually; content is contextual to the entity
- * being edited, not navigation of the hub. */
+/* Rail — section index only. Identity (avatar + pills + meta) lives in
+ * the rich sticky header at the top of the page. */
 .ipanel {
   position: sticky;
   top: var(--aed-form-panel-top, 64px);
@@ -57,134 +54,30 @@
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-300);
-  padding: var(--sc-spacing-400) var(--sc-spacing-400);
+  padding: var(--sc-spacing-400);
   background: var(--sc-bg-surface);
   border-right: 1px solid var(--sc-border-default);
   overflow-y: auto;
 
-  @media (max-width: 960px) {
+  @media (max-width: 1024px) {
     position: static;
     height: auto;
     border-right: none;
     border-bottom: 1px solid var(--sc-border-default);
   }
+}
 
-  /* Identity strip — abstract avatar + supporting identity (eyebrow,
-   * priority + channel pills) side-by-side. The name lives in the
-   * StickyFormHeader so the rail is supporting metadata. */
-  &__identity {
-    display: flex;
-    align-items: center;
-    gap: var(--sc-spacing-300);
-    min-width: 0;
-  }
+/* Header meta line — projected into <aed-sticky-form-header> */
+.header-meta__chunk {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  color: var(--sc-text-secondary);
+  font-size: var(--sc-font-size-100);
 
-  &__photo {
+  > lucide-icon {
     flex: 0 0 auto;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    overflow: hidden;
-    background: var(--sc-bg-default);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    aed-illustrated-avatar {
-      display: block;
-      width: 100%;
-      height: 100%;
-    }
-    /* The illustrated-avatar component renders an SVG at its
-     * hardcoded [size]; force it to fill the 64px wrapper. */
-    ::ng-deep svg {
-      width: 100% !important;
-      height: 100% !important;
-    }
-  }
-
-  &__identity-text {
-    flex: 1 1 auto;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sc-spacing-150);
-  }
-
-  &__divider {
-    margin: var(--sc-spacing-200) 0;
-    border: 0;
-    border-top: 1px solid var(--sc-border-subtle);
-  }
-
-  &__nav {
-    /* Padding handled by the rail itself; divider above carries the
-     * separation. */
-  }
-
-  &__eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sc-spacing-150);
-    font-size: 11px;
-    font-weight: var(--sc-font-weight-semibold, 600);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--sc-text-subtle);
-  }
-
-  &__eyebrow-marker {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--sc-bg-primary);
-  }
-
-  &__pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sc-spacing-100);
-    /* Reserve a row so toggling channels doesn't shift the stats below (DD#16) */
-    min-height: 24px;
-  }
-
-  /* Stats container — bordered card so the data reads as a discrete
-   * unit, not a continuation of the identity strip. */
-  &__stats {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sc-spacing-150);
-    padding: var(--sc-spacing-300) var(--sc-spacing-300);
-    background: var(--sc-bg-default);
-    border: 1px solid var(--sc-border-subtle);
-    border-radius: var(--sc-radius-200);
-  }
-
-  &__stat {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--sc-spacing-200);
-
-    dt {
-      font-size: var(--sc-font-size-100);
-      color: var(--sc-text-subtle);
-      font-weight: var(--sc-font-weight-regular, 400);
-      flex: 0 0 auto;
-    }
-
-    dd {
-      margin: 0;
-      font-size: var(--sc-font-size-100);
-      color: var(--sc-text-primary);
-      font-weight: var(--sc-font-weight-medium, 500);
-      text-align: right;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    color: var(--sc-icon-subtle);
   }
 }
 
