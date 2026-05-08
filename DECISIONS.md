@@ -7,6 +7,62 @@
 
 ---
 
+## 49 — Identity moves from a persona rail into a rich sticky header; rail keeps only the section index (2026-05-08)
+
+**Decision.** Across the three admin edit forms (agents, groups, users)
+the persona rail is dismantled. Photo (44px), name (inline editable in
+edit mode), and a pills slot for status / presence / priority / type
+chips render in `<aed-sticky-form-header>` at the top of the page. A
+new `[header-meta]` slot below the name carries the live identity
+summary (agents: email + extension; groups: associated phone; users:
+email). The `<aside class="ipanel">` stripped of its identity strip,
+stats card, eyebrow and divider — it's now a thin 220px column hosting
+only `<aed-form-section-nav>`. The icon-only back button on the rail is
+removed, and `StickyFormHeaderComponent.showBack` flips its default
+from `true` to `false`; the page-level breadcrumb is the canonical way
+back.
+
+In addition, the agent form's body adopts a 2-column inner grid: a
+sticky 360px `Identificación` SectionCard on the left consolidates
+photo + name (create-only) + email + phone + pickup + extension type/
+number + agent type + channel pills + status toggle (edit-only) +
+initial presence + recording toggle + PIN. Permisos / Grupos / Idiomas
+/ Etiquetas / Danger-zone scroll independently on the right.
+
+**Why.** The persona rail duplicated the identity work the
+StickyFormHeader was already doing (entity eyebrow + name) and cost
+~280px of horizontal real estate that the form body would rather use.
+A rich sticky header collapses both into one place, lifts identity
+above the fold, and frees the rail to do exactly one job (let the user
+jump between sections). The agent body restructure mirrors a React
+reference the user supplied (`Identificación` card + scrollable
+settings column) and brings the form's first card much closer to a
+form's natural reading order — "who is this and how do I reach them"
+before "what can they do."
+
+**Discarded.**
+
+- Keeping the rail's identity strip *and* a richer header — would
+  duplicate state (the avatar, the name, the status pill rendered
+  twice) and force every dirty/save event to ripple through two
+  surfaces.
+- Replacing the rail entirely with no section index — the user
+  explicitly asked to keep the index when removing the ID-card
+  resumen; the index is the rail's only remaining job.
+- Per-form 2-column inner grids (groups, users too) — only the
+  agent form has the field volume + the user's reference snippet
+  to justify it. Groups and users keep a single-column body.
+
+**Files.**
+
+- [`src/app/shared/components/sticky-form-header/sticky-form-header.component.{ts,html,scss}`](src/app/shared/components/sticky-form-header/) — new `[header-pills]` + `[header-meta]` slots, default `showBack: false`, 44px photo scaling.
+- [`src/app/features/admin/agents/pages/agent-form-page.component.{ts,html,scss}`](src/app/features/admin/agents/pages/) — rich header, rail simplified, body 2-column with consolidated Identificación card. Recording moves out of Permisos → Devices.
+- [`src/app/features/admin/groups/pages/group-form-page.component.{html,scss,ts}`](src/app/features/admin/groups/pages/) — rich header (avatar + priority pill + phone meta), rail simplified.
+- [`src/app/features/admin/users/pages/user-form-page.component.{ts,html,scss}`](src/app/features/admin/users/pages/) — rich header (photo + type/status pills + email meta), rail simplified.
+- [`src/assets/i18n/es.json`](src/assets/i18n/es.json) — adds `agents.form.section.identification` + `recording_hint` keys.
+
+---
+
 ## 48 — Discard-changes modal inverts priority; other destructive prompts keep loud-accept (2026-05-08)
 
 **Decision.** `ConfirmRequest` gains an optional

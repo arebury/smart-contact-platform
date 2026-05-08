@@ -10,6 +10,76 @@
 
 ---
 
+## 2026-05-08 · Session 15 — Hybrid rail merged to main + rich identity header on every form (DD#49)
+
+> Five-point UX batch: promote the hybrid-rail prototype to main, take
+> the discard-modal + status-pop + save-stays-mounted goodies from
+> aircall-shell, retire the back button entirely, and reshape the
+> form chrome so identity (photo · pills · meta) lives in a rich
+> sticky header at the top — the rail collapses to just the section
+> index.
+
+**Worked on** (current branch: `main`)
+
+- **Hybrid rail → main.** Merged `explore/form-hybrid-rail` (no-ff merge
+  commit) so the persona-rail layout is now the canonical form chrome.
+  Cherry-picked commit `04949a4` from `explore/form-aircall-shell` —
+  brings the discard-modal invert (continuar editando = primary), the
+  save-stays-mounted behaviour (no list bounce), and the active↔inactive
+  status pop animation on the persona pill.
+
+- **Rich sticky header (DD#49).** `StickyFormHeaderComponent` gains two
+  new content slots — `[header-pills]` for inline status / presence /
+  priority chips beside the name, and `[header-meta]` for a secondary
+  line of email · phone · extension summary in edit mode. The existing
+  `[header-leading]` slot is now the canonical place for the
+  44px-scaled photo / illustrated avatar. Default `[showBack]` flips
+  from true → false; the page-level breadcrumb is the canonical way
+  back, and no form opts in.
+
+- **Rail = section index only.** Across agents / groups / users the
+  `<aside class="ipanel">` strips its persona content (avatar, eyebrow,
+  pills, stats card, divider) and keeps only `<aed-form-section-nav>`.
+  Rail width drops 256 → 220px; form body cap relaxes 880 → 1100px so
+  the new 2-column inner grid breathes.
+
+- **Agent form — Identificación card consolidation (point 5 from the
+  user's reference React snippet).** The form body becomes a 2-column
+  grid: a sticky 360px "Identificación" SectionCard on the left
+  absorbs photo + name (create-only) + email + phone + pickup +
+  extension + agent type + channel pills + status toggle (edit-only) +
+  initial presence + recording toggle + PIN. Settings on the right
+  scroll independently: Grupos, Permisos, Idiomas, Etiquetas, Danger
+  zone. `recording` moves out of Permisos → Devices into the
+  Identificación card so the ergonomics match the reference.
+
+- **Stale-rule fix.** Presence-pill SCSS keys are now lowercase Spanish
+  (`disponible`, `no_disponible`, `bano`, `comida`, `formacion`) so the
+  rules actually match the enum values. The previous TitleCase variants
+  (`Disponible`, `Ocupado`, …) were dead rules from an earlier schema.
+
+**Decisiones tomadas**
+- DD#49: rich identity header replaces the persona rail; rail keeps
+  only the section index. Validated against the user's Aircall-style
+  reference image plus the React `Identificación` snippet.
+- Body restructure (Identificación absorbing Identidad + Contacto +
+  Canales + Recording) lands only on the agent form — groups + users
+  keep their existing body since the user only asked for parity on
+  the create-agent flow.
+
+**Bloqueos / decisiones diferidas**
+- Drawer for "agentes asignados sin permisos del canal" inside the
+  group form is parked until the Telegram-channel discussion lands —
+  user wants to study how Telegram fits before designing the drawer.
+- Local Node 25.2.1 still rejects `ng build`. Validation is `tsc
+  --noEmit` only; Netlify per-branch deploys validate the full build.
+
+**Queued next**
+- User signaled "y después continuamos" — there is a point 6+ batch
+  coming. Wait for the next prompt.
+
+---
+
 ## 2026-05-08 · Session 14 — Prototype UX pass: discard priority, persistent save, back-button relocation (DD#48)
 
 > Four user-driven UX fixes split across the two live prototype

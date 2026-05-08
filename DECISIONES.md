@@ -15,6 +15,84 @@
 
 ---
 
+## DD#49 — La identidad sale del rail y sube a un header rico; el rail se queda solo con el índice (2026-05-08)
+
+**Qué.** En las tres páginas de editar (agente, grupo, usuario) se
+desmonta el "rail persona" de la izquierda. La foto (44px), el nombre
+(editable inline en modo editar), las pills (estado / presencia /
+prioridad / tipo) y una línea secundaria con email · extensión ·
+teléfono pasan al header sticky de arriba (`<aed-sticky-form-header>`).
+El rail (`<aside class="ipanel">`) se queda con un único trabajo: el
+índice de secciones del formulario. También se quita el botón "Atrás"
+del rail; el breadcrumb de página es la única vía para volver.
+
+Además, el formulario de agente cambia el cuerpo a una rejilla de dos
+columnas: a la izquierda una card "Identificación" sticky de 360px
+que mete dentro foto + nombre (solo crear) + email + teléfono +
+descolgado + tipo de extensión + extensión + tipo de agente + canales
+en pills + estado activo/inactivo (solo editar) + presencia inicial +
+grabación + PIN. A la derecha quedan las cards de Grupos, Permisos,
+Idiomas, Etiquetas y Danger zone, y son las que hacen scroll.
+
+**Por qué.** El rail antiguo duplicaba el trabajo del header (mismo
+nombre, misma foto, mismas pills) y se comía ~280px que el formulario
+prefería usar. Con la información de identidad en un único sitio
+arriba — y siempre visible al hacer scroll — el rail puede dedicarse
+a lo único que aporta: ayudarte a saltar entre secciones.
+
+El rediseño del cuerpo del agente sigue una referencia React que pasó
+el usuario: la card "Identificación" empuja la pregunta natural de
+"¿quién es y cómo le llego?" antes que "¿qué puede hacer?", y reduce
+el formulario de 7 secciones a 5.
+
+**Qué se descartó.**
+
+- Mantener el rail con identidad **y** un header rico al mismo tiempo
+  — duplicaría estado y haría que cada cambio se replicase en dos
+  superficies.
+- Cargarse el rail entero (sin índice) — el usuario pidió expresamente
+  conservar el índice cuando quitamos la "ID Card resumen".
+- Aplicar la rejilla de 2 columnas también en grupos y usuarios — solo
+  el agente tiene volumen de campos suficiente, y solo había referencia
+  React para él. Grupos y usuarios siguen con cuerpo a una columna.
+
+**Cuándo aplica.** En los tres formularios de editar/crear bajo
+`/admin/agentes`, `/admin/grupos` y `/admin/usuarios`. El cambio del
+cuerpo en dos columnas es solo del agente.
+
+---
+
+## DD#48 — El modal de "descartar cambios" invierte la prioridad: "Continuar editando" pasa a ser el botón principal (2026-05-08)
+
+**Qué.** En el modal que aparece al intentar salir de un formulario
+con cambios sin guardar, "Continuar editando" pasa a ser el botón
+principal (azul, a la derecha) y "Descartar" se queda como secundario
+(rojo suave, a la izquierda). En los demás modales destructivos
+(borrar entidad, resetear datos del sistema) el botón rojo de
+confirmación sigue siendo el principal — no cambia nada.
+
+**Por qué.** El modal de descartar es el único caso destructivo en el
+que la opción destructiva **no es** el resultado deseado: el modal
+aparece porque el usuario se fue por error de la página, así que la
+acción por defecto debe **proteger su trabajo**. Es la guía de
+NN/group, Apple HIG y Material Design. En cambio, cuando el usuario
+pulsa "Eliminar agente" o "Resetear datos", está pidiendo expresamente
+algo destructivo y el botón principal rojo es lo correcto.
+
+**Qué se descartó.**
+
+- Invertir la prioridad para todos los modales destructivos — habría
+  invertido también "Eliminar entidad" y "Resetear datos", donde el
+  rojo principal sí es lo que toca.
+- Tener dos componentes distintos (uno para descartar, otro para
+  borrar) — el armazón del modal, el ESC, la trampa de foco y el
+  resolver son idénticos; solo cambia qué botón pinta de rojo.
+
+**Cuándo aplica.** En cualquier intento de cerrar un formulario con
+cambios sin guardar, en cualquier sección de la app.
+
+---
+
 ## DD#47 — Las listas de admin pasan a una sola fila de chrome, con un contador en vivo (2026-05-08)
 
 **Qué.** Las páginas de lista de **agentes**, **grupos** y
