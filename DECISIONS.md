@@ -7,6 +7,49 @@
 
 ---
 
+## 48 — Discard-changes modal inverts priority; other destructive prompts keep loud-accept (2026-05-08)
+
+**Decision.** `ConfirmRequest` gains an optional
+`emphasis: 'accept' | 'reject'` flag (defaults to `'accept'`).
+`DiscardDialogService` opts in with `'reject'`; the host then swaps
+button positions and styles so the safe path "Continuar editando"
+renders as `btn--primary` on the right, while "Descartar" stays red
+but uses `btn--danger-subtle` (tinted) on the left. Other consumers
+of `ConfirmHostService` (sistema-page reset-data, delete-entity)
+don't pass the flag and keep the existing loud `btn--danger`
+treatment as the trailing primary action.
+
+**Why.** "Discard unsaved changes" is the one destructive prompt
+where the destructive option is *not* the recommended outcome — the
+modal exists because the user navigated away by accident, and the
+default action should preserve work (NN/g, Apple HIG, Material).
+Other destructive prompts (reset all data, delete an entity) are
+the opposite: the user explicitly asked for the destructive thing,
+so the loud red accept is correct. A per-call flag keeps both
+patterns served by the single `confirm-host` shell without
+splintering it into two components.
+
+**Discarded.**
+
+- Inverting at the `ConfirmHost` level globally — would have leaked
+  into delete-entity / reset-data prompts where loud accept is
+  correct.
+- Renaming `acceptTone: 'danger'` to imply visual emphasis — the
+  tone (color) and the emphasis (which button is primary) are
+  orthogonal axes; conflating them makes future variants harder.
+- Two separate components (`ConfirmHost` vs `DiscardHost`) — the
+  shell, modal, ESC handling, focus trap, and resolver semantics
+  are identical; only the button cluster differs.
+
+**Files.**
+
+- [`src/app/core/services/confirm-host.service.ts`](src/app/core/services/confirm-host.service.ts) — `emphasis` field on `ConfirmRequest`.
+- [`src/app/core/services/discard-dialog.service.ts`](src/app/core/services/discard-dialog.service.ts) — opts in.
+- [`src/app/shared/components/confirm-host/confirm-host.component.ts`](src/app/shared/components/confirm-host/confirm-host.component.ts) — `acceptClass` / `rejectClass` computeds.
+- [`src/app/shared/components/confirm-host/confirm-host.component.html`](src/app/shared/components/confirm-host/confirm-host.component.html) — conditional ordering.
+
+---
+
 ## 47 — Admin list pages collapse to single-row chrome; live entity count beside the title (2026-05-08)
 
 **Decision.** Agents / groups / users list pages drop the

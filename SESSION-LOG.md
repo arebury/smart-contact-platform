@@ -10,6 +10,67 @@
 
 ---
 
+## 2026-05-08 · Session 14 — Prototype UX pass: discard priority, persistent save, back-button relocation (DD#48)
+
+> Four user-driven UX fixes split across the two live prototype
+> branches. Both pushed to origin; Netlify will rebuild the per-branch
+> previews automatically.
+
+**Worked on** (current branches: `explore/form-aircall-shell`,
+`explore/form-hybrid-rail`)
+
+- **Discard-changes modal — invert priority** (`form-aircall-shell`,
+  affects every dirty-guard prompt because it lives in
+  `confirm-host`). The destructive "Descartar" used to be the loud
+  primary button on the right; the safe path "Continuar editando"
+  was a quiet secondary on the left. Added an `emphasis: 'reject'`
+  flag to `ConfirmRequest`; when set, the host swaps positions and
+  paints accept as `btn--danger-subtle` (still red but tinted) and
+  reject as `btn--primary`. `DiscardDialogService` opts in;
+  destructive prompts that genuinely want a loud accept (reset data,
+  delete entity) keep the default. Aligns with NN/g + Apple HIG —
+  modal triggered by accident, default action should preserve work.
+
+- **Save no longer routes back to the list** (`form-aircall-shell`).
+  The agent form's `save()` used to `router.navigateByUrl` to
+  `/admin/agentes` after every successful save. Form now stays
+  mounted: edit refreshes `initial` from the store; create promotes
+  `editingId.set(created.id)` + re-acquires the cross-tab lock and
+  swaps the URL to `/editar/:id` via `Location.replaceState` (no
+  Angular nav, so the component doesn't recreate). `formDirty`
+  cleared as before — the "cambios sin guardar" badge drops the
+  moment the toast fires. User can keep editing without bouncing.
+
+- **Status pill pop on active ↔ inactive** (`form-aircall-shell`).
+  When the toggle flips, the persona pill at the top of the rail
+  now does a 360ms scale pop (0.94 → 1.05 → 1) plus a colour/bg
+  crossfade. Implemented with two near-identical keyframe sets
+  (`status-pop-active` / `status-pop-inactive`) so the animation-name
+  changes when the class swaps and the browser re-triggers. Reduced-
+  motion respected.
+
+- **Back button moves into the rail** (`form-hybrid-rail`, agent
+  form only). The labeled "Atrás" pill in the StickyFormHeader's
+  right-side actions cluster competed with Save. Added a `[showBack]`
+  input on `StickyFormHeader` (default `true` so groups/users on the
+  same branch keep the labeled pill); agent form passes `false` and
+  renders a 32×32 icon-only ghost button at the top-left of the
+  identity rail, above the photo + eyebrow row. Sits at the rail's
+  content edge so the photo, the eyebrow text, the stats card and
+  the section nav all line up to the same x-position.
+
+**Open / parked**
+
+- Groups and users forms on `form-hybrid-rail` still show the labeled
+  "Atrás" pill; only agents got the icon-only rail back button.
+  Pending if/when the user wants consistency on this branch.
+- The status-pop animation runs once on initial paint with
+  `status=active` (technically a small entrance flicker). Acceptable
+  for the prototype — fix later with `[@.disabled]` on first render
+  if it bothers in user testing.
+
+---
+
 ## 2026-05-08 · Session 13 — Form persona refinement on two prototype branches + admin list audit
 
 > Polished the four prototype edit-form layouts and ran a list-page
