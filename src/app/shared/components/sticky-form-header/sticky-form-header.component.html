@@ -4,8 +4,8 @@
   </div>
   <div class="sticky-header__title-block">
     <span class="sticky-header__entity">{{ entityKey() | translate }}</span>
-    @if (mode() === 'create') {
-      <span class="sticky-header__edit-row">
+    <span class="sticky-header__name-line">
+      @if (mode() === 'create') {
         <input
           type="text"
           class="sticky-header__name-input"
@@ -14,10 +14,8 @@
           [placeholder]="namePlaceholderKey() | translate"
           [attr.aria-label]="'common.edit' | translate"
         />
-      </span>
-    } @else {
-      @if (editing()) {
-        <span class="sticky-header__edit-row">
+      } @else {
+        @if (editing()) {
           <input
             #nameInput
             type="text"
@@ -43,9 +41,7 @@
           >
             <lucide-icon [img]="closeIcon" [size]="14" />
           </button>
-        </span>
-      } @else {
-        <span class="sticky-header__name-row">
+        } @else {
           <span class="sticky-header__name">{{ name() }}</span>
           <button
             type="button"
@@ -55,9 +51,15 @@
           >
             <lucide-icon [img]="pencilIcon" [size]="13" />
           </button>
-        </span>
+        }
       }
-    }
+      <span class="sticky-header__pills">
+        <ng-content select="[header-pills]" />
+      </span>
+    </span>
+    <span class="sticky-header__meta">
+      <ng-content select="[header-meta]" />
+    </span>
   </div>
 
   <div class="sticky-header__actions">

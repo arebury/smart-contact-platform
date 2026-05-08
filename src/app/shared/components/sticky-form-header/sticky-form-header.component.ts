@@ -42,13 +42,12 @@ export class StickyFormHeaderComponent {
   /** i18n key for the create-mode name input placeholder. */
   readonly namePlaceholderKey = input<string>('common.name_placeholder');
   /**
-   * Whether to render the "Atrás" button in the actions cluster. Set to
-   * `false` when the host page provides its own back affordance (e.g.
-   * the hybrid-rail prototype, which puts a small icon-only back button
-   * at the top of the identity rail so the rail's text column lines up
-   * with the stats and nav below).
+   * Whether to render the "Atrás" button in the actions cluster. Default
+   * is `false` — the page-level breadcrumb already gives the user a way
+   * back, so the form actions cluster only carries Save. Pass `true` to
+   * opt-in (e.g. on a deeper modal where the breadcrumb isn't visible).
    */
-  readonly showBack = input(true);
+  readonly showBack = input(false);
 
   readonly nameChange = output<string>();
   readonly save = output<void>();
