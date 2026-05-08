@@ -61,10 +61,12 @@
   </div>
 
   <div class="sticky-header__actions">
-    <button type="button" class="btn btn--ghost btn--back" (click)="cancelled.emit()">
-      <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
-      <span>{{ 'common.back' | translate }}</span>
-    </button>
+    @if (showBack()) {
+      <button type="button" class="btn btn--ghost btn--back" (click)="cancelled.emit()">
+        <lucide-icon [img]="backIcon" [size]="14" [attr.aria-hidden]="true" />
+        <span>{{ 'common.back' | translate }}</span>
+      </button>
+    }
     <button
       type="button"
       class="btn btn--primary"

@@ -4,6 +4,7 @@
   [name]="form().name"
   [canSave]="canSave()"
   [saving]="saving()"
+  [showBack]="false"
   namePlaceholderKey="agents.form.fields.name"
   (nameChange)="onNameRename($event)"
   (save)="save()"
@@ -13,6 +14,18 @@
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Resumen del agente">
+      <!-- Small icon-only back button at the rail's left edge. Lives
+           outside the identity strip so the photo + text below stay
+           aligned with the stats and nav columns underneath. -->
+      <button
+        type="button"
+        class="ipanel__back"
+        (click)="cancel()"
+        [attr.aria-label]="'common.back' | translate"
+      >
+        <lucide-icon [img]="backIcon" [size]="16" [attr.aria-hidden]="true" />
+      </button>
+
       <!-- Identity strip — photo + entity meta side-by-side. Mirrors
            the aircall-shell persona but compact: the name + save still
            live in the StickyFormHeader, so the rail only carries the

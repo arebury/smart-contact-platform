@@ -41,6 +41,14 @@ export class StickyFormHeaderComponent {
   readonly saving = input(false);
   /** i18n key for the create-mode name input placeholder. */
   readonly namePlaceholderKey = input<string>('common.name_placeholder');
+  /**
+   * Whether to render the "Atrás" button in the actions cluster. Set to
+   * `false` when the host page provides its own back affordance (e.g.
+   * the hybrid-rail prototype, which puts a small icon-only back button
+   * at the top of the identity rail so the rail's text column lines up
+   * with the stats and nav below).
+   */
+  readonly showBack = input(true);
 
   readonly nameChange = output<string>();
   readonly save = output<void>();
