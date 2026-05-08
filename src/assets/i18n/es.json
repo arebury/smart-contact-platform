@@ -663,12 +663,7 @@
       "section": {
         "identification": "Identificación",
         "identification_hint": "Foto, nombre, contacto, extensión, canales y grabación",
-        "identity": "Identidad",
-        "identity_hint": "Nombre, tipo y extensión asignada",
-        "contact": "Contacto",
-        "contact_hint": "Teléfono, email y PIN del agente",
         "channels": "Canales",
-        "channels_hint": "Tipos de comunicación que puede atender",
         "recording": "Grabación",
         "recording_hint": "Si las llamadas del agente quedan grabadas",
         "languages": "Idiomas",

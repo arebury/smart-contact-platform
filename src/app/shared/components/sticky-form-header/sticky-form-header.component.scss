@@ -79,8 +79,9 @@
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-100);
-    /* Sit slightly below the name baseline so they read as supporting
-     * metadata, not a heading element. */
+    /* Wraps to the next line via flex-wrap on `&__name-line` when the
+     * name + pills exceed the available width. Empty in create mode —
+     * collapses cleanly. */
     &:empty {
       display: none;
     }
