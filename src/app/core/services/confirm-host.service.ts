@@ -11,6 +11,15 @@ export interface ConfirmRequest {
   readonly rejectLabel: string;
   /** Visual tone for the accept button. Defaults to `'primary'`. */
   readonly acceptTone?: 'primary' | 'danger';
+  /**
+   * Which button gets the primary visual weight. Defaults to `'accept'`.
+   *
+   * Use `'reject'` for "discard changes" prompts where the safe option
+   * (keep editing) should be the recommended path — the accept button
+   * stays destructive but renders subtle, and the reject button moves
+   * to the trailing position with primary styling.
+   */
+  readonly emphasis?: 'accept' | 'reject';
 }
 
 /**

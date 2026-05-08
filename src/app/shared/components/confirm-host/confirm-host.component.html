@@ -9,12 +9,21 @@
     (cancelled)="host.reject()"
   >
     <div modal-actions>
-      <button type="button" class="btn btn--secondary" (click)="host.reject()">
-        {{ s.rejectLabel }}
-      </button>
-      <button type="button" [class]="acceptClass()" (click)="host.accept()">
-        {{ s.acceptLabel }}
-      </button>
+      @if (emphasizeReject()) {
+        <button type="button" [class]="acceptClass()" (click)="host.accept()">
+          {{ s.acceptLabel }}
+        </button>
+        <button type="button" [class]="rejectClass()" (click)="host.reject()">
+          {{ s.rejectLabel }}
+        </button>
+      } @else {
+        <button type="button" [class]="rejectClass()" (click)="host.reject()">
+          {{ s.rejectLabel }}
+        </button>
+        <button type="button" [class]="acceptClass()" (click)="host.accept()">
+          {{ s.acceptLabel }}
+        </button>
+      }
     </div>
   </aed-modal>
 }
