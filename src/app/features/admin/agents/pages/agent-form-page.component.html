@@ -1,57 +1,97 @@
 <aed-sticky-form-header
   [mode]="mode()"
   [entityKey]="mode() === 'create' ? 'agents.form.create_title' : 'agents.entity_singular'"
-  [name]="form().name || (mode() === 'create' ? ('agents.form.create_title' | translate) : '')"
+  [name]="form().name"
   [canSave]="canSave()"
   [saving]="saving()"
+  [showBack]="false"
+  namePlaceholderKey="agents.form.fields.name"
   (nameChange)="onNameRename($event)"
   (save)="save()"
   (cancelled)="cancel()"
 />
 
 <div class="page">
-  <div class="page__inner">
-    @if (conflictWarning()) {
-      <div class="cross-tab-warning" role="alert">
-        {{ 'common.cross_tab_warning' | translate }}
-      </div>
-    }
-    <aed-section-card
-      titleKey="agents.form.section.identity"
-      hintKey="agents.form.section.identity_hint"
-    >
-      <div class="identity-row">
-        <aed-photo-upload
-          [photo]="form().photo"
-          [name]="form().name"
-          [ariaLabel]="'common.photo.change' | translate"
-          (photoChange)="onPhotoChange($event)"
-        />
-      </div>
-      <div class="grid grid--2">
-        <div class="field">
-          <label class="field__label" for="agent-name">
-            {{ 'agents.form.fields.name' | translate }}
-            <span class="field__required" aria-hidden="true">*</span>
-          </label>
-          <input
-            id="agent-name"
-            type="text"
-            class="field__input"
-            [class.field__input--error]="!!errors()['name']"
-            [attr.aria-describedby]="errors()['name'] ? 'agent-name-error' : null"
-            [attr.aria-invalid]="!!errors()['name']"
-            [value]="form().name"
-            (input)="onTextInput('name', $event)"
-            autocomplete="name"
-          />
-          <span id="agent-name-error" class="field__error" aria-live="polite">
-            @if (errors()['name']; as err) {
-              {{ err | translate }}
-            }
-          </span>
-        </div>
+  <div class="page__inner page__inner--with-panel">
+    <aside class="ipanel" aria-label="Resumen del agente">
+      <!-- Small icon-only back button at the rail's left edge. Lives
+           outside the identity strip so the photo + text below stay
+           aligned with the stats and nav columns underneath. -->
+      <button
+        type="button"
+        class="ipanel__back"
+        (click)="cancel()"
+        [attr.aria-label]="'common.back' | translate"
+      >
+        <lucide-icon [img]="backIcon" [size]="16" [attr.aria-hidden]="true" />
+      </button>
 
+      <!-- Identity strip — photo + entity meta side-by-side. Mirrors
+           the aircall-shell persona but compact: the name + save still
+           live in the StickyFormHeader, so the rail only carries the
+           supporting identity (eyebrow + pills + presence dot). -->
+      <div class="ipanel__identity">
+        <div class="ipanel__photo">
+          <aed-photo-upload
+            [photo]="form().photo"
+            [name]="form().name"
+            [ariaLabel]="'common.photo.change' | translate"
+            (photoChange)="onPhotoChange($event)"
+          />
+        </div>
+        <div class="ipanel__identity-text">
+          <span class="ipanel__eyebrow">
+            <span class="ipanel__eyebrow-marker" aria-hidden="true"></span>
+            {{ 'agents.entity_singular' | translate }}
+          </span>
+          <div class="ipanel__pills">
+            <span class="pill pill--type">{{ typeLabelKeys[form().agentType] | translate }}</span>
+            <span class="pill pill--status pill--status-{{ form().status }}">
+              {{ 'agents.status.' + form().status | translate }}
+            </span>
+            <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
+              <span class="pill__dot" aria-hidden="true"></span>
+              {{ presenceKeys[form().presenceStatus] | translate }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats live in their own bordered container so they read as
+           a discrete data card, not a continuation of the identity. -->
+      <dl class="ipanel__stats">
+        <div class="ipanel__stat">
+          <dt>{{ 'agents.form.fields.extension' | translate }}</dt>
+          <dd class="ipanel__mono">{{ form().extension || '—' }}</dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'agents.form.section.groups' | translate }}</dt>
+          <dd>{{ form().groupIds.size }}</dd>
+        </div>
+        <div class="ipanel__stat">
+          <dt>{{ 'agents.form.section.languages' | translate }}</dt>
+          <dd>
+            @if (form().languages.length === 0) {
+              —
+            } @else {
+              {{ form().languages.join(' · ') }}
+            }
+          </dd>
+        </div>
+      </dl>
+
+      <hr class="ipanel__divider" aria-hidden="true" />
+
+      <div class="ipanel__nav">
+        <aed-form-section-nav [sections]="navSections" [compact]="true" />
+      </div>
+    </aside>
+    <div class="page__form">
+    <aed-section-card
+      anchorId="agent-section-identity"
+      titleKey="agents.form.section.identity"
+    >
+      <div class="grid grid--2">
         <div class="field">
           <label class="field__label" for="agent-type">
             {{ 'agents.form.fields.type' | translate }}
@@ -146,8 +186,8 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="agent-section-contact"
       titleKey="agents.form.section.contact"
-      hintKey="agents.form.section.contact_hint"
     >
       <div class="grid grid--2">
         <div class="field">
@@ -221,8 +261,8 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="agent-section-channels"
       titleKey="agents.form.section.channels"
-      hintKey="agents.form.section.channels_hint"
     >
       <div class="channel-grid">
         @for (channel of channels; track channel) {
@@ -244,6 +284,7 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="agent-section-languages"
       titleKey="agents.form.section.languages"
       hintKey="agents.form.section.languages_hint"
     >
@@ -283,6 +324,7 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="agent-section-labels"
       titleKey="agents.form.section.labels"
       hintKey="agents.form.section.labels_hint"
     >
@@ -313,6 +355,7 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="agent-section-groups"
       titleKey="agents.form.section.groups"
       hintKey="agents.form.section.groups_hint"
     >
@@ -331,8 +374,8 @@
     </aed-section-card>
 
     <aed-section-card
+      anchorId="agent-section-permissions"
       titleKey="agents.form.section.permissions"
-      hintKey="agents.form.section.permissions_hint"
     >
       <div class="permission-blocks">
         <div class="permission-block">
@@ -397,6 +440,7 @@
         (action)="requestDelete()"
       />
     }
+    </div>
   </div>
 </div>
 

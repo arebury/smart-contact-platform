@@ -12,6 +12,7 @@
 >
   <section
     class="aed-modal"
+    [class.aed-modal--bodyless]="bodyless()"
     role="dialog"
     aria-modal="true"
     [attr.aria-labelledby]="titleId()"
@@ -41,9 +42,11 @@
       }
     </header>
 
-    <div class="aed-modal__body">
-      <ng-content />
-    </div>
+    @if (!bodyless()) {
+      <div class="aed-modal__body">
+        <ng-content />
+      </div>
+    }
 
     @if (hasFooter()) {
       <footer class="aed-modal__foot">

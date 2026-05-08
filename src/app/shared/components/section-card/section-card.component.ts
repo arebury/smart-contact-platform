@@ -16,4 +16,6 @@ import { TranslateModule } from '@ngx-translate/core';
 export class SectionCardComponent {
   readonly titleKey = input.required<string>();
   readonly hintKey = input<string | null>(null);
+  /** Anchor id used by `aed-form-section-nav` to scroll-spy / jump to this section. */
+  readonly anchorId = input<string | null>(null);
 }

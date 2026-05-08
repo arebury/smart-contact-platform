@@ -55,6 +55,10 @@ export class ModalComponent {
   readonly closable = input(true);
   /** When false, the footer slot stays empty; consumers can omit `<div modal-actions>`. */
   readonly hasFooter = input(true);
+  /** When true, skip the body section entirely. For confirm dialogs whose
+   * description lives in the header subtitle — without this the empty body
+   * still claimed its padding and rendered as a blank band. */
+  readonly bodyless = input(false);
 
   readonly cancelled = output<void>();
 

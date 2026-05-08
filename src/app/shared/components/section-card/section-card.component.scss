@@ -6,13 +6,24 @@
 .section-card {
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
-  border-radius: var(--sc-radius-200);
+  border-radius: var(--sc-radius-300);
+  /* Soft elevation, low spread — modern SaaS surface (Linear / Stripe).
+   * The card stays crisp at the edges; the shadow just lifts it off the
+   * page. */
+  box-shadow: var(--sc-shadow-card);
   overflow: hidden;
+  transition:
+    border-color var(--sc-transition-fast, 120ms) ease,
+    box-shadow var(--sc-transition-fast, 120ms) ease;
+  /* Anchor offset for `aed-form-section-nav` jump-to-anchor — clears the
+   * StickyFormHeader when scrolling into view. */
+  scroll-margin-top: var(--aed-form-anchor-offset, 80px);
 
   &__head {
     padding: var(--sc-spacing-300) var(--sc-spacing-400);
-    background: var(--sc-bg-default);
-    border-bottom: 1px solid var(--sc-border-default);
+    /* Drop the tinted strip — modern forms keep a continuous surface;
+     * the title earns hierarchy through type weight, not background. */
+    border-bottom: 1px solid var(--sc-border-subtle);
     display: flex;
     align-items: baseline;
     gap: var(--sc-spacing-200);
@@ -23,8 +34,9 @@
     font-family: var(--sc-font-family-subtitle-2);
     font-size: var(--sc-font-size-subtitle-2);
     line-height: var(--sc-line-height-subtitle-2);
-    font-weight: var(--sc-font-weight-subtitle-2);
-    color: var(--sc-text-secondary);
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-text-primary);
+    letter-spacing: -0.01em;
   }
 
   &__hint {

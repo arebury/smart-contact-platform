@@ -8,7 +8,9 @@
     "subtitle": "Esta página aún no está disponible"
   },
   "common": {
+    "back": "Atrás",
     "back_to_home": "Volver al inicio",
+    "name_placeholder": "Nombre",
     "cancel": "Cancelar",
     "save": "Guardar",
     "saving": "Guardando…",

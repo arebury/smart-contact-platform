@@ -12,8 +12,37 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sc-spacing-400);
+  gap: var(--sc-spacing-300);
   box-shadow: var(--sc-shadow-xs);
+
+  &__leading {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    /* Empty when no content is projected — collapses cleanly */
+    &:empty {
+      display: none;
+    }
+
+    /* When a `<aed-photo-upload>` is projected here, scale it down to a
+     * 36px avatar and drop the hint + remove-button rows that make sense
+     * inside a card body but not inside a 60px-tall header. */
+    ::ng-deep .photo-upload {
+      gap: 0;
+    }
+    ::ng-deep .photo-upload__button {
+      width: 36px;
+      height: 36px;
+    }
+    ::ng-deep .photo-upload__hint,
+    ::ng-deep .photo-upload__remove {
+      display: none;
+    }
+    ::ng-deep .photo-upload__illustrated {
+      width: 36px;
+      height: 36px;
+    }
+  }
 
   &__title-block {
     display: flex;
@@ -140,6 +169,11 @@
     &:hover:not(:disabled) {
       background: var(--sc-bg-secondary-hover);
     }
+  }
+
+  &--back {
+    /* Icon sits left, label right; the gap comes from the .btn rule above */
+    padding-left: var(--sc-spacing-200);
   }
 
   &__spin {

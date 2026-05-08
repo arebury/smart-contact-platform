@@ -17,6 +17,8 @@ import { CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
   FormDangerZoneComponent,
+  FormSectionNavComponent,
+  type FormNavSection,
   PhotoUploadComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
@@ -51,8 +53,6 @@ interface FormState {
   photo: string | null;
 }
 
-type SummaryTab = 'groups' | 'services';
-
 /** RFC-permissive email — accepts `user+tag@domain.tld` (delegate addresses). */
 const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
 
@@ -62,6 +62,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
   imports: [
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
+    FormSectionNavComponent,
     PhotoUploadComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
@@ -98,7 +99,12 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly conflictWarning = signal(false);
   private releaseLock: (() => void) | null = null;
 
-  protected readonly summaryTab = signal<SummaryTab>('groups');
+  protected readonly navSections: readonly FormNavSection[] = [
+    { id: 'user-section-identity', labelKey: 'users.form.section.identity' },
+    { id: 'user-section-sections', labelKey: 'users.form.section.sections' },
+    { id: 'user-section-permissions', labelKey: 'users.form.section.permissions' },
+    { id: 'user-section-services', labelKey: 'users.form.section.services' },
+  ];
 
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
 
@@ -221,10 +227,6 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected onPhotoChange(photo: string | null): void {
     this.formDirty.set(true);
     this.form.update((f) => ({ ...f, photo }));
-  }
-
-  protected setSummaryTab(tab: SummaryTab): void {
-    this.summaryTab.set(tab);
   }
 
   protected hasService(name: string): boolean {

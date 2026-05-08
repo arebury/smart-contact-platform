@@ -19,6 +19,9 @@ import { CrossTabLockService } from '@core/services';
 import {
   DeleteEntityDialogComponent,
   FormDangerZoneComponent,
+  FormSectionNavComponent,
+  type FormNavSection,
+  IllustratedAvatarComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
   ToggleSwitchComponent,
@@ -57,6 +60,8 @@ interface FormState {
     CdkDropList,
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
+    FormSectionNavComponent,
+    IllustratedAvatarComponent,
     LucideAngularModule,
     SectionCardComponent,
     StickyFormHeaderComponent,
@@ -82,6 +87,13 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly phoneStrategies = PHONE_STRATEGIES;
   protected readonly chatStrategies = CHAT_STRATEGIES;
   protected readonly rosterAgents = ROSTER_AGENTS;
+
+  protected readonly navSections: readonly FormNavSection[] = [
+    { id: 'group-section-identity', labelKey: 'groups.form.section.identity' },
+    { id: 'group-section-channels', labelKey: 'groups.form.section.channels' },
+    { id: 'group-section-strategy', labelKey: 'groups.form.section.strategy' },
+    { id: 'group-section-agents', labelKey: 'groups.form.section.agents' },
+  ];
 
   protected readonly plusIcon = Plus;
   protected readonly closeIcon = X;

@@ -8,15 +8,255 @@
   background: var(--sc-bg-default);
 
   &__inner {
-    max-width: 1080px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: var(--sc-spacing-500) var(--sc-spacing-600);
+
+    /*
+     * Identity-panel layout — edge-to-edge two-column shell mirroring
+     * `aed-settings-shell` in shape: a sticky full-height rail on the
+     * left + a scrollable form column on the right. Distinct from the
+     * SettingsShell rail in *content* (here it's a persona card, not
+     * navigation) but identical in *format*.
+     */
+    &--with-panel {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 256px minmax(0, 1fr);
+      gap: 0;
+
+      @media (max-width: 960px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  &__form {
+    min-width: 0;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: var(--sc-spacing-500) var(--sc-spacing-600);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+/* Identity panel (hybrid) — full-height sticky rail. Top half is a live
+ * persona summary (pills + stats), bottom half is a section navigation
+ * index. Mirrored across grupos / agentes / usuarios edit forms. Format
+ * matches SettingsShell visually; content is contextual to the entity
+ * being edited, not navigation of the hub. */
+.ipanel {
+  position: sticky;
+  top: var(--aed-form-panel-top, 64px);
+  align-self: start;
+  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-400) var(--sc-spacing-400);
+  background: var(--sc-bg-surface);
+  border-right: 1px solid var(--sc-border-default);
+  overflow-y: auto;
+
+  @media (max-width: 960px) {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--sc-border-default);
+  }
+
+  /* Identity strip — abstract avatar + supporting identity (eyebrow,
+   * priority + channel pills) side-by-side. The name lives in the
+   * StickyFormHeader so the rail is supporting metadata. */
+  &__identity {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-300);
+    min-width: 0;
+  }
+
+  &__photo {
+    flex: 0 0 auto;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--sc-bg-default);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    aed-illustrated-avatar {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+    /* The illustrated-avatar component renders an SVG at its
+     * hardcoded [size]; force it to fill the 64px wrapper. */
+    ::ng-deep svg {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+
+  &__identity-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-150);
+  }
+
+  &__divider {
+    margin: var(--sc-spacing-200) 0;
+    border: 0;
+    border-top: 1px solid var(--sc-border-subtle);
+  }
+
+  &__nav {
+    /* Padding handled by the rail itself; divider above carries the
+     * separation. */
+  }
+
+  &__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-150);
+    font-size: 11px;
+    font-weight: var(--sc-font-weight-semibold, 600);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sc-text-subtle);
+  }
+
+  &__eyebrow-marker {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sc-bg-primary);
+  }
+
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sc-spacing-100);
+    /* Reserve a row so toggling channels doesn't shift the stats below (DD#16) */
+    min-height: 24px;
+  }
+
+  /* Stats container — bordered card so the data reads as a discrete
+   * unit, not a continuation of the identity strip. */
+  &__stats {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-150);
+    padding: var(--sc-spacing-300) var(--sc-spacing-300);
+    background: var(--sc-bg-default);
+    border: 1px solid var(--sc-border-subtle);
+    border-radius: var(--sc-radius-200);
+  }
+
+  &__stat {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sc-spacing-200);
+
+    dt {
+      font-size: var(--sc-font-size-100);
+      color: var(--sc-text-subtle);
+      font-weight: var(--sc-font-weight-regular, 400);
+      flex: 0 0 auto;
+    }
+
+    dd {
+      margin: 0;
+      font-size: var(--sc-font-size-100);
+      color: var(--sc-text-primary);
+      font-weight: var(--sc-font-weight-medium, 500);
+      text-align: right;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  padding: 3px var(--sc-spacing-200);
+  border-radius: var(--sc-radius-full);
+  font-size: 11px;
+  font-weight: var(--sc-font-weight-medium, 500);
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  background: var(--sc-bg-surface);
+  color: var(--sc-text-secondary);
+
+  /* Channel chips carry the brand subtle bg — they identify the group's
+   * supported communication modes, central to the entity's identity. */
+  &--channel {
+    background: var(--sc-bg-primary-subtle);
+    color: var(--sc-bg-primary);
+  }
+
+  &--priority-Alta {
+    background: color-mix(in oklch, var(--sc-text-danger) 12%, var(--sc-bg-surface));
+    color: var(--sc-text-danger);
+    /* High-priority pulses subtly — visible cue that this group needs
+     * attention even when scanning the panel quickly. */
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      box-shadow: 0 0 0 0 currentColor;
+      animation: pill-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+  }
+  &--priority-Media {
+    background: color-mix(in oklch, #c47a00 12%, var(--sc-bg-surface));
+    color: #8a5500;
+  }
+  &--priority-Baja {
+    background: var(--sc-bg-secondary-subtle);
+    color: var(--sc-text-secondary);
+  }
+}
+
+@keyframes pill-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 currentColor;
+    opacity: 0.4;
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in oklch, currentColor 0%, transparent);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill--priority-Alta::before {
+    animation: none;
+    display: none;
   }
 }
 
 .grid {
   display: grid;
-  gap: var(--sc-spacing-400);
+  gap: var(--sc-spacing-300);
 
   &--2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -31,7 +271,7 @@
     flex-direction: row;
     align-items: center;
     gap: var(--sc-spacing-200);
-    margin-top: var(--sc-spacing-300);
+    margin-top: var(--sc-spacing-200);
   }
 
   &__label,
@@ -39,7 +279,7 @@
     font-size: var(--sc-font-size-100);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
-    margin-bottom: var(--sc-spacing-50);
+    margin-bottom: 2px;
   }
 
   &__required {
@@ -54,7 +294,7 @@
   }
 
   &__input {
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    padding: 6px var(--sc-spacing-200);
     font-family: inherit;
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);

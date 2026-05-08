@@ -8,15 +8,274 @@
   background: var(--sc-bg-default);
 
   &__inner {
-    max-width: 1080px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: var(--sc-spacing-500) var(--sc-spacing-600);
+
+    /*
+     * Identity-panel layout — see group-form for the full pattern doc.
+     */
+    &--with-panel {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 256px minmax(0, 1fr);
+      gap: 0;
+
+      @media (max-width: 960px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  &__form {
+    min-width: 0;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: var(--sc-spacing-500) var(--sc-spacing-600);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.ipanel {
+  position: sticky;
+  top: var(--aed-form-panel-top, 64px);
+  align-self: start;
+  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-400) var(--sc-spacing-400);
+  background: var(--sc-bg-surface);
+  border-right: 1px solid var(--sc-border-default);
+  overflow-y: auto;
+
+  @media (max-width: 960px) {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--sc-border-default);
+  }
+
+  /* Small icon-only back affordance — sits at the rail's left edge so
+   * the identity photo + text below land at the same x-position as the
+   * stats card and section nav. Square hit area (32px), ghost styling
+   * to stay quiet next to the brand color of the eyebrow marker. */
+  &__back {
+    align-self: flex-start;
+    width: 32px;
+    height: 32px;
+    margin-bottom: var(--sc-spacing-100);
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--sc-border-subtle);
+    border-radius: var(--sc-radius-100);
+    color: var(--sc-text-secondary);
+    cursor: pointer;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      border-color var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      background: var(--sc-bg-secondary-hover);
+      border-color: var(--sc-border-default);
+      color: var(--sc-text-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
+  /* Identity strip — photo on the left, supporting identity (eyebrow
+   * + pills) stacked on the right. Compact horizontal arrangement
+   * mirrors the aircall-shell rail without duplicating the name (the
+   * name lives in the StickyFormHeader). */
+  &__identity {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-300);
+    min-width: 0;
+  }
+
+  &__photo {
+    flex: 0 0 auto;
+    /* aed-photo-upload renders a 64×64 button by default; that's the
+     * compact size we want here. No size override needed. */
+  }
+
+  &__identity-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-150);
+  }
+
+  &__divider {
+    margin: var(--sc-spacing-200) 0;
+    border: 0;
+    border-top: 1px solid var(--sc-border-subtle);
+  }
+
+  &__nav {
+    /* No padding — the rail itself already has padding; the divider
+     * above does the visual job of separating nav from stats. */
+  }
+
+  /* Small entity tag inside the identity strip. A 6px brand-color dot
+   * + entity word (uppercase, subtle). The name lives in the
+   * StickyFormHeader so the rail eyebrow is supporting metadata. */
+  &__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-150);
+    font-size: 11px;
+    font-weight: var(--sc-font-weight-semibold, 600);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sc-text-subtle);
+  }
+
+  &__eyebrow-marker {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--sc-bg-primary);
+  }
+
+  &__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sc-spacing-100);
+    min-height: 24px;
+  }
+
+  /* Stats container — bordered card so the data reads as a discrete
+   * unit, not a continuation of the identity strip. Sentence-case
+   * label on the left, value on the right. */
+  &__stats {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-150);
+    padding: var(--sc-spacing-300) var(--sc-spacing-300);
+    background: var(--sc-bg-default);
+    border: 1px solid var(--sc-border-subtle);
+    border-radius: var(--sc-radius-200);
+  }
+
+  &__stat {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sc-spacing-200);
+
+    dt {
+      font-size: var(--sc-font-size-100);
+      color: var(--sc-text-subtle);
+      font-weight: var(--sc-font-weight-regular, 400);
+      flex: 0 0 auto;
+    }
+
+    dd {
+      margin: 0;
+      font-size: var(--sc-font-size-100);
+      color: var(--sc-text-primary);
+      font-weight: var(--sc-font-weight-medium, 500);
+      text-align: right;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__mono {
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+      'Courier New', monospace;
+  }
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  padding: 3px var(--sc-spacing-200);
+  border-radius: var(--sc-radius-full);
+  font-size: 11px;
+  font-weight: var(--sc-font-weight-medium, 500);
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  background: var(--sc-bg-surface);
+  color: var(--sc-text-secondary);
+
+  /* Type pill carries the brand accent — it's the primary identifier
+   * of the agent's role, so it earns the brand color treatment. */
+  &--type {
+    background: var(--sc-bg-primary-subtle);
+    color: var(--sc-bg-primary);
+  }
+
+  &--status-active {
+    background: color-mix(in oklch, #1a8a4a 12%, var(--sc-bg-surface));
+    color: #1a6a3a;
+  }
+  &--status-inactive {
+    background: var(--sc-bg-secondary-subtle);
+    color: var(--sc-text-subtle);
+  }
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex: 0 0 auto;
+  }
+
+  /* Presence colors aligned with the agents list dot palette */
+  &--presence-Disponible { color: #1a8a4a; }
+  &--presence-Ocupado, &--presence-EnLlamada { color: #c44b1a; }
+  &--presence-NoMolestar { color: #b91c4b; }
+  &--presence-Ausente, &--presence-Pausa { color: #b07e1a; }
+  &--presence-Desconectado { color: var(--sc-text-subtle); }
+
+  /* "Live" pulse on the presence dot when the agent is available — a
+   * subtle 2s breath so the panel feels alive, not flat. Drops to a
+   * static dot under reduced-motion. */
+  &--presence-Disponible &__dot {
+    animation: ipanel-dot-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  }
+}
+
+@keyframes ipanel-dot-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 color-mix(in oklch, currentColor 50%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 4px color-mix(in oklch, currentColor 0%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill--presence-Disponible .pill__dot {
+    animation: none;
   }
 }
 
 .grid {
   display: grid;
-  gap: var(--sc-spacing-400);
+  gap: var(--sc-spacing-300);
 
   &--2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -31,7 +290,7 @@
     flex-direction: row;
     align-items: center;
     gap: var(--sc-spacing-200);
-    margin-top: var(--sc-spacing-300);
+    margin-top: var(--sc-spacing-200);
   }
 
   &__label,
@@ -39,7 +298,7 @@
     font-size: var(--sc-font-size-100);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
-    margin-bottom: var(--sc-spacing-50);
+    margin-bottom: 2px;
   }
 
   &__required {
@@ -54,7 +313,7 @@
   }
 
   &__input {
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    padding: 6px var(--sc-spacing-200);
     font-family: inherit;
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);

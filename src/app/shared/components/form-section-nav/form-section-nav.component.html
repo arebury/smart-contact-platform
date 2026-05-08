@@ -1,0 +1,21 @@
+<nav
+  class="form-nav"
+  [class.form-nav--compact]="compact()"
+  [attr.aria-label]="labelKey() | translate"
+>
+  <ul class="form-nav__list">
+    @for (section of sections(); track section.id) {
+      <li>
+        <a
+          class="form-nav__item"
+          [class.form-nav__item--active]="activeId() === section.id"
+          [attr.aria-current]="activeId() === section.id ? 'true' : null"
+          [href]="'#' + section.id"
+          (click)="onJump($event, section.id)"
+        >
+          {{ section.labelKey | translate }}
+        </a>
+      </li>
+    }
+  </ul>
+</nav>
