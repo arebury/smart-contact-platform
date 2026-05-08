@@ -24,6 +24,7 @@ export class DiscardDialogService {
       acceptLabel: this.translate.instant('common.discard_confirm'),
       rejectLabel: this.translate.instant('common.discard_keep'),
       acceptTone: 'danger',
+      emphasis: 'reject',
     });
   }
 }

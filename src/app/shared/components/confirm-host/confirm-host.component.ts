@@ -22,8 +22,20 @@ export class ConfirmHostComponent {
   protected readonly host = inject(ConfirmHostService);
   protected readonly alertIcon = AlertTriangle;
 
+  protected readonly emphasizeReject = computed(
+    () => this.host.state()?.emphasis === 'reject',
+  );
+
   protected readonly acceptClass = computed(() => {
-    const tone = this.host.state()?.acceptTone ?? 'primary';
+    const s = this.host.state();
+    const tone = s?.acceptTone ?? 'primary';
+    if (s?.emphasis === 'reject') {
+      return tone === 'danger' ? 'btn btn--danger-subtle' : 'btn btn--secondary';
+    }
     return tone === 'danger' ? 'btn btn--danger' : 'btn btn--primary';
   });
+
+  protected readonly rejectClass = computed(() =>
+    this.host.state()?.emphasis === 'reject' ? 'btn btn--primary' : 'btn btn--secondary',
+  );
 }

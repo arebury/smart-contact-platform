@@ -301,13 +301,25 @@
     color: var(--sc-bg-primary);
   }
 
+  &--status {
+    /* Smooth crossfade of color/bg between active and inactive — paired
+     * with the one-shot pop below so the rail confirms the state change
+     * even when the toggle cards are off-screen. */
+    transition:
+      background var(--sc-transition-base) var(--sc-easing-default),
+      color var(--sc-transition-base) var(--sc-easing-default),
+      border-color var(--sc-transition-base) var(--sc-easing-default);
+  }
+
   &--status-active {
     background: color-mix(in oklch, #1a8a4a 12%, var(--sc-bg-surface));
     color: #1a6a3a;
+    animation: status-pop-active 360ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   &--status-inactive {
     background: var(--sc-bg-secondary-subtle);
     color: var(--sc-text-subtle);
+    animation: status-pop-inactive 360ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   &__dot {
@@ -342,7 +354,25 @@
   }
 }
 
+/* One-shot pop — runs every time the status class swaps because the
+ * animation-name changes with it. Two near-identical keyframe sets so
+ * the browser treats them as distinct animations and re-triggers. */
+@keyframes status-pop-active {
+  0%   { transform: scale(0.94); }
+  55%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+@keyframes status-pop-inactive {
+  0%   { transform: scale(0.94); }
+  55%  { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .pill--status-active,
+  .pill--status-inactive {
+    animation: none;
+  }
   .pill--presence-Disponible .pill__dot {
     animation: none;
   }

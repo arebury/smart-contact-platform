@@ -8,6 +8,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -105,6 +106,7 @@ const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
 export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly location = inject(Location);
   private readonly agentsStore = inject(AgentsStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
@@ -399,6 +401,8 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       const editingId = this.editingId();
       if (editingId) {
         this.agentsStore.updateAgent(editingId, { ...payload, isDraft: undefined });
+        const refreshed = this.agentsStore.getAgent(editingId);
+        if (refreshed) this.initial.set(refreshed);
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('agents.toasts.updated', { name: payload.name }),
@@ -406,6 +410,15 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         });
       } else {
         const created = this.agentsStore.addAgent(payload);
+        this.editingId.set(created.id);
+        this.initial.set(created);
+        // Promote the URL from /crear to /editar/:id without navigating —
+        // keeps the form mounted so the user can keep saving.
+        this.location.replaceState(`/admin/agentes/editar/${created.id}`);
+        this.releaseLock?.();
+        this.releaseLock = this.crossTab.acquire('agent', created.id, () =>
+          this.conflictWarning.set(true),
+        );
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('agents.toasts.created', { name: created.name }),
@@ -414,7 +427,6 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       }
       this.saving.set(false);
       this.formDirty.set(false);
-      void this.router.navigateByUrl('/admin/agentes');
     }, 400);
   }
 
