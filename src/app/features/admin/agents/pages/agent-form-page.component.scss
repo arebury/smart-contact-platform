@@ -13,17 +13,20 @@
     padding: var(--sc-spacing-500) var(--sc-spacing-600);
 
     /*
-     * Identity-panel layout — see group-form for the full pattern doc.
+     * Page layout: a thin sticky rail (section nav only — identity moved
+     * into the rich sticky header at the top of the page) on the left,
+     * and the form column on the right. The form column itself splits
+     * into a 2-column "Identificación + settings" grid in `.form-grid`.
      */
     &--with-panel {
       max-width: none;
       margin: 0;
       padding: 0;
       display: grid;
-      grid-template-columns: 256px minmax(0, 1fr);
+      grid-template-columns: 220px minmax(0, 1fr);
       gap: 0;
 
-      @media (max-width: 960px) {
+      @media (max-width: 1024px) {
         grid-template-columns: 1fr;
       }
     }
@@ -31,7 +34,7 @@
 
   &__form {
     min-width: 0;
-    max-width: 880px;
+    max-width: 1100px;
     margin: 0 auto;
     padding: var(--sc-spacing-500) var(--sc-spacing-600);
     display: flex;
@@ -40,6 +43,8 @@
   }
 }
 
+/* Rail — section index only. Identity / pills / stats moved up to the
+ * rich sticky header at the top of the page. */
 .ipanel {
   position: sticky;
   top: var(--aed-form-panel-top, 64px);
@@ -48,164 +53,151 @@
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-300);
-  padding: var(--sc-spacing-400) var(--sc-spacing-400);
+  padding: var(--sc-spacing-400);
   background: var(--sc-bg-surface);
   border-right: 1px solid var(--sc-border-default);
   overflow-y: auto;
 
-  @media (max-width: 960px) {
+  @media (max-width: 1024px) {
     position: static;
     height: auto;
     border-right: none;
     border-bottom: 1px solid var(--sc-border-default);
   }
+}
 
-  /* Small icon-only back affordance — sits at the rail's left edge so
-   * the identity photo + text below land at the same x-position as the
-   * stats card and section nav. Square hit area (32px), ghost styling
-   * to stay quiet next to the brand color of the eyebrow marker. */
-  &__back {
-    align-self: flex-start;
-    width: 32px;
-    height: 32px;
-    margin-bottom: var(--sc-spacing-100);
-    padding: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 1px solid var(--sc-border-subtle);
-    border-radius: var(--sc-radius-100);
-    color: var(--sc-text-secondary);
-    cursor: pointer;
-    transition:
-      background var(--sc-transition-fast) var(--sc-easing-default),
-      border-color var(--sc-transition-fast) var(--sc-easing-default),
-      color var(--sc-transition-fast) var(--sc-easing-default);
+/* Two-column form layout: Identificación (sticky) + settings (scroll). */
+.form-grid {
+  display: grid;
+  grid-template-columns: 360px minmax(0, 1fr);
+  gap: var(--sc-spacing-500);
 
-    &:hover {
-      background: var(--sc-bg-secondary-hover);
-      border-color: var(--sc-border-default);
-      color: var(--sc-text-primary);
-    }
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
 
-    &:focus-visible {
-      outline: 2px solid var(--sc-color-soft-blue-500);
-      outline-offset: 2px;
+  &__identity {
+    @media (min-width: 1025px) {
+      position: sticky;
+      top: calc(var(--aed-form-panel-top, 64px) + var(--sc-spacing-500));
+      align-self: start;
+      max-height: calc(100dvh - var(--aed-form-panel-top, 64px) - var(--sc-spacing-500) * 2);
+      overflow-y: auto;
     }
   }
 
-  /* Identity strip — photo on the left, supporting identity (eyebrow
-   * + pills) stacked on the right. Compact horizontal arrangement
-   * mirrors the aircall-shell rail without duplicating the name (the
-   * name lives in the StickyFormHeader). */
-  &__identity {
+  &__settings {
     display: flex;
-    align-items: center;
-    gap: var(--sc-spacing-300);
+    flex-direction: column;
     min-width: 0;
+  }
+}
+
+/* ── Identification card internals ──────────────────────────── */
+.identity-card {
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sc-spacing-300);
+    margin-bottom: var(--sc-spacing-400);
   }
 
   &__photo {
     flex: 0 0 auto;
-    /* aed-photo-upload renders a 64×64 button by default; that's the
-     * compact size we want here. No size override needed. */
   }
 
-  &__identity-text {
+  &__name {
     flex: 1 1 auto;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sc-spacing-150);
   }
 
   &__divider {
-    margin: var(--sc-spacing-200) 0;
-    border: 0;
     border-top: 1px solid var(--sc-border-subtle);
+    margin: var(--sc-spacing-400) 0;
   }
 
-  &__nav {
-    /* No padding — the rail itself already has padding; the divider
-     * above does the visual job of separating nav from stats. */
-  }
-
-  /* Small entity tag inside the identity strip. A 6px brand-color dot
-   * + entity word (uppercase, subtle). The name lives in the
-   * StickyFormHeader so the rail eyebrow is supporting metadata. */
-  &__eyebrow {
-    display: inline-flex;
+  &__row {
+    display: flex;
     align-items: center;
-    gap: var(--sc-spacing-150);
-    font-size: 11px;
-    font-weight: var(--sc-font-weight-semibold, 600);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--sc-text-subtle);
-  }
-
-  &__eyebrow-marker {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--sc-bg-primary);
-  }
-
-  &__pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--sc-spacing-100);
-    min-height: 24px;
-  }
-
-  /* Stats container — bordered card so the data reads as a discrete
-   * unit, not a continuation of the identity strip. Sentence-case
-   * label on the left, value on the right. */
-  &__stats {
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sc-spacing-150);
-    padding: var(--sc-spacing-300) var(--sc-spacing-300);
-    background: var(--sc-bg-default);
-    border: 1px solid var(--sc-border-subtle);
-    border-radius: var(--sc-radius-200);
-  }
-
-  &__stat {
-    display: flex;
-    align-items: baseline;
     justify-content: space-between;
-    gap: var(--sc-spacing-200);
-
-    dt {
-      font-size: var(--sc-font-size-100);
-      color: var(--sc-text-subtle);
-      font-weight: var(--sc-font-weight-regular, 400);
-      flex: 0 0 auto;
-    }
-
-    dd {
-      margin: 0;
-      font-size: var(--sc-font-size-100);
-      color: var(--sc-text-primary);
-      font-weight: var(--sc-font-weight-medium, 500);
-      text-align: right;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    gap: var(--sc-spacing-300);
   }
 
-  &__mono {
-    font-family:
-      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
-      'Courier New', monospace;
+  &__row-label {
+    display: block;
+    font-size: var(--sc-font-size-200);
+    font-weight: var(--sc-font-weight-medium);
+    color: var(--sc-text-primary);
   }
 }
 
+/* Channels as inline pill toggles (Identificación card) */
+.channel-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-150);
+}
+
+.channel-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  padding: 6px var(--sc-spacing-300);
+  font-size: var(--sc-font-size-100);
+  font-weight: var(--sc-font-weight-medium);
+  color: var(--sc-text-secondary);
+  background: var(--sc-bg-surface);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-100);
+  cursor: pointer;
+  transition:
+    background var(--sc-transition-fast) var(--sc-easing-default),
+    border-color var(--sc-transition-fast) var(--sc-easing-default),
+    color var(--sc-transition-fast) var(--sc-easing-default);
+
+  &:hover {
+    border-color: var(--sc-border-strong);
+    color: var(--sc-text-primary);
+  }
+
+  &--active {
+    background: var(--sc-bg-primary);
+    border-color: var(--sc-bg-primary);
+    color: var(--sc-text-on-primary);
+
+    &:hover {
+      background: var(--sc-bg-primary-hover);
+      border-color: var(--sc-bg-primary-hover);
+      color: var(--sc-text-on-primary);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-soft-blue-500);
+    outline-offset: 2px;
+  }
+}
+
+/* ── Header meta line — projected into <aed-sticky-form-header> ── */
+.header-meta__chunk {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  color: var(--sc-text-secondary);
+  font-size: var(--sc-font-size-100);
+
+  > lucide-icon {
+    flex: 0 0 auto;
+    color: var(--sc-icon-subtle);
+  }
+}
+
+.header-meta__sub {
+  color: var(--sc-text-subtle);
+  margin-left: 2px;
+}
+
+/* ── Pills (also projected into the rich header) ────────────── */
 .pill {
   display: inline-flex;
   align-items: center;
@@ -219,17 +211,12 @@
   background: var(--sc-bg-surface);
   color: var(--sc-text-secondary);
 
-  /* Type pill carries the brand accent — it's the primary identifier
-   * of the agent's role, so it earns the brand color treatment. */
   &--type {
     background: var(--sc-bg-primary-subtle);
     color: var(--sc-bg-primary);
   }
 
   &--status {
-    /* Smooth crossfade of color/bg between active and inactive — paired
-     * with the one-shot pop below so the rail confirms the state change
-     * even when the toggle cards are off-screen. */
     transition:
       background var(--sc-transition-base) var(--sc-easing-default),
       color var(--sc-transition-base) var(--sc-easing-default),
@@ -255,17 +242,27 @@
     flex: 0 0 auto;
   }
 
-  /* Presence colors aligned with the agents list dot palette */
-  &--presence-Disponible { color: #1a8a4a; }
-  &--presence-Ocupado, &--presence-EnLlamada { color: #c44b1a; }
-  &--presence-NoMolestar { color: #b91c4b; }
-  &--presence-Ausente, &--presence-Pausa { color: #b07e1a; }
-  &--presence-Desconectado { color: var(--sc-text-subtle); }
+  /* Presence colors (lowercase Spanish keys, matching agents-data.ts) */
+  &--presence-disponible {
+    color: #1a8a4a;
+    background: color-mix(in oklch, #1a8a4a 10%, var(--sc-bg-surface));
+  }
+  &--presence-no_disponible {
+    color: var(--sc-text-subtle);
+    background: var(--sc-bg-secondary-subtle);
+  }
+  &--presence-bano,
+  &--presence-comida {
+    color: #b07e1a;
+    background: color-mix(in oklch, #b07e1a 10%, var(--sc-bg-surface));
+  }
+  &--presence-formacion {
+    color: #b91c4b;
+    background: color-mix(in oklch, #b91c4b 10%, var(--sc-bg-surface));
+  }
 
-  /* "Live" pulse on the presence dot when the agent is available — a
-   * subtle 2s breath so the panel feels alive, not flat. Drops to a
-   * static dot under reduced-motion. */
-  &--presence-Disponible &__dot {
+  /* "Live" pulse on the presence dot when the agent is available */
+  &--presence-disponible &__dot {
     animation: ipanel-dot-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
   }
 }
@@ -279,9 +276,6 @@
   }
 }
 
-/* One-shot pop — runs every time the status class swaps because the
- * animation-name changes with it. Two near-identical keyframe sets so
- * the browser treats them as distinct animations and re-triggers. */
 @keyframes status-pop-active {
   0%   { transform: scale(0.94); }
   55%  { transform: scale(1.05); }
@@ -298,11 +292,12 @@
   .pill--status-inactive {
     animation: none;
   }
-  .pill--presence-Disponible .pill__dot {
+  .pill--presence-disponible .pill__dot {
     animation: none;
   }
 }
 
+/* ── Generic field/grid utilities (kept from previous version) ── */
 .grid {
   display: grid;
   gap: var(--sc-spacing-300);
@@ -382,18 +377,6 @@
     line-height: 1.25;
     color: var(--sc-text-danger);
   }
-}
-
-.channel-grid {
-  display: flex;
-  align-items: center;
-  gap: var(--sc-spacing-400);
-}
-
-.identity-row {
-  display: flex;
-  justify-content: flex-start;
-  margin-bottom: var(--sc-spacing-400);
 }
 
 .language-chips {
@@ -484,51 +467,6 @@
     letter-spacing: 0.06em;
     color: var(--sc-text-subtle);
     font-weight: var(--sc-font-weight-semibold);
-  }
-}
-
-.toggle {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  cursor: pointer;
-  flex-shrink: 0;
-
-  > input {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-  }
-
-  &__track {
-    width: 36px;
-    height: 20px;
-    background: var(--sc-color-gray-300);
-    border-radius: var(--sc-radius-full);
-    position: relative;
-    transition: background var(--sc-transition-fast) var(--sc-easing-default);
-  }
-
-  &__thumb {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 16px;
-    height: 16px;
-    background: var(--sc-color-gray-0);
-    border-radius: var(--sc-radius-full);
-    transition: transform var(--sc-transition-fast) var(--sc-easing-default);
-  }
-
-  > input:checked + .toggle__track {
-    background: var(--sc-bg-primary);
-  }
-
-  > input:checked + .toggle__track .toggle__thumb {
-    transform: translateX(16px);
   }
 }
 

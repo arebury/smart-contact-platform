@@ -11,7 +11,7 @@ import {
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ArrowLeft, LucideAngularModule } from 'lucide-angular';
+import { Mail, Phone, LucideAngularModule } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -102,7 +102,8 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly crossTab = inject(CrossTabLockService);
   private readonly labelsStore = inject(LabelsStore);
 
-  protected readonly backIcon = ArrowLeft;
+  protected readonly mailIcon = Mail;
+  protected readonly phoneIcon = Phone;
   protected readonly agentTypes = AGENT_TYPES;
   protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
@@ -127,13 +128,11 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     return this.labelsStore.labels().filter((label) => !ids.has(label.id));
   });
   protected readonly navSections: readonly FormNavSection[] = [
-    { id: 'agent-section-identity', labelKey: 'agents.form.section.identity' },
-    { id: 'agent-section-contact', labelKey: 'agents.form.section.contact' },
-    { id: 'agent-section-channels', labelKey: 'agents.form.section.channels' },
-    { id: 'agent-section-languages', labelKey: 'agents.form.section.languages' },
-    { id: 'agent-section-labels', labelKey: 'agents.form.section.labels' },
+    { id: 'agent-section-identity', labelKey: 'agents.form.section.identification' },
     { id: 'agent-section-groups', labelKey: 'agents.form.section.groups' },
     { id: 'agent-section-permissions', labelKey: 'agents.form.section.permissions' },
+    { id: 'agent-section-languages', labelKey: 'agents.form.section.languages' },
+    { id: 'agent-section-labels', labelKey: 'agents.form.section.labels' },
   ];
 
   protected readonly devicePermissions = DEVICE_PERMISSIONS;
@@ -292,6 +291,14 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.form.update((f) => ({
       ...f,
       permissions: { ...f.permissions, [key]: !f.permissions[key] },
+    }));
+  }
+
+  protected onRecordingChange(checked: boolean): void {
+    this.formDirty.set(true);
+    this.form.update((f) => ({
+      ...f,
+      permissions: { ...f.permissions, recording: checked },
     }));
   }
 
