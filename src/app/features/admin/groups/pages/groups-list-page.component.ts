@@ -20,6 +20,7 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective, SortableHeaderDirective } from '@core/directives';
 import { UndoStackService, XlsxExportService } from '@core/services';
+import { SelectionState } from '@core/utils/selection-state';
 import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
@@ -115,7 +116,9 @@ export class GroupsListPageComponent {
   protected readonly searchQuery = signal('');
   protected readonly sortField = signal<SortField | null>(null);
   protected readonly sortDir = signal<'asc' | 'desc'>('asc');
-  protected readonly selectedIds = signal<ReadonlySet<number>>(new Set());
+  /** See `agents-list-page` for the rationale behind the delegate pattern. */
+  private readonly selection = new SelectionState<{ readonly id: number }>(() => this.sorted());
+  protected readonly selectedIds = this.selection.ids;
   protected readonly contextMenu = signal<ContextMenuPos | null>(null);
   protected readonly openMenuId = signal<number | null>(null);
   protected readonly deleteTarget = signal<readonly Group[] | null>(null);
@@ -198,10 +201,7 @@ export class GroupsListPageComponent {
     return list;
   });
 
-  protected readonly allSelected = computed(() => {
-    const len = this.sorted().length;
-    return len > 0 && this.selectedIds().size === len;
-  });
+  protected readonly allSelected = this.selection.allSelected;
 
   protected readonly deleteItems = computed(() =>
     (this.deleteTarget() ?? []).map((g) => ({ id: g.id, name: g.name })),
@@ -279,24 +279,15 @@ export class GroupsListPageComponent {
   }
 
   protected toggleSelect(id: number): void {
-    this.selectedIds.update((current) => {
-      const next = new Set(current);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
+    this.selection.toggle(id);
   }
 
   protected toggleSelectAll(): void {
-    this.selectedIds.update((current) => {
-      const sorted = this.sorted();
-      if (current.size === sorted.length) return new Set();
-      return new Set(sorted.map((g) => g.id));
-    });
+    this.selection.toggleAll();
   }
 
   protected clearSelection(): void {
-    this.selectedIds.set(new Set());
+    this.selection.clear();
   }
 
   protected onCreateClick(): void {

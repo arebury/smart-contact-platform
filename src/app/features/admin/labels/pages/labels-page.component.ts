@@ -19,6 +19,7 @@ import { XlsxExportService } from '@core/services';
 import { clampToViewport } from '@core/utils/viewport';
 import { BulkActionBarComponent, LabelChipComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
+import { LabelCascadeService } from '@features/admin/services/label-cascade.service';
 import { Label, LabelColor } from '../data/labels-data';
 import { LabelsStore } from '../state/labels.store';
 import { DeleteLabelsDialogComponent } from '../components/delete-labels-dialog/delete-labels-dialog.component';
@@ -53,6 +54,7 @@ interface ContextMenuPos {
 export class LabelsPageComponent {
   private readonly labelsStore = inject(LabelsStore);
   private readonly agentsStore = inject(AgentsStore);
+  private readonly labelCascade = inject(LabelCascadeService);
   private readonly xlsx = inject(XlsxExportService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
@@ -169,13 +171,11 @@ export class LabelsPageComponent {
     if (!target) return;
     const ids = target.map((l) => l.id);
 
-    this.agentsStore.removeLabelsFromAllAgents(ids);
+    this.labelCascade.deleteLabels(ids);
 
     if (ids.length === 1) {
-      this.labelsStore.deleteLabel(ids[0]!);
       this.toastSuccess('labels.toasts.deleted_single', { name: target[0]!.name });
     } else {
-      this.labelsStore.deleteLabels(ids);
       this.toastSuccess('labels.toasts.deleted_bulk', { count: target.length });
     }
 
