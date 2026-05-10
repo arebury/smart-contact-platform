@@ -145,7 +145,7 @@
   --p-blue-950: var(--sc-color-electric-blue-950);
 
   /* ---------- Mask / overlay ---------- */
-  --p-mask-background: rgba(15, 23, 42, 0.4);
+  --p-mask-background: rgb(var(--sc-shadow-color-rgb) / 0.4);
   --p-mask-color: var(--sc-text-inverse);
 
   /* ---------- Overlay (dialogs, popovers) ---------- */

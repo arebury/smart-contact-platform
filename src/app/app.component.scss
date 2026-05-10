@@ -196,7 +196,7 @@
    * dropdown / popover scale — kept raw to preserve visual identity.
    * Migrate to a `--sc-shadow-toast` token if the value gains a second
    * consumer. */
-  box-shadow: 0 8px 24px rgb(15 23 42 / 0.08);
+  box-shadow: 0 8px 24px rgb(var(--sc-shadow-color-rgb) / 0.08);
   margin-bottom: var(--sc-spacing-200);
 }
 

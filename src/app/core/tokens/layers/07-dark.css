@@ -47,14 +47,20 @@
   --sc-bg-secondary-active: var(--sc-color-gray-700);
   --sc-bg-secondary-subtle: var(--sc-color-gray-900);
 
-  /* Status — bgs darken, text lifts */
-  --sc-bg-success-subtle: rgb(16 101 52 / 0.18);
-  --sc-bg-warning-subtle: rgb(146 64 14 / 0.18);
-  --sc-bg-danger-subtle: rgb(127 29 29 / 0.22);
-  --sc-bg-danger-subtle-hover: rgb(127 29 29 / 0.32);
-  --sc-bg-danger-subtle-active: rgb(127 29 29 / 0.42);
-  --sc-bg-info-subtle: rgb(7 41 110 / 0.22);
-  --sc-bg-indigo-subtle: rgb(57 13 96 / 0.22);
+  /* Status — bgs darken, text lifts. Translucency expressed as a
+   * `color-mix` over a deep status-color token (the 800-step from
+   * the primitive scale). Mathematically equivalent to the previous
+   * `rgb(R G B / A)` literals (`color-mix(in srgb, X N%, transparent)`
+   * resolves to the same byte-exact value as `rgba(X, N/100)`); the
+   * token form lets a future color-scale tweak propagate here for
+   * free. */
+  --sc-bg-success-subtle: color-mix(in srgb, var(--sc-color-green-800) 18%, transparent);
+  --sc-bg-warning-subtle: color-mix(in srgb, var(--sc-color-yellow-800) 18%, transparent);
+  --sc-bg-danger-subtle: color-mix(in srgb, var(--sc-color-red-900) 22%, transparent);
+  --sc-bg-danger-subtle-hover: color-mix(in srgb, var(--sc-color-red-900) 32%, transparent);
+  --sc-bg-danger-subtle-active: color-mix(in srgb, var(--sc-color-red-900) 42%, transparent);
+  --sc-bg-info-subtle: color-mix(in srgb, var(--sc-color-electric-blue-800) 22%, transparent);
+  --sc-bg-indigo-subtle: color-mix(in srgb, var(--sc-color-indigo-800) 22%, transparent);
 
   /* ---------- Semantic · Border ---------- */
   --sc-border-default: var(--sc-color-gray-800);
@@ -94,11 +100,11 @@
   --sc-btn-secondary-bg-active: var(--sc-color-gray-700);
   --sc-btn-secondary-border-active: var(--sc-color-gray-500);
 
-  --sc-btn-danger-subtle-bg: rgb(127 29 29 / 0.22);
-  --sc-btn-danger-subtle-border: rgb(127 29 29 / 0.4);
+  --sc-btn-danger-subtle-bg: color-mix(in srgb, var(--sc-color-red-900) 22%, transparent);
+  --sc-btn-danger-subtle-border: color-mix(in srgb, var(--sc-color-red-900) 40%, transparent);
   --sc-btn-danger-subtle-fg: var(--sc-color-red-300);
-  --sc-btn-danger-subtle-bg-hover: rgb(127 29 29 / 0.32);
-  --sc-btn-danger-subtle-bg-active: rgb(127 29 29 / 0.42);
+  --sc-btn-danger-subtle-bg-hover: color-mix(in srgb, var(--sc-color-red-900) 32%, transparent);
+  --sc-btn-danger-subtle-bg-active: color-mix(in srgb, var(--sc-color-red-900) 42%, transparent);
 
   --sc-btn-disabled-bg: var(--sc-color-gray-800);
   --sc-btn-disabled-border: var(--sc-color-gray-800);
@@ -118,11 +124,11 @@
   --sc-toast-title: var(--sc-color-gray-50);
   --sc-toast-message: var(--sc-color-gray-300);
   --sc-toast-close: var(--sc-color-gray-200);
-  --sc-toast-success-bg: rgb(20 83 45 / 0.4);
-  --sc-toast-info-bg: rgb(7 41 110 / 0.4);
-  --sc-toast-warn-bg: rgb(146 64 14 / 0.4);
-  --sc-toast-error-bg: rgb(127 29 29 / 0.4);
-  --sc-toast-indigo-bg: rgb(57 13 96 / 0.4);
+  --sc-toast-success-bg: color-mix(in srgb, var(--sc-color-green-900) 40%, transparent);
+  --sc-toast-info-bg: color-mix(in srgb, var(--sc-color-electric-blue-800) 40%, transparent);
+  --sc-toast-warn-bg: color-mix(in srgb, var(--sc-color-yellow-800) 40%, transparent);
+  --sc-toast-error-bg: color-mix(in srgb, var(--sc-color-red-900) 40%, transparent);
+  --sc-toast-indigo-bg: color-mix(in srgb, var(--sc-color-indigo-800) 40%, transparent);
 
   /* ---------- Extensions · Sidebar ---------- */
   /* One step darker than the page so it still reads as "the chrome"

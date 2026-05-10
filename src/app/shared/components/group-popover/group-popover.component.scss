@@ -34,7 +34,7 @@
     padding: var(--sc-spacing-200) var(--sc-spacing-300);
     border: 1px solid var(--sc-border-default);
     background: var(--sc-bg-elevated, #fff);
-    box-shadow: 0 8px 16px rgb(15 23 42 / 0.08);
+    box-shadow: 0 8px 16px rgb(var(--sc-shadow-color-rgb) / 0.08);
     font-size: var(--sc-font-size-50, 12px);
     color: var(--sc-text-primary);
 

@@ -99,7 +99,7 @@
   --sc-modal-border: var(--sc-color-blue-100);
   --sc-modal-divider: var(--sc-color-gray-200);
   --sc-modal-radius: var(--sc-radius-300);
-  --sc-modal-shadow: 0 24px 48px rgb(15 23 42 / 0.16);
+  --sc-modal-shadow: 0 24px 48px rgb(var(--sc-shadow-color-rgb) / 0.16);
   --sc-modal-padding-x: var(--sc-spacing-500);
   --sc-modal-padding-y: var(--sc-spacing-400);
   --sc-modal-head-icon-fg: var(--sc-color-gray-500);
