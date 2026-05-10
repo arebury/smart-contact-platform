@@ -11,7 +11,7 @@
  * (icon · body · optional action · close X) so a single line of summary +
  * the "Deshacer" button fits in one row at top-right.
  *
- * All colors flow through `--sc-toast-*` tokens declared in sc-tokens.css.
+ * All colors flow through `--sc-toast-*` tokens (layer 4 — component).
  */
 .aed-toast {
   display: flex;

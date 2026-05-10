@@ -8,8 +8,11 @@
 @use 'buttons';
 @use 'table-elements';
 
-/* Design tokens (single source of truth — see src/app/core/tokens/sc-tokens.css) */
-@import '../app/core/tokens/sc-tokens.css';
+/* Design tokens — layered system (primitive → semantic → palette →
+ * component → extensions → PrimeNG bridge → dark). Single source of
+ * truth lives in `src/app/core/tokens/`; the orchestrator imports the
+ * seven layers in cascade order. */
+@import '../app/core/tokens/index.css';
 
 /* PrimeIcons */
 @import 'primeicons/primeicons.css';

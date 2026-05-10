@@ -1,0 +1,184 @@
+/*
+ * Layer 1 — PRIMITIVE
+ * ====================
+ *
+ * Raw values. No semantic meaning. Mirrors PrimeNG's `primitive` layer
+ * (color scales, font, spacing, radius) and the keys map 1:1 to the
+ * design-tokens.json primitives.
+ *
+ * Components MUST NOT reference these directly — go through a semantic
+ * alias in layer 2. The only exception is rare cases where a primitive
+ * IS the right semantic (e.g. `--sc-color-gray-0` == white background
+ * for an inverted surface).
+ */
+
+:root {
+  /* ---------- Color · Blue (primary brand) ---------- */
+  --sc-color-blue-50: #edf0f5;
+  --sc-color-blue-100: #d2d9e3;
+  --sc-color-blue-200: #a6b4c7;
+  --sc-color-blue-300: #798eab;
+  --sc-color-blue-400: #4d6990;
+  --sc-color-blue-500: #344a70;
+  --sc-color-blue-600: #243452;
+  --sc-color-blue-700: #1b273d;
+  --sc-color-blue-800: #131b2b;
+  --sc-color-blue-900: #0b1019;
+  --sc-color-blue-950: #05080d;
+
+  /* ---------- Color · Soft Blue (accent) ---------- */
+  --sc-color-soft-blue-50: #effbfc;
+  --sc-color-soft-blue-100: #d2f4f8;
+  --sc-color-soft-blue-200: #a6e9f2;
+  --sc-color-soft-blue-300: #7edfeb;
+  --sc-color-soft-blue-400: #6bd9e9;
+  --sc-color-soft-blue-500: #5ad3e6;
+  --sc-color-soft-blue-600: #48b8c9;
+  --sc-color-soft-blue-700: #328a99;
+  --sc-color-soft-blue-800: #246b78;
+  --sc-color-soft-blue-900: #1a4d57;
+  --sc-color-soft-blue-950: #0d262b;
+
+  /* ---------- Color · Gray (neutrals) ---------- */
+  --sc-color-gray-0: #ffffff;
+  --sc-color-gray-50: #f7f8fa;
+  --sc-color-gray-100: #eceff3;
+  --sc-color-gray-200: #dadfe6;
+  --sc-color-gray-300: #c6ccd6;
+  --sc-color-gray-400: #aeb6c2;
+  --sc-color-gray-500: #8f97a3;
+  --sc-color-gray-600: #6f7784;
+  --sc-color-gray-700: #4f5663;
+  --sc-color-gray-800: #2f3642;
+  --sc-color-gray-900: #181d26;
+  --sc-color-gray-950: #0b0f14;
+
+  /* ---------- Color · Green (success) ---------- */
+  --sc-color-green-50: #f0fdf4;
+  --sc-color-green-100: #dcfce7;
+  --sc-color-green-200: #bbf7d0;
+  --sc-color-green-300: #86efac;
+  --sc-color-green-400: #4ade80;
+  --sc-color-green-500: #22c55e;
+  --sc-color-green-600: #16a34a;
+  --sc-color-green-700: #15803d;
+  --sc-color-green-800: #166534;
+  --sc-color-green-900: #14532d;
+  --sc-color-green-950: #0a2916;
+
+  /* ---------- Color · Yellow (warning) ---------- */
+  --sc-color-yellow-50: #fffbeb;
+  --sc-color-yellow-100: #fef3c7;
+  --sc-color-yellow-200: #fde68a;
+  --sc-color-yellow-300: #fcd34d;
+  --sc-color-yellow-400: #fbbf24;
+  --sc-color-yellow-500: #f59e0b;
+  --sc-color-yellow-600: #d97706;
+  --sc-color-yellow-700: #b45309;
+  --sc-color-yellow-800: #92400e;
+  --sc-color-yellow-900: #78350f;
+  --sc-color-yellow-950: #451a03;
+
+  /* ---------- Color · Red (danger) ---------- */
+  --sc-color-red-50: #fef2f2;
+  --sc-color-red-100: #fee2e2;
+  --sc-color-red-200: #fecaca;
+  --sc-color-red-300: #fca5a5;
+  --sc-color-red-400: #f87171;
+  --sc-color-red-500: #ef4444;
+  --sc-color-red-600: #dc2626;
+  --sc-color-red-700: #b91c1c;
+  --sc-color-red-800: #991b1b;
+  --sc-color-red-900: #7f1d1d;
+  --sc-color-red-950: #450a0a;
+
+  /* ---------- Color · Electric Blue (info) ---------- */
+  --sc-color-electric-blue-50: #eef4ff;
+  --sc-color-electric-blue-100: #d5e6ff;
+  --sc-color-electric-blue-200: #abceff;
+  --sc-color-electric-blue-300: #7db3ff;
+  --sc-color-electric-blue-400: #4a8fff;
+  --sc-color-electric-blue-500: #1464fe;
+  --sc-color-electric-blue-600: #0d4fd4;
+  --sc-color-electric-blue-700: #0a3ba0;
+  --sc-color-electric-blue-800: #07296e;
+  --sc-color-electric-blue-900: #041840;
+  --sc-color-electric-blue-950: #020c21;
+
+  /* ---------- Color · Indigo ---------- */
+  --sc-color-indigo-50: #f5f0ff;
+  --sc-color-indigo-100: #ece0ff;
+  --sc-color-indigo-200: #d9bbff;
+  --sc-color-indigo-300: #c48fff;
+  --sc-color-indigo-400: #a44cf5;
+  --sc-color-indigo-500: #8a1fe6;
+  --sc-color-indigo-600: #6e18b8;
+  --sc-color-indigo-700: #52138a;
+  --sc-color-indigo-800: #390d60;
+  --sc-color-indigo-900: #210738;
+  --sc-color-indigo-950: #11031d;
+
+  /* ---------- Typography ---------- */
+  --sc-font-family-primary: 'Inter', system-ui, -apple-system, sans-serif;
+  --sc-font-family-secondary: 'Open Sans', sans-serif;
+
+  /* Font size scale (px). Names match the JSON 1:1. */
+  --sc-font-size-50: 10px;
+  --sc-font-size-75: 11px; /* off-scale chrome value used by pills + sidebar items */
+  --sc-font-size-100: 12px;
+  --sc-font-size-200: 14px;
+  --sc-font-size-300: 16px;
+  --sc-font-size-400: 18px;
+  --sc-font-size-450: 20px;
+  --sc-font-size-500: 24px;
+  --sc-font-size-600: 28px;
+  --sc-font-size-650: 32px;
+  --sc-font-size-700: 36px;
+  --sc-font-size-800: 48px;
+  --sc-font-size-900: 64px;
+
+  /* Line height scale (px) — paired with same-numbered font-size step
+   * where possible (e.g. font-size-450 / line-height-450 → 20 / 30). */
+  --sc-line-height-50: 15px;
+  --sc-line-height-100: 18px;
+  --sc-line-height-200: 21px;
+  --sc-line-height-220: 22px;
+  --sc-line-height-300: 24px;
+  --sc-line-height-400: 28px;
+  --sc-line-height-450: 30px;
+  --sc-line-height-500: 36px;
+  --sc-line-height-600: 42px;
+  --sc-line-height-650: 48px;
+  --sc-line-height-700: 52px;
+  --sc-line-height-800: 72px;
+  --sc-line-height-900: 96px;
+
+  /* Font weights */
+  --sc-font-weight-regular: 400;
+  --sc-font-weight-medium: 500;
+  --sc-font-weight-semibold: 600;
+  --sc-font-weight-bold: 700;
+
+  /* ---------- Spacing ---------- */
+  --sc-spacing-0: 0;
+  --sc-spacing-50: 4px;
+  --sc-spacing-100: 8px;
+  --sc-spacing-200: 12px;
+  --sc-spacing-300: 16px;
+  --sc-spacing-400: 20px;
+  --sc-spacing-500: 24px;
+  --sc-spacing-600: 32px;
+  --sc-spacing-700: 40px;
+  --sc-spacing-800: 48px;
+  --sc-spacing-900: 64px;
+
+  /* ---------- Radius ---------- */
+  --sc-radius-0: 0;
+  --sc-radius-50: 2px;
+  --sc-radius-100: 4px;
+  --sc-radius-200: 6px;
+  --sc-radius-300: 8px;
+  --sc-radius-400: 12px;
+  --sc-radius-500: 16px;
+  --sc-radius-full: 9999px;
+}

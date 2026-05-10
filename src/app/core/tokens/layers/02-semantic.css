@@ -1,0 +1,210 @@
+/*
+ * Layer 2 — SEMANTIC
+ * ===================
+ *
+ * Purpose-bound aliases of layer-1 primitives. Mirrors PrimeNG's
+ * `semantic` layer (text, surface, primary, formField, etc.) — every
+ * token here resolves a "where do I use it?" question, not "what
+ * value is it?".
+ *
+ * Components SHOULD reference these tokens. Dark mode (layer 6)
+ * overrides only this layer + layer 3 (components); primitives stay
+ * constant.
+ */
+
+:root {
+  /* ---------- Text ---------- */
+  --sc-text-primary: var(--sc-color-gray-800);
+  --sc-text-secondary: var(--sc-color-gray-600);
+  --sc-text-subtle: var(--sc-color-gray-400);
+  --sc-text-disabled: var(--sc-color-gray-300);
+  --sc-text-inverse: var(--sc-color-gray-0);
+  --sc-text-accent: var(--sc-color-soft-blue-600);
+  --sc-text-link: var(--sc-color-soft-blue-600);
+  --sc-text-success: var(--sc-color-green-600);
+  --sc-text-warning: var(--sc-color-yellow-600);
+  --sc-text-danger: var(--sc-color-red-600);
+  --sc-text-info: var(--sc-text-accent);
+  --sc-text-indigo: var(--sc-color-indigo-700);
+  --sc-text-on-primary: var(--sc-color-gray-0);
+  --sc-text-on-secondary: var(--sc-color-gray-800);
+  --sc-text-on-accent: var(--sc-color-gray-800);
+  --sc-text-on-error: var(--sc-color-gray-0);
+  --sc-text-on-success: var(--sc-color-gray-0);
+  --sc-text-on-warning: var(--sc-color-gray-0);
+  --sc-text-on-info: var(--sc-color-gray-0);
+  --sc-text-on-indigo: var(--sc-color-gray-0);
+
+  /* ---------- Background ---------- */
+  --sc-bg-default: var(--sc-color-gray-50);
+  --sc-bg-surface: var(--sc-color-gray-0);
+  --sc-bg-subtle: var(--sc-color-blue-50);
+  --sc-bg-subtle-hover: var(--sc-color-blue-100);
+  --sc-bg-subtle-active: var(--sc-color-blue-200);
+  --sc-bg-disabled: var(--sc-color-gray-200);
+  --sc-bg-overlay-transparent: #ffffff00;
+
+  /* Primary (brand) */
+  --sc-bg-primary: var(--sc-color-blue-700);
+  --sc-bg-primary-hover: var(--sc-color-blue-800);
+  --sc-bg-primary-active: var(--sc-color-blue-900);
+  --sc-bg-primary-subtle: var(--sc-color-blue-50);
+  --sc-bg-primary-subtle-hover: var(--sc-color-blue-100);
+  --sc-bg-primary-subtle-active: var(--sc-color-blue-200);
+
+  /* Secondary (gray) */
+  --sc-bg-secondary: var(--sc-color-gray-600);
+  --sc-bg-secondary-hover: var(--sc-color-gray-100);
+  --sc-bg-secondary-active: var(--sc-color-gray-200);
+  --sc-bg-secondary-subtle: var(--sc-color-gray-50);
+
+  /* Accent (cyan) */
+  --sc-bg-accent: var(--sc-color-soft-blue-500);
+  --sc-bg-accent-hover: var(--sc-color-soft-blue-600);
+  --sc-bg-accent-active: var(--sc-color-soft-blue-700);
+
+  /* Status */
+  --sc-bg-success: var(--sc-color-green-600);
+  --sc-bg-success-subtle: var(--sc-color-green-50);
+  --sc-bg-warning: var(--sc-color-yellow-500);
+  --sc-bg-warning-subtle: var(--sc-color-yellow-50);
+  --sc-bg-danger: var(--sc-color-red-600);
+  --sc-bg-danger-hover: var(--sc-color-red-700);
+  --sc-bg-danger-active: var(--sc-color-red-800);
+  --sc-bg-danger-subtle: var(--sc-color-red-50);
+  --sc-bg-danger-subtle-hover: var(--sc-color-red-100);
+  --sc-bg-danger-subtle-active: var(--sc-color-red-200);
+
+  /* Info (electric blue) */
+  --sc-bg-info: var(--sc-color-electric-blue-500);
+  --sc-bg-info-hover: var(--sc-color-electric-blue-600);
+  --sc-bg-info-active: var(--sc-color-electric-blue-700);
+  --sc-bg-info-subtle: var(--sc-color-electric-blue-50);
+
+  /* Indigo */
+  --sc-bg-indigo: var(--sc-color-indigo-500);
+  --sc-bg-indigo-hover: var(--sc-color-indigo-600);
+  --sc-bg-indigo-active: var(--sc-color-indigo-700);
+  --sc-bg-indigo-subtle: var(--sc-color-indigo-50);
+  --sc-bg-indigo-subtle-hover: var(--sc-color-indigo-100);
+  --sc-bg-indigo-subtle-active: var(--sc-color-indigo-200);
+
+  /* ---------- Border ---------- */
+  --sc-border-default: var(--sc-color-gray-200);
+  --sc-border-strong: var(--sc-color-gray-400);
+  --sc-border-subtle: var(--sc-color-gray-100);
+  --sc-border-disabled: var(--sc-color-gray-100);
+
+  --sc-border-primary: var(--sc-color-blue-700);
+  --sc-border-primary-hover: var(--sc-color-blue-800);
+  --sc-border-primary-active: var(--sc-color-blue-900);
+
+  --sc-border-secondary: var(--sc-color-blue-200);
+  --sc-border-secondary-hover: var(--sc-color-blue-300);
+  --sc-border-secondary-active: var(--sc-color-blue-400);
+
+  --sc-border-accent: var(--sc-color-soft-blue-500);
+  --sc-border-accent-hover: var(--sc-color-soft-blue-600);
+  --sc-border-accent-active: var(--sc-color-soft-blue-700);
+
+  --sc-border-success: var(--sc-color-green-600);
+  --sc-border-success-subtle: var(--sc-color-green-200);
+  --sc-border-warning: var(--sc-color-yellow-500);
+  --sc-border-warning-subtle: var(--sc-color-yellow-200);
+  --sc-border-error: var(--sc-color-red-500);
+  --sc-border-danger: var(--sc-color-red-600);
+  --sc-border-danger-hover: var(--sc-color-red-700);
+  --sc-border-danger-active: var(--sc-color-red-800);
+
+  --sc-border-info: var(--sc-color-electric-blue-500);
+  --sc-border-info-subtle: var(--sc-color-electric-blue-200);
+  --sc-border-indigo: var(--sc-color-indigo-500);
+  --sc-border-indigo-subtle: var(--sc-color-indigo-200);
+
+  /* ---------- Icon ---------- */
+  --sc-icon-primary: var(--sc-color-gray-800);
+  --sc-icon-secondary: var(--sc-color-gray-600);
+  --sc-icon-subtle: var(--sc-color-gray-400);
+  --sc-icon-inverse: var(--sc-color-gray-0);
+  --sc-icon-disabled: var(--sc-color-gray-300);
+  --sc-icon-link: var(--sc-color-soft-blue-600);
+
+  --sc-icon-accent: var(--sc-color-soft-blue-600);
+  --sc-icon-success: var(--sc-color-green-600);
+  --sc-icon-warning: var(--sc-color-yellow-600);
+  --sc-icon-error: var(--sc-color-red-600);
+  --sc-icon-info: var(--sc-icon-accent);
+  --sc-icon-indigo: var(--sc-color-indigo-500);
+
+  --sc-icon-on-primary: var(--sc-color-gray-0);
+  --sc-icon-on-secondary: var(--sc-color-gray-800);
+  --sc-icon-on-accent: var(--sc-color-soft-blue-800);
+  --sc-icon-on-danger: var(--sc-color-gray-0);
+  --sc-icon-on-success: var(--sc-color-gray-0);
+  --sc-icon-on-warning: var(--sc-color-gray-800);
+  --sc-icon-on-info: var(--sc-icon-on-accent);
+  --sc-icon-on-indigo: var(--sc-color-indigo-50);
+
+  /* ---------- Typography roles ---------- */
+  /*
+   * Each role bundles three tokens (size, line-height, weight). Roles
+   * `display-1` through `body-3` use the primary family (Inter);
+   * `caption` and `caption-bold` use the secondary family (Open Sans).
+   * Values track the Smart Contact Figma spec (DD#36).
+   */
+
+  /* Sizes */
+  --sc-font-size-display-1: var(--sc-font-size-700);
+  --sc-font-size-h1: var(--sc-font-size-650);
+  --sc-font-size-h2: var(--sc-font-size-500);
+  --sc-font-size-h3: var(--sc-font-size-450);
+  --sc-font-size-h4: var(--sc-font-size-400);
+  --sc-font-size-subtitle-1: var(--sc-font-size-300);
+  --sc-font-size-subtitle-2: var(--sc-font-size-200);
+  --sc-font-size-body-1: var(--sc-font-size-300);
+  --sc-font-size-body-2: var(--sc-font-size-200);
+  --sc-font-size-body-3: var(--sc-font-size-200);
+  --sc-font-size-caption: var(--sc-font-size-100);
+  --sc-font-size-caption-bold: var(--sc-font-size-100);
+
+  /* Line heights */
+  --sc-line-height-display-1: var(--sc-line-height-700);
+  --sc-line-height-h1: var(--sc-line-height-650);
+  --sc-line-height-h2: var(--sc-line-height-500);
+  --sc-line-height-h3: var(--sc-line-height-450);
+  --sc-line-height-h4: var(--sc-line-height-400);
+  --sc-line-height-subtitle-1: var(--sc-line-height-300);
+  --sc-line-height-subtitle-2: var(--sc-line-height-220);
+  --sc-line-height-body-1: var(--sc-line-height-300);
+  --sc-line-height-body-2: var(--sc-line-height-220);
+  --sc-line-height-body-3: var(--sc-line-height-220);
+  --sc-line-height-caption: var(--sc-line-height-100);
+
+  /* Weights */
+  --sc-font-weight-display-1: var(--sc-font-weight-regular);
+  --sc-font-weight-h1: var(--sc-font-weight-semibold);
+  --sc-font-weight-h2: var(--sc-font-weight-semibold);
+  --sc-font-weight-h3: var(--sc-font-weight-semibold);
+  --sc-font-weight-h4: var(--sc-font-weight-semibold);
+  --sc-font-weight-subtitle-1: var(--sc-font-weight-semibold);
+  --sc-font-weight-subtitle-2: var(--sc-font-weight-semibold);
+  --sc-font-weight-body-1: var(--sc-font-weight-regular);
+  --sc-font-weight-body-2: var(--sc-font-weight-regular);
+  --sc-font-weight-body-3: var(--sc-font-weight-semibold);
+  --sc-font-weight-caption: var(--sc-font-weight-regular);
+  --sc-font-weight-caption-bold: var(--sc-font-weight-semibold);
+
+  /* Family selector — primary for everything except captions. */
+  --sc-font-family-display-1: var(--sc-font-family-primary);
+  --sc-font-family-h1: var(--sc-font-family-primary);
+  --sc-font-family-h2: var(--sc-font-family-primary);
+  --sc-font-family-h3: var(--sc-font-family-primary);
+  --sc-font-family-h4: var(--sc-font-family-primary);
+  --sc-font-family-subtitle-1: var(--sc-font-family-primary);
+  --sc-font-family-subtitle-2: var(--sc-font-family-primary);
+  --sc-font-family-body-1: var(--sc-font-family-primary);
+  --sc-font-family-body-2: var(--sc-font-family-primary);
+  --sc-font-family-body-3: var(--sc-font-family-primary);
+  --sc-font-family-caption: var(--sc-font-family-secondary);
+  --sc-font-family-caption-bold: var(--sc-font-family-secondary);
+}

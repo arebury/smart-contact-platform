@@ -1,0 +1,165 @@
+/*
+ * Layer 4 — COMPONENT
+ * ====================
+ *
+ * Per-component design specifications. Mirrors PrimeNG's `components`
+ * layer (button.root.primary.background, dialog.shadow, …) — each
+ * token belongs to a single component shape.
+ *
+ * AED pre-bakes these tokens here because the component lives outside
+ * PrimeNG's catalog (custom shells: button variants beyond PrimeNG's,
+ * the canonical modal, the bespoke toast).
+ *
+ * Components SHOULD reference these tokens directly. Dark mode (layer
+ * 6) may override individual tokens here when the dark variant has a
+ * different shape (e.g. translucent danger backgrounds).
+ */
+
+:root {
+  /* =========================================================== */
+  /* Button (Smart Contact design — Figma 195:283)               */
+  /* =========================================================== */
+  /*
+   * Three "fills" × four "tones": primary (solid dark), secondary
+   * (subtle white), danger (solid red), each with default / hover /
+   * active / disabled. Variant-token names match the Figma layer
+   * names exactly so a future redesign maps 1:1.
+   *
+   * Subtle and text variants share secondary geometry; only the
+   * background, border and color differ. Same padding (12px y / 16px
+   * x), same gap (8px), same radius (6px) across every variant.
+   */
+
+  /* Shared button geometry */
+  --sc-btn-padding-x: 16px;
+  --sc-btn-padding-y: 12px;
+  --sc-btn-gap: 8px;
+  --sc-btn-radius: 6px;
+
+  /* Primary (solid dark) */
+  --sc-btn-primary-bg: var(--sc-color-blue-700);
+  --sc-btn-primary-border: var(--sc-color-blue-700);
+  --sc-btn-primary-fg: #ffffff;
+  --sc-btn-primary-bg-hover: var(--sc-color-blue-800);
+  --sc-btn-primary-border-hover: var(--sc-color-blue-800);
+  --sc-btn-primary-bg-active: var(--sc-color-blue-900);
+  --sc-btn-primary-border-active: var(--sc-color-blue-950);
+
+  /* Primary subtle (tinted bg + accent border) */
+  --sc-btn-primary-subtle-bg: var(--sc-color-blue-50);
+  --sc-btn-primary-subtle-border: var(--sc-color-blue-200);
+  --sc-btn-primary-subtle-fg: var(--sc-color-blue-700);
+  --sc-btn-primary-subtle-bg-hover: var(--sc-color-blue-100);
+  --sc-btn-primary-subtle-bg-active: var(--sc-color-blue-200);
+
+  /* Secondary (white, gray border) */
+  --sc-btn-secondary-bg: #ffffff;
+  --sc-btn-secondary-border: var(--sc-color-blue-200);
+  --sc-btn-secondary-fg: var(--sc-color-gray-800);
+  --sc-btn-secondary-bg-hover: var(--sc-color-gray-100);
+  --sc-btn-secondary-border-hover: var(--sc-color-blue-300);
+  --sc-btn-secondary-bg-active: var(--sc-color-gray-200);
+  --sc-btn-secondary-border-active: var(--sc-color-blue-400);
+
+  /* Danger (solid red) */
+  --sc-btn-danger-bg: var(--sc-color-red-600);
+  --sc-btn-danger-border: var(--sc-color-red-600);
+  --sc-btn-danger-fg: #ffffff;
+  --sc-btn-danger-bg-hover: var(--sc-color-red-700);
+  --sc-btn-danger-border-hover: var(--sc-color-red-700);
+  --sc-btn-danger-bg-active: var(--sc-color-red-800);
+  --sc-btn-danger-border-active: var(--sc-color-red-800);
+
+  /* Danger subtle */
+  --sc-btn-danger-subtle-bg: var(--sc-color-red-50);
+  --sc-btn-danger-subtle-border: var(--sc-color-red-200);
+  --sc-btn-danger-subtle-fg: var(--sc-color-red-600);
+  --sc-btn-danger-subtle-bg-hover: var(--sc-color-red-100);
+  --sc-btn-danger-subtle-bg-active: var(--sc-color-red-200);
+
+  /* Disabled (shared across variants) */
+  --sc-btn-disabled-bg: #dadfe6;
+  --sc-btn-disabled-border: #eceff3;
+  --sc-btn-disabled-fg: #c6ccd6;
+
+  /* =========================================================== */
+  /* Modal (Smart Contact design — Figma 1037:34069)             */
+  /* =========================================================== */
+  /*
+   * Master shell with three slots: header (icon + title + subtitle +
+   * close), body (free content), footer (action row). Sits on a tinted
+   * mask via PrimeNG's DialogModule which provides focus trap, ESC,
+   * and animation.
+   *
+   * Header and footer share a single divider color that's a touch
+   * lighter than the default border so the divisions read as quiet
+   * structure, not framing.
+   */
+  --sc-modal-bg: #ffffff;
+  --sc-modal-border: var(--sc-color-blue-100);
+  --sc-modal-divider: var(--sc-color-gray-200);
+  --sc-modal-radius: var(--sc-radius-300);
+  --sc-modal-shadow: 0 24px 48px rgb(15 23 42 / 0.16);
+  --sc-modal-padding-x: 24px;
+  --sc-modal-padding-y: 20px;
+  --sc-modal-head-icon-fg: var(--sc-color-gray-500);
+  --sc-modal-title: var(--sc-color-gray-800);
+  --sc-modal-subtitle: var(--sc-color-gray-600);
+  --sc-modal-close-fg: var(--sc-color-gray-700);
+  --sc-modal-close-bg-hover: var(--sc-color-gray-100);
+
+  /* =========================================================== */
+  /* Toast (Smart Contact design — Figma 1050:354)               */
+  /* =========================================================== */
+  /*
+   * Per-severity background / border / icon-square colors for the
+   * notification toast. The "icon" token paints the small rounded
+   * square that holds the severity glyph; the glyph itself is white.
+   *
+   * Title / message / close-icon colors are shared across severities.
+   */
+
+  /* Shared text colors */
+  --sc-toast-title: var(--sc-color-gray-800);
+  --sc-toast-message: var(--sc-color-gray-600);
+  --sc-toast-close: var(--sc-color-gray-800);
+  --sc-toast-icon-fg: var(--sc-color-gray-0, #fff);
+
+  /* Shared geometry */
+  --sc-toast-radius: 12px;
+  --sc-toast-padding-x: 16px;
+  --sc-toast-padding-y: 16px;
+  --sc-toast-gap-content: 8px;
+  --sc-toast-gap-actions: 8px;
+  --sc-toast-gap-message: 4px;
+  --sc-toast-icon-size: 24px;
+  --sc-toast-icon-radius: 6px;
+  /* Single fixed width — keeps the stack visually aligned regardless
+   * of content length (DD#33). Long messages wrap. */
+  --sc-toast-width: 400px;
+
+  /* Success */
+  --sc-toast-success-bg: var(--sc-color-green-50);
+  --sc-toast-success-border: var(--sc-color-green-600);
+  --sc-toast-success-icon-bg: var(--sc-color-green-500);
+
+  /* Info */
+  --sc-toast-info-bg: var(--sc-color-electric-blue-50);
+  --sc-toast-info-border: var(--sc-color-electric-blue-500);
+  --sc-toast-info-icon-bg: var(--sc-color-electric-blue-500);
+
+  /* Warning (PrimeNG calls it "warn") */
+  --sc-toast-warn-bg: var(--sc-color-yellow-50);
+  --sc-toast-warn-border: var(--sc-color-yellow-500);
+  --sc-toast-warn-icon-bg: var(--sc-color-yellow-500);
+
+  /* Error */
+  --sc-toast-error-bg: var(--sc-color-red-50);
+  --sc-toast-error-border: var(--sc-color-red-500);
+  --sc-toast-error-icon-bg: var(--sc-color-red-500);
+
+  /* Indigo (reserved for future "neutral notice" — not currently used) */
+  --sc-toast-indigo-bg: var(--sc-color-indigo-50);
+  --sc-toast-indigo-border: var(--sc-color-indigo-500);
+  --sc-toast-indigo-icon-bg: var(--sc-color-indigo-500);
+}

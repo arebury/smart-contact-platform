@@ -21,7 +21,7 @@ export const LABEL_COLORS: readonly LabelColor[] = [
 
 /**
  * Picker swatches consumed by `<aed-color-dot-picker>`. Colors point at the
- * `--sc-label-<color>-dot` tokens declared in `sc-tokens.css`, so changing a
+ * `--sc-label-<color>-dot` tokens (layer 3 — palette), so changing a
  * brand value there propagates to the picker without code changes.
  */
 export const LABEL_COLOR_OPTIONS: readonly {
