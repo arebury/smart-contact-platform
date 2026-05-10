@@ -1,0 +1,167 @@
+/*
+ * Shared form primitives — extracted from the three admin form pages
+ * (agents, groups, users) where these rules were defined identically.
+ *
+ * Class names are intentionally NOT prefixed with `sc-` because they're
+ * a high-traffic vocabulary (form labels, inputs, errors, the 2-col
+ * grid). With Angular's emulated view encapsulation, these globals
+ * "fall through" to component templates that use them, since no
+ * component re-declares the same class. If a component WANTS to
+ * override one of these (e.g. a tighter `.field__input` for a
+ * compact form), it can declare `.field__input { … }` locally;
+ * Angular scopes that to the component's host attribute, shadowing
+ * the global.
+ *
+ * Source of truth for tokens: `src/app/core/tokens/layers/`.
+ */
+
+/* ------------------------------------------------------------------ *
+ * Form grid — 2-column layout shared across every form page.
+ * ------------------------------------------------------------------ */
+.grid {
+  display: grid;
+  gap: var(--sc-spacing-300);
+
+  &--2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Field primitives — label, required marker, hint, input, error,
+ * help. Used by every text/select/email/tel input across the forms.
+ *
+ * `--inline` is the variant used next to a toggle switch.
+ * ------------------------------------------------------------------ */
+.field {
+  display: flex;
+  flex-direction: column;
+
+  &--inline {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+    margin-top: var(--sc-spacing-200);
+  }
+
+  &__label,
+  &__label-inline {
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    color: var(--sc-text-secondary);
+    margin-bottom: 2px;
+  }
+
+  &__required {
+    color: var(--sc-text-danger);
+    margin-left: 2px;
+  }
+
+  &__hint {
+    color: var(--sc-text-disabled);
+    margin-left: var(--sc-spacing-50);
+    font-weight: var(--sc-font-weight-regular);
+  }
+
+  &__input {
+    padding: 6px var(--sc-spacing-200);
+    font-family: inherit;
+    font-size: var(--sc-font-size-200);
+    color: var(--sc-text-primary);
+    background: var(--sc-bg-surface);
+    border: 1px solid var(--sc-border-default);
+    border-radius: var(--sc-radius-100);
+    outline: none;
+    transition: border-color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &::placeholder {
+      color: var(--sc-text-subtle);
+    }
+
+    &:hover {
+      border-color: var(--sc-border-strong);
+    }
+
+    &:focus {
+      border-color: var(--sc-color-blue-500);
+    }
+
+    &--error,
+    &--error:hover,
+    &--error:focus {
+      border-color: var(--sc-border-error, var(--sc-text-danger));
+    }
+  }
+
+  &__help {
+    margin-top: var(--sc-spacing-50);
+    font-size: var(--sc-font-size-50);
+    color: var(--sc-text-subtle);
+  }
+
+  &__error {
+    display: block;
+    /* Reserve space so toggling validation doesn't shift layout (DD#16). */
+    min-height: 1.25em;
+    margin-top: var(--sc-spacing-50);
+    font-size: var(--sc-font-size-50);
+    line-height: 1.25;
+    color: var(--sc-text-danger);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Checkbox grids — used by agent-form (groups, channels, perms),
+ * user-form (sections, services, perms). Column min-width 220px is
+ * the canonical size; user-form's services list overrides to 180px
+ * via `&--services` modifier (kept at component level, since it's
+ * specific to one screen).
+ * ------------------------------------------------------------------ */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--sc-spacing-100) var(--sc-spacing-300);
+
+  /* Tighter columns for service-list rows in user-form, where each
+   * service name is short enough to fit comfortably at 180px. */
+  &--services {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  font-size: var(--sc-font-size-200);
+  color: var(--sc-text-secondary);
+  cursor: pointer;
+  padding: var(--sc-spacing-50) 0;
+
+  > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &:hover {
+    color: var(--sc-text-primary);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Chip rows — `language-chips` and `label-chips` shared the exact
+ * same rule. Both classes are kept (changing either name is a wider
+ * template churn) but they alias the same definition here.
+ *
+ * `min-height: 32px` reserves a row so toggling chips doesn't shift
+ * the section below (DD#8).
+ * ------------------------------------------------------------------ */
+.language-chips,
+.label-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-150);
+  min-height: 32px;
+  margin-top: var(--sc-spacing-200);
+}

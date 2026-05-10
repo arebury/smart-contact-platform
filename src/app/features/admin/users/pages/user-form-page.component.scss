@@ -106,122 +106,18 @@
   }
 }
 
-.grid {
-  display: grid;
-  gap: var(--sc-spacing-300);
-
-  &--2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-
-  &--inline {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--sc-spacing-200);
-    margin-top: var(--sc-spacing-200);
-  }
-
-  &__label,
-  &__label-inline {
-    font-size: var(--sc-font-size-100);
-    font-weight: var(--sc-font-weight-medium);
-    color: var(--sc-text-secondary);
-    margin-bottom: 2px;
-  }
-
-  &__required {
-    color: var(--sc-text-danger);
-    margin-left: 2px;
-  }
-
-  &__hint {
-    color: var(--sc-text-disabled);
-    margin-left: var(--sc-spacing-50);
-    font-weight: var(--sc-font-weight-regular);
-  }
-
-  &__input {
-    padding: 6px var(--sc-spacing-200);
-    font-family: inherit;
-    font-size: var(--sc-font-size-200);
-    color: var(--sc-text-primary);
-    background: var(--sc-bg-surface);
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-100);
-    outline: none;
-    transition: border-color var(--sc-transition-fast) var(--sc-easing-default);
-
-    &::placeholder {
-      color: var(--sc-text-subtle);
-    }
-
-    &:hover {
-      border-color: var(--sc-border-strong);
-    }
-
-    &:focus {
-      border-color: var(--sc-color-blue-500);
-    }
-
-    &--error {
-      border-color: var(--sc-border-error);
-    }
-  }
-
-  &__error {
-    display: block;
-    /* Reserve space so toggling validation doesn't shift layout */
-    min-height: 1.25em;
-    margin-top: var(--sc-spacing-50);
-    font-size: var(--sc-font-size-50);
-    line-height: 1.25;
-    color: var(--sc-text-danger);
-  }
-
-  &__help {
-    margin-top: var(--sc-spacing-50);
-    font-size: var(--sc-font-size-50);
-    color: var(--sc-text-subtle);
-  }
-}
-
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--sc-spacing-100) var(--sc-spacing-300);
-
-  &--services {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  }
-}
-
+/*
+ * `.grid`, `.field`, `.checkbox-grid` (incl. `--services`),
+ * `.checkbox-row` are now defined in `src/styles/_forms.scss`
+ * (DD#53). Local override below: only the `--child` indent
+ * modifier and a slightly taller padding (8px vs the global 4px)
+ * specific to user-form's permission lists.
+ */
 .checkbox-row {
-  display: flex;
-  align-items: center;
-  gap: var(--sc-spacing-100);
   padding: var(--sc-spacing-100) 0;
-  font-size: var(--sc-font-size-200);
-  color: var(--sc-text-secondary);
-  cursor: pointer;
-
-  > span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
 
   &--child {
     padding-left: var(--sc-spacing-500);
-  }
-
-  &:hover {
-    color: var(--sc-text-primary);
   }
 }
 

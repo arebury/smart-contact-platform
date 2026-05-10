@@ -297,105 +297,11 @@
   }
 }
 
-/* ── Generic field/grid utilities (kept from previous version) ── */
-.grid {
-  display: grid;
-  gap: var(--sc-spacing-300);
-
-  &--2 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-
-  &--inline {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--sc-spacing-200);
-    margin-top: var(--sc-spacing-200);
-  }
-
-  &__label,
-  &__label-inline {
-    font-size: var(--sc-font-size-100);
-    font-weight: var(--sc-font-weight-medium);
-    color: var(--sc-text-secondary);
-    margin-bottom: 2px;
-  }
-
-  &__required {
-    color: var(--sc-text-danger);
-    margin-left: 2px;
-  }
-
-  &__hint {
-    color: var(--sc-text-disabled);
-    margin-left: var(--sc-spacing-50);
-    font-weight: var(--sc-font-weight-regular);
-  }
-
-  &__input {
-    padding: 6px var(--sc-spacing-200);
-    font-family: inherit;
-    font-size: var(--sc-font-size-200);
-    color: var(--sc-text-primary);
-    background: var(--sc-bg-surface);
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-100);
-    outline: none;
-
-    &:hover {
-      border-color: var(--sc-border-strong);
-    }
-
-    &:focus {
-      border-color: var(--sc-color-blue-500);
-    }
-
-    &--error,
-    &--error:hover,
-    &--error:focus {
-      border-color: var(--sc-border-error, var(--sc-text-danger));
-    }
-  }
-
-  &__help {
-    margin-top: var(--sc-spacing-50);
-    font-size: var(--sc-font-size-50);
-    color: var(--sc-text-subtle);
-  }
-
-  &__error {
-    display: block;
-    /* reserve space so toggling validation doesn't shift layout (DD#16) */
-    min-height: 1.25em;
-    margin-top: var(--sc-spacing-50);
-    font-size: var(--sc-font-size-50);
-    line-height: 1.25;
-    color: var(--sc-text-danger);
-  }
-}
-
-.language-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sc-spacing-150);
-  /* Reserve a row so toggling chips doesn't shift the section that follows */
-  min-height: 32px;
-  margin-top: var(--sc-spacing-200);
-}
-
-.label-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sc-spacing-150);
-  /* Reserve a row so toggling chips doesn't shift the section that follows (DD#8) */
-  min-height: 32px;
-  margin-top: var(--sc-spacing-200);
-}
+/*
+ * `.grid`, `.field`, `.checkbox-grid`, `.checkbox-row`, `.language-chips`,
+ * `.label-chips` are now defined in `src/styles/_forms.scss` (DD#53)
+ * and applied globally — no need to redeclare them here.
+ */
 
 .language-chip {
   display: inline-flex;
@@ -419,32 +325,6 @@
     &:hover {
       color: var(--sc-text-primary);
     }
-  }
-}
-
-.checkbox-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--sc-spacing-100) var(--sc-spacing-300);
-}
-
-.checkbox-row {
-  display: flex;
-  align-items: center;
-  gap: var(--sc-spacing-100);
-  font-size: var(--sc-font-size-200);
-  color: var(--sc-text-secondary);
-  cursor: pointer;
-  padding: var(--sc-spacing-50) 0;
-
-  > span {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &:hover {
-    color: var(--sc-text-primary);
   }
 }
 
