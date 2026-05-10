@@ -17,7 +17,7 @@
         (visibilityChange)="onColumnsChange($event)"
       />
       <div class="page__search">
-        <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="14"  aria-hidden="true" />
+        <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="14" aria-hidden="true" />
         <input
           type="text"
           class="page__search-input"
@@ -179,7 +179,11 @@
                           [attr.data-channel]="channel"
                           [title]="channelKeys[channel] | translate"
                         >
-                          <lucide-icon [img]="channelIcon(channel)" [size]="14" aria-hidden="true" />
+                          <lucide-icon
+                            [img]="channelIcon(channel)"
+                            [size]="14"
+                            aria-hidden="true"
+                          />
                         </span>
                       }
                     </span>
@@ -198,7 +202,7 @@
                   </td>
                 }
                 @if (isColVisible('agents')) {
-                  <td class="table__td table__td--num">{{ group.assignedAgents.length }}</td>
+                  <td class="table__td table__td--num">{{ assignedCountForGroup(group.id) }}</td>
                 }
                 <td class="table__td-actions" (click)="$event.stopPropagation()">
                   <div

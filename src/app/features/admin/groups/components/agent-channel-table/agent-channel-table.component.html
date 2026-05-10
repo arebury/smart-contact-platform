@@ -1,0 +1,200 @@
+<div class="actbl">
+  <!-- Picker + search bar -->
+  <div class="actbl__head">
+    <div class="actbl__picker">
+      <lucide-icon [img]="searchIcon" [size]="14" class="actbl__picker-icon" aria-hidden="true" />
+      <input
+        type="text"
+        class="actbl__picker-input"
+        [placeholder]="'groups.form.assigned.picker_placeholder' | translate"
+        [value]="pickerQuery()"
+        (input)="onPickerInput($event)"
+        (keydown)="onPickerKeydown($event)"
+        (focus)="openPicker()"
+        [attr.aria-label]="'groups.form.assigned.picker_aria' | translate"
+      />
+      @if (pickerQuery() || pickerOpen()) {
+        <button
+          type="button"
+          class="actbl__picker-clear"
+          (click)="closePicker()"
+          [attr.aria-label]="'labels.clear_search' | translate"
+        >
+          <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
+        </button>
+      }
+      @if (pickerOpen() && pickerCandidates().length > 0) {
+        <ul class="actbl__picker-menu" role="listbox">
+          @for (cand of pickerCandidates(); track cand.id) {
+            <li role="option" [attr.aria-selected]="false">
+              <button type="button" class="actbl__picker-option" (click)="addAgent(cand)">
+                <aed-illustrated-avatar [name]="cand.name" pool="illustrated" [size]="22" />
+                <span>{{ cand.name }}</span>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+
+    <span class="actbl__counter">
+      {{
+        'groups.form.assigned.counter'
+          | translate: { assigned: assignedRows().length, zero: zeroChannelCount() }
+      }}
+    </span>
+  </div>
+
+  <!-- Table -->
+  @if (assignedRows().length === 0) {
+    <div class="actbl__empty">
+      {{ 'groups.form.assigned.empty' | translate }}
+    </div>
+  } @else {
+    <div class="actbl__filterbar">
+      <lucide-icon [img]="searchIcon" [size]="14" class="actbl__filter-icon" aria-hidden="true" />
+      <input
+        type="text"
+        class="actbl__filter-input"
+        [placeholder]="'groups.form.assigned.filter_placeholder' | translate"
+        [value]="searchQuery()"
+        (input)="onSearchInput($event)"
+        [attr.aria-label]="'groups.form.assigned.filter_aria' | translate"
+      />
+      @if (searchQuery()) {
+        <button
+          type="button"
+          class="actbl__filter-clear"
+          (click)="searchQuery.set('')"
+          [attr.aria-label]="'labels.clear_search' | translate"
+        >
+          <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
+        </button>
+      }
+    </div>
+
+    <table class="actbl__table">
+      <thead>
+        <tr>
+          <th class="actbl__th-check">
+            <aed-tri-state-checkbox
+              [state]="allVisibleSelected()"
+              [ariaLabel]="'labels.select_all' | translate"
+              (cycle)="toggleSelectAllVisible($event)"
+            />
+          </th>
+          <th class="actbl__th-name" scope="col">
+            {{ 'groups.form.assigned.col_agent' | translate }}
+          </th>
+          @for (ch of groupChannels(); track ch) {
+            <th class="actbl__th-channel" scope="col">
+              <aed-tri-state-checkbox
+                [state]="columnState(ch)"
+                [ariaLabel]="
+                  'groups.form.assigned.toggle_all_channel'
+                    | translate: { channel: channelKeys[ch] | translate }
+                "
+                (cycle)="bulkToggleColumn(ch, $event)"
+              >
+                <span>{{ channelKeys[ch] | translate }}</span>
+              </aed-tri-state-checkbox>
+            </th>
+          }
+          <th class="actbl__th-active" scope="col">
+            {{ 'groups.form.assigned.col_active' | translate }}
+          </th>
+          <th class="actbl__th-actions" aria-hidden="true"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of visibleRows(); track row.agent.id) {
+          <tr
+            class="actbl__row"
+            [class.actbl__row--selected]="isSelected(row.agent.id)"
+            [class.actbl__row--paused]="!row.link.active"
+          >
+            <td class="actbl__td-check">
+              <input
+                type="checkbox"
+                [checked]="isSelected(row.agent.id)"
+                (change)="toggleSelect(row.agent.id)"
+                [attr.aria-label]="row.agent.name"
+              />
+            </td>
+            <td class="actbl__td-name">
+              <aed-illustrated-avatar [name]="row.agent.name" pool="illustrated" [size]="26" />
+              <span class="actbl__name-label">{{ row.agent.name }}</span>
+              @if (row.link.active && row.link.channels.length === 0) {
+                <span
+                  class="actbl__warn"
+                  [title]="'groups.form.assigned.warn_no_channels' | translate"
+                  role="img"
+                  [attr.aria-label]="'groups.form.assigned.warn_no_channels' | translate"
+                >
+                  <lucide-icon [img]="warnIcon" [size]="13" aria-hidden="true" />
+                </span>
+              }
+            </td>
+            @for (ch of groupChannels(); track ch) {
+              <td class="actbl__td-channel">
+                <input
+                  type="checkbox"
+                  [checked]="hasChannel(row.link, ch)"
+                  [disabled]="!row.link.active"
+                  (change)="toggleChannel(row.agent.id, ch)"
+                  [attr.aria-label]="row.agent.name + ' — ' + (channelKeys[ch] | translate)"
+                />
+              </td>
+            }
+            <td class="actbl__td-active">
+              <aed-toggle-switch
+                [checked]="row.link.active"
+                [ariaLabel]="
+                  'groups.form.assigned.active_aria' | translate: { name: row.agent.name }
+                "
+                (checkedChange)="toggleActive(row.agent.id, $event)"
+              />
+            </td>
+            <td class="actbl__td-actions">
+              <button
+                type="button"
+                class="actbl__remove"
+                (click)="removeRow(row.agent.id)"
+                [attr.aria-label]="
+                  'groups.form.assigned.remove_aria' | translate: { name: row.agent.name }
+                "
+              >
+                <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
+              </button>
+            </td>
+          </tr>
+        }
+        @if (visibleRows().length === 0) {
+          <tr>
+            <td [attr.colspan]="3 + groupChannels().length" class="actbl__no-results">
+              {{ 'groups.form.assigned.no_results' | translate }}
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    @if (selectedIds().size > 0) {
+      <div
+        class="actbl__bulkbar"
+        role="region"
+        [attr.aria-label]="'labels.bulk_actions' | translate"
+      >
+        <span class="actbl__bulk-count">
+          {{ 'groups.form.assigned.bulk_count' | translate: { count: selectedIds().size } }}
+        </span>
+        <button type="button" class="btn btn--ghost btn--sm" (click)="bulkPause()">
+          {{ 'groups.form.assigned.bulk_pause' | translate }}
+        </button>
+        <button type="button" class="btn btn--bulk-danger btn--sm" (click)="bulkUnassign()">
+          {{ 'groups.form.assigned.bulk_unassign' | translate }}
+        </button>
+      </div>
+    }
+  }
+</div>

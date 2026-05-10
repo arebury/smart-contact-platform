@@ -29,17 +29,16 @@ import {
   ToggleSwitchComponent,
 } from '@shared/components';
 import { LabelsStore } from '@features/admin/labels/state/labels.store';
+import { GroupsStore } from '@features/admin/groups/state/groups.store';
+import { GroupAgentLinksStore } from '@features/admin/services/group-agent-links.store';
+import { GroupAgentLink } from '@features/admin/services/group-agent-links.types';
 import {
-  AGENT_CHANNELS,
   AGENT_TYPES,
   AGENT_TYPE_LABEL_KEYS,
   Agent,
-  AgentChannel,
-  AgentGroupRef,
   AgentPermissions,
   AgentType,
   AVAILABLE_EXTENSIONS,
-  AVAILABLE_GROUPS_REF,
   AVAILABLE_LANGUAGES,
   CALL_PERMISSIONS,
   DEFAULT_AGENT_PERMISSIONS,
@@ -51,19 +50,22 @@ import {
   TRANSFER_PERMISSIONS,
 } from '../data/agents-data';
 import { AgentsStore } from '../state/agents.store';
+import {
+  AgentGroupAssignmentRef,
+  GroupAssignmentTableComponent,
+} from '../components/group-assignment-table/group-assignment-table.component';
 
 interface FormState {
   name: string;
   extension: string;
   agentType: AgentType;
-  channels: ReadonlySet<AgentChannel>;
   status: 'active' | 'inactive';
   presenceStatus: PresenceStatus;
   phone: string;
   email: string;
   pin: string;
   pickupType: PickupType;
-  groupIds: ReadonlySet<number>;
+  links: readonly GroupAgentLink[];
   permissions: AgentPermissions;
   photo: string | null;
   languages: readonly string[];
@@ -71,28 +73,31 @@ interface FormState {
 }
 
 @Component({
-    selector: 'aed-agent-form-page',
-    imports: [
-        DeleteEntityDialogComponent,
-        FormDangerZoneComponent,
-        FormSectionNavComponent,
-        LabelChipComponent,
-        LucideAngularModule,
-        PhotoUploadComponent,
-        SectionCardComponent,
-        StickyFormHeaderComponent,
-        ToggleSwitchComponent,
-        TranslateModule,
-    ],
-    templateUrl: './agent-form-page.component.html',
-    styleUrl: './agent-form-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-agent-form-page',
+  imports: [
+    DeleteEntityDialogComponent,
+    FormDangerZoneComponent,
+    FormSectionNavComponent,
+    GroupAssignmentTableComponent,
+    LabelChipComponent,
+    LucideAngularModule,
+    PhotoUploadComponent,
+    SectionCardComponent,
+    StickyFormHeaderComponent,
+    ToggleSwitchComponent,
+    TranslateModule,
+  ],
+  templateUrl: './agent-form-page.component.html',
+  styleUrl: './agent-form-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly location = inject(Location);
   private readonly agentsStore = inject(AgentsStore);
+  private readonly groupsStore = inject(GroupsStore);
+  private readonly linksStore = inject(GroupAgentLinksStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly crossTab = inject(CrossTabLockService);
@@ -103,11 +108,20 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly agentTypes = AGENT_TYPES;
   protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
-  protected readonly channels = AGENT_CHANNELS;
   protected readonly availableExtensions = AVAILABLE_EXTENSIONS;
-  protected readonly availableGroups = AVAILABLE_GROUPS_REF;
   protected readonly availableLanguages = AVAILABLE_LANGUAGES;
   protected readonly availableLabels = this.labelsStore.labels;
+
+  /** Roster of every group in the system, with channels — fed to the
+   * group-assignment table so it can render the correct chip cluster
+   * per row and the picker dropdown of joinable groups. */
+  protected readonly availableGroups = computed<readonly AgentGroupAssignmentRef[]>(() =>
+    this.groupsStore.groups().map((g) => ({
+      id: g.id,
+      name: g.name,
+      channels: g.channels,
+    })),
+  );
 
   /** Selected labels resolved to {id, name, color} for chip rendering. */
   protected readonly selectedLabelChips = computed(() => {
@@ -159,7 +173,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected readonly canSave = computed(() => {
     const f = this.form();
-    if (!f.name.trim() || !f.extension || f.channels.size === 0) return false;
+    if (!f.name.trim() || !f.extension) return false;
     if (f.email && !EMAIL_RE.test(f.email.trim())) return false;
     if (f.pin && !PIN_RE.test(f.pin.trim())) return false;
     return true;
@@ -184,14 +198,13 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         name: agent.name,
         extension: agent.extension,
         agentType: agent.agentType,
-        channels: new Set(agent.channels),
         status: agent.status,
         presenceStatus: agent.presenceStatus ?? 'disponible',
         phone: agent.phone ?? '',
         email: agent.email ?? '',
         pin: agent.pin ?? '',
         pickupType: agent.pickupType ?? 'auto',
-        groupIds: new Set(agent.groups.map((g) => g.id)),
+        links: this.linksStore.linksForAgent(agent.id),
         permissions: { ...agent.permissions },
         photo: agent.photo ?? null,
         languages: agent.languages ? [...agent.languages] : [],
@@ -254,32 +267,9 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.updateField('status', checked ? 'active' : 'inactive');
   }
 
-  protected toggleChannel(channel: AgentChannel): void {
+  protected onLinksChange(links: readonly GroupAgentLink[]): void {
     this.formDirty.set(true);
-    this.form.update((f) => {
-      const next = new Set(f.channels);
-      if (next.has(channel)) next.delete(channel);
-      else next.add(channel);
-      return { ...f, channels: next };
-    });
-  }
-
-  protected hasChannel(channel: AgentChannel): boolean {
-    return this.form().channels.has(channel);
-  }
-
-  protected toggleGroup(id: number): void {
-    this.formDirty.set(true);
-    this.form.update((f) => {
-      const next = new Set(f.groupIds);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return { ...f, groupIds: next };
-    });
-  }
-
-  protected hasGroup(id: number): boolean {
-    return this.form().groupIds.has(id);
+    this.form.update((f) => ({ ...f, links }));
   }
 
   protected togglePermission(key: keyof AgentPermissions): void {
@@ -353,22 +343,17 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.saving.set(true);
     setTimeout(() => {
       const f = this.form();
-      const groups: AgentGroupRef[] = this.availableGroups
-        .filter((g) => f.groupIds.has(g.id))
-        .map((g) => ({ ...g }));
 
       const payload: Omit<Agent, 'id' | 'code'> = {
         name: f.name.trim(),
         extension: f.extension,
         extensionType: this.getExtensionType(f.extension) ?? 'webrtc',
         agentType: f.agentType,
-        channels: Array.from(f.channels),
         status: f.status,
         presenceStatus: f.presenceStatus,
         phone: f.phone.trim() || undefined,
         email: f.email.trim() || undefined,
         pin: f.pin.trim() || undefined,
-        groups,
         permissions: f.permissions,
         pickupType: f.pickupType,
         photo: f.photo ?? undefined,
@@ -379,6 +364,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       const editingId = this.editingId();
       if (editingId) {
         this.agentsStore.updateAgent(editingId, { ...payload, isDraft: undefined });
+        this.linksStore.replaceLinksForAgent(editingId, this.normalizeLinks(f.links, editingId));
         const refreshed = this.agentsStore.getAgent(editingId);
         if (refreshed) this.initial.set(refreshed);
         this.messages.add({
@@ -388,10 +374,9 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         });
       } else {
         const created = this.agentsStore.addAgent(payload);
+        this.linksStore.replaceLinksForAgent(created.id, this.normalizeLinks(f.links, created.id));
         this.editingId.set(created.id);
         this.initial.set(created);
-        // Promote the URL from /crear to /editar/:id without navigating —
-        // keeps the form mounted so the user can keep saving.
         this.location.replaceState(`/admin/agentes/editar/${created.id}`);
         this.releaseLock?.();
         this.releaseLock = this.crossTab.acquire('agent', created.id, () =>
@@ -406,6 +391,14 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       this.saving.set(false);
       this.formDirty.set(false);
     }, 400);
+  }
+
+  /** Ensure every link points at the right agentId before persistence. */
+  private normalizeLinks(
+    links: readonly GroupAgentLink[],
+    agentId: number,
+  ): readonly GroupAgentLink[] {
+    return links.map((l) => (l.agentId === agentId ? l : { ...l, agentId }));
   }
 
   protected cancel(): void {
@@ -425,6 +418,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     if (!id) return;
     const agent = this.initial();
     this.agentsStore.deleteAgent(id);
+    this.linksStore.removeAgent(id);
     this.deleteVisible.set(false);
     this.formDirty.set(false);
     this.messages.add({
@@ -442,14 +436,13 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       name: '',
       extension: '',
       agentType: 'normal',
-      channels: new Set<AgentChannel>(['phone']),
       status: 'active',
       presenceStatus: 'disponible',
       phone: '',
       email: '',
       pin: '',
       pickupType: 'auto',
-      groupIds: new Set(),
+      links: [],
       permissions: { ...DEFAULT_AGENT_PERMISSIONS },
       photo: null,
       languages: [],
@@ -462,7 +455,6 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const next: Record<string, string> = {};
     if (!f.name.trim()) next['name'] = 'agents.errors.name_required';
     if (!f.extension) next['extension'] = 'agents.errors.extension_required';
-    if (f.channels.size === 0) next['channels'] = 'agents.errors.channels_required';
     const email = f.email.trim();
     if (email && !EMAIL_RE.test(email)) next['email'] = 'agents.errors.email_invalid';
     const pin = f.pin.trim();

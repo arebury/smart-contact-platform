@@ -1,0 +1,93 @@
+.tri-checkbox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  cursor: pointer;
+  user-select: none;
+  font-size: var(--sc-font-size-200);
+  color: var(--sc-text-secondary);
+
+  &--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  &__input {
+    position: absolute;
+    inset: 0;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+
+    &:focus-visible + .tri-checkbox__box {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
+  &__box {
+    width: 18px;
+    height: 18px;
+    flex: 0 0 auto;
+    border-radius: 4px;
+    border: 1.5px solid var(--sc-border-strong);
+    background: var(--sc-bg-surface);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background-color 100ms ease,
+      border-color 100ms ease;
+    pointer-events: none;
+  }
+
+  &__mark {
+    width: 10px;
+    height: 10px;
+    background: transparent;
+    border-radius: 1px;
+    pointer-events: none;
+    transition:
+      background-color 80ms ease,
+      transform 80ms ease;
+  }
+
+  /* checked: solid fill + checkmark using a CSS mask */
+  &__input:checked + .tri-checkbox__box {
+    background: var(--sc-color-blue-700);
+    border-color: var(--sc-color-blue-700);
+  }
+  &__input:checked + .tri-checkbox__box .tri-checkbox__mark {
+    background: var(--sc-color-gray-0);
+    -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 6.5l2.5 2.5L10 3.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+      center / contain no-repeat;
+    mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'><path d='M2 6.5l2.5 2.5L10 3.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+      center / contain no-repeat;
+  }
+
+  /* indeterminate: solid fill + horizontal bar */
+  &__input:indeterminate + .tri-checkbox__box {
+    background: var(--sc-color-blue-700);
+    border-color: var(--sc-color-blue-700);
+  }
+  &__input:indeterminate + .tri-checkbox__box .tri-checkbox__mark {
+    background: var(--sc-color-gray-0);
+    width: 10px;
+    height: 2px;
+    border-radius: 1px;
+  }
+
+  &__input:disabled + .tri-checkbox__box {
+    opacity: 0.5;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__box,
+    &__mark {
+      transition: none;
+    }
+  }
+}

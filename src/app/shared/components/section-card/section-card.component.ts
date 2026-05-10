@@ -6,11 +6,11 @@ import { TranslateModule } from '@ngx-translate/core';
  * Mirrors the prototype's `SectionCard` from `shared/FormComponents.tsx`.
  */
 @Component({
-    selector: 'aed-section-card',
-    imports: [TranslateModule],
-    templateUrl: './section-card.component.html',
-    styleUrl: './section-card.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-section-card',
+  imports: [TranslateModule],
+  templateUrl: './section-card.component.html',
+  styleUrl: './section-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionCardComponent {
   readonly titleKey = input.required<string>();

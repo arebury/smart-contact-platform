@@ -18,11 +18,11 @@ type LucideIcon = typeof Plus;
  * list flips between empty and populated.
  */
 @Component({
-    selector: 'aed-empty-state',
-    imports: [LucideAngularModule, TranslateModule],
-    templateUrl: './empty-state.component.html',
-    styleUrl: './empty-state.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-empty-state',
+  imports: [LucideAngularModule, TranslateModule],
+  templateUrl: './empty-state.component.html',
+  styleUrl: './empty-state.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmptyStateComponent {
   readonly icon = input.required<LucideIcon>();

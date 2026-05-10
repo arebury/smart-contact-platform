@@ -33,11 +33,11 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
  *      person-shaped).
  */
 @Component({
-    selector: 'aed-photo-upload',
-    imports: [IllustratedAvatarComponent, LucideAngularModule, TranslateModule],
-    templateUrl: './photo-upload.component.html',
-    styleUrl: './photo-upload.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-photo-upload',
+  imports: [IllustratedAvatarComponent, LucideAngularModule, TranslateModule],
+  templateUrl: './photo-upload.component.html',
+  styleUrl: './photo-upload.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PhotoUploadComponent {
   private readonly messages = inject(MessageService);

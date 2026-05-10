@@ -141,7 +141,7 @@
           class="accordion__chevron"
           aria-hidden="true"
         />
-        <lucide-icon [img]="keyIcon" [size]="14" class="accordion__icon"  aria-hidden="true" />
+        <lucide-icon [img]="keyIcon" [size]="14" class="accordion__icon" aria-hidden="true" />
         <span class="accordion__title">
           {{ 'config.seguridad.regen.title' | translate }}
         </span>
@@ -155,7 +155,12 @@
       @if (regenOpen()) {
         <div class="card__body">
           <div class="warning-callout">
-            <lucide-icon [img]="alertIcon" [size]="15" class="warning-callout__icon"  aria-hidden="true" />
+            <lucide-icon
+              [img]="alertIcon"
+              [size]="15"
+              class="warning-callout__icon"
+              aria-hidden="true"
+            />
             <div>
               <span class="warning-callout__title">
                 {{ 'config.seguridad.regen.warning_title' | translate }}
@@ -167,12 +172,17 @@
           </div>
 
           <div class="info-callout">
-            <lucide-icon [img]="infoIcon" [size]="14" class="info-callout__icon"  aria-hidden="true" />
+            <lucide-icon
+              [img]="infoIcon"
+              [size]="14"
+              class="info-callout__icon"
+              aria-hidden="true"
+            />
             <p>{{ 'config.seguridad.regen.use_case' | translate }}</p>
           </div>
 
           <div class="search">
-            <lucide-icon [img]="searchIcon" [size]="14" class="search__icon"  aria-hidden="true" />
+            <lucide-icon [img]="searchIcon" [size]="14" class="search__icon" aria-hidden="true" />
             <input
               type="text"
               class="search__input"
@@ -300,7 +310,12 @@
           @if (result(); as r) {
             <div class="result">
               <div class="result__summary">
-                <lucide-icon [img]="checkIcon" [size]="15" class="result__check"  aria-hidden="true" />
+                <lucide-icon
+                  [img]="checkIcon"
+                  [size]="15"
+                  class="result__check"
+                  aria-hidden="true"
+                />
                 <div>
                   <span class="result__count">
                     {{ 'config.seguridad.regen.result_count' | translate: { count: r.count } }}

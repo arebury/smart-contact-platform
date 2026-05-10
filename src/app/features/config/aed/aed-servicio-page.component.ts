@@ -95,11 +95,11 @@ const EVENTOS_LABELS: readonly (keyof EventosNotificacion)[] = [
  * two Guardar buttons). Discard reverts that card only.
  */
 @Component({
-    selector: 'aed-aed-servicio-page',
-    imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
-    templateUrl: './aed-servicio-page.component.html',
-    styleUrls: ['./aed-defaults-page.component.scss', './aed-servicio-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-aed-servicio-page',
+  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+  templateUrl: './aed-servicio-page.component.html',
+  styleUrls: ['./aed-defaults-page.component.scss', './aed-servicio-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AedServicioPageComponent {
   private readonly messages = inject(MessageService);

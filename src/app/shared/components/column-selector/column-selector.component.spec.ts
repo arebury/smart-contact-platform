@@ -2,10 +2,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  ColumnDef,
-  ColumnSelectorComponent,
-} from './column-selector.component';
+import { ColumnDef, ColumnSelectorComponent } from './column-selector.component';
 
 const STORAGE_KEY = 'sc_test_columns_v1';
 
@@ -79,10 +76,7 @@ describe('ColumnSelectorComponent', () => {
     });
 
     it('drops keys that no longer exist in the column declaration', () => {
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(['name', 'extension', 'status', 'gone']),
-      );
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(['name', 'extension', 'status', 'gone']));
       host.columns.set([
         { key: 'name', label: 'Name', locked: true },
         { key: 'extension', label: 'Extension' },
@@ -213,7 +207,10 @@ describe('ColumnSelectorComponent', () => {
       selector = getSelector();
     });
 
-    function dropEvent(previousIndex: number, currentIndex: number): CdkDragDrop<readonly ColumnDef[]> {
+    function dropEvent(
+      previousIndex: number,
+      currentIndex: number,
+    ): CdkDragDrop<readonly ColumnDef[]> {
       return {
         previousIndex,
         currentIndex,

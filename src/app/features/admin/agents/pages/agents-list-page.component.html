@@ -132,7 +132,9 @@
                     </th>
                   }
                   @case ('groups') {
-                    <th class="table__th-num" scope="col">{{ 'agents.table.groups' | translate }}</th>
+                    <th class="table__th-num" scope="col">
+                      {{ 'agents.table.groups' | translate }}
+                    </th>
                   }
                 }
               }
@@ -204,7 +206,7 @@
                     @case ('channels') {
                       <td class="table__td">
                         <span class="sc-channel-row">
-                          @for (channel of agent.channels; track channel) {
+                          @for (channel of channelsForAgent(agent.id); track channel) {
                             <span
                               class="sc-channel-row__item"
                               [attr.data-channel]="channel"
@@ -271,7 +273,7 @@
                     }
                     @case ('groups') {
                       <td class="table__td">
-                        <aed-group-popover [groups]="agent.groups" />
+                        <aed-group-popover [groups]="groupsForAgent(agent.id)" />
                       </td>
                     }
                   }

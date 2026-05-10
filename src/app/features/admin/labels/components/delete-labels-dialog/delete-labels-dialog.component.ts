@@ -15,11 +15,11 @@ import { Label } from '../../data/labels-data';
  * dialog in the app.
  */
 @Component({
-    selector: 'aed-delete-labels-dialog',
-    imports: [LabelChipComponent, ModalComponent, TranslateModule],
-    templateUrl: './delete-labels-dialog.component.html',
-    styleUrl: './delete-labels-dialog.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-delete-labels-dialog',
+  imports: [LabelChipComponent, ModalComponent, TranslateModule],
+  templateUrl: './delete-labels-dialog.component.html',
+  styleUrl: './delete-labels-dialog.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DeleteLabelsDialogComponent {
   private readonly translate = inject(TranslateService);

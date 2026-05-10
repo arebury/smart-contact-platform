@@ -1,4 +1,3 @@
-
 import { computed, effect, inject, Injectable, signal, DOCUMENT } from '@angular/core';
 
 export type ThemeMode = 'light' | 'dark' | 'system';

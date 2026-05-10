@@ -47,6 +47,7 @@ import {
   PRIORITY_LABEL_KEYS,
 } from '../data/groups-data';
 import { GroupBulkField, GroupsStore } from '../state/groups.store';
+import { GroupAgentLinksStore } from '@features/admin/services/group-agent-links.store';
 
 type SortField = 'name' | 'code' | 'priority' | 'agents' | 'strategy';
 
@@ -68,32 +69,38 @@ interface PendingBulkEdit {
 const COLUMN_PREF_KEY = 'sc_groups_columns_v2';
 
 @Component({
-    selector: 'aed-groups-list-page',
-    imports: [
-        BulkActionBarComponent,
-        BulkEditMenuComponent,
-        ClickOutsideDirective,
-        ColumnSelectorComponent,
-        DeleteEntityDialogComponent,
-        EmptyStateComponent,
-        IllustratedAvatarComponent,
-        ImpactPreviewDialogComponent,
-        InlineRenameCellComponent,
-        LucideAngularModule,
-        SortableHeaderDirective,
-        TranslateModule,
-    ],
-    templateUrl: './groups-list-page.component.html',
-    styleUrl: './groups-list-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-groups-list-page',
+  imports: [
+    BulkActionBarComponent,
+    BulkEditMenuComponent,
+    ClickOutsideDirective,
+    ColumnSelectorComponent,
+    DeleteEntityDialogComponent,
+    EmptyStateComponent,
+    IllustratedAvatarComponent,
+    ImpactPreviewDialogComponent,
+    InlineRenameCellComponent,
+    LucideAngularModule,
+    SortableHeaderDirective,
+    TranslateModule,
+  ],
+  templateUrl: './groups-list-page.component.html',
+  styleUrl: './groups-list-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsListPageComponent {
   private readonly groupsStore = inject(GroupsStore);
+  private readonly linksStore = inject(GroupAgentLinksStore);
   private readonly xlsx = inject(XlsxExportService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
   private readonly undoStack = inject(UndoStackService);
+
+  /** Derived count of agents assigned to a group. */
+  protected assignedCountForGroup(groupId: number): number {
+    return this.linksStore.linksForGroup(groupId).length;
+  }
 
   protected readonly plusIcon = Plus;
   protected readonly searchIcon = Search;
@@ -189,7 +196,7 @@ export class GroupsListPageComponent {
           cmp = a.priority.localeCompare(b.priority);
           break;
         case 'agents':
-          cmp = a.assignedAgents.length - b.assignedAgents.length;
+          cmp = this.assignedCountForGroup(a.id) - this.assignedCountForGroup(b.id);
           break;
         case 'strategy':
           cmp = a.strategy.localeCompare(b.strategy);
@@ -217,7 +224,11 @@ export class GroupsListPageComponent {
     const ids = this.selectedIds();
     return this.groups()
       .filter((g) => ids.has(g.id))
-      .map((g) => ({ id: g.id, name: g.name, hint: `(${g.assignedAgents.length} agentes)` }));
+      .map((g) => ({
+        id: g.id,
+        name: g.name,
+        hint: `(${this.assignedCountForGroup(g.id)} agentes)`,
+      }));
   });
 
   protected readonly impactBadge = computed<ImpactBadge | null>(() => {
@@ -396,6 +407,7 @@ export class GroupsListPageComponent {
 
     if (ids.length === 1) {
       this.groupsStore.deleteGroup(ids[0]!);
+      this.linksStore.removeGroup(ids[0]!);
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('groups.toasts.deleted_single', {
@@ -405,6 +417,7 @@ export class GroupsListPageComponent {
       });
     } else {
       this.groupsStore.deleteGroups(ids);
+      for (const id of ids) this.linksStore.removeGroup(id);
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('groups.toasts.deleted_bulk', { count: ids.length }),
@@ -487,7 +500,7 @@ export class GroupsListPageComponent {
       this.translate.instant(this.priorityKeys[g.priority]),
       g.strategy,
       g.channels.map((c) => this.translate.instant(this.channelKeys[c])).join(', '),
-      g.assignedAgents.length,
+      this.assignedCountForGroup(g.id),
     ]);
     this.xlsx.export({
       headers,

@@ -25,7 +25,12 @@
                   <span class="hub-item__description">{{ item.descriptionKey | translate }}</span>
                 </span>
                 @if (item.ready) {
-                  <lucide-icon class="hub-item__chevron" [img]="chevronIcon" [size]="15"  aria-hidden="true" />
+                  <lucide-icon
+                    class="hub-item__chevron"
+                    [img]="chevronIcon"
+                    [size]="15"
+                    aria-hidden="true"
+                  />
                 } @else {
                   <span class="hub-item__soon">
                     {{ 'repositories.hub.coming_soon' | translate }}

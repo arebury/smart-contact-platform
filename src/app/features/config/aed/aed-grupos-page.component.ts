@@ -50,11 +50,11 @@ const DEFAULT_FORM: FormState = {
  * link and the Guardar button (only enabled while dirty).
  */
 @Component({
-    selector: 'aed-aed-grupos-page',
-    imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
-    templateUrl: './aed-grupos-page.component.html',
-    styleUrl: './aed-defaults-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-aed-grupos-page',
+  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+  templateUrl: './aed-grupos-page.component.html',
+  styleUrl: './aed-defaults-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AedGruposPageComponent {
   private readonly messages = inject(MessageService);

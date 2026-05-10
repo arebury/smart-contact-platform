@@ -17,11 +17,11 @@ const HOVER_LEAVE_DELAY_MS = 150;
  * on hover, accessible via keyboard too).
  */
 @Component({
-    selector: 'aed-group-popover',
-    imports: [TranslateModule],
-    templateUrl: './group-popover.component.html',
-    styleUrl: './group-popover.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-group-popover',
+  imports: [TranslateModule],
+  templateUrl: './group-popover.component.html',
+  styleUrl: './group-popover.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupPopoverComponent {
   readonly groups = input.required<readonly GroupRef[]>();

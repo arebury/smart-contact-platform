@@ -22,11 +22,11 @@ interface SettingsNavItem {
  * class, not the aria attribute, so we mirror it manually below.
  */
 @Component({
-    selector: 'aed-settings-sidebar',
-    imports: [LucideAngularModule, RouterLink, RouterLinkActive, TranslateModule],
-    templateUrl: './settings-sidebar.component.html',
-    styleUrl: './settings-sidebar.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-settings-sidebar',
+  imports: [LucideAngularModule, RouterLink, RouterLinkActive, TranslateModule],
+  templateUrl: './settings-sidebar.component.html',
+  styleUrl: './settings-sidebar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsSidebarComponent {
   protected readonly items: readonly SettingsNavItem[] = [

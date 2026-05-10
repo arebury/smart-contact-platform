@@ -164,10 +164,10 @@ const FIELDS: readonly RepoFieldDef[] = [
 ];
 
 @Component({
-    selector: 'aed-intenciones-page',
-    imports: [RepoListPageComponent],
-    template: `<aed-repo-list-page [config]="config" [store]="store" />`,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-intenciones-page',
+  imports: [RepoListPageComponent],
+  template: `<aed-repo-list-page [config]="config" [store]="store" />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IntencionesPageComponent {
   protected readonly store = inject(IntencionesStore);

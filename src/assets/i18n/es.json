@@ -549,7 +549,25 @@
         "strategy": "Estrategia",
         "strategy_hint": "Cómo se distribuyen las llamadas y chats entre los agentes",
         "agents": "Agentes asignados",
-        "agents_hint": "Arrastra para reordenar la prioridad de atención"
+        "agents_hint": "Define qué canales atiende cada agente y si está activo"
+      },
+      "assigned": {
+        "picker_placeholder": "Buscar o añadir agente…",
+        "picker_aria": "Añadir agente al grupo",
+        "filter_placeholder": "Filtrar agentes asignados…",
+        "filter_aria": "Filtrar agentes asignados",
+        "counter": "{{assigned}} asignados · {{zero}} sin canales",
+        "empty": "Aún no hay agentes asignados a este grupo. Usa el buscador para añadir.",
+        "no_results": "Ningún agente asignado coincide con el filtro.",
+        "col_agent": "Agente",
+        "col_active": "Activo",
+        "toggle_all_channel": "Activar/desactivar {{channel}} en todos los visibles",
+        "active_aria": "Pausar a {{name}} en este grupo",
+        "remove_aria": "Quitar a {{name}} del grupo",
+        "warn_no_channels": "Activo pero sin canales asignados",
+        "bulk_count": "{{count}} seleccionados",
+        "bulk_pause": "Pausar",
+        "bulk_unassign": "Quitar del grupo"
       },
       "fields": {
         "name": "Nombre",
@@ -568,6 +586,11 @@
       "all_assigned": "Todos los agentes están asignados",
       "add_agent": "Añadir agente",
       "remove_agent": "Quitar agente",
+      "cascade": {
+        "title": "Vas a quitar canales",
+        "body": "Esto desactivará {{channels}} para {{count}} agentes asignados a este grupo. ¿Continuar?",
+        "confirm": "Sí, quitar"
+      },
       "danger_zone_description": "Eliminar este grupo lo retira de las reglas y rutas que lo referencian. La acción no se puede deshacer."
     },
     "errors": {
@@ -672,7 +695,7 @@
         "labels": "Etiquetas",
         "labels_hint": "Categorías que ayudan a filtrar y organizar agentes",
         "groups": "Grupos asignados",
-        "groups_hint": "Colas de atención en las que el agente participa",
+        "groups_hint": "En qué grupos trabaja el agente y qué canales atiende en cada uno",
         "permissions": "Permisos",
         "permissions_hint": "Capacidades específicas del agente"
       },
@@ -696,6 +719,18 @@
       },
       "labels_placeholder": "Añadir etiqueta…",
       "labels_empty": "Aún no hay etiquetas. Crea una desde la sección Etiquetas.",
+      "assigned": {
+        "picker_placeholder": "Buscar o añadir grupo…",
+        "picker_aria": "Añadir grupo al agente",
+        "counter": "{{count}} grupos",
+        "empty": "Aún no hay grupos asignados a este agente. Usa el buscador para añadir.",
+        "col_group": "Grupo",
+        "col_offer": "Canales del grupo",
+        "col_channels_here": "Sus canales aquí",
+        "col_active": "Activo",
+        "active_aria": "Pausar al agente en {{name}}",
+        "remove_aria": "Quitar al agente de {{name}}"
+      },
       "permissions": {
         "devices": "Dispositivos",
         "calls": "Llamadas salientes",

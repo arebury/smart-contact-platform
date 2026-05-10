@@ -13,11 +13,11 @@ export interface LabelChipModel {
  * row, picker selection…). Optionally renders a × button for removal flows.
  */
 @Component({
-    selector: 'aed-label-chip',
-    imports: [LucideAngularModule],
-    templateUrl: './label-chip.component.html',
-    styleUrl: './label-chip.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-label-chip',
+  imports: [LucideAngularModule],
+  templateUrl: './label-chip.component.html',
+  styleUrl: './label-chip.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LabelChipComponent {
   readonly label = input.required<LabelChipModel>();

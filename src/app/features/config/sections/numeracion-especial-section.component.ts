@@ -18,11 +18,11 @@ import { COUNTRY_PREFIXES, type CountryPrefix } from '../data/country-prefixes';
  * defaults, so the country picker no longer fits there conceptually.
  */
 @Component({
-    selector: 'aed-numeracion-especial-section',
-    imports: [LucideAngularModule, TranslateModule],
-    templateUrl: './numeracion-especial-section.component.html',
-    styleUrl: './numeracion-especial-section.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-numeracion-especial-section',
+  imports: [LucideAngularModule, TranslateModule],
+  templateUrl: './numeracion-especial-section.component.html',
+  styleUrl: './numeracion-especial-section.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NumeracionEspecialSectionComponent {
   private readonly messages = inject(MessageService);

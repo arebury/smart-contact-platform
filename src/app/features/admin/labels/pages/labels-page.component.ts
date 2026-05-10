@@ -35,20 +35,20 @@ interface ContextMenuPos {
 }
 
 @Component({
-    selector: 'aed-labels-page',
-    imports: [
-        BulkActionBarComponent,
-        ClickOutsideDirective,
-        DeleteLabelsDialogComponent,
-        FormsModule,
-        LabelChipComponent,
-        LabelFormPanelComponent,
-        LucideAngularModule,
-        TranslateModule,
-    ],
-    templateUrl: './labels-page.component.html',
-    styleUrl: './labels-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-labels-page',
+  imports: [
+    BulkActionBarComponent,
+    ClickOutsideDirective,
+    DeleteLabelsDialogComponent,
+    FormsModule,
+    LabelChipComponent,
+    LabelFormPanelComponent,
+    LucideAngularModule,
+    TranslateModule,
+  ],
+  templateUrl: './labels-page.component.html',
+  styleUrl: './labels-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LabelsPageComponent {
   private readonly labelsStore = inject(LabelsStore);

@@ -268,7 +268,8 @@
 }
 
 @keyframes ipanel-dot-pulse {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 0 0 0 color-mix(in oklch, currentColor 50%, transparent);
   }
   50% {
@@ -277,14 +278,26 @@
 }
 
 @keyframes status-pop-active {
-  0%   { transform: scale(0.94); }
-  55%  { transform: scale(1.05); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.94);
+  }
+  55% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 @keyframes status-pop-inactive {
-  0%   { transform: scale(0.94); }
-  55%  { transform: scale(1.05); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.94);
+  }
+  55% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

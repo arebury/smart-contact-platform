@@ -1,4 +1,3 @@
-import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,7 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { GripVertical, LucideAngularModule, Phone, Plus, Trash2, X } from 'lucide-angular';
+import { LucideAngularModule, Phone } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -22,6 +21,7 @@ import {
   FormSectionNavComponent,
   type FormNavSection,
   IllustratedAvatarComponent,
+  ModalComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
   ToggleSwitchComponent,
@@ -36,9 +36,17 @@ import {
   GroupPriority,
   PHONE_STRATEGIES,
   PRIORITY_LABEL_KEYS,
-  ROSTER_AGENTS,
 } from '../data/groups-data';
 import { GroupsStore } from '../state/groups.store';
+
+import { AgentsStore } from '@features/admin/agents/state/agents.store';
+import { GroupAgentLinksStore } from '@features/admin/services/group-agent-links.store';
+import { GroupAgentLink } from '@features/admin/services/group-agent-links.types';
+
+import {
+  AgentChannelTableAgent,
+  AgentChannelTableComponent,
+} from '../components/agent-channel-table/agent-channel-table.component';
 
 interface FormState {
   name: string;
@@ -49,32 +57,34 @@ interface FormState {
   strategy: string;
   chatStrategy: string;
   capacityValue: string;
-  assignedAgents: string[];
+  links: readonly GroupAgentLink[];
 }
 
 @Component({
-    selector: 'aed-group-form-page',
-    imports: [
-        CdkDrag,
-        CdkDropList,
-        DeleteEntityDialogComponent,
-        FormDangerZoneComponent,
-        FormSectionNavComponent,
-        IllustratedAvatarComponent,
-        LucideAngularModule,
-        SectionCardComponent,
-        StickyFormHeaderComponent,
-        ToggleSwitchComponent,
-        TranslateModule,
-    ],
-    templateUrl: './group-form-page.component.html',
-    styleUrl: './group-form-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-group-form-page',
+  imports: [
+    AgentChannelTableComponent,
+    DeleteEntityDialogComponent,
+    FormDangerZoneComponent,
+    FormSectionNavComponent,
+    IllustratedAvatarComponent,
+    LucideAngularModule,
+    ModalComponent,
+    SectionCardComponent,
+    StickyFormHeaderComponent,
+    ToggleSwitchComponent,
+    TranslateModule,
+  ],
+  templateUrl: './group-form-page.component.html',
+  styleUrl: './group-form-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly groupsStore = inject(GroupsStore);
+  private readonly agentsStore = inject(AgentsStore);
+  private readonly linksStore = inject(GroupAgentLinksStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly crossTab = inject(CrossTabLockService);
@@ -85,7 +95,6 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;
   protected readonly phoneStrategies = PHONE_STRATEGIES;
   protected readonly chatStrategies = CHAT_STRATEGIES;
-  protected readonly rosterAgents = ROSTER_AGENTS;
 
   protected readonly navSections: readonly FormNavSection[] = [
     { id: 'group-section-identity', labelKey: 'groups.form.section.identity' },
@@ -94,10 +103,6 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     { id: 'group-section-agents', labelKey: 'groups.form.section.agents' },
   ];
 
-  protected readonly plusIcon = Plus;
-  protected readonly closeIcon = X;
-  protected readonly trashIcon = Trash2;
-  protected readonly gripIcon = GripVertical;
   protected readonly phoneIcon = Phone;
 
   protected readonly editingId = signal<number | null>(null);
@@ -106,6 +111,17 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly errors = signal<Readonly<Record<string, string>>>({});
   protected readonly saving = signal(false);
   protected readonly deleteVisible = signal(false);
+
+  /** Channels the group owned when the form was loaded — used to detect
+   *  cascade impact when the user removes a channel before saving. */
+  private readonly initialChannels = signal<ReadonlySet<GroupChannel>>(new Set());
+  /** Links as they stood when the form was loaded — used to count how
+   *  many agents had a removed channel enabled. */
+  private readonly initialLinks = signal<readonly GroupAgentLink[]>([]);
+  protected readonly cascadeConfirm = signal<{
+    readonly removed: readonly GroupChannel[];
+    readonly affected: number;
+  } | null>(null);
 
   readonly formDirty = signal(false);
   protected readonly conflictWarning = signal(false);
@@ -118,13 +134,22 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     return f.name.trim().length > 0 && f.channels.size > 0;
   });
 
-  protected readonly availableAgents = computed(() => {
-    const used = new Set(this.form().assignedAgents);
-    return this.rosterAgents.filter((agent) => !used.has(agent));
-  });
-
   protected readonly hasChat = computed(() => this.form().channels.has('chat'));
   protected readonly hasFixedCapacity = computed(() => this.form().channels.has('phone'));
+
+  /** Roster passed to the channel table — every agent in the system. */
+  protected readonly availableAgents = computed<readonly AgentChannelTableAgent[]>(() =>
+    this.agentsStore.agents().map((a) => ({
+      id: a.id,
+      name: a.name,
+      photo: a.photo,
+    })),
+  );
+
+  /** The form's group channels expressed as an array (for the table input). */
+  protected readonly formGroupChannels = computed<readonly GroupChannel[]>(() =>
+    GROUP_CHANNELS.filter((c) => this.form().channels.has(c)),
+  );
 
   protected readonly deleteItems = computed(() => {
     const g = this.initial();
@@ -141,6 +166,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       }
       this.editingId.set(group.id);
       this.initial.set(group);
+      const seedLinks = this.linksStore.linksForGroup(group.id);
       this.form.set({
         name: group.name,
         phone: group.phone,
@@ -150,8 +176,10 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         strategy: group.strategy,
         chatStrategy: group.chatStrategy ?? CHAT_STRATEGIES[0]!,
         capacityValue: group.capacityValue ?? '',
-        assignedAgents: [...group.assignedAgents],
+        links: seedLinks,
       });
+      this.initialChannels.set(new Set(group.channels));
+      this.initialLinks.set(seedLinks);
       this.releaseLock = this.crossTab.acquire('group', group.id, () =>
         this.conflictWarning.set(true),
       );
@@ -207,7 +235,13 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       const next = new Set(f.channels);
       if (next.has(channel)) next.delete(channel);
       else next.add(channel);
-      return { ...f, channels: next };
+      // Clamp every link's channels to the new group offering.
+      const allowed = next;
+      const clampedLinks = f.links.map((l) => {
+        const filtered = l.channels.filter((c) => allowed.has(c));
+        return filtered.length === l.channels.length ? l : { ...l, channels: filtered };
+      });
+      return { ...f, channels: next, links: clampedLinks };
     });
   }
 
@@ -215,62 +249,9 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     return this.form().channels.has(channel);
   }
 
-  protected addAgent(name: string): void {
+  protected onLinksChange(links: readonly GroupAgentLink[]): void {
     this.formDirty.set(true);
-    this.form.update((f) =>
-      f.assignedAgents.includes(name) ? f : { ...f, assignedAgents: [...f.assignedAgents, name] },
-    );
-  }
-
-  protected removeAgent(name: string): void {
-    this.formDirty.set(true);
-    this.form.update((f) => ({
-      ...f,
-      assignedAgents: f.assignedAgents.filter((a) => a !== name),
-    }));
-  }
-
-  protected onAgentDrop(event: CdkDragDrop<string[]>): void {
-    const fromAssigned = event.previousContainer.id === 'assigned-list';
-    const toAssigned = event.container.id === 'assigned-list';
-    const agent = event.item.data as string;
-
-    // Same container — only meaningful for assigned (the available list is
-    // recomputed from the assigned diff, no drag-order to preserve there).
-    if (fromAssigned && toAssigned) {
-      if (event.previousIndex === event.currentIndex) return;
-      this.formDirty.set(true);
-      this.form.update((f) => {
-        const next = [...f.assignedAgents];
-        moveItemInArray(next, event.previousIndex, event.currentIndex);
-        return { ...f, assignedAgents: next };
-      });
-      return;
-    }
-
-    // Available → Assigned: insert at the drop index.
-    if (!fromAssigned && toAssigned) {
-      if (!agent) return;
-      this.formDirty.set(true);
-      this.form.update((f) => {
-        if (f.assignedAgents.includes(agent)) return f;
-        const next = [...f.assignedAgents];
-        next.splice(event.currentIndex, 0, agent);
-        return { ...f, assignedAgents: next };
-      });
-      return;
-    }
-
-    // Assigned → Available: drop = remove from assigned. The roster
-    // recomputes automatically via the `availableAgents()` signal.
-    if (fromAssigned && !toAssigned) {
-      if (!agent) return;
-      this.formDirty.set(true);
-      this.form.update((f) => ({
-        ...f,
-        assignedAgents: f.assignedAgents.filter((a) => a !== agent),
-      }));
-    }
+    this.form.update((f) => ({ ...f, links }));
   }
 
   protected onNameRename(name: string): void {
@@ -280,6 +261,24 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected save(): void {
     if (!this.canSave() || this.saving()) return;
     if (!this.validate()) return;
+
+    // If the user removed any channel the group used to own, surface the
+    // cascade impact before persisting. The dialog's "Continuar" handler
+    // re-enters `save()` with `cascadeConfirm` already shown so this guard
+    // only fires once per save.
+    if (this.editingId() && !this.cascadeConfirm()) {
+      const removed = [...this.initialChannels()].filter((c) => !this.form().channels.has(c));
+      if (removed.length > 0) {
+        const removedSet = new Set(removed);
+        const affected = this.initialLinks().filter((l) =>
+          l.channels.some((c) => removedSet.has(c)),
+        ).length;
+        if (affected > 0) {
+          this.cascadeConfirm.set({ removed, affected });
+          return;
+        }
+      }
+    }
 
     this.saving.set(true);
     setTimeout(() => {
@@ -295,12 +294,12 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         capacityValue: f.channels.has('phone') ? f.capacityValue.trim() || undefined : undefined,
         capacityType:
           f.channels.has('phone') && f.capacityValue.trim() ? ('fixed' as const) : undefined,
-        assignedAgents: f.assignedAgents,
       };
 
       const editingId = this.editingId();
       if (editingId) {
         this.groupsStore.updateGroup(editingId, { ...payload, isDraft: undefined });
+        this.linksStore.replaceLinksForGroup(editingId, this.normalizeLinks(f.links, editingId));
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('groups.toasts.updated', { name: payload.name }),
@@ -308,6 +307,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         });
       } else {
         const created = this.groupsStore.addGroup(payload);
+        this.linksStore.replaceLinksForGroup(created.id, this.normalizeLinks(f.links, created.id));
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('groups.toasts.created', { name: created.name }),
@@ -324,6 +324,20 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     void this.router.navigateByUrl('/admin/grupos');
   }
 
+  protected cancelCascade(): void {
+    this.cascadeConfirm.set(null);
+  }
+
+  protected confirmCascade(): void {
+    // Re-enter save() — the guard sees `cascadeConfirm` is set and skips the check.
+    this.save();
+    this.cascadeConfirm.set(null);
+  }
+
+  protected channelLabel(c: GroupChannel): string {
+    return this.translate.instant(this.channelKeys[c]);
+  }
+
   protected requestDelete(): void {
     if (this.editingId()) this.deleteVisible.set(true);
   }
@@ -337,6 +351,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     if (!id) return;
     const group = this.initial();
     this.groupsStore.deleteGroup(id);
+    this.linksStore.removeGroup(id);
     this.deleteVisible.set(false);
     this.formDirty.set(false);
     this.messages.add({
@@ -359,8 +374,16 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       strategy: PHONE_STRATEGIES[0]!,
       chatStrategy: CHAT_STRATEGIES[0]!,
       capacityValue: '',
-      assignedAgents: [],
+      links: [],
     };
+  }
+
+  /** Ensure every link points to the right groupId before persistence. */
+  private normalizeLinks(
+    links: readonly GroupAgentLink[],
+    groupId: number,
+  ): readonly GroupAgentLink[] {
+    return links.map((l) => (l.groupId === groupId ? l : { ...l, groupId }));
   }
 
   private validate(): boolean {
