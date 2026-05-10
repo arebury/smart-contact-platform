@@ -10,49 +10,178 @@
 
 ---
 
-## 2026-05-10/11 · Session 20 — Modal real-fix + impeccable pass + permisos matriz + audit
+## 2026-05-10/11 · Session 20 — Modal real-fix + permisos polish + cross-form audit + matrix extract (PR #22 + #23)
 
-> Branch `fix/discard-modal-density`. Follow-up polish on top of DD#53.
-> PR #22 had a broken modal fix; this session ships the real fix +
-> impeccable findings on the group-assignment table + the canonical
-> matrix layout for agent permissions + an inconsistency audit.
+> Two merged PRs (#22 → `6e8b090`, #23 → `e74c32b`). Follow-up arc
+> on top of DD#53. Locks in DD#54 (modal footer split intent) and
+> DD#55 (perm-matrix moves to `_forms.scss`). Closes audit #1 of 6.
 
-**Worked on**
+### What this session was about
 
-- **Modal real fix.** Three stacked bugs in confirm-host: invalid
-  `:host` selector nesting (broke `.btn min-width`), invalid
-  `justify-content: stretch` on flex main-axis (silently fell back to
-  flex-start), and content-projection of bare buttons inside @if/@else
-  triggering NG8011. Fixed by wrapping projected content in a single
-  `<div modal-actions class="confirm-host__actions">` and using
-  `flex: 1 1 0` on `.btn` children for true 50/50 split. Top-level
-  `:host ::ng-deep` rule moved out of nested block.
+DD#53 shipped the per-agent-per-group channel-permission refactor.
+This session does the polish, the visual fidelity, and the structural
+clean-up that DD#53 didn't have time to land:
 
-- **Impeccable pass on `aed-group-assignment-table`.** Dropped the
-  duplicate "Canales del grupo" offer column (channels were already
-  shown as checkboxes on each row — the offer column was noise). Added
-  a dedicated `chip--off` modifier (dashed border + muted text) so
-  off-state is distinguishable from read-only pills. i18n keys
-  `col_offer` and `col_channels_here` cleaned up.
+1. The discard-modal regression PR #21 introduced and PR #22's first
+   attempt failed to fix (three stacked CSS bugs).
+2. The `aed-group-assignment-table` /impeccable pass deferred from
+   DD#53.
+3. The agent-form permissions section being a stack of generic
+   permission-blocks instead of the canonical matrix layout already
+   used by `/admin/aed/agentes`.
+4. The user-introduced UX bar: "no solo checkboxes" — the permissions
+   block should feel deliberate, with iconography and inline tooltips,
+   not raw form fields.
+5. A cross-form drift audit driven by the user's reflex "haz una
+   auditoría clara de inconsistencias" — turned into actionable
+   tech-debt tracked alongside other roadmap items.
 
-- **Agent permissions section rebuilt** to match the canonical
-  `/admin/aed/agentes` matrix layout: three `perm-toggle-row` blocks
-  (manageDevices / selfActivate / externalDevices) + a `perm-matrix`
-  table with column-header select-all checkboxes and 4 destino rows
-  (Fijos / Móviles / Internacionales / Especial). Mapped matrix
-  coordinates to flat `AgentPermissions` keys via
-  `PERMISSION_MATRIX_KEYS` lookup table.
+### Worked on
 
-- **Inconsistency audit** (in-chat only, not persisted). 7 findings;
-  top-2 priorities for next session: extract the duplicated matrix CSS
-  (`.perm-matrix` vs `.permisos-table`) into a shared component, and
-  delete the dead `.toggle` SCSS block in user-form-page.
+- **Modal real fix** (commit `548cf48`). Three independent bugs in
+  `confirm-host`:
+  - `:host ::ng-deep` nested inside `.aed-modal {…}` resolves to
+    `.aed-modal :host …` which never matches → `.btn min-width` rule
+    silently died.
+  - `justify-content: stretch` is invalid on flex main-axis → fell
+    back to `flex-start`, buttons stuck left.
+  - Bare `<button>`s projected inside `@if/@else` triggered Angular
+    NG8011 (multiple root nodes per content-projection slot).
 
-**Result**
+  Fix: wrap projected actions in a single
+  `<div modal-actions class="confirm-host__actions">`; use
+  `flex: 1 1 0` on `.btn` children for true 50/50; move
+  `:host ::ng-deep` rule to top level. Documented as DD#54.
 
-- 163 tests passing. Lint + format + tsc-noEmit clean.
-- Branch `fix/discard-modal-density` ahead of `origin` with new
-  commits; PR #22 supersedes the earlier broken modal fix.
+- **Impeccable pass on `aed-group-assignment-table`** (commit
+  `07a83c5`). Dropped the duplicate "Canales del grupo" offer column
+  (channels were already on each row — the column was noise). Added
+  `chip--off` modifier (dashed border + muted text) so off-channels
+  read as toggleable, not as read-only pills. i18n keys `col_offer`
+  cleaned, `col_channels_here` renamed to "Canales en este grupo".
+
+- **Agent permissions section** rebuilt twice in this session:
+  - First pass (commit `07a83c5`): replaced 3 `permission-block`
+    cards with 3 `perm-toggle-row` (manageDevices / selfActivate /
+    externalDevices) + a `.perm-matrix` table mirroring
+    `/admin/aed/agentes`. Added `PERMISSION_MATRIX_KEYS` lookup to
+    map matrix (row, col) → flat `AgentPermissions` keys.
+  - Second pass after user shared target screenshot (commit
+    `50e7999`): dropped the "Dispositivos externos" toggle (that
+    setting lives globally in `/admin/aed/agentes`, not per-agent),
+    replaced stacked "label + hint below" with "label + inline (i)
+    button with tooltip" — keeps row height constant, kills vertical
+    noise. Reordered matrix column headers to `LLAMADAS ☐` /
+    `TRANSFERENCIAS ☐` (label before checkbox, matching Voice's
+    Figura 15). Dead code purge: dropped `DEVICE_PERMISSIONS`,
+    `CALL_PERMISSIONS`, `TRANSFER_PERMISSIONS` arrays +
+    `PermissionGroupDef` type from `agents-data.ts`, removed the
+    three protected fields that exposed them, dropped 19 orphan i18n
+    keys (14 `agents.permission.*` plus 5 `agents.form.permissions.*`).
+
+- **`aed-section-card` icon extension** (commit `50e7999`). New
+  optional `icon` input typed `LucideIcon | null`. Passed `ShieldCheck`
+  on the agent-form's "Permisos" card. Decoupled from the
+  `NAV_ICONS` registry: callers import any Lucide icon directly. A
+  small, generic upgrade — group-form and user-form can adopt the
+  same pattern when they want their own section icons.
+
+- **Cross-form inconsistencies audit.** Initially drafted as
+  `docs/inconsistencies-audit.md`, then dropped per user feedback
+  ("no hace falta hacer md… solo quiero analizarlas"). On user
+  reconsideration, persisted in `roadmap.md → UI consistency debt`
+  as 6 prioritised tech-debt items so they enter the natural
+  backlog rotation. Memory updated:
+  [`feedback_no_audit_docs.md`](memory/feedback_no_audit_docs.md)
+  records the default behaviour going forward.
+
+- **Audit #1 — perm-matrix extracted** (commit `3b4c813`, PR #23 →
+  `e74c32b`). Promoted `.perm-matrix` to `src/styles/_forms.scss`
+  as a single canonical block. Migrated `/admin/aed/agentes` to
+  reference the same class (renaming `.permisos-table` →
+  `.perm-matrix` and removing the divergent local SCSS). Side fix:
+  reordered aed-agentes' column-header DOM to label-before-checkbox
+  for parity with agent-form. Net: `+145 / −158` lines. Documented
+  as DD#55.
+
+### Decisions locked
+
+- **[DD#54](DECISIONS.md#54)** — Confirm-host modal uses 50/50 split
+  footer; base modal stays flush-right.
+- **[DD#55](DECISIONS.md#55)** — Permission matrix lives in
+  `_forms.scss` as a shared block, not as a real shared component
+  (data shapes differ enough that a component would cost more than
+  it saves).
+
+### Result
+
+- Two PRs merged into `main`: PR #22 (`6e8b090`), PR #23 (`e74c32b`).
+- 163 tests passing throughout. Lint + format + tsc-noEmit clean.
+- Working tree clean at end of session.
+
+### Outstanding — UI consistency debt (5 remaining)
+
+In [`roadmap.md → UI consistency debt`](roadmap.md#ui-consistency-debt--cross-form-drift-dd54-audit--2026-05-11),
+ordered by priority. Audit #1 was the highest-value item and is now
+✅. The rest:
+
+1. **Pill status hex literals + animation drift** (Media). group-form
+   and user-form use hardcoded `#1a8a4a`/`#1a6a3a` for status pills;
+   agent-form uses `--sc-presence-*` tokens *and* a pop animation.
+   Fix: tokenize + decide animation on/off uniformly across forms.
+2. **Dead `.toggle` SCSS** in
+   `user-form-page.component.scss:124-169` (Media, ~5 min). Track +
+   thumb declared but unused — the form uses `<aed-toggle-switch>`.
+   Just delete.
+3. **Tri-state vs binary matrix headers** (Baja). `.perm-matrix`
+   headers use plain `<input type="checkbox">`; when you uncheck a
+   single body row, the header stays `checked` (sutile bug).
+   `agent-channel-table` already uses `<aed-tri-state-checkbox>`.
+   Sustituirlo en los dos consumers de `.perm-matrix`.
+4. **Avatar size mismatch** (Baja). `agent-channel-table` uses
+   `[size]="26"` (illustrated pool), `group-assignment-table` uses
+   `[size]="22"` (abstract pool). Igualar a 24.
+5. **Modal footer layout intent undocumented** (Baja). Add an
+   explanatory comment in `confirm-host.component.scss` noting why
+   its footer overrides the base modal (DD#54 is the rationale,
+   but a future contributor needs the marker in-code too).
+
+### Next session pickup
+
+- Tree state: `main` at `e74c32b`. No pending branches.
+- Natural next move: knock out audit #2 (`.toggle` dead block) as a
+  warm-up — 5-min PR, low risk, closes the second-highest-priority
+  item on the audit. After that, pick #1 (pill drift) or #3
+  (tri-state) — both are real refactors with their own branch.
+- The deferred Phase 3.7 column-visibility selector + frozen-column
+  data table on the Agents list is still outstanding; lands when
+  the `MultiSelectChip` and `FileUpload` shared primitives are
+  built (see `roadmap.md → 3.7 Agents`).
+
+### Known environment issues (do not re-diagnose)
+
+- **Dev server primeicons resolution.** A fresh `npm start` after a
+  full restart fails with
+  `Could not resolve "./fonts/primeicons.woff2"` etc. — the
+  `node_modules/primeicons/fonts/` folder is missing from the
+  package install. The previous server stays up because the bundle
+  was compiled before the issue surfaced. Workaround if a clean
+  restart is needed: reinstall primeicons (`npm i primeicons --force`
+  or delete `node_modules/primeicons` and reinstall). This is NOT a
+  blocker for source-level work or for CI (`npm test` compiles
+  cleanly because it uses Karma's own compile path, not the esbuild
+  dev server). Tracked here so the next session doesn't re-derive.
+- **Node 25 warning** on every `npm run lint`. Cosmetic. Ignore.
+
+### Voice manual reference
+
+The legacy platform's user manual (Voice / Suite Voice, PDF, page 20
+Figura 15) is the canonical visual brief for the per-(agent, group)
+permission flow and the destino-matrix layout. The migration target
+is capability parity with Voice, not pixel-parity. The user's
+brand-voice direction (`.impeccable.md`): **calm · dense ·
+operational** — like Linear / Stripe internal, not "modern SaaS"
+marketing.
 
 ---
 

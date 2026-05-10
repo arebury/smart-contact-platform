@@ -239,7 +239,7 @@ Catalogued during DD#54 wrap-up. Six items grouped by priority. Pick from
 the top in the next polish session.
 
 - ~~**Permission matrix duplicated** between agent-form (`.perm-matrix`) and
-  `/admin/aed/agentes` (`.permisos-table`)~~. ✅ **Done (2026-05-11).**
+  `/admin/aed/agentes` (`.permisos-table`)~~. ✅ **Done (2026-05-11, DD#55).**
   Promoted to `src/styles/_forms.scss` as single canonical `.perm-matrix`
   block; aed-agentes migrated to share it. Column-header DOM order
   unified to label-before-checkbox in both consumers.
@@ -249,17 +249,20 @@ the top in the next polish session.
   tokenizar + decidir on/off uniforme para la animación. **Media.**
 - **Dead `.toggle` SCSS block** en `user-form-page.component.scss:124-169`:
   track + thumb declarados, no usados en el HTML (el form usa
-  `<aed-toggle-switch>`). *Fix:* borrar las líneas. **Media.**
-- **Tri-state vs binary matrix headers.** Headers de `.perm-matrix` y
-  `.permisos-table` usan `<input type="checkbox">` binario; al desmarcar
-  una sola fila el header sigue checked (bug sutil). El otro patrón
-  (`agent-channel-table`) sí usa `<aed-tri-state-checkbox>`. *Fix:*
-  sustituir. **Baja.**
+  `<aed-toggle-switch>`). *Fix:* borrar las líneas. **Media · ~5 min.**
+- **Tri-state vs binary matrix headers.** Tras DD#55, los dos consumers
+  de `.perm-matrix` (agent-form + aed-agentes) usan `<input type="checkbox">`
+  binario en los headers de columna; al desmarcar una sola fila del cuerpo,
+  el header sigue `checked` (bug sutil — no refleja "algunas activas pero
+  no todas"). El otro patrón (`agent-channel-table`) sí usa
+  `<aed-tri-state-checkbox>`. *Fix:* sustituir en ambos consumers de
+  `.perm-matrix`. **Baja.**
 - **Avatar size mismatch.** `agent-channel-table` usa `[size]="26"`
-  (illustrated), `group-assignment-table` usa `[size]="22"` (abstract).
-  *Fix:* igualar a 24. **Baja.**
+  (illustrated pool, agentes en group-form), `group-assignment-table`
+  usa `[size]="22"` (abstract pool, grupos en agent-form). *Fix:*
+  igualar a 24 en ambos. **Baja.**
 - **Modal footer layout intent indocumentado.** `aed-confirm-host` tiene
-  footer 50/50, el resto de modals (delete dialogs) flush-right —
+  footer 50/50 (DD#54), el resto de modals (delete dialogs) flush-right —
   intencional, pero un futuro contribuidor no lo sabrá. *Fix:* comentario
-  explicativo en `confirm-host.component.scss` justificando el override.
+  explicativo en `confirm-host.component.scss` referenciando DD#54.
   **Baja.**
