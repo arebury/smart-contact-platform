@@ -238,10 +238,11 @@ becomes high), revisit.
 Catalogued during DD#54 wrap-up. Six items grouped by priority. Pick from
 the top in the next polish session.
 
-- **Permission matrix duplicated** between agent-form (`.perm-matrix`) and
-  `/admin/aed/agentes` (`.permisos-table`). Anchos, paddings y borders
-  divergen. *Fix:* extraer `<aed-permission-matrix>` o mover a `_forms.scss`
-  con una sola clase canónica. **Alta.**
+- ~~**Permission matrix duplicated** between agent-form (`.perm-matrix`) and
+  `/admin/aed/agentes` (`.permisos-table`)~~. ✅ **Done (2026-05-11).**
+  Promoted to `src/styles/_forms.scss` as single canonical `.perm-matrix`
+  block; aed-agentes migrated to share it. Column-header DOM order
+  unified to label-before-checkbox in both consumers.
 - **Pill status with hex literals + animation drift.** group-form y
   user-form usan `#1a8a4a`/`#1a6a3a` hardcoded; agent-form usa
   `--sc-presence-*` y además anima con `status-pop-active/inactive`. *Fix:*

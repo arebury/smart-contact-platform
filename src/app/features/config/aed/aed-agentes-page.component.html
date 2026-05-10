@@ -39,14 +39,17 @@
 
           @if (form().llamadasOpen) {
             <div class="accordion__body" id="agentes-llamadas-body">
-              <table class="permisos-table">
+              <table class="perm-matrix">
                 <thead>
                   <tr>
-                    <th scope="col" class="permisos-table__th-label">
+                    <th scope="col" class="perm-matrix__th-label">
                       {{ 'config.aed.subpages.agentes.llamadas.destino' | translate }}
                     </th>
-                    <th scope="col" class="permisos-table__th-col">
-                      <label class="permisos-table__col-toggle">
+                    <th scope="col" class="perm-matrix__th-col">
+                      <label class="perm-matrix__col-toggle">
+                        <span>{{
+                          'config.aed.subpages.agentes.llamadas.col_llamada' | translate
+                        }}</span>
                         <input
                           type="checkbox"
                           [checked]="columnAllSelected().llamada"
@@ -55,13 +58,13 @@
                             'config.aed.subpages.agentes.llamadas.toggle_all_llamada' | translate
                           "
                         />
-                        <span>{{
-                          'config.aed.subpages.agentes.llamadas.col_llamada' | translate
-                        }}</span>
                       </label>
                     </th>
-                    <th scope="col" class="permisos-table__th-col">
-                      <label class="permisos-table__col-toggle">
+                    <th scope="col" class="perm-matrix__th-col">
+                      <label class="perm-matrix__col-toggle">
+                        <span>{{
+                          'config.aed.subpages.agentes.llamadas.col_transferencias' | translate
+                        }}</span>
                         <input
                           type="checkbox"
                           [checked]="columnAllSelected().transferencias"
@@ -70,9 +73,6 @@
                             'config.aed.subpages.agentes.llamadas.toggle_all_transfer' | translate
                           "
                         />
-                        <span>{{
-                          'config.aed.subpages.agentes.llamadas.col_transferencias' | translate
-                        }}</span>
                       </label>
                     </th>
                   </tr>
@@ -80,10 +80,10 @@
                 <tbody>
                   @for (row of destinoKeys; track row) {
                     <tr>
-                      <th scope="row" class="permisos-table__th-row">
+                      <th scope="row" class="perm-matrix__th-row">
                         {{ 'config.aed.subpages.agentes.llamadas.row_' + row | translate }}
                       </th>
-                      <td class="permisos-table__cell">
+                      <td class="perm-matrix__cell">
                         <input
                           type="checkbox"
                           [checked]="form().permisosLlamadas[row].llamada"
@@ -95,7 +95,7 @@
                           "
                         />
                       </td>
-                      <td class="permisos-table__cell">
+                      <td class="perm-matrix__cell">
                         <input
                           type="checkbox"
                           [checked]="form().permisosLlamadas[row].transferencias"
