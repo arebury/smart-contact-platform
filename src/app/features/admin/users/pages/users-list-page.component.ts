@@ -27,7 +27,7 @@ import {
   EmptyStateComponent,
   InlineRenameCellComponent,
 } from '@shared/components';
-import { USER_TYPE_LABEL_KEYS, User, UserType } from '../data/users-data';
+import { USER_TYPE_LABEL_KEYS, USER_TYPES, User, UserType } from '../data/users-data';
 import { UsersStore } from '../state/users.store';
 
 const COLUMN_PREF_KEY = 'sc_users_columns_v1';
@@ -79,6 +79,22 @@ export class UsersListPageComponent {
   protected readonly typeLabelKeys = USER_TYPE_LABEL_KEYS;
   protected readonly users = this.usersStore.users;
 
+  /**
+   * Translated user-type label table — built once on init so filter
+   * and sort comparators can do `O(1)` map lookups instead of calling
+   * `translate.instant()` inside `.filter()` / `.sort()` (per-row,
+   * per-keystroke). Language is static (`'es'`) at runtime so the
+   * cache doesn't need an invalidation hook; revisit if a runtime
+   * language switcher is ever added.
+   */
+  private readonly translatedTypeLabels = (() => {
+    const map = new Map<UserType, string>();
+    for (const t of USER_TYPES) {
+      map.set(t, this.translate.instant(this.typeLabelKeys[t]));
+    }
+    return map;
+  })();
+
   protected readonly searchQuery = signal('');
   protected readonly sortField = signal<SortField | null>(null);
   protected readonly sortDir = signal<'asc' | 'desc'>('asc');
@@ -109,7 +125,7 @@ export class UsersListPageComponent {
         u.name.toLowerCase().includes(q) ||
         u.email.toLowerCase().includes(q) ||
         u.identifier.toLowerCase().includes(q) ||
-        this.translate.instant(this.typeLabelKeys[u.type]).toLowerCase().includes(q),
+        (this.translatedTypeLabels.get(u.type) ?? '').toLowerCase().includes(q),
     );
   });
 
@@ -133,9 +149,9 @@ export class UsersListPageComponent {
           cmp = a.email.localeCompare(b.email);
           break;
         case 'type':
-          cmp = this.translate
-            .instant(this.typeLabelKeys[a.type])
-            .localeCompare(this.translate.instant(this.typeLabelKeys[b.type]));
+          cmp = (this.translatedTypeLabels.get(a.type) ?? '').localeCompare(
+            this.translatedTypeLabels.get(b.type) ?? '',
+          );
           break;
         case 'identifier':
           cmp = a.identifier.localeCompare(b.identifier);

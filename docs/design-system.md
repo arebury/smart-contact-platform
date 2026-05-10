@@ -2,6 +2,13 @@
 
 > Architecture and conventions for the AED design-token layer.
 > The full token catalog lives at [`src/app/core/tokens/`](../src/app/core/tokens/).
+>
+> **Stack reference**: this doc was written against **Angular 18.2 +
+> PrimeNG 18.0** (the versions currently in `package.json`). The
+> token-layering model described below mirrors PrimeNG v18's design-
+> token architecture. PrimeNG 21 is available as of writing — the
+> upgrade path is left for a dedicated session because it requires
+> Angular 21 too and visual validation across every screen.
 
 ## TL;DR
 
