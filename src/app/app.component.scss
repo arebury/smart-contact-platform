@@ -88,32 +88,33 @@
   }
 
   &__title {
-    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 22px;
+    font-family: var(--sc-font-family-primary);
+    font-weight: var(--sc-font-weight-semibold);
+    font-size: var(--sc-font-size-200);
+    line-height: var(--sc-line-height-220);
     color: var(--sc-toast-title);
   }
 
   &__message {
-    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 18px;
+    font-family: var(--sc-font-family-primary);
+    font-weight: var(--sc-font-weight-regular);
+    font-size: var(--sc-font-size-100);
+    line-height: var(--sc-line-height-100);
     color: var(--sc-toast-message);
   }
 
   &__action {
     flex: 0 0 auto;
     align-self: flex-start;
-    padding: 6px 12px;
+    /* 6px Y is off the spacing scale (4 → 8 has no in-between step) — kept raw. */
+    padding: 6px var(--sc-spacing-200);
     border: 1px solid var(--sc-border-default);
-    border-radius: 6px;
-    background: var(--sc-bg-elevated, #fff);
+    border-radius: var(--sc-radius-200);
+    background: var(--sc-bg-surface);
     color: var(--sc-toast-title);
-    font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-    font-size: 12px;
-    font-weight: 500;
+    font-family: var(--sc-font-family-primary);
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
     line-height: 1;
     cursor: pointer;
     /* Scale 1.04 grows the chip ~1px each side — enough to feel reactive
@@ -191,8 +192,12 @@
 :host ::ng-deep .p-toast .p-toast-message {
   background: transparent;
   border: 0;
+  /* Toast-specific shadow geometry (8px / 24px). Doesn't match the
+   * dropdown / popover scale — kept raw to preserve visual identity.
+   * Migrate to a `--sc-shadow-toast` token if the value gains a second
+   * consumer. */
   box-shadow: 0 8px 24px rgb(15 23 42 / 0.08);
-  margin-bottom: 12px;
+  margin-bottom: var(--sc-spacing-200);
 }
 
 :host ::ng-deep .p-toast .p-toast-message-content {
