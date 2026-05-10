@@ -10,6 +10,135 @@
 
 ---
 
+## 2026-05-10 · Session 16 — Platform-wide audit + cleanup + design-system reorganisation (DD#50)
+
+> Long working session covering five threads: audit-driven dead code
+> removal, PrimeNG-style design-token reorganisation, internal-hardcode
+> tokenisation, WCAG AA pass on the three admin lists + form chrome,
+> and structural decoupling of cross-feature stores + duplicated
+> selection logic. All on `main`, all pushed.
+
+**Worked on** (current branch: `main`)
+
+- **4-stream audit** — spawned parallel Explore agents to scan dead
+  code / Angular best practices / token consistency / type safety +
+  structure. Findings consolidated; the safe quick wins ran in this
+  session, the bigger refactors (cross-feature stores, god components)
+  followed.
+
+- **Dead-code cleanup.** Removed `EntityAvatarComponent` (orphan
+  export), four `errors.*` i18n keys (no consumers), the orphan i18n
+  triplet `agents.form.section.{identity, identity_hint, contact,
+  contact_hint, channels_hint}` left behind by the Identificación
+  card consolidation. Extracted `EMAIL_RE` + `PIN_RE` into
+  `@core/utils/validators` (was duplicated across agents + users
+  forms). Fixed a dormant memory leak in `BreadcrumbService`
+  (router + translate subscriptions now use
+  `takeUntilDestroyed(destroyRef)`).
+
+- **Design-system reorganisation (DD#50).** Split the 975-line
+  `sc-tokens.css` monolith into seven layered files mirroring
+  PrimeNG's official model: `01-primitive` / `02-semantic` /
+  `03-palette` / `04-component` / `05-extensions` / `06-primeng-bridge`
+  / `07-dark`, orchestrated by `index.css`. Same source of truth
+  (`--sc-*`), same runtime behaviour, but the shape now matches what
+  a senior design-systems engineer joining the project would expect.
+  New `docs/design-system.md` documents the model.
+
+- **Token internal cleanup.** With the layered structure in place,
+  tokenised the hardcodes left INSIDE the token files: button geometry
+  (16/12/8/6 px → spacing/radius tokens), modal padding (24/20 →
+  spacing-500/400), toast geometry (12/16/8/4 → radius-400 + spacing
+  scale), button disabled trio (`#dadfe6 / #eceff3 / #c6ccd6` were
+  exact gray-{200,100,300}), `#ffffff` → `gray-0`, redundant
+  `var(--sc-color-gray-0, #fff)` fallbacks dropped. CSS output is
+  byte-identical, no visual regression possible.
+
+- **Token presence + priority extraction.** Hardcoded hex values for
+  agent presence states (`#1a8a4a`, `#b07e1a`, `#b91c4b`) and group
+  priority rungs (`#c47a00`, `#8a5500`) now live as semantic tokens
+  in layer 3 (`--sc-presence-*`, `--sc-priority-*`). New
+  `--sc-font-size-75: 11px` token captures the off-scale chrome value
+  used by pills and the settings sidebar foot.
+
+- **App.component polish.** Tokenised the toast title/message/action
+  font + spacing values that had been raw px. The toast's bespoke
+  `0 8px 24px` shadow stays raw with a doc comment — its geometry
+  doesn't match any of the system shadows; tokenize when it gets a
+  second consumer.
+
+- **Click-outside directive modernised.** `@Input()/@Output()` →
+  signal-based `input()/output()`. Same binding API for consumers.
+
+- **Group-popover z-index.** `z-index: 30` (off-system) → `var(--sc-z-popover)`.
+
+- **WCAG AA pass.** New `aedSortable` directive (`@core/directives`)
+  makes admin list table headers keyboard-accessible: `role="button"`
+  + `tabindex="0"` + Enter/Space activation + `aria-sort` reflecting
+  current direction + a shared focus ring in `_table-elements.scss`.
+  Applied to agents, groups and users lists. App-shell ships a
+  skip-to-content link (`<a href="#main-content">`) that appears on
+  focus, lifts above all chrome, and lands the user inside the
+  routed view. `<main>` got `tabindex="-1"` so the skip can target
+  it. Visually-hidden `<h1>` added inside `StickyFormHeader` so form
+  pages have a real page heading for screen readers (the visual
+  chrome is unchanged). Confirmation input in `delete-entity-dialog`
+  gets a real `<label>` instead of a `<p>`. Command-palette search
+  gets `aria-label`. Channel icons in agents-list now sit inside an
+  `aria-label`-wrapped span so the channel name is announced.
+
+- **Cross-feature decoupling.** New `LabelCascadeService`
+  (`@features/admin/services/`) owns the cross-store choreography
+  for label deletion (delete from `LabelsStore` + strip from
+  `AgentsStore` in one operation). The labels page used to inject
+  `AgentsStore` for this; now it injects the service. Read-only
+  cross-feature imports (sistema-page reading agent counts,
+  agent-form reading labels for the picker) stay as-is — those are
+  legitimate dashboards / joins, not encapsulation breaches.
+
+- **Duplicated selection logic extracted.** New `SelectionState<T>`
+  helper in `@core/utils/`. The three admin list pages had ~80 lines
+  of identical row-selection logic each; all three now delegate to
+  the shared helper. Pages keep the existing public API
+  (`selectedIds`, `toggleSelect`, `toggleSelectAll`, `clearSelection`)
+  via thin delegates so templates and tests don't change.
+
+**Decisiones tomadas**
+- DD#50: PrimeNG-style 7-layer token architecture replaces the
+  monolithic `sc-tokens.css`. Layer 6 is the bridge — equivalent of
+  a programmatic `definePreset()` call but expressed as flat CSS so
+  it's editable in dev tools and survives PrimeNG version bumps.
+- Cross-feature read-only imports (dashboards, form pickers) are
+  intentional and stay; only cross-feature WRITES that span stores
+  warrant a domain service. A blanket "no cross-feature anything"
+  rule would have created overhead without benefit.
+- God-component decomposition deferred beyond `SelectionState`: the
+  remaining duplications (sort, context menu, bulk edit) can be
+  extracted incrementally when the next feature touch makes it
+  natural.
+- A11y P2 sweep (every decorative icon getting `aria-hidden`) is
+  deferred to a follow-up — high volume, no single high-impact win
+  among them.
+
+**Bloqueos / decisiones diferidas**
+- Telegram drawer for "agent assigned to group without channel
+  permission" still parked until we discuss Telegram as a channel.
+- Dark-mode rgb() literals (e.g. `rgb(127 29 29 / 0.22)` in 04 +
+  07 layers) and the shadow-color-rgb tokenisation deferred — both
+  need visual A/B comparison and Node 25 keeps blocking the local
+  dev server.
+- Local Node 25 still rejects `ng build`. Validation is `tsc
+  --noEmit` only; Netlify per-branch deploys validate the full build.
+
+**Queued next**
+- Pasar el a11y P2 sweep cuando toque otra ronda visual (decorative
+  icons across sidebar, modals, row menus).
+- Color-mix migration of dark-mode translucencies + shadow color
+  tokenisation in a session where we can validate visually.
+- Telegram drawer cuando el usuario quiera abrir esa conversación.
+
+---
+
 ## 2026-05-08 · Session 15 — Hybrid rail merged to main + rich identity header on every form (DD#49)
 
 > Five-point UX batch: promote the hybrid-rail prototype to main, take

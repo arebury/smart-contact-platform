@@ -7,6 +7,75 @@
 
 ---
 
+## 50 — Design tokens reorganise into a PrimeNG-style 7-layer cascade (2026-05-10)
+
+**Decision.** The 975-line monolithic `sc-tokens.css` is split into
+seven layered files under `src/app/core/tokens/layers/`, mirroring
+PrimeNG's official `primitive` → `semantic` → `components` →
+`preset-overrides` model and adding two layers PrimeNG doesn't
+provide. An `index.css` orchestrator imports them in cascade order:
+
+1. `01-primitive` — raw values (color scales, font, spacing, radius).
+2. `02-semantic` — purpose-bound aliases (text, surface, border, type roles).
+3. `03-palette` — domain palettes (label hues, agent presence, group priority).
+4. `04-component` — pre-baked specs (button, modal, toast).
+5. `05-extensions` — AED-only (layout dims, shadows, z-index, motion).
+6. `06-primeng-bridge` — `--p-*` redirected to `--sc-*` source of truth.
+7. `07-dark` — `.aed-dark` overrides for layers 2/3/4.
+
+**Why.** The monolith worked, but it didn't expose a model — readers
+had to scroll to learn the structure. Aligning to PrimeNG's conventions
+makes the project legible to any senior design-systems engineer and
+future-proofs it: when PrimeNG ships a new version that expects new
+`--p-*` tokens, only layer 6 needs to change.
+
+Layer 6 is the inheritance bridge. It's the CSS-level equivalent of a
+programmatic `definePreset()` call, but expressed as a flat file. We
+get the same effect (PrimeNG components consume AED's brand colors)
+with two big advantages: it's readable in browser dev tools, and it
+doesn't require a build step or theme-compilation pipeline. The
+trade-off is manual maintenance when adding new `--p-*` overrides;
+the upside is debuggability and zero magic.
+
+Layers 3 (palettes) and 5 (extensions) capture concerns PrimeNG
+deliberately leaves to per-component CSS. Putting them in named
+layers keeps AED's vocabulary visible and prevents them from sprawling
+into component SCSS.
+
+In the same pass, the agent presence colors (`#1a8a4a`, `#b07e1a`,
+`#b91c4b`) and group priority rungs (`#c47a00`, `#8a5500`) — previously
+hardcoded inside the form pages — moved into layer 3 as semantic
+tokens. New `--sc-font-size-75: 11px` token captures the off-scale
+chrome value pills + sidebar use. Internal hardcodes inside the token
+files (button geometry, modal padding, toast geometry) tokenised to
+their existing `--sc-spacing-*` / `--sc-radius-*` equivalents — same
+resolved value, byte-identical CSS output.
+
+**Discarded.**
+
+- A programmatic `definePreset()` setup. PrimeNG supports it, but it
+  forks the source of truth: the preset would emit `--p-*` directly,
+  and AED's `--sc-*` tokens (the real source of truth) would lose
+  their authority. The bridge file keeps `--sc-*` as canonical.
+- Aggressive color-scale trimming (deleting unused shades, e.g.
+  `--sc-color-indigo-300`). A design system has a vocabulary
+  responsibility, not just a "ship today" responsibility — keeping
+  the full ladder lets the next feature pick the right shade
+  without re-deriving it.
+- Migrating all `--sc-*` consumers to `--p-*`. Would erase the
+  intent layer (consumers care about "primary background", not "the
+  thing PrimeNG calls --p-primary-color") and tightly couple our
+  components to PrimeNG's runtime variable names.
+
+**Files.**
+
+- [`src/app/core/tokens/index.css`](src/app/core/tokens/index.css) — orchestrator.
+- [`src/app/core/tokens/layers/01-primitive.css`](src/app/core/tokens/layers/01-primitive.css) through [`07-dark.css`](src/app/core/tokens/layers/07-dark.css).
+- [`src/app/core/tokens/README.md`](src/app/core/tokens/README.md) — rules for adding new tokens.
+- [`docs/design-system.md`](docs/design-system.md) — full architecture overview.
+
+---
+
 ## 49 — Identity moves from a persona rail into a rich sticky header; rail keeps only the section index (2026-05-08)
 
 **Decision.** Across the three admin edit forms (agents, groups, users)

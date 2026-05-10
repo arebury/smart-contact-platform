@@ -15,6 +15,64 @@
 
 ---
 
+## DD#50 — El sistema de design tokens se reorganiza en 7 capas estilo PrimeNG (2026-05-10)
+
+**Qué.** El archivo gigante `sc-tokens.css` (975 líneas) se parte en
+siete archivos por capa, copiando el modelo oficial de PrimeNG
+(primitivos → semánticos → componentes → overrides) y añadiendo dos
+capas que PrimeNG no cubre. Un orquestador (`index.css`) los carga en
+orden:
+
+1. **Primitivos** — valores crudos (escalas de color, fuente, spacing, radius).
+2. **Semánticos** — alias por propósito (texto, fondo, borde, roles tipográficos).
+3. **Paletas de dominio** — colores categóricos (etiquetas, presencia agente, prioridad grupo).
+4. **Componentes** — specs por componente (botón, modal, toast).
+5. **Extensiones** — solo AED (layout, sombras, z-index, motion).
+6. **Bridge a PrimeNG** — los tokens `--p-*` apuntan a los `--sc-*`.
+7. **Dark mode** — overrides cuando `.aed-dark` está activa.
+
+**Por qué.** El monolito funcionaba, pero no comunicaba el modelo —
+había que recorrerlo para entender la estructura. Alinear con las
+convenciones de PrimeNG hace que el proyecto sea legible para
+cualquier ingeniero de design systems senior, y blinda el sistema:
+cuando PrimeNG saque una versión nueva que espere tokens `--p-*`
+diferentes, solo hay que tocar la capa 6.
+
+La capa 6 es la "herencia hacia PrimeNG" — el equivalente CSS de
+hacer un `definePreset()` programático, pero escrito como archivo
+plano. Se ve igual en el navegador, no necesita compilación, y los
+tokens `--sc-*` siguen siendo la fuente de la verdad. Cualquier
+componente PrimeNG (Tag, Badge, Toast, Tooltip…) usa la marca AED
+sin tener que sobreescribir nada por componente.
+
+De camino, los colores de presencia de agente (verde, naranja, rojo
+de los pills "Disponible / Baño / Formación") y los de prioridad de
+grupo, que estaban hardcodeados en los formularios, suben a la capa
+3 como tokens. Los hardcodes que quedaban DENTRO de los tokens
+(padding del botón en `16px`, padding del modal en `24px`, etc.)
+también se redirigen a sus equivalentes de la escala — mismo valor
+resuelto, salida idéntica.
+
+**Qué se descartó.**
+
+- Usar `definePreset()` programático. PrimeNG lo soporta, pero parte
+  la fuente de la verdad: el preset emitiría `--p-*` directamente y
+  los `--sc-*` perderían autoridad. El bridge mantiene `--sc-*` como
+  canónicos.
+- Borrar tonos de color que nadie usa hoy (ej: `--sc-color-indigo-300`).
+  Un design system tiene responsabilidad de **vocabulario**, no solo
+  de servir las pantallas de hoy. Mantener la escala completa permite
+  que la siguiente feature elija el tono correcto sin re-derivarlo.
+- Migrar todos los componentes a usar `--p-*` en vez de `--sc-*`.
+  Eso eliminaría la capa de intención ("fondo primario" en vez de "lo
+  que PrimeNG llama --p-primary-color") y acoplaría nuestros
+  componentes al naming interno de PrimeNG.
+
+**Cuándo aplica.** Cualquier cambio futuro en colores, tipografía,
+spacing, radius, sombras o tokens de componente.
+
+---
+
 ## DD#49 — La identidad sale del rail y sube a un header rico; el rail se queda solo con el índice (2026-05-08)
 
 **Qué.** En las tres páginas de editar (agente, grupo, usuario) se
