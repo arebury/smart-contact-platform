@@ -51,12 +51,11 @@ type OrderedVisible = readonly string[];
  * data-driven render loop.
  */
 @Component({
-  selector: 'aed-column-selector',
-  standalone: true,
-  imports: [CdkDrag, CdkDropList, LucideAngularModule, PopoverModule],
-  templateUrl: './column-selector.component.html',
-  styleUrl: './column-selector.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-column-selector',
+    imports: [CdkDrag, CdkDropList, LucideAngularModule, PopoverModule],
+    templateUrl: './column-selector.component.html',
+    styleUrl: './column-selector.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ColumnSelectorComponent {
   readonly columns = input.required<readonly ColumnDef[]>();

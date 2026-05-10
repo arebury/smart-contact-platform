@@ -41,22 +41,21 @@ interface ContextMenuPos {
 }
 
 @Component({
-  selector: 'aed-users-list-page',
-  standalone: true,
-  imports: [
-    BulkActionBarComponent,
-    ClickOutsideDirective,
-    ColumnSelectorComponent,
-    DeleteEntityDialogComponent,
-    EmptyStateComponent,
-    InlineRenameCellComponent,
-    LucideAngularModule,
-    SortableHeaderDirective,
-    TranslateModule,
-  ],
-  templateUrl: './users-list-page.component.html',
-  styleUrl: './users-list-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-users-list-page',
+    imports: [
+        BulkActionBarComponent,
+        ClickOutsideDirective,
+        ColumnSelectorComponent,
+        DeleteEntityDialogComponent,
+        EmptyStateComponent,
+        InlineRenameCellComponent,
+        LucideAngularModule,
+        SortableHeaderDirective,
+        TranslateModule,
+    ],
+    templateUrl: './users-list-page.component.html',
+    styleUrl: './users-list-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UsersListPageComponent {
   private readonly usersStore = inject(UsersStore);

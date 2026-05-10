@@ -3,14 +3,13 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClickOutsideDirective } from './click-outside.directive';
 
 @Component({
-  standalone: true,
-  imports: [ClickOutsideDirective],
-  template: `
+    imports: [ClickOutsideDirective],
+    template: `
     <div data-testid="host" [aedClickOutsideEnabled]="enabled" (aedClickOutside)="hits = hits + 1">
       inside
     </div>
     <button data-testid="outside" type="button">outside</button>
-  `,
+  `
 })
 class HostComponent {
   enabled = true;

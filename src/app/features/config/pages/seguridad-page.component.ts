@@ -12,12 +12,11 @@ import { LucideAngularModule, Shield } from 'lucide-angular';
  * will land. See DD#44.
  */
 @Component({
-  selector: 'aed-seguridad-page',
-  standalone: true,
-  imports: [LucideAngularModule, TranslateModule],
-  templateUrl: './seguridad-page.component.html',
-  styleUrl: './seguridad-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-seguridad-page',
+    imports: [LucideAngularModule, TranslateModule],
+    templateUrl: './seguridad-page.component.html',
+    styleUrl: './seguridad-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SeguridadPageComponent {
   protected readonly shieldIcon = Shield;

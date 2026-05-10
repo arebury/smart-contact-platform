@@ -39,12 +39,11 @@ let modalIdCounter = 0;
  * ```
  */
 @Component({
-  selector: 'aed-modal',
-  standalone: true,
-  imports: [DialogModule, LucideAngularModule, TranslateModule],
-  templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-modal',
+    imports: [DialogModule, LucideAngularModule, TranslateModule],
+    templateUrl: './modal.component.html',
+    styleUrl: './modal.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModalComponent {
   readonly visible = input.required<boolean>();

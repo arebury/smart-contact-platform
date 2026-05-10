@@ -22,20 +22,19 @@ import {
 type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'contrast';
 
 @Component({
-  selector: 'aed-root',
-  standalone: true,
-  imports: [
-    CommandPaletteComponent,
-    ConfirmHostComponent,
-    KeyboardShortcutsComponent,
-    LucideAngularModule,
-    RouterOutlet,
-    ToastModule,
-    TranslateModule,
-  ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-root',
+    imports: [
+        CommandPaletteComponent,
+        ConfirmHostComponent,
+        KeyboardShortcutsComponent,
+        LucideAngularModule,
+        RouterOutlet,
+        ToastModule,
+        TranslateModule,
+    ],
+    templateUrl: './app.component.html',
+    styleUrl: './app.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   private readonly messages = inject(MessageService);
