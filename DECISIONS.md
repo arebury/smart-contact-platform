@@ -7,6 +7,39 @@
 
 ---
 
+## 55 — Permission matrix lives in `_forms.scss` as a single shared block (2026-05-11)
+
+**Decision.** The `destino × {llamada, transferencia}` matrix layout
+used by the agent-form permissions section and the
+`/admin/aed/agentes` defaults page lives in `src/styles/_forms.scss`
+under a single canonical `.perm-matrix` class. Each consumer owns its
+own HTML and data binding; only the visual layer is shared.
+
+**Why.** Audit #1 of DD#54 catalogued the duplicate styling:
+agent-form's `.perm-matrix` (140px columns, padding-200, border-bottom)
+vs aed-agentes' `.permisos-table` (% widths, padding-100/200,
+border-top). The drift was silent — neither implementation knew about
+the other — and would compound every time tokens changed. Same
+reasoning as DD#53's `_forms.scss` extraction (form primitives like
+`.field`, `.checkbox-grid`).
+
+**Discarded.** (a) Build a real `<aed-permission-matrix>` component —
+the two consumers have slightly different data shapes
+(`form().permisosLlamadas[row]` vs `form().permissions.callsDestX` +
+`PERMISSION_MATRIX_KEYS` lookup), so a shared component would need a
+normalisation layer that adds more code than it saves. (b) Keep both
+classes named separately and just align them — class-name drift is
+itself a maintenance hazard; renaming `.permisos-table` to
+`.perm-matrix` is a one-time template churn that future readers
+benefit from.
+
+**Side effect.** Column-header DOM order in aed-agentes also flipped
+from `<input><span>` to `<span><input>` so the visual reads
+"LLAMADA ☐" (label-before-checkbox), matching Voice's Figura 15 and
+the agent-form pattern.
+
+---
+
 ## 54 — Confirm-host modal uses 50/50 split footer, distinct from base modal flush-right (2026-05-11)
 
 **Decision.** `aed-confirm-host` overrides the base modal footer to
