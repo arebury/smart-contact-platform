@@ -26,6 +26,28 @@ body {
   color: var(--sc-text-primary);
 }
 
+/*
+ * `.visually-hidden` — hide visually but keep accessible to screen
+ * readers. Use for headings/labels that the visual hierarchy already
+ * conveys but assistive technology still needs (e.g. form-page <h1>
+ * that's expressed visually as the rich sticky header chrome).
+ *
+ * The `clip-path` keeps it offscreen without taking layout space and
+ * without breaking text-to-speech tools that struggle with `display:
+ * none` content.
+ */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* DD#169 cross-tab edit conflict banner — shared across all form pages.
  *
  * Full 1px border (not the side-stripe pattern banned in /impeccable). The

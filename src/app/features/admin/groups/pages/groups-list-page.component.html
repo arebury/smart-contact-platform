@@ -74,31 +74,51 @@
                 />
               </th>
               @if (isColVisible('code')) {
-                <th class="table__th-sort" (click)="toggleSort('code')">
+                <th
+                  class="table__th-sort"
+                  [aedSortable]="getSortDir('code')"
+                  (activate)="toggleSort('code')"
+                >
                   {{ 'groups.table.code' | translate }}
                 </th>
               }
-              <th class="table__th-sort" (click)="toggleSort('name')">
+              <th
+                class="table__th-sort"
+                [aedSortable]="getSortDir('name')"
+                (activate)="toggleSort('name')"
+              >
                 {{ 'groups.table.name' | translate }}
               </th>
               @if (isColVisible('phone')) {
-                <th>{{ 'groups.table.phone' | translate }}</th>
+                <th scope="col">{{ 'groups.table.phone' | translate }}</th>
               }
               @if (isColVisible('channels')) {
-                <th>{{ 'groups.table.channels' | translate }}</th>
+                <th scope="col">{{ 'groups.table.channels' | translate }}</th>
               }
               @if (isColVisible('priority')) {
-                <th class="table__th-sort" (click)="toggleSort('priority')">
+                <th
+                  class="table__th-sort"
+                  [aedSortable]="getSortDir('priority')"
+                  (activate)="toggleSort('priority')"
+                >
                   {{ 'groups.table.priority' | translate }}
                 </th>
               }
               @if (isColVisible('strategy')) {
-                <th class="table__th-sort" (click)="toggleSort('strategy')">
+                <th
+                  class="table__th-sort"
+                  [aedSortable]="getSortDir('strategy')"
+                  (activate)="toggleSort('strategy')"
+                >
                   {{ 'groups.table.strategy' | translate }}
                 </th>
               }
               @if (isColVisible('agents')) {
-                <th class="table__th-sort table__th-num" (click)="toggleSort('agents')">
+                <th
+                  class="table__th-sort table__th-num"
+                  [aedSortable]="getSortDir('agents')"
+                  (activate)="toggleSort('agents')"
+                >
                   {{ 'groups.table.agents' | translate }}
                 </th>
               }

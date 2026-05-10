@@ -12,9 +12,9 @@
     }
 
     <div class="delete-entity__confirm">
-      <p class="delete-entity__confirm-label">
+      <label class="delete-entity__confirm-label" for="delete-confirm-input">
         {{ 'common.delete_dialog.type_to_confirm' | translate }}
-      </p>
+      </label>
       <button
         type="button"
         class="delete-entity__copy-name"
@@ -29,6 +29,7 @@
         }
       </button>
       <input
+        id="delete-confirm-input"
         type="text"
         class="delete-entity__confirm-input"
         [placeholder]="singleTarget()"

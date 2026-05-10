@@ -1,8 +1,11 @@
+<a class="app-shell__skip-link" href="#main-content">
+  {{ 'common.skip_to_content' | translate }}
+</a>
 <div class="app-shell">
   <aed-sidebar />
   <div class="app-shell__main">
     <aed-top-bar />
-    <main class="app-shell__content">
+    <main id="main-content" class="app-shell__content" tabindex="-1">
       <router-outlet />
     </main>
   </div>

@@ -18,7 +18,7 @@ import {
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { ClickOutsideDirective } from '@core/directives';
+import { ClickOutsideDirective, SortableHeaderDirective } from '@core/directives';
 import { UndoStackService, XlsxExportService } from '@core/services';
 import { clampToViewport } from '@core/utils/viewport';
 import {
@@ -90,6 +90,7 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
+    SortableHeaderDirective,
     TranslateModule,
   ],
   templateUrl: './agents-list-page.component.html',
@@ -293,6 +294,11 @@ export class AgentsListPageComponent {
       this.sortField.set(field);
       this.sortDir.set('asc');
     }
+  }
+
+  /** Current sort direction for `field`, or `null` if not the active column. */
+  protected getSortDir(field: SortField): 'asc' | 'desc' | null {
+    return this.sortField() === field ? this.sortDir() : null;
   }
 
   protected toggleSelect(id: number): void {

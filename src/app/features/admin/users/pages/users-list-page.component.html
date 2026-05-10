@@ -74,26 +74,46 @@
                   [attr.aria-label]="'labels.select_all' | translate"
                 />
               </th>
-              <th class="table__th-sort" (click)="toggleSort('name')">
+              <th
+                class="table__th-sort"
+                [aedSortable]="getSortDir('name')"
+                (activate)="toggleSort('name')"
+              >
                 {{ 'users.table.name' | translate }}
               </th>
               @if (isColVisible('email')) {
-                <th class="table__th-sort" (click)="toggleSort('email')">
+                <th
+                  class="table__th-sort"
+                  [aedSortable]="getSortDir('email')"
+                  (activate)="toggleSort('email')"
+                >
                   {{ 'users.table.email' | translate }}
                 </th>
               }
               @if (isColVisible('identifier')) {
-                <th class="table__th-sort" (click)="toggleSort('identifier')">
+                <th
+                  class="table__th-sort"
+                  [aedSortable]="getSortDir('identifier')"
+                  (activate)="toggleSort('identifier')"
+                >
                   {{ 'users.table.identifier' | translate }}
                 </th>
               }
               @if (isColVisible('type')) {
-                <th class="table__th-sort" (click)="toggleSort('type')">
+                <th
+                  class="table__th-sort"
+                  [aedSortable]="getSortDir('type')"
+                  (activate)="toggleSort('type')"
+                >
                   {{ 'users.table.type' | translate }}
                 </th>
               }
               @if (isColVisible('status')) {
-                <th class="table__th-sort" (click)="toggleSort('status')">
+                <th
+                  class="table__th-sort"
+                  [aedSortable]="getSortDir('status')"
+                  (activate)="toggleSort('status')"
+                >
                   {{ 'users.table.status' | translate }}
                 </th>
               }

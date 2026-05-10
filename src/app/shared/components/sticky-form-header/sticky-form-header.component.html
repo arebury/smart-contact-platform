@@ -3,7 +3,16 @@
     <ng-content select="[header-leading]" />
   </div>
   <div class="sticky-header__title-block">
-    <span class="sticky-header__entity">{{ entityKey() | translate }}</span>
+    <h1 class="visually-hidden">
+      @if (mode() === 'create') {
+        {{ entityKey() | translate }}
+      } @else {
+        {{ name() }}
+      }
+    </h1>
+    <span class="sticky-header__entity" aria-hidden="true">
+      {{ entityKey() | translate }}
+    </span>
     <span class="sticky-header__name-line">
       @if (mode() === 'create') {
         <input

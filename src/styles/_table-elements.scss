@@ -219,6 +219,23 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Sortable header — keyboard focus ring.
+ *
+ * `aedSortable` directive (see `core/directives/sortable-header`) sets
+ * `role="button"` + `tabindex="0"` on the `<th>` so keyboard users can
+ * Tab into it and press Enter / Space to sort. The focus ring lives
+ * here (not in each list page's SCSS) so all three admin lists share
+ * the same affordance. Background tint + rounded outline so it reads
+ * as "this column is the focused control" without clashing with the
+ * sticky header chrome above.
+ * ------------------------------------------------------------------ */
+.table__th-sort:focus-visible {
+  outline: 2px solid var(--sc-color-soft-blue-500);
+  outline-offset: -2px;
+  background: var(--sc-bg-secondary-subtle);
+}
+
+/* ------------------------------------------------------------------ *
  * Page header primary action — width-stable across pages.
  *
  * Different list pages have different create-button labels ("Nuevo

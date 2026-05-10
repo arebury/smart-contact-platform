@@ -4,7 +4,7 @@
       <h1 class="page__title">{{ 'agents.page_title' | translate }}</h1>
       <div class="page__actions">
         <button type="button" class="btn btn--primary" (click)="onCreateClick()">
-          <lucide-icon [img]="plusIcon" [size]="14" />
+          <lucide-icon [img]="plusIcon" [size]="14" [attr.aria-hidden]="true" />
           <span>{{ 'agents.create_button' | translate }}</span>
         </button>
       </div>
@@ -17,7 +17,12 @@
         (orderedVisibleChange)="onOrderedColumnsChange($event)"
       />
       <div class="page__search">
-        <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="14" />
+        <lucide-icon
+          class="page__search-icon"
+          [img]="searchIcon"
+          [size]="14"
+          [attr.aria-hidden]="true"
+        />
         <input
           type="text"
           class="page__search-input"
@@ -76,38 +81,58 @@
               @for (col of visibleColumnKeys(); track col) {
                 @switch (col) {
                   @case ('code') {
-                    <th class="table__th-sort" (click)="toggleSort('code')">
+                    <th
+                      class="table__th-sort"
+                      [aedSortable]="getSortDir('code')"
+                      (activate)="toggleSort('code')"
+                    >
                       {{ 'agents.table.code' | translate }}
                     </th>
                   }
                   @case ('name') {
-                    <th class="table__th-sort" (click)="toggleSort('name')">
+                    <th
+                      class="table__th-sort"
+                      [aedSortable]="getSortDir('name')"
+                      (activate)="toggleSort('name')"
+                    >
                       {{ 'agents.table.name' | translate }}
                     </th>
                   }
                   @case ('extension') {
-                    <th class="table__th-sort" (click)="toggleSort('extension')">
+                    <th
+                      class="table__th-sort"
+                      [aedSortable]="getSortDir('extension')"
+                      (activate)="toggleSort('extension')"
+                    >
                       {{ 'agents.table.extension' | translate }}
                     </th>
                   }
                   @case ('channels') {
-                    <th>{{ 'agents.table.channels' | translate }}</th>
+                    <th scope="col">{{ 'agents.table.channels' | translate }}</th>
                   }
                   @case ('type') {
-                    <th class="table__th-sort" (click)="toggleSort('type')">
+                    <th
+                      class="table__th-sort"
+                      [aedSortable]="getSortDir('type')"
+                      (activate)="toggleSort('type')"
+                    >
                       {{ 'agents.table.type' | translate }}
                     </th>
                   }
                   @case ('presence') {
-                    <th>{{ 'agents.table.presence' | translate }}</th>
+                    <th scope="col">{{ 'agents.table.presence' | translate }}</th>
                   }
                   @case ('status') {
-                    <th class="table__th-sort" (click)="toggleSort('status')">
+                    <th
+                      class="table__th-sort"
+                      [aedSortable]="getSortDir('status')"
+                      (activate)="toggleSort('status')"
+                    >
                       {{ 'agents.table.status' | translate }}
                     </th>
                   }
                   @case ('groups') {
-                    <th class="table__th-num">{{ 'agents.table.groups' | translate }}</th>
+                    <th class="table__th-num" scope="col">{{ 'agents.table.groups' | translate }}</th>
                   }
                 }
               }
@@ -180,8 +205,16 @@
                       <td class="table__td">
                         <span class="sc-channel-row">
                           @for (channel of agent.channels; track channel) {
-                            <span class="sc-channel-row__item" [attr.data-channel]="channel">
-                              <lucide-icon [img]="channelIcon(channel)" [size]="14" />
+                            <span
+                              class="sc-channel-row__item"
+                              [attr.data-channel]="channel"
+                              [attr.aria-label]="'agents.channel.' + channel | translate"
+                            >
+                              <lucide-icon
+                                [img]="channelIcon(channel)"
+                                [size]="14"
+                                [attr.aria-hidden]="true"
+                              />
                             </span>
                           }
                         </span>
