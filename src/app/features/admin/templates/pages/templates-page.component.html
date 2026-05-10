@@ -9,7 +9,7 @@
         [aedClickOutsideEnabled]="creating()"
       >
         <button type="button" class="btn btn--primary" (click)="onCreateClick()">
-          <lucide-icon [img]="plusIcon" [size]="15" />
+          <lucide-icon [img]="plusIcon" [size]="15" aria-hidden="true" />
           <span>{{ 'templates.create_button' | translate }}</span>
         </button>
 
@@ -35,7 +35,7 @@
         [attr.aria-selected]="activeTab() === 'chat'"
         (click)="switchTab('chat')"
       >
-        <lucide-icon [img]="chatIcon" [size]="14" />
+        <lucide-icon [img]="chatIcon" [size]="14" aria-hidden="true" />
         <span>{{ 'templates.type.chat' | translate }}</span>
         <span class="tabs__count">{{ chatCount() }}</span>
       </button>
@@ -47,7 +47,7 @@
         [attr.aria-selected]="activeTab() === 'email'"
         (click)="switchTab('email')"
       >
-        <lucide-icon [img]="emailIcon" [size]="14" />
+        <lucide-icon [img]="emailIcon" [size]="14" aria-hidden="true" />
         <span>{{ 'templates.type.email' | translate }}</span>
         <span class="tabs__count">{{ emailCount() }}</span>
       </button>
@@ -55,7 +55,7 @@
 
     <div class="page__action-bar">
       <div class="page__search">
-        <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="15" />
+        <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="15"  aria-hidden="true" />
         <input
           type="text"
           class="page__search-input"
@@ -71,7 +71,7 @@
             (click)="searchQuery.set('')"
             [attr.aria-label]="'labels.clear_search' | translate"
           >
-            <lucide-icon [img]="closeIcon" [size]="13" />
+            <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
           </button>
         } @else {
           <kbd class="page__search-kbd" aria-hidden="true">⌘K</kbd>
@@ -82,12 +82,12 @@
     @if (templates().length === 0) {
       <div class="empty">
         <div class="empty__icon" aria-hidden="true">
-          <lucide-icon [img]="fileStackIcon" [size]="32" />
+          <lucide-icon [img]="fileStackIcon" [size]="32" aria-hidden="true" />
         </div>
         <h2 class="empty__title">{{ 'templates.empty.title' | translate }}</h2>
         <p class="empty__text">{{ 'templates.empty.text' | translate }}</p>
         <button type="button" class="btn btn--primary" (click)="creating.set(true)">
-          <lucide-icon [img]="plusIcon" [size]="16" />
+          <lucide-icon [img]="plusIcon" [size]="16" aria-hidden="true" />
           <span>{{ 'templates.empty.cta' | translate }}</span>
         </button>
       </div>
@@ -170,17 +170,17 @@
                       [attr.aria-expanded]="openMenuId() === tpl.id"
                       [attr.aria-label]="'labels.row_menu' | translate"
                     >
-                      <lucide-icon [img]="moreIcon" [size]="16" />
+                      <lucide-icon [img]="moreIcon" [size]="16" aria-hidden="true" />
                     </button>
 
                     @if (openMenuId() === tpl.id) {
                       <div class="row-menu__panel" role="menu">
                         <button type="button" role="menuitem" (click)="onRowEdit(tpl)">
-                          <lucide-icon [img]="editIcon" [size]="13" />
+                          <lucide-icon [img]="editIcon" [size]="13" aria-hidden="true" />
                           <span>{{ 'common.edit' | translate }}</span>
                         </button>
                         <button type="button" role="menuitem" (click)="onRowDelete(tpl)">
-                          <lucide-icon [img]="trashIcon" [size]="13" />
+                          <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
                           <span>{{ 'common.delete' | translate }}</span>
                         </button>
                       </div>
@@ -193,7 +193,7 @@
             @if (sorted().length === 0) {
               <tr>
                 <td colspan="5" class="table__no-results">
-                  <lucide-icon [img]="searchIcon" [size]="20" />
+                  <lucide-icon [img]="searchIcon" [size]="20" aria-hidden="true" />
                   <div class="table__no-results-title">
                     {{ 'labels.no_results.title' | translate }}
                   </div>
@@ -234,11 +234,11 @@
     role="menu"
   >
     <button type="button" role="menuitem" (click)="onContextEdit()">
-      <lucide-icon [img]="editIcon" [size]="13" />
+      <lucide-icon [img]="editIcon" [size]="13" aria-hidden="true" />
       <span>{{ 'common.edit' | translate }}</span>
     </button>
     <button type="button" role="menuitem" (click)="onContextDelete()">
-      <lucide-icon [img]="trashIcon" [size]="13" />
+      <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
       <span>{{ 'common.delete' | translate }}</span>
     </button>
   </div>

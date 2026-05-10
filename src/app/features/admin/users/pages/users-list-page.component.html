@@ -5,7 +5,7 @@
 
       <div class="page__actions">
         <button type="button" class="btn btn--primary" (click)="onCreateClick()">
-          <lucide-icon [img]="plusIcon" [size]="14" />
+          <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
           <span>{{ 'users.create_button' | translate }}</span>
         </button>
       </div>
@@ -18,7 +18,7 @@
         (visibilityChange)="onColumnsChange($event)"
       />
       <div class="page__search">
-        <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="14" />
+        <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="14"  aria-hidden="true" />
         <input
           type="text"
           class="page__search-input"
@@ -34,7 +34,7 @@
             (click)="searchQuery.set('')"
             [attr.aria-label]="'labels.clear_search' | translate"
           >
-            <lucide-icon [img]="closeIcon" [size]="13" />
+            <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
           </button>
         } @else {
           <kbd class="page__search-kbd" aria-hidden="true">⌘K</kbd>
@@ -48,7 +48,7 @@
         [attr.aria-label]="'labels.export_button' | translate"
         [attr.title]="'labels.export_button' | translate"
       >
-        <lucide-icon [img]="downloadIcon" [size]="14" />
+        <lucide-icon [img]="downloadIcon" [size]="14" aria-hidden="true" />
       </button>
     </div>
 
@@ -192,16 +192,16 @@
                       [attr.aria-expanded]="openMenuId() === user.id"
                       [attr.aria-label]="'labels.row_menu' | translate"
                     >
-                      <lucide-icon [img]="moreIcon" [size]="15" />
+                      <lucide-icon [img]="moreIcon" [size]="15" aria-hidden="true" />
                     </button>
                     @if (openMenuId() === user.id) {
                       <div class="row-menu__panel" role="menu">
                         <button type="button" role="menuitem" (click)="onRowEdit(user)">
-                          <lucide-icon [img]="editIcon" [size]="13" />
+                          <lucide-icon [img]="editIcon" [size]="13" aria-hidden="true" />
                           <span>{{ 'common.edit' | translate }}</span>
                         </button>
                         <button type="button" role="menuitem" (click)="onRowDuplicate(user)">
-                          <lucide-icon [img]="copyIcon" [size]="13" />
+                          <lucide-icon [img]="copyIcon" [size]="13" aria-hidden="true" />
                           <span>{{ 'common.duplicate' | translate }}</span>
                         </button>
                         <div class="row-menu__separator" role="separator" aria-hidden="true"></div>
@@ -211,7 +211,7 @@
                           role="menuitem"
                           (click)="onRowDelete(user)"
                         >
-                          <lucide-icon [img]="trashIcon" [size]="13" />
+                          <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
                           <span>{{ 'common.delete' | translate }}</span>
                         </button>
                       </div>
@@ -245,16 +245,16 @@
     role="menu"
   >
     <button type="button" role="menuitem" (click)="onContextEdit()">
-      <lucide-icon [img]="editIcon" [size]="13" />
+      <lucide-icon [img]="editIcon" [size]="13" aria-hidden="true" />
       <span>{{ 'common.edit' | translate }}</span>
     </button>
     <button type="button" role="menuitem" (click)="onContextDuplicate()">
-      <lucide-icon [img]="copyIcon" [size]="13" />
+      <lucide-icon [img]="copyIcon" [size]="13" aria-hidden="true" />
       <span>{{ 'common.duplicate' | translate }}</span>
     </button>
     <div class="context-menu__separator" role="separator" aria-hidden="true"></div>
     <button type="button" class="is-danger" role="menuitem" (click)="onContextDelete()">
-      <lucide-icon [img]="trashIcon" [size]="13" />
+      <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
       <span>{{ 'common.delete' | translate }}</span>
     </button>
   </div>

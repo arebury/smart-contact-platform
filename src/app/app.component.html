@@ -8,7 +8,7 @@
       [attr.data-severity]="message.severity ?? 'info'"
     >
       <div class="aed-toast__icon" aria-hidden="true">
-        <lucide-icon [img]="iconFor(message.severity)" [size]="14" />
+        <lucide-icon [img]="iconFor(message.severity)" [size]="14" aria-hidden="true" />
       </div>
       <div class="aed-toast__body">
         @if (message.summary) {
@@ -29,7 +29,7 @@
         [attr.aria-label]="'common.close' | translate"
         (click)="onClose()"
       >
-        <lucide-icon [img]="closeIcon" [size]="14" />
+        <lucide-icon [img]="closeIcon" [size]="14" aria-hidden="true" />
       </button>
     </div>
   </ng-template>

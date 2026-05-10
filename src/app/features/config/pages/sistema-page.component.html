@@ -39,7 +39,7 @@
                 [attr.aria-checked]="theme.mode() === option.value"
                 (click)="select(option.value)"
               >
-                <lucide-icon [img]="option.icon" [size]="14" />
+                <lucide-icon [img]="option.icon" [size]="14" aria-hidden="true" />
                 <span>{{ option.labelKey | translate }}</span>
               </button>
             }
@@ -68,7 +68,7 @@
             </p>
           </div>
           <button type="button" class="btn btn--danger" (click)="resetData()">
-            <lucide-icon [img]="resetIcon" [size]="14" />
+            <lucide-icon [img]="resetIcon" [size]="14" aria-hidden="true" />
             <span>{{ 'config.sistema.data.reset_button' | translate }}</span>
           </button>
         </div>
@@ -139,8 +139,9 @@
           [img]="regenOpen() ? chevronDown : chevronRight"
           [size]="14"
           class="accordion__chevron"
+          aria-hidden="true"
         />
-        <lucide-icon [img]="keyIcon" [size]="14" class="accordion__icon" />
+        <lucide-icon [img]="keyIcon" [size]="14" class="accordion__icon"  aria-hidden="true" />
         <span class="accordion__title">
           {{ 'config.seguridad.regen.title' | translate }}
         </span>
@@ -154,7 +155,7 @@
       @if (regenOpen()) {
         <div class="card__body">
           <div class="warning-callout">
-            <lucide-icon [img]="alertIcon" [size]="15" class="warning-callout__icon" />
+            <lucide-icon [img]="alertIcon" [size]="15" class="warning-callout__icon"  aria-hidden="true" />
             <div>
               <span class="warning-callout__title">
                 {{ 'config.seguridad.regen.warning_title' | translate }}
@@ -166,12 +167,12 @@
           </div>
 
           <div class="info-callout">
-            <lucide-icon [img]="infoIcon" [size]="14" class="info-callout__icon" />
+            <lucide-icon [img]="infoIcon" [size]="14" class="info-callout__icon"  aria-hidden="true" />
             <p>{{ 'config.seguridad.regen.use_case' | translate }}</p>
           </div>
 
           <div class="search">
-            <lucide-icon [img]="searchIcon" [size]="14" class="search__icon" />
+            <lucide-icon [img]="searchIcon" [size]="14" class="search__icon"  aria-hidden="true" />
             <input
               type="text"
               class="search__input"
@@ -187,7 +188,7 @@
                 (click)="searchQuery.set('')"
                 [attr.aria-label]="'labels.clear_search' | translate"
               >
-                <lucide-icon [img]="closeIcon" [size]="13" />
+                <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
               </button>
             }
           </div>
@@ -288,7 +289,7 @@
                     />
                     <span>{{ 'config.seguridad.regen.processing' | translate }}</span>
                   } @else {
-                    <lucide-icon [img]="keyIcon" [size]="14" />
+                    <lucide-icon [img]="keyIcon" [size]="14" aria-hidden="true" />
                     <span>{{ 'config.seguridad.regen.execute' | translate }}</span>
                   }
                 </button>
@@ -299,7 +300,7 @@
           @if (result(); as r) {
             <div class="result">
               <div class="result__summary">
-                <lucide-icon [img]="checkIcon" [size]="15" class="result__check" />
+                <lucide-icon [img]="checkIcon" [size]="15" class="result__check"  aria-hidden="true" />
                 <div>
                   <span class="result__count">
                     {{ 'config.seguridad.regen.result_count' | translate: { count: r.count } }}
@@ -308,7 +309,7 @@
                 </div>
               </div>
               <button type="button" class="btn btn--ghost" (click)="downloadCsv()">
-                <lucide-icon [img]="downloadIcon" [size]="14" />
+                <lucide-icon [img]="downloadIcon" [size]="14" aria-hidden="true" />
                 <span>{{ 'config.seguridad.regen.download_csv' | translate }}</span>
               </button>
             </div>

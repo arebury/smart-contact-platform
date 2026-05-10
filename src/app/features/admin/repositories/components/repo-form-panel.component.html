@@ -67,7 +67,7 @@
   <div class="panel__error-slot">
     @if (error()) {
       <div class="panel__error">
-        <lucide-icon [img]="alertIcon" [size]="10" />
+        <lucide-icon [img]="alertIcon" [size]="10" aria-hidden="true" />
         <span>{{ error() }}</span>
       </div>
     }

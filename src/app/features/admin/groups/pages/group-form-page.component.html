@@ -200,7 +200,7 @@
                 <li class="agents__row" cdkDrag [cdkDragData]="agent">
                   <span class="agents__order">{{ i + 1 }}</span>
                   <span class="agents__handle" cdkDragHandle aria-label="Reorder">
-                    <lucide-icon [img]="gripIcon" [size]="14" />
+                    <lucide-icon [img]="gripIcon" [size]="14" aria-hidden="true" />
                   </span>
                   <span class="agents__name">{{ agent }}</span>
                   <button
@@ -209,7 +209,7 @@
                     (click)="removeAgent(agent)"
                     [attr.aria-label]="'groups.form.remove_agent' | translate"
                   >
-                    <lucide-icon [img]="closeIcon" [size]="13" />
+                    <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
                   </button>
                 </li>
               }
@@ -241,7 +241,7 @@
                     (click)="addAgent(agent)"
                     [attr.aria-label]="'groups.form.add_agent' | translate"
                   >
-                    <lucide-icon [img]="plusIcon" [size]="13" />
+                    <lucide-icon [img]="plusIcon" [size]="13" aria-hidden="true" />
                     <span>{{ 'common.create' | translate }}</span>
                   </button>
                 </li>
