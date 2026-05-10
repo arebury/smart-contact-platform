@@ -9,15 +9,22 @@
  *   3. PALETTE         — domain palettes (label hues, agent presence, group priority).
  *   4. COMPONENT       — pre-baked component specs (button, modal, toast).
  *   5. EXTENSIONS      — values PrimeNG doesn't cover (layout dims, shadows, z-index, motion).
- *   6. PRIMENG BRIDGE  — `--p-*` runtime variables redirected to `--sc-*` source of truth.
  *   7. DARK            — `.aed-dark` overrides for layers 2 / 3 / 4.
  *
  * Mirrors the PrimeNG design-token model (primitive → semantic →
  * components → preset overrides) and adds two layers PrimeNG doesn't
  * provide: domain palettes (3) and AED-only extensions (5).
  *
+ * Note: layer 6 (PrimeNG bridge) used to be a flat-CSS file that
+ * declared every `--p-*` runtime variable as an override pointing at
+ * `--sc-*`. PrimeNG 21's preferred pattern is a JS preset compiled
+ * to CSS at boot. The bridge moved to
+ * [`../aed-preset.ts`](../aed-preset.ts), wired up in `app.config.ts`
+ * via `providePrimeNG({ theme: { preset: AedPreset } })`. Same
+ * source of truth (`--sc-*`), same `--p-*` runtime output, but
+ * defined in the place PrimeNG expects.
+ *
  * Components MUST reference `--sc-*` tokens, never raw values.
- * `--p-*` variables are only declared inside layer 6.
  */
 
 @import './layers/01-primitive.css';
@@ -25,5 +32,4 @@
 @import './layers/03-palette.css';
 @import './layers/04-component.css';
 @import './layers/05-extensions.css';
-@import './layers/06-primeng-bridge.css';
 @import './layers/07-dark.css';

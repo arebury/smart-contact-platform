@@ -7,6 +7,91 @@
 
 ---
 
+## 52 — Migrate the PrimeNG bridge from a flat CSS layer to a JS-defined preset (2026-05-10)
+
+**Decision.** The previous `06-primeng-bridge.css` — a layer that
+hand-declared every `--p-*` runtime variable as an override pointing
+at a `--sc-*` token — is replaced by a JS preset in
+[`src/app/core/tokens/aed-preset.ts`](src/app/core/tokens/aed-preset.ts).
+The preset wraps Aura via `definePreset(Aura, …)` and is registered
+in `app.config.ts`:
+
+```ts
+providePrimeNG({ theme: { preset: AedPreset, options: {…} } });
+```
+
+Each preset value is a `var(--sc-…)` reference (e.g.
+`primary: { 500: 'var(--sc-color-blue-500)' }`). PrimeNG's compiler
+emits `--p-primary-500: var(--sc-color-blue-500)` at boot, the
+browser resolves the `var()` at paint time. Same effect as the old
+flat-CSS shadow, same source of truth, but expressed in the place
+PrimeNG 21 expects.
+
+**Why.** Three reasons:
+
+- **PrimeNG 21 is JS-first.** v21's design-token catalog includes
+  semantic concepts (`disabledOpacity`, `iconSize`, `formField.sm` /
+  `lg`, navigation/list nested structures) that aren't emitted as
+  `--p-*` CSS variables — they live only in the preset object. A
+  flat-CSS bridge can never override them. By moving to the preset
+  pattern, we have one place to extend if those v21 niceties ever
+  matter.
+- **Less duplication, less drift.** Aura already wires the dozens
+  of nested semantic structures (`formField`, `list`, `navigation`,
+  `overlay.modal`, `overlay.popover`) sensibly. The CSS bridge was
+  re-declaring those defaults to "be safe"; the preset inherits
+  them automatically, so AED's preset shrinks to the actual brand
+  overrides.
+- **Truthful documentation.** The CSS bridge looked like the canonical
+  v21 way of customising PrimeNG; it isn't. Future readers seeing
+  `aed-preset.ts` next to `core/tokens/layers/` immediately
+  understand: "the CSS layers carry AED's own `--sc-*` tokens, the
+  TS preset bridges them into PrimeNG's `--p-*` runtime."
+
+**Discarded.**
+
+- Keeping the flat-CSS bridge with a docstring saying "this is the
+  v18 way." It worked but it lied about the ergonomics — every
+  PrimeNG version bump would force a re-audit "did anything change
+  upstream?" and the bridge would drift further from the idiom.
+- Migrating the preset values to literal hex strings (e.g.
+  `primary: { 500: '#344a70' }`). Would have broken the
+  single-source-of-truth pattern: tweaking `01-primitive.css` would
+  no longer propagate to PrimeNG components automatically. Using
+  `var(--sc-…)` values keeps the cascade.
+- Splitting the preset into multiple files by concern. The preset
+  is ~200 lines and structurally flat once you know
+  `primitive` / `semantic` / `colorScheme.{light,dark}`. One file
+  is easier to scan than five.
+
+**Files.**
+
+- [`src/app/core/tokens/aed-preset.ts`](src/app/core/tokens/aed-preset.ts) — new, 200 lines.
+- [`src/app/app.config.ts`](src/app/app.config.ts) — `Aura` import swapped for `AedPreset`.
+- `src/app/core/tokens/layers/06-primeng-bridge.css` — **deleted**.
+- [`src/app/core/tokens/index.css`](src/app/core/tokens/index.css) — drops the layer-6 import + adds a comment explaining the move.
+- [`src/app/core/tokens/README.md`](src/app/core/tokens/README.md), [`docs/design-system.md`](docs/design-system.md) — refreshed to reflect the new architecture.
+
+**Companion fixes (same branch, scoped tightly).**
+
+- **`ThemeService` bootstrap** — the service was `providedIn: 'root'`
+  but never injected anywhere, so its `effect()` (the one that adds
+  `.aed-dark` to `<html>`) never ran. Dark mode was silently broken
+  in production; the visual A/B with Playwright would have been a
+  no-op against the same-coloured surfaces. Fix: inject the service
+  in `AppComponent` as a side-effect dependency.
+- **Translucencies → `color-mix`** — the dark-layer `rgb(R G B / A)`
+  literals across status / button-danger / toast became
+  `color-mix(in srgb, var(--sc-color-X-Y) N%, transparent)`.
+  Byte-identical output, primitive chain unbroken.
+- **Shadow color tokenised** — new `--sc-shadow-color-rgb` and
+  `--sc-shadow-focus-ring-rgb` in the extensions layer; the seven
+  consumers (six shadow tokens + the modal-shadow + standalone
+  `box-shadow`s in five components) read
+  `rgb(var(--sc-shadow-color-rgb) / 0.0X)`.
+
+---
+
 ## 51 — Upgrade Angular 18 → 21 + PrimeNG 18 → 21 in a single dedicated branch with Playwright visual regression (2026-05-10)
 
 **Decision.** The major-version upgrade across Angular (18 → 19 → 20

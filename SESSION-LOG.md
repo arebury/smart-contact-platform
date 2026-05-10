@@ -10,6 +10,80 @@
 
 ---
 
+## 2026-05-10 · Session 18 — Dark-mode bug fix + color-mix + PrimeNG JS preset migration (DD#52)
+
+> Started as a token-polish session and surfaced a silent production
+> bug along the way. Branch `chore/dark-mode-tokens`.
+
+**Worked on**
+
+- **Production bug found and fixed.** `ThemeService` was declared
+  `providedIn: 'root'` and exported, but no component in the running
+  app injected it. Angular only instantiates a `providedIn: 'root'`
+  service on first request, so the constructor — where the
+  dark-mode `effect()` toggling `.aed-dark` on `<html>` lives —
+  never ran. **Dark mode was silently broken in production**, since
+  v18; the missing affordance (no theme-toggle UI) hid the bug.
+  Fixed by injecting `ThemeService` in `AppComponent` as a
+  side-effect dependency. Verified via Playwright with
+  `colorScheme: 'dark'` on the browser context — agents list now
+  renders on dark surfaces.
+
+- **Playwright dark-mode support.** `e2e/snapshot.ts` accepts a
+  `[theme]` arg (`light` | `dark`, default `light`); dark mode is
+  selected via Playwright's `colorScheme: 'dark'` browser context
+  (sets `prefers-color-scheme: dark`, lets `ThemeService`'s default
+  `'system'` mode resolve to dark without needing localStorage
+  seeding).
+
+- **Translucencies migrated to `color-mix`.** 12 `rgb(R G B / A)`
+  literals across `07-dark.css` + `04-component.css` (dark
+  `--sc-bg-*-subtle`, `--sc-btn-danger-subtle-*`, dark `--sc-toast-*-bg`)
+  rewrote as `color-mix(in srgb, var(--sc-color-X-Y) N%, transparent)`.
+  Mathematically equivalent (`color-mix` over `transparent` resolves
+  to `rgba(X, alpha)` byte-for-byte in sRGB), so the token chain is
+  unbroken without visual drift.
+
+- **Shadow color tokenized.** Hardcoded `rgba(15, 23, 42, X)` was
+  smeared across 7 files (extensions layer, modal, app.component,
+  command-palette, group-popover, toggle-switch, keyboard-shortcuts).
+  New `--sc-shadow-color-rgb: 15 23 42` and `--sc-shadow-focus-ring-rgb:
+  90 211 230` tokens in the extensions layer; consumers now read
+  `rgb(var(--sc-shadow-color-rgb) / 0.04)`. Future "warm up the
+  shadows" tweak ripples from one declaration.
+
+- **PrimeNG bridge migrated to JS preset (DD#52).** A strategic-impact
+  audit confirmed our 18-era CSS bridge was complete for PrimeNG 21
+  (no broken behaviour) but ran in the v18 pattern, not v21. Adopted
+  the v21 idiom: new `core/tokens/aed-preset.ts` calls
+  `definePreset(Aura, …)` with `var(--sc-…)` values for every override
+  the old layer-6 CSS file held. `app.config.ts` registers
+  `AedPreset` instead of `Aura`. `06-primeng-bridge.css` deleted; the
+  `index.css` orchestrator no longer imports it. Visual diff
+  baseline ↔ after-preset (light + dark): byte-identical.
+
+**Decisiones tomadas**
+- DD#52: `--p-*` overrides move from a flat CSS file to a JS preset
+  composed via `definePreset(Aura, …)`. Same source of truth (the
+  preset's values are `var(--sc-…)` references); same emitted CSS at
+  runtime; lives where v21 expects.
+
+**Bloqueos / decisiones diferidas**
+- The dark-mode `colorScheme` token chain in `aed-preset.ts` carries
+  duplicated entries for light and dark surface scales. PrimeNG's
+  preset compiler treats them as distinct sections and we provide
+  the same `var(--sc-color-gray-*)` references for both — fine for
+  now but worth a refactor pass if PrimeNG ever introduces lookup
+  semantics that diverge between modes.
+
+**Queued next**
+- Same parked items as before (perf SCSS extraction, a11y P2 sweep,
+  Telegram drawer). Now with both Playwright + the v21-aligned
+  preset in place, future preset-level tweaks (e.g. customising
+  `formField.sm` / `lg` variants) are also tractable.
+
+---
+
 ## 2026-05-10 · Session 17 — Angular 18 → 21 + PrimeNG 18 → 21 upgrade (DD#51)
 
 > Major-version upgrade across three Angular jumps + three PrimeNG

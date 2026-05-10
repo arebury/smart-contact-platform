@@ -11,10 +11,12 @@
 
 ## TL;DR
 
-The AED design system is built on a **seven-layer CSS-variable cascade**
-that mirrors PrimeNG's official design-token model
-(primitive → semantic → component → preset overrides) and adds two
-layers PrimeNG doesn't provide:
+The AED design system is built on a **six-layer CSS-variable cascade
+plus a JS-defined PrimeNG preset**. The CSS layers mirror PrimeNG's
+official design-token model (primitive → semantic → component) and
+add two layers PrimeNG doesn't provide; the JS preset replaces what
+used to be the seventh CSS layer ("PrimeNG bridge"), aligned with
+the v21-preferred way of customizing PrimeNG.
 
 | Layer | Concern | Token prefix | Example |
 | :---: | --- | --- | --- |
@@ -23,14 +25,23 @@ layers PrimeNG doesn't provide:
 | 3 | Domain palette — categorical color sets | `--sc-label-*` `--sc-presence-*` `--sc-priority-*` | `--sc-presence-available` |
 | 4 | Component — pre-baked specs | `--sc-btn-*` `--sc-modal-*` `--sc-toast-*` | `--sc-btn-primary-bg-hover` |
 | 5 | Extensions — outside PrimeNG's catalog | `--sc-shadow-*` `--sc-z-*` `--sc-transition-*` `--sc-sidebar-*` | `--sc-shadow-popover` |
-| 6 | PrimeNG bridge — `--p-*` ↦ `--sc-*` | `--p-*` (only) | `--p-primary-500: var(--sc-color-blue-500)` |
 | 7 | Dark mode — overrides for layers 2/3/4 | (re-declared inside `.aed-dark`) | `--sc-text-primary` flips to gray-50 |
+| **JS preset** | PrimeNG bridge — `--p-*` ↦ `--sc-*` | `--p-*` emitted by PrimeNG | `--p-primary-500: var(--sc-color-blue-500)` |
 
-Each layer is one CSS file under
-[`src/app/core/tokens/layers/`](../src/app/core/tokens/layers/), loaded
-in order by the [`index.css`](../src/app/core/tokens/index.css)
-orchestrator. The cascade enforces direction: a layer can read from
-itself or any earlier layer, never later.
+The CSS layers live under
+[`src/app/core/tokens/layers/`](../src/app/core/tokens/layers/) and
+are loaded in order by the
+[`index.css`](../src/app/core/tokens/index.css) orchestrator. The
+cascade enforces direction: a layer can read from itself or any
+earlier layer, never later. The JS preset lives at
+[`src/app/core/tokens/aed-preset.ts`](../src/app/core/tokens/aed-preset.ts)
+and is registered in `app.config.ts` via
+`providePrimeNG({ theme: { preset: AedPreset } })`.
+
+(Layer 6 is intentionally absent — the previous
+`06-primeng-bridge.css` was retired when we adopted
+PrimeNG 21's JS-preset pattern. The numbering preserves the old
+mental model so future readers know which layer is which.)
 
 ## Why this shape
 
@@ -38,11 +49,15 @@ PrimeNG's design-token system has three abstraction layers
 (primitive, semantic, components) that you compose via a JavaScript
 `definePreset()` call which generates `--p-*` CSS variables at runtime.
 
-AED already has its own token catalog (`--sc-*`), so we do the
-equivalent thing in CSS instead of JS. **Layer 6** is the bridge —
-every `--p-*` variable PrimeNG components might consume is redirected
-to a `--sc-*` token. PrimeNG's runtime sees its own variable names;
-they resolve to AED values. No fork, no preset compilation step.
+AED has its own token catalog (`--sc-*`) declared in CSS (the
+six-layer cascade above). The bridge between the two — *which `--sc-*`
+token feeds which `--p-*` slot* — lives in `aed-preset.ts`. The
+preset's values are CSS-variable references like
+`'var(--sc-color-blue-500)'`, so PrimeNG's compiler emits
+`--p-primary-500: var(--sc-color-blue-500)` and the browser resolves
+the `var()` at paint time. Same effect as a flat-CSS shadow, but
+expressed in the place v21 expects (and shorter — Aura's preset
+inherits all the parts AED doesn't override).
 
 Two extra layers handle what PrimeNG leaves to per-component CSS:
 
@@ -63,7 +78,7 @@ unchanged because layer 1 primitives stay constant — flipping
 `--sc-text-primary` from gray-800 to gray-50 is enough to recolour
 every text reference downstream.
 
-The PrimeNG bridge in layer 6 inherits automatically: `--p-primary-500`
+The PrimeNG preset inherits automatically: `--p-primary-500`
 points at `--sc-color-blue-500` which is a primitive (constant), but
 `--p-primary-color` points at `--sc-bg-primary` which IS overridden in
 dark mode → so the brand colour shifts on PrimeNG components without

@@ -10,7 +10,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import { MessageService } from 'primeng/api';
-import Aura from '@primeng/themes/aura';
+import { AedPreset } from '@core/tokens/aed-preset';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
@@ -37,7 +37,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     providePrimeNG({
       theme: {
-        preset: Aura,
+        preset: AedPreset,
         options: {
           prefix: 'p',
           darkModeSelector: '.aed-dark',
