@@ -7,6 +7,38 @@
 
 ---
 
+## 54 — Confirm-host modal uses 50/50 split footer, distinct from base modal flush-right (2026-05-11)
+
+**Decision.** `aed-confirm-host` overrides the base modal footer to
+make the two action buttons fill the footer 50/50, while
+`<aed-modal>`'s default footer stays flush-right. Implemented by
+wrapping the projected buttons in a single
+`<div modal-actions class="confirm-host__actions">` with
+`display: flex; flex: 1 1 auto; gap: var(--sc-spacing-600)` and
+`flex: 1 1 0` on each child `.btn`. The `:host ::ng-deep` rule lives
+at the top of `confirm-host.component.scss` (not nested under
+`.aed-modal {}` — `:host` cannot be a descendant of an arbitrary
+selector).
+
+**Why.** Confirm-host modals are decision flows ("discard" vs
+"continue") where the two options carry comparable weight. Visually
+equal-sized buttons communicate parity. Destructive modals
+(`delete-entity-dialog`, etc.) keep flush-right so the dangerous
+action is clearly secondary in visual weight to the cancel/back
+action.
+
+**Discarded.** (a) `justify-content: stretch` on the footer — invalid
+on flex main-axis, silently falls back to `flex-start`. (b) Projecting
+individual buttons inside @if/@else without a wrapper — Angular
+NG8011 (multiple root nodes for content projection slot). (c) Nesting
+`:host ::ng-deep` inside `.aed-modal {}` — produces
+`.aed-modal :host ...` which never matches.
+
+**Documentation.** Audit findings + remaining drift between forms
+catalogued at [`docs/inconsistencies-audit.md`](docs/inconsistencies-audit.md).
+
+---
+
 ## 53 — Per-(agent, group) channel permissions live in a dedicated link store, not on either entity (2026-05-10)
 
 **Decision.** Channel permissions move from a global `Agent.channels[]` +

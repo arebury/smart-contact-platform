@@ -725,8 +725,7 @@
         "counter": "{{count}} grupos",
         "empty": "Aún no hay grupos asignados a este agente. Usa el buscador para añadir.",
         "col_group": "Grupo",
-        "col_offer": "Canales del grupo",
-        "col_channels_here": "Sus canales aquí",
+        "col_channels_here": "Canales en este grupo",
         "col_active": "Activo",
         "active_aria": "Pausar al agente en {{name}}",
         "remove_aria": "Quitar al agente de {{name}}"
@@ -734,7 +733,23 @@
       "permissions": {
         "devices": "Dispositivos",
         "calls": "Llamadas salientes",
-        "transfers": "Transferencias"
+        "transfers": "Transferencias",
+        "manage_devices": "Gestión de dispositivos",
+        "manage_devices_hint": "El agente puede administrar sus dispositivos asignados",
+        "self_activate": "Activación por grupo",
+        "self_activate_hint": "El agente puede activarse o desactivarse en cada grupo",
+        "external_devices": "Dispositivos externos",
+        "external_devices_hint": "Permite usar dispositivos no provistos por la plataforma",
+        "calls_section": "Llamadas",
+        "destino": "Destino",
+        "col_llamada": "Llamadas",
+        "col_transferencia": "Transferencias",
+        "toggle_all_llamada": "Activar/desactivar todas las llamadas",
+        "toggle_all_transferencia": "Activar/desactivar todas las transferencias",
+        "row_fijos": "Fijos",
+        "row_moviles": "Móviles",
+        "row_internacionales": "Internacionales",
+        "row_especial": "Numeración especial"
       },
       "danger_zone_description": "Eliminar este agente lo desasigna de todos los grupos donde participa. La acción no se puede deshacer."
     },

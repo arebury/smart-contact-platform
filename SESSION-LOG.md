@@ -10,6 +10,54 @@
 
 ---
 
+## 2026-05-10/11 · Session 20 — Modal real-fix + impeccable pass + permisos matriz + audit
+
+> Branch `fix/discard-modal-density`. Follow-up polish on top of DD#53.
+> PR #22 had a broken modal fix; this session ships the real fix +
+> impeccable findings on the group-assignment table + the canonical
+> matrix layout for agent permissions + an inconsistency audit.
+
+**Worked on**
+
+- **Modal real fix.** Three stacked bugs in confirm-host: invalid
+  `:host` selector nesting (broke `.btn min-width`), invalid
+  `justify-content: stretch` on flex main-axis (silently fell back to
+  flex-start), and content-projection of bare buttons inside @if/@else
+  triggering NG8011. Fixed by wrapping projected content in a single
+  `<div modal-actions class="confirm-host__actions">` and using
+  `flex: 1 1 0` on `.btn` children for true 50/50 split. Top-level
+  `:host ::ng-deep` rule moved out of nested block.
+
+- **Impeccable pass on `aed-group-assignment-table`.** Dropped the
+  duplicate "Canales del grupo" offer column (channels were already
+  shown as checkboxes on each row — the offer column was noise). Added
+  a dedicated `chip--off` modifier (dashed border + muted text) so
+  off-state is distinguishable from read-only pills. i18n keys
+  `col_offer` and `col_channels_here` cleaned up.
+
+- **Agent permissions section rebuilt** to match the canonical
+  `/admin/aed/agentes` matrix layout: three `perm-toggle-row` blocks
+  (manageDevices / selfActivate / externalDevices) + a `perm-matrix`
+  table with column-header select-all checkboxes and 4 destino rows
+  (Fijos / Móviles / Internacionales / Especial). Mapped matrix
+  coordinates to flat `AgentPermissions` keys via
+  `PERMISSION_MATRIX_KEYS` lookup table.
+
+- **Inconsistency audit** at
+  [`docs/inconsistencies-audit.md`](docs/inconsistencies-audit.md).
+  7 findings, top-2 priorities for next session: extract the duplicated
+  matrix CSS (`.perm-matrix` vs `.permisos-table`) into a shared
+  component, and delete the dead `.toggle` SCSS block in
+  user-form-page.
+
+**Result**
+
+- 163 tests passing. Lint + format + tsc-noEmit clean.
+- Branch `fix/discard-modal-density` ahead of `origin` with new
+  commits; PR #22 supersedes the earlier broken modal fix.
+
+---
+
 ## 2026-05-10 · Session 19 — Per-agent-per-group channel permissions refactor (DD#53)
 
 > Branch `feat/per-group-agent-channels`. Voice parity: channels move

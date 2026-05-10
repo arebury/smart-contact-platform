@@ -341,25 +341,108 @@
   }
 }
 
-.permission-blocks {
+/* Permission toggle row — mirrors `/admin/aed/agentes` switch-field. */
+.perm-toggle-row {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   gap: var(--sc-spacing-400);
+  padding: var(--sc-spacing-200) 0;
+  border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+
+  &:last-of-type {
+    border-bottom: 0;
+  }
+
+  &__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  &__label {
+    font-size: var(--sc-font-size-200);
+    font-weight: var(--sc-font-weight-medium);
+    color: var(--sc-text-primary);
+  }
+
+  &__hint {
+    font-size: var(--sc-font-size-100);
+    color: var(--sc-text-subtle);
+  }
 }
 
-.permission-block {
-  border: 1px solid var(--sc-border-subtle);
-  border-radius: var(--sc-radius-100);
-  padding: var(--sc-spacing-300);
-  background: var(--sc-bg-surface);
+/* Calls / Transfers matrix — destino × col, with select-all column headers. */
+.perm-matrix {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: var(--sc-spacing-200);
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-150);
+    margin-top: var(--sc-spacing-400);
+    padding-top: var(--sc-spacing-300);
+    border-top: 1px solid var(--sc-border-default);
+    color: var(--sc-text-secondary);
+  }
 
   &__title {
-    margin: 0 0 var(--sc-spacing-200);
+    margin: 0;
     font-size: var(--sc-font-size-100);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-text-subtle);
+  }
+
+  thead th {
+    font-size: var(--sc-font-size-50);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--sc-text-subtle);
     font-weight: var(--sc-font-weight-semibold);
+    text-align: left;
+    padding: var(--sc-spacing-150) var(--sc-spacing-200);
+    border-bottom: 1px solid var(--sc-border-default);
+  }
+
+  &__th-col {
+    text-align: center !important;
+    width: 140px;
+  }
+
+  &__col-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-100);
+    cursor: pointer;
+    color: inherit;
+  }
+
+  tbody th,
+  tbody td {
+    padding: var(--sc-spacing-200);
+    border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+    vertical-align: middle;
+  }
+
+  &__th-row {
+    text-align: left;
+    font-size: var(--sc-font-size-200);
+    font-weight: var(--sc-font-weight-regular);
+    color: var(--sc-text-primary);
+  }
+
+  &__cell {
+    text-align: center;
+  }
+
+  tr:last-child th,
+  tr:last-child td {
+    border-bottom: 0;
   }
 }
 

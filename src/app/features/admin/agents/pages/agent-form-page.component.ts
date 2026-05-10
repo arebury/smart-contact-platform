@@ -11,7 +11,7 @@ import {
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Mail, Phone, LucideAngularModule } from 'lucide-angular';
+import { Mail, Phone, PhoneCall, LucideAngularModule, ShieldCheck } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -54,6 +54,27 @@ import {
   AgentGroupAssignmentRef,
   GroupAssignmentTableComponent,
 } from '../components/group-assignment-table/group-assignment-table.component';
+
+type DestinoKey = 'fijos' | 'moviles' | 'internacionales' | 'especial';
+type DestinoCol = 'llamada' | 'transferencia';
+
+/**
+ * Maps the (destino × call/transfer) matrix cells to the flat
+ * `AgentPermissions` keys. Mirrors the destino taxonomy used by the
+ * canonical `/admin/aed/agentes` defaults page so both forms share the
+ * same mental model.
+ */
+const PERMISSION_MATRIX_KEYS: Readonly<
+  Record<DestinoKey, Record<DestinoCol, keyof AgentPermissions>>
+> = {
+  fijos: { llamada: 'callsDestFixed', transferencia: 'transfersDestFixed' },
+  moviles: { llamada: 'callsDestMobile', transferencia: 'transfersDestMobile' },
+  internacionales: {
+    llamada: 'callsDestInternational',
+    transferencia: 'transfersDestInternational',
+  },
+  especial: { llamada: 'callsDestSpecial', transferencia: 'transfersDestSpecial' },
+};
 
 interface FormState {
   name: string;
@@ -105,6 +126,8 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected readonly mailIcon = Mail;
   protected readonly phoneIcon = Phone;
+  protected readonly phoneCallIcon = PhoneCall;
+  protected readonly shieldIcon = ShieldCheck;
   protected readonly agentTypes = AGENT_TYPES;
   protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
@@ -148,6 +171,47 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly devicePermissions = DEVICE_PERMISSIONS;
   protected readonly callPermissions = CALL_PERMISSIONS;
   protected readonly transferPermissions = TRANSFER_PERMISSIONS;
+
+  /**
+   * Matrix layout for the calls/transfers permissions, matching the
+   * canonical `aed-agentes` defaults page. Rows are destination categories,
+   * columns are llamada/transferencia. Each (row, col) maps to one flat
+   * `AgentPermissions` key.
+   */
+  protected readonly destinoKeys: readonly DestinoKey[] = [
+    'fijos',
+    'moviles',
+    'internacionales',
+    'especial',
+  ];
+
+  protected readonly columnAllSelected = computed(() => {
+    const p = this.form().permissions;
+    return {
+      llamada: this.destinoKeys.every((k) => p[PERMISSION_MATRIX_KEYS[k].llamada]),
+      transferencia: this.destinoKeys.every((k) => p[PERMISSION_MATRIX_KEYS[k].transferencia]),
+    };
+  });
+
+  protected matrixValue(row: DestinoKey, col: DestinoCol): boolean {
+    return this.form().permissions[PERMISSION_MATRIX_KEYS[row][col]];
+  }
+
+  protected toggleMatrix(row: DestinoKey, col: DestinoCol): void {
+    this.togglePermission(PERMISSION_MATRIX_KEYS[row][col]);
+  }
+
+  protected toggleColumnAll(col: DestinoCol): void {
+    const next = !this.columnAllSelected()[col];
+    this.formDirty.set(true);
+    this.form.update((f) => {
+      const permissions = { ...f.permissions };
+      for (const row of this.destinoKeys) {
+        permissions[PERMISSION_MATRIX_KEYS[row][col]] = next;
+      }
+      return { ...f, permissions };
+    });
+  }
   protected readonly presenceStates: readonly PresenceStatus[] = [
     'disponible',
     'no_disponible',

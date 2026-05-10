@@ -59,9 +59,6 @@
           <th class="gatbl__th-name" scope="col">
             {{ 'agents.form.assigned.col_group' | translate }}
           </th>
-          <th class="gatbl__th-offer" scope="col">
-            {{ 'agents.form.assigned.col_offer' | translate }}
-          </th>
           <th class="gatbl__th-channels" scope="col">
             {{ 'agents.form.assigned.col_channels_here' | translate }}
           </th>
@@ -78,16 +75,12 @@
               <aed-illustrated-avatar [name]="row.group.name" pool="abstract" [size]="22" />
               <span class="gatbl__name-label">{{ row.group.name }}</span>
             </td>
-            <td class="gatbl__td-offer">
-              @for (ch of row.group.channels; track ch) {
-                <span class="gatbl__offer-pill">{{ channelKeys[ch] | translate }}</span>
-              }
-            </td>
             <td class="gatbl__td-channels">
               @for (ch of row.group.channels; track ch) {
                 <label
                   class="gatbl__chip"
                   [class.gatbl__chip--on]="hasChannel(row.link, ch)"
+                  [class.gatbl__chip--off]="!hasChannel(row.link, ch)"
                   [class.gatbl__chip--disabled]="!row.link.active"
                 >
                   <input

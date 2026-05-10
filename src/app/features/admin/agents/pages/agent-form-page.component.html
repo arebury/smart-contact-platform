@@ -314,63 +314,129 @@
             anchorId="agent-section-permissions"
             titleKey="agents.form.section.permissions"
           >
-            <div class="permission-blocks">
-              <div class="permission-block">
-                <h3 class="permission-block__title">
-                  {{ 'agents.form.permissions.devices' | translate }}
-                </h3>
-                <div class="checkbox-grid">
-                  @for (def of devicePermissions; track def.key) {
-                    @if (def.key !== 'recording') {
-                      <label class="checkbox-row">
-                        <input
-                          type="checkbox"
-                          [checked]="form().permissions[def.key]"
-                          (change)="togglePermission(def.key)"
-                        />
-                        <span>{{ def.labelKey | translate }}</span>
-                      </label>
-                    }
-                  }
-                </div>
+            <!-- Permisos generales: dos toggles globales (mismo patrón que /admin/aed/agentes) -->
+            <div class="perm-toggle-row">
+              <div class="perm-toggle-row__copy">
+                <span class="perm-toggle-row__label">
+                  {{ 'agents.form.permissions.manage_devices' | translate }}
+                </span>
+                <span class="perm-toggle-row__hint">
+                  {{ 'agents.form.permissions.manage_devices_hint' | translate }}
+                </span>
               </div>
-
-              <div class="permission-block">
-                <h3 class="permission-block__title">
-                  {{ 'agents.form.permissions.calls' | translate }}
-                </h3>
-                <div class="checkbox-grid">
-                  @for (def of callPermissions; track def.key) {
-                    <label class="checkbox-row">
-                      <input
-                        type="checkbox"
-                        [checked]="form().permissions[def.key]"
-                        (change)="togglePermission(def.key)"
-                      />
-                      <span>{{ def.labelKey | translate }}</span>
-                    </label>
-                  }
-                </div>
-              </div>
-
-              <div class="permission-block">
-                <h3 class="permission-block__title">
-                  {{ 'agents.form.permissions.transfers' | translate }}
-                </h3>
-                <div class="checkbox-grid">
-                  @for (def of transferPermissions; track def.key) {
-                    <label class="checkbox-row">
-                      <input
-                        type="checkbox"
-                        [checked]="form().permissions[def.key]"
-                        (change)="togglePermission(def.key)"
-                      />
-                      <span>{{ def.labelKey | translate }}</span>
-                    </label>
-                  }
-                </div>
-              </div>
+              <aed-toggle-switch
+                [checked]="form().permissions.manageDevices"
+                [ariaLabel]="'agents.form.permissions.manage_devices' | translate"
+                (checkedChange)="togglePermission('manageDevices')"
+              />
             </div>
+
+            <div class="perm-toggle-row">
+              <div class="perm-toggle-row__copy">
+                <span class="perm-toggle-row__label">
+                  {{ 'agents.form.permissions.self_activate' | translate }}
+                </span>
+                <span class="perm-toggle-row__hint">
+                  {{ 'agents.form.permissions.self_activate_hint' | translate }}
+                </span>
+              </div>
+              <aed-toggle-switch
+                [checked]="form().permissions.selfActivate"
+                [ariaLabel]="'agents.form.permissions.self_activate' | translate"
+                (checkedChange)="togglePermission('selfActivate')"
+              />
+            </div>
+
+            <div class="perm-toggle-row">
+              <div class="perm-toggle-row__copy">
+                <span class="perm-toggle-row__label">
+                  {{ 'agents.form.permissions.external_devices' | translate }}
+                </span>
+                <span class="perm-toggle-row__hint">
+                  {{ 'agents.form.permissions.external_devices_hint' | translate }}
+                </span>
+              </div>
+              <aed-toggle-switch
+                [checked]="form().permissions.externalDevices"
+                [ariaLabel]="'agents.form.permissions.external_devices' | translate"
+                (checkedChange)="togglePermission('externalDevices')"
+              />
+            </div>
+
+            <!-- Matriz de Llamadas / Transferencias por destino -->
+            <header class="perm-matrix__head">
+              <lucide-icon [img]="phoneCallIcon" [size]="14" aria-hidden="true" />
+              <h3 class="perm-matrix__title">
+                {{ 'agents.form.permissions.calls_section' | translate }}
+              </h3>
+            </header>
+
+            <table class="perm-matrix">
+              <thead>
+                <tr>
+                  <th scope="col" class="perm-matrix__th-label">
+                    {{ 'agents.form.permissions.destino' | translate }}
+                  </th>
+                  <th scope="col" class="perm-matrix__th-col">
+                    <label class="perm-matrix__col-toggle">
+                      <input
+                        type="checkbox"
+                        [checked]="columnAllSelected().llamada"
+                        (change)="toggleColumnAll('llamada')"
+                        [attr.aria-label]="'agents.form.permissions.toggle_all_llamada' | translate"
+                      />
+                      <span>{{ 'agents.form.permissions.col_llamada' | translate }}</span>
+                    </label>
+                  </th>
+                  <th scope="col" class="perm-matrix__th-col">
+                    <label class="perm-matrix__col-toggle">
+                      <input
+                        type="checkbox"
+                        [checked]="columnAllSelected().transferencia"
+                        (change)="toggleColumnAll('transferencia')"
+                        [attr.aria-label]="
+                          'agents.form.permissions.toggle_all_transferencia' | translate
+                        "
+                      />
+                      <span>{{ 'agents.form.permissions.col_transferencia' | translate }}</span>
+                    </label>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (row of destinoKeys; track row) {
+                  <tr>
+                    <th scope="row" class="perm-matrix__th-row">
+                      {{ 'agents.form.permissions.row_' + row | translate }}
+                    </th>
+                    <td class="perm-matrix__cell">
+                      <input
+                        type="checkbox"
+                        [checked]="matrixValue(row, 'llamada')"
+                        (change)="toggleMatrix(row, 'llamada')"
+                        [attr.aria-label]="
+                          ('agents.form.permissions.row_' + row | translate) +
+                          ' — ' +
+                          ('agents.form.permissions.col_llamada' | translate)
+                        "
+                      />
+                    </td>
+                    <td class="perm-matrix__cell">
+                      <input
+                        type="checkbox"
+                        [checked]="matrixValue(row, 'transferencia')"
+                        (change)="toggleMatrix(row, 'transferencia')"
+                        [attr.aria-label]="
+                          ('agents.form.permissions.row_' + row | translate) +
+                          ' — ' +
+                          ('agents.form.permissions.col_transferencia' | translate)
+                        "
+                      />
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
           </aed-section-card>
 
           <aed-section-card
