@@ -984,11 +984,5 @@
         "confirm_body": "Esta acción borrará todos los cambios que hayas hecho en agentes, grupos, usuarios, etiquetas, plantillas y repositorios. La página se recargará."
       }
     }
-  },
-  "errors": {
-    "not_found": "No encontrado",
-    "generic": "Algo salió mal",
-    "page_not_available": "Esta página aún no está disponible",
-    "unexpected": "Se produjo un error inesperado"
   }
 }

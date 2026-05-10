@@ -23,8 +23,6 @@ export type { DeletableEntity } from './delete-entity-dialog/delete-entity-dialo
 
 export { EmptyStateComponent } from './empty-state/empty-state.component';
 
-export { EntityAvatarComponent } from './entity-avatar/entity-avatar.component';
-
 export { IllustratedAvatarComponent } from './illustrated-avatar/illustrated-avatar.component';
 export type { IllustratedAvatarPool } from './illustrated-avatar/illustrated-avatar.component';
 

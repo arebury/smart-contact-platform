@@ -129,7 +129,7 @@
   padding: var(--sc-spacing-200) var(--sc-spacing-500);
   border-top: 1px solid var(--sc-border-subtle);
   font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-  font-size: 11px;
+  font-size: var(--sc-font-size-75);
   line-height: 16px;
   color: var(--sc-text-subtle);
 }

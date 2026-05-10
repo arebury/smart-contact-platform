@@ -15,6 +15,7 @@ import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
 import { CrossTabLockService } from '@core/services';
+import { EMAIL_RE } from '@core/utils/validators';
 import {
   DeleteEntityDialogComponent,
   FormDangerZoneComponent,
@@ -53,9 +54,6 @@ interface FormState {
   services: ReadonlySet<string>;
   photo: string | null;
 }
-
-/** RFC-permissive email — accepts `user+tag@domain.tld` (delegate addresses). */
-const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
 
 @Component({
   selector: 'aed-user-form-page',

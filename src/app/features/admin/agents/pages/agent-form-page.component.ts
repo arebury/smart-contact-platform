@@ -16,6 +16,7 @@ import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
 import { CrossTabLockService } from '@core/services';
+import { EMAIL_RE, PIN_RE } from '@core/utils/validators';
 import {
   DeleteEntityDialogComponent,
   FormDangerZoneComponent,
@@ -68,10 +69,6 @@ interface FormState {
   languages: readonly string[];
   labelIds: ReadonlySet<number>;
 }
-
-const PIN_RE = /^\d{3,6}$/;
-/** RFC-permissive email — accepts `user+tag@domain.tld` (delegate addresses). */
-const EMAIL_RE = /^[^\s@]+(\+[^\s@]+)?@[^\s@]+\.[^\s@]+$/;
 
 @Component({
   selector: 'aed-agent-form-page',

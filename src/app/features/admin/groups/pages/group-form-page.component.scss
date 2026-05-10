@@ -87,7 +87,7 @@
   gap: var(--sc-spacing-100);
   padding: 3px var(--sc-spacing-200);
   border-radius: var(--sc-radius-full);
-  font-size: 11px;
+  font-size: var(--sc-font-size-75);
   font-weight: var(--sc-font-weight-medium, 500);
   letter-spacing: 0.01em;
   border: 1px solid transparent;
@@ -120,8 +120,8 @@
     }
   }
   &--priority-Media {
-    background: color-mix(in oklch, #c47a00 12%, var(--sc-bg-surface));
-    color: #8a5500;
+    background: color-mix(in oklch, var(--sc-priority-medium) 12%, var(--sc-bg-surface));
+    color: var(--sc-priority-medium-deep);
   }
   &--priority-Baja {
     background: var(--sc-bg-secondary-subtle);

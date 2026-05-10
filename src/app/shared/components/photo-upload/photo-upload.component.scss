@@ -55,7 +55,7 @@
   }
 
   &__hint {
-    font-size: 11px;
+    font-size: var(--sc-font-size-75);
     color: var(--sc-text-disabled, #9ca3af);
     /* Reserve space so toggling the remove link doesn't shift layout */
     min-height: 14px;
@@ -65,7 +65,7 @@
     border: 0;
     background: transparent;
     padding: 0;
-    font-size: 11px;
+    font-size: var(--sc-font-size-75);
     color: var(--sc-text-subtle, #9ca3af);
     cursor: pointer;
 

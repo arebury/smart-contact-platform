@@ -204,7 +204,7 @@
   gap: var(--sc-spacing-100);
   padding: 3px var(--sc-spacing-200);
   border-radius: var(--sc-radius-full);
-  font-size: 11px;
+  font-size: var(--sc-font-size-75);
   font-weight: var(--sc-font-weight-medium, 500);
   letter-spacing: 0.01em;
   border: 1px solid transparent;
@@ -224,8 +224,8 @@
   }
 
   &--status-active {
-    background: color-mix(in oklch, #1a8a4a 12%, var(--sc-bg-surface));
-    color: #1a6a3a;
+    background: color-mix(in oklch, var(--sc-presence-available) 12%, var(--sc-bg-surface));
+    color: var(--sc-presence-available-deep);
     animation: status-pop-active 360ms cubic-bezier(0.16, 1, 0.3, 1);
   }
   &--status-inactive {
@@ -244,21 +244,21 @@
 
   /* Presence colors (lowercase Spanish keys, matching agents-data.ts) */
   &--presence-disponible {
-    color: #1a8a4a;
-    background: color-mix(in oklch, #1a8a4a 10%, var(--sc-bg-surface));
+    color: var(--sc-presence-available);
+    background: color-mix(in oklch, var(--sc-presence-available) 10%, var(--sc-bg-surface));
   }
   &--presence-no_disponible {
-    color: var(--sc-text-subtle);
+    color: var(--sc-presence-offline);
     background: var(--sc-bg-secondary-subtle);
   }
   &--presence-bano,
   &--presence-comida {
-    color: #b07e1a;
-    background: color-mix(in oklch, #b07e1a 10%, var(--sc-bg-surface));
+    color: var(--sc-presence-paused);
+    background: color-mix(in oklch, var(--sc-presence-paused) 10%, var(--sc-bg-surface));
   }
   &--presence-formacion {
-    color: #b91c4b;
-    background: color-mix(in oklch, #b91c4b 10%, var(--sc-bg-surface));
+    color: var(--sc-presence-training);
+    background: color-mix(in oklch, var(--sc-presence-training) 10%, var(--sc-bg-surface));
   }
 
   /* "Live" pulse on the presence dot when the agent is available */

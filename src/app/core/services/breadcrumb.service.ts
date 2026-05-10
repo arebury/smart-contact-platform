@@ -1,4 +1,5 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, DestroyRef, inject, Injectable, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRouteSnapshot, NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
@@ -51,6 +52,7 @@ interface RouteData {
 export class BreadcrumbService {
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
+  private readonly destroyRef = inject(DestroyRef);
 
   /** Manual override pushed by a page; cleared on every navigation. */
   private readonly manualTrail = signal<readonly BreadcrumbItem[] | null>(null);
@@ -66,13 +68,16 @@ export class BreadcrumbService {
     this.autoTrail.set(this.computeTrail());
 
     this.router.events
-      .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
+      .pipe(
+        filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+        takeUntilDestroyed(this.destroyRef),
+      )
       .subscribe(() => {
         this.manualTrail.set(null);
         this.autoTrail.set(this.computeTrail());
       });
 
-    this.translate.onLangChange.subscribe(() => {
+    this.translate.onLangChange.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.autoTrail.set(this.computeTrail());
     });
   }
