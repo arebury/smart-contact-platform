@@ -12,7 +12,7 @@ import {
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
-import { UndoStackService } from '@core/services';
+import { ThemeService, UndoStackService } from '@core/services';
 import {
   CommandPaletteComponent,
   ConfirmHostComponent,
@@ -39,6 +39,15 @@ type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'cont
 export class AppComponent {
   private readonly messages = inject(MessageService);
   protected readonly undoStack = inject(UndoStackService);
+  /*
+   * `ThemeService` runs its DOM-application effect inside the
+   * constructor — without an injection somewhere in the running app,
+   * the service is never instantiated and `.aed-dark` is never
+   * applied. Inject here as a side-effect dependency; the field is
+   * unused by the template, but the bootstrap is the goal.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private readonly _theme = inject(ThemeService);
 
   protected readonly closeIcon = X;
 
