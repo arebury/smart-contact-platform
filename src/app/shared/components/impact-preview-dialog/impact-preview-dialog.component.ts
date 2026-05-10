@@ -65,13 +65,10 @@ export class ImpactPreviewDialogComponent {
 
   constructor() {
     // Reset chip pruning whenever a new operation is requested.
-    effect(
-      () => {
-        this.items();
-        this.removedIds.set(new Set());
-      },
-      { allowSignalWrites: true },
-    );
+    effect(() => {
+      this.items();
+      this.removedIds.set(new Set());
+    });
   }
 
   protected remove(id: number): void {
