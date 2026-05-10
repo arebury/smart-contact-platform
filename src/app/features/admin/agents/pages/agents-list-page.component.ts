@@ -77,26 +77,25 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
 ];
 
 @Component({
-  selector: 'aed-agents-list-page',
-  standalone: true,
-  imports: [
-    BulkActionBarComponent,
-    BulkEditMenuComponent,
-    ClickOutsideDirective,
-    ColumnSelectorComponent,
-    DeleteEntityDialogComponent,
-    EmptyStateComponent,
-    IllustratedAvatarComponent,
-    GroupPopoverComponent,
-    ImpactPreviewDialogComponent,
-    InlineRenameCellComponent,
-    LucideAngularModule,
-    SortableHeaderDirective,
-    TranslateModule,
-  ],
-  templateUrl: './agents-list-page.component.html',
-  styleUrl: './agents-list-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-agents-list-page',
+    imports: [
+        BulkActionBarComponent,
+        BulkEditMenuComponent,
+        ClickOutsideDirective,
+        ColumnSelectorComponent,
+        DeleteEntityDialogComponent,
+        EmptyStateComponent,
+        IllustratedAvatarComponent,
+        GroupPopoverComponent,
+        ImpactPreviewDialogComponent,
+        InlineRenameCellComponent,
+        LucideAngularModule,
+        SortableHeaderDirective,
+        TranslateModule,
+    ],
+    templateUrl: './agents-list-page.component.html',
+    styleUrl: './agents-list-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AgentsListPageComponent {
   private readonly agentsStore = inject(AgentsStore);

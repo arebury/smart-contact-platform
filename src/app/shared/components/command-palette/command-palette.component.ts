@@ -33,12 +33,11 @@ interface GroupedCommands {
  * Click on backdrop closes; click on a command runs it.
  */
 @Component({
-  selector: 'aed-command-palette',
-  standalone: true,
-  imports: [LucideAngularModule],
-  templateUrl: './command-palette.component.html',
-  styleUrl: './command-palette.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-command-palette',
+    imports: [LucideAngularModule],
+    templateUrl: './command-palette.component.html',
+    styleUrl: './command-palette.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CommandPaletteComponent {
   protected readonly host = inject(CommandPaletteService);

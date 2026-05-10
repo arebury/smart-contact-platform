@@ -60,12 +60,11 @@ const DEFAULT_FORM: FormState = {
  * "select-all-in-column" toggles.
  */
 @Component({
-  selector: 'aed-aed-agentes-page',
-  standalone: true,
-  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
-  templateUrl: './aed-agentes-page.component.html',
-  styleUrls: ['./aed-defaults-page.component.scss', './aed-agentes-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-aed-agentes-page',
+    imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+    templateUrl: './aed-agentes-page.component.html',
+    styleUrls: ['./aed-defaults-page.component.scss', './aed-agentes-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AedAgentesPageComponent {
   private readonly messages = inject(MessageService);

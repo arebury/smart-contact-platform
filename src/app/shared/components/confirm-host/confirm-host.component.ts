@@ -11,12 +11,11 @@ import { ModalComponent } from '../modal/modal.component';
  * button clicks back into it. Mounted once in `app.component.html`.
  */
 @Component({
-  selector: 'aed-confirm-host',
-  standalone: true,
-  imports: [ModalComponent],
-  templateUrl: './confirm-host.component.html',
-  styleUrl: './confirm-host.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-confirm-host',
+    imports: [ModalComponent],
+    templateUrl: './confirm-host.component.html',
+    styleUrl: './confirm-host.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ConfirmHostComponent {
   protected readonly host = inject(ConfirmHostService);

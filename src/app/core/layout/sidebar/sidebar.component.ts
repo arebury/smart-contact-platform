@@ -23,12 +23,11 @@ import { SidebarNavItemComponent } from './sidebar-nav-item.component';
  * the recursive `<aed-sidebar-nav-item>` children so they highlight properly.
  */
 @Component({
-  selector: 'aed-sidebar',
-  standalone: true,
-  imports: [LucideAngularModule, RouterLink, SidebarNavItemComponent, TranslateModule],
-  templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-sidebar',
+    imports: [LucideAngularModule, RouterLink, SidebarNavItemComponent, TranslateModule],
+    templateUrl: './sidebar.component.html',
+    styleUrl: './sidebar.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent {
   private readonly router = inject(Router);

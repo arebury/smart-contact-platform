@@ -7,11 +7,10 @@ import { TranslateModule } from '@ngx-translate/core';
  * React prototype).
  */
 @Component({
-  selector: 'aed-placeholder-page',
-  standalone: true,
-  imports: [TranslateModule],
-  templateUrl: './placeholder-page.component.html',
-  styleUrl: './placeholder-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-placeholder-page',
+    imports: [TranslateModule],
+    templateUrl: './placeholder-page.component.html',
+    styleUrl: './placeholder-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlaceholderPageComponent {}

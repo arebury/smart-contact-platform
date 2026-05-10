@@ -53,24 +53,23 @@ interface FormState {
 }
 
 @Component({
-  selector: 'aed-group-form-page',
-  standalone: true,
-  imports: [
-    CdkDrag,
-    CdkDropList,
-    DeleteEntityDialogComponent,
-    FormDangerZoneComponent,
-    FormSectionNavComponent,
-    IllustratedAvatarComponent,
-    LucideAngularModule,
-    SectionCardComponent,
-    StickyFormHeaderComponent,
-    ToggleSwitchComponent,
-    TranslateModule,
-  ],
-  templateUrl: './group-form-page.component.html',
-  styleUrl: './group-form-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-group-form-page',
+    imports: [
+        CdkDrag,
+        CdkDropList,
+        DeleteEntityDialogComponent,
+        FormDangerZoneComponent,
+        FormSectionNavComponent,
+        IllustratedAvatarComponent,
+        LucideAngularModule,
+        SectionCardComponent,
+        StickyFormHeaderComponent,
+        ToggleSwitchComponent,
+        TranslateModule,
+    ],
+    templateUrl: './group-form-page.component.html',
+    styleUrl: './group-form-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);

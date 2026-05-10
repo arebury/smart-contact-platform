@@ -11,12 +11,11 @@ import { LucideAngularModule, Trash2 } from 'lucide-angular';
  * this component is just the visual frame and the trigger.
  */
 @Component({
-  selector: 'aed-form-danger-zone',
-  standalone: true,
-  imports: [LucideAngularModule, TranslateModule],
-  templateUrl: './form-danger-zone.component.html',
-  styleUrl: './form-danger-zone.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-form-danger-zone',
+    imports: [LucideAngularModule, TranslateModule],
+    templateUrl: './form-danger-zone.component.html',
+    styleUrl: './form-danger-zone.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormDangerZoneComponent {
   readonly titleKey = input<string>('common.danger_zone.title');

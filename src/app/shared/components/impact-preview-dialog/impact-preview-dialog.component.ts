@@ -32,12 +32,11 @@ export interface ImpactBadge {
  * Mirrors the React prototype's `ImpactPreviewDialog` (DD#298).
  */
 @Component({
-  selector: 'aed-impact-preview-dialog',
-  standalone: true,
-  imports: [LucideAngularModule, ModalComponent],
-  templateUrl: './impact-preview-dialog.component.html',
-  styleUrl: './impact-preview-dialog.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-impact-preview-dialog',
+    imports: [LucideAngularModule, ModalComponent],
+    templateUrl: './impact-preview-dialog.component.html',
+    styleUrl: './impact-preview-dialog.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImpactPreviewDialogComponent {
   readonly visible = input.required<boolean>();

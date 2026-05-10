@@ -29,12 +29,11 @@ import { LucideAngularModule, Check, X } from 'lucide-angular';
  * collapse to icon-only width so the cell width never changes.
  */
 @Component({
-  selector: 'aed-inline-rename-cell',
-  standalone: true,
-  imports: [FormsModule, LucideAngularModule],
-  templateUrl: './inline-rename-cell.component.html',
-  styleUrl: './inline-rename-cell.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-inline-rename-cell',
+    imports: [FormsModule, LucideAngularModule],
+    templateUrl: './inline-rename-cell.component.html',
+    styleUrl: './inline-rename-cell.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InlineRenameCellComponent implements AfterViewInit {
   readonly initialValue = input.required<string>();

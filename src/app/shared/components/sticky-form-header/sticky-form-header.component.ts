@@ -20,12 +20,11 @@ import { ArrowLeft, Check, Loader2, LucideAngularModule, Pencil, X } from 'lucid
  * true; "Save" is disabled while `[canSave]` is false.
  */
 @Component({
-  selector: 'aed-sticky-form-header',
-  standalone: true,
-  imports: [FormsModule, LucideAngularModule, TranslateModule],
-  templateUrl: './sticky-form-header.component.html',
-  styleUrl: './sticky-form-header.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-sticky-form-header',
+    imports: [FormsModule, LucideAngularModule, TranslateModule],
+    templateUrl: './sticky-form-header.component.html',
+    styleUrl: './sticky-form-header.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StickyFormHeaderComponent {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);

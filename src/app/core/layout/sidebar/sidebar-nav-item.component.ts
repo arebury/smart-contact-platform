@@ -26,12 +26,11 @@ import type { NavItem } from './nav-data';
  * computed re-evaluation when the parent route changes.
  */
 @Component({
-  selector: 'aed-sidebar-nav-item',
-  standalone: true,
-  imports: [LucideAngularModule, TranslateModule],
-  templateUrl: './sidebar-nav-item.component.html',
-  styleUrl: './sidebar-nav-item.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-sidebar-nav-item',
+    imports: [LucideAngularModule, TranslateModule],
+    templateUrl: './sidebar-nav-item.component.html',
+    styleUrl: './sidebar-nav-item.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarNavItemComponent implements OnInit {
   readonly item = input.required<NavItem>();

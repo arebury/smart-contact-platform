@@ -33,12 +33,11 @@ export interface DeletableEntity {
  * Mirrors the React prototype's `DeleteEntityDialog` (DD#163, DD#172).
  */
 @Component({
-  selector: 'aed-delete-entity-dialog',
-  standalone: true,
-  imports: [FormsModule, LucideAngularModule, ModalComponent, TranslateModule],
-  templateUrl: './delete-entity-dialog.component.html',
-  styleUrl: './delete-entity-dialog.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-delete-entity-dialog',
+    imports: [FormsModule, LucideAngularModule, ModalComponent, TranslateModule],
+    templateUrl: './delete-entity-dialog.component.html',
+    styleUrl: './delete-entity-dialog.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DeleteEntityDialogComponent {
   private readonly clipboard = inject(ClipboardService);

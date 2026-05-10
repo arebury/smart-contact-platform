@@ -21,12 +21,11 @@ interface ShortcutGroup {
  * code, only by the keyboard.
  */
 @Component({
-  selector: 'aed-keyboard-shortcuts',
-  standalone: true,
-  imports: [LucideAngularModule],
-  templateUrl: './keyboard-shortcuts.component.html',
-  styleUrl: './keyboard-shortcuts.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-keyboard-shortcuts',
+    imports: [LucideAngularModule],
+    templateUrl: './keyboard-shortcuts.component.html',
+    styleUrl: './keyboard-shortcuts.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class KeyboardShortcutsComponent {
   private readonly palette = inject(CommandPaletteService);

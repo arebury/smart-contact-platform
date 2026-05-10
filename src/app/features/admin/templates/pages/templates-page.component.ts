@@ -32,19 +32,18 @@ interface ContextMenuPos {
 }
 
 @Component({
-  selector: 'aed-templates-page',
-  standalone: true,
-  imports: [
-    BulkActionBarComponent,
-    ClickOutsideDirective,
-    DeleteEntityDialogComponent,
-    LucideAngularModule,
-    TemplateFormPanelComponent,
-    TranslateModule,
-  ],
-  templateUrl: './templates-page.component.html',
-  styleUrl: './templates-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-templates-page',
+    imports: [
+        BulkActionBarComponent,
+        ClickOutsideDirective,
+        DeleteEntityDialogComponent,
+        LucideAngularModule,
+        TemplateFormPanelComponent,
+        TranslateModule,
+    ],
+    templateUrl: './templates-page.component.html',
+    styleUrl: './templates-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplatesPageComponent {
   private readonly templatesStore = inject(TemplatesStore);

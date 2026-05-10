@@ -32,12 +32,11 @@ export interface FormNavSection {
  * the StickyFormHeader, not whichever happens to be largest in view.
  */
 @Component({
-  selector: 'aed-form-section-nav',
-  standalone: true,
-  imports: [TranslateModule],
-  templateUrl: './form-section-nav.component.html',
-  styleUrl: './form-section-nav.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-form-section-nav',
+    imports: [TranslateModule],
+    templateUrl: './form-section-nav.component.html',
+    styleUrl: './form-section-nav.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormSectionNavComponent implements AfterViewInit {
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);

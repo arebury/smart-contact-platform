@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, DOCUMENT } from '@angular/core';
+
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   AlertTriangle,
@@ -67,17 +67,16 @@ const APP_DATA_PREFIX = 'smartcontact_';
  * shell. See DD#44.
  */
 @Component({
-  selector: 'aed-sistema-page',
-  standalone: true,
-  imports: [
-    LucideAngularModule,
-    NumeracionEspecialSectionComponent,
-    ToggleSwitchComponent,
-    TranslateModule,
-  ],
-  templateUrl: './sistema-page.component.html',
-  styleUrl: './sistema-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-sistema-page',
+    imports: [
+        LucideAngularModule,
+        NumeracionEspecialSectionComponent,
+        ToggleSwitchComponent,
+        TranslateModule,
+    ],
+    templateUrl: './sistema-page.component.html',
+    styleUrl: './sistema-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SistemaPageComponent {
   protected readonly theme = inject(ThemeService);

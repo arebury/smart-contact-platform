@@ -41,12 +41,11 @@ export interface BulkEditCommit {
  * not own that dialog — caller can pipe `commit` straight into the preview.
  */
 @Component({
-  selector: 'aed-bulk-edit-menu',
-  standalone: true,
-  imports: [LucideAngularModule],
-  templateUrl: './bulk-edit-menu.component.html',
-  styleUrl: './bulk-edit-menu.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-bulk-edit-menu',
+    imports: [LucideAngularModule],
+    templateUrl: './bulk-edit-menu.component.html',
+    styleUrl: './bulk-edit-menu.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BulkEditMenuComponent {
   readonly fields = input.required<readonly BulkEditFieldOption[]>();

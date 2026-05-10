@@ -30,12 +30,11 @@ export interface TemplateFormSubmission {
  * record).
  */
 @Component({
-  selector: 'aed-template-form-panel',
-  standalone: true,
-  imports: [FormsModule, LucideAngularModule, TranslateModule],
-  templateUrl: './template-form-panel.component.html',
-  styleUrl: './template-form-panel.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-template-form-panel',
+    imports: [FormsModule, LucideAngularModule, TranslateModule],
+    templateUrl: './template-form-panel.component.html',
+    styleUrl: './template-form-panel.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TemplateFormPanelComponent implements OnInit, AfterViewInit {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);

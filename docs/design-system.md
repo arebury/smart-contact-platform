@@ -3,12 +3,11 @@
 > Architecture and conventions for the AED design-token layer.
 > The full token catalog lives at [`src/app/core/tokens/`](../src/app/core/tokens/).
 >
-> **Stack reference**: this doc was written against **Angular 18.2 +
-> PrimeNG 18.0** (the versions currently in `package.json`). The
-> token-layering model described below mirrors PrimeNG v18's design-
-> token architecture. PrimeNG 21 is available as of writing — the
-> upgrade path is left for a dedicated session because it requires
-> Angular 21 too and visual validation across every screen.
+> **Stack reference**: **Angular 21.2 + PrimeNG 21.1** (current
+> `package.json`). The token-layering model below mirrors PrimeNG's
+> design-token architecture; the bridge layer (06) is the inheritance
+> layer that pipes AED's `--sc-*` source-of-truth tokens into the
+> `--p-*` runtime variables PrimeNG components consume.
 
 ## TL;DR
 
@@ -35,7 +34,7 @@ itself or any earlier layer, never later.
 
 ## Why this shape
 
-PrimeNG v18's design-token system has three abstraction layers
+PrimeNG's design-token system has three abstraction layers
 (primitive, semantic, components) that you compose via a JavaScript
 `definePreset()` call which generates `--p-*` CSS variables at runtime.
 

@@ -34,19 +34,18 @@ interface ContextMenuPos {
  * bulk delete (via shared `DeleteEntityDialog`), and XLSX export.
  */
 @Component({
-  selector: 'aed-repo-list-page',
-  standalone: true,
-  imports: [
-    BulkActionBarComponent,
-    ClickOutsideDirective,
-    DeleteEntityDialogComponent,
-    LucideAngularModule,
-    RepoFormPanelComponent,
-    TranslateModule,
-  ],
-  templateUrl: './repo-list-page.component.html',
-  styleUrl: './repo-list-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-repo-list-page',
+    imports: [
+        BulkActionBarComponent,
+        ClickOutsideDirective,
+        DeleteEntityDialogComponent,
+        LucideAngularModule,
+        RepoFormPanelComponent,
+        TranslateModule,
+    ],
+    templateUrl: './repo-list-page.component.html',
+    styleUrl: './repo-list-page.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RepoListPageComponent<T extends RepoEntity> {
   private readonly messages = inject(MessageService);

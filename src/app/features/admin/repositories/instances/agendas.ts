@@ -156,11 +156,10 @@ const FIELDS: readonly RepoFieldDef[] = [
 ];
 
 @Component({
-  selector: 'aed-agendas-page',
-  standalone: true,
-  imports: [RepoListPageComponent],
-  template: `<aed-repo-list-page [config]="config" [store]="store" />`,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'aed-agendas-page',
+    imports: [RepoListPageComponent],
+    template: `<aed-repo-list-page [config]="config" [store]="store" />`,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AgendasPageComponent {
   protected readonly store = inject(AgendasStore);
