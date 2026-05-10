@@ -179,77 +179,13 @@
       titleKey="groups.form.section.agents"
       hintKey="groups.form.section.agents_hint"
     >
-      <div class="agents">
-        <div
-          cdkDropList
-          id="assigned-list"
-          [cdkDropListData]="form().assignedAgents"
-          [cdkDropListConnectedTo]="['available-list']"
-          class="agents__assigned agents__droppable"
-          (cdkDropListDropped)="onAgentDrop($event)"
-        >
-          <h3 class="agents__sub">
-            {{ 'groups.form.assigned_count' | translate: { count: form().assignedAgents.length } }}
-          </h3>
-
-          @if (form().assignedAgents.length === 0) {
-            <div class="agents__empty">{{ 'groups.form.no_agents_assigned' | translate }}</div>
-          } @else {
-            <ul class="agents__list">
-              @for (agent of form().assignedAgents; track agent; let i = $index) {
-                <li class="agents__row" cdkDrag [cdkDragData]="agent">
-                  <span class="agents__order">{{ i + 1 }}</span>
-                  <span class="agents__handle" cdkDragHandle aria-label="Reorder">
-                    <lucide-icon [img]="gripIcon" [size]="14" aria-hidden="true" />
-                  </span>
-                  <span class="agents__name">{{ agent }}</span>
-                  <button
-                    type="button"
-                    class="agents__remove"
-                    (click)="removeAgent(agent)"
-                    [attr.aria-label]="'groups.form.remove_agent' | translate"
-                  >
-                    <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
-                  </button>
-                </li>
-              }
-            </ul>
-          }
-        </div>
-
-        <div
-          cdkDropList
-          id="available-list"
-          [cdkDropListData]="availableAgents()"
-          [cdkDropListConnectedTo]="['assigned-list']"
-          class="agents__roster agents__droppable"
-          (cdkDropListDropped)="onAgentDrop($event)"
-        >
-          <h3 class="agents__sub">
-            {{ 'groups.form.available_agents' | translate }}
-          </h3>
-          @if (availableAgents().length === 0) {
-            <div class="agents__empty">{{ 'groups.form.all_assigned' | translate }}</div>
-          } @else {
-            <ul class="agents__list agents__list--roster">
-              @for (agent of availableAgents(); track agent) {
-                <li class="agents__roster-row" cdkDrag [cdkDragData]="agent">
-                  <span class="agents__name">{{ agent }}</span>
-                  <button
-                    type="button"
-                    class="agents__add"
-                    (click)="addAgent(agent)"
-                    [attr.aria-label]="'groups.form.add_agent' | translate"
-                  >
-                    <lucide-icon [img]="plusIcon" [size]="13" aria-hidden="true" />
-                    <span>{{ 'common.create' | translate }}</span>
-                  </button>
-                </li>
-              }
-            </ul>
-          }
-        </div>
-      </div>
+      <aed-agent-channel-table
+        [groupChannels]="formGroupChannels()"
+        [links]="form().links"
+        [availableAgents]="availableAgents()"
+        [groupId]="editingId() ?? 0"
+        (linksChange)="onLinksChange($event)"
+      />
     </aed-section-card>
 
     @if (mode() === 'edit') {
