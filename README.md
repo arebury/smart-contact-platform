@@ -1,18 +1,18 @@
 # AED — SmartContact Supervisor
 
-> El panel del supervisor de SmartContact. Angular 18 + PrimeNG 18, todo el
+> El panel del supervisor de SmartContact. Angular 21 + PrimeNG 21, todo el
 > look pintado con tokens `--sc-*`. Migrado de un prototipo React + Vite
 > que sigue ahí, congelado, en
 > [`docs/prototype-reference/`](./docs/prototype-reference/) por si quieres
 > consultarlo.
 
 <p>
-  <img alt="Angular"     src="https://img.shields.io/badge/Angular-18.2-DD0031?logo=angular&logoColor=white">
-  <img alt="PrimeNG"     src="https://img.shields.io/badge/PrimeNG-18-1976D2">
-  <img alt="TypeScript"  src="https://img.shields.io/badge/TypeScript-5.5-3178C6?logo=typescript&logoColor=white">
-  <img alt="Standalone"  src="https://img.shields.io/badge/standalone%20components-yes-2f3642">
+  <img alt="Angular"     src="https://img.shields.io/badge/Angular-21.2-DD0031?logo=angular&logoColor=white">
+  <img alt="PrimeNG"     src="https://img.shields.io/badge/PrimeNG-21-1976D2">
+  <img alt="TypeScript"  src="https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white">
   <img alt="Signals"     src="https://img.shields.io/badge/state-signals-1b273d">
   <img alt="i18n"        src="https://img.shields.io/badge/i18n-ngx--translate-5ad3e6">
+  <img alt="Playwright"  src="https://img.shields.io/badge/visual%20regression-Playwright-2EAD33?logo=playwright&logoColor=white">
   <img alt="Node"        src="https://img.shields.io/badge/node-%E2%89%A520-339933?logo=node.js&logoColor=white">
   <img alt="License"     src="https://img.shields.io/badge/license-private-lightgrey">
 </p>
@@ -43,9 +43,10 @@ npm start
 
 Abre **http://localhost:4200**. Ya está.
 
-> **Nota Node.** El proyecto pide Node 20 (LTS). Si tienes 25, Angular CLI
-> crashea en local con `SemVer is not a constructor` — instala 20 con
-> `nvm install 20 && nvm use 20`. CI y Netlify ya van con 20.
+> **Nota Node.** El proyecto pide Node ≥ 20.19 (Angular 21 lo exige en sus
+> engines). Si vas con Node 25 verás `SemVer is not a constructor` al
+> arrancar Angular CLI — instala 20 con `nvm install 20 && nvm use 20`.
+> CI y Netlify ya van con 20.
 
 ---
 
@@ -60,6 +61,7 @@ Abre **http://localhost:4200**. Ya está.
 | `npm run lint` | ESLint + reglas Angular + accesibilidad en plantillas. |
 | `npm run format` | Prettier escribe el repo entero. |
 | `npm run format:check` | Prettier valida sin escribir (lo que corre en CI). |
+| `npx tsx e2e/snapshot.ts <set>` | Playwright captura el repertorio de pantallas (dashboard, lists, forms…) y guarda PNGs en `e2e/screenshots/<set>/`. Útil para A/B antes y después de un refactor visual. |
 
 ---
 
@@ -96,15 +98,20 @@ en [`memory.md`](./memory.md).
 ## El sistema de tokens (lo importante)
 
 Todos los colores, espaciados, tipografías y radios pasan por
-**`--sc-*`** custom properties declaradas en
-[`src/app/core/tokens/sc-tokens.css`](./src/app/core/tokens/sc-tokens.css).
-Ese archivo es **la única fuente de verdad** del look — no hay valores
+**`--sc-*`** custom properties organizadas en una cascada de siete capas
+(primitive → semantic → palette → component → extensions → primeng-bridge
+→ dark) bajo
+[`src/app/core/tokens/`](./src/app/core/tokens/). La estructura mira a
+PrimeNG como referencia (mismo modelo: primitive / semantic / components
+/ overrides). Es **la única fuente de verdad** del look — no hay valores
 raw en código de componente. PrimeNG hereda automáticamente porque sus
-`--p-*` variables se sobrescriben en la sección 4 de ese mismo archivo.
+`--p-*` variables se redirigen a los `--sc-*` en la capa 6 (bridge).
 
-¿Quieres cambiar el color primario de toda la app? Cambias una línea ahí.
+¿Quieres cambiar el color primario de toda la app? Cambias una línea
+en `01-primitive.css` o `02-semantic.css`.
 ¿Añadir un token nuevo? Sigue las reglas en
 [`src/app/core/tokens/README.md`](./src/app/core/tokens/README.md).
+Para entender la arquitectura entera: [`docs/design-system.md`](./docs/design-system.md).
 
 ---
 
@@ -112,11 +119,12 @@ raw en código de componente. PrimeNG hereda automáticamente porque sus
 
 | Si quieres… | Ve a |
 | --- | --- |
-| Entender por qué tomamos cada decisión grande | [`DECISIONS.md`](./DECISIONS.md) |
+| Entender por qué tomamos cada decisión grande | [`DECISIONS.md`](./DECISIONS.md) (técnica) · [`DECISIONES.md`](./DECISIONES.md) (versión humana en castellano) |
 | Saber qué pasó en cada sesión de trabajo | [`SESSION-LOG.md`](./SESSION-LOG.md) |
 | Convenciones de código y arquitectura | [`memory.md`](./memory.md) |
 | Roadmap: qué hay hecho y qué queda | [`roadmap.md`](./roadmap.md) |
 | Análisis original de la migración | [`docs/phase-0-analysis.md`](./docs/phase-0-analysis.md) |
+| Arquitectura del design system | [`docs/design-system.md`](./docs/design-system.md) |
 | Añadir o cambiar un design token | [`src/app/core/tokens/README.md`](./src/app/core/tokens/README.md) |
 | Consultar el prototipo React original | [`docs/prototype-reference/`](./docs/prototype-reference/) |
 
@@ -124,10 +132,11 @@ raw en código de componente. PrimeNG hereda automáticamente porque sus
 
 ## Stack en una frase
 
-`Angular 18 standalone` + `PrimeNG 18 (Aura)` + `signals` +
-`@angular/cdk` + `@ngx-translate/core` + `xlsx` + `lucide-angular` +
-`ESLint` + `Prettier` + `Karma/Jasmine`. El **por qué** de cada elección
-está en [`memory.md`](./memory.md#stack).
+`Angular 21` + `PrimeNG 21 (Aura)` + `signals` + `@angular/cdk` +
+`@ngx-translate/core` + `xlsx` + `lucide-angular` + `ESLint` +
+`Prettier` + `Karma/Jasmine` para tests + `Playwright` para visual
+regression. El **por qué** de cada elección está en
+[`memory.md`](./memory.md#stack).
 
 ---
 
@@ -167,7 +176,7 @@ imperativo, scope cuando aporta:
 ```
 feat(supervisor): add Labels feature with color picker
 fix(tokens): align --p-form-field-padding-x with spacing-300
-chore: bump @primeng/themes to 18.1
+chore(upgrade): Angular 20 → 21 + PrimeNG 20 → 21
 ci: switch npm ci to npm install for transitive chokidar conflict
 ```
 
