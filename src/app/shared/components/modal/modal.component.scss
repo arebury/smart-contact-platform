@@ -100,17 +100,9 @@
     /* Two adjacent buttons (especially when both are styled equally — e.g.
      * "Sí, descartar" vs "Seguir editando") need breathing room so the
      * user reads them as opposing choices, not one wide bar split. */
-    gap: var(--sc-spacing-500);
+    gap: var(--sc-spacing-600);
     padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
     border-top: 1px solid var(--sc-modal-divider);
-  }
-
-  /* Buttons projected via `<div modal-actions>` need a minimum width so
-   * the dialog reads as two distinct choices rather than two tight pills.
-   * `::ng-deep` is required because the content is projected and lives
-   * outside this component's encapsulated DOM scope. */
-  :host ::ng-deep &__foot .btn {
-    min-width: 116px;
   }
 
   /* Bodyless dialogs (confirm-host etc.) have no body padding between
@@ -144,4 +136,18 @@
   padding: 0 !important;
   border-radius: 0 !important;
   overflow: visible !important;
+}
+
+/*
+ * Buttons projected via `<div modal-actions>` need a minimum width and an
+ * equal-share flex behaviour so that "Descartar" / "Seguir editando" read
+ * as two balanced choices rather than one tight pill and one wide one.
+ * The rule has to live at the top level (outside `.aed-modal {}`) because
+ * `:host` is a pseudo-class on the component element — nesting it inside
+ * a descendant selector would resolve to `.aed-modal :host …` and match
+ * nothing. Content projection puts these buttons outside this component's
+ * encapsulated scope, so `::ng-deep` is the cleanest piercing path.
+ */
+:host ::ng-deep .aed-modal__foot .btn {
+  min-width: 128px;
 }

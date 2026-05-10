@@ -1,3 +1,24 @@
 :host {
   display: contents;
 }
+
+/*
+ * Confirm-host's footer is a binary opposed choice (destructive vs safe).
+ * Stretch the two projected buttons to share the footer width 50/50 with
+ * the canonical gap between them — reads as two clearly distinct panels
+ * rather than two pills crammed at the right edge of a wide dialog.
+ *
+ * Scoped to confirm-host so other modal callers (cascade-channels, future
+ * info dialogs) keep the default flush-right layout.
+ *
+ * `<div modal-actions>` is content-projected, so its children land outside
+ * this component's encapsulated scope — `::ng-deep` is the cleanest path
+ * to reach them.
+ */
+:host ::ng-deep .aed-modal__foot {
+  justify-content: stretch;
+
+  > * {
+    flex: 1 1 0;
+  }
+}
