@@ -26,7 +26,7 @@
       @if (pickerOpen() && pickerCandidates().length > 0) {
         <ul class="gatbl__picker-menu" role="listbox">
           @for (cand of pickerCandidates(); track cand.id) {
-            <li role="option">
+            <li role="option" [attr.aria-selected]="false">
               <button type="button" class="gatbl__picker-option" (click)="addGroup(cand)">
                 <span>{{ cand.name }}</span>
                 <span class="gatbl__picker-meta">

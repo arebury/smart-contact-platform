@@ -26,7 +26,7 @@
       @if (pickerOpen() && pickerCandidates().length > 0) {
         <ul class="actbl__picker-menu" role="listbox">
           @for (cand of pickerCandidates(); track cand.id) {
-            <li role="option">
+            <li role="option" [attr.aria-selected]="false">
               <button type="button" class="actbl__picker-option" (click)="addAgent(cand)">
                 <aed-illustrated-avatar [name]="cand.name" pool="illustrated" [size]="22" />
                 <span>{{ cand.name }}</span>
