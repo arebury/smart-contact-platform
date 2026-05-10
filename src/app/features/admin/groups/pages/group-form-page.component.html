@@ -207,3 +207,28 @@
   (cancelled)="cancelDelete()"
   (confirm)="confirmDelete()"
 />
+
+@if (cascadeConfirm(); as c) {
+  <aed-modal
+    [visible]="true"
+    [title]="'groups.form.cascade.title' | translate"
+    [subtitle]="
+      'groups.form.cascade.body'
+        | translate
+          : {
+              channels: c.removed.map(channelLabel.bind(this)).join(', '),
+              count: c.affected
+            }
+    "
+    (cancelled)="cancelCascade()"
+  >
+    <div modal-actions>
+      <button type="button" class="btn btn--secondary" (click)="cancelCascade()">
+        {{ 'common.cancel' | translate }}
+      </button>
+      <button type="button" class="btn btn--danger" (click)="confirmCascade()">
+        {{ 'groups.form.cascade.confirm' | translate }}
+      </button>
+    </div>
+  </aed-modal>
+}

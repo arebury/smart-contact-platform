@@ -21,6 +21,7 @@ import {
   FormSectionNavComponent,
   type FormNavSection,
   IllustratedAvatarComponent,
+  ModalComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
   ToggleSwitchComponent,
@@ -68,6 +69,7 @@ interface FormState {
     FormSectionNavComponent,
     IllustratedAvatarComponent,
     LucideAngularModule,
+    ModalComponent,
     SectionCardComponent,
     StickyFormHeaderComponent,
     ToggleSwitchComponent,
@@ -109,6 +111,17 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly errors = signal<Readonly<Record<string, string>>>({});
   protected readonly saving = signal(false);
   protected readonly deleteVisible = signal(false);
+
+  /** Channels the group owned when the form was loaded — used to detect
+   *  cascade impact when the user removes a channel before saving. */
+  private readonly initialChannels = signal<ReadonlySet<GroupChannel>>(new Set());
+  /** Links as they stood when the form was loaded — used to count how
+   *  many agents had a removed channel enabled. */
+  private readonly initialLinks = signal<readonly GroupAgentLink[]>([]);
+  protected readonly cascadeConfirm = signal<{
+    readonly removed: readonly GroupChannel[];
+    readonly affected: number;
+  } | null>(null);
 
   readonly formDirty = signal(false);
   protected readonly conflictWarning = signal(false);
@@ -153,6 +166,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       }
       this.editingId.set(group.id);
       this.initial.set(group);
+      const seedLinks = this.linksStore.linksForGroup(group.id);
       this.form.set({
         name: group.name,
         phone: group.phone,
@@ -162,8 +176,10 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         strategy: group.strategy,
         chatStrategy: group.chatStrategy ?? CHAT_STRATEGIES[0]!,
         capacityValue: group.capacityValue ?? '',
-        links: this.linksStore.linksForGroup(group.id),
+        links: seedLinks,
       });
+      this.initialChannels.set(new Set(group.channels));
+      this.initialLinks.set(seedLinks);
       this.releaseLock = this.crossTab.acquire('group', group.id, () =>
         this.conflictWarning.set(true),
       );
@@ -246,6 +262,24 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     if (!this.canSave() || this.saving()) return;
     if (!this.validate()) return;
 
+    // If the user removed any channel the group used to own, surface the
+    // cascade impact before persisting. The dialog's "Continuar" handler
+    // re-enters `save()` with `cascadeConfirm` already shown so this guard
+    // only fires once per save.
+    if (this.editingId() && !this.cascadeConfirm()) {
+      const removed = [...this.initialChannels()].filter((c) => !this.form().channels.has(c));
+      if (removed.length > 0) {
+        const removedSet = new Set(removed);
+        const affected = this.initialLinks().filter((l) =>
+          l.channels.some((c) => removedSet.has(c)),
+        ).length;
+        if (affected > 0) {
+          this.cascadeConfirm.set({ removed, affected });
+          return;
+        }
+      }
+    }
+
     this.saving.set(true);
     setTimeout(() => {
       const f = this.form();
@@ -291,6 +325,20 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected cancel(): void {
     void this.router.navigateByUrl('/admin/grupos');
+  }
+
+  protected cancelCascade(): void {
+    this.cascadeConfirm.set(null);
+  }
+
+  protected confirmCascade(): void {
+    // Re-enter save() — the guard sees `cascadeConfirm` is set and skips the check.
+    this.save();
+    this.cascadeConfirm.set(null);
+  }
+
+  protected channelLabel(c: GroupChannel): string {
+    return this.translate.instant(this.channelKeys[c]);
   }
 
   protected requestDelete(): void {

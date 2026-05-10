@@ -586,6 +586,11 @@
       "all_assigned": "Todos los agentes están asignados",
       "add_agent": "Añadir agente",
       "remove_agent": "Quitar agente",
+      "cascade": {
+        "title": "Vas a quitar canales",
+        "body": "Esto desactivará {{channels}} para {{count}} agentes asignados a este grupo. ¿Continuar?",
+        "confirm": "Sí, quitar"
+      },
       "danger_zone_description": "Eliminar este grupo lo retira de las reglas y rutas que lo referencian. La acción no se puede deshacer."
     },
     "errors": {
