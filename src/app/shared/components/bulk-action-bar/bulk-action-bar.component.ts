@@ -17,11 +17,11 @@ export interface BulkActionEntityLabels {
  * Sits flush with the sidebar via `--sc-sidebar-width`.
  */
 @Component({
-    selector: 'aed-bulk-action-bar',
-    imports: [LucideAngularModule],
-    templateUrl: './bulk-action-bar.component.html',
-    styleUrl: './bulk-action-bar.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-bulk-action-bar',
+  imports: [LucideAngularModule],
+  templateUrl: './bulk-action-bar.component.html',
+  styleUrl: './bulk-action-bar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BulkActionBarComponent {
   readonly count = input.required<number>();

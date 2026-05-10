@@ -1,9 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  TriState,
-  TriStateCheckboxComponent,
-} from './tri-state-checkbox.component';
+import { TriState, TriStateCheckboxComponent } from './tri-state-checkbox.component';
 import { Component, signal } from '@angular/core';
 
 @Component({

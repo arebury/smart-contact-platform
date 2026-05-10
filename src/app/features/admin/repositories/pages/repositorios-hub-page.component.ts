@@ -35,11 +35,11 @@ interface HubCategory {
  * disabled "próximamente" state; today every card is ready.
  */
 @Component({
-    selector: 'aed-repositorios-hub-page',
-    imports: [LucideAngularModule, TranslateModule],
-    templateUrl: './repositorios-hub-page.component.html',
-    styleUrl: './repositorios-hub-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-repositorios-hub-page',
+  imports: [LucideAngularModule, TranslateModule],
+  templateUrl: './repositorios-hub-page.component.html',
+  styleUrl: './repositorios-hub-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RepositoriosHubPageComponent {
   private readonly router = inject(Router);

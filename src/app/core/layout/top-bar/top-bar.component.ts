@@ -27,16 +27,16 @@ import { IllustratedAvatarComponent } from '../../../shared/components/illustrat
  * {@link ClickOutsideDirective}; Esc returns focus to the trigger.
  */
 @Component({
-    selector: 'aed-top-bar',
-    imports: [
-        ClickOutsideDirective,
-        IllustratedAvatarComponent,
-        LucideAngularModule,
-        TranslateModule,
-    ],
-    templateUrl: './top-bar.component.html',
-    styleUrl: './top-bar.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-top-bar',
+  imports: [
+    ClickOutsideDirective,
+    IllustratedAvatarComponent,
+    LucideAngularModule,
+    TranslateModule,
+  ],
+  templateUrl: './top-bar.component.html',
+  styleUrl: './top-bar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TopBarComponent {
   private readonly router = inject(Router);

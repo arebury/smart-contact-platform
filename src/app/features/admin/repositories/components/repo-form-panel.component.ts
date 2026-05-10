@@ -25,11 +25,11 @@ export type RepoFormSubmission = Readonly<Record<string, string>>;
  * (case-insensitive, ignoring the current record).
  */
 @Component({
-    selector: 'aed-repo-form-panel',
-    imports: [FormsModule, LucideAngularModule, TranslateModule],
-    templateUrl: './repo-form-panel.component.html',
-    styleUrl: './repo-form-panel.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-repo-form-panel',
+  imports: [FormsModule, LucideAngularModule, TranslateModule],
+  templateUrl: './repo-form-panel.component.html',
+  styleUrl: './repo-form-panel.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RepoFormPanelComponent<T extends RepoEntity> implements OnInit, AfterViewInit {
   private readonly translate = inject(TranslateService);

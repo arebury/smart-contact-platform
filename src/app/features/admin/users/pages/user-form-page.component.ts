@@ -56,21 +56,21 @@ interface FormState {
 }
 
 @Component({
-    selector: 'aed-user-form-page',
-    imports: [
-        DeleteEntityDialogComponent,
-        FormDangerZoneComponent,
-        FormSectionNavComponent,
-        LucideAngularModule,
-        PhotoUploadComponent,
-        SectionCardComponent,
-        StickyFormHeaderComponent,
-        ToggleSwitchComponent,
-        TranslateModule,
-    ],
-    templateUrl: './user-form-page.component.html',
-    styleUrl: './user-form-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-user-form-page',
+  imports: [
+    DeleteEntityDialogComponent,
+    FormDangerZoneComponent,
+    FormSectionNavComponent,
+    LucideAngularModule,
+    PhotoUploadComponent,
+    SectionCardComponent,
+    StickyFormHeaderComponent,
+    ToggleSwitchComponent,
+    TranslateModule,
+  ],
+  templateUrl: './user-form-page.component.html',
+  styleUrl: './user-form-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);

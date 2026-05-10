@@ -2,12 +2,7 @@
   <!-- Picker row -->
   <div class="gatbl__head">
     <div class="gatbl__picker">
-      <lucide-icon
-        [img]="searchIcon"
-        [size]="14"
-        class="gatbl__picker-icon"
-        aria-hidden="true"
-      />
+      <lucide-icon [img]="searchIcon" [size]="14" class="gatbl__picker-icon" aria-hidden="true" />
       <input
         type="text"
         class="gatbl__picker-input"
@@ -32,11 +27,7 @@
         <ul class="gatbl__picker-menu" role="listbox">
           @for (cand of pickerCandidates(); track cand.id) {
             <li role="option">
-              <button
-                type="button"
-                class="gatbl__picker-option"
-                (click)="addGroup(cand)"
-              >
+              <button type="button" class="gatbl__picker-option" (click)="addGroup(cand)">
                 <span>{{ cand.name }}</span>
                 <span class="gatbl__picker-meta">
                   @for (ch of cand.channels; track ch) {
@@ -82,10 +73,7 @@
       </thead>
       <tbody>
         @for (row of assignedRows(); track row.group.id) {
-          <tr
-            class="gatbl__row"
-            [class.gatbl__row--paused]="!row.link.active"
-          >
+          <tr class="gatbl__row" [class.gatbl__row--paused]="!row.link.active">
             <td class="gatbl__td-name">
               <aed-illustrated-avatar [name]="row.group.name" pool="abstract" [size]="22" />
               <span class="gatbl__name-label">{{ row.group.name }}</span>
@@ -107,9 +95,7 @@
                     [checked]="hasChannel(row.link, ch)"
                     [disabled]="!row.link.active"
                     (change)="toggleChannel(row.group.id, ch)"
-                    [attr.aria-label]="
-                      row.group.name + ' — ' + (channelKeys[ch] | translate)
-                    "
+                    [attr.aria-label]="row.group.name + ' — ' + (channelKeys[ch] | translate)"
                   />
                   <span>{{ channelKeys[ch] | translate }}</span>
                 </label>
@@ -119,7 +105,7 @@
               <aed-toggle-switch
                 [checked]="row.link.active"
                 [ariaLabel]="
-                  ('agents.form.assigned.active_aria' | translate: { name: row.group.name })
+                  'agents.form.assigned.active_aria' | translate: { name: row.group.name }
                 "
                 (checkedChange)="toggleActive(row.group.id, $event)"
               />
@@ -130,7 +116,7 @@
                 class="gatbl__remove"
                 (click)="removeRow(row.group.id)"
                 [attr.aria-label]="
-                  ('agents.form.assigned.remove_aria' | translate: { name: row.group.name })
+                  'agents.form.assigned.remove_aria' | translate: { name: row.group.name }
                 "
               >
                 <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />

@@ -13,10 +13,10 @@ import { SettingsSidebarComponent } from './settings-sidebar.component';
  * own background and inherit the canvas.
  */
 @Component({
-    selector: 'aed-settings-shell',
-    imports: [RouterOutlet, SettingsSidebarComponent],
-    templateUrl: './settings-shell.component.html',
-    styleUrl: './settings-shell.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-settings-shell',
+  imports: [RouterOutlet, SettingsSidebarComponent],
+  templateUrl: './settings-shell.component.html',
+  styleUrl: './settings-shell.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SettingsShellComponent {}

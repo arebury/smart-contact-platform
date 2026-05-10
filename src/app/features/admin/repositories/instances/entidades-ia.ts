@@ -172,10 +172,10 @@ const FIELDS: readonly RepoFieldDef[] = [
 ];
 
 @Component({
-    selector: 'aed-entidades-ia-page',
-    imports: [RepoListPageComponent],
-    template: `<aed-repo-list-page [config]="config" [store]="store" />`,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-entidades-ia-page',
+  imports: [RepoListPageComponent],
+  template: `<aed-repo-list-page [config]="config" [store]="store" />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EntidadesIAPageComponent {
   protected readonly store = inject(EntidadesIAStore);

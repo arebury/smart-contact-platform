@@ -1,18 +1,8 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Search, Trash2, X } from 'lucide-angular';
 
-import {
-  IllustratedAvatarComponent,
-  ToggleSwitchComponent,
-} from '@shared/components';
+import { IllustratedAvatarComponent, ToggleSwitchComponent } from '@shared/components';
 
 import { CHANNEL_LABEL_KEYS, GroupChannel } from '@features/admin/groups/data/groups-data';
 import { Channel, GroupAgentLink } from '@features/admin/services/group-agent-links.types';
@@ -141,9 +131,7 @@ export class GroupAssignmentTableComponent {
   }
 
   protected toggleActive(groupId: number, active: boolean): void {
-    this.linksChange.emit(
-      this.links().map((l) => (l.groupId === groupId ? { ...l, active } : l)),
-    );
+    this.linksChange.emit(this.links().map((l) => (l.groupId === groupId ? { ...l, active } : l)));
   }
 
   // -- picker --

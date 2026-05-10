@@ -2,12 +2,7 @@
   <!-- Picker + search bar -->
   <div class="actbl__head">
     <div class="actbl__picker">
-      <lucide-icon
-        [img]="searchIcon"
-        [size]="14"
-        class="actbl__picker-icon"
-        aria-hidden="true"
-      />
+      <lucide-icon [img]="searchIcon" [size]="14" class="actbl__picker-icon" aria-hidden="true" />
       <input
         type="text"
         class="actbl__picker-input"
@@ -32,11 +27,7 @@
         <ul class="actbl__picker-menu" role="listbox">
           @for (cand of pickerCandidates(); track cand.id) {
             <li role="option">
-              <button
-                type="button"
-                class="actbl__picker-option"
-                (click)="addAgent(cand)"
-              >
+              <button type="button" class="actbl__picker-option" (click)="addAgent(cand)">
                 <aed-illustrated-avatar [name]="cand.name" pool="illustrated" [size]="22" />
                 <span>{{ cand.name }}</span>
               </button>
@@ -61,12 +52,7 @@
     </div>
   } @else {
     <div class="actbl__filterbar">
-      <lucide-icon
-        [img]="searchIcon"
-        [size]="14"
-        class="actbl__filter-icon"
-        aria-hidden="true"
-      />
+      <lucide-icon [img]="searchIcon" [size]="14" class="actbl__filter-icon" aria-hidden="true" />
       <input
         type="text"
         class="actbl__filter-input"
@@ -105,8 +91,8 @@
               <aed-tri-state-checkbox
                 [state]="columnState(ch)"
                 [ariaLabel]="
-                  ('groups.form.assigned.toggle_all_channel'
-                    | translate: { channel: channelKeys[ch] | translate })
+                  'groups.form.assigned.toggle_all_channel'
+                    | translate: { channel: channelKeys[ch] | translate }
                 "
                 (cycle)="bulkToggleColumn(ch, $event)"
               >
@@ -156,9 +142,7 @@
                   [checked]="hasChannel(row.link, ch)"
                   [disabled]="!row.link.active"
                   (change)="toggleChannel(row.agent.id, ch)"
-                  [attr.aria-label]="
-                    row.agent.name + ' — ' + (channelKeys[ch] | translate)
-                  "
+                  [attr.aria-label]="row.agent.name + ' — ' + (channelKeys[ch] | translate)"
                 />
               </td>
             }
@@ -166,7 +150,7 @@
               <aed-toggle-switch
                 [checked]="row.link.active"
                 [ariaLabel]="
-                  ('groups.form.assigned.active_aria' | translate: { name: row.agent.name })
+                  'groups.form.assigned.active_aria' | translate: { name: row.agent.name }
                 "
                 (checkedChange)="toggleActive(row.agent.id, $event)"
               />
@@ -177,7 +161,7 @@
                 class="actbl__remove"
                 (click)="removeRow(row.agent.id)"
                 [attr.aria-label]="
-                  ('groups.form.assigned.remove_aria' | translate: { name: row.agent.name })
+                  'groups.form.assigned.remove_aria' | translate: { name: row.agent.name }
                 "
               >
                 <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
@@ -196,11 +180,13 @@
     </table>
 
     @if (selectedIds().size > 0) {
-      <div class="actbl__bulkbar" role="region" [attr.aria-label]="'labels.bulk_actions' | translate">
+      <div
+        class="actbl__bulkbar"
+        role="region"
+        [attr.aria-label]="'labels.bulk_actions' | translate"
+      >
         <span class="actbl__bulk-count">
-          {{
-            'groups.form.assigned.bulk_count' | translate: { count: selectedIds().size }
-          }}
+          {{ 'groups.form.assigned.bulk_count' | translate: { count: selectedIds().size } }}
         </span>
         <button type="button" class="btn btn--ghost btn--sm" (click)="bulkPause()">
           {{ 'groups.form.assigned.bulk_pause' | translate }}

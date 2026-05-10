@@ -35,11 +35,11 @@ export interface LabelFormSubmission {
  * (cancel).
  */
 @Component({
-    selector: 'aed-label-form-panel',
-    imports: [ColorDotPickerComponent, FormsModule, LucideAngularModule, TranslateModule],
-    templateUrl: './label-form-panel.component.html',
-    styleUrl: './label-form-panel.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-label-form-panel',
+  imports: [ColorDotPickerComponent, FormsModule, LucideAngularModule, TranslateModule],
+  templateUrl: './label-form-panel.component.html',
+  styleUrl: './label-form-panel.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LabelFormPanelComponent implements OnInit, AfterViewInit {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);

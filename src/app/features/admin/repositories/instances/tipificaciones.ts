@@ -185,10 +185,10 @@ const FIELDS: readonly RepoFieldDef[] = [
 ];
 
 @Component({
-    selector: 'aed-tipificaciones-page',
-    imports: [RepoListPageComponent],
-    template: `<aed-repo-list-page [config]="config" [store]="store" />`,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-tipificaciones-page',
+  imports: [RepoListPageComponent],
+  template: `<aed-repo-list-page [config]="config" [store]="store" />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TipificacionesPageComponent {
   protected readonly store = inject(TipificacionesStore);

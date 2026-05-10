@@ -66,9 +66,7 @@ describe('GroupAgentLinksStore', () => {
   it("replaceLinksForAgent swaps out only that agent's links", () => {
     const store = buildStore();
     const otherAgentLinks = store.links().filter((l) => l.agentId !== 1);
-    store.replaceLinksForAgent(1, [
-      { agentId: 1, groupId: 12, channels: ['phone'], active: true },
-    ]);
+    store.replaceLinksForAgent(1, [{ agentId: 1, groupId: 12, channels: ['phone'], active: true }]);
     expect(store.linksForAgent(1).length).toBe(1);
     for (const old of otherAgentLinks) {
       expect(store.getLink(old.agentId, old.groupId)).toEqual(old);
@@ -92,7 +90,12 @@ describe('GroupAgentLinksStore', () => {
   it('cascadeGroupChannelRemoval strips dropped channels and reports affected count', () => {
     const store = buildStore();
     // Group 11 (Online Support) has phone+chat+email. Pre-seed three links.
-    store.upsertLink({ agentId: 7, groupId: 11, channels: ['phone', 'chat', 'email'], active: true });
+    store.upsertLink({
+      agentId: 7,
+      groupId: 11,
+      channels: ['phone', 'chat', 'email'],
+      active: true,
+    });
     store.upsertLink({ agentId: 8, groupId: 11, channels: ['phone', 'email'], active: true });
     store.upsertLink({ agentId: 9, groupId: 11, channels: ['phone'], active: true });
 

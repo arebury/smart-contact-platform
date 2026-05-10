@@ -69,24 +69,24 @@ interface PendingBulkEdit {
 const COLUMN_PREF_KEY = 'sc_groups_columns_v2';
 
 @Component({
-    selector: 'aed-groups-list-page',
-    imports: [
-        BulkActionBarComponent,
-        BulkEditMenuComponent,
-        ClickOutsideDirective,
-        ColumnSelectorComponent,
-        DeleteEntityDialogComponent,
-        EmptyStateComponent,
-        IllustratedAvatarComponent,
-        ImpactPreviewDialogComponent,
-        InlineRenameCellComponent,
-        LucideAngularModule,
-        SortableHeaderDirective,
-        TranslateModule,
-    ],
-    templateUrl: './groups-list-page.component.html',
-    styleUrl: './groups-list-page.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-groups-list-page',
+  imports: [
+    BulkActionBarComponent,
+    BulkEditMenuComponent,
+    ClickOutsideDirective,
+    ColumnSelectorComponent,
+    DeleteEntityDialogComponent,
+    EmptyStateComponent,
+    IllustratedAvatarComponent,
+    ImpactPreviewDialogComponent,
+    InlineRenameCellComponent,
+    LucideAngularModule,
+    SortableHeaderDirective,
+    TranslateModule,
+  ],
+  templateUrl: './groups-list-page.component.html',
+  styleUrl: './groups-list-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupsListPageComponent {
   private readonly groupsStore = inject(GroupsStore);

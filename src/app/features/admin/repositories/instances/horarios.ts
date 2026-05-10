@@ -179,10 +179,10 @@ const FIELDS: readonly RepoFieldDef[] = [
 ];
 
 @Component({
-    selector: 'aed-horarios-page',
-    imports: [RepoListPageComponent],
-    template: `<aed-repo-list-page [config]="config" [store]="store" />`,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-horarios-page',
+  imports: [RepoListPageComponent],
+  template: `<aed-repo-list-page [config]="config" [store]="store" />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HorariosPageComponent {
   protected readonly store = inject(HorariosStore);

@@ -192,10 +192,10 @@ const FIELDS: readonly RepoFieldDef[] = [
 ];
 
 @Component({
-    selector: 'aed-variables-page',
-    imports: [RepoListPageComponent],
-    template: `<aed-repo-list-page [config]="config" [store]="store" />`,
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-variables-page',
+  imports: [RepoListPageComponent],
+  template: `<aed-repo-list-page [config]="config" [store]="store" />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariablesPageComponent {
   protected readonly store = inject(VariablesStore);

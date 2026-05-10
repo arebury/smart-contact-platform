@@ -5,10 +5,7 @@ import { Observable, of } from 'rxjs';
 import { MessageService } from 'primeng/api';
 
 import { ClipboardService } from '@core/services/clipboard.service';
-import {
-  DeletableEntity,
-  DeleteEntityDialogComponent,
-} from './delete-entity-dialog.component';
+import { DeletableEntity, DeleteEntityDialogComponent } from './delete-entity-dialog.component';
 
 /**
  * Translate-loader stub: every key resolves to itself plus interpolated
@@ -67,10 +64,7 @@ describe('DeleteEntityDialogComponent', () => {
         HostComponent,
         TranslateModule.forRoot({ loader: { provide: TranslateLoader, useClass: StubLoader } }),
       ],
-      providers: [
-        MessageService,
-        { provide: ClipboardService, useValue: clipboardSpy },
-      ],
+      providers: [MessageService, { provide: ClipboardService, useValue: clipboardSpy }],
     }).compileComponents();
     fixture = TestBed.createComponent(HostComponent);
     host = fixture.componentInstance;

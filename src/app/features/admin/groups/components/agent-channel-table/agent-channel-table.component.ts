@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  output,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { AlertTriangle, LucideAngularModule, Plus, Search, Trash2, X } from 'lucide-angular';
 
@@ -16,14 +9,8 @@ import {
   TriStateCheckboxComponent,
 } from '@shared/components';
 
-import {
-  CHANNEL_LABEL_KEYS,
-  GroupChannel,
-} from '@features/admin/groups/data/groups-data';
-import {
-  Channel,
-  GroupAgentLink,
-} from '@features/admin/services/group-agent-links.types';
+import { CHANNEL_LABEL_KEYS, GroupChannel } from '@features/admin/groups/data/groups-data';
+import { Channel, GroupAgentLink } from '@features/admin/services/group-agent-links.types';
 
 /** Lightweight agent reference accepted by the table. */
 export interface AgentChannelTableAgent {
@@ -129,8 +116,7 @@ export class AgentChannelTableComponent {
 
   /** Counter — how many active rows have zero channels (the soft warning). */
   protected readonly zeroChannelCount = computed(() => {
-    return this.assignedRows().filter((r) => r.link.active && r.link.channels.length === 0)
-      .length;
+    return this.assignedRows().filter((r) => r.link.active && r.link.channels.length === 0).length;
   });
 
   /** All visible row ids (used by select-all). */
@@ -192,18 +178,14 @@ export class AgentChannelTableComponent {
       this.links().map((l) => {
         if (l.agentId !== agentId) return l;
         const has = l.channels.includes(channel);
-        const channels = has
-          ? l.channels.filter((c) => c !== channel)
-          : [...l.channels, channel];
+        const channels = has ? l.channels.filter((c) => c !== channel) : [...l.channels, channel];
         return { ...l, channels: this.canonicalize(channels) };
       }),
     );
   }
 
   protected toggleActive(agentId: number, active: boolean): void {
-    this.linksChange.emit(
-      this.links().map((l) => (l.agentId === agentId ? { ...l, active } : l)),
-    );
+    this.linksChange.emit(this.links().map((l) => (l.agentId === agentId ? { ...l, active } : l)));
   }
 
   /** Bulk: toggle a channel across the *visible* rows (respects search filter). */

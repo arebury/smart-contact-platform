@@ -307,10 +307,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         });
       } else {
         const created = this.groupsStore.addGroup(payload);
-        this.linksStore.replaceLinksForGroup(
-          created.id,
-          this.normalizeLinks(f.links, created.id),
-        );
+        this.linksStore.replaceLinksForGroup(created.id, this.normalizeLinks(f.links, created.id));
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('groups.toasts.created', { name: created.name }),
@@ -382,7 +379,10 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   }
 
   /** Ensure every link points to the right groupId before persistence. */
-  private normalizeLinks(links: readonly GroupAgentLink[], groupId: number): readonly GroupAgentLink[] {
+  private normalizeLinks(
+    links: readonly GroupAgentLink[],
+    groupId: number,
+  ): readonly GroupAgentLink[] {
     return links.map((l) => (l.groupId === groupId ? l : { ...l, groupId }));
   }
 

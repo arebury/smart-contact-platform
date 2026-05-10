@@ -10,10 +10,10 @@ import { TopBarComponent } from '../top-bar/top-bar.component';
  * global Ctrl+Z undo handler lands as part of the undo-stack feature).
  */
 @Component({
-    selector: 'aed-app-shell',
-    imports: [RouterOutlet, SidebarComponent, TopBarComponent, TranslateModule],
-    templateUrl: './app-shell.component.html',
-    styleUrl: './app-shell.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+  selector: 'aed-app-shell',
+  imports: [RouterOutlet, SidebarComponent, TopBarComponent, TranslateModule],
+  templateUrl: './app-shell.component.html',
+  styleUrl: './app-shell.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppShellComponent {}

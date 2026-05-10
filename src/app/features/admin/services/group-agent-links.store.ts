@@ -1,10 +1,7 @@
 import { computed, Injectable, signal, Signal } from '@angular/core';
 
 import { GROUP_AGENT_LINKS_SEED } from './group-agent-links.seed';
-import {
-  Channel,
-  GroupAgentLink,
-} from './group-agent-links.types';
+import { Channel, GroupAgentLink } from './group-agent-links.types';
 
 const STORAGE_KEY = 'smartcontact_group_agent_links';
 const VERSION_KEY = 'smartcontact_group_agent_links_v';
@@ -80,9 +77,7 @@ export class GroupAgentLinksStore {
    */
   upsertLink(link: GroupAgentLink): void {
     const next = [...this.state()];
-    const idx = next.findIndex(
-      (l) => l.agentId === link.agentId && l.groupId === link.groupId,
-    );
+    const idx = next.findIndex((l) => l.agentId === link.agentId && l.groupId === link.groupId);
     if (idx >= 0) next[idx] = link;
     else next.push(link);
     this.commit(next);
@@ -99,9 +94,7 @@ export class GroupAgentLinksStore {
 
   /** Remove a single link. */
   removeLink(agentId: number, groupId: number): void {
-    this.commit(
-      this.state().filter((l) => !(l.agentId === agentId && l.groupId === groupId)),
-    );
+    this.commit(this.state().filter((l) => !(l.agentId === agentId && l.groupId === groupId)));
   }
 
   /** Replace all links for one agent in one go (used by agent-form save). */
