@@ -203,29 +203,6 @@
               </select>
             </div>
 
-            <!-- Channels (inline pill toggles) -->
-            <div class="identity-card__divider"></div>
-            <div class="field">
-              <label class="field__label">{{ 'agents.form.section.channels' | translate }}</label>
-              <div class="channel-pills">
-                @for (channel of channels; track channel) {
-                  <button
-                    type="button"
-                    class="channel-pill"
-                    [class.channel-pill--active]="hasChannel(channel)"
-                    (click)="toggleChannel(channel)"
-                  >
-                    {{ 'agents.channel.' + channel | translate }}
-                  </button>
-                }
-              </div>
-              <span class="field__error" aria-live="polite">
-                @if (errors()['channels']; as err) {
-                  {{ err | translate }}
-                }
-              </span>
-            </div>
-
             <!-- Status toggle (active/inactive — edit only — moved here from old Identidad section) -->
             @if (mode() === 'edit') {
               <div class="identity-card__divider"></div>
@@ -323,18 +300,12 @@
             titleKey="agents.form.section.groups"
             hintKey="agents.form.section.groups_hint"
           >
-            <div class="checkbox-grid">
-              @for (group of availableGroups; track group.id) {
-                <label class="checkbox-row">
-                  <input
-                    type="checkbox"
-                    [checked]="hasGroup(group.id)"
-                    (change)="toggleGroup(group.id)"
-                  />
-                  <span>{{ group.name }}</span>
-                </label>
-              }
-            </div>
+            <aed-group-assignment-table
+              [links]="form().links"
+              [availableGroups]="availableGroups()"
+              [agentId]="editingId() ?? 0"
+              (linksChange)="onLinksChange($event)"
+            />
           </aed-section-card>
 
           <aed-section-card

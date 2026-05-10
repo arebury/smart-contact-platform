@@ -690,7 +690,7 @@
         "labels": "Etiquetas",
         "labels_hint": "Categorías que ayudan a filtrar y organizar agentes",
         "groups": "Grupos asignados",
-        "groups_hint": "Colas de atención en las que el agente participa",
+        "groups_hint": "En qué grupos trabaja el agente y qué canales atiende en cada uno",
         "permissions": "Permisos",
         "permissions_hint": "Capacidades específicas del agente"
       },
@@ -714,6 +714,18 @@
       },
       "labels_placeholder": "Añadir etiqueta…",
       "labels_empty": "Aún no hay etiquetas. Crea una desde la sección Etiquetas.",
+      "assigned": {
+        "picker_placeholder": "Buscar o añadir grupo…",
+        "picker_aria": "Añadir grupo al agente",
+        "counter": "{{count}} grupos",
+        "empty": "Aún no hay grupos asignados a este agente. Usa el buscador para añadir.",
+        "col_group": "Grupo",
+        "col_offer": "Canales del grupo",
+        "col_channels_here": "Sus canales aquí",
+        "col_active": "Activo",
+        "active_aria": "Pausar al agente en {{name}}",
+        "remove_aria": "Quitar al agente de {{name}}"
+      },
       "permissions": {
         "devices": "Dispositivos",
         "calls": "Llamadas salientes",

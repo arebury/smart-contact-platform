@@ -37,7 +37,7 @@
                 class="actbl__picker-option"
                 (click)="addAgent(cand)"
               >
-                <aed-illustrated-avatar [name]="cand.name" pool="people" [size]="22" />
+                <aed-illustrated-avatar [name]="cand.name" pool="illustrated" [size]="22" />
                 <span>{{ cand.name }}</span>
               </button>
             </li>
@@ -136,7 +136,7 @@
               />
             </td>
             <td class="actbl__td-name">
-              <aed-illustrated-avatar [name]="row.agent.name" pool="people" [size]="26" />
+              <aed-illustrated-avatar [name]="row.agent.name" pool="illustrated" [size]="26" />
               <span class="actbl__name-label">{{ row.agent.name }}</span>
               @if (row.link.active && row.link.channels.length === 0) {
                 <span
