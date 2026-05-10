@@ -75,10 +75,17 @@ export class AgentChannelTableComponent {
   protected readonly warnIcon = AlertTriangle;
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;
 
-  protected readonly searchQuery = signal('');
+  /**
+   * Unified search/add query (Gmail-compose pattern). One field drives two
+   * concurrent behaviours so the user never has to choose where to type:
+   *   - filters the *assigned* rows visible in the table;
+   *   - surfaces a "+ Añadir" suggestion strip below the input for any
+   *     roster member that matches but isn't yet in the group.
+   * Replaces the previous double `pickerQuery` / `searchQuery` pair, which
+   * looked visually identical and forced the user to memorise their roles.
+   */
+  protected readonly query = signal('');
   protected readonly selectedIds = signal<ReadonlySet<number>>(new Set());
-  protected readonly pickerQuery = signal('');
-  protected readonly pickerOpen = signal(false);
 
   /** Map agentId → AgentChannelTableAgent for fast row hydration. */
   private readonly agentById = computed(() => {
@@ -98,20 +105,27 @@ export class AgentChannelTableComponent {
       .filter((r): r is VisibleRow => r !== null);
   });
 
-  /** Search-filtered rows used for the table body. */
+  /** Query-filtered rows used for the table body. */
   protected readonly visibleRows = computed<readonly VisibleRow[]>(() => {
-    const q = this.searchQuery().trim().toLowerCase();
+    const q = this.query().trim().toLowerCase();
     if (!q) return this.assignedRows();
     return this.assignedRows().filter((r) => r.agent.name.toLowerCase().includes(q));
   });
 
-  /** Roster minus already-assigned, optionally filtered by the picker query. */
-  protected readonly pickerCandidates = computed<readonly AgentChannelTableAgent[]>(() => {
+  /**
+   * "Add" suggestions: roster members that match the query AND are not yet
+   * assigned. Capped at 5 so the suggestion strip stays a single readable
+   * row even on small viewports. Empty when the query is empty (the bar
+   * stays hidden — no value in promoting random suggestions out of context).
+   */
+  protected readonly addCandidates = computed<readonly AgentChannelTableAgent[]>(() => {
+    const q = this.query().trim().toLowerCase();
+    if (!q) return [];
     const used = new Set(this.links().map((l) => l.agentId));
-    const q = this.pickerQuery().trim().toLowerCase();
     return this.availableAgents()
       .filter((a) => !used.has(a.id))
-      .filter((a) => (q ? a.name.toLowerCase().includes(q) : true));
+      .filter((a) => a.name.toLowerCase().includes(q))
+      .slice(0, 5);
   });
 
   /** Counter — how many active rows have zero channels (the soft warning). */
@@ -165,7 +179,7 @@ export class AgentChannelTableComponent {
       active: true,
     };
     this.linksChange.emit([...this.links(), link]);
-    this.pickerQuery.set('');
+    this.query.set('');
   }
 
   protected removeRow(agentId: number): void {
@@ -253,33 +267,26 @@ export class AgentChannelTableComponent {
     });
   }
 
-  // -- picker --------------------------------------------------------
+  // -- query input ---------------------------------------------------
 
-  protected openPicker(): void {
-    this.pickerOpen.set(true);
+  protected onQueryInput(event: Event): void {
+    this.query.set((event.target as HTMLInputElement).value);
   }
 
-  protected closePicker(): void {
-    this.pickerOpen.set(false);
-    this.pickerQuery.set('');
+  protected clearQuery(): void {
+    this.query.set('');
   }
 
-  protected onPickerInput(event: Event): void {
-    this.pickerQuery.set((event.target as HTMLInputElement).value);
-    this.pickerOpen.set(true);
-  }
-
-  protected onSearchInput(event: Event): void {
-    this.searchQuery.set((event.target as HTMLInputElement).value);
-  }
-
-  protected onPickerKeydown(event: KeyboardEvent): void {
+  protected onQueryKeydown(event: KeyboardEvent): void {
     if (event.key === 'Enter') {
       event.preventDefault();
-      const candidate = this.pickerCandidates()[0];
+      // Adding has priority over filtering: Enter on a query with an
+      // unambiguous roster suggestion = add it. The filter side-effect
+      // is passive (table already updated), no Enter action needed there.
+      const candidate = this.addCandidates()[0];
       if (candidate) this.addAgent(candidate);
     } else if (event.key === 'Escape') {
-      this.closePicker();
+      this.clearQuery();
     }
   }
 

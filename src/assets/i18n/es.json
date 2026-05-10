@@ -552,10 +552,10 @@
         "agents_hint": "Define qué canales atiende cada agente y si está activo"
       },
       "assigned": {
-        "picker_placeholder": "Buscar o añadir agente…",
-        "picker_aria": "Añadir agente al grupo",
-        "filter_placeholder": "Filtrar agentes asignados…",
-        "filter_aria": "Filtrar agentes asignados",
+        "query_placeholder": "Buscar agente…",
+        "query_aria": "Buscar agente asignado o añadir uno nuevo",
+        "add_suggest": "Añadir al grupo:",
+        "add_suggest_aria": "Añadir a {{name}} al grupo",
         "counter": "{{assigned}} asignados · {{zero}} sin canales",
         "empty": "Aún no hay agentes asignados a este grupo. Usa el buscador para añadir.",
         "no_results": "Ningún agente asignado coincide con el filtro.",

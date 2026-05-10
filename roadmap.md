@@ -196,6 +196,36 @@ per list they become structural.
   do this; would need an `IntersectionObserver` sentinel because
   CSS doesn't expose a `:stuck` pseudo-class.
 
+## Deferred UX — scoped out with constraints
+
+Features intentionally **not** shipped, with the constraint that drove
+the decision. If the constraint changes (or the cost-of-not-having
+becomes high), revisit.
+
+- **"Ver agente" desde el formulario de grupos.** Cuando el supervisor
+  está editando un grupo y quiere consultar un agente de la tabla
+  (horarios, otros grupos, permisos), hoy tiene que ir al sidebar →
+  Agentes → buscar → abrir.
+  - *Por qué no se hizo:* la plataforma productiva real no permite
+    tener la misma sesión activa en dos pestañas, así que la opción
+    natural ("→" que abre el agente en pestaña nueva) no funciona en
+    producción. Las alternativas tienen su coste: (a) navegar en la
+    misma pestaña dispara el modal de descartar cada vez que el admin
+    solo quería echar un vistazo, fricción alta; (b) drawer / popover
+    inline añade un componente nuevo + estado + diseño propio
+    (¿qué info muestra exactamente?). Para una primera iteración no
+    está claro que valga la pena.
+  - *Cuándo revisarlo:* si el supervisor reporta que "estoy todo el
+    rato consultando agentes mientras configuro grupos" se vuelve
+    real. Entonces vale la pena diseñar el popover con calma: qué
+    datos resumir (estado / canales totales derivados de los links /
+    grupos en los que está / horarios), tamaño, accesibilidad,
+    interacción con el dirty-state del form padre.
+  - *Implicación si la plataforma real se relaja (acepta multi-pestaña):*
+    el patrón "→ abre en pestaña nueva con `target="_blank"`" pasa a ser
+    trivial — un `<a>` con icono Lucide, cero estado nuevo. Es la
+    primera opción a probar.
+
 ## Known debt
 
 - Routes resolve to `loadComponent: placeholder` for everything except `/admin/labels`. Each feature flips its own routes when migrated.

@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: var(--sc-spacing-300);
 
-  // ---- head: picker + counter ----
+  // ---- head: unified query input + counter ----
   &__head {
     display: flex;
     align-items: center;
@@ -11,7 +11,7 @@
     flex-wrap: wrap;
   }
 
-  &__picker {
+  &__query {
     position: relative;
     flex: 1 1 320px;
     min-width: 240px;
@@ -19,16 +19,14 @@
     align-items: center;
   }
 
-  &__picker-icon,
-  &__filter-icon {
+  &__query-icon {
     position: absolute;
     left: var(--sc-spacing-200);
     color: var(--sc-text-subtle);
     pointer-events: none;
   }
 
-  &__picker-input,
-  &__filter-input {
+  &__query-input {
     width: 100%;
     padding: 6px var(--sc-spacing-200) 6px
       calc(var(--sc-spacing-200) + 18px + var(--sc-spacing-100));
@@ -52,8 +50,7 @@
     }
   }
 
-  &__picker-clear,
-  &__filter-clear {
+  &__query-clear {
     position: absolute;
     right: var(--sc-spacing-100);
     background: transparent;
@@ -72,43 +69,53 @@
     }
   }
 
-  &__picker-menu {
-    position: absolute;
-    top: calc(100% + 4px);
-    left: 0;
-    right: 0;
-    z-index: 5;
-    margin: 0;
-    padding: var(--sc-spacing-50);
-    list-style: none;
-    background: var(--sc-bg-surface);
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-100);
-    box-shadow: 0 4px 12px rgb(var(--sc-shadow-color-rgb) / 0.12);
-    max-height: 240px;
-    overflow-y: auto;
-  }
-
-  &__picker-option {
+  // ---- suggestion strip ("añadir al grupo: chip chip chip") ----
+  &__suggest {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-150);
-    width: 100%;
-    padding: 6px var(--sc-spacing-150);
-    background: transparent;
-    border: 0;
-    border-radius: var(--sc-radius-50);
-    text-align: left;
-    font-size: var(--sc-font-size-200);
+    gap: var(--sc-spacing-200);
+    flex-wrap: wrap;
+    padding: var(--sc-spacing-150) var(--sc-spacing-200);
+    background: var(--sc-bg-primary-subtle);
+    border: 1px dashed var(--sc-color-blue-300, var(--sc-border-default));
+    border-radius: var(--sc-radius-100);
+  }
+
+  &__suggest-label {
+    font-size: var(--sc-font-size-100);
+    color: var(--sc-text-secondary);
+    flex: 0 0 auto;
+  }
+
+  &__suggest-chips {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: var(--sc-spacing-100);
+  }
+
+  &__suggest-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px var(--sc-spacing-150);
+    background: var(--sc-bg-surface);
+    border: 1px solid var(--sc-border-default);
+    border-radius: var(--sc-radius-full);
     color: var(--sc-text-primary);
+    font-size: var(--sc-font-size-100);
     cursor: pointer;
+    transition:
+      background-color 100ms ease,
+      border-color 100ms ease;
 
     &:hover {
-      background: var(--sc-bg-hover);
+      background: var(--sc-color-blue-700);
+      border-color: var(--sc-color-blue-700);
+      color: var(--sc-color-gray-0);
     }
     &:focus-visible {
       outline: 2px solid var(--sc-color-electric-blue-500);
-      outline-offset: -2px;
+      outline-offset: 2px;
     }
   }
 
@@ -126,15 +133,6 @@
     color: var(--sc-text-subtle);
     border: 1px dashed var(--sc-border-default);
     border-radius: var(--sc-radius-200);
-  }
-
-  // ---- filter bar above table ----
-  &__filterbar {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 320px;
-    max-width: 100%;
   }
 
   // ---- table ----

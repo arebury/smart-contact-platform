@@ -97,9 +97,20 @@
     flex: 0 0 auto;
     display: flex;
     justify-content: flex-end;
-    gap: var(--sc-spacing-300);
+    /* Two adjacent buttons (especially when both are styled equally — e.g.
+     * "Sí, descartar" vs "Seguir editando") need breathing room so the
+     * user reads them as opposing choices, not one wide bar split. */
+    gap: var(--sc-spacing-500);
     padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
     border-top: 1px solid var(--sc-modal-divider);
+  }
+
+  /* Buttons projected via `<div modal-actions>` need a minimum width so
+   * the dialog reads as two distinct choices rather than two tight pills.
+   * `::ng-deep` is required because the content is projected and lives
+   * outside this component's encapsulated DOM scope. */
+  :host ::ng-deep &__foot .btn {
+    min-width: 116px;
   }
 
   /* Bodyless dialogs (confirm-host etc.) have no body padding between
