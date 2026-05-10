@@ -15,6 +15,120 @@
 
 ---
 
+## DD#52 — La capa "PrimeNG bridge" pasa de CSS plano a un preset JS, alineado con PrimeNG 21 (2026-05-10)
+
+**Qué.** Antes había un archivo CSS (`06-primeng-bridge.css`) que
+declaraba cada variable `--p-*` que PrimeNG usa internamente y la
+mapeaba a un token `--sc-*` nuestro. Eso funcionaba pero era el
+patrón antiguo (de PrimeNG 18). Lo hemos sustituido por un preset
+JavaScript en `aed-preset.ts` que hace exactamente lo mismo pero en
+el lugar y la forma que espera PrimeNG 21.
+
+El preset extiende Aura (el tema base) y solo declara los overrides
+de marca: el azul AED como color primario, el azul eléctrico como
+"info", la escala de gris como `surface`, los radios y paddings de
+formulario, etc. Los valores apuntan a `var(--sc-*)` así que la
+fuente única de verdad sigue siendo el catálogo CSS bajo
+`core/tokens/layers/` — el preset solo dice "para esto, usa este
+token".
+
+**Por qué.**
+
+- **PrimeNG 21 prefiere JS.** Tienen conceptos nuevos
+  (`disabledOpacity`, `iconSize`, variantes `formField.sm` / `lg`,
+  estructuras de navegación anidadas) que **solo existen en el
+  preset, no como variables CSS**. Un bridge CSS plano nunca podría
+  sobreescribirlos. Migrando al preset, tenemos un único sitio
+  donde tocar si en el futuro queremos personalizar esos detalles.
+- **Menos duplicación.** Aura ya define sensatamente decenas de
+  estructuras semánticas (formField, list, navigation, overlay).
+  Nuestro bridge CSS las re-declaraba "por si acaso"; el preset
+  hereda de Aura automáticamente, así que nuestro código encoge.
+- **Documentación más honesta.** Quien llegue al proyecto y vea
+  `aed-preset.ts` al lado de `core/tokens/layers/` entiende
+  inmediatamente: "las capas CSS son AED, el preset TS es el puente
+  con PrimeNG". Antes el patrón parecía la forma "oficial" de
+  customizar v21 cuando en realidad era la forma de v18.
+
+**Qué se descartó.**
+
+- Dejar el bridge CSS y solo añadir un comentario diciendo "esto
+  es el patrón viejo". Funcionar funciona, pero cada actualización
+  de PrimeNG nos forzaría a re-auditar manualmente si algo cambió
+  upstream. Migrando ahora, el preset hereda automáticamente lo
+  que Aura defina en el futuro.
+- Poner valores hex literales en el preset
+  (`primary: { 500: '#344a70' }`). Habría roto el patrón de fuente
+  única de verdad: tocar `01-primitive.css` ya no propagaría a
+  componentes PrimeNG. Usar `var(--sc-...)` mantiene la cascada.
+
+**Cuándo aplica.** Cuando alguien quiera tocar cómo se ven los
+componentes de PrimeNG (botones, dialogs, dropdowns, tags, badges,
+toasts). El sitio único de cambio es ahora `aed-preset.ts`.
+
+**Bonus de la misma sesión** — fixes pequeños y honestos que
+salieron del trabajo de validación visual:
+- **Bug crítico**: el `ThemeService` (que activa el modo oscuro)
+  nunca se ejecutaba en producción porque ningún componente lo
+  inyectaba. **El modo oscuro estaba silenciosamente roto desde la
+  v18**; la falta de un toggle visible lo escondía. Ahora se inyecta
+  en `AppComponent` y funciona.
+- Las transparencias del modo oscuro (rojos, verdes, ámbares al
+  18-40%) ahora usan `color-mix(in srgb, var(--sc-color-...) N%,
+  transparent)` en vez de literales `rgb(R G B / A)`. Mismo color
+  resultante, pero ahora cualquier cambio futuro del color base
+  propaga.
+- El color de las sombras (un azul muy oscuro, `15 23 42`) era un
+  literal repetido en 7 archivos. Ahora es un token
+  `--sc-shadow-color-rgb` que centraliza el valor.
+
+---
+
+## DD#51 — Subimos Angular 18 → 21 + PrimeNG 18 → 21 en una rama dedicada con validación visual paso a paso (2026-05-10)
+
+**Qué.** Subimos el stack tres versiones major de golpe: Angular 18
+→ 19 → 20 → 21, PrimeNG 18 → 21, y Angular CDK al ritmo. Lo hicimos
+en una rama propia (`chore/upgrade-angular-21`) con un commit por
+salto, así que si algo se rompe en producción se puede hacer
+rollback granular sin perder el progreso. Cada paso se validó
+visualmente con Playwright comparando contra una baseline pre-
+upgrade — las 10 pantallas principales (dashboard, listas, formularios,
+labels, plantillas, config) se renderizan idénticas después.
+
+**Por qué.**
+
+- **Una sola PR para revisar, commits granulares dentro.** Si el
+  upgrade rompe algo en el paso 2 de 3, `main` se queda en estado
+  medio-actualizado hasta que alguien lo arregle. Trabajar en rama
+  evita ese estado intermedio.
+- **Playwright como red de seguridad.** `tsc --noEmit` detecta
+  errores de tipo, pero no detecta que un componente PrimeNG haya
+  perdido su redondeo o cambiado de tono. Sacar capturas en cada
+  paso convierte "¿cambió algo visualmente?" en algo verificable
+  en 30 segundos.
+- **Aparecieron incompatibilidades en cadena.** PrimeNG 21 necesita
+  CDK ≥ 21; CDK no permite saltar versiones major en `ng update`;
+  `lucide-angular` viejo capaba en Angular 18. Hacerlo en rama
+  permitió descubrir y resolver esas restricciones sin contaminar
+  `main` con estados intermedios rotos.
+
+**Qué se descartó.**
+
+- Hacerlo directo sobre `main`. Más rápido si todo funciona, fatal
+  si algo falla a mitad.
+- Usar `ng update --force` para saltarse las peer-dependencies. Esconde
+  conflictos reales y deja que npm instale versiones transitivas que
+  pueden no funcionar juntas.
+- Validar solo "2 o 3 pantallas". Tres versiones major pueden cada
+  una contribuir un desplazamiento de 1 píxel; el acumulado se
+  convierte en regresión visible. Capturar todo evita la sorpresa.
+
+**Cuándo aplica.** Cuando vuelva a tocar subir Angular o PrimeNG
+una versión major en el futuro: rama dedicada, commits granulares,
+Playwright A/B antes y después.
+
+---
+
 ## DD#50 — El sistema de design tokens se reorganiza en 7 capas estilo PrimeNG (2026-05-10)
 
 **Qué.** El archivo gigante `sc-tokens.css` (975 líneas) se parte en

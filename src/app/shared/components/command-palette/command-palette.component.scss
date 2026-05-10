@@ -5,7 +5,7 @@
 .palette-backdrop {
   position: fixed;
   inset: 0;
-  background: rgb(15 23 42 / 0.45);
+  background: rgb(var(--sc-shadow-color-rgb) / 0.45);
   z-index: var(--sc-z-modal-backdrop);
   animation: palette-backdrop-in var(--sc-transition-fast) var(--sc-easing-default);
 }

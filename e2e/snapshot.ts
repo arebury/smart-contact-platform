@@ -3,15 +3,19 @@
  * Visual snapshot script — drives Playwright through every key screen
  * of the AED app and saves a `.png` per screen under
  * `e2e/screenshots/<set>/<page>.png`. Used to compare BEFORE / AFTER
- * the Angular 18 → 21 upgrade.
+ * any visual refactor (Angular upgrades, dark-mode token tweaks,
+ * SCSS consolidation, …).
  *
  * Usage:
- *   npx ts-node e2e/snapshot.ts <set> [baseUrl]
+ *   npx tsx e2e/snapshot.ts <set> [baseUrl] [theme]
  *
  *   <set>     — folder name under `e2e/screenshots/` (e.g. "baseline",
- *               "after-ng19", "after-ng21").
+ *               "after-ng21", "before-color-mix-dark").
  *   [baseUrl] — defaults to http://localhost:4200. Pass a Netlify URL
  *               if you'd rather snapshot a deployed branch preview.
+ *   [theme]   — "light" (default) or "dark". Sets `localStorage`
+ *               `sc_theme` before navigation so the app's
+ *               `ThemeService` picks the chosen mode on init.
  */
 
 import { chromium, type Page } from '@playwright/test';
@@ -57,19 +61,29 @@ async function snap(page: Page, screen: Screen, baseUrl: string, outDir: string)
 async function main(): Promise<void> {
   const set = process.argv[2];
   const baseUrl = process.argv[3] ?? 'http://localhost:4200';
+  const theme = (process.argv[4] ?? 'light') as 'light' | 'dark';
   if (!set) {
-    console.error('Usage: npx ts-node e2e/snapshot.ts <set> [baseUrl]');
+    console.error('Usage: npx tsx e2e/snapshot.ts <set> [baseUrl] [light|dark]');
+    process.exit(1);
+  }
+  if (theme !== 'light' && theme !== 'dark') {
+    console.error(`Invalid theme "${theme}" — must be "light" or "dark"`);
     process.exit(1);
   }
   const outDir = resolve(__dirname, 'screenshots', set);
   mkdirSync(outDir, { recursive: true });
-  console.log(`📸 Snapshotting "${set}" against ${baseUrl} → ${outDir}`);
+  console.log(`📸 Snapshotting "${set}" (${theme} mode) against ${baseUrl} → ${outDir}`);
 
   const browser = await chromium.launch();
   const context = await browser.newContext({
     viewport: { width: 1440, height: 900 },
     deviceScaleFactor: 2, // retina-quality screenshots
     locale: 'es-ES',
+    /* `colorScheme` is the cleanest dark-mode signal: it sets
+     * `prefers-color-scheme: dark` on the page so AED's
+     * `ThemeService` (which defaults to `'system'`) resolves
+     * `effectiveMode` to `dark` without needing localStorage. */
+    colorScheme: theme === 'dark' ? 'dark' : 'light',
   });
   const page = await context.newPage();
 
