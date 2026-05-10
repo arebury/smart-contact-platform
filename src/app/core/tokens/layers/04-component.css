@@ -31,15 +31,15 @@
    */
 
   /* Shared button geometry */
-  --sc-btn-padding-x: 16px;
-  --sc-btn-padding-y: 12px;
-  --sc-btn-gap: 8px;
-  --sc-btn-radius: 6px;
+  --sc-btn-padding-x: var(--sc-spacing-300);
+  --sc-btn-padding-y: var(--sc-spacing-200);
+  --sc-btn-gap: var(--sc-spacing-100);
+  --sc-btn-radius: var(--sc-radius-200);
 
   /* Primary (solid dark) */
   --sc-btn-primary-bg: var(--sc-color-blue-700);
   --sc-btn-primary-border: var(--sc-color-blue-700);
-  --sc-btn-primary-fg: #ffffff;
+  --sc-btn-primary-fg: var(--sc-color-gray-0);
   --sc-btn-primary-bg-hover: var(--sc-color-blue-800);
   --sc-btn-primary-border-hover: var(--sc-color-blue-800);
   --sc-btn-primary-bg-active: var(--sc-color-blue-900);
@@ -53,7 +53,7 @@
   --sc-btn-primary-subtle-bg-active: var(--sc-color-blue-200);
 
   /* Secondary (white, gray border) */
-  --sc-btn-secondary-bg: #ffffff;
+  --sc-btn-secondary-bg: var(--sc-color-gray-0);
   --sc-btn-secondary-border: var(--sc-color-blue-200);
   --sc-btn-secondary-fg: var(--sc-color-gray-800);
   --sc-btn-secondary-bg-hover: var(--sc-color-gray-100);
@@ -64,7 +64,7 @@
   /* Danger (solid red) */
   --sc-btn-danger-bg: var(--sc-color-red-600);
   --sc-btn-danger-border: var(--sc-color-red-600);
-  --sc-btn-danger-fg: #ffffff;
+  --sc-btn-danger-fg: var(--sc-color-gray-0);
   --sc-btn-danger-bg-hover: var(--sc-color-red-700);
   --sc-btn-danger-border-hover: var(--sc-color-red-700);
   --sc-btn-danger-bg-active: var(--sc-color-red-800);
@@ -78,9 +78,9 @@
   --sc-btn-danger-subtle-bg-active: var(--sc-color-red-200);
 
   /* Disabled (shared across variants) */
-  --sc-btn-disabled-bg: #dadfe6;
-  --sc-btn-disabled-border: #eceff3;
-  --sc-btn-disabled-fg: #c6ccd6;
+  --sc-btn-disabled-bg: var(--sc-color-gray-200);
+  --sc-btn-disabled-border: var(--sc-color-gray-100);
+  --sc-btn-disabled-fg: var(--sc-color-gray-300);
 
   /* =========================================================== */
   /* Modal (Smart Contact design — Figma 1037:34069)             */
@@ -95,13 +95,13 @@
    * lighter than the default border so the divisions read as quiet
    * structure, not framing.
    */
-  --sc-modal-bg: #ffffff;
+  --sc-modal-bg: var(--sc-color-gray-0);
   --sc-modal-border: var(--sc-color-blue-100);
   --sc-modal-divider: var(--sc-color-gray-200);
   --sc-modal-radius: var(--sc-radius-300);
   --sc-modal-shadow: 0 24px 48px rgb(15 23 42 / 0.16);
-  --sc-modal-padding-x: 24px;
-  --sc-modal-padding-y: 20px;
+  --sc-modal-padding-x: var(--sc-spacing-500);
+  --sc-modal-padding-y: var(--sc-spacing-400);
   --sc-modal-head-icon-fg: var(--sc-color-gray-500);
   --sc-modal-title: var(--sc-color-gray-800);
   --sc-modal-subtitle: var(--sc-color-gray-600);
@@ -123,17 +123,17 @@
   --sc-toast-title: var(--sc-color-gray-800);
   --sc-toast-message: var(--sc-color-gray-600);
   --sc-toast-close: var(--sc-color-gray-800);
-  --sc-toast-icon-fg: var(--sc-color-gray-0, #fff);
+  --sc-toast-icon-fg: var(--sc-color-gray-0);
 
   /* Shared geometry */
-  --sc-toast-radius: 12px;
-  --sc-toast-padding-x: 16px;
-  --sc-toast-padding-y: 16px;
-  --sc-toast-gap-content: 8px;
-  --sc-toast-gap-actions: 8px;
-  --sc-toast-gap-message: 4px;
+  --sc-toast-radius: var(--sc-radius-400);
+  --sc-toast-padding-x: var(--sc-spacing-300);
+  --sc-toast-padding-y: var(--sc-spacing-300);
+  --sc-toast-gap-content: var(--sc-spacing-100);
+  --sc-toast-gap-actions: var(--sc-spacing-100);
+  --sc-toast-gap-message: var(--sc-spacing-50);
   --sc-toast-icon-size: 24px;
-  --sc-toast-icon-radius: 6px;
+  --sc-toast-icon-radius: var(--sc-radius-200);
   /* Single fixed width — keeps the stack visually aligned regardless
    * of content length (DD#33). Long messages wrap. */
   --sc-toast-width: 400px;
