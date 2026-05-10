@@ -4,6 +4,11 @@
 /out-tsc
 /bazel-out
 
+# Playwright artifacts (screenshots, traces, videos)
+/e2e/screenshots
+/playwright-report
+/test-results
+
 # Node
 /node_modules
 npm-debug.log

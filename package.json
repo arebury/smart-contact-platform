@@ -45,6 +45,7 @@
     "@angular/build": "^18.2.0",
     "@angular/cli": "^18.2.0",
     "@angular/compiler-cli": "^18.2.0",
+    "@playwright/test": "^1.59.1",
     "@types/jasmine": "~5.1.0",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
