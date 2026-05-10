@@ -33,7 +33,7 @@
                 (click)="run(cmd)"
               >
                 @if (resolveIcon(cmd.icon); as ic) {
-                  <lucide-icon class="palette__item-icon" [img]="ic" [size]="14" />
+                  <lucide-icon class="palette__item-icon" [img]="ic" [size]="14"  aria-hidden="true" />
                 }
                 <span class="palette__item-label">{{ cmd.label }}</span>
               </button>

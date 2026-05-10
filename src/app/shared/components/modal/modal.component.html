@@ -21,7 +21,7 @@
     <header class="aed-modal__head">
       @if (icon(); as ic) {
         <div class="aed-modal__head-icon" aria-hidden="true">
-          <lucide-icon [img]="ic" [size]="16" />
+          <lucide-icon [img]="ic" [size]="16" aria-hidden="true" />
         </div>
       }
       <div class="aed-modal__head-text">
@@ -37,7 +37,7 @@
           [attr.aria-label]="'common.close' | translate"
           (click)="onClose()"
         >
-          <lucide-icon [img]="closeIcon" [size]="16" />
+          <lucide-icon [img]="closeIcon" [size]="16" aria-hidden="true" />
         </button>
       }
     </header>

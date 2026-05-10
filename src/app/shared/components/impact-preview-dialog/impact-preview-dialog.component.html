@@ -11,7 +11,7 @@
       @if (b.currentValueLabel) {
         <span class="badge__current">{{ b.currentValueLabel }}</span>
         <span class="badge__arrow" aria-hidden="true">
-          <lucide-icon [img]="arrowIcon" [size]="12" />
+          <lucide-icon [img]="arrowIcon" [size]="12" aria-hidden="true" />
         </span>
       }
       <span class="badge__new">{{ b.newValueLabel }}</span>
@@ -32,7 +32,7 @@
           [attr.aria-label]="'Quitar ' + item.name"
           [disabled]="survivingItems().length <= 1"
         >
-          <lucide-icon [img]="closeIcon" [size]="11" />
+          <lucide-icon [img]="closeIcon" [size]="11" aria-hidden="true" />
         </button>
       </li>
     }

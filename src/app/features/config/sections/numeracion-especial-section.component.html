@@ -1,18 +1,18 @@
 <section class="card">
   <div class="card__head">
-    <lucide-icon [img]="hashIcon" [size]="14" class="card__head-icon" />
+    <lucide-icon [img]="hashIcon" [size]="14" class="card__head-icon"  aria-hidden="true" />
     <span class="card__head-title">{{ 'config.aed.section.title' | translate }}</span>
     <span class="card__head-hint">{{ 'config.aed.section.hint' | translate }}</span>
   </div>
 
   <div class="card__body">
     <div class="info-callout">
-      <lucide-icon [img]="infoIcon" [size]="14" class="info-callout__icon" />
+      <lucide-icon [img]="infoIcon" [size]="14" class="info-callout__icon"  aria-hidden="true" />
       <p>{{ 'config.aed.info' | translate }}</p>
     </div>
 
     <div class="search">
-      <lucide-icon [img]="searchIcon" [size]="14" class="search__icon" />
+      <lucide-icon [img]="searchIcon" [size]="14" class="search__icon"  aria-hidden="true" />
       <input
         type="text"
         class="search__input"
@@ -28,7 +28,7 @@
           (click)="searchQuery.set('')"
           [attr.aria-label]="'labels.clear_search' | translate"
         >
-          <lucide-icon [img]="closeIcon" [size]="13" />
+          <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
         </button>
       }
     </div>
@@ -65,7 +65,7 @@
                 (click)="remove(country.code, $event)"
                 [attr.aria-label]="'common.delete' | translate"
               >
-                <lucide-icon [img]="closeIcon" [size]="12" />
+                <lucide-icon [img]="closeIcon" [size]="12" aria-hidden="true" />
               </button>
             }
           </button>
@@ -88,7 +88,7 @@
                 (click)="remove(country.code)"
                 [attr.aria-label]="'common.delete' | translate"
               >
-                <lucide-icon [img]="closeIcon" [size]="11" />
+                <lucide-icon [img]="closeIcon" [size]="11" aria-hidden="true" />
               </button>
             </span>
           }
@@ -103,7 +103,7 @@
         {{ 'config.aed.discard' | translate }}
       </button>
       <button type="button" class="btn btn--primary" [disabled]="saving()" (click)="save()">
-        <lucide-icon [img]="saveIcon" [size]="14" />
+        <lucide-icon [img]="saveIcon" [size]="14" aria-hidden="true" />
         <span>
           {{ (saving() ? 'config.aed.saving' : 'config.aed.save') | translate }}
         </span>

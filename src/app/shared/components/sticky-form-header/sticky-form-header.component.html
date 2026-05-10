@@ -40,7 +40,7 @@
             (click)="confirmRename()"
             [attr.aria-label]="'common.save' | translate"
           >
-            <lucide-icon [img]="checkIcon" [size]="14" />
+            <lucide-icon [img]="checkIcon" [size]="14" aria-hidden="true" />
           </button>
           <button
             type="button"
@@ -48,7 +48,7 @@
             (click)="cancelRename()"
             [attr.aria-label]="'common.cancel' | translate"
           >
-            <lucide-icon [img]="closeIcon" [size]="14" />
+            <lucide-icon [img]="closeIcon" [size]="14" aria-hidden="true" />
           </button>
         } @else {
           <span class="sticky-header__name">{{ name() }}</span>
@@ -58,7 +58,7 @@
             (click)="onPencilClick()"
             [attr.aria-label]="'common.edit' | translate"
           >
-            <lucide-icon [img]="pencilIcon" [size]="13" />
+            <lucide-icon [img]="pencilIcon" [size]="13" aria-hidden="true" />
           </button>
         }
       }

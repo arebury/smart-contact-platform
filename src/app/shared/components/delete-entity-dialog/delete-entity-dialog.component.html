@@ -23,9 +23,9 @@
       >
         <span>{{ singleTarget() }}</span>
         @if (copied()) {
-          <lucide-icon [img]="checkIcon" [size]="12" class="delete-entity__copy-check" />
+          <lucide-icon [img]="checkIcon" [size]="12" class="delete-entity__copy-check"  aria-hidden="true" />
         } @else {
-          <lucide-icon [img]="copyIcon" [size]="12" class="delete-entity__copy-icon" />
+          <lucide-icon [img]="copyIcon" [size]="12" class="delete-entity__copy-icon"  aria-hidden="true" />
         }
       </button>
       <input
@@ -57,7 +57,7 @@
               [attr.aria-label]="'common.remove_from_list' | translate: { name: item.name }"
               (click)="removeChip(item.id)"
             >
-              <lucide-icon [img]="closeIcon" [size]="10" />
+              <lucide-icon [img]="closeIcon" [size]="10" aria-hidden="true" />
             </button>
           </span>
         }
