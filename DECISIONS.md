@@ -34,9 +34,6 @@ NG8011 (multiple root nodes for content projection slot). (c) Nesting
 `:host ::ng-deep` inside `.aed-modal {}` — produces
 `.aed-modal :host ...` which never matches.
 
-**Documentation.** Audit findings + remaining drift between forms
-catalogued at [`docs/inconsistencies-audit.md`](docs/inconsistencies-audit.md).
-
 ---
 
 ## 53 — Per-(agent, group) channel permissions live in a dedicated link store, not on either entity (2026-05-10)

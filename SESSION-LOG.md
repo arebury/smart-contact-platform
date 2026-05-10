@@ -43,12 +43,10 @@
   coordinates to flat `AgentPermissions` keys via
   `PERMISSION_MATRIX_KEYS` lookup table.
 
-- **Inconsistency audit** at
-  [`docs/inconsistencies-audit.md`](docs/inconsistencies-audit.md).
-  7 findings, top-2 priorities for next session: extract the duplicated
-  matrix CSS (`.perm-matrix` vs `.permisos-table`) into a shared
-  component, and delete the dead `.toggle` SCSS block in
-  user-form-page.
+- **Inconsistency audit** (in-chat only, not persisted). 7 findings;
+  top-2 priorities for next session: extract the duplicated matrix CSS
+  (`.perm-matrix` vs `.permisos-table`) into a shared component, and
+  delete the dead `.toggle` SCSS block in user-form-page.
 
 **Result**
 
