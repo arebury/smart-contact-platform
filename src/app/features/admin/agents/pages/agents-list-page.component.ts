@@ -47,6 +47,9 @@ import {
   PresenceStatus,
 } from '../data/agents-data';
 import { AgentBulkField, AgentsStore } from '../state/agents.store';
+import { GroupsStore } from '@features/admin/groups/state/groups.store';
+import { GroupAgentLinksStore } from '@features/admin/services/group-agent-links.store';
+import { Channel } from '@features/admin/services/group-agent-links.types';
 
 type SortField = 'name' | 'code' | 'extension' | 'type' | 'status';
 
@@ -99,11 +102,38 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
 })
 export class AgentsListPageComponent {
   private readonly agentsStore = inject(AgentsStore);
+  private readonly groupsStore = inject(GroupsStore);
+  private readonly linksStore = inject(GroupAgentLinksStore);
   private readonly xlsx = inject(XlsxExportService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
   private readonly undoStack = inject(UndoStackService);
+
+  /** Derived: union of every active-link channel for the given agent. */
+  protected channelsForAgent(agentId: number): readonly Channel[] {
+    const set = new Set<Channel>();
+    for (const link of this.linksStore.linksForAgent(agentId)) {
+      if (!link.active) continue;
+      for (const c of link.channels) set.add(c);
+    }
+    const order: readonly Channel[] = ['phone', 'chat', 'email'];
+    return order.filter((c) => set.has(c));
+  }
+
+  /** Derived: group refs for the given agent (id, name, active flag). */
+  protected groupsForAgent(
+    agentId: number,
+  ): readonly { id: number; name: string; active: boolean }[] {
+    const byId = new Map(this.groupsStore.groups().map((g) => [g.id, g]));
+    return this.linksStore
+      .linksForAgent(agentId)
+      .map((l) => {
+        const g = byId.get(l.groupId);
+        return g ? { id: g.id, name: g.name, active: l.active } : null;
+      })
+      .filter((g): g is { id: number; name: string; active: boolean } => g !== null);
+  }
 
   protected readonly plusIcon = Plus;
   protected readonly searchIcon = Search;
@@ -450,6 +480,7 @@ export class AgentsListPageComponent {
 
     if (ids.length === 1) {
       this.agentsStore.deleteAgent(ids[0]!);
+      this.linksStore.removeAgent(ids[0]!);
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('agents.toasts.deleted_single', {
@@ -459,6 +490,7 @@ export class AgentsListPageComponent {
       });
     } else {
       this.agentsStore.deleteAgents(ids);
+      for (const id of ids) this.linksStore.removeAgent(id);
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('agents.toasts.deleted_bulk', { count: ids.length }),
@@ -541,7 +573,7 @@ export class AgentsListPageComponent {
       this.translate.instant(this.typeKeys[a.agentType]),
       a.email ?? '',
       this.translate.instant(`agents.status.${a.status}`),
-      a.groups.map((g) => g.name).join(', '),
+      this.groupsForAgent(a.id).map((g) => g.name).join(', '),
     ]);
     this.xlsx.export({
       headers,

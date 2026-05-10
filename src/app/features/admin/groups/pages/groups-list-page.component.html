@@ -198,7 +198,7 @@
                   </td>
                 }
                 @if (isColVisible('agents')) {
-                  <td class="table__td table__td--num">{{ group.assignedAgents.length }}</td>
+                  <td class="table__td table__td--num">{{ assignedCountForGroup(group.id) }}</td>
                 }
                 <td class="table__td-actions" (click)="$event.stopPropagation()">
                   <div

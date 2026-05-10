@@ -1,10 +1,10 @@
 import { computed, Injectable } from '@angular/core';
 
 import { createLocalStore, LocalStore } from '@core/services';
-import { Agent, AGENTS_SEED, AgentChannel, AgentType, PresenceStatus } from '../data/agents-data';
+import { Agent, AGENTS_SEED, AgentType, PresenceStatus } from '../data/agents-data';
 
 /** Fields exposed to bulk edit (subset that is safe to set across many rows). */
-export type AgentBulkField = 'status' | 'presenceStatus' | 'agentType' | 'recording' | 'channels';
+export type AgentBulkField = 'status' | 'presenceStatus' | 'agentType' | 'recording';
 
 function nextCode(items: readonly Agent[]): string {
   const maxN = items.reduce((max, a) => {
@@ -98,9 +98,6 @@ export class AgentsStore {
           break;
         case 'recording':
           patch = { permissions: { ...agent.permissions, recording: !!value } };
-          break;
-        case 'channels':
-          patch = { channels: value as readonly AgentChannel[] };
           break;
         default:
           continue;

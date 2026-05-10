@@ -344,33 +344,16 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     setTimeout(() => {
       const f = this.form();
 
-      // Derived legacy fields (kept until list-page readers are migrated):
-      //   - `channels`   = union of every active link's channels
-      //   - `groups`     = list of {id, name, active} per assignment
-      // The new source of truth is the link store, written below.
-      const groupsById = new Map(this.groupsStore.groups().map((g) => [g.id, g]));
-      const groupsLegacy = f.links
-        .map((l) => {
-          const g = groupsById.get(l.groupId);
-          return g ? { id: g.id, name: g.name, active: l.active } : null;
-        })
-        .filter((g): g is { id: number; name: string; active: boolean } => g !== null);
-      const channelsLegacy = Array.from(
-        new Set(f.links.filter((l) => l.active).flatMap((l) => l.channels)),
-      );
-
       const payload: Omit<Agent, 'id' | 'code'> = {
         name: f.name.trim(),
         extension: f.extension,
         extensionType: this.getExtensionType(f.extension) ?? 'webrtc',
         agentType: f.agentType,
-        channels: channelsLegacy,
         status: f.status,
         presenceStatus: f.presenceStatus,
         phone: f.phone.trim() || undefined,
         email: f.email.trim() || undefined,
         pin: f.pin.trim() || undefined,
-        groups: groupsLegacy,
         permissions: f.permissions,
         pickupType: f.pickupType,
         photo: f.photo ?? undefined,

@@ -249,13 +249,6 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.saving.set(true);
     setTimeout(() => {
       const f = this.form();
-      // Derived legacy `assignedAgents` (names) — kept until the list-page
-      // reader is migrated to the link store. New source of truth is `links`.
-      const agentsById = new Map(this.agentsStore.agents().map((a) => [a.id, a]));
-      const assignedAgents = f.links
-        .map((l) => agentsById.get(l.agentId)?.name)
-        .filter((n): n is string => Boolean(n));
-
       const payload = {
         name: f.name.trim(),
         phone: f.phone.trim(),
@@ -267,7 +260,6 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         capacityValue: f.channels.has('phone') ? f.capacityValue.trim() || undefined : undefined,
         capacityType:
           f.channels.has('phone') && f.capacityValue.trim() ? ('fixed' as const) : undefined,
-        assignedAgents,
       };
 
       const editingId = this.editingId();

@@ -8,8 +8,13 @@ export const PRESENCE_LABEL_KEYS: Readonly<Record<PresenceStatus, string>> = {
   formacion: 'agents.presence.training',
 };
 
+/**
+ * Channel type alias kept on the Agents feature for callers that still
+ * type a single channel value (icon picker, list-page chip cell). The
+ * canonical type lives in `@features/admin/services/group-agent-links.types`
+ * — both unions are structurally identical.
+ */
 export type AgentChannel = 'phone' | 'chat' | 'email';
-export const AGENT_CHANNELS: readonly AgentChannel[] = ['phone', 'chat', 'email'];
 
 export type AgentType = 'normal' | 'cuscare' | 'cuscare_carrier' | 'admin_cuscare';
 export const AGENT_TYPES: readonly AgentType[] = [
@@ -27,10 +32,6 @@ export const AGENT_TYPE_LABEL_KEYS: Readonly<Record<AgentType, string>> = {
 
 export type ExtensionType = 'phone' | 'webrtc';
 export type PickupType = 'auto' | 'manual';
-
-import { GroupRef } from '@shared/data/groups-ref';
-
-export type AgentGroupRef = GroupRef;
 
 export interface AgentPermissions {
   readonly manageDevices: boolean;
@@ -98,6 +99,10 @@ export const TRANSFER_PERMISSIONS: readonly PermissionGroupDef[] = [
  * Full Agent shape. Backward-compatible with the slim stub the Labels and
  * Seguridad features adopted earlier (they only consume id / name / code /
  * extension / email / status / labels).
+ *
+ * Per-(agent, group) channel permissions live in `GroupAgentLinksStore`
+ * since DD#54. To get an agent's effective channels, query the store for
+ * its links and union the active ones.
  */
 export interface Agent {
   readonly id: number;
@@ -106,13 +111,11 @@ export interface Agent {
   readonly extension: string;
   readonly extensionType: ExtensionType;
   readonly agentType: AgentType;
-  readonly channels: readonly AgentChannel[];
   readonly status: 'active' | 'inactive';
   readonly presenceStatus?: PresenceStatus;
   readonly phone?: string;
   readonly email?: string;
   readonly pin?: string;
-  readonly groups: readonly AgentGroupRef[];
   readonly defaultOutboundGroup?: string;
   readonly iframeUrl?: string;
   readonly permissions: AgentPermissions;
@@ -170,8 +173,6 @@ export const AVAILABLE_EXTENSIONS: readonly ExtensionOption[] = [
   { number: '140', type: 'webrtc' },
 ];
 
-export { AVAILABLE_GROUPS_REF } from '@shared/data/groups-ref';
-
 const DP = DEFAULT_AGENT_PERMISSIONS;
 
 export const AGENTS_SEED: readonly Agent[] = [
@@ -181,16 +182,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Agente AED 1',
     extension: '122',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone'],
-    status: 'active',
+    agentType: 'cuscare',    status: 'active',
     presenceStatus: 'disponible',
-    pin: '392',
-    groups: [
-      { id: 1, name: 'ACD Demo C2CB', active: true },
-      { id: 3, name: 'ACD outbound', active: true },
-    ],
-    permissions: { ...DP },
+    pin: '392',    permissions: { ...DP },
     pickupType: 'auto',
   },
   {
@@ -199,18 +193,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Agente AED 2',
     extension: '123',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone'],
-    status: 'active',
+    agentType: 'cuscare',    status: 'active',
     presenceStatus: 'disponible',
-    pin: '507',
-    groups: [
-      { id: 1, name: 'ACD Demo C2CB', active: true },
-      { id: 4, name: 'Campaigns', active: true },
-      { id: 8, name: 'Grupo demo', active: true },
-      { id: 12, name: 'Reclamaciones', active: true },
-    ],
-    permissions: { ...DP },
+    pin: '507',    permissions: { ...DP },
     pickupType: 'auto',
     schedules: [1],
   },
@@ -220,18 +205,10 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Agente demo',
     extension: '124',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone', 'chat'],
-    status: 'active',
+    agentType: 'cuscare',    status: 'active',
     presenceStatus: 'comida',
     pin: '135',
-    iframeUrl: 'https://crm.example.com/agent-panel',
-    groups: [
-      { id: 1, name: 'ACD Demo C2CB', active: true },
-      { id: 4, name: 'Campaigns', active: true },
-      { id: 8, name: 'Grupo demo', active: true },
-    ],
-    permissions: { ...DP, manageDevices: true, recording: true },
+    iframeUrl: 'https://crm.example.com/agent-panel',    permissions: { ...DP, manageDevices: true, recording: true },
     pickupType: 'auto',
     schedules: [1, 3],
   },
@@ -241,18 +218,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Agente Jose',
     extension: '114',
     extensionType: 'webrtc',
-    agentType: 'cuscare_carrier',
-    channels: ['phone', 'chat'],
-    status: 'active',
+    agentType: 'cuscare_carrier',    status: 'active',
     presenceStatus: 'disponible',
-    pin: '638',
-    groups: [
-      { id: 1, name: 'ACD Demo C2CB', active: true },
-      { id: 4, name: 'Campaigns', active: true },
-      { id: 8, name: 'Grupo demo', active: true },
-      { id: 12, name: 'Reclamaciones', active: true },
-    ],
-    permissions: { ...DP },
+    pin: '638',    permissions: { ...DP },
     pickupType: 'auto',
     schedules: [1],
   },
@@ -262,16 +230,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Agente Jose',
     extension: '103',
     extensionType: 'phone',
-    agentType: 'normal',
-    channels: ['phone'],
-    status: 'active',
+    agentType: 'normal',    status: 'active',
     presenceStatus: 'bano',
-    pin: '990',
-    groups: [
-      { id: 3, name: 'ACD outbound', active: true },
-      { id: 9, name: 'Grupo pedidos', active: true },
-    ],
-    permissions: { ...DP },
+    pin: '990',    permissions: { ...DP },
     pickupType: 'manual',
     schedules: [4],
   },
@@ -281,15 +242,11 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Jose Barcala',
     extension: '120',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone'],
-    status: 'inactive',
+    agentType: 'cuscare',    status: 'inactive',
     presenceStatus: 'no_disponible',
     phone: '612345678',
     email: 'jbarcala@company.com',
-    pin: '614',
-    groups: [{ id: 4, name: 'Campaigns', active: false }],
-    permissions: { ...DP },
+    pin: '614',    permissions: { ...DP },
     pickupType: 'auto',
   },
   {
@@ -298,21 +255,12 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Mario Perez',
     extension: '118',
     extensionType: 'webrtc',
-    agentType: 'admin_cuscare',
-    channels: ['phone', 'chat', 'email'],
-    status: 'active',
+    agentType: 'admin_cuscare',    status: 'active',
     presenceStatus: 'disponible',
     phone: '698765432',
     email: 'mperez@company.com',
     iframeUrl: 'https://crm.example.com/mario',
-    pin: '246',
-    groups: [
-      { id: 1, name: 'ACD Demo C2CB', active: true },
-      { id: 4, name: 'Campaigns', active: true },
-      { id: 11, name: 'Online Support', active: true },
-      { id: 12, name: 'Reclamaciones', active: true },
-    ],
-    defaultOutboundGroup: 'ACD Demo C2CB',
+    pin: '246',    defaultOutboundGroup: 'ACD Demo C2CB',
     permissions: { ...DP, selfActivate: true, manageDevices: true, recording: true },
     languages: ['Español', 'Inglés'],
     pickupType: 'auto',
@@ -324,18 +272,10 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Marta Recio',
     extension: '106',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone', 'chat'],
-    status: 'active',
+    agentType: 'cuscare',    status: 'active',
     presenceStatus: 'formacion',
     email: 'mrecio@company.com',
-    pin: '835',
-    groups: [
-      { id: 1, name: 'ACD Demo C2CB', active: true },
-      { id: 3, name: 'ACD outbound', active: true },
-      { id: 11, name: 'Online Support', active: true },
-    ],
-    permissions: { ...DP, recording: true },
+    pin: '835',    permissions: { ...DP, recording: true },
     pickupType: 'auto',
     schedules: [2],
   },
@@ -345,16 +285,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Miguel Palacios',
     extension: '102',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone'],
-    status: 'inactive',
+    agentType: 'cuscare',    status: 'inactive',
     presenceStatus: 'no_disponible',
-    pin: '773',
-    groups: [
-      { id: 3, name: 'ACD outbound', active: false },
-      { id: 8, name: 'Grupo demo', active: false },
-    ],
-    permissions: { ...DP },
+    pin: '773',    permissions: { ...DP },
     pickupType: 'auto',
   },
   {
@@ -363,17 +296,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Miguel Palacios 2',
     extension: '104',
     extensionType: 'webrtc',
-    agentType: 'cuscare_carrier',
-    channels: ['phone', 'chat'],
-    status: 'active',
+    agentType: 'cuscare_carrier',    status: 'active',
     presenceStatus: 'disponible',
-    pin: '482',
-    groups: [
-      { id: 5, name: 'Exclusivo', active: true },
-      { id: 9, name: 'Grupo pedidos', active: true },
-      { id: 13, name: 'Soporte Taller', active: true },
-    ],
-    permissions: { ...DP, recording: true },
+    pin: '482',    permissions: { ...DP, recording: true },
     pickupType: 'auto',
   },
   {
@@ -382,13 +307,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Miguel Palacios 3',
     extension: '108',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone'],
-    status: 'active',
+    agentType: 'cuscare',    status: 'active',
     presenceStatus: 'disponible',
-    pin: '419',
-    groups: [{ id: 5, name: 'Exclusivo', active: true }],
-    permissions: { ...DP },
+    pin: '419',    permissions: { ...DP },
     pickupType: 'auto',
     schedules: [1, 3],
   },
@@ -398,16 +319,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Oscar Bello',
     extension: '105',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone'],
-    status: 'active',
+    agentType: 'cuscare',    status: 'active',
     presenceStatus: 'comida',
-    pin: '551',
-    groups: [
-      { id: 1, name: 'ACD Demo C2CB', active: true },
-      { id: 6, name: 'Grupo de prueba 1', active: true },
-    ],
-    permissions: { ...DP },
+    pin: '551',    permissions: { ...DP },
     pickupType: 'auto',
   },
   {
@@ -416,17 +330,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Oscar Fernandez',
     extension: '116',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone', 'chat'],
-    status: 'active',
+    agentType: 'cuscare',    status: 'active',
     presenceStatus: 'disponible',
-    pin: '284',
-    groups: [
-      { id: 1, name: 'ACD Demo C2CB', active: true },
-      { id: 3, name: 'ACD outbound', active: true },
-      { id: 11, name: 'Online Support', active: true },
-    ],
-    permissions: { ...DP, externalDevices: true, recording: true },
+    pin: '284',    permissions: { ...DP, externalDevices: true, recording: true },
     pickupType: 'auto',
     schedules: [1, 3],
   },
@@ -436,16 +342,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Oscar Quobis',
     extension: '110',
     extensionType: 'webrtc',
-    agentType: 'cuscare',
-    channels: ['phone'],
-    status: 'active',
+    agentType: 'cuscare',    status: 'active',
     presenceStatus: 'disponible',
-    pin: '706',
-    groups: [
-      { id: 5, name: 'Exclusivo', active: true },
-      { id: 8, name: 'Grupo demo', active: true },
-    ],
-    permissions: { ...DP },
+    pin: '706',    permissions: { ...DP },
     pickupType: 'auto',
   },
   {
@@ -454,17 +353,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Rafael',
     extension: '113',
     extensionType: 'webrtc',
-    agentType: 'admin_cuscare',
-    channels: ['phone', 'chat'],
-    status: 'active',
+    agentType: 'admin_cuscare',    status: 'active',
     presenceStatus: 'disponible',
-    pin: '139',
-    groups: [
-      { id: 3, name: 'ACD outbound', active: true },
-      { id: 10, name: 'Nodo AED 1', active: true },
-      { id: 13, name: 'Soporte Taller', active: true },
-    ],
-    permissions: { ...DP, recording: true },
+    pin: '139',    permissions: { ...DP, recording: true },
     pickupType: 'auto',
     schedules: [4, 5],
   },
@@ -474,13 +365,9 @@ export const AGENTS_SEED: readonly Agent[] = [
     name: 'Angel personal',
     extension: '109',
     extensionType: 'phone',
-    agentType: 'normal',
-    channels: ['phone'],
-    status: 'inactive',
+    agentType: 'normal',    status: 'inactive',
     presenceStatus: 'no_disponible',
-    pin: '672',
-    groups: [{ id: 7, name: 'Grupo de prueba 2', active: false }],
-    permissions: { ...DP },
+    pin: '672',    permissions: { ...DP },
     pickupType: 'manual',
   },
 ];
