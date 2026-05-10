@@ -29,6 +29,12 @@
     gap: var(--sc-spacing-200);
   }
 
+  &__icon {
+    flex: 0 0 auto;
+    color: var(--sc-icon-subtle);
+    align-self: center;
+  }
+
   &__title {
     margin: 0;
     font-family: var(--sc-font-family-subtitle-2);

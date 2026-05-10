@@ -313,16 +313,23 @@
           <aed-section-card
             anchorId="agent-section-permissions"
             titleKey="agents.form.section.permissions"
+            [icon]="shieldIcon"
           >
-            <!-- Permisos generales: dos toggles globales (mismo patrón que /admin/aed/agentes) -->
+            <!-- Permisos generales: dos toggles per-agente.
+                 "Dispositivos externos" vive en /admin/aed/agentes como ajuste global. -->
             <div class="perm-toggle-row">
               <div class="perm-toggle-row__copy">
                 <span class="perm-toggle-row__label">
                   {{ 'agents.form.permissions.manage_devices' | translate }}
                 </span>
-                <span class="perm-toggle-row__hint">
-                  {{ 'agents.form.permissions.manage_devices_hint' | translate }}
-                </span>
+                <button
+                  type="button"
+                  class="perm-toggle-row__info"
+                  [title]="'agents.form.permissions.manage_devices_hint' | translate"
+                  [attr.aria-label]="'agents.form.permissions.manage_devices_hint' | translate"
+                >
+                  <lucide-icon [img]="infoIcon" [size]="13" aria-hidden="true" />
+                </button>
               </div>
               <aed-toggle-switch
                 [checked]="form().permissions.manageDevices"
@@ -336,30 +343,19 @@
                 <span class="perm-toggle-row__label">
                   {{ 'agents.form.permissions.self_activate' | translate }}
                 </span>
-                <span class="perm-toggle-row__hint">
-                  {{ 'agents.form.permissions.self_activate_hint' | translate }}
-                </span>
+                <button
+                  type="button"
+                  class="perm-toggle-row__info"
+                  [title]="'agents.form.permissions.self_activate_hint' | translate"
+                  [attr.aria-label]="'agents.form.permissions.self_activate_hint' | translate"
+                >
+                  <lucide-icon [img]="infoIcon" [size]="13" aria-hidden="true" />
+                </button>
               </div>
               <aed-toggle-switch
                 [checked]="form().permissions.selfActivate"
                 [ariaLabel]="'agents.form.permissions.self_activate' | translate"
                 (checkedChange)="togglePermission('selfActivate')"
-              />
-            </div>
-
-            <div class="perm-toggle-row">
-              <div class="perm-toggle-row__copy">
-                <span class="perm-toggle-row__label">
-                  {{ 'agents.form.permissions.external_devices' | translate }}
-                </span>
-                <span class="perm-toggle-row__hint">
-                  {{ 'agents.form.permissions.external_devices_hint' | translate }}
-                </span>
-              </div>
-              <aed-toggle-switch
-                [checked]="form().permissions.externalDevices"
-                [ariaLabel]="'agents.form.permissions.external_devices' | translate"
-                (checkedChange)="togglePermission('externalDevices')"
               />
             </div>
 
@@ -379,17 +375,18 @@
                   </th>
                   <th scope="col" class="perm-matrix__th-col">
                     <label class="perm-matrix__col-toggle">
+                      <span>{{ 'agents.form.permissions.col_llamada' | translate }}</span>
                       <input
                         type="checkbox"
                         [checked]="columnAllSelected().llamada"
                         (change)="toggleColumnAll('llamada')"
                         [attr.aria-label]="'agents.form.permissions.toggle_all_llamada' | translate"
                       />
-                      <span>{{ 'agents.form.permissions.col_llamada' | translate }}</span>
                     </label>
                   </th>
                   <th scope="col" class="perm-matrix__th-col">
                     <label class="perm-matrix__col-toggle">
+                      <span>{{ 'agents.form.permissions.col_transferencia' | translate }}</span>
                       <input
                         type="checkbox"
                         [checked]="columnAllSelected().transferencia"
@@ -398,7 +395,6 @@
                           'agents.form.permissions.toggle_all_transferencia' | translate
                         "
                       />
-                      <span>{{ 'agents.form.permissions.col_transferencia' | translate }}</span>
                     </label>
                   </th>
                 </tr>

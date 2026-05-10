@@ -341,13 +341,17 @@
   }
 }
 
-/* Permission toggle row — mirrors `/admin/aed/agentes` switch-field. */
+/* Permission toggle row — label + inline (i) tooltip + toggle.
+ * Same pattern as `/admin/aed/agentes` switch-field, but the hint is
+ * accessed through the info icon's tooltip rather than as a sub-text
+ * under the label. Keeps row height constant and reads as a tighter,
+ * more deliberate control. */
 .perm-toggle-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--sc-spacing-400);
-  padding: var(--sc-spacing-200) 0;
+  padding: var(--sc-spacing-300) 0;
   border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
 
   &:last-of-type {
@@ -355,9 +359,9 @@
   }
 
   &__copy {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-150);
     min-width: 0;
   }
 
@@ -367,9 +371,28 @@
     color: var(--sc-text-primary);
   }
 
-  &__hint {
-    font-size: var(--sc-font-size-100);
-    color: var(--sc-text-subtle);
+  &__info {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--sc-icon-subtle, var(--sc-text-subtle));
+    border-radius: var(--sc-radius-full);
+    cursor: help;
+    transition: color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      color: var(--sc-text-secondary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: 2px;
+    }
   }
 }
 
@@ -420,6 +443,9 @@
     gap: var(--sc-spacing-100);
     cursor: pointer;
     color: inherit;
+    /* Visual order: label → checkbox (matches Figura 15 canonical layout).
+     * The `<span>` is first in DOM so this just collapses to flex defaults,
+     * but the rule documents the intent. */
   }
 
   tbody th,

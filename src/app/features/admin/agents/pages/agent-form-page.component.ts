@@ -11,7 +11,7 @@ import {
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Mail, Phone, PhoneCall, LucideAngularModule, ShieldCheck } from 'lucide-angular';
+import { Info, Mail, Phone, PhoneCall, LucideAngularModule, ShieldCheck } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -40,14 +40,11 @@ import {
   AgentType,
   AVAILABLE_EXTENSIONS,
   AVAILABLE_LANGUAGES,
-  CALL_PERMISSIONS,
   DEFAULT_AGENT_PERMISSIONS,
-  DEVICE_PERMISSIONS,
   ExtensionType,
   PRESENCE_LABEL_KEYS,
   PickupType,
   PresenceStatus,
-  TRANSFER_PERMISSIONS,
 } from '../data/agents-data';
 import { AgentsStore } from '../state/agents.store';
 import {
@@ -128,6 +125,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly phoneIcon = Phone;
   protected readonly phoneCallIcon = PhoneCall;
   protected readonly shieldIcon = ShieldCheck;
+  protected readonly infoIcon = Info;
   protected readonly agentTypes = AGENT_TYPES;
   protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
@@ -167,10 +165,6 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     { id: 'agent-section-languages', labelKey: 'agents.form.section.languages' },
     { id: 'agent-section-labels', labelKey: 'agents.form.section.labels' },
   ];
-
-  protected readonly devicePermissions = DEVICE_PERMISSIONS;
-  protected readonly callPermissions = CALL_PERMISSIONS;
-  protected readonly transferPermissions = TRANSFER_PERMISSIONS;
 
   /**
    * Matrix layout for the calls/transfers permissions, matching the

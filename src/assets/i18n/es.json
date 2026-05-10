@@ -665,20 +665,7 @@
       "inactive": "Inactivo"
     },
     "permission": {
-      "manage_devices": "Gestionar dispositivos",
-      "self_activate": "Auto-activación",
-      "external_devices": "Dispositivos externos",
-      "recording": "Grabación habilitada",
-      "calls_enabled": "Llamadas activas",
-      "calls_dest_fixed": "Destino fijo",
-      "calls_dest_mobile": "Destino móvil",
-      "calls_dest_international": "Destino internacional",
-      "calls_dest_special": "Destino especial",
-      "transfers_enabled": "Transferencias activas",
-      "transfers_dest_fixed": "Transfer a fijo",
-      "transfers_dest_mobile": "Transfer a móvil",
-      "transfers_dest_international": "Transfer internacional",
-      "transfers_dest_special": "Transfer especial"
+      "recording": "Grabación habilitada"
     },
     "form": {
       "create_title": "Nuevo agente",
@@ -731,15 +718,10 @@
         "remove_aria": "Quitar al agente de {{name}}"
       },
       "permissions": {
-        "devices": "Dispositivos",
-        "calls": "Llamadas salientes",
-        "transfers": "Transferencias",
         "manage_devices": "Gestión de dispositivos",
         "manage_devices_hint": "El agente puede administrar sus dispositivos asignados",
         "self_activate": "Activación por grupo",
         "self_activate_hint": "El agente puede activarse o desactivarse en cada grupo",
-        "external_devices": "Dispositivos externos",
-        "external_devices_hint": "Permite usar dispositivos no provistos por la plataforma",
         "calls_section": "Llamadas",
         "destino": "Destino",
         "col_llamada": "Llamadas",

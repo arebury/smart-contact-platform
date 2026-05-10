@@ -67,34 +67,6 @@ export const DEFAULT_AGENT_PERMISSIONS: AgentPermissions = {
   recording: false,
 };
 
-export interface PermissionGroupDef {
-  readonly key: keyof AgentPermissions;
-  readonly labelKey: string;
-}
-
-export const DEVICE_PERMISSIONS: readonly PermissionGroupDef[] = [
-  { key: 'manageDevices', labelKey: 'agents.permission.manage_devices' },
-  { key: 'selfActivate', labelKey: 'agents.permission.self_activate' },
-  { key: 'externalDevices', labelKey: 'agents.permission.external_devices' },
-  { key: 'recording', labelKey: 'agents.permission.recording' },
-];
-
-export const CALL_PERMISSIONS: readonly PermissionGroupDef[] = [
-  { key: 'callsEnabled', labelKey: 'agents.permission.calls_enabled' },
-  { key: 'callsDestFixed', labelKey: 'agents.permission.calls_dest_fixed' },
-  { key: 'callsDestMobile', labelKey: 'agents.permission.calls_dest_mobile' },
-  { key: 'callsDestInternational', labelKey: 'agents.permission.calls_dest_international' },
-  { key: 'callsDestSpecial', labelKey: 'agents.permission.calls_dest_special' },
-];
-
-export const TRANSFER_PERMISSIONS: readonly PermissionGroupDef[] = [
-  { key: 'transfersEnabled', labelKey: 'agents.permission.transfers_enabled' },
-  { key: 'transfersDestFixed', labelKey: 'agents.permission.transfers_dest_fixed' },
-  { key: 'transfersDestMobile', labelKey: 'agents.permission.transfers_dest_mobile' },
-  { key: 'transfersDestInternational', labelKey: 'agents.permission.transfers_dest_international' },
-  { key: 'transfersDestSpecial', labelKey: 'agents.permission.transfers_dest_special' },
-];
-
 /**
  * Full Agent shape. Backward-compatible with the slim stub the Labels and
  * Seguridad features adopted earlier (they only consume id / name / code /
