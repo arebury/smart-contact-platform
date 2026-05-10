@@ -232,3 +232,33 @@ becomes high), revisit.
 - The `AgentsStore` is a stub (only the `agents` signal + cascading delete + count map). The Agents feature owns the real implementation.
 - Imports in feature pages still use deep relative paths (`../../../../../core/...`). The TS path aliases (`@core/*`, `@shared/*`, `@features/*`) are configured in `tsconfig.json` but not yet applied; convert in a single sweep at the end of Phase 3.
 - The undo / cross-tab / nav-guard infrastructure is still pending (decision #3 says 1:1 with the prototype). It lands when the first feature that needs it (Users) is migrated.
+
+## UI consistency debt — cross-form drift (DD#54 audit · 2026-05-11)
+
+Catalogued during DD#54 wrap-up. Six items grouped by priority. Pick from
+the top in the next polish session.
+
+- **Permission matrix duplicated** between agent-form (`.perm-matrix`) and
+  `/admin/aed/agentes` (`.permisos-table`). Anchos, paddings y borders
+  divergen. *Fix:* extraer `<aed-permission-matrix>` o mover a `_forms.scss`
+  con una sola clase canónica. **Alta.**
+- **Pill status with hex literals + animation drift.** group-form y
+  user-form usan `#1a8a4a`/`#1a6a3a` hardcoded; agent-form usa
+  `--sc-presence-*` y además anima con `status-pop-active/inactive`. *Fix:*
+  tokenizar + decidir on/off uniforme para la animación. **Media.**
+- **Dead `.toggle` SCSS block** en `user-form-page.component.scss:124-169`:
+  track + thumb declarados, no usados en el HTML (el form usa
+  `<aed-toggle-switch>`). *Fix:* borrar las líneas. **Media.**
+- **Tri-state vs binary matrix headers.** Headers de `.perm-matrix` y
+  `.permisos-table` usan `<input type="checkbox">` binario; al desmarcar
+  una sola fila el header sigue checked (bug sutil). El otro patrón
+  (`agent-channel-table`) sí usa `<aed-tri-state-checkbox>`. *Fix:*
+  sustituir. **Baja.**
+- **Avatar size mismatch.** `agent-channel-table` usa `[size]="26"`
+  (illustrated), `group-assignment-table` usa `[size]="22"` (abstract).
+  *Fix:* igualar a 24. **Baja.**
+- **Modal footer layout intent indocumentado.** `aed-confirm-host` tiene
+  footer 50/50, el resto de modals (delete dialogs) flush-right —
+  intencional, pero un futuro contribuidor no lo sabrá. *Fix:* comentario
+  explicativo en `confirm-host.component.scss` justificando el override.
+  **Baja.**

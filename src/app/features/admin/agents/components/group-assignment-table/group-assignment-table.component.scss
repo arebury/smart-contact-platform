@@ -189,26 +189,10 @@
     font-weight: var(--sc-font-weight-medium);
   }
 
-  &__td-offer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
-
-  &__offer-pill {
-    font-size: var(--sc-font-size-50);
-    color: var(--sc-text-subtle);
-    background: var(--sc-bg-default);
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-50);
-    padding: 2px 8px;
-    line-height: 1.4;
-  }
-
   &__td-channels {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--sc-spacing-100);
+    gap: 6px;
   }
 
   &__chip {
@@ -245,6 +229,15 @@
       background: var(--sc-color-blue-700);
       border-color: var(--sc-color-blue-700);
       color: var(--sc-color-gray-0);
+    }
+    /* Off state: visibly "available but not selected" — dashed border +
+     * muted text so it is never confused with the on-state solid fill or
+     * with a read-only label. */
+    &--off {
+      background: transparent;
+      border-style: dashed;
+      border-color: var(--sc-border-subtle, var(--sc-border-default));
+      color: var(--sc-text-subtle);
     }
     &--disabled {
       cursor: not-allowed;

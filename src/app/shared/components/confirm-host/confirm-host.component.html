@@ -8,7 +8,7 @@
     [bodyless]="true"
     (cancelled)="host.reject()"
   >
-    <div modal-actions>
+    <div modal-actions class="confirm-host__actions">
       @if (emphasizeReject()) {
         <button type="button" [class]="acceptClass()" (click)="host.accept()">
           {{ s.acceptLabel }}
