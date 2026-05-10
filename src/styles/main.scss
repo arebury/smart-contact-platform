@@ -6,6 +6,7 @@
 /* Sass `@use` rules must precede any `@import`. */
 @use 'reset';
 @use 'buttons';
+@use 'forms';
 @use 'table-elements';
 
 /* Design tokens — layered system (primitive → semantic → palette →
