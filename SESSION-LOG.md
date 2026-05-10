@@ -131,11 +131,51 @@
   --noEmit` only; Netlify per-branch deploys validate the full build.
 
 **Queued next**
-- Pasar el a11y P2 sweep cuando toque otra ronda visual (decorative
-  icons across sidebar, modals, row menus).
 - Color-mix migration of dark-mode translucencies + shadow color
   tokenisation in a session where we can validate visually.
 - Telegram drawer cuando el usuario quiera abrir esa conversación.
+- Performance: memoize `translate.instant()` calls in agents/users
+  list filter+sort predicates (audit estimated 50–100ms/keystroke
+  with 100+ rows). Easy ~30 min fix when convenient.
+- Performance: extract duplicated `.card` / `.page__*` SCSS
+  patterns out of nine page-level components into a shared
+  `_layout.scss` (audit estimated +15–25KB/chunk minified savings).
+- Tests: continue closing coverage on the remaining stores
+  (Users, Groups), shared services, and the form-page components.
+
+**Worked on (continuation pass — same session, separate concern)**
+
+- **Performance + tests audits.** Two more parallel audits ran —
+  performance scan and test-coverage scan. Performance hot spots:
+  PreloadAllModules eager fetch (deliberately kept), `translate.
+  instant()` inside list-page filter+sort comparators (deferred,
+  ~30 min memoization), component-SCSS duplication (deferred,
+  multi-hour refactor that wants visual validation). Test coverage
+  was ~10% — 14 specs across ~150 implementation files.
+
+- **A11y P2 partial sweep.** `aria-hidden="true"` added on the
+  sidebar's GitHub icon, every sidebar nav-item icon + chevron, the
+  top-bar dashboard / shortcuts / help / logout icons, and the
+  agents-list row-menu glyphs. Remaining ~110 sites (groups + users
+  list pages, modals, popovers, dialogs, bulk-action chrome) are
+  follow-up — each individual fix is mechanical with low payoff.
+
+- **Tests on the most-critical untested zones.** Three new spec
+  files closing the highest-leverage gaps:
+  - `selection-state.spec.ts` — covers `toggle / toggleAll / clear`
+    + `allSelected / someSelected / count` computeds + the visible-
+    list thunk (filtered list shrinking the selection target).
+    The helper feeds three list pages, so a regression here would
+    silently break every bulk operation.
+  - `form-dirty.guard.spec.ts` — clean form lets navigation through;
+    dirty form prompts the discard dialog; resolves true on confirm,
+    false on keep-editing. The guard is the only thing keeping the
+    user from silently losing unsaved work.
+  - `agents.store.spec.ts` — sample test for the admin-store
+    pattern (CRUD + nextCode + duplicate + bulkUpdate +
+    removeLabelsFromAllAgents + agentCountByLabel). Mirrors the
+    existing labels.store / templates.store style so users + groups
+    can be tested with the same shape later.
 
 ---
 
