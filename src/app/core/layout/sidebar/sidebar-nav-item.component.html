@@ -12,6 +12,7 @@
     class="nav-item__icon"
     [img]="resolveIcon(item().icon)"
     [size]="item().iconSize ?? 14"
+    aria-hidden="true"
   />
   <span class="nav-item__label">{{ item().labelKey | translate }}</span>
   @if (hasChildren()) {
@@ -19,6 +20,7 @@
       class="nav-item__chevron"
       [img]="effectivelyExpanded() ? resolveIcon('chevron-down') : resolveIcon('chevron-right')"
       [size]="14"
+      aria-hidden="true"
     />
   }
 </button>

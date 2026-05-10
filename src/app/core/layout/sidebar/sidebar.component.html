@@ -45,7 +45,12 @@
       [title]="'sidebar.design_decisions_hint' | translate"
       (click)="onOpenDesignDecisions($event)"
     >
-      <lucide-icon class="sidebar__decisions-icon" [img]="githubIcon" [size]="15" />
+      <lucide-icon
+        class="sidebar__decisions-icon"
+        [img]="githubIcon"
+        [size]="15"
+        aria-hidden="true"
+      />
       <span class="sidebar__decisions-label">{{ 'sidebar.design_decisions' | translate }}</span>
       <lucide-icon
         class="sidebar__decisions-external"

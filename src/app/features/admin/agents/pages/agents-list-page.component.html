@@ -289,17 +289,17 @@
                       [attr.aria-expanded]="openMenuId() === agent.id"
                       [attr.aria-label]="'labels.row_menu' | translate"
                     >
-                      <lucide-icon [img]="moreIcon" [size]="15" />
+                      <lucide-icon [img]="moreIcon" [size]="15" aria-hidden="true" />
                     </button>
                     @if (openMenuId() === agent.id) {
                       <div class="row-menu__panel" role="menu">
                         <button type="button" role="menuitem" (click)="onRowEdit(agent)">
-                          <lucide-icon [img]="editIcon" [size]="13" />
+                          <lucide-icon [img]="editIcon" [size]="13" aria-hidden="true" />
                           <span>{{ 'common.edit' | translate }}</span>
                         </button>
                         @if (selectedIds().size <= 1) {
                           <button type="button" role="menuitem" (click)="onRowDuplicate(agent)">
-                            <lucide-icon [img]="copyIcon" [size]="13" />
+                            <lucide-icon [img]="copyIcon" [size]="13" aria-hidden="true" />
                             <span>{{ 'common.duplicate' | translate }}</span>
                           </button>
                         }
@@ -310,7 +310,7 @@
                           role="menuitem"
                           (click)="onRowDelete(agent)"
                         >
-                          <lucide-icon [img]="trashIcon" [size]="13" />
+                          <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
                           <span>{{ 'common.delete' | translate }}</span>
                         </button>
                       </div>

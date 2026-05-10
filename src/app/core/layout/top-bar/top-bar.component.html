@@ -7,7 +7,7 @@
       [attr.aria-label]="'topbar.go_to_dashboard' | translate"
       [attr.title]="'topbar.go_to_dashboard' | translate"
     >
-      <lucide-icon [img]="dashboardIcon" [size]="15" />
+      <lucide-icon [img]="dashboardIcon" [size]="15" aria-hidden="true" />
     </button>
     @if (trail().length > 0) {
       <span class="top-bar__lead-divider" aria-hidden="true"></span>
@@ -78,16 +78,16 @@
             [attr.aria-label]="'topbar.keyboard_shortcuts' | translate"
             [attr.title]="'topbar.keyboard_shortcuts' | translate"
           >
-            <lucide-icon [img]="shortcutsIcon" [size]="14" />
+            <lucide-icon [img]="shortcutsIcon" [size]="14" aria-hidden="true" />
           </button>
         </div>
         <div class="top-bar__menu-actions">
           <button type="button" class="top-bar__menu-item" role="menuitem">
-            <lucide-icon [img]="helpIcon" [size]="14" />
+            <lucide-icon [img]="helpIcon" [size]="14" aria-hidden="true" />
             <span>{{ 'topbar.user.help' | translate }}</span>
           </button>
           <button type="button" class="top-bar__menu-item" role="menuitem">
-            <lucide-icon [img]="logoutIcon" [size]="14" />
+            <lucide-icon [img]="logoutIcon" [size]="14" aria-hidden="true" />
             <span>{{ 'topbar.user.logout' | translate }}</span>
           </button>
         </div>
