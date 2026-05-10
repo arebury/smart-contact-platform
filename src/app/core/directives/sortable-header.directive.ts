@@ -46,7 +46,12 @@ export class SortableHeaderDirective {
     return 'none';
   });
 
-  protected onKey(event: KeyboardEvent): void {
+  protected onKey(event: Event): void {
+    /* Angular 21 types host-binding `$event` as the generic `Event`
+     * (not the previously inferred `KeyboardEvent`), so accept the
+     * parent type and rely on `preventDefault()` being available on
+     * every Event. The handler is only wired to keydown.enter /
+     * keydown.space, so it's still always a KeyboardEvent at runtime. */
     event.preventDefault();
     this.activate.emit();
   }
