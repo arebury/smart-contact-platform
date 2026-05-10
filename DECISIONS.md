@@ -7,6 +7,84 @@
 
 ---
 
+## 51 — Upgrade Angular 18 → 21 + PrimeNG 18 → 21 in a single dedicated branch with Playwright visual regression (2026-05-10)
+
+**Decision.** The major-version upgrade across Angular (18 → 19 → 20
+→ 21), PrimeNG (18 → 21), and Angular CDK (18 → 21) lands as one PR
+from the `chore/upgrade-angular-21` branch. Inside that branch, each
+Angular major step is its own commit so a future `git bisect` can
+pinpoint which jump introduced any regression. Visual regression at
+every step is verified with a Playwright snapshot script
+(`e2e/snapshot.ts`) that captures every key screen at 1440×900
+@2x and writes `.png` files under `e2e/screenshots/<set>/`. The
+`baseline/` set is taken on v18; subsequent sets (`after-ng19/`,
+`after-ng20/`, `after-ng21/`) are compared visually before the next
+jump.
+
+The local dev environment switched from Node 25 (which the AED
+session log flagged as broken with `ng serve`) to Node 20.20.2 via
+nvm, installed via Homebrew. `~/.zshrc` got the standard nvm
+bootstrap so the switch survives shell restarts.
+
+**Why.** Three reasons:
+
+- **One PR for the merge, granular commits inside.** Bundling all
+  three Angular majors into a single branch keeps `main` clean
+  during the multi-hour upgrade. The per-major commits give bisect
+  resolution without requiring three separate review cycles. If any
+  step regresses something that only manifests in production, we
+  can revert that one commit instead of the whole upgrade.
+- **Playwright as the regression net.** Three majors + three PrimeNG
+  bumps without visual checks would be a leap of faith — `tsc
+  --noEmit` catches type drift but doesn't catch a re-rendered
+  PrimeNG component that lost its border-radius. Snapshotting at
+  every step makes "did anything visibly change?" answerable in 30
+  seconds.
+- **Catching the long tail of peer-deps in advance.** PrimeNG 21
+  needs CDK ^21; CDK can't skip majors via `ng update`;
+  `lucide-angular@^0.460` capped at Angular 18. Doing the upgrade in
+  a dedicated branch let us discover and resolve those constraints
+  without polluting `main` with intermediate broken states.
+
+**Discarded.**
+
+- Doing the upgrade directly on `main`. Faster if everything works,
+  catastrophic if something breaks at step 2 of 3 — main is in a
+  half-upgraded state until someone fixes it.
+- Using `ng update --force` to bypass peer-deps. Hides real
+  conflicts and lets npm install transitive versions that may not
+  actually work together. The `--legacy-peer-deps` route documented
+  per step is more honest about what we're accepting.
+- Skipping the v19 / v20 stops and going straight to v21. `ng
+  update` doesn't support multi-major hops for the Angular
+  schematics; trying to leap would have left half the migrations
+  un-applied.
+- Trimming the visual regression to "spot-check 2-3 screens." Three
+  majors of changes can each contribute a 1-pixel shift; a
+  silent stack of small drifts becomes a visible regression on
+  someone else's screen. Snapshotting all 10 key screens at every
+  step makes drift impossible to miss.
+
+**Files / artifacts.**
+
+- [`e2e/snapshot.ts`](e2e/snapshot.ts) — Playwright driver.
+- [`e2e/screenshots/`](e2e/screenshots/) — gitignored; regenerable
+  on demand.
+- `package.json` — Angular 21.2.10 · PrimeNG 21.1.6 ·
+  Angular CDK 21.2.10 · Lucide-angular 1.0.
+- `~/.zshrc` — added nvm bootstrap block so Node 20 survives shell
+  restarts.
+- [`docs/design-system.md`](docs/design-system.md) — stack reference
+  updated to Angular 21.2 + PrimeNG 21.1.
+
+**Open follow-ups.** Optional schematics deferred for separate
+sessions: `use-application-builder` (build-system swap),
+`router-current-navigation` (Router signal API),
+`provide-initializer` (APP_INITIALIZER → providers replacement). Each
+is a behaviour change worth its own focused commit + visual check.
+
+---
+
 ## 50 — Design tokens reorganise into a PrimeNG-style 7-layer cascade (2026-05-10)
 
 **Decision.** The 975-line monolithic `sc-tokens.css` is split into

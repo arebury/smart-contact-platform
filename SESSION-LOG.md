@@ -10,6 +10,76 @@
 
 ---
 
+## 2026-05-10 · Session 17 — Angular 18 → 21 + PrimeNG 18 → 21 upgrade (DD#51)
+
+> Major-version upgrade across three Angular jumps + three PrimeNG
+> jumps + an Angular CDK chain catch-up. Validated visually after each
+> step with Playwright screenshots. Branch
+> `chore/upgrade-angular-21`, ready for PR to `main`.
+
+**Worked on** (current branch: `chore/upgrade-angular-21`)
+
+- **Setup pass.** Installed `nvm` + Node 20.20.2 via Homebrew (Node 25
+  was breaking `ng serve` with "SemVer is not a constructor").
+  Installed Playwright as a dev-dep + chromium binary. Wrote
+  `e2e/snapshot.ts` to drive Playwright through every key screen
+  (dashboard, 3 list pages, 3 form-create pages, labels, templates,
+  config-aed) and write `e2e/screenshots/<set>/<name>.png`.
+  `e2e/screenshots/` gitignored.
+
+- **Baseline.** Captured `baseline/` against Angular 18.2 + PrimeNG
+  18.0 — reference for visual-regression checks at every step.
+
+- **Angular 18 → 19 + PrimeNG 18 → 19.** `ng update` migrated 56
+  files (mostly removing `standalone: true`, now the default in v19).
+  PrimeNG 19 broke `<p-popover [showCloseIcon]>` — input was always
+  `false`, just removed the binding. Visual diff: indistinguishable.
+
+- **Angular 19 → 20 + PrimeNG 19 → 20.** `ng update` plus the
+  `DOCUMENT` injection-token migration (`@angular/common` →
+  `@angular/core`, 2 files). Bumped `lucide-angular@^0.460 → ^1.0`
+  because the old version's peer-deps capped at Angular 18. Visual
+  diff: indistinguishable.
+
+- **Angular 20 → 21 + PrimeNG 20 → 21 + CDK 18 → 19 → 20 → 21.**
+  Angular CDK can't skip majors via `ng update`, so the chain ran
+  step-by-step. PrimeNG 21 declares CDK ^21 as a peer; installed
+  PrimeNG 21 + CDK 21 simultaneously with `--legacy-peer-deps` to
+  bypass the resolver dance. Final fix: Angular 21 tightened
+  host-binding `$event` typing — `SortableHeaderDirective` widened
+  its `onKey` parameter from `KeyboardEvent` to `Event` (runtime
+  always passes a KeyboardEvent; only the static type narrowed).
+  Visual diff: indistinguishable.
+
+- **Final state.** Angular 21.2.10 · PrimeNG 21.1.6 ·
+  Angular CDK 21.2.10 · Lucide-angular 1.0 · Node 20.20.2.
+
+**Decisiones tomadas**
+- DD#51: Major-version upgrade lands as a single PR via the
+  `chore/upgrade-angular-21` branch. Granular commits per major step
+  (one per Angular major) so any future bisect can pinpoint which
+  upgrade introduced a regression.
+- Optional schematics deferred: `use-application-builder` (build
+  system swap), `router-current-navigation`, `provide-initializer`.
+  Each is a separate behaviour change that wants its own focused
+  session and validation; bundling them with the version bump would
+  muddy the diff.
+
+**Bloqueos / decisiones diferidas**
+- Performance + SCSS-extraction items from Session 16's audits stay
+  parked — best tackled now that we have Playwright wired up.
+- Color-mix migration of dark-mode translucencies likewise — the
+  visual A/B comparison the user wanted is now feasible.
+
+**Queued next**
+- Open the PR `chore/upgrade-angular-21 → main` and merge once the
+  user signs off.
+- Resume the deferred Session 16 items (perf hot spots, SCSS
+  consolidation, dark-mode color-mix, a11y P2 sweep) with the new
+  Playwright harness in place.
+
+---
+
 ## 2026-05-10 · Session 16 — Platform-wide audit + cleanup + design-system reorganisation (DD#50)
 
 > Long working session covering five threads: audit-driven dead code
