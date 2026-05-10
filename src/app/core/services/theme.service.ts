@@ -1,5 +1,5 @@
-import { DOCUMENT } from '@angular/common';
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+
+import { computed, effect, inject, Injectable, signal, DOCUMENT } from '@angular/core';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 

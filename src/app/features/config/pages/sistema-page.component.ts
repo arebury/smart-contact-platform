@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, inject, signal, DOCUMENT } from '@angular/core';
+
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   AlertTriangle,
