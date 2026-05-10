@@ -1,4 +1,4 @@
-# DD#54 — Per-agent-per-group channel permissions (UX spec)
+# DD#53 — Per-agent-per-group channel permissions (UX spec)
 
 **Branch:** `feat/per-group-agent-channels`
 **Status:** design draft, pre-implementation

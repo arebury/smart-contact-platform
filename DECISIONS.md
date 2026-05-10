@@ -7,6 +7,68 @@
 
 ---
 
+## 53 — Per-(agent, group) channel permissions live in a dedicated link store, not on either entity (2026-05-10)
+
+**Decision.** Channel permissions move from a global `Agent.channels[]` +
+`Group.assignedAgents[]` pair to a single normalised join table — one
+`GroupAgentLink { agentId, groupId, channels, active }` row per pair.
+The legacy fields are dropped from the entity interfaces. Links live in
+`GroupAgentLinksStore` (a signal-based, localStorage-backed sibling of
+`AgentsStore` and `GroupsStore`); the seed is a static
+`GROUP_AGENT_LINKS_SEED` array of 159 rows. See
+[`docs/dd-53-per-group-channels-ux.md`](docs/dd-53-per-group-channels-ux.md)
+for the full UX spec and ASCII mockups.
+
+**Why.** Voice's user manual (Figura 15, page 20) reveals the legacy
+platform we're migrating from already models permissions per-pair — an
+agent's "phone" capability in group A is independent of their "phone"
+capability in group B. Our simplified global model required reconciling
+the agent's overall channel list against each group's channel offering
+at render time, which surfaced confusing "mismatch" states (agent has
+phone+chat globally, group has only phone → what does the agent
+actually attend?). The new model has no such mismatch: the link IS the
+agent's permission set in that group.
+
+Why a dedicated store instead of embedding the array on `Agent` or
+`Group`: a join row by definition is co-owned. Putting it on either
+side forces one feature store to import the other (write-fan-out,
+circular-import risk) and surfaces N+1 lookups when the other side
+needs the same data. The third store lets both feature stores derive
+read-only signals (`linksForAgent`, `linksForGroup`) cleanly. Same
+pattern as `LabelCascadeService`.
+
+**What we discarded.**
+
+- *Banner / inline-alert approach (mismatch warning).* Considered as
+  the cheaper band-aid: keep the global `Agent.channels` and show a
+  "you have channel X but this group doesn't offer it" alert. Rejected
+  because the mismatch is a *symptom*, not a *constraint*. Tooling
+  around symptoms compounds over time; structural fix doesn't recur.
+- *Verbatim copy of Voice's Figura 15 table.* Single ambiguous "channel"
+  column with no bulk controls. Works in Voice for trained operators,
+  not for a non-dev admin managing dozens of groups + hundreds of agents.
+  Replaced with one column per channel the group owns, tri-state column
+  headers for bulk-toggle, indeterminate-state semantics, and an inline
+  picker with search and paste-list-friendly Enter-to-add.
+- *Drag-reorder of agent rows in the group form.* The Voice form had
+  none and our user reads visual order as priority — drag-reorder of
+  permissions rows would lie about the underlying model (sort is by
+  name; level-routing is a separate strategy field).
+- *Generic `AedListPickerComponent` extracted up front.* Two callers
+  (agent-form, group-form) share the picker pattern, but their data
+  shape differs (Group with channels vs Agent alone). Embedded inline
+  in each table component for V1; will extract only if a third caller
+  emerges.
+
+**Cascade.** When a group drops a channel its `Canales` section used to
+own, the form clamps every link's channels in-memory (the table column
+disappears immediately) and surfaces a single-shot confirm dialog on
+save naming the impact ("Esto desactivará Chat para 8 agentes asignados
+a este grupo. ¿Continuar?"). The dialog reads pre-edit channels +
+links, so the count reflects real impact, not the already-clamped state.
+
+---
+
 ## 52 — Migrate the PrimeNG bridge from a flat CSS layer to a JS-defined preset (2026-05-10)
 
 **Decision.** The previous `06-primeng-bridge.css` — a layer that

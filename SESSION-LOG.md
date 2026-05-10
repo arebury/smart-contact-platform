@@ -10,6 +10,102 @@
 
 ---
 
+## 2026-05-10 · Session 19 — Per-agent-per-group channel permissions refactor (DD#53)
+
+> Branch `feat/per-group-agent-channels`. Voice parity: channels move
+> from global agent capability to per-(agent, group) link.
+
+**Worked on**
+
+- **Discovery.** Voice's user manual (Figura 15, page 20) shows the
+  legacy platform models permissions per agent/node pair, not globally.
+  Our simplified model produced confusing "mismatch" states whenever
+  an agent's global channels didn't match a group's offering. User
+  chose the structural refactor over a band-aid banner.
+
+- **Design spec (DD#53).** Used `/ui-ux-pro-max` to anchor the design.
+  Critique of "copy Voice verbatim" + ASCII mockups for both forms
+  (one column per channel the group owns, tri-state header bulk-toggle,
+  per-row Activo, soft warning for active-with-zero-channels) +
+  TypeScript data model + 5 components to build + 13 interaction
+  details. Saved at `docs/dd-53-per-group-channels-ux.md`.
+
+- **Data layer.** New `GroupAgentLinksStore`
+  ([`src/app/features/admin/services/group-agent-links.store.ts`](src/app/features/admin/services/group-agent-links.store.ts))
+  is a signal-based, localStorage-backed sibling of `AgentsStore` and
+  `GroupsStore`. Composite-key `(agentId, groupId)` indexing via two
+  computed `Map<number, GroupAgentLink[]>` for O(1) per-side lookups.
+  Cascade entry points: `removeAgent`, `removeGroup`,
+  `cascadeGroupChannelRemoval`. 159-row literal seed
+  ([`group-agent-links.seed.ts`](src/app/features/admin/services/group-agent-links.seed.ts))
+  generated once via `tools/generate-link-seed.mjs` from the legacy
+  `Agent.channels` × `Agent.groups[].active` × `Group.assignedAgents`
+  triple. 12 unit specs.
+
+- **Shared primitives.** New
+  [`AedTriStateCheckboxComponent`](src/app/shared/components/tri-state-checkbox/tri-state-checkbox.component.ts)
+  with full a11y semantics: `aria-checked='mixed'` for indeterminate,
+  imperative `indeterminate` reflection via view-child effect, click
+  cycles `none → all → none` and `some → none` (first click clears).
+  7 unit specs.
+
+- **Group form.** "Agentes asignados" section rewritten as
+  [`AedAgentChannelTableComponent`](src/app/features/admin/groups/components/agent-channel-table/agent-channel-table.component.ts):
+  inline picker (search + Enter-to-add), one tri-state column per
+  channel the group owns (columns auto-show/hide with the group's
+  channel set), per-row select + bulk pause/unassign overlay (no CLS),
+  Activo toggle per row, ⚠ glyph when active row has zero channels.
+
+- **Agent form.** "Grupos asignados" section rewritten as
+  [`AedGroupAssignmentTableComponent`](src/app/features/admin/agents/components/group-assignment-table/group-assignment-table.component.ts):
+  heterogeneous rows (each group exposes its own channel set), chip-
+  cluster per row showing only that group's channels, read-only
+  "Canales del grupo" column so the user understands why some channels
+  are absent. The old global "Channels pills" block in the Identidad
+  card is gone — channels are derived from links now.
+
+- **Sweep + drop legacy fields.** Removed `Agent.channels`,
+  `Agent.groups`, `Group.assignedAgents`, `AGENT_CHANNELS`,
+  `AgentGroupRef`, `ROSTER_AGENTS`, and `'channels'` from
+  `AgentBulkField`. All readers migrated to derivations from the link
+  store (`channelsForAgent`, `groupsForAgent`, `assignedCountForGroup`)
+  in the list pages + XLSX exports. List-page bulk delete now cascades
+  to `linksStore.removeAgent/removeGroup`.
+
+- **Cascade confirm dialog.** Group form captures initial channels +
+  links at load time; on save with channels dropped, surfaces a single-
+  shot `aed-modal` naming the impact ("Esto desactivará Chat para 8
+  agentes asignados a este grupo. ¿Continuar?"). Pre-edit count, not
+  post-clamp.
+
+- **Visual validation.** Playwright snapshots: agents list / groups
+  list / agent edit (multi-channel agent) / group edit (multi-channel
+  group + phone-only group) in light + dark mode. All clean. Group 11
+  (Online Support, phone+chat+email) renders with tri-state header
+  showing Teléfono `all`, Chat + Email `some`. Group 1 (phone-only)
+  correctly hides Chat and Email columns.
+
+**Commits**
+
+- `feat(group-agent-links): add link store + seed + DD#53 spec`
+- `feat(groups): rewrite "Agentes asignados" as per-channel matrix table`
+- `feat(agents): rewrite "Grupos asignados" as per-group channel matrix`
+- `refactor(model): drop Agent.channels/Agent.groups + Group.assignedAgents`
+- `feat(groups): cascade confirm dialog on channel removal`
+
+**Tests**
+
+- 163 passing (149 carry-over + 7 TriStateCheckbox + 12 LinksStore +
+  removed 5 stale Agent.channels assertions during the model cleanup).
+
+**Open items**
+
+- Drag-reorder explicitly out of scope per spec; not implemented.
+- Generic `AedListPickerComponent` extraction deferred — two callers
+  share the pattern but their data shape differs.
+
+---
+
 ## 2026-05-10 · Session 18 — Dark-mode bug fix + color-mix + PrimeNG JS preset migration (DD#52)
 
 > Started as a token-polish session and surfaced a silent production
