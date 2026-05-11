@@ -10,6 +10,145 @@
 
 ---
 
+## 2026-05-11 · Session 21 — Cross-form audit closed + Configuración avanzada (PR #24 → #28)
+
+> Five PRs merged into `main`. Cerramos entero el audit de DD#54
+> (6/6), añadimos DD#56 (extract `.pill` base) y DD#57 (Configuración
+> avanzada section con progressive disclosure). Sticky bug latente en
+> los tres forms localizado y arreglado de paso.
+
+### What this session was about
+
+1. Quemar la lista de 5 audit items restantes de DD#54 (cross-form drift).
+2. Implementar el bloque "Configuración avanzada" en el agent-form
+   con progressive disclosure tipo acordeón, después de que el user
+   compartiera el target del prototipo.
+3. Cazar un bug de sticky positioning que aparecía cuando el form
+   crecía (visible en cuanto desplegamos Configuración avanzada).
+
+### Worked on
+
+- **PR #24** (`6260a28`) — Audit #2: borrado del bloque `.toggle` dead
+  en `user-form-page.component.scss:124-169`. 47 líneas fuera.
+  Camino de pago: tuve que reinstalar `primeicons` Y `css-loader` por
+  el bug de instalaciones parciales (mismo síntoma que sesión 20
+  reportó sólo para primeicons — afecta también a Karma).
+- **PR #25** (`53d9b07`) — Audit #1 con scope estructural (DD#56).
+  Promovida la base `.pill` + `--type` + `--status-*` (con animación
+  `status-pop`) a `src/styles/_forms.scss`. user-form's `#1a8a4a`/
+  `#1a6a3a` hardcoded → tokens `--sc-presence-available` / `_-deep`
+  (mismo hex, sin cambio visual). Animación uniforme on en los tres
+  forms. Dead `.pill--type` (agent-form) y `.pill--channel`
+  (group-form) eliminadas en el mismo pase.
+- **PR #26** (`d6a8b2b`) — Audit #3: tri-state en headers de
+  `.perm-matrix`. Sustituido el `<input type="checkbox">` por
+  `<aed-tri-state-checkbox>` en agent-form + aed-agentes. `columnState`
+  ahora devuelve `'none' | 'some' | 'all'` calculado desde las filas
+  del body. `toggleColumnAll(col)` → `toggleColumnAll(col, next)`. El
+  orden visual "LABEL ☐" de DD#55 preservado via
+  `flex-direction: row-reverse` scoped a `.perm-matrix__th-col`.
+- **PR #27** (`27da37f`) — Audits #4 + #5 cerrados juntos. Avatar
+  size unificado a 24 (era 22 en group-assignment-table, 26 en
+  agent-channel-table); comentario DD#54 añadido a
+  `confirm-host.component.scss`.
+- **PR #28** (`c858544`) — Configuración avanzada (DD#57). La pieza
+  grande de la sesión:
+  - Nueva sección-card "Configuración avanzada" después de
+    Permisos, **colapsada por defecto** para ocultar ruido a usuarios
+    no avanzados.
+  - 4 sub-secciones internas (todas también colapsadas por
+    defecto, count-badges visibles cerradas): **Labels** (acordeón),
+    **Agendas** (acordeón, consume `AgendasStore` ya existente del
+    repo), **Plantillas** (acordeón con tabs Chat/Email, consume
+    `TemplatesStore`), **Comportamiento** + **Integración** +
+    **Regional** (sub-secciones planas).
+  - `aed-section-card` gana inputs opcionales `[collapsible]` y
+    `[initiallyCollapsed]`. Inputs opcionales — consumers existentes
+    intactos.
+  - `Agent` interface gana `templates?: readonly number[]`. Form
+    state cablea `scheduleIds: Set<number>` y `templateIds: Set<number>`.
+  - 3 campos del modelo que estaban huérfanos (sin form): `randomOrder`,
+    `maxChats`, `iframeUrl` quedan cableados en Comportamiento /
+    Integración.
+  - `pickupType` movido de Identification a Comportamiento.
+    Identification ahora: Email/Phone, Extension/Tipo, Estado,
+    Presencia, Grabación, PIN — más limpia.
+  - `externalDevices` reincorporado como toggle per-agente en
+    Integración (revierte parcialmente la decisión de Session 20 de
+    "global only"). Toggle global en `/admin/aed/agentes` queda
+    intacto por ahora — su rol pasa a "default para nuevos agentes".
+  - **Sticky bug latente cazado de pasada**: los tres forms
+    (agent/group/user) tenían `:host { height: 100% }`. Eso convertía
+    `:host` en containing block para todos los sticky descendientes
+    (`<aed-sticky-form-header>`, `.ipanel`, `.form-grid__identity`) y
+    capaba su rango a 1 viewport. En cuanto el contenido crecía
+    (con Configuración avanzada desplegado), el sticky-form-header
+    se des-stickyficaba al pasar el bottom del `:host`. Fix:
+    `height: 100% → min-height: 100%` en los tres forms.
+  - **Sticky bug bonus en scroll-bottom**: cuando llegabas al
+    fondo, el rail e identidad se descolocaban (la 1ª entrada
+    "Identificación" quedaba escondida tras el header). Dos causas:
+    `--aed-form-panel-top` era 64 cuando el header real mide ~80; y
+    el sticky se des-stickyfica cuando el bottom del containing
+    block alcanza su limit. Fix: bump a 80px + `padding-bottom: 30dvh`
+    en `.form-grid` para extender el containing block más allá del
+    último contenido visible.
+
+### Decisions locked
+
+- **[DD#56](DECISIONS.md#56)** — `.pill` base + variantes
+  compartidas viven en `_forms.scss`; cada form local conserva sólo
+  sus variantes de dominio (`--presence-*` en agent, `--priority-*`
+  en group).
+- **[DD#57](DECISIONS.md#57)** — La cola del agent-form (Languages,
+  Labels) + 3 campos huérfanos del modelo se consolidan en una sola
+  sección "Configuración avanzada" colapsada por defecto, con
+  sub-secciones progresivas (3 acordeón + 3 planas). `aed-section-card`
+  gana modo `collapsible`. `externalDevices` vuelve a ser per-agente.
+
+### Result
+
+- 5 PRs merged. main: `e74c32b` → `c858544`.
+- 163/163 tests pass throughout. Lint + format + tsc clean.
+- Audit de DD#54 cerrado entero (6/6). Lista en `roadmap.md →
+  UI consistency debt` queda toda tachada.
+- Working tree clean.
+
+### Outstanding — del prototipo Configuración avanzada
+
+Tracked en `roadmap.md → 3.7 Agents`:
+
+1. **Pickup type — Chat** (`pickupTypeChat`) — campo nuevo en
+   Agent. Hoy sólo hay un `pickupType` global. Sub-sección
+   Comportamiento ya tiene el slot.
+2. **Sub-sección Sesión** — toggle "Actualizar teléfono en login"
+   (`loginExtOverride`) + diálogo "Expirar contraseña". Necesita
+   modelo nuevo + store action.
+
+Más, sin prisa: column-visibility selector + frozen-column table en
+agents-list, photo upload preview, default outbound group.
+
+### Known environment issues (do not re-diagnose)
+
+- **Instalaciones parciales en `node_modules`**: `primeicons/fonts/`
+  Y `css-loader/dist/cjs.js` desaparecen tras `npm start` fresh
+  restart. Afecta a `npm test` también (Karma usa el mismo loader).
+  CI no lo padece. Workaround: `rm -rf node_modules/<pkg> && npm i <pkg> --force`.
+  No commitear el `package.json` modificado — `npm i --force` añade
+  el paquete como dep top-level y eso no es lo que queremos.
+- **Node 25 warning** cosmético en `npm run lint`. Ignorar.
+
+### Next session pickup
+
+- Tree state: `main` at `c858544`. No pending branches.
+- Natural next move: añadir el campo `pickupTypeChat` + la
+  sub-sección Sesión para cerrar el prototipo de Configuración
+  avanzada (~ 1 sesión). O atacar el column-visibility selector en
+  agents-list (UX win visible, requiere el primitivo
+  `MultiSelectChip`).
+
+---
+
 ## 2026-05-10/11 · Session 20 — Modal real-fix + permisos polish + cross-form audit + matrix extract (PR #22 + #23)
 
 > Two merged PRs (#22 → `6e8b090`, #23 → `e74c32b`). Follow-up arc
