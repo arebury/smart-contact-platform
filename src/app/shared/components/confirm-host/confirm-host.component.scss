@@ -13,6 +13,8 @@
  * buttons confuses Angular's content projection inside @if/@else — each
  * branch is a multi-node root). The wrapper itself becomes the flex
  * container for the buttons, and it stretches to fill the footer.
+ *
+ * Locked in by DD#54 — see DECISIONS.md for the full rationale.
  */
 :host ::ng-deep .aed-modal__foot {
   > .confirm-host__actions {

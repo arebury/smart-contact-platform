@@ -259,12 +259,13 @@ the top in the next polish session.
   none→all and all/some→none. Label-before-checkbox order preserved
   via `flex-direction: row-reverse` override scoped to
   `.perm-matrix__th-col` in `_forms.scss`.
-- **Avatar size mismatch.** `agent-channel-table` usa `[size]="26"`
-  (illustrated pool, agentes en group-form), `group-assignment-table`
-  usa `[size]="22"` (abstract pool, grupos en agent-form). *Fix:*
-  igualar a 24 en ambos. **Baja.**
-- **Modal footer layout intent indocumentado.** `aed-confirm-host` tiene
-  footer 50/50 (DD#54), el resto de modals (delete dialogs) flush-right —
-  intencional, pero un futuro contribuidor no lo sabrá. *Fix:* comentario
-  explicativo en `confirm-host.component.scss` referenciando DD#54.
-  **Baja.**
+- ~~**Avatar size mismatch.**~~ ✅ **Done (2026-05-11).** Both
+  consumers now use `[size]="24"` (was 22 in `group-assignment-table`
+  and 26 in `agent-channel-table`).
+- ~~**Modal footer layout intent indocumentado.**~~ ✅ **Done
+  (2026-05-11).** `confirm-host.component.scss` comment now
+  references DD#54 explicitly so future contributors trace the
+  50/50-vs-flush-right decision to its source.
+
+**Audit closed.** All six items shipped. New cross-form drift, if any,
+gets a fresh audit pass in a future session.
