@@ -193,6 +193,136 @@ Ejemplos: `--sc-z-modal`, `--sc-transition-fast`,
 
 ---
 
+## El UI Kit de PrimeOne en Figma — cómo conviven
+
+Esto es lo que probablemente más confunde, porque hay **tres
+librerías de Figma trabajando a la vez**:
+
+```
+   ┌─────────────────────────┐
+   │  1. PrimeOne UI Kit     │   ← descargada de PrimeNG, intocable
+   │     (original oficial)  │      (es la fuente upstream)
+   └─────────────────────────┘
+                │
+                │  duplicada en el equipo
+                ▼
+   ┌─────────────────────────┐
+   │  2. PrimeOne — Duplicado│   ← copia compartida, casi intocable
+   │     del equipo Smart    │      (sólo se toca su modo "custom")
+   │     Contact             │
+   └─────────────────────────┘
+                │
+                │  consumida + extendida
+                ▼
+   ┌─────────────────────────┐
+   │  3. Smart Contact       │   ← tu librería propia: aquí vives
+   │     Design System       │      (componentes nuevos, marca,
+   │                         │       overrides finos)
+   └─────────────────────────┘
+```
+
+### ¿Por qué no se toca el original/duplicado de PrimeOne?
+
+Porque PrimeNG publica **versiones nuevas** cada cierto tiempo
+(añaden componentes, renombran tokens, ajustan estructuras). Cada
+vez que el equipo actualiza la versión del kit, lo que tú
+modificaste en el original se pierde o entra en conflicto.
+
+La regla de los kits de terceros: **modifica en la zona que ellos
+te dejan tocar, y NO toques nada fuera de esa zona.** Para
+PrimeOne esa zona se llama "Custom mode" o "Custom page"
+(depende de la versión del kit que tengáis).
+
+### ¿Qué hay en el "Custom mode"?
+
+Variables que PrimeOne ha marcado como "override-friendly". Cada
+una está pensada para que la sobreescribas con tus valores:
+
+- **Colores**: la escala `primary` (50-950), la escala `surface`
+  (50-950), colores de estado (success, warning, danger, info).
+- **Tipografía**: font family, tamaños base, line-heights.
+- **Radio**: escala completa (xs, sm, md, lg, xl).
+- **Spacing**: la escala del kit.
+- **Tokens específicos por componente** que el kit expone:
+  `formField.paddingX`, `formField.borderRadius`,
+  `overlay.modal.borderRadius`, etc.
+
+Todo lo que está dentro del Custom mode **viaja contigo** cuando
+el dev team actualiza la versión de PrimeNG — porque el código
+también lee del mismo "puente" (el `aed-preset.ts`) que respeta
+esos overrides.
+
+### Mapa mental: Figma "Custom mode" ↔ código `aed-preset.ts`
+
+Son **el mismo mecanismo** en dos sitios:
+
+```
+  FIGMA                            CÓDIGO
+  ─────                            ──────
+  PrimeOne UI Kit (original)       PrimeNG Aura (preset upstream)
+         ↑                                ↑
+         │ overrides en…                  │ overrides en…
+         │                                │
+  Custom mode (Figma)              aed-preset.ts (código)
+         │                                │
+         └─── mismas decisiones ──────────┘
+              en dos representaciones
+```
+
+Cuando defines `primary-500: #1B273D` en el Custom mode de Figma,
+el dev team replica `primary.500: 'var(--sc-color-blue-500)'` en
+`aed-preset.ts` con el mismo valor. Mismo concepto, dos sitios.
+
+### ¿Qué puedo tocar y qué no? (versión PrimeOne)
+
+| Zona | ¿Tocar? | Notas |
+|---|---|---|
+| **Custom mode / page** del duplicado | ✅ SÍ | Es exactamente para esto. Cambia colores, fuentes, radios, spacing, tokens de componentes que PrimeOne expone. |
+| **Tokens base (no-custom)** del duplicado | 🚫 NO | Lo que toques aquí se pisa o entra en conflicto en la próxima migración de PrimeNG. |
+| **Componentes** del UI Kit (anatomía interna del botón, modal, dropdown) | 🚫 NO | Mismo motivo: en cada migración se sobreescriben. Si necesitas un comportamiento distinto, hablamos. |
+| **Crear componentes NUEVOS** que PrimeOne no incluye (ej. tu propio `agent-channel-table`) | ✅ SÍ | Pero en TU librería (Smart Contact), no dentro del duplicado de PrimeOne. |
+| **Añadir tokens NUEVOS con prefijo propio** (`sc-presence-*`, `sc-priority-*`) | ✅ SÍ | En tu librería. No chocan con los de PrimeOne. |
+| **Renombrar / eliminar** variables del kit original | 🚫 NO | Aunque parezca que sobran, son contrato con PrimeNG. |
+
+### Caso concreto: ¿puedo cambiar el padding de un botón?
+
+**Depende de CÓMO lo cambies.** Esta es la trampa que más gente
+pisa:
+
+- ✅ **Vía token**: si cambias el valor del token
+  `formField.paddingX` (o `button.paddingX`, según versión) en el
+  Custom mode, el botón se ajusta. Esto **NO se rompe** en
+  migraciones, porque PrimeNG mantiene ese token como contrato.
+  El dev team replica el mismo cambio en `aed-preset.ts` y queda
+  alineado.
+- 🚫 **Manualmente en el componente**: si entras al frame del
+  botón y cambias el padding "a mano" desde el panel de
+  propiedades de Figma, eso es una modificación local del
+  componente. En la próxima actualización del kit, ese padding
+  vuelve al valor original y pierdes el cambio.
+
+**Regla**: si el cambio se puede expresar como "cambiar un valor
+en Custom mode", hazlo así. Si te pide cambiar la estructura del
+componente, ese tipo de customización no la soportan los kits de
+terceros — hay que hablarlo.
+
+### ¿Qué pasa si PrimeNG saca una versión nueva?
+
+1. El dev team actualiza la dependencia (`npm update primeng`).
+2. Los tokens NUEVOS que PrimeNG añade quedan en sus defaults
+   (Aura) hasta que decidamos overrideearlos.
+3. Los tokens que YA teníamos overrideados en `aed-preset.ts`
+   siguen funcionando — porque el contrato (`primary.500`,
+   `formField.paddingX`, etc.) se mantiene.
+4. En Figma: igual. Tu Custom mode sigue intacto. Si PrimeNG
+   añade tokens nuevos, los verás disponibles para overridear si
+   quieres.
+5. **Lo único que se rompería** es si tocaste cosas fuera de
+   Custom mode (anatomía de componentes, tokens base no-custom).
+   De ahí la regla.
+
+---
+
 ## Casos típicos (formato STAR)
 
 > STAR = **S**ituación · **T**area · **A**cción · **R**esultado.
