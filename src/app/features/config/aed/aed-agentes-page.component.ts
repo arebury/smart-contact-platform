@@ -3,7 +3,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ChevronDown, ChevronUp, LucideAngularModule, UserRound } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { ToggleSwitchComponent, TriStateCheckboxComponent, type TriState } from '@shared/components';
+import {
+  ToggleSwitchComponent,
+  TriStateCheckboxComponent,
+  type TriState,
+} from '@shared/components';
 
 type DestinoKey = 'fijos' | 'moviles' | 'internacionales' | 'especial';
 type DestinoCol = 'llamada' | 'transferencias';
@@ -61,12 +65,7 @@ const DEFAULT_FORM: FormState = {
  */
 @Component({
   selector: 'aed-aed-agentes-page',
-  imports: [
-    LucideAngularModule,
-    ToggleSwitchComponent,
-    TranslateModule,
-    TriStateCheckboxComponent,
-  ],
+  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule, TriStateCheckboxComponent],
   templateUrl: './aed-agentes-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-agentes-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
