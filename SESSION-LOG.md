@@ -10,6 +10,113 @@
 
 ---
 
+## 2026-05-11 · Session 23 — Token audit + designer-facing GUIA (PR #31 + #32)
+
+> Two PRs merged into `main` (`fd48672` and `066d0c1`). The user
+> asked: "podemos hacer un uso más inteligente de los tokens?
+> priorizando calidad, control, simpleza y claridad?" and clarified
+> "la referencia ha de ser primeng". Triggered a full audit of the
+> `--sc-*` system + a new Spanish design-side guide.
+
+### Worked on
+
+- **PR #31** (`fd48672`) — Token audit close-out:
+  - Audited 443 `--sc-*` tokens against the PrimeNG Aura preset
+    surface. Found 3 classes of issue and closed them all:
+    - **A** — 7 tokens referenced but never declared
+      (`--sc-spacing-250`, `--sc-bg-elevated`, `--sc-bg-hover`,
+      `--sc-bg-selected`, `--sc-row-hover-bg`, `--sc-border-focus`,
+      `--sc-shadow-100`). Added to their correct layer (primitive
+      or semantic).
+    - **B** — 20 raw hex fallbacks in consumer SCSS
+      (`var(--sc-x, #aaa)` violations of rule 2). Either stripped
+      the fallback (the declared token now carries the value) or
+      remapped to an existing scale (amber→yellow, cyan→soft-blue,
+      extend→soft-blue).
+    - **C** — PrimeNG Aura defaults leaking pure-black shadows
+      into PrimeNG components (`formField.shadow`,
+      `overlay.select.shadow`, `overlay.navigation.shadow`).
+      Mapped in `aed-preset.ts` to AED's tinted shadow tokens.
+  - README gained a "which layer does my new token belong to?"
+    decision table + a "PrimeNG-as-reference" section.
+  - Final audit state: 450 declared / 454 referenced (4 are
+    string-interpolation partials, expected). **0 dead tokens,
+    0 hex fallbacks anywhere in `src/app`.**
+
+- **GUIA.md** (in PR #31) — A new Spanish-language guide for
+  designers coming from Figma. Lives at
+  `src/app/core/tokens/GUIA.md`, next to the technical README.
+  Covers:
+  - Mental model: the worlds of Figma ↔ code ↔ PrimeNG bridge.
+  - 5 layers explained as floors of a building (later corrected
+    to all 7 layers — see PR #32).
+  - Permissions map (semáforo): touch freely / coordinate / leave
+    to dev.
+  - 6 STAR-format walkthroughs of typical situations (brand color
+    change in Figma, new color that doesn't exist, new
+    border-radius step, PrimeNG component mismatch, hex literal in
+    code, gradient banner).
+  - Glossary of technical terms in plain Spanish.
+  - Mantra: design system as a contract, not a style guide.
+
+- **PR #32** (`066d0c1`) — GUIA polish after user feedback:
+  - User caught: "hablas de 5 capas cuando tenemos 7 puestas en el
+    documento de design system". Fixed — GUIA now lists all 7
+    plantas explicitly and marks plantas 6 (PrimeNG bridge in
+    `aed-preset.ts`) and 7 (dark mode, off by brand decision) as
+    off-limits for designers.
+  - User caught: "no entiendo nada, de por qué hablamos de tres
+    idiomas, siendo figma y smart contact ubicados ambos en
+    figma, el mismo idioma". Fixed — the "three worlds" framing
+    was wrong. The SC design system *lives in* Figma; same value,
+    two representations. Reframed as two worlds (Figma ↔ code)
+    with PrimeNG as a *consumer* coming through the
+    `aed-preset.ts` bridge. New ASCII diagram makes the
+    relationship explicit.
+
+### Result
+
+- 2 PRs merged. main: `f73960a` → `066d0c1`.
+- 163/163 tests pass throughout. tsc + lint + prettier clean.
+- Token deuda técnica: **cero**. Cualquier futuro `var(--sc-x, #hex)`
+  resaltará como anomalía en review.
+- Designer-facing docs in Spanish in the tokens folder.
+- Working tree clean.
+
+### Outstanding
+
+Tracked in `roadmap.md → 3.7 Agents`:
+- Column-visibility selector in agents list (needs `MultiSelectChip`)
+- Frozen-column data table
+- Photo upload preview
+- Default outbound group
+
+Phase 4 (README + docs técnicos del proyecto) — sin tocar. La
+GUIA.md de tokens es solo una pequeña parte de lo que Phase 4
+incluiría.
+
+### Stray files
+
+In the working tree (untracked, not committed) appeared 8 files
+that look like macOS Finder duplicates or debug snapshots:
+- `docs/dd-53-per-group-channels-ux 2.md`
+- `src/styles/_forms 2.scss`
+- `e2e/snap-agent.ts`, `snap-debug.ts`, `snap-edit.ts`,
+  `snap-issues.ts`, `snap-table.ts`, `err-trace.ts`
+
+Left intentionally untouched pending user confirmation (could be
+in-progress Playwright work).
+
+### Next session pickup
+
+- Tree state: `main` at `066d0c1`. No pending branches.
+- 8 stray untracked files to either commit or clean.
+- Natural next move: column-visibility selector in agents list
+  (visible UX upgrade, opens the door to the shared
+  `MultiSelectChip` primitive that later screens can adopt).
+
+---
+
 ## 2026-05-11 · Session 22 — Configuración avanzada close-out + quality-bar polish (PR #29 + #30)
 
 > Two PRs merged into `main` (`357d61a` and `9465bec`). The user
