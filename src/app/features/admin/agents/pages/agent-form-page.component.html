@@ -374,28 +374,22 @@
                     {{ 'agents.form.permissions.destino' | translate }}
                   </th>
                   <th scope="col" class="perm-matrix__th-col">
-                    <label class="perm-matrix__col-toggle">
+                    <aed-tri-state-checkbox
+                      [state]="columnState().llamada"
+                      [ariaLabel]="'agents.form.permissions.toggle_all_llamada' | translate"
+                      (cycle)="toggleColumnAll('llamada', $event)"
+                    >
                       <span>{{ 'agents.form.permissions.col_llamada' | translate }}</span>
-                      <input
-                        type="checkbox"
-                        [checked]="columnAllSelected().llamada"
-                        (change)="toggleColumnAll('llamada')"
-                        [attr.aria-label]="'agents.form.permissions.toggle_all_llamada' | translate"
-                      />
-                    </label>
+                    </aed-tri-state-checkbox>
                   </th>
                   <th scope="col" class="perm-matrix__th-col">
-                    <label class="perm-matrix__col-toggle">
+                    <aed-tri-state-checkbox
+                      [state]="columnState().transferencia"
+                      [ariaLabel]="'agents.form.permissions.toggle_all_transferencia' | translate"
+                      (cycle)="toggleColumnAll('transferencia', $event)"
+                    >
                       <span>{{ 'agents.form.permissions.col_transferencia' | translate }}</span>
-                      <input
-                        type="checkbox"
-                        [checked]="columnAllSelected().transferencia"
-                        (change)="toggleColumnAll('transferencia')"
-                        [attr.aria-label]="
-                          'agents.form.permissions.toggle_all_transferencia' | translate
-                        "
-                      />
-                    </label>
+                    </aed-tri-state-checkbox>
                   </th>
                 </tr>
               </thead>

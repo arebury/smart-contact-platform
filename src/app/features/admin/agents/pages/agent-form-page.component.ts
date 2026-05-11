@@ -27,6 +27,8 @@ import {
   SectionCardComponent,
   StickyFormHeaderComponent,
   ToggleSwitchComponent,
+  TriStateCheckboxComponent,
+  type TriState,
 } from '@shared/components';
 import { LabelsStore } from '@features/admin/labels/state/labels.store';
 import { GroupsStore } from '@features/admin/groups/state/groups.store';
@@ -104,6 +106,7 @@ interface FormState {
     StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
+    TriStateCheckboxComponent,
   ],
   templateUrl: './agent-form-page.component.html',
   styleUrl: './agent-form-page.component.scss',
@@ -179,12 +182,15 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     'especial',
   ];
 
-  protected readonly columnAllSelected = computed(() => {
+  protected readonly columnState = computed<Record<DestinoCol, TriState>>(() => {
     const p = this.form().permissions;
-    return {
-      llamada: this.destinoKeys.every((k) => p[PERMISSION_MATRIX_KEYS[k].llamada]),
-      transferencia: this.destinoKeys.every((k) => p[PERMISSION_MATRIX_KEYS[k].transferencia]),
+    const tally = (col: DestinoCol): TriState => {
+      const checked = this.destinoKeys.filter((k) => p[PERMISSION_MATRIX_KEYS[k][col]]).length;
+      if (checked === 0) return 'none';
+      if (checked === this.destinoKeys.length) return 'all';
+      return 'some';
     };
+    return { llamada: tally('llamada'), transferencia: tally('transferencia') };
   });
 
   protected matrixValue(row: DestinoKey, col: DestinoCol): boolean {
@@ -195,8 +201,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.togglePermission(PERMISSION_MATRIX_KEYS[row][col]);
   }
 
-  protected toggleColumnAll(col: DestinoCol): void {
-    const next = !this.columnAllSelected()[col];
+  protected toggleColumnAll(col: DestinoCol, next: boolean): void {
     this.formDirty.set(true);
     this.form.update((f) => {
       const permissions = { ...f.permissions };

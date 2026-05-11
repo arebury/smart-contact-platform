@@ -218,14 +218,24 @@
   &__th-col {
     text-align: center !important;
     width: 140px;
-  }
 
-  &__col-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sc-spacing-100);
-    cursor: pointer;
-    color: inherit;
+    /*
+     * The column header is an `<aed-tri-state-checkbox>` that wraps a
+     * projected `<span>` (the column label). Default tri-state layout
+     * is "[box] label"; we want "LABEL [box]" to match Voice's
+     * Figura 15 (DD#55). We also want the projected label to inherit
+     * the header's small-caps treatment instead of the tri-state's
+     * own body-text style.
+     */
+    aed-tri-state-checkbox .tri-checkbox {
+      flex-direction: row-reverse;
+      justify-content: center;
+      font-size: inherit;
+      color: inherit;
+      text-transform: inherit;
+      letter-spacing: inherit;
+      font-weight: inherit;
+    }
   }
 
   tbody th,

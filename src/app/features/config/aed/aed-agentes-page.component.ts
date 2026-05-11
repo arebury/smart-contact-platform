@@ -3,7 +3,11 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ChevronDown, ChevronUp, LucideAngularModule, UserRound } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { ToggleSwitchComponent } from '@shared/components';
+import {
+  ToggleSwitchComponent,
+  TriStateCheckboxComponent,
+  type TriState,
+} from '@shared/components';
 
 type DestinoKey = 'fijos' | 'moviles' | 'internacionales' | 'especial';
 type DestinoCol = 'llamada' | 'transferencias';
@@ -61,7 +65,7 @@ const DEFAULT_FORM: FormState = {
  */
 @Component({
   selector: 'aed-aed-agentes-page',
-  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule, TriStateCheckboxComponent],
   templateUrl: './aed-agentes-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-agentes-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -82,12 +86,15 @@ export class AedAgentesPageComponent {
 
   protected readonly canSave = computed(() => this.dirty() && !this.saving());
 
-  protected readonly columnAllSelected = computed(() => {
+  protected readonly columnState = computed<Record<DestinoCol, TriState>>(() => {
     const p = this.form().permisosLlamadas;
-    return {
-      llamada: DESTINO_KEYS.every((k) => p[k].llamada),
-      transferencias: DESTINO_KEYS.every((k) => p[k].transferencias),
+    const tally = (col: DestinoCol): TriState => {
+      const checked = DESTINO_KEYS.filter((k) => p[k][col]).length;
+      if (checked === 0) return 'none';
+      if (checked === DESTINO_KEYS.length) return 'all';
+      return 'some';
     };
+    return { llamada: tally('llamada'), transferencias: tally('transferencias') };
   });
 
   protected toggleLlamadasOpen(): void {
@@ -105,8 +112,7 @@ export class AedAgentesPageComponent {
     this.dirty.set(true);
   }
 
-  protected toggleColumnAll(col: DestinoCol): void {
-    const next = !this.columnAllSelected()[col];
+  protected toggleColumnAll(col: DestinoCol, next: boolean): void {
     this.form.update((f) => {
       const updated = { ...f.permisosLlamadas } as PermisosLlamadas;
       for (const k of DESTINO_KEYS) {
