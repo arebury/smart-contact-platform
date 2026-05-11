@@ -51,9 +51,9 @@
  * the rich sticky header at the top of the page. */
 .ipanel {
   position: sticky;
-  top: var(--aed-form-panel-top, 64px);
+  top: var(--aed-form-panel-top, 80px);
   align-self: start;
-  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  height: calc(100dvh - var(--aed-form-panel-top, 80px));
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-300);

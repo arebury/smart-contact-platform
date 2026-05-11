@@ -52,12 +52,17 @@
 }
 
 /* Rail — section index only. Identity / pills / stats moved up to the
- * rich sticky header at the top of the page. */
+ * rich sticky header at the top of the page.
+ *
+ * `--aed-form-panel-top` is the offset below the sticky-form-header.
+ * 80px = header padding (16+16) + content max (~48px). Previously 64px
+ * left the first nav entry partially hidden behind the header.
+ */
 .ipanel {
   position: sticky;
-  top: var(--aed-form-panel-top, 64px);
+  top: var(--aed-form-panel-top, 80px);
   align-self: start;
-  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  height: calc(100dvh - var(--aed-form-panel-top, 80px));
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-300);
@@ -74,22 +79,34 @@
   }
 }
 
-/* Two-column form layout: Identificación (sticky) + settings (scroll). */
+/* Two-column form layout: Identificación (sticky) + settings (scroll).
+ *
+ * `padding-bottom: 30dvh` ensures the grid's containing block extends
+ * well past the right-column's last visible content. Without it, when
+ * scrolled to page bottom, sticky elements (`.form-grid__identity`
+ * here, `.ipanel` outside) reach their containing block's bottom and
+ * un-stick — getting pushed up above the viewport top by the parent's
+ * bottom anchor, hiding their content behind the sticky-form-header.
+ * The buffer is invisible (matches page bg) and gives sticky room to
+ * stay pinned at `top` throughout user-visible scroll.
+ */
 .form-grid {
   display: grid;
   grid-template-columns: 360px minmax(0, 1fr);
   gap: var(--sc-spacing-500);
+  padding-bottom: 30dvh;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
+    padding-bottom: 0;
   }
 
   &__identity {
     @media (min-width: 1025px) {
       position: sticky;
-      top: calc(var(--aed-form-panel-top, 64px) + var(--sc-spacing-500));
+      top: calc(var(--aed-form-panel-top, 80px) + var(--sc-spacing-500));
       align-self: start;
-      max-height: calc(100dvh - var(--aed-form-panel-top, 64px) - var(--sc-spacing-500) * 2);
+      max-height: calc(100dvh - var(--aed-form-panel-top, 80px) - var(--sc-spacing-500) * 2);
       overflow-y: auto;
     }
   }
