@@ -1,5 +1,11 @@
 # Design tokens
 
+> Looking for the friendly, design-side walkthrough in Spanish?
+> See [`GUIA.md`](./GUIA.md) — written for designers coming from Figma,
+> with STAR-format walkthroughs of common situations ("I changed a brand
+> color in Figma, how does it reach the product?", "I need a color that
+> doesn't exist yet", etc.). This README is the technical reference.
+
 The seven layers under `layers/` are the **single source of truth** for
 every visual decision in the application. All `--sc-*` custom properties
 live here, and PrimeNG `--p-*` variables are bridged to them in layer 6.
