@@ -251,3 +251,88 @@
     border-bottom: 0;
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * Header pills — shared between agent-form, group-form, user-form.
+ *
+ * Base + `--type` (brand-subtle) + `--status` (transition) +
+ * `--status-active/inactive` (presence-token bg + pop animation) live
+ * here because they're identical across all three consumers. Form-
+ * specific variants (`--presence-*` on agent-form, `--priority-*` on
+ * group-form) stay in the form's own SCSS; they layer on top of this
+ * base via cascade.
+ * ------------------------------------------------------------------ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  padding: 3px var(--sc-spacing-200);
+  border-radius: var(--sc-radius-full);
+  font-size: var(--sc-font-size-75);
+  font-weight: var(--sc-font-weight-medium, 500);
+  letter-spacing: 0.01em;
+  border: 1px solid transparent;
+  background: var(--sc-bg-surface);
+  color: var(--sc-text-secondary);
+
+  &--type {
+    background: var(--sc-bg-primary-subtle);
+    color: var(--sc-bg-primary);
+  }
+
+  &--status {
+    transition:
+      background var(--sc-transition-base) var(--sc-easing-default),
+      color var(--sc-transition-base) var(--sc-easing-default),
+      border-color var(--sc-transition-base) var(--sc-easing-default);
+  }
+
+  &--status-active {
+    background: color-mix(in oklch, var(--sc-presence-available) 12%, var(--sc-bg-surface));
+    color: var(--sc-presence-available-deep);
+    animation: status-pop-active 360ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  &--status-inactive {
+    background: var(--sc-bg-secondary-subtle);
+    color: var(--sc-text-subtle);
+    animation: status-pop-inactive 360ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    flex: 0 0 auto;
+  }
+}
+
+@keyframes status-pop-active {
+  0% {
+    transform: scale(0.94);
+  }
+  55% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes status-pop-inactive {
+  0% {
+    transform: scale(0.94);
+  }
+  55% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pill--status-active,
+  .pill--status-inactive {
+    animation: none;
+  }
+}

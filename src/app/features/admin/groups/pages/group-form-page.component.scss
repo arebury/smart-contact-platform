@@ -81,26 +81,11 @@
   }
 }
 
+/* Base `.pill` + `--type` + `--status-*` live in `src/styles/_forms.scss`
+ * (DD#56). Local block keeps only the group-only priority palette and
+ * its pulse on `--priority-Alta`.
+ */
 .pill {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sc-spacing-100);
-  padding: 3px var(--sc-spacing-200);
-  border-radius: var(--sc-radius-full);
-  font-size: var(--sc-font-size-75);
-  font-weight: var(--sc-font-weight-medium, 500);
-  letter-spacing: 0.01em;
-  border: 1px solid transparent;
-  background: var(--sc-bg-surface);
-  color: var(--sc-text-secondary);
-
-  /* Channel chips carry the brand subtle bg — they identify the group's
-   * supported communication modes, central to the entity's identity. */
-  &--channel {
-    background: var(--sc-bg-primary-subtle);
-    color: var(--sc-bg-primary);
-  }
-
   &--priority-Alta {
     background: color-mix(in oklch, var(--sc-text-danger) 12%, var(--sc-bg-surface));
     color: var(--sc-text-danger);

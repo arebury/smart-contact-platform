@@ -243,13 +243,15 @@ the top in the next polish session.
   Promoted to `src/styles/_forms.scss` as single canonical `.perm-matrix`
   block; aed-agentes migrated to share it. Column-header DOM order
   unified to label-before-checkbox in both consumers.
-- **Pill status with hex literals + animation drift.** group-form y
-  user-form usan `#1a8a4a`/`#1a6a3a` hardcoded; agent-form usa
-  `--sc-presence-*` y además anima con `status-pop-active/inactive`. *Fix:*
-  tokenizar + decidir on/off uniforme para la animación. **Media.**
-- **Dead `.toggle` SCSS block** en `user-form-page.component.scss:124-169`:
-  track + thumb declarados, no usados en el HTML (el form usa
-  `<aed-toggle-switch>`). *Fix:* borrar las líneas. **Media · ~5 min.**
+- ~~**Pill status with hex literals + animation drift.**~~ ✅ **Done
+  (2026-05-11, DD#56).** Base `.pill` + `--type` + `--status-*`
+  promoted to `src/styles/_forms.scss`; user-form's hex literals
+  replaced with `--sc-presence-available` / `--sc-presence-available-deep`
+  tokens; `status-pop` animation now uniform across all three forms.
+  Dead `--type` (agent-form) and `--channel` (group-form) variants
+  purged in the same pass.
+- ~~**Dead `.toggle` SCSS block** en `user-form-page.component.scss:124-169`~~. ✅ **Done (2026-05-11, PR #24).**
+  Track + thumb declarations removed; form already uses `<aed-toggle-switch>`.
 - **Tri-state vs binary matrix headers.** Tras DD#55, los dos consumers
   de `.perm-matrix` (agent-form + aed-agentes) usan `<input type="checkbox">`
   binario en los headers de columna; al desmarcar una sola fila del cuerpo,
