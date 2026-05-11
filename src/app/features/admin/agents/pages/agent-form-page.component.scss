@@ -120,21 +120,9 @@
 
 /* ── Identification card internals ──────────────────────────── */
 .identity-card {
-  &__head {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--sc-spacing-300);
-    margin-bottom: var(--sc-spacing-400);
-  }
-
-  &__photo {
-    flex: 0 0 auto;
-  }
-
-  &__name {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
+  /* `&__head`, `&__photo`, `&__name` removed — photo + name now live
+   * exclusively in the sticky form header (DD#54 Session 20 moved
+   * identity up; the in-card duplicate was an oversight). */
 
   &__divider {
     border-top: 1px solid var(--sc-border-subtle);

@@ -64,39 +64,11 @@
             anchorId="agent-section-identity"
             titleKey="agents.form.section.identification"
           >
-            <!-- Photo + name (name only in create — header takes over in edit) -->
-            <div class="identity-card__head">
-              <div class="identity-card__photo">
-                <aed-photo-upload
-                  [photo]="form().photo"
-                  [name]="form().name"
-                  [ariaLabel]="'common.photo.change' | translate"
-                  (photoChange)="onPhotoChange($event)"
-                />
-              </div>
-              @if (mode() === 'create') {
-                <div class="field identity-card__name">
-                  <label class="field__label" for="agent-name">
-                    {{ 'agents.form.fields.name' | translate }}
-                    <span class="field__required" aria-hidden="true">*</span>
-                  </label>
-                  <input
-                    id="agent-name"
-                    type="text"
-                    class="field__input"
-                    [class.field__input--error]="!!errors()['name']"
-                    [value]="form().name"
-                    (input)="onTextInput('name', $event)"
-                    [placeholder]="'agents.form.fields.name' | translate"
-                  />
-                  <span class="field__error" aria-live="polite">
-                    @if (errors()['name']; as err) {
-                      {{ err | translate }}
-                    }
-                  </span>
-                </div>
-              }
-            </div>
+            <!-- Photo + name removed from the card body: both live in the
+                 sticky form header (rich header, DD#54 Session 20). Keeping
+                 a second photo/name picker here duplicated the controls and
+                 confused users. user-form and group-form already follow
+                 this pattern. -->
 
             <!-- Email + Phone -->
             <div class="grid grid--2">
