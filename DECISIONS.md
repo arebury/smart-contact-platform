@@ -11,16 +11,31 @@
 
 **Decision.** The agent edit/create form trades two trailing section
 cards (Languages, Labels) plus a few orphan fields for a single
-**Configuración avanzada** section card with four sub-sections:
+**Configuración avanzada** section card with six sub-sections. The
+parent card itself is **collapsible and starts collapsed** to hide
+advanced-settings noise from the typical user; each inner accordion
+also starts collapsed so the expanded parent reads as a quiet summary
+(count badges) until the user drills in.
 
-- **Labels** — accordion sub-section (chevron + count badge when
-  collapsed). Open by default.
+- **Labels** — accordion. Count badge: "N asignada(s)".
+- **Agendas** — accordion. Source: `AgendasStore` from
+  `Repositorios > Agendas` (no duplicated data; the form just
+  reads + assigns). Footnote reminds the user where master data
+  lives.
+- **Plantillas** — accordion. Source: `TemplatesStore`. Chat/Email
+  tabs with `n/total` per-tab counters; select-all-visible header
+  checkbox.
 - **Comportamiento** — flat sub-section. Houses `pickupType` (moved
   out of Identification), `maxChats`, and `randomOrder`.
 - **Integración** — flat sub-section. Houses `iframeUrl` and the
   `externalDevices` toggle.
 - **Regional** — flat sub-section. Houses the language picker
   (formerly its own card).
+
+**Section-card primitive becomes collapsible.** `aed-section-card`
+gains two optional inputs: `[collapsible]` (turns the header into a
+button) and `[initiallyCollapsed]` (start folded). Existing
+consumers that don't pass either prop are unaffected.
 
 Visual idiom: small-caps tracked sub-heading + leading icon, matching
 the rest of the form's `--sc-text-subtle` head treatment. Adjacent
@@ -60,11 +75,14 @@ one is deferred to a future session.
   form is the only consumer today; premature extraction. Promote on
   the second adopter (likely user-form or group-form when they get
   the same treatment).
-- *Add Agendas / Plantillas / Sesión sub-sections from the prototype.*
-  Those require new data models (Schedule, Template), new stores, and
-  a password-expire dialog. Out of scope for this PR; tracked in
-  `roadmap.md`. The current sub-section pattern accommodates them
-  cleanly when their time comes.
+- *Add Sesión sub-section from the prototype.* Needs a new
+  `loginExtOverride` field on `Agent` plus a "Expirar contraseña"
+  dialog/store action. Out of scope for this PR; tracked in
+  `roadmap.md`. The sub-section pattern accommodates it cleanly.
+- *Add a `pickupTypeChat` field.* Today only one global `pickupType`
+  exists. Splitting per-channel is a small data-model expansion;
+  deferred until the user confirms it's a real need vs. the
+  Voice-only legacy default.
 - *Keep the side nav showing Languages and Labels as separate
   entries.* Both now live inside one card; collapsing the nav to
   reference only the parent ("Configuración avanzada") matches the

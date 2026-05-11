@@ -96,8 +96,6 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 - ✅ Create / edit form: 5 sections (identity / contact / channels / groups / permissions matrix split into devices/calls/transfers)
 - ✅ "Configuración avanzada" section (2026-05-11, DD#57): single card with progressive-disclosure sub-sections (Labels accordion + Comportamiento/Integración/Regional flat). Surfaces `pickupType`, `randomOrder`, `maxChats`, `iframeUrl`, `externalDevices`, `languages`, `labels`.
 - ⬜ **Deferred from prototype's "Configuración avanzada":**
-  - Agendas sub-section — needs new `Schedule` type, store, seed list with names (only IDs exist on Agent today).
-  - Plantillas sub-section — needs new `Template` type, store, seed, chat/email tab pattern + selectable table.
   - Pickup type — Chat — needs new `pickupTypeChat` field on Agent (today only one global `pickupType`).
   - Sesión sub-section — needs `loginExtOverride` field + "Expirar contraseña" dialog/action.
 - ⬜ **Deferred (older):** column-visibility selector (with localStorage persistence), frozen-column data table, photo upload preview, language multi-select, default outbound group. Lands with shared `MultiSelectChip` and `FileUpload` primitives.

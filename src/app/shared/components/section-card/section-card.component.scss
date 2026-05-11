@@ -27,6 +27,40 @@
     display: flex;
     align-items: baseline;
     gap: var(--sc-spacing-200);
+
+    /* Collapsible variant: header is a button. Drop button defaults and
+     * let the chevron carry the affordance. Body-bottom border only when
+     * expanded (collapsed state hides the body so the border would
+     * float). */
+    &--toggle {
+      width: 100%;
+      background: none;
+      border-top: 0;
+      border-left: 0;
+      border-right: 0;
+      text-align: left;
+      cursor: pointer;
+      transition: background var(--sc-transition-fast, 120ms) ease;
+
+      &:hover {
+        background: var(--sc-bg-secondary-subtle);
+      }
+      &:focus-visible {
+        outline: 2px solid var(--sc-color-soft-blue-500);
+        outline-offset: -2px;
+      }
+    }
+
+    &--collapsed {
+      border-bottom: 0;
+    }
+  }
+
+  &__chevron {
+    margin-left: auto;
+    color: var(--sc-icon-subtle);
+    flex: 0 0 auto;
+    align-self: center;
   }
 
   &__icon {
