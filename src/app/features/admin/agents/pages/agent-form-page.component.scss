@@ -269,7 +269,7 @@
   gap: var(--sc-spacing-150);
   padding: var(--sc-spacing-100) var(--sc-spacing-250);
   border: 1px solid var(--sc-border-default);
-  background: var(--sc-bg-elevated, #fff);
+  background: var(--sc-bg-elevated, var(--sc-bg-surface));
   font-size: var(--sc-font-size-100);
   color: var(--sc-text-primary);
 
@@ -371,15 +371,19 @@ input[type='checkbox'] {
     border-top: 1px solid var(--sc-border-default);
   }
 
+  /* Accordion-head buttons get a subtle bg-on-hover so they read as
+   * clickable from across the form (DD#57 review). Flat heads stay
+   * static — chevron presence is the only affordance signal. */
   &__head {
     width: 100%;
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-150);
-    padding: 0;
-    margin: 0;
+    padding: var(--sc-spacing-100) var(--sc-spacing-150);
+    margin: 0 calc(var(--sc-spacing-150) * -1);
     background: none;
     border: 0;
+    border-radius: var(--sc-radius-100);
     text-align: left;
     color: var(--sc-text-subtle);
     cursor: pointer;
@@ -387,23 +391,38 @@ input[type='checkbox'] {
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-weight: var(--sc-font-weight-semibold);
-    transition: color var(--sc-transition-fast) var(--sc-easing-default);
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default);
 
     &:hover {
+      background: var(--sc-bg-secondary-subtle);
       color: var(--sc-text-secondary);
     }
     &:focus-visible {
       outline: 2px solid var(--sc-color-soft-blue-500);
       outline-offset: 2px;
     }
+    /* Tactile press — DD#57 review / .impeccable.md principle 3. */
+    &:active {
+      transform: scale(0.98);
+    }
 
-    /* Flat heads are not interactive — kill the hover + cursor cues. */
+    /* Flat heads are not interactive — kill the hover + cursor cues
+     * and the negative margin (since they don't need the hover-bg
+     * inset). */
     &--flat {
       cursor: default;
       pointer-events: none;
+      padding: 0;
+      margin: 0;
 
       &:hover {
+        background: none;
         color: var(--sc-text-subtle);
+      }
+      &:active {
+        transform: none;
       }
     }
 
@@ -434,6 +453,7 @@ input[type='checkbox'] {
     > .field + .perm-toggle-row,
     > .perm-toggle-row + .field,
     > .perm-toggle-row + .perm-toggle-row,
+    > .grid + .grid,
     > .grid + .perm-toggle-row,
     > .grid + .field,
     > .field + .grid,
@@ -462,11 +482,12 @@ input[type='checkbox'] {
   /* "Inset" — soft-bounded sub-block inside a sub-section body.
    * Used by the Sesión > Seguridad cluster to set the password-expire
    * action apart from the toggle above without introducing a new
-   * sub-section divider. */
+   * sub-section divider. Border uses `color-mix` to read lighter than
+   * the cross-sub-section dividers so the hierarchy stays clear. */
   &__inset {
     margin-top: var(--sc-spacing-400);
     padding-top: var(--sc-spacing-300);
-    border-top: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+    border-top: 1px solid color-mix(in oklch, var(--sc-border-default) 50%, transparent);
   }
 
   &__inset-head {
@@ -503,14 +524,11 @@ input[type='checkbox'] {
   }
 }
 
-/* perm-toggle-row variant for use inside a grid cell — drops the
- * bottom-border (the parent grid handles row separation). Keeps the
- * row visually aligned with a sibling `<select>` of the same height. */
-.perm-toggle-row--in-grid {
-  border-bottom: 0;
-  padding-top: 0;
-  align-self: end;
-  min-height: 38px;
+/* Narrow field variant — for controls that visually should not span
+ * the full sub-section width (e.g. "Chats simultáneos" — a small
+ * numeric select where stretching to 100% looks excessive). */
+.field--narrow {
+  max-width: 200px;
 }
 
 /* `.btn` styling for action buttons projected inside a sub-section.
@@ -542,6 +560,11 @@ input[type='checkbox'] {
   &:focus-visible {
     outline: 2px solid var(--sc-color-soft-blue-500);
     outline-offset: 2px;
+  }
+
+  /* Tactile press — .impeccable.md principle 3. */
+  &:active {
+    transform: scale(0.98);
   }
 }
 
@@ -664,7 +687,11 @@ input[type='checkbox'] {
     margin-left: auto;
     font-size: var(--sc-font-size-75);
     color: var(--sc-text-subtle);
-    flex: 0 0 auto;
+    flex: 0 1 auto;
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__empty {

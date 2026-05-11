@@ -398,6 +398,7 @@
                 type="button"
                 class="sub-section__head"
                 [attr.aria-expanded]="labelsAccOpen()"
+                aria-controls="agent-acc-labels-body"
                 (click)="toggleLabelsAcc()"
               >
                 <lucide-icon
@@ -411,15 +412,19 @@
                 </span>
                 @if (!labelsAccOpen() && selectedLabelChips().length > 0) {
                   <span class="sub-section__count">
-                    {{
-                      'agents.form.advanced.labels.count'
-                        | translate: { count: selectedLabelChips().length }
-                    }}
+                    @if (selectedLabelChips().length === 1) {
+                      {{ 'agents.form.advanced.labels.count_one' | translate }}
+                    } @else {
+                      {{
+                        'agents.form.advanced.labels.count_many'
+                          | translate: { count: selectedLabelChips().length }
+                      }}
+                    }
                   </span>
                 }
               </button>
               @if (labelsAccOpen()) {
-                <div class="sub-section__body">
+                <div id="agent-acc-labels-body" class="sub-section__body">
                   <div class="field">
                     <label class="field__label" for="agent-label">
                       {{ 'agents.form.fields.labels' | translate }}
@@ -461,6 +466,7 @@
                 type="button"
                 class="sub-section__head"
                 [attr.aria-expanded]="agendasAccOpen()"
+                aria-controls="agent-acc-agendas-body"
                 (click)="toggleAgendasAcc()"
               >
                 <lucide-icon
@@ -474,15 +480,19 @@
                 </span>
                 @if (!agendasAccOpen() && assignedSchedules().length > 0) {
                   <span class="sub-section__count">
-                    {{
-                      'agents.form.advanced.agendas.count'
-                        | translate: { count: assignedSchedules().length }
-                    }}
+                    @if (assignedSchedules().length === 1) {
+                      {{ 'agents.form.advanced.agendas.count_one' | translate }}
+                    } @else {
+                      {{
+                        'agents.form.advanced.agendas.count_many'
+                          | translate: { count: assignedSchedules().length }
+                      }}
+                    }
                   </span>
                 }
               </button>
               @if (agendasAccOpen()) {
-                <div class="sub-section__body">
+                <div id="agent-acc-agendas-body" class="sub-section__body">
                   @if (availableSchedules().length > 4) {
                     <div class="picker-search">
                       <lucide-icon
@@ -582,6 +592,7 @@
                 type="button"
                 class="sub-section__head"
                 [attr.aria-expanded]="templatesAccOpen()"
+                aria-controls="agent-acc-templates-body"
                 (click)="toggleTemplatesAcc()"
               >
                 <lucide-icon
@@ -595,15 +606,19 @@
                 </span>
                 @if (!templatesAccOpen() && form().templateIds.size > 0) {
                   <span class="sub-section__count">
-                    {{
-                      'agents.form.advanced.plantillas.count'
-                        | translate: { count: form().templateIds.size }
-                    }}
+                    @if (form().templateIds.size === 1) {
+                      {{ 'agents.form.advanced.plantillas.count_one' | translate }}
+                    } @else {
+                      {{
+                        'agents.form.advanced.plantillas.count_many'
+                          | translate: { count: form().templateIds.size }
+                      }}
+                    }
                   </span>
                 }
               </button>
               @if (templatesAccOpen()) {
-                <div class="sub-section__body">
+                <div id="agent-acc-templates-body" class="sub-section__body">
                   <div class="tabs">
                     @for (tab of templateTypes; track tab) {
                       <button
@@ -658,14 +673,11 @@
                       <thead>
                         <tr>
                           <th class="picker-table__th-check">
-                            <input
-                              type="checkbox"
-                              [checked]="allFilteredTemplatesSelected()"
+                            <aed-tri-state-checkbox
+                              [state]="filteredTemplatesState()"
                               [disabled]="filteredTemplates().length === 0"
-                              (change)="toggleAllFilteredTemplates()"
-                              [attr.aria-label]="
-                                'agents.form.advanced.plantillas.select_all' | translate
-                              "
+                              [ariaLabel]="'agents.form.advanced.plantillas.select_all' | translate"
+                              (cycle)="toggleAllFilteredTemplates($event)"
                             />
                           </th>
                           <th scope="col" class="picker-table__th-title">
@@ -766,47 +778,48 @@
                   </div>
                 </div>
 
-                <!-- Chats simultáneos (chat-only setting) + Orden aleatorio. -->
-                <div class="grid grid--2">
-                  <div class="field">
-                    <label class="field__label" for="agent-max-chats">
-                      {{ 'agents.form.advanced.comportamiento.max_chats' | translate }}
-                    </label>
-                    <select
-                      id="agent-max-chats"
-                      class="field__input"
-                      [value]="form().maxChats"
-                      (change)="onMaxChatsChange($event)"
+                <!-- Chats simultáneos — chat-only setting, kept narrow so
+                     it doesn't read as "this affects all channels". -->
+                <div class="field field--narrow">
+                  <label class="field__label" for="agent-max-chats">
+                    {{ 'agents.form.advanced.comportamiento.max_chats' | translate }}
+                  </label>
+                  <select
+                    id="agent-max-chats"
+                    class="field__input"
+                    [value]="form().maxChats"
+                    (change)="onMaxChatsChange($event)"
+                  >
+                    @for (n of maxChatsOptions; track n) {
+                      <option [value]="n">{{ n }}</option>
+                    }
+                  </select>
+                </div>
+
+                <!-- Orden aleatorio — standalone toggle row (kept apart
+                     from maxChats: different anatomy, was reading as
+                     asymmetric inside a 2-col grid). -->
+                <div class="perm-toggle-row">
+                  <div class="perm-toggle-row__copy">
+                    <span class="perm-toggle-row__label">
+                      {{ 'agents.form.advanced.comportamiento.random_order' | translate }}
+                    </span>
+                    <button
+                      type="button"
+                      class="perm-toggle-row__info"
+                      [attr.aria-label]="
+                        'agents.form.advanced.comportamiento.random_order_hint' | translate
+                      "
+                      [title]="'agents.form.advanced.comportamiento.random_order_hint' | translate"
                     >
-                      @for (n of maxChatsOptions; track n) {
-                        <option [value]="n">{{ n }}</option>
-                      }
-                    </select>
+                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                    </button>
                   </div>
-                  <div class="perm-toggle-row perm-toggle-row--in-grid">
-                    <div class="perm-toggle-row__copy">
-                      <span class="perm-toggle-row__label">
-                        {{ 'agents.form.advanced.comportamiento.random_order' | translate }}
-                      </span>
-                      <button
-                        type="button"
-                        class="perm-toggle-row__info"
-                        [attr.aria-label]="
-                          'agents.form.advanced.comportamiento.random_order_hint' | translate
-                        "
-                        [title]="
-                          'agents.form.advanced.comportamiento.random_order_hint' | translate
-                        "
-                      >
-                        <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
-                      </button>
-                    </div>
-                    <aed-toggle-switch
-                      [checked]="form().randomOrder"
-                      [ariaLabel]="'agents.form.advanced.comportamiento.random_order' | translate"
-                      (checkedChange)="onRandomOrderChange($event)"
-                    />
-                  </div>
+                  <aed-toggle-switch
+                    [checked]="form().randomOrder"
+                    [ariaLabel]="'agents.form.advanced.comportamiento.random_order' | translate"
+                    (checkedChange)="onRandomOrderChange($event)"
+                  />
                 </div>
               </div>
             </section>

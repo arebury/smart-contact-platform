@@ -693,18 +693,21 @@
       },
       "advanced": {
         "labels": {
-          "title": "Labels",
-          "count": "{{count}} asignada(s)"
+          "title": "Etiquetas",
+          "count_one": "1 asignada",
+          "count_many": "{{count}} asignadas"
         },
         "agendas": {
           "title": "Agendas",
-          "count": "{{count}} asignada(s)",
+          "count_one": "1 asignada",
+          "count_many": "{{count}} asignadas",
           "search_placeholder": "Buscar agenda…",
           "footnote": "Repositorios > Agendas"
         },
         "plantillas": {
           "title": "Plantillas",
-          "count": "{{count}} asignada(s)",
+          "count_one": "1 asignada",
+          "count_many": "{{count}} asignadas",
           "search_placeholder": "Buscar plantilla…",
           "tab_chat": "Chat",
           "tab_email": "Email",
