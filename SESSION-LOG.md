@@ -10,6 +10,97 @@
 
 ---
 
+## 2026-05-11 · Session 24 — GUIA grows up: PrimeOne UI Kit workflow + themes/handoff/migrations (PR #33 + #34)
+
+> Two PRs merged into `main` (`0604c8c` and `8560308`). Pure-docs
+> session expanding the designer-facing `GUIA.md` after the user
+> asked the real practical questions about working with the
+> PrimeOne UI Kit and surviving PrimeNG migrations.
+
+### Worked on
+
+- **PR #33** (`0604c8c`) — User asked: "descargamos el UI kit de
+  PrimeOne, lo duplicamos, publicamos librería y estamos en un
+  equipo compartido. Qué ocurre, qué puedo tocar". Added a new
+  section "El UI Kit de PrimeOne en Figma — cómo conviven":
+  - The 3-library reality (original PrimeOne / team duplicate /
+    Smart Contact's own library) with an ASCII map of how they
+    chain together.
+  - Why the original/duplicate stays untouched (PrimeNG version
+    bumps overwrite anything outside the Custom zone).
+  - What's safe inside Custom mode (colors, type, radius,
+    spacing, exposed component tokens).
+  - The 1:1 parallel: **Figma's "Custom mode" === code's
+    `aed-preset.ts`**. Same override pattern at the two
+    representations.
+  - A "puedo tocar / no tocar" table specific to the PrimeOne
+    reality.
+  - The padding trap explained explicitly (token in Custom mode
+    = safe; manual in component frame = breaks on migrations).
+  - What happens on a PrimeNG version bump.
+
+- **PR #34** (`8560308`) — User followed up: "y como nos afectan
+  los themes, nosotros tendríamos Aura, ... toooodo lo que
+  podríamos hacer, lo que tenemos que tener en cuenta, y cómo
+  hacemos el handoff, y las actualizaciones... el nitty gritty".
+  Added a sibling section "Temas, Theme Designer, handoff y
+  migraciones (el nitty gritty)" with six subsections:
+  1. **¿Qué es un tema en PrimeNG?** — Aura vs Lara/Nora/Material,
+     why Aura for AED, how `definePreset(Aura, ...)` inherits
+     upstream improvements automatically.
+  2. **Theme Designer** — what PrimeNG's visual playground tool
+     does, who uses it (dev mainly, design occasionally), how it
+     complements the Figma UI Kit. Side-by-side table.
+  3. **5 niveles de customización** — token override → `pt` prop
+     → `::ng-deep` → wrapping → fork. Each explained with when
+     to reach for it. Clear rule: always start at the lowest
+     level that solves the problem.
+  4. **Handoff diseño ↔ dev** — three concrete flows with ASCII
+     sequence diagrams (changing an existing value, building a
+     brand-new component, reporting a visual bug).
+  5. **Migraciones de PrimeNG** — patch/minor/major expectations,
+     a "qué se rompe y por qué" table covering 6 scenarios
+     (silently renamed tokens being the most insidious), and our
+     8-step migration playbook.
+  6. **Gotchas** — 5 traps: silently renamed tokens; dark mode
+     always-on overrides even when off; `pt` doesn't scale;
+     `::ng-deep` deprecation; Figma Custom mode doesn't expose
+     every PrimeNG token.
+
+  Plus two side-corrections caught by the user along the way and
+  baked into separate commits in #32 (which closed Session 23):
+  - "Hablas de 5 capas cuando tenemos 7" → GUIA now lists all 7
+    plantas and marks plantas 6 + 7 (PrimeNG bridge, dark mode)
+    as off-limits for designers.
+  - "No entiendo, Figma y Smart Contact son el mismo idioma" →
+    rewrote the "tres mundos" framing as "dos mundos (Figma ↔
+    código) + PrimeNG como visitante por el puente".
+
+### Result
+
+- 2 PRs merged. main: `35cde83` → `8560308`.
+- 163/163 tests pass (docs-only so no functional impact).
+- tsc + lint + prettier clean throughout.
+- GUIA.md went from ~370 to ~786 lines. Probably the cap for a
+  single file — if we add more, split.
+- Working tree clean.
+
+### Outstanding
+
+Same as Session 23 — nothing new opened, nothing else closed.
+Token roadmap items + Phase 4 still untouched.
+
+### Next session pickup
+
+- Tree state: `main` at `8560308`. No pending branches.
+- 8 stray untracked files still in the working tree (not touched
+  this session).
+- Natural next move: same as Session 23's pickup — column-visibility
+  selector in agents list (visible UX upgrade), or start chipping
+  at Phase 4 (README + architecture docs).
+
+---
+
 ## 2026-05-11 · Session 23 — Token audit + designer-facing GUIA (PR #31 + #32)
 
 > Two PRs merged into `main` (`fd48672` and `066d0c1`). The user
