@@ -16,44 +16,78 @@
 
 ---
 
-## El mapa mental: tres mundos, una sola verdad
+## El mapa mental: dos mundos, un puente
 
-Imagina tres "idiomas" hablando del mismo color:
+El design system de Smart Contact tiene **dos representaciones**
+del mismo color (o radio, o espaciado, o lo que sea):
+
+- **En Figma** — donde tú decides. La variable se llama, por
+  ejemplo, "Brand / Primary".
+- **En código** — donde el producto la consume. La misma
+  variable se llama `--sc-bg-primary`.
 
 ```
-   FIGMA              SMART CONTACT (--sc-*)          PRIMENG (--p-*)
-   ─────              ──────────────────────          ───────────────
-   "Brand /             --sc-bg-primary                --p-primary-color
-    Primary"               #1B273D                          ↑
-        │                      ↑                            │
-        │                      │                            │
-        └──────  fuente ───────┼────────  consume  ─────────┘
-                de verdad      │
-                               │
-                          aquí vive el
-                          valor real
+       MUNDO DE DISEÑO                      MUNDO DEL CÓDIGO
+       (Figma)                              (CSS variables)
+       ────────────                         ─────────────────
+       "Brand / Primary"                    --sc-bg-primary
+       valor: #1B273D                       valor: #1B273D
+           │                                       │
+           │                                       │
+           │     ─── son el MISMO valor ───        │
+           │     con dos representaciones          │
+           │                                       │
+           └─── tú decides el valor ───────────────┘
+                aquí (en Figma)
 ```
 
-- **Figma** es donde tú decides cómo se ven las cosas.
-- **`--sc-*`** son las "variables" del producto. Son **la única
-  fuente de verdad**: cuando aquí cambias un valor, cambia en todo
-  el producto.
-- **`--p-*`** son las variables de PrimeNG (la librería de
-  componentes que usamos para tablas, modales, dropdowns, etc.).
-  No las tocamos directamente: cogen su valor de `--sc-*`.
+Cuando alguien actualiza el valor en Figma, ese mismo valor
+también se cambia en código en **un único sitio**
+(`layers/01-primitive.css`). A partir de ahí, todo el producto
+hereda solo.
 
-**La regla de oro:** si quieres cambiar algo del producto, vas a
-`--sc-*`. PrimeNG hereda solo.
+### ¿Y PrimeNG dónde entra?
+
+PrimeNG es la **librería de componentes** que usamos para tablas,
+modales, dropdowns, toasts, etc. Trae sus propias variables
+(`--p-*`) que por defecto apuntan a un tema genérico (Aura).
+
+Para que PrimeNG hable AED en vez de Aura, tenemos un archivo
+**puente** (`aed-preset.ts`) que redirige cada `--p-*` al
+`--sc-*` correspondiente. Así:
+
+```
+   FIGMA  ──→  --sc-bg-primary  ──→  --p-primary-color
+   (tú)         (código AED)         (PrimeNG consume)
+                     ↑                       ↑
+                     │                       │
+                  decisión               se entera por
+                  de diseño              el puente
+                                         (aed-preset.ts)
+```
+
+**La regla de oro:** si quieres cambiar algo del producto, se
+cambia en Figma + en el `--sc-*` correspondiente. PrimeNG hereda
+por el puente, sin tocar el componente. Tú nunca declaras un
+`--p-*` a mano.
 
 ---
 
-## Las 5 "plantas" del sistema (la cascada)
+## Las plantas del sistema (la cascada)
 
-Piensa en los tokens como un edificio de 5 plantas. Cuanto más
-abajo, más "crudo" es el valor. Cuanto más arriba, más cerca está
-de un componente concreto.
+Piensa en los tokens como un edificio. Cuanto más abajo, más
+"crudo" es el valor. Cuanto más arriba, más cerca está de un
+componente concreto.
+
+El sistema tiene **7 plantas en total** (las verás numeradas
+así en el `README.md` técnico y en los nombres de los archivos
+en `layers/`):
 
 ```
+   PLANTA 7: dark mode        overrides oscuros del producto
+   ─────────────────────       (DESACTIVADA — AED es light-only)
+   PLANTA 6: bridge PrimeNG   conecta --p-* (PrimeNG) con --sc-*
+   ─────────────────────       (cocina interna, vive en aed-preset.ts)
    PLANTA 5: extensiones      z-index, motion, sombras del producto
    ─────────────────────       (cosas que PrimeNG no contempla)
    PLANTA 4: componentes      "el botón primario por dentro"
@@ -65,6 +99,20 @@ de un componente concreto.
    PLANTA 1: primitivos       el azul-500 crudo, los 12px, el radio-200
    ─────────────────────       (los valores absolutos)
 ```
+
+**Para ti como diseñadora, las 5 plantas que importan son la 1
+hasta la 5.** Las plantas 6 y 7 existen pero no las tocas
+nunca:
+
+- **Planta 6 (bridge PrimeNG)** — un "traductor" que vive en el
+  archivo `aed-preset.ts`. Su único trabajo es decir "el color
+  primario de PrimeNG ES el `--sc-bg-primary` de AED". Es código
+  TypeScript, no CSS. El dev team lo gestiona; tú no escribes ahí.
+- **Planta 7 (dark mode)** — un archivo (`07-dark.css`) que
+  redefine los colores cuando alguien activa modo oscuro. AED
+  está **siempre en modo claro** por decisión de marca
+  (operadores en oficinas iluminadas, ergonomía > estética). Esa
+  planta existe por arquitectura pero está apagada.
 
 ### ¿Cuándo está cada cosa en cada planta?
 
@@ -128,14 +176,17 @@ Ejemplos: `--sc-z-modal`, `--sc-transition-fast`,
   avísanos para validar en pantallas.
 
 ### 🚫 Mejor no toques (déjalo al dev team)
-- **`--p-*` (variables de PrimeNG)**: NUNCA se declaran a mano.
-  Las gestiona un archivo de configuración (`aed-preset.ts`) que
-  ya enlaza cada `--p-*` con un `--sc-*`. Si necesitas que un
-  componente de PrimeNG se vea distinto, lo correcto es cambiar
-  el `--sc-*` al que ya está apuntando, no inventar variables.
+- **Planta 6 — `aed-preset.ts`**: el "bridge" entre PrimeNG y AED.
+  NUNCA se declaran variables `--p-*` a mano; este archivo ya
+  enlaza cada una con un `--sc-*`. Si necesitas que un componente
+  de PrimeNG se vea distinto, lo correcto es cambiar el `--sc-*`
+  al que ya está apuntando, no inventar variables nuevas.
+- **Planta 7 — `07-dark.css`**: modo oscuro. Está apagado por
+  decisión de marca, pero el archivo existe. No lo tocamos sin un
+  cambio de estrategia explícito.
 - **El orden de las plantas** (la cascada): si añades un valor en
   la planta equivocada, se pueden producir bucles infinitos o que
-  el modo oscuro no funcione.
+  el modo oscuro no funcione si algún día se activara.
 - **Archivos en `src/app/core/tokens/layers/`** directamente sin
   hablarlo: si necesitas un valor nuevo, hablamos para decidir en
   qué planta vive.
