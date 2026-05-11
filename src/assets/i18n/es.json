@@ -693,18 +693,21 @@
       },
       "advanced": {
         "labels": {
-          "title": "Labels",
-          "count": "{{count}} asignada(s)"
+          "title": "Etiquetas",
+          "count_one": "1 asignada",
+          "count_many": "{{count}} asignadas"
         },
         "agendas": {
           "title": "Agendas",
-          "count": "{{count}} asignada(s)",
+          "count_one": "1 asignada",
+          "count_many": "{{count}} asignadas",
           "search_placeholder": "Buscar agenda…",
           "footnote": "Repositorios > Agendas"
         },
         "plantillas": {
           "title": "Plantillas",
-          "count": "{{count}} asignada(s)",
+          "count_one": "1 asignada",
+          "count_many": "{{count}} asignadas",
           "search_placeholder": "Buscar plantilla…",
           "tab_chat": "Chat",
           "tab_email": "Email",
@@ -715,6 +718,8 @@
         },
         "comportamiento": {
           "title": "Comportamiento",
+          "pickup_call": "Descuelgue — Llamada",
+          "pickup_chat": "Descuelgue — Chat",
           "max_chats": "Chats simultáneos",
           "random_order": "Orden aleatorio",
           "random_order_hint": "Visualizar agentes en orden aleatorio dentro del grupo"
@@ -727,6 +732,18 @@
         },
         "regional": {
           "title": "Regional"
+        },
+        "sesion": {
+          "title": "Sesión",
+          "login_ext_override": "Actualizar teléfono en login",
+          "login_ext_override_hint": "Si el agente inicia sesión desde otro dispositivo, su extensión se actualiza automáticamente",
+          "security": "Seguridad",
+          "expire_pwd": "Expirar contraseña",
+          "expire_pwd_hint": "Fuerza al agente a establecer una nueva contraseña en su próximo inicio de sesión",
+          "expire_title": "¿Expirar contraseña?",
+          "expire_body": "{{name}} tendrá que establecer una nueva contraseña en su próximo inicio de sesión. La acción no se puede deshacer.",
+          "expire_accept": "Expirar contraseña",
+          "expire_toast": "Contraseña de {{name}} marcada para expirar"
         }
       },
       "fields": {

@@ -94,11 +94,14 @@ export interface Agent {
   readonly languages?: readonly string[];
   readonly randomOrder?: boolean;
   readonly pickupType?: PickupType;
+  readonly pickupTypeChat?: PickupType;
   readonly photo?: string;
   readonly maxChats?: number;
   readonly labels?: readonly number[];
   readonly schedules?: readonly number[];
   readonly templates?: readonly number[];
+  /** When true, the agent's `extension` field is auto-updated on login. */
+  readonly loginExtOverride?: boolean;
   /** Draft flag — set on duplicated entities until the user saves (DD#294). */
   readonly isDraft?: boolean;
 }
