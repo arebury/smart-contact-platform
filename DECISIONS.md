@@ -7,6 +7,89 @@
 
 ---
 
+## 57 — Agent form's tail collapses into one "Configuración avanzada" card with progressive-disclosure sub-sections (2026-05-11)
+
+**Decision.** The agent edit/create form trades two trailing section
+cards (Languages, Labels) plus a few orphan fields for a single
+**Configuración avanzada** section card with six sub-sections. The
+parent card itself is **collapsible and starts collapsed** to hide
+advanced-settings noise from the typical user; each inner accordion
+also starts collapsed so the expanded parent reads as a quiet summary
+(count badges) until the user drills in.
+
+- **Labels** — accordion. Count badge: "N asignada(s)".
+- **Agendas** — accordion. Source: `AgendasStore` from
+  `Repositorios > Agendas` (no duplicated data; the form just
+  reads + assigns). Footnote reminds the user where master data
+  lives.
+- **Plantillas** — accordion. Source: `TemplatesStore`. Chat/Email
+  tabs with `n/total` per-tab counters; select-all-visible header
+  checkbox.
+- **Comportamiento** — flat sub-section. Houses `pickupType` (moved
+  out of Identification), `maxChats`, and `randomOrder`.
+- **Integración** — flat sub-section. Houses `iframeUrl` and the
+  `externalDevices` toggle.
+- **Regional** — flat sub-section. Houses the language picker
+  (formerly its own card).
+
+**Section-card primitive becomes collapsible.** `aed-section-card`
+gains two optional inputs: `[collapsible]` (turns the header into a
+button) and `[initiallyCollapsed]` (start folded). Existing
+consumers that don't pass either prop are unaffected.
+
+Visual idiom: small-caps tracked sub-heading + leading icon, matching
+the rest of the form's `--sc-text-subtle` head treatment. Adjacent
+sub-sections separate with a 1px `--sc-border-default` divider.
+Pattern lives inline in the agent-form's SCSS as `.sub-section`
+(not extracted yet — only one consumer; revisit if user-form/group-form
+adopt the same pattern).
+
+**Why.**
+
+1. The trailing section cards (Languages, Labels) felt heavy for
+   what they contained — a single field each — and the form scrolled
+   longer than it needed to.
+2. Three existing data-model fields (`randomOrder`, `maxChats`,
+   `iframeUrl`) were declared on `Agent` but never surfaced in the
+   form. They needed a home; bundling them with the trailing cards
+   under one "secondary settings" umbrella matches the user's mental
+   model of "primary identity vs. tuning knobs".
+3. Pickup type belongs with behaviour (chat/call pacing) rather than
+   identity (who is this agent). Identification gets crisper:
+   "Email/Phone, Extension/Type, Status".
+4. Progressive disclosure on Labels keeps the card from ballooning
+   when an agent has many labels.
+
+**Side effect — `externalDevices` reverts to per-agent.** Session 20
+(`50e7999`) removed the `externalDevices` toggle from the per-agent
+permissions matrix, ruling it "global, lives in `/admin/aed/agentes`
+defaults only". This decision reinstates it as a per-agent toggle
+under Integración. The global toggle in `/admin/aed/agentes` is left
+intact for now; its intended role becomes "default for new agents"
+rather than "single source of truth". Whether to delete the global
+one is deferred to a future session.
+
+**Discarded.**
+
+- *Extract `.sub-section` to `_forms.scss` immediately.* The agent
+  form is the only consumer today; premature extraction. Promote on
+  the second adopter (likely user-form or group-form when they get
+  the same treatment).
+- *Add Sesión sub-section from the prototype.* Needs a new
+  `loginExtOverride` field on `Agent` plus a "Expirar contraseña"
+  dialog/store action. Out of scope for this PR; tracked in
+  `roadmap.md`. The sub-section pattern accommodates it cleanly.
+- *Add a `pickupTypeChat` field.* Today only one global `pickupType`
+  exists. Splitting per-channel is a small data-model expansion;
+  deferred until the user confirms it's a real need vs. the
+  Voice-only legacy default.
+- *Keep the side nav showing Languages and Labels as separate
+  entries.* Both now live inside one card; collapsing the nav to
+  reference only the parent ("Configuración avanzada") matches the
+  user's scroll model.
+
+---
+
 ## 56 — Header pill base lives in `_forms.scss`; form-local files keep only their domain variants (2026-05-11)
 
 **Decision.** The base `.pill` rule plus the `--type` (brand-subtle),

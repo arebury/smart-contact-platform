@@ -98,6 +98,7 @@ export interface Agent {
   readonly maxChats?: number;
   readonly labels?: readonly number[];
   readonly schedules?: readonly number[];
+  readonly templates?: readonly number[];
   /** Draft flag — set on duplicated entities until the user saves (DD#294). */
   readonly isDraft?: boolean;
 }

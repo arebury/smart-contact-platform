@@ -25,6 +25,9 @@
     "edit": "Editar",
     "loading": "Cargando…",
     "search": "Buscar...",
+    "search_clear": "Limpiar búsqueda",
+    "search_no_results": "Sin resultados",
+    "remove": "Quitar {{name}}",
     "close": "Cerrar",
     "yes": "Sí",
     "no": "No",
@@ -684,7 +687,47 @@
         "groups": "Grupos asignados",
         "groups_hint": "En qué grupos trabaja el agente y qué canales atiende en cada uno",
         "permissions": "Permisos",
-        "permissions_hint": "Capacidades específicas del agente"
+        "permissions_hint": "Capacidades específicas del agente",
+        "advanced": "Configuración avanzada",
+        "advanced_hint": "Etiquetas, comportamiento, integración e idioma del agente"
+      },
+      "advanced": {
+        "labels": {
+          "title": "Labels",
+          "count": "{{count}} asignada(s)"
+        },
+        "agendas": {
+          "title": "Agendas",
+          "count": "{{count}} asignada(s)",
+          "search_placeholder": "Buscar agenda…",
+          "footnote": "Repositorios > Agendas"
+        },
+        "plantillas": {
+          "title": "Plantillas",
+          "count": "{{count}} asignada(s)",
+          "search_placeholder": "Buscar plantilla…",
+          "tab_chat": "Chat",
+          "tab_email": "Email",
+          "col_title": "Título",
+          "col_preview": "Vista previa",
+          "select_all": "Seleccionar todas las plantillas visibles",
+          "empty": "No se encontraron plantillas de {{tab}}"
+        },
+        "comportamiento": {
+          "title": "Comportamiento",
+          "max_chats": "Chats simultáneos",
+          "random_order": "Orden aleatorio",
+          "random_order_hint": "Visualizar agentes en orden aleatorio dentro del grupo"
+        },
+        "integracion": {
+          "title": "Integración",
+          "url_iframe": "URL iframe",
+          "dispositivos_externos": "Dispositivos externos",
+          "dispositivos_externos_hint": "Permite al agente conectarse desde dispositivos fuera de la red corporativa"
+        },
+        "regional": {
+          "title": "Regional"
+        }
       },
       "fields": {
         "name": "Nombre",

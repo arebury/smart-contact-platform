@@ -1,6 +1,14 @@
 :host {
   display: block;
-  height: 100%;
+  /* `min-height: 100%` instead of `height: 100%` — sticky-form-header,
+   * .ipanel and .form-grid__identity all live inside :host. With a
+   * fixed `height: 100%` the host's containing block ends at one
+   * viewport height, so sticky elements un-stick at that boundary and
+   * the rest of the form scrolls under nothing. The bug was invisible
+   * before DD#57 because the form rarely exceeded a single viewport;
+   * "Configuración avanzada" makes long forms easy to hit.
+   */
+  min-height: 100%;
   background: var(--sc-bg-default);
 }
 
@@ -44,12 +52,17 @@
 }
 
 /* Rail — section index only. Identity / pills / stats moved up to the
- * rich sticky header at the top of the page. */
+ * rich sticky header at the top of the page.
+ *
+ * `--aed-form-panel-top` is the offset below the sticky-form-header.
+ * 80px = header padding (16+16) + content max (~48px). Previously 64px
+ * left the first nav entry partially hidden behind the header.
+ */
 .ipanel {
   position: sticky;
-  top: var(--aed-form-panel-top, 64px);
+  top: var(--aed-form-panel-top, 80px);
   align-self: start;
-  height: calc(100dvh - var(--aed-form-panel-top, 64px));
+  height: calc(100dvh - var(--aed-form-panel-top, 80px));
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-300);
@@ -66,22 +79,34 @@
   }
 }
 
-/* Two-column form layout: Identificación (sticky) + settings (scroll). */
+/* Two-column form layout: Identificación (sticky) + settings (scroll).
+ *
+ * `padding-bottom: 30dvh` ensures the grid's containing block extends
+ * well past the right-column's last visible content. Without it, when
+ * scrolled to page bottom, sticky elements (`.form-grid__identity`
+ * here, `.ipanel` outside) reach their containing block's bottom and
+ * un-stick — getting pushed up above the viewport top by the parent's
+ * bottom anchor, hiding their content behind the sticky-form-header.
+ * The buffer is invisible (matches page bg) and gives sticky room to
+ * stay pinned at `top` throughout user-visible scroll.
+ */
 .form-grid {
   display: grid;
   grid-template-columns: 360px minmax(0, 1fr);
   gap: var(--sc-spacing-500);
+  padding-bottom: 30dvh;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
+    padding-bottom: 0;
   }
 
   &__identity {
     @media (min-width: 1025px) {
       position: sticky;
-      top: calc(var(--aed-form-panel-top, 64px) + var(--sc-spacing-500));
+      top: calc(var(--aed-form-panel-top, 80px) + var(--sc-spacing-500));
       align-self: start;
-      max-height: calc(100dvh - var(--aed-form-panel-top, 64px) - var(--sc-spacing-500) * 2);
+      max-height: calc(100dvh - var(--aed-form-panel-top, 80px) - var(--sc-spacing-500) * 2);
       overflow-y: auto;
     }
   }
@@ -338,4 +363,397 @@ input[type='checkbox'] {
   accent-color: var(--sc-bg-primary);
   cursor: pointer;
   vertical-align: middle;
+}
+
+/*
+ * `.sub-section` — progressive-disclosure block inside the
+ * "Configuración avanzada" section card (DD#57). Two variants:
+ *   - Flat: a labelled divider that introduces a body always visible.
+ *   - Accordion: same head but with a leading chevron + collapsible body
+ *     and an optional count badge on the right when collapsed.
+ *
+ * Visual idiom matches the rest of the form's small-caps section-head
+ * pattern (uppercase, tracked, --sc-text-subtle) so it reads as a
+ * sub-heading inside the parent card rather than a card of its own.
+ */
+.sub-section {
+  & + & {
+    margin-top: var(--sc-spacing-500);
+    padding-top: var(--sc-spacing-500);
+    border-top: 1px solid var(--sc-border-default);
+  }
+
+  &__head {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-150);
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: 0;
+    text-align: left;
+    color: var(--sc-text-subtle);
+    cursor: pointer;
+    font-size: var(--sc-font-size-50);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: var(--sc-font-weight-semibold);
+    transition: color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      color: var(--sc-text-secondary);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: 2px;
+    }
+
+    /* Flat heads are not interactive — kill the hover + cursor cues. */
+    &--flat {
+      cursor: default;
+      pointer-events: none;
+
+      &:hover {
+        color: var(--sc-text-subtle);
+      }
+    }
+
+    > lucide-icon {
+      flex: 0 0 auto;
+      color: currentColor;
+    }
+  }
+
+  &__title {
+    flex: 0 1 auto;
+  }
+
+  &__count {
+    margin-left: auto;
+    font-size: var(--sc-font-size-75);
+    color: var(--sc-text-subtle);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: var(--sc-font-weight-regular);
+  }
+
+  &__body {
+    margin-top: var(--sc-spacing-300);
+
+    /* Stack direct form rows with breathing space. */
+    > .field + .field,
+    > .field + .perm-toggle-row,
+    > .perm-toggle-row + .field,
+    > .perm-toggle-row + .perm-toggle-row,
+    > .grid + .perm-toggle-row,
+    > .grid + .field,
+    > .field + .grid,
+    > .perm-toggle-row + .grid {
+      margin-top: var(--sc-spacing-300);
+    }
+
+    /* Spacing between picker-* primitives stacked inside a sub-section
+     * (search → list → chips → footnote). */
+    > .picker-search + .picker-list,
+    > .picker-search + .picker-table-wrap,
+    > .tabs + .picker-search,
+    > .picker-list + .picker-chips,
+    > .picker-list + .sub-section__footnote,
+    > .picker-chips + .sub-section__footnote {
+      margin-top: var(--sc-spacing-200);
+    }
+  }
+
+  &__footnote {
+    margin: var(--sc-spacing-200) 0 0;
+    font-size: var(--sc-font-size-50);
+    color: var(--sc-text-subtle);
+  }
+}
+
+/*
+ * `picker-*` primitives — small, opinionated controls used inside
+ * "Configuración avanzada" sub-sections (Agendas list + Plantillas
+ * table). Not promoted to `_forms.scss` yet — single consumer; if
+ * user-form or group-form pick them up, extract.
+ */
+.picker-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    position: absolute;
+    left: var(--sc-spacing-200);
+    color: var(--sc-icon-subtle);
+    pointer-events: none;
+  }
+
+  &__input {
+    width: 100%;
+    padding: var(--sc-spacing-150) var(--sc-spacing-200) var(--sc-spacing-150)
+      calc(var(--sc-spacing-200) + 20px);
+    border: 1px solid var(--sc-border-default);
+    border-radius: var(--sc-radius-200);
+    background: var(--sc-bg-surface);
+    font-size: var(--sc-font-size-100);
+    color: var(--sc-text-primary);
+    transition: border-color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &::placeholder {
+      color: var(--sc-text-subtle);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--sc-border-focus, var(--sc-color-blue-500));
+    }
+  }
+
+  &__clear {
+    position: absolute;
+    right: var(--sc-spacing-150);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    width: 18px;
+    height: 18px;
+    border: 0;
+    background: transparent;
+    color: var(--sc-icon-subtle);
+    cursor: pointer;
+    border-radius: var(--sc-radius-full);
+    transition: color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      color: var(--sc-text-secondary);
+    }
+  }
+}
+
+.picker-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+  overflow: hidden;
+
+  &__row {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+    padding: var(--sc-spacing-200) var(--sc-spacing-250);
+    cursor: pointer;
+    border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+    transition: background var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &:hover {
+      background: var(--sc-bg-secondary-subtle);
+    }
+
+    &--selected {
+      background: var(--sc-bg-primary-subtle);
+
+      &:hover {
+        background: var(--sc-bg-primary-subtle);
+      }
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: -2px;
+    }
+  }
+
+  &__check {
+    flex: 0 0 auto;
+  }
+
+  &__row-icon {
+    flex: 0 0 auto;
+    color: var(--sc-icon-subtle);
+  }
+
+  &__row-label {
+    font-size: var(--sc-font-size-100);
+    color: var(--sc-text-primary);
+    flex: 0 1 auto;
+  }
+
+  &__row-meta {
+    margin-left: auto;
+    font-size: var(--sc-font-size-75);
+    color: var(--sc-text-subtle);
+    flex: 0 0 auto;
+  }
+
+  &__empty {
+    padding: var(--sc-spacing-400) var(--sc-spacing-250);
+    text-align: center;
+    font-size: var(--sc-font-size-75);
+    color: var(--sc-text-subtle);
+  }
+}
+
+.picker-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-100);
+}
+
+.picker-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  padding: 4px var(--sc-spacing-200);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-full);
+  background: var(--sc-bg-surface);
+  font-size: var(--sc-font-size-75);
+  color: var(--sc-text-secondary);
+
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: var(--sc-icon-subtle);
+    cursor: pointer;
+    border-radius: var(--sc-radius-full);
+    font-size: var(--sc-font-size-100);
+    line-height: 1;
+    transition: color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      color: var(--sc-text-secondary);
+    }
+  }
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 1px solid var(--sc-border-default);
+
+  &__tab {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-100);
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    color: var(--sc-text-subtle);
+    cursor: pointer;
+    font-size: var(--sc-font-size-75);
+    transition: color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      color: var(--sc-text-secondary);
+    }
+
+    &--active {
+      color: var(--sc-text-primary);
+      border-bottom-color: var(--sc-text-primary);
+      font-weight: var(--sc-font-weight-semibold);
+    }
+  }
+
+  &__count {
+    font-size: var(--sc-font-size-50);
+    color: var(--sc-text-subtle);
+    font-weight: var(--sc-font-weight-regular);
+  }
+}
+
+.picker-table-wrap {
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+  overflow: hidden;
+}
+
+.picker-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead th {
+    text-align: left;
+    padding: var(--sc-spacing-200) var(--sc-spacing-250);
+    background: var(--sc-bg-secondary-subtle);
+    font-size: var(--sc-font-size-50);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--sc-text-subtle);
+    font-weight: var(--sc-font-weight-semibold);
+    border-bottom: 1px solid var(--sc-border-default);
+  }
+
+  &__th-check {
+    width: 36px;
+    text-align: center !important;
+  }
+
+  &__td-check {
+    text-align: center;
+  }
+
+  &__row {
+    cursor: pointer;
+    border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+    transition: background var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    &:hover {
+      background: var(--sc-bg-secondary-subtle);
+    }
+
+    &--selected {
+      background: var(--sc-bg-primary-subtle);
+
+      &:hover {
+        background: var(--sc-bg-primary-subtle);
+      }
+    }
+  }
+
+  tbody td {
+    padding: var(--sc-spacing-200) var(--sc-spacing-250);
+    font-size: var(--sc-font-size-100);
+    color: var(--sc-text-primary);
+    vertical-align: middle;
+  }
+
+  &__td-title {
+    font-weight: var(--sc-font-weight-medium);
+  }
+
+  &__td-preview {
+    color: var(--sc-text-subtle);
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__empty {
+    padding: var(--sc-spacing-400) var(--sc-spacing-250) !important;
+    text-align: center;
+    font-size: var(--sc-font-size-75);
+    color: var(--sc-text-subtle);
+  }
 }

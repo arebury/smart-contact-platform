@@ -11,7 +11,25 @@ import {
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Info, Mail, Phone, PhoneCall, LucideAngularModule, ShieldCheck } from 'lucide-angular';
+import {
+  Info,
+  Mail,
+  Phone,
+  PhoneCall,
+  LucideAngularModule,
+  ShieldCheck,
+  Tag,
+  SlidersHorizontal,
+  Plug,
+  Globe,
+  Settings,
+  ChevronDown,
+  ChevronRight,
+  Search,
+  X,
+  FileStack,
+  MessageSquare,
+} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -34,6 +52,13 @@ import { LabelsStore } from '@features/admin/labels/state/labels.store';
 import { GroupsStore } from '@features/admin/groups/state/groups.store';
 import { GroupAgentLinksStore } from '@features/admin/services/group-agent-links.store';
 import { GroupAgentLink } from '@features/admin/services/group-agent-links.types';
+import { TemplatesStore } from '@features/admin/templates/state/templates.store';
+import {
+  Template,
+  TemplateType,
+  TEMPLATE_TYPES,
+} from '@features/admin/templates/data/templates-data';
+import { AgendasStore, Agenda } from '@features/admin/repositories/instances/agendas';
 import {
   AGENT_TYPES,
   AGENT_TYPE_LABEL_KEYS,
@@ -85,11 +110,16 @@ interface FormState {
   email: string;
   pin: string;
   pickupType: PickupType;
+  randomOrder: boolean;
+  maxChats: number;
+  iframeUrl: string;
   links: readonly GroupAgentLink[];
   permissions: AgentPermissions;
   photo: string | null;
   languages: readonly string[];
   labelIds: ReadonlySet<number>;
+  scheduleIds: ReadonlySet<number>;
+  templateIds: ReadonlySet<number>;
 }
 
 @Component({
@@ -123,12 +153,69 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly translate = inject(TranslateService);
   private readonly crossTab = inject(CrossTabLockService);
   private readonly labelsStore = inject(LabelsStore);
+  private readonly templatesStore = inject(TemplatesStore);
+  private readonly agendasStore = inject(AgendasStore);
 
   protected readonly mailIcon = Mail;
   protected readonly phoneIcon = Phone;
   protected readonly phoneCallIcon = PhoneCall;
   protected readonly shieldIcon = ShieldCheck;
   protected readonly infoIcon = Info;
+  protected readonly tagIcon = Tag;
+  protected readonly slidersIcon = SlidersHorizontal;
+  protected readonly plugIcon = Plug;
+  protected readonly globeIcon = Globe;
+  protected readonly settingsIcon = Settings;
+  protected readonly chevronDownIcon = ChevronDown;
+  protected readonly chevronRightIcon = ChevronRight;
+  protected readonly searchIcon = Search;
+  protected readonly xIcon = X;
+  protected readonly fileStackIcon = FileStack;
+  protected readonly chatIcon = MessageSquare;
+
+  /** Open state of each accordion sub-section inside "Configuración avanzada".
+   * All start collapsed so the section reads as a quiet summary (count
+   * badges) until the user drills in — DD#57. */
+  protected readonly labelsAccOpen = signal(false);
+  protected readonly agendasAccOpen = signal(false);
+  protected readonly templatesAccOpen = signal(false);
+
+  protected toggleLabelsAcc(): void {
+    this.labelsAccOpen.update((v) => !v);
+  }
+  protected toggleAgendasAcc(): void {
+    this.agendasAccOpen.update((v) => !v);
+  }
+  protected toggleTemplatesAcc(): void {
+    this.templatesAccOpen.update((v) => !v);
+  }
+
+  /** Filter inputs for the in-sub-section search boxes. */
+  protected readonly scheduleSearch = signal('');
+  protected readonly templateSearch = signal('');
+  protected readonly templateTab = signal<TemplateType>('chat');
+
+  protected onScheduleSearchInput(event: Event): void {
+    this.scheduleSearch.set((event.target as HTMLInputElement).value);
+  }
+  protected clearScheduleSearch(): void {
+    this.scheduleSearch.set('');
+  }
+  protected onTemplateSearchInput(event: Event): void {
+    this.templateSearch.set((event.target as HTMLInputElement).value);
+  }
+  protected clearTemplateSearch(): void {
+    this.templateSearch.set('');
+  }
+  protected setTemplateTab(tab: TemplateType): void {
+    this.templateTab.set(tab);
+    this.templateSearch.set('');
+  }
+
+  protected readonly templateTypes = TEMPLATE_TYPES;
+
+  /** Choices for the "Chats simultáneos" select inside Comportamiento. */
+  protected readonly maxChatsOptions: readonly number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   protected readonly agentTypes = AGENT_TYPES;
   protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
@@ -161,12 +248,109 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const ids = this.form().labelIds;
     return this.labelsStore.labels().filter((label) => !ids.has(label.id));
   });
+
+  /** All agendas from the repository store. Source of truth lives in
+   * `Repositorios > Agendas`; this form just reads + assigns. */
+  protected readonly availableSchedules = this.agendasStore.items;
+
+  /** Agendas filtered by the in-sub-section search box. */
+  protected readonly filteredSchedules = computed<readonly Agenda[]>(() => {
+    const q = this.scheduleSearch().trim().toLowerCase();
+    const all = this.availableSchedules();
+    if (!q) return all;
+    return all.filter(
+      (a) => a.name.toLowerCase().includes(q) || a.numbers.toLowerCase().includes(q),
+    );
+  });
+
+  protected readonly assignedSchedules = computed<readonly Agenda[]>(() => {
+    const ids = this.form().scheduleIds;
+    return this.availableSchedules().filter((a) => ids.has(a.id));
+  });
+
+  protected toggleSchedule(id: number): void {
+    this.formDirty.set(true);
+    this.form.update((f) => {
+      const next = new Set(f.scheduleIds);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return { ...f, scheduleIds: next };
+    });
+  }
+
+  protected removeSchedule(id: number): void {
+    this.formDirty.set(true);
+    this.form.update((f) => {
+      const next = new Set(f.scheduleIds);
+      next.delete(id);
+      return { ...f, scheduleIds: next };
+    });
+  }
+
+  /** All templates from the templates store. */
+  protected readonly availableTemplates = this.templatesStore.templates;
+
+  /** Templates filtered by current tab + search. */
+  protected readonly filteredTemplates = computed<readonly Template[]>(() => {
+    const tab = this.templateTab();
+    const q = this.templateSearch().trim().toLowerCase();
+    return this.availableTemplates().filter(
+      (t) =>
+        t.type === tab &&
+        (q === '' || t.title.toLowerCase().includes(q) || t.body.toLowerCase().includes(q)),
+    );
+  });
+
+  /** Per-tab counts for the chat/email tab headers — "n/total". */
+  protected readonly templateTabCounts = computed(() => {
+    const ids = this.form().templateIds;
+    const all = this.availableTemplates();
+    const tally = (tab: TemplateType) => {
+      const inTab = all.filter((t) => t.type === tab);
+      const assigned = inTab.filter((t) => ids.has(t.id)).length;
+      return { total: inTab.length, assigned };
+    };
+    return { chat: tally('chat'), email: tally('email') };
+  });
+
+  /** True iff every currently-visible (filtered) template is selected.
+   * Drives the master checkbox in the table header. */
+  protected readonly allFilteredTemplatesSelected = computed(() => {
+    const visible = this.filteredTemplates();
+    if (visible.length === 0) return false;
+    const ids = this.form().templateIds;
+    return visible.every((t) => ids.has(t.id));
+  });
+
+  protected toggleTemplate(id: number): void {
+    this.formDirty.set(true);
+    this.form.update((f) => {
+      const next = new Set(f.templateIds);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return { ...f, templateIds: next };
+    });
+  }
+
+  protected toggleAllFilteredTemplates(): void {
+    const visible = this.filteredTemplates();
+    if (visible.length === 0) return;
+    const allChecked = this.allFilteredTemplatesSelected();
+    this.formDirty.set(true);
+    this.form.update((f) => {
+      const next = new Set(f.templateIds);
+      for (const t of visible) {
+        if (allChecked) next.delete(t.id);
+        else next.add(t.id);
+      }
+      return { ...f, templateIds: next };
+    });
+  }
   protected readonly navSections: readonly FormNavSection[] = [
     { id: 'agent-section-identity', labelKey: 'agents.form.section.identification' },
     { id: 'agent-section-groups', labelKey: 'agents.form.section.groups' },
     { id: 'agent-section-permissions', labelKey: 'agents.form.section.permissions' },
-    { id: 'agent-section-languages', labelKey: 'agents.form.section.languages' },
-    { id: 'agent-section-labels', labelKey: 'agents.form.section.labels' },
+    { id: 'agent-section-advanced', labelKey: 'agents.form.section.advanced' },
   ];
 
   /**
@@ -267,11 +451,16 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         email: agent.email ?? '',
         pin: agent.pin ?? '',
         pickupType: agent.pickupType ?? 'auto',
+        randomOrder: agent.randomOrder ?? false,
+        maxChats: agent.maxChats ?? 4,
+        iframeUrl: agent.iframeUrl ?? '',
         links: this.linksStore.linksForAgent(agent.id),
         permissions: { ...agent.permissions },
         photo: agent.photo ?? null,
         languages: agent.languages ? [...agent.languages] : [],
         labelIds: new Set(agent.labels ?? []),
+        scheduleIds: new Set(agent.schedules ?? []),
+        templateIds: new Set(agent.templates ?? []),
       });
       this.releaseLock = this.crossTab.acquire('agent', agent.id, () =>
         this.conflictWarning.set(true),
@@ -316,6 +505,18 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected onPickupChange(event: Event): void {
     this.updateField('pickupType', (event.target as HTMLSelectElement).value as PickupType);
+  }
+
+  protected onRandomOrderChange(checked: boolean): void {
+    this.updateField('randomOrder', checked);
+  }
+
+  protected onMaxChatsChange(event: Event): void {
+    this.updateField('maxChats', Number((event.target as HTMLSelectElement).value));
+  }
+
+  protected onIframeUrlInput(event: Event): void {
+    this.updateField('iframeUrl', (event.target as HTMLInputElement).value);
   }
 
   protected onExtensionChange(event: Event): void {
@@ -419,9 +620,14 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         pin: f.pin.trim() || undefined,
         permissions: f.permissions,
         pickupType: f.pickupType,
+        randomOrder: f.randomOrder,
+        maxChats: f.maxChats,
+        iframeUrl: f.iframeUrl.trim() || undefined,
         photo: f.photo ?? undefined,
         languages: f.languages.length > 0 ? f.languages : undefined,
         labels: f.labelIds.size > 0 ? Array.from(f.labelIds) : undefined,
+        schedules: f.scheduleIds.size > 0 ? Array.from(f.scheduleIds) : undefined,
+        templates: f.templateIds.size > 0 ? Array.from(f.templateIds) : undefined,
       };
 
       const editingId = this.editingId();
@@ -505,11 +711,16 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       email: '',
       pin: '',
       pickupType: 'auto',
+      randomOrder: false,
+      maxChats: 4,
+      iframeUrl: '',
       links: [],
       permissions: { ...DEFAULT_AGENT_PERMISSIONS },
       photo: null,
       languages: [],
       labelIds: new Set(),
+      scheduleIds: new Set(),
+      templateIds: new Set(),
     };
   }
 
