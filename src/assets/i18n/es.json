@@ -684,7 +684,30 @@
         "groups": "Grupos asignados",
         "groups_hint": "En qué grupos trabaja el agente y qué canales atiende en cada uno",
         "permissions": "Permisos",
-        "permissions_hint": "Capacidades específicas del agente"
+        "permissions_hint": "Capacidades específicas del agente",
+        "advanced": "Configuración avanzada",
+        "advanced_hint": "Etiquetas, comportamiento, integración e idioma del agente"
+      },
+      "advanced": {
+        "labels": {
+          "title": "Labels",
+          "count": "{{count}} asignada(s)"
+        },
+        "comportamiento": {
+          "title": "Comportamiento",
+          "max_chats": "Chats simultáneos",
+          "random_order": "Orden aleatorio",
+          "random_order_hint": "Visualizar agentes en orden aleatorio dentro del grupo"
+        },
+        "integracion": {
+          "title": "Integración",
+          "url_iframe": "URL iframe",
+          "dispositivos_externos": "Dispositivos externos",
+          "dispositivos_externos_hint": "Permite al agente conectarse desde dispositivos fuera de la red corporativa"
+        },
+        "regional": {
+          "title": "Regional"
+        }
       },
       "fields": {
         "name": "Nombre",

@@ -11,7 +11,21 @@ import {
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Info, Mail, Phone, PhoneCall, LucideAngularModule, ShieldCheck } from 'lucide-angular';
+import {
+  Info,
+  Mail,
+  Phone,
+  PhoneCall,
+  LucideAngularModule,
+  ShieldCheck,
+  Tag,
+  SlidersHorizontal,
+  Plug,
+  Globe,
+  Settings,
+  ChevronDown,
+  ChevronRight,
+} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -85,6 +99,9 @@ interface FormState {
   email: string;
   pin: string;
   pickupType: PickupType;
+  randomOrder: boolean;
+  maxChats: number;
+  iframeUrl: string;
   links: readonly GroupAgentLink[];
   permissions: AgentPermissions;
   photo: string | null;
@@ -129,6 +146,23 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly phoneCallIcon = PhoneCall;
   protected readonly shieldIcon = ShieldCheck;
   protected readonly infoIcon = Info;
+  protected readonly tagIcon = Tag;
+  protected readonly slidersIcon = SlidersHorizontal;
+  protected readonly plugIcon = Plug;
+  protected readonly globeIcon = Globe;
+  protected readonly settingsIcon = Settings;
+  protected readonly chevronDownIcon = ChevronDown;
+  protected readonly chevronRightIcon = ChevronRight;
+
+  /** Open state of the Labels accordion inside "Configuración avanzada". */
+  protected readonly labelsAccOpen = signal(true);
+
+  protected toggleLabelsAcc(): void {
+    this.labelsAccOpen.update((v) => !v);
+  }
+
+  /** Choices for the "Chats simultáneos" select inside Comportamiento. */
+  protected readonly maxChatsOptions: readonly number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   protected readonly agentTypes = AGENT_TYPES;
   protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
@@ -165,8 +199,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     { id: 'agent-section-identity', labelKey: 'agents.form.section.identification' },
     { id: 'agent-section-groups', labelKey: 'agents.form.section.groups' },
     { id: 'agent-section-permissions', labelKey: 'agents.form.section.permissions' },
-    { id: 'agent-section-languages', labelKey: 'agents.form.section.languages' },
-    { id: 'agent-section-labels', labelKey: 'agents.form.section.labels' },
+    { id: 'agent-section-advanced', labelKey: 'agents.form.section.advanced' },
   ];
 
   /**
@@ -267,6 +300,9 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         email: agent.email ?? '',
         pin: agent.pin ?? '',
         pickupType: agent.pickupType ?? 'auto',
+        randomOrder: agent.randomOrder ?? false,
+        maxChats: agent.maxChats ?? 4,
+        iframeUrl: agent.iframeUrl ?? '',
         links: this.linksStore.linksForAgent(agent.id),
         permissions: { ...agent.permissions },
         photo: agent.photo ?? null,
@@ -316,6 +352,18 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected onPickupChange(event: Event): void {
     this.updateField('pickupType', (event.target as HTMLSelectElement).value as PickupType);
+  }
+
+  protected onRandomOrderChange(checked: boolean): void {
+    this.updateField('randomOrder', checked);
+  }
+
+  protected onMaxChatsChange(event: Event): void {
+    this.updateField('maxChats', Number((event.target as HTMLSelectElement).value));
+  }
+
+  protected onIframeUrlInput(event: Event): void {
+    this.updateField('iframeUrl', (event.target as HTMLInputElement).value);
   }
 
   protected onExtensionChange(event: Event): void {
@@ -419,6 +467,9 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         pin: f.pin.trim() || undefined,
         permissions: f.permissions,
         pickupType: f.pickupType,
+        randomOrder: f.randomOrder,
+        maxChats: f.maxChats,
+        iframeUrl: f.iframeUrl.trim() || undefined,
         photo: f.photo ?? undefined,
         languages: f.languages.length > 0 ? f.languages : undefined,
         labels: f.labelIds.size > 0 ? Array.from(f.labelIds) : undefined,
@@ -505,6 +556,9 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       email: '',
       pin: '',
       pickupType: 'auto',
+      randomOrder: false,
+      maxChats: 4,
+      iframeUrl: '',
       links: [],
       permissions: { ...DEFAULT_AGENT_PERMISSIONS },
       photo: null,

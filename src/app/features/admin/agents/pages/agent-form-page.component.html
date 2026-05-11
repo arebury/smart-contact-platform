@@ -138,25 +138,9 @@
               </div>
             </div>
 
-            <!-- Pickup type + Extension -->
+            <!-- Extension + Agent type
+                 (Pickup type moved to "Configuración avanzada > Comportamiento" — DD#57.) -->
             <div class="grid grid--2">
-              <div class="field">
-                <label class="field__label" for="agent-pickup">
-                  {{ 'agents.form.fields.pickup' | translate }}
-                </label>
-                <select
-                  id="agent-pickup"
-                  class="field__input"
-                  [value]="form().pickupType"
-                  (change)="onPickupChange($event)"
-                >
-                  <option value="auto">{{ 'agents.form.fields.pickup_auto' | translate }}</option>
-                  <option value="manual">
-                    {{ 'agents.form.fields.pickup_manual' | translate }}
-                  </option>
-                </select>
-              </div>
-
               <div class="field">
                 <label class="field__label" for="agent-ext">
                   {{ 'agents.form.fields.extension' | translate }}
@@ -186,23 +170,22 @@
                   }
                 </span>
               </div>
-            </div>
 
-            <!-- Agent type -->
-            <div class="field">
-              <label class="field__label" for="agent-type">
-                {{ 'agents.form.fields.type' | translate }}
-              </label>
-              <select
-                id="agent-type"
-                class="field__input"
-                [value]="form().agentType"
-                (change)="onAgentTypeChange($event)"
-              >
-                @for (t of agentTypes; track t) {
-                  <option [value]="t">{{ typeLabelKeys[t] | translate }}</option>
-                }
-              </select>
+              <div class="field">
+                <label class="field__label" for="agent-type">
+                  {{ 'agents.form.fields.type' | translate }}
+                </label>
+                <select
+                  id="agent-type"
+                  class="field__input"
+                  [value]="form().agentType"
+                  (change)="onAgentTypeChange($event)"
+                >
+                  @for (t of agentTypes; track t) {
+                    <option [value]="t">{{ typeLabelKeys[t] | translate }}</option>
+                  }
+                </select>
+              </div>
             </div>
 
             <!-- Status toggle (active/inactive — edit only — moved here from old Identidad section) -->
@@ -430,79 +413,242 @@
           </aed-section-card>
 
           <aed-section-card
-            anchorId="agent-section-languages"
-            titleKey="agents.form.section.languages"
-            hintKey="agents.form.section.languages_hint"
+            anchorId="agent-section-advanced"
+            titleKey="agents.form.section.advanced"
+            hintKey="agents.form.section.advanced_hint"
+            [icon]="settingsIcon"
           >
-            <div class="field">
-              <label class="field__label" for="agent-language">
-                {{ 'common.languages.label' | translate }}
-              </label>
-              <select
-                id="agent-language"
-                class="field__input"
-                [value]="''"
-                (change)="onLanguageAdd($event)"
+            <!-- Labels (accordion sub-section) -->
+            <section class="sub-section sub-section--accordion">
+              <button
+                type="button"
+                class="sub-section__head"
+                [attr.aria-expanded]="labelsAccOpen()"
+                (click)="toggleLabelsAcc()"
               >
-                <option value="">{{ 'common.languages.placeholder' | translate }}</option>
-                @for (lang of availableLanguages; track lang) {
-                  @if (!form().languages.includes(lang)) {
-                    <option [value]="lang">{{ lang }}</option>
-                  }
-                }
-              </select>
-              <div class="language-chips">
-                @for (lang of form().languages; track lang) {
-                  <span class="language-chip">
-                    {{ lang }}
-                    <button
-                      type="button"
-                      class="language-chip__remove"
-                      (click)="onLanguageRemove(lang)"
-                      [attr.aria-label]="'common.languages.remove' | translate: { lang }"
-                    >
-                      ×
-                    </button>
+                <lucide-icon
+                  [img]="labelsAccOpen() ? chevronDownIcon : chevronRightIcon"
+                  [size]="13"
+                  aria-hidden="true"
+                />
+                <lucide-icon [img]="tagIcon" [size]="13" aria-hidden="true" />
+                <span class="sub-section__title">
+                  {{ 'agents.form.advanced.labels.title' | translate }}
+                </span>
+                @if (!labelsAccOpen() && selectedLabelChips().length > 0) {
+                  <span class="sub-section__count">
+                    {{
+                      'agents.form.advanced.labels.count'
+                        | translate: { count: selectedLabelChips().length }
+                    }}
                   </span>
                 }
-              </div>
-            </div>
-          </aed-section-card>
-
-          <aed-section-card
-            anchorId="agent-section-labels"
-            titleKey="agents.form.section.labels"
-            hintKey="agents.form.section.labels_hint"
-          >
-            <div class="field">
-              <label class="field__label" for="agent-label">
-                {{ 'agents.form.fields.labels' | translate }}
-              </label>
-              @if (availableLabels().length === 0) {
-                <p class="field__help">{{ 'agents.form.labels_empty' | translate }}</p>
-              } @else {
-                <select
-                  id="agent-label"
-                  class="field__input"
-                  [value]="''"
-                  (change)="onLabelAdd($event)"
-                >
-                  <option value="">{{ 'agents.form.labels_placeholder' | translate }}</option>
-                  @for (label of addableLabels(); track label.id) {
-                    <option [value]="label.id">{{ label.name }}</option>
-                  }
-                </select>
+              </button>
+              @if (labelsAccOpen()) {
+                <div class="sub-section__body">
+                  <div class="field">
+                    <label class="field__label" for="agent-label">
+                      {{ 'agents.form.fields.labels' | translate }}
+                    </label>
+                    @if (availableLabels().length === 0) {
+                      <p class="field__help">{{ 'agents.form.labels_empty' | translate }}</p>
+                    } @else {
+                      <select
+                        id="agent-label"
+                        class="field__input"
+                        [value]="''"
+                        (change)="onLabelAdd($event)"
+                      >
+                        <option value="">
+                          {{ 'agents.form.labels_placeholder' | translate }}
+                        </option>
+                        @for (label of addableLabels(); track label.id) {
+                          <option [value]="label.id">{{ label.name }}</option>
+                        }
+                      </select>
+                    }
+                    <div class="label-chips">
+                      @for (chip of selectedLabelChips(); track chip.id) {
+                        <aed-label-chip
+                          [label]="{ name: chip.name, color: chip.color }"
+                          [removable]="true"
+                          (remove)="onLabelRemove(chip.id)"
+                        />
+                      }
+                    </div>
+                  </div>
+                </div>
               }
-              <div class="label-chips">
-                @for (chip of selectedLabelChips(); track chip.id) {
-                  <aed-label-chip
-                    [label]="{ name: chip.name, color: chip.color }"
-                    [removable]="true"
-                    (remove)="onLabelRemove(chip.id)"
-                  />
-                }
+            </section>
+
+            <!-- Comportamiento (flat sub-section) -->
+            <section class="sub-section">
+              <div class="sub-section__head sub-section__head--flat">
+                <lucide-icon [img]="slidersIcon" [size]="13" aria-hidden="true" />
+                <span class="sub-section__title">
+                  {{ 'agents.form.advanced.comportamiento.title' | translate }}
+                </span>
               </div>
-            </div>
+              <div class="sub-section__body">
+                <div class="grid grid--2">
+                  <div class="field">
+                    <label class="field__label" for="agent-pickup">
+                      {{ 'agents.form.fields.pickup' | translate }}
+                    </label>
+                    <select
+                      id="agent-pickup"
+                      class="field__input"
+                      [value]="form().pickupType"
+                      (change)="onPickupChange($event)"
+                    >
+                      <option value="auto">
+                        {{ 'agents.form.fields.pickup_auto' | translate }}
+                      </option>
+                      <option value="manual">
+                        {{ 'agents.form.fields.pickup_manual' | translate }}
+                      </option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label class="field__label" for="agent-max-chats">
+                      {{ 'agents.form.advanced.comportamiento.max_chats' | translate }}
+                    </label>
+                    <select
+                      id="agent-max-chats"
+                      class="field__input"
+                      [value]="form().maxChats"
+                      (change)="onMaxChatsChange($event)"
+                    >
+                      @for (n of maxChatsOptions; track n) {
+                        <option [value]="n">{{ n }}</option>
+                      }
+                    </select>
+                  </div>
+                </div>
+
+                <div class="perm-toggle-row">
+                  <div class="perm-toggle-row__copy">
+                    <span class="perm-toggle-row__label">
+                      {{ 'agents.form.advanced.comportamiento.random_order' | translate }}
+                    </span>
+                    <button
+                      type="button"
+                      class="perm-toggle-row__info"
+                      [attr.aria-label]="
+                        'agents.form.advanced.comportamiento.random_order_hint' | translate
+                      "
+                      [title]="'agents.form.advanced.comportamiento.random_order_hint' | translate"
+                    >
+                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <aed-toggle-switch
+                    [checked]="form().randomOrder"
+                    [ariaLabel]="'agents.form.advanced.comportamiento.random_order' | translate"
+                    (checkedChange)="onRandomOrderChange($event)"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <!-- Integración (flat sub-section) -->
+            <section class="sub-section">
+              <div class="sub-section__head sub-section__head--flat">
+                <lucide-icon [img]="plugIcon" [size]="13" aria-hidden="true" />
+                <span class="sub-section__title">
+                  {{ 'agents.form.advanced.integracion.title' | translate }}
+                </span>
+              </div>
+              <div class="sub-section__body">
+                <div class="field">
+                  <label class="field__label" for="agent-iframe-url">
+                    {{ 'agents.form.advanced.integracion.url_iframe' | translate }}
+                  </label>
+                  <input
+                    id="agent-iframe-url"
+                    type="url"
+                    class="field__input"
+                    [value]="form().iframeUrl"
+                    (input)="onIframeUrlInput($event)"
+                    placeholder="https://ejemplo.com/panel"
+                    autocomplete="url"
+                  />
+                </div>
+
+                <div class="perm-toggle-row">
+                  <div class="perm-toggle-row__copy">
+                    <span class="perm-toggle-row__label">
+                      {{ 'agents.form.advanced.integracion.dispositivos_externos' | translate }}
+                    </span>
+                    <button
+                      type="button"
+                      class="perm-toggle-row__info"
+                      [attr.aria-label]="
+                        'agents.form.advanced.integracion.dispositivos_externos_hint' | translate
+                      "
+                      [title]="
+                        'agents.form.advanced.integracion.dispositivos_externos_hint' | translate
+                      "
+                    >
+                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <aed-toggle-switch
+                    [checked]="form().permissions.externalDevices"
+                    [ariaLabel]="
+                      'agents.form.advanced.integracion.dispositivos_externos' | translate
+                    "
+                    (checkedChange)="togglePermission('externalDevices')"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <!-- Regional (flat sub-section) -->
+            <section class="sub-section">
+              <div class="sub-section__head sub-section__head--flat">
+                <lucide-icon [img]="globeIcon" [size]="13" aria-hidden="true" />
+                <span class="sub-section__title">
+                  {{ 'agents.form.advanced.regional.title' | translate }}
+                </span>
+              </div>
+              <div class="sub-section__body">
+                <div class="field">
+                  <label class="field__label" for="agent-language">
+                    {{ 'common.languages.label' | translate }}
+                  </label>
+                  <select
+                    id="agent-language"
+                    class="field__input"
+                    [value]="''"
+                    (change)="onLanguageAdd($event)"
+                  >
+                    <option value="">{{ 'common.languages.placeholder' | translate }}</option>
+                    @for (lang of availableLanguages; track lang) {
+                      @if (!form().languages.includes(lang)) {
+                        <option [value]="lang">{{ lang }}</option>
+                      }
+                    }
+                  </select>
+                  <div class="language-chips">
+                    @for (lang of form().languages; track lang) {
+                      <span class="language-chip">
+                        {{ lang }}
+                        <button
+                          type="button"
+                          class="language-chip__remove"
+                          (click)="onLanguageRemove(lang)"
+                          [attr.aria-label]="'common.languages.remove' | translate: { lang }"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    }
+                  </div>
+                </div>
+              </div>
+            </section>
           </aed-section-card>
 
           @if (mode() === 'edit') {

@@ -94,7 +94,13 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 - ✅ `AgentsStore` expanded from slim stub to full prototype schema (channels, presence, permissions, groups, pickup type, etc.); v2 lockfile re-seeds existing browsers
 - ✅ List page: 16 seed agents with extension type badge, channel chips, presence pill (color-coded), status pill, bulk delete, XLSX export
 - ✅ Create / edit form: 5 sections (identity / contact / channels / groups / permissions matrix split into devices/calls/transfers)
-- ⬜ **Deferred:** column-visibility selector (with localStorage persistence), frozen-column data table, photo upload preview, language multi-select, schedule + label multi-select, default outbound group, iframe URL, max-chats. Lands with shared `MultiSelectChip` and `FileUpload` primitives.
+- ✅ "Configuración avanzada" section (2026-05-11, DD#57): single card with progressive-disclosure sub-sections (Labels accordion + Comportamiento/Integración/Regional flat). Surfaces `pickupType`, `randomOrder`, `maxChats`, `iframeUrl`, `externalDevices`, `languages`, `labels`.
+- ⬜ **Deferred from prototype's "Configuración avanzada":**
+  - Agendas sub-section — needs new `Schedule` type, store, seed list with names (only IDs exist on Agent today).
+  - Plantillas sub-section — needs new `Template` type, store, seed, chat/email tab pattern + selectable table.
+  - Pickup type — Chat — needs new `pickupTypeChat` field on Agent (today only one global `pickupType`).
+  - Sesión sub-section — needs `loginExtOverride` field + "Expirar contraseña" dialog/action.
+- ⬜ **Deferred (older):** column-visibility selector (with localStorage persistence), frozen-column data table, photo upload preview, language multi-select, default outbound group. Lands with shared `MultiSelectChip` and `FileUpload` primitives.
 
 ## Phase 4 — Full README + technical docs ⬜
 

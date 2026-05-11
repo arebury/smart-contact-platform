@@ -7,6 +7,71 @@
 
 ---
 
+## 57 — Agent form's tail collapses into one "Configuración avanzada" card with progressive-disclosure sub-sections (2026-05-11)
+
+**Decision.** The agent edit/create form trades two trailing section
+cards (Languages, Labels) plus a few orphan fields for a single
+**Configuración avanzada** section card with four sub-sections:
+
+- **Labels** — accordion sub-section (chevron + count badge when
+  collapsed). Open by default.
+- **Comportamiento** — flat sub-section. Houses `pickupType` (moved
+  out of Identification), `maxChats`, and `randomOrder`.
+- **Integración** — flat sub-section. Houses `iframeUrl` and the
+  `externalDevices` toggle.
+- **Regional** — flat sub-section. Houses the language picker
+  (formerly its own card).
+
+Visual idiom: small-caps tracked sub-heading + leading icon, matching
+the rest of the form's `--sc-text-subtle` head treatment. Adjacent
+sub-sections separate with a 1px `--sc-border-default` divider.
+Pattern lives inline in the agent-form's SCSS as `.sub-section`
+(not extracted yet — only one consumer; revisit if user-form/group-form
+adopt the same pattern).
+
+**Why.**
+
+1. The trailing section cards (Languages, Labels) felt heavy for
+   what they contained — a single field each — and the form scrolled
+   longer than it needed to.
+2. Three existing data-model fields (`randomOrder`, `maxChats`,
+   `iframeUrl`) were declared on `Agent` but never surfaced in the
+   form. They needed a home; bundling them with the trailing cards
+   under one "secondary settings" umbrella matches the user's mental
+   model of "primary identity vs. tuning knobs".
+3. Pickup type belongs with behaviour (chat/call pacing) rather than
+   identity (who is this agent). Identification gets crisper:
+   "Email/Phone, Extension/Type, Status".
+4. Progressive disclosure on Labels keeps the card from ballooning
+   when an agent has many labels.
+
+**Side effect — `externalDevices` reverts to per-agent.** Session 20
+(`50e7999`) removed the `externalDevices` toggle from the per-agent
+permissions matrix, ruling it "global, lives in `/admin/aed/agentes`
+defaults only". This decision reinstates it as a per-agent toggle
+under Integración. The global toggle in `/admin/aed/agentes` is left
+intact for now; its intended role becomes "default for new agents"
+rather than "single source of truth". Whether to delete the global
+one is deferred to a future session.
+
+**Discarded.**
+
+- *Extract `.sub-section` to `_forms.scss` immediately.* The agent
+  form is the only consumer today; premature extraction. Promote on
+  the second adopter (likely user-form or group-form when they get
+  the same treatment).
+- *Add Agendas / Plantillas / Sesión sub-sections from the prototype.*
+  Those require new data models (Schedule, Template), new stores, and
+  a password-expire dialog. Out of scope for this PR; tracked in
+  `roadmap.md`. The current sub-section pattern accommodates them
+  cleanly when their time comes.
+- *Keep the side nav showing Languages and Labels as separate
+  entries.* Both now live inside one card; collapsing the nav to
+  reference only the parent ("Configuración avanzada") matches the
+  user's scroll model.
+
+---
+
 ## 56 — Header pill base lives in `_forms.scss`; form-local files keep only their domain variants (2026-05-11)
 
 **Decision.** The base `.pill` rule plus the `--type` (brand-subtle),

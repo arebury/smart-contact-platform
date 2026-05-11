@@ -339,3 +339,93 @@ input[type='checkbox'] {
   cursor: pointer;
   vertical-align: middle;
 }
+
+/*
+ * `.sub-section` — progressive-disclosure block inside the
+ * "Configuración avanzada" section card (DD#57). Two variants:
+ *   - Flat: a labelled divider that introduces a body always visible.
+ *   - Accordion: same head but with a leading chevron + collapsible body
+ *     and an optional count badge on the right when collapsed.
+ *
+ * Visual idiom matches the rest of the form's small-caps section-head
+ * pattern (uppercase, tracked, --sc-text-subtle) so it reads as a
+ * sub-heading inside the parent card rather than a card of its own.
+ */
+.sub-section {
+  & + & {
+    margin-top: var(--sc-spacing-500);
+    padding-top: var(--sc-spacing-500);
+    border-top: 1px solid var(--sc-border-default);
+  }
+
+  &__head {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-150);
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: 0;
+    text-align: left;
+    color: var(--sc-text-subtle);
+    cursor: pointer;
+    font-size: var(--sc-font-size-50);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: var(--sc-font-weight-semibold);
+    transition: color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover {
+      color: var(--sc-text-secondary);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-soft-blue-500);
+      outline-offset: 2px;
+    }
+
+    /* Flat heads are not interactive — kill the hover + cursor cues. */
+    &--flat {
+      cursor: default;
+      pointer-events: none;
+
+      &:hover {
+        color: var(--sc-text-subtle);
+      }
+    }
+
+    > lucide-icon {
+      flex: 0 0 auto;
+      color: currentColor;
+    }
+  }
+
+  &__title {
+    flex: 0 1 auto;
+  }
+
+  &__count {
+    margin-left: auto;
+    font-size: var(--sc-font-size-75);
+    color: var(--sc-text-subtle);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: var(--sc-font-weight-regular);
+  }
+
+  &__body {
+    margin-top: var(--sc-spacing-300);
+
+    /* Stack direct form rows with breathing space. */
+    > .field + .field,
+    > .field + .perm-toggle-row,
+    > .perm-toggle-row + .field,
+    > .perm-toggle-row + .perm-toggle-row,
+    > .grid + .perm-toggle-row,
+    > .grid + .field,
+    > .field + .grid,
+    > .perm-toggle-row + .grid {
+      margin-top: var(--sc-spacing-300);
+    }
+  }
+}
