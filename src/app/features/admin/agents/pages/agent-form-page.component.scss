@@ -1,6 +1,14 @@
 :host {
   display: block;
-  height: 100%;
+  /* `min-height: 100%` instead of `height: 100%` — sticky-form-header,
+   * .ipanel and .form-grid__identity all live inside :host. With a
+   * fixed `height: 100%` the host's containing block ends at one
+   * viewport height, so sticky elements un-stick at that boundary and
+   * the rest of the form scrolls under nothing. The bug was invisible
+   * before DD#57 because the form rarely exceeded a single viewport;
+   * "Configuración avanzada" makes long forms easy to hit.
+   */
+  min-height: 100%;
   background: var(--sc-bg-default);
 }
 
