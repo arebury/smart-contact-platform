@@ -46,34 +46,30 @@
                       {{ 'config.aed.subpages.agentes.llamadas.destino' | translate }}
                     </th>
                     <th scope="col" class="perm-matrix__th-col">
-                      <label class="perm-matrix__col-toggle">
+                      <aed-tri-state-checkbox
+                        [state]="columnState().llamada"
+                        [ariaLabel]="
+                          'config.aed.subpages.agentes.llamadas.toggle_all_llamada' | translate
+                        "
+                        (cycle)="toggleColumnAll('llamada', $event)"
+                      >
                         <span>{{
                           'config.aed.subpages.agentes.llamadas.col_llamada' | translate
                         }}</span>
-                        <input
-                          type="checkbox"
-                          [checked]="columnAllSelected().llamada"
-                          (change)="toggleColumnAll('llamada')"
-                          [attr.aria-label]="
-                            'config.aed.subpages.agentes.llamadas.toggle_all_llamada' | translate
-                          "
-                        />
-                      </label>
+                      </aed-tri-state-checkbox>
                     </th>
                     <th scope="col" class="perm-matrix__th-col">
-                      <label class="perm-matrix__col-toggle">
+                      <aed-tri-state-checkbox
+                        [state]="columnState().transferencias"
+                        [ariaLabel]="
+                          'config.aed.subpages.agentes.llamadas.toggle_all_transfer' | translate
+                        "
+                        (cycle)="toggleColumnAll('transferencias', $event)"
+                      >
                         <span>{{
                           'config.aed.subpages.agentes.llamadas.col_transferencias' | translate
                         }}</span>
-                        <input
-                          type="checkbox"
-                          [checked]="columnAllSelected().transferencias"
-                          (change)="toggleColumnAll('transferencias')"
-                          [attr.aria-label]="
-                            'config.aed.subpages.agentes.llamadas.toggle_all_transfer' | translate
-                          "
-                        />
-                      </label>
+                      </aed-tri-state-checkbox>
                     </th>
                   </tr>
                 </thead>

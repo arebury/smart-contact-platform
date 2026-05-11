@@ -252,13 +252,13 @@ the top in the next polish session.
   purged in the same pass.
 - ~~**Dead `.toggle` SCSS block** en `user-form-page.component.scss:124-169`~~. ✅ **Done (2026-05-11, PR #24).**
   Track + thumb declarations removed; form already uses `<aed-toggle-switch>`.
-- **Tri-state vs binary matrix headers.** Tras DD#55, los dos consumers
-  de `.perm-matrix` (agent-form + aed-agentes) usan `<input type="checkbox">`
-  binario en los headers de columna; al desmarcar una sola fila del cuerpo,
-  el header sigue `checked` (bug sutil — no refleja "algunas activas pero
-  no todas"). El otro patrón (`agent-channel-table`) sí usa
-  `<aed-tri-state-checkbox>`. *Fix:* sustituir en ambos consumers de
-  `.perm-matrix`. **Baja.**
+- ~~**Tri-state vs binary matrix headers.**~~ ✅ **Done (2026-05-11).**
+  Both consumers of `.perm-matrix` (agent-form + aed-agentes) now use
+  `<aed-tri-state-checkbox>` in the column header. Header reflects
+  `none` / `some` / `all` derived from the body rows; click cycles
+  none→all and all/some→none. Label-before-checkbox order preserved
+  via `flex-direction: row-reverse` override scoped to
+  `.perm-matrix__th-col` in `_forms.scss`.
 - **Avatar size mismatch.** `agent-channel-table` usa `[size]="26"`
   (illustrated pool, agentes en group-form), `group-assignment-table`
   usa `[size]="22"` (abstract pool, grupos en agent-form). *Fix:*
