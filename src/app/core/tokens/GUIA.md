@@ -16,34 +16,60 @@
 
 ---
 
-## El mapa mental: tres mundos, una sola verdad
+## El mapa mental: dos mundos, un puente
 
-Imagina tres "idiomas" hablando del mismo color:
+El design system de Smart Contact tiene **dos representaciones**
+del mismo color (o radio, o espaciado, o lo que sea):
+
+- **En Figma** — donde tú decides. La variable se llama, por
+  ejemplo, "Brand / Primary".
+- **En código** — donde el producto la consume. La misma
+  variable se llama `--sc-bg-primary`.
 
 ```
-   FIGMA              SMART CONTACT (--sc-*)          PRIMENG (--p-*)
-   ─────              ──────────────────────          ───────────────
-   "Brand /             --sc-bg-primary                --p-primary-color
-    Primary"               #1B273D                          ↑
-        │                      ↑                            │
-        │                      │                            │
-        └──────  fuente ───────┼────────  consume  ─────────┘
-                de verdad      │
-                               │
-                          aquí vive el
-                          valor real
+       MUNDO DE DISEÑO                      MUNDO DEL CÓDIGO
+       (Figma)                              (CSS variables)
+       ────────────                         ─────────────────
+       "Brand / Primary"                    --sc-bg-primary
+       valor: #1B273D                       valor: #1B273D
+           │                                       │
+           │                                       │
+           │     ─── son el MISMO valor ───        │
+           │     con dos representaciones          │
+           │                                       │
+           └─── tú decides el valor ───────────────┘
+                aquí (en Figma)
 ```
 
-- **Figma** es donde tú decides cómo se ven las cosas.
-- **`--sc-*`** son las "variables" del producto. Son **la única
-  fuente de verdad**: cuando aquí cambias un valor, cambia en todo
-  el producto.
-- **`--p-*`** son las variables de PrimeNG (la librería de
-  componentes que usamos para tablas, modales, dropdowns, etc.).
-  No las tocamos directamente: cogen su valor de `--sc-*`.
+Cuando alguien actualiza el valor en Figma, ese mismo valor
+también se cambia en código en **un único sitio**
+(`layers/01-primitive.css`). A partir de ahí, todo el producto
+hereda solo.
 
-**La regla de oro:** si quieres cambiar algo del producto, vas a
-`--sc-*`. PrimeNG hereda solo.
+### ¿Y PrimeNG dónde entra?
+
+PrimeNG es la **librería de componentes** que usamos para tablas,
+modales, dropdowns, toasts, etc. Trae sus propias variables
+(`--p-*`) que por defecto apuntan a un tema genérico (Aura).
+
+Para que PrimeNG hable AED en vez de Aura, tenemos un archivo
+**puente** (`aed-preset.ts`) que redirige cada `--p-*` al
+`--sc-*` correspondiente. Así:
+
+```
+   FIGMA  ──→  --sc-bg-primary  ──→  --p-primary-color
+   (tú)         (código AED)         (PrimeNG consume)
+                     ↑                       ↑
+                     │                       │
+                  decisión               se entera por
+                  de diseño              el puente
+                                         (aed-preset.ts)
+```
+
+**La regla de oro:** si quieres cambiar algo del producto, se
+cambia en Figma + en el `--sc-*` correspondiente. PrimeNG hereda
+por el puente, sin tocar el componente. Tú nunca declaras un
+`--p-*` a mano.
 
 ---
 
