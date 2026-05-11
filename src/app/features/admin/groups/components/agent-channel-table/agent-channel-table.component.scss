@@ -171,10 +171,10 @@
     transition: background-color 100ms ease;
 
     &:hover {
-      background: var(--sc-row-hover-bg, var(--sc-bg-hover));
+      background: var(--sc-row-hover-bg);
     }
     &--selected {
-      background: var(--sc-bg-selected, var(--sc-bg-hover));
+      background: var(--sc-bg-selected);
     }
     &--paused {
       opacity: 0.6;
@@ -205,7 +205,7 @@
   &__warn {
     display: inline-flex;
     align-items: center;
-    color: var(--sc-color-amber-600, #b45309);
+    color: var(--sc-color-yellow-700);
     margin-left: var(--sc-spacing-100);
   }
 

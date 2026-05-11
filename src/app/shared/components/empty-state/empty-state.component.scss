@@ -13,8 +13,8 @@
     width: 64px;
     height: 64px;
     border-radius: 9999px;
-    background: var(--sc-bg-subtle, #f3f4f6);
-    color: var(--sc-text-subtle, #6b7280);
+    background: var(--sc-bg-subtle);
+    color: var(--sc-text-subtle);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,7 +33,7 @@
     max-width: 420px;
     font-size: var(--sc-font-size-100, 13px);
     line-height: 1.5;
-    color: var(--sc-text-subtle, #6b7280);
+    color: var(--sc-text-subtle);
   }
 
   &__cta {
@@ -44,7 +44,7 @@
     padding: var(--sc-spacing-200) var(--sc-spacing-400);
     border: 1px solid transparent;
     background: var(--sc-bg-primary);
-    color: var(--sc-text-on-primary, #fff);
+    color: var(--sc-text-on-primary);
     font-size: var(--sc-font-size-100, 13px);
     font-weight: 500;
     cursor: pointer;
@@ -55,7 +55,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--sc-border-focus, #2563eb);
+      outline: 2px solid var(--sc-border-focus);
       outline-offset: 2px;
     }
   }

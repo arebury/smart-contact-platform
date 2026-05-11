@@ -122,7 +122,12 @@ export const AedPreset = definePreset(Aura, {
       borderRadius: 'var(--sc-radius-200)',
       transitionDuration: 'var(--sc-transition-base)',
     },
-    /* Dialog / popover overlay shells — radius + shadow. */
+    /* Dialog / popover / select / navigation overlay shells — radius +
+     * shadow. Aura's defaults use `rgba(0,0,0,0.1)` for select +
+     * navigation, which leaks pure-black (untinted) shadows into
+     * PrimeNG dropdowns and menus. We override all four overlay slots
+     * with our shadow tokens so every PrimeNG surface inherits the
+     * brand-tinted shadow scale from `--sc-shadow-color-rgb`. */
     overlay: {
       modal: {
         borderRadius: 'var(--sc-radius-400)',
@@ -131,6 +136,13 @@ export const AedPreset = definePreset(Aura, {
       popover: {
         borderRadius: 'var(--sc-radius-300)',
         shadow: 'var(--sc-shadow-popover)',
+      },
+      select: {
+        borderRadius: 'var(--sc-radius-200)',
+        shadow: 'var(--sc-shadow-dropdown)',
+      },
+      navigation: {
+        shadow: 'var(--sc-shadow-dropdown)',
       },
     },
     colorScheme: {
@@ -170,6 +182,10 @@ export const AedPreset = definePreset(Aura, {
           hoverBorderColor: 'var(--sc-border-strong)',
           focusBorderColor: 'var(--sc-bg-primary)',
           invalidBorderColor: 'var(--sc-border-error)',
+          /* Aura's default formField.shadow is `rgba(18, 18, 23, 0.05)`
+           * — pure-black. Override with the AED `--sc-shadow-xs` which
+           * is tinted via `--sc-shadow-color-rgb`. */
+          shadow: 'var(--sc-shadow-xs)',
         },
         text: {
           color: 'var(--sc-text-primary)',
@@ -192,6 +208,11 @@ export const AedPreset = definePreset(Aura, {
           },
           popover: {
             background: 'var(--sc-bg-surface)',
+            borderColor: 'var(--sc-border-default)',
+            color: 'var(--sc-text-primary)',
+          },
+          select: {
+            background: 'var(--sc-bg-elevated)',
             borderColor: 'var(--sc-border-default)',
             color: 'var(--sc-text-primary)',
           },
@@ -238,6 +259,7 @@ export const AedPreset = definePreset(Aura, {
           hoverBorderColor: 'var(--sc-border-strong)',
           focusBorderColor: 'var(--sc-bg-primary)',
           invalidBorderColor: 'var(--sc-border-error)',
+          shadow: 'var(--sc-shadow-xs)',
         },
         text: {
           color: 'var(--sc-text-primary)',

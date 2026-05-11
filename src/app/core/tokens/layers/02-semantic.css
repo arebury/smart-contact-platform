@@ -38,11 +38,22 @@
   /* ---------- Background ---------- */
   --sc-bg-default: var(--sc-color-gray-50);
   --sc-bg-surface: var(--sc-color-gray-0);
+  /* Elevated surface (popovers, dropdowns) — currently same as surface
+   * because the light theme stays flat; the alias exists so consumers
+   * that *semantically* want "elevated" don't reach for raw `#fff`. */
+  --sc-bg-elevated: var(--sc-bg-surface);
   --sc-bg-subtle: var(--sc-color-blue-50);
   --sc-bg-subtle-hover: var(--sc-color-blue-100);
   --sc-bg-subtle-active: var(--sc-color-blue-200);
   --sc-bg-disabled: var(--sc-color-gray-200);
   --sc-bg-overlay-transparent: #ffffff00;
+
+  /* Generic hover / selected aliases — consumed by row-style components
+   * (tables, lists, menu items) where the per-context semantic is
+   * unimportant. Aliased to the secondary/primary-subtle layer. */
+  --sc-bg-hover: var(--sc-bg-secondary-hover);
+  --sc-bg-selected: var(--sc-bg-primary-subtle);
+  --sc-row-hover-bg: var(--sc-bg-secondary-hover);
 
   /* Primary (brand) */
   --sc-bg-primary: var(--sc-color-blue-700);
@@ -112,6 +123,10 @@
   --sc-border-warning: var(--sc-color-yellow-500);
   --sc-border-warning-subtle: var(--sc-color-yellow-200);
   --sc-border-error: var(--sc-color-red-500);
+  /* Focus-ring border — matches the focus outline used by buttons +
+   * form fields (--sc-color-soft-blue-500). Consumed by PrimeNG via
+   * the preset's `focusRing.color`. */
+  --sc-border-focus: var(--sc-color-soft-blue-500);
   --sc-border-danger: var(--sc-color-red-600);
   --sc-border-danger-hover: var(--sc-color-red-700);
   --sc-border-danger-active: var(--sc-color-red-800);

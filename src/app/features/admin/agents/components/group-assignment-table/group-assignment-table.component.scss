@@ -165,7 +165,7 @@
     transition: background-color 100ms ease;
 
     &:hover {
-      background: var(--sc-row-hover-bg, var(--sc-bg-hover));
+      background: var(--sc-row-hover-bg);
     }
     &--paused {
       opacity: 0.6;
