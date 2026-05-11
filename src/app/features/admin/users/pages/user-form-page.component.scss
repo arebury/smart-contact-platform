@@ -77,41 +77,13 @@
   }
 }
 
-.pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px var(--sc-spacing-200);
-  border-radius: var(--sc-radius-full);
-  font-size: var(--sc-font-size-75);
-  font-weight: var(--sc-font-weight-medium, 500);
-  letter-spacing: 0.01em;
-  border: 1px solid transparent;
-  background: var(--sc-bg-surface);
-  color: var(--sc-text-secondary);
-
-  /* Type pill carries the brand accent — primary identifier of the
-   * user's role gets the brand color treatment. */
-  &--type {
-    background: var(--sc-bg-primary-subtle);
-    color: var(--sc-bg-primary);
-  }
-
-  &--status-active {
-    background: color-mix(in oklch, #1a8a4a 12%, var(--sc-bg-surface));
-    color: #1a6a3a;
-  }
-  &--status-inactive {
-    background: var(--sc-bg-secondary-subtle);
-    color: var(--sc-text-subtle);
-  }
-}
-
 /*
  * `.grid`, `.field`, `.checkbox-grid` (incl. `--services`),
- * `.checkbox-row` are now defined in `src/styles/_forms.scss`
- * (DD#53). Local override below: only the `--child` indent
- * modifier and a slightly taller padding (8px vs the global 4px)
- * specific to user-form's permission lists.
+ * `.checkbox-row`, `.pill` (base + `--type` + `--status-*`) are
+ * now defined in `src/styles/_forms.scss` (DD#53, DD#56). Local
+ * override below: only the `--child` indent modifier and a slightly
+ * taller padding (8px vs the global 4px) specific to user-form's
+ * permission lists.
  */
 .checkbox-row {
   padding: var(--sc-spacing-100) 0;

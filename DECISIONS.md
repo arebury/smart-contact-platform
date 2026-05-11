@@ -7,6 +7,51 @@
 
 ---
 
+## 56 — Header pill base lives in `_forms.scss`; form-local files keep only their domain variants (2026-05-11)
+
+**Decision.** The base `.pill` rule plus the `--type` (brand-subtle),
+`--status` (transition), and `--status-active`/`--status-inactive`
+(presence-token bg + `status-pop` animation) variants live in
+`src/styles/_forms.scss` under a single canonical block. Form-local
+SCSS files own only their domain-specific variants: agent-form keeps
+`.pill--presence-*` (5 lowercase-Spanish presence states + the live
+dot pulse on `--presence-disponible`); group-form keeps
+`.pill--priority-*` and its `pill-pulse` keyframe on
+`--priority-Alta`.
+
+**Why.** Audit #1 of DD#54 catalogued the drift: user-form and
+group-form re-declared the same `.pill` base independently from
+agent-form, and user-form additionally hardcoded `#1a8a4a`/`#1a6a3a`
+where the rest of the codebase referenced `--sc-presence-available` /
+`--sc-presence-available-deep` (palette layer, line 75-76). Pill
+status changes also popped on agent-form but not on user-form,
+creating inconsistent feedback for the same control across screens.
+Same playbook as DD#55 (extract perm-matrix) and DD#53 (extract
+`.field`, `.checkbox-grid`): visual-layer consolidation, not a
+component, because each consumer's data binding is form-specific.
+
+**Side effects.**
+- Animation is now uniform: every `.pill--status-active` /
+  `.pill--status-inactive` in the admin forms pops on render
+  (360ms scale 0.94 → 1.05 → 1, with `@media (prefers-reduced-motion)`
+  honoured). user-form and group-form inherit it without local code.
+- Dead `.pill--type` (agent-form) and `.pill--channel` (group-form)
+  variants were dropped — their templates never referenced them.
+  `.pill--type` survives in `_forms.scss` because user-form *does*
+  use it; `--channel` is gone (group-form's channel chips use a
+  different component path).
+
+**Discarded.** (a) Unify `.pill--type` and `.pill--channel` into a
+single canonical brand-subtle variant — both render identically, but
+template class names communicate intent ("this is a type / role
+pill"), so the cost of touching every consumer's HTML outweighs the
+saving. (b) Remove the `status-pop` animation across the board to
+calm down the surfaces — UX brand-voice says *calm · dense ·
+operational*, not motionless; status-pop is subtle and gives genuine
+state-change feedback, so we standardised it as on, not off.
+
+---
+
 ## 55 — Permission matrix lives in `_forms.scss` as a single shared block (2026-05-11)
 
 **Decision.** The `destino × {llamada, transferencia}` matrix layout
