@@ -323,6 +323,308 @@ terceros — hay que hablarlo.
 
 ---
 
+## Temas, Theme Designer, handoff y migraciones (el nitty gritty)
+
+Esta es la sección "para entender de verdad cómo funciona la
+maquinaria". No la necesitas leer de un tirón — usa el índice
+para ir al apartado que te toque.
+
+### 1. ¿Qué es un "tema" en PrimeNG?
+
+PrimeNG (la librería de componentes) no impone una apariencia
+concreta. En su lugar trae **temas-base** ("presets") entre los
+que eliges uno:
+
+- **Aura** — el moderno, minimalista, con tipografía limpia y
+  shadows sutiles. **Es el que usamos.**
+- **Lara** — el clásico de PrimeNG, más cuadrado, padding más
+  generoso. Se siente "enterprise" tradicional.
+- **Nora** — ultra minimalista, casi sin sombras, muy plano.
+- **Material** — Google Material Design.
+
+**¿Por qué Aura?** Porque es el más cercano al ADN visual del
+brand AED (calm · dense · operational) — formas suaves sin ser
+infantiles, type ramp limpia, transiciones discretas. Lara o
+Material habrían pedido más fight para encajar.
+
+Nuestro `aed-preset.ts` hace `definePreset(Aura, { ... overrides })`:
+arranca de Aura y reemplaza solo los valores que queremos pisar.
+Lo que no overrideamos, **hereda de Aura** automáticamente.
+Cuando Aura saca una versión nueva, recibimos las mejoras
+generales sin tocar nada.
+
+### 2. Theme Designer (la herramienta de PrimeNG)
+
+PrimeNG vende una herramienta llamada **Theme Designer**
+(https://designer.primeng.org). Es un playground visual con
+preview en vivo:
+
+- Tú (o el dev team) abre Theme Designer
+- Eliges Aura como base
+- Modifica tokens en una UI con sliders, color pickers, etc.
+- Ves el resultado al instante en componentes reales (botones,
+  modales, tablas, dropdowns)
+- Al final exporta un JSON o snippet de TypeScript
+
+**Quién lo usa:**
+- **Dev team**: principalmente. Es la forma más rápida de
+  iterar valores antes de pegarlos en `aed-preset.ts`.
+- **Diseño**: útil para validar que un cambio del Custom mode
+  de Figma se ve como esperas en componentes reales. Si tu
+  diseño en Figma de un modal queda "casi pero no exacto" al
+  llegar al producto, Theme Designer permite ver la diferencia
+  exacta y aislar qué token está mal mapeado.
+
+**Diferencia con el UI Kit de Figma:**
+
+| | Figma UI Kit | Theme Designer |
+|---|---|---|
+| **Qué muestra** | Componentes en estado estático para diseñar pantallas | Componentes en vivo, interactivos, con todos los estados |
+| **Para qué sirve** | Diseñar el flujo y maquetar pantallas con los componentes correctos | Validar valores de tokens y exportar config |
+| **Quién lo usa** | Diseño principalmente | Dev principalmente, diseño puntualmente |
+| **Output** | Frames de Figma para handoff | JSON / preset code para pegar en aed-preset.ts |
+| **Coste** | Free | Free tier + Pro de pago |
+
+Theme Designer **no es obligatorio**. Puedes editar
+`aed-preset.ts` a pelo si sabes qué tokens necesitas. Es un
+acelerador para iteración visual rápida.
+
+### 3. Los 5 niveles de customización (de menos a más invasivo)
+
+Cada vez que necesitamos que un componente de PrimeNG se vea
+distinto, tenemos 5 herramientas. **Siempre empezamos por el
+nivel 1 y solo subimos si el anterior no llega.**
+
+```
+   NIVEL 5: Fork del componente              (último recurso)
+   ──────────────────────────                ⬆
+   NIVEL 4: Wrapping (composición)           ⬆
+   ──────────────────────────                ⬆ más invasivo
+   NIVEL 3: CSS overrides (::ng-deep)        ⬆
+   ──────────────────────────                ⬆
+   NIVEL 2: PassThrough (pt prop)            ⬆
+   ──────────────────────────                ⬆
+   NIVEL 1: Token override (preset)          ⬆  ← empieza aquí
+```
+
+**Nivel 1 — Token override en `aed-preset.ts`.**
+Es lo que estamos haciendo siempre que se puede. Cambias el valor
+de un token (color, padding, radius, shadow) y se aplica a TODOS
+los componentes que usen ese token. Sobrevive migraciones de
+PrimeNG porque los nombres de tokens son contrato estable.
+- *Ejemplo*: queremos los inputs con un borde más sutil →
+  `formField.borderColor: 'var(--sc-border-subtle)'`.
+
+**Nivel 2 — PassThrough (`pt` prop) puntual.**
+PrimeNG expone una prop `pt` en cada componente para inyectar
+clases o estilos en sub-elementos sin tocar el tema global.
+Útil cuando UN sitio concreto necesita algo distinto y el resto
+queda como está.
+- *Ejemplo*: un `<p-dialog>` de bienvenida con un padding mayor
+  que el resto: `<p-dialog [pt]="{root: {style: 'padding: 32px'}}">`.
+- ⚠️ Si te encuentras usándolo en muchos sitios, es señal de
+  que deberías subir al Nivel 1 (crear un token).
+
+**Nivel 3 — CSS overrides con `::ng-deep`.**
+Cuando ni el tema ni `pt` te dejan llegar a un detalle (por
+ejemplo, una animación interna del componente), puedes usar
+`::ng-deep .p-dropdown-panel { ... }` en el SCSS local.
+- ⚠️ Frágil: PrimeNG puede renombrar `.p-dropdown-panel` en
+  una versión futura y tu CSS deja de funcionar silenciosamente.
+- Documentar siempre: "Override por X razón, revisar al subir
+  versión PrimeNG".
+
+**Nivel 4 — Wrapping (componente Angular propio).**
+Envuelves el componente de PrimeNG en uno tuyo (`<aed-button>`
+que internamente renderiza `<p-button>`) y expones SOLO la API
+que tú quieres. PrimeNG queda como detalle de implementación
+oculto.
+- *Ejemplo*: `<aed-status-pill>` que internamente es un
+  `<p-tag>` con configuración fija. Si mañana decides cambiar a
+  un componente propio puro, los consumidores de `<aed-status-pill>`
+  no se enteran.
+- Ya lo hacemos para: `<aed-modal>`, `<aed-toggle-switch>`,
+  `<aed-illustrated-avatar>`, etc.
+
+**Nivel 5 — Fork del componente.**
+Copiar el código fuente del componente de PrimeNG a nuestro
+proyecto y modificarlo. **Es el último recurso.** Cualquier
+mejora futura de PrimeNG (bug fixes, accesibilidad, performance)
+no llega — has roto el vínculo con upstream.
+- Solo si no hay otra forma. Y se documenta como DD (decision
+  doc) en `DECISIONS.md` con justificación.
+
+### 4. Handoff diseño ↔ dev — el ciclo completo
+
+#### Caso A — Cambio de un valor existente
+
+```
+   DISEÑO                                  DEV
+   ──────                                  ───
+   1. Cambia valor en                      
+      Custom mode (Figma)                  
+                                           
+   2. Mensaje al dev team:                 
+      "Cambié primary-700: #1B273D         
+       → #1C2840 en Custom mode"           
+                                           
+   3.                          →           4. Replica el valor en
+                                              aed-preset.ts en una
+                                              línea (o en el
+                                              primitive layer si
+                                              es un primitivo)
+                                           
+                                           5. PR + deploy preview
+                                           
+   6. Verifica en deploy        ←
+      preview que se ve como    
+      en Figma                  
+                                           
+                                           7. Merge si OK
+```
+
+#### Caso B — Componente nuevo (no existe en PrimeOne)
+
+```
+   DISEÑO                                  DEV
+   ──────                                  ───
+   1. Crea el componente en                
+      TU librería Smart Contact            
+      (no en el duplicado de Prime)        
+                                           
+   2. Define props/variants               
+      explícitos en Figma                  
+                                           
+   3. Documenta: cuándo se usa,            
+      qué tokens consume, qué              
+      estados tiene                        
+                                           
+   4.                          →           5. Construye un componente
+                                              Angular propio que
+                                              consume --sc-* tokens.
+                                              Vive en
+                                              src/app/shared/components/
+                                           
+                                           6. Si reusa componentes de
+                                              PrimeNG por dentro, los
+                                              envuelve (Nivel 4 de
+                                              customización)
+```
+
+#### Caso C — Bug / inconsistencia visual encontrada
+
+```
+   DISEÑO                                  DEV
+   ──────                                  ───
+   1. Captura de pantalla del              
+      bug en el producto                   
+                                           
+   2. Captura del mismo                    
+      componente en Figma                  
+      (cómo debería verse)                 
+                                           
+   3. Inspecciona en Figma:                
+      "el padding aquí es 12,              
+       pero en el producto está            
+       en 16. El token usado es            
+       formField.paddingX"                 
+                                           
+   4.                          →           5. Compara con aed-preset.ts.
+                                              Posibilidades:
+                                              a) El token no está
+                                                 mapeado y cae a Aura
+                                                 default → mapearlo
+                                              b) El componente usa
+                                                 otro token distinto
+                                                 → corregir el mapeo
+                                              c) Override CSS local
+                                                 lo está pisando →
+                                                 quitarlo
+                                           
+                                           6. PR con la corrección
+```
+
+### 5. Migraciones de PrimeNG — qué esperar
+
+PrimeNG publica versiones siguiendo SemVer:
+
+- **Patch (21.0.5 → 21.0.6)**: bug fixes, sin cambios visuales
+  notables. Aceptamos automáticamente, salvo regresiones.
+- **Minor (21.0 → 21.1)**: nuevos componentes, nuevos tokens,
+  ajustes menores. Revisamos changelog, testeamos en branch,
+  mergeamos si todo bien.
+- **Major (21 → 22)**: API breaking changes, tokens renombrados
+  o eliminados, posibles cambios visuales grandes. **Es un
+  proyecto pequeño en sí mismo** — branch dedicada, review
+  visual exhaustivo, posibles ajustes en `aed-preset.ts`.
+
+**Qué se rompe y por qué:**
+
+| Caso | ¿Se rompe? | Por qué |
+|---|---|---|
+| Aura saca shadows nuevas más sutiles | NO — mejoramos solos | Como overrideamos solo lo que queremos, lo no-overrideado hereda mejoras |
+| PrimeNG renombra `formField.paddingX` → `input.paddingX` | SÍ silenciosamente | Nuestro override sigue apuntando al nombre viejo. Componente cae a default Aura para el nuevo nombre. Síntoma: padding "raro" en inputs |
+| PrimeNG añade un componente nuevo (`<p-stepper>`) | NO | Nos lo encontramos disponible. Si lo usamos, decidimos qué overridear |
+| PrimeNG elimina un componente deprecado | SÍ duro | Tenemos que migrar a la alternativa. Es un cambio mayor — se planifica |
+| PrimeNG cambia anatomía interna (`.p-button-icon` → `.p-button-svg`) | SÍ si tenemos overrides CSS | Nuestro `::ng-deep` deja de matchear. Nivel 3 es frágil por esto |
+| PrimeNG cambia el shape del preset (e.g. `colorScheme.light.surface` → `colorScheme.light.background`) | SÍ duro | `aed-preset.ts` no compila. Lo arreglamos antes de mergear |
+
+**Nuestro proceso para una migración:**
+
+1. **Lectura del changelog** completo de la versión.
+2. **Branch dedicada** (`chore/primeng-22`).
+3. `npm update primeng @primeng/themes` en esa branch.
+4. **Lista de gaps**: tokens renombrados, componentes deprecados,
+   props cambiadas. Resolver uno a uno.
+5. **Visual smoke test** en deploy preview: navegar por las
+   pantallas principales (agentes, grupos, usuarios, config) y
+   buscar diferencias contra `main`.
+6. **Si hay cambios visuales no deseados**: añadir overrides en
+   `aed-preset.ts` para volver al look anterior, o aceptar los
+   cambios si son mejoras.
+7. **PR con captura de antes/después** de cualquier diferencia
+   visual significativa.
+8. **Merge** cuando dev + diseño hayan validado.
+
+### 6. Gotchas — cosas a tener en cuenta siempre
+
+**Tokens silenciosamente renombrados.**
+PrimeNG a veces renombra un token sin marcarlo como breaking
+porque "el valor sigue existiendo bajo otro nombre". Pero
+nuestro override apuntaba al nombre viejo. Síntoma: una zona
+del producto vuelve sutilmente a valores de Aura por defecto.
+**Solución**: en cada migración, listar nuestros overrides y
+verificar que cada uno sigue siendo un nombre válido en la
+nueva versión.
+
+**Dark mode aunque esté apagado.**
+Nuestro `aed-preset.ts` define overrides para `colorScheme.dark`
+aunque AED esté en light-only. Esto es intencional para no
+romper si algún día se activa. Pero ojo: si añades un token
+nuevo solo al `colorScheme.light`, en el momento que alguien
+active dark mode ese token caerá a default Aura → drift.
+**Solución**: cuando añadas un override en `light`, añade
+también el equivalente en `dark` aunque no se vaya a usar.
+
+**PassThrough no escala.**
+`pt` es perfecto para 1-2 sitios. Si lo usas en 10 sitios para
+el mismo componente, estás creando un mini-tema paralelo. Subir
+al Nivel 1 (token en preset) y consolidar.
+
+**`::ng-deep` está marcado como deprecated en Angular.**
+Funciona, lo usamos, pero Angular lo etiqueta como "podría
+desaparecer". Por ahora no hay alternativa real para penetrar
+en componentes externos. **Solución**: minimizar el uso,
+prefiriendo Nivel 4 (wrapping) cuando se pueda.
+
+**Custom mode en Figma no soporta TODOS los tokens de PrimeNG.**
+Solo los que el equipo de PrimeNG marcó como customizables en su
+kit. Si necesitas overridear un token que NO está en Custom
+mode (raro pero pasa), Theme Designer es la herramienta
+correcta — y luego se traduce a `aed-preset.ts`.
+
+---
+
 ## Casos típicos (formato STAR)
 
 > STAR = **S**ituación · **T**area · **A**cción · **R**esultado.
