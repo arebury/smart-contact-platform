@@ -10,6 +10,100 @@
 
 ---
 
+## 2026-05-11 · Session 22 — Configuración avanzada close-out + quality-bar polish (PR #29 + #30)
+
+> Two PRs merged into `main` (`357d61a` and `9465bec`). The user
+> reopened the work after Session 21 closed, wanting the
+> "Configuración avanzada" prototype fully shipped and reviewed
+> against the design quality bar via three skills.
+
+### Worked on
+
+- **PR #29** (`357d61a`) — Identity-card dedup. The user spotted that
+  the agent form let them edit photo + name in TWO places: the rich
+  sticky header (introduced Session 20) AND the in-card
+  `.identity-card__head` block. user-form and group-form already
+  followed the "header-only" pattern; the agent form was the lone
+  duplicator. Removed the `__head` HTML + the orphan `__head/__photo/
+  __name` SCSS. Identity card now starts with Email + Phone. Photo
+  and name editing is exclusive to the sticky header.
+
+- **PR #30** (`9465bec`) — Configuración avanzada close-out (the two
+  items DD#57 deferred) PLUS a polish pass from three review skills.
+
+  Close-out:
+  - `pickupTypeChat?: PickupType` added to `Agent`. Comportamiento
+    sub-section's first row now shows two pickup selects side by
+    side: "Descuelgue — Llamada" + "Descuelgue — Chat". Old generic
+    `agents.form.fields.pickup` label retired in favour of channel-
+    explicit `agents.form.advanced.comportamiento.pickup_{call,chat}`.
+  - `loginExtOverride?: boolean` added to `Agent`.
+  - **Sesión** flat sub-section added after Regional. Houses the
+    "Actualizar teléfono en login" toggle + (edit-mode only) a
+    "Seguridad" `__inset` block with an "Expirar contraseña"
+    secondary button. The button opens a danger-toned confirm dialog
+    via `ConfirmHostService`; on accept a success toast fires. No
+    Agent state mutated — the password lifecycle doesn't exist on
+    the model yet, this is the UX placeholder.
+
+  Polish (post `/ui-ux-pro-max` + `/impeccable` + `/design-taste-frontend`):
+  - **a11y**: every accordion `<button>` gained `aria-controls` →
+    body id; previously assistive tech had no traversal path.
+  - **i18n**: `{{count}} asignada(s)` (cheap parens) replaced with
+    real singular/plural keys (`count_one` / `count_many`) selected
+    via template `@if`. No ngx-translate ICU compiler needed.
+    "Labels" → "Etiquetas" (was English in a Spanish UI).
+  - **hierarchy**: accordion heads now have a subtle `hover` bg +
+    inset padding so they read as clickable from across the form.
+    Flat heads stay completely static (chevron presence is the
+    affordance).
+  - **density**: Comportamiento row 2 broke into a narrow
+    `maxChats` field + a standalone `randomOrder` `.perm-toggle-row`.
+    The previous attempt put them in a 2-col grid but their anatomy
+    didn't match (select + label-above vs toggle + label-inline). New
+    `.field--narrow` variant caps the select at 200px.
+  - **spacing**: sub-section body now applies `> .grid + .grid`
+    margin (was missing — adjacent grids touched).
+  - **micro**: accordion heads + `.btn` got `:active { scale(0.98) }`
+    per `.impeccable.md` principle 3.
+  - **polish**: `.picker-list__row-meta` (agenda numbers preview)
+    ellipsis + 240px cap; Plantillas master checkbox switched from
+    native `<input>` to `<aed-tri-state-checkbox>` so it reflects
+    none/some/all over the visible templates (consistent with
+    `.perm-matrix` headers in DD#55).
+  - **tokens**: `var(--sc-bg-elevated, #fff)` → `var(--sc-bg-elevated,
+    var(--sc-bg-surface))`. Pure `#fff` fallback violated
+    `.impeccable.md` banned-patterns.
+
+### Result
+
+- 2 PRs merged. main: `42d758b` → `9465bec`.
+- 163/163 tests pass throughout. tsc + lint + prettier + format
+  check all clean.
+- DD#57 prototype now FULLY shipped (deferred items from DD#57 in
+  `roadmap.md` cleared).
+- Working tree clean.
+
+### Outstanding
+
+Still tracked in `roadmap.md → 3.7 Agents`:
+- Column-visibility selector in agents list (UX win, needs
+  `MultiSelectChip` primitive)
+- Frozen-column data table
+- Photo upload preview
+- Default outbound group
+
+Phase 4 (README + docs) untouched.
+
+### Next session pickup
+
+- Tree state: `main` at `9465bec`. No pending branches.
+- Natural next move: column-visibility selector in agents list —
+  visible UX upgrade, opens the door to the shared `MultiSelectChip`
+  primitive that later screens can adopt.
+
+---
+
 ## 2026-05-11 · Session 21 — Cross-form audit closed + Configuración avanzada (PR #24 → #28)
 
 > Five PRs merged into `main`. Cerramos entero el audit de DD#54
