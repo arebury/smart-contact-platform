@@ -1,5 +1,11 @@
 # Design tokens
 
+> Looking for the friendly, design-side walkthrough in Spanish?
+> See [`GUIA.md`](./GUIA.md) — written for designers coming from Figma,
+> with STAR-format walkthroughs of common situations ("I changed a brand
+> color in Figma, how does it reach the product?", "I need a color that
+> doesn't exist yet", etc.). This README is the technical reference.
+
 The seven layers under `layers/` are the **single source of truth** for
 every visual decision in the application. All `--sc-*` custom properties
 live here, and PrimeNG `--p-*` variables are bridged to them in layer 6.
@@ -48,6 +54,8 @@ PrimeNG bridge (layer 6) reaches into all four.
    CSS file.
 2. Components must reference `--sc-*` tokens — never raw `#hex`, `Npx`,
    or numeric values for color, spacing, typography, or radius.
+   **Fallback hex (`var(--sc-x, #aaa)`) counts as raw hex.** If you need
+   a fallback, the token doesn't exist yet — add it to a layer.
 3. When adding a token, place it in the lowest applicable layer first
    (primitive → semantic → palette/component → extension), never higher
    up. If PrimeNG components need to consume it, also map the matching
@@ -56,6 +64,49 @@ PrimeNG bridge (layer 6) reaches into all four.
    alias above picks up the change automatically — including PrimeNG
    components, because the preset's values are `var(--sc-*)` references
    that resolve through the cascade.
+
+## "Which layer does my new token belong to?"
+
+The mental model mirrors PrimeNG's: **primitive → semantic → component**,
+plus two AED-only layers for things PrimeNG doesn't model.
+
+| You want to express... | Layer | Examples |
+| --- | --- | --- |
+| A raw value (a specific gray, a specific radius step) | **01-primitive** | `--sc-color-gray-200`, `--sc-radius-200`, `--sc-spacing-250` |
+| A *role* in the UI ("text-primary", "bg-surface", "border-default") | **02-semantic** | `--sc-text-primary`, `--sc-bg-surface`, `--sc-border-focus` |
+| An AED-specific domain palette (agent presence, group priority, label color) | **03-palette** | `--sc-presence-available`, `--sc-priority-medium-deep`, `--sc-label-amber-bg` |
+| A pre-baked spec for a specific reusable component | **04-component** | `--sc-btn-primary-bg`, `--sc-modal-radius`, `--sc-toast-padding-x` |
+| Something PrimeNG doesn't model: z-index scale, motion, layout dims, shadow recipes | **05-extensions** | `--sc-z-modal`, `--sc-transition-fast`, `--sc-shadow-card`, `--sc-topbar-height` |
+
+**Quick test when you reach for a value in a component's SCSS:**
+
+1. Is this a *role* (border on focus, text muted, surface elevated)?
+   → semantic. Use it.
+2. Is it a *specific scale step* (gray-200, blue-500, spacing-300)?
+   → primitive. Use it directly only if no semantic role exists. If
+   you're using `--sc-color-blue-500` for "the primary brand color",
+   reach for `--sc-bg-primary` instead.
+3. Is it a *component spec* (button padding, modal radius)?
+   → component layer. If it's a one-off, declare locally in the
+   component SCSS — don't pollute the global component layer.
+4. Is it *specific to AED's domain* (agent state, group priority)?
+   → palette.
+
+**When in doubt:** semantic over primitive. The semantic alias rarely
+needs to change, but if it does, every consumer updates with it.
+
+## PrimeNG-as-reference
+
+When PrimeNG names a concept (`text.mutedColor`, `formField.shadow`,
+`overlay.select.background`), **map our token to PrimeNG's name in the
+preset, not the other way around**. PrimeNG's vocabulary is the
+upstream source — `aed-preset.ts` is the bridge.
+
+Where AED's semantic name diverges from PrimeNG's (e.g. our
+`--sc-text-secondary` ↔ PrimeNG's `text.mutedColor`), the divergence
+is intentional but **documented in the preset comments**, never
+silent. New contributors coming from PrimeNG docs should be able to
+trace any PrimeNG concept to the AED token it maps to.
 
 ## Adding a new token
 

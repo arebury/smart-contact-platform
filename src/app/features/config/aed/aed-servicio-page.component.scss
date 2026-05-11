@@ -91,19 +91,19 @@
     flex-shrink: 0;
 
     &[data-tone='cyan'] {
-      background: var(--sc-color-cyan-500, #5ad3e6);
+      background: var(--sc-color-soft-blue-500);
     }
     &[data-tone='green'] {
-      background: var(--sc-color-green-500, #22c55e);
+      background: var(--sc-color-green-500);
     }
     &[data-tone='amber'] {
-      background: var(--sc-color-amber-500, #f59e0b);
+      background: var(--sc-color-yellow-500);
     }
     &[data-tone='red'] {
-      background: var(--sc-color-red-500, #ef4444);
+      background: var(--sc-color-red-500);
     }
     &[data-tone='gray'] {
-      background: var(--sc-color-gray-400, #aeb6c2);
+      background: var(--sc-color-gray-400);
     }
   }
 }
