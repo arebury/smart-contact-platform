@@ -458,6 +458,91 @@ input[type='checkbox'] {
     font-size: var(--sc-font-size-50);
     color: var(--sc-text-subtle);
   }
+
+  /* "Inset" — soft-bounded sub-block inside a sub-section body.
+   * Used by the Sesión > Seguridad cluster to set the password-expire
+   * action apart from the toggle above without introducing a new
+   * sub-section divider. */
+  &__inset {
+    margin-top: var(--sc-spacing-400);
+    padding-top: var(--sc-spacing-300);
+    border-top: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+  }
+
+  &__inset-head {
+    font-size: var(--sc-font-size-50);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--sc-text-subtle);
+    font-weight: var(--sc-font-weight-semibold);
+    margin-bottom: var(--sc-spacing-200);
+  }
+
+  &__inset-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sc-spacing-400);
+  }
+
+  &__inset-copy {
+    min-width: 0;
+  }
+
+  &__inset-label {
+    display: block;
+    font-size: var(--sc-font-size-200);
+    font-weight: var(--sc-font-weight-medium);
+    color: var(--sc-text-primary);
+  }
+
+  &__inset-hint {
+    margin: 4px 0 0;
+    font-size: var(--sc-font-size-75);
+    color: var(--sc-text-subtle);
+  }
+}
+
+/* perm-toggle-row variant for use inside a grid cell — drops the
+ * bottom-border (the parent grid handles row separation). Keeps the
+ * row visually aligned with a sibling `<select>` of the same height. */
+.perm-toggle-row--in-grid {
+  border-bottom: 0;
+  padding-top: 0;
+  align-self: end;
+  min-height: 38px;
+}
+
+/* `.btn` styling for action buttons projected inside a sub-section.
+ * The base `.btn` lives in shared/components/sticky-form-header but
+ * isn't a global primitive yet; we re-declare a slim version here for
+ * the Sesión > Expirar contraseña secondary action. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  padding: var(--sc-spacing-100) var(--sc-spacing-300);
+  font-size: var(--sc-font-size-100);
+  font-weight: var(--sc-font-weight-medium);
+  border-radius: var(--sc-radius-100);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background var(--sc-transition-fast) var(--sc-easing-default);
+
+  &--ghost {
+    color: var(--sc-text-secondary);
+    background: var(--sc-bg-surface);
+    border-color: var(--sc-border-default);
+
+    &:hover {
+      background: var(--sc-bg-secondary-hover);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-soft-blue-500);
+    outline-offset: 2px;
+  }
 }
 
 /*

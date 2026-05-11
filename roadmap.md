@@ -95,9 +95,9 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 - ✅ List page: 16 seed agents with extension type badge, channel chips, presence pill (color-coded), status pill, bulk delete, XLSX export
 - ✅ Create / edit form: 5 sections (identity / contact / channels / groups / permissions matrix split into devices/calls/transfers)
 - ✅ "Configuración avanzada" section (2026-05-11, DD#57): single card with progressive-disclosure sub-sections (Labels accordion + Comportamiento/Integración/Regional flat). Surfaces `pickupType`, `randomOrder`, `maxChats`, `iframeUrl`, `externalDevices`, `languages`, `labels`.
-- ⬜ **Deferred from prototype's "Configuración avanzada":**
-  - Pickup type — Chat — needs new `pickupTypeChat` field on Agent (today only one global `pickupType`).
-  - Sesión sub-section — needs `loginExtOverride` field + "Expirar contraseña" dialog/action.
+- ✅ **Prototype "Configuración avanzada" closed (2026-05-11):**
+  - `pickupTypeChat` field added; Comportamiento now shows pickup-call + pickup-chat side by side.
+  - Sesión sub-section shipped: `loginExtOverride` toggle + "Seguridad > Expirar contraseña" action with confirm dialog and toast (no Agent state change — action is a UX placeholder until real password flow exists).
 - ⬜ **Deferred (older):** column-visibility selector (with localStorage persistence), frozen-column data table, photo upload preview, language multi-select, default outbound group. Lands with shared `MultiSelectChip` and `FileUpload` primitives.
 
 ## Phase 4 — Full README + technical docs ⬜

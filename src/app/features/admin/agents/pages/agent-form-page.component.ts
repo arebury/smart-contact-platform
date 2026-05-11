@@ -29,11 +29,13 @@ import {
   X,
   FileStack,
   MessageSquare,
+  LogIn,
+  Key,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
-import { CrossTabLockService } from '@core/services';
+import { ConfirmHostService, CrossTabLockService } from '@core/services';
 import { EMAIL_RE, PIN_RE } from '@core/utils/validators';
 import {
   DeleteEntityDialogComponent,
@@ -110,9 +112,11 @@ interface FormState {
   email: string;
   pin: string;
   pickupType: PickupType;
+  pickupTypeChat: PickupType;
   randomOrder: boolean;
   maxChats: number;
   iframeUrl: string;
+  loginExtOverride: boolean;
   links: readonly GroupAgentLink[];
   permissions: AgentPermissions;
   photo: string | null;
@@ -155,6 +159,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly labelsStore = inject(LabelsStore);
   private readonly templatesStore = inject(TemplatesStore);
   private readonly agendasStore = inject(AgendasStore);
+  private readonly confirmHost = inject(ConfirmHostService);
 
   protected readonly mailIcon = Mail;
   protected readonly phoneIcon = Phone;
@@ -172,6 +177,8 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly xIcon = X;
   protected readonly fileStackIcon = FileStack;
   protected readonly chatIcon = MessageSquare;
+  protected readonly logInIcon = LogIn;
+  protected readonly keyIcon = Key;
 
   /** Open state of each accordion sub-section inside "Configuración avanzada".
    * All start collapsed so the section reads as a quiet summary (count
@@ -451,9 +458,11 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         email: agent.email ?? '',
         pin: agent.pin ?? '',
         pickupType: agent.pickupType ?? 'auto',
+        pickupTypeChat: agent.pickupTypeChat ?? 'auto',
         randomOrder: agent.randomOrder ?? false,
         maxChats: agent.maxChats ?? 4,
         iframeUrl: agent.iframeUrl ?? '',
+        loginExtOverride: agent.loginExtOverride ?? false,
         links: this.linksStore.linksForAgent(agent.id),
         permissions: { ...agent.permissions },
         photo: agent.photo ?? null,
@@ -505,6 +514,31 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected onPickupChange(event: Event): void {
     this.updateField('pickupType', (event.target as HTMLSelectElement).value as PickupType);
+  }
+
+  protected onPickupChatChange(event: Event): void {
+    this.updateField('pickupTypeChat', (event.target as HTMLSelectElement).value as PickupType);
+  }
+
+  protected onLoginExtOverrideChange(checked: boolean): void {
+    this.updateField('loginExtOverride', checked);
+  }
+
+  protected async requestExpirePassword(): Promise<void> {
+    const name = this.form().name || this.translate.instant('agents.entity_singular');
+    const ok = await this.confirmHost.request({
+      title: this.translate.instant('agents.form.advanced.sesion.expire_title'),
+      body: this.translate.instant('agents.form.advanced.sesion.expire_body', { name }),
+      acceptLabel: this.translate.instant('agents.form.advanced.sesion.expire_accept'),
+      rejectLabel: this.translate.instant('common.cancel'),
+      acceptTone: 'danger',
+    });
+    if (!ok) return;
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('agents.form.advanced.sesion.expire_toast', { name }),
+      life: 3000,
+    });
   }
 
   protected onRandomOrderChange(checked: boolean): void {
@@ -620,9 +654,11 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         pin: f.pin.trim() || undefined,
         permissions: f.permissions,
         pickupType: f.pickupType,
+        pickupTypeChat: f.pickupTypeChat,
         randomOrder: f.randomOrder,
         maxChats: f.maxChats,
         iframeUrl: f.iframeUrl.trim() || undefined,
+        loginExtOverride: f.loginExtOverride,
         photo: f.photo ?? undefined,
         languages: f.languages.length > 0 ? f.languages : undefined,
         labels: f.labelIds.size > 0 ? Array.from(f.labelIds) : undefined,
@@ -711,9 +747,11 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       email: '',
       pin: '',
       pickupType: 'auto',
+      pickupTypeChat: 'auto',
       randomOrder: false,
       maxChats: 4,
       iframeUrl: '',
+      loginExtOverride: false,
       links: [],
       permissions: { ...DEFAULT_AGENT_PERMISSIONS },
       photo: null,

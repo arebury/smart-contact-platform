@@ -725,10 +725,11 @@
                 </span>
               </div>
               <div class="sub-section__body">
+                <!-- Pickup type per channel — call + chat side by side. -->
                 <div class="grid grid--2">
                   <div class="field">
                     <label class="field__label" for="agent-pickup">
-                      {{ 'agents.form.fields.pickup' | translate }}
+                      {{ 'agents.form.advanced.comportamiento.pickup_call' | translate }}
                     </label>
                     <select
                       id="agent-pickup"
@@ -746,6 +747,28 @@
                   </div>
 
                   <div class="field">
+                    <label class="field__label" for="agent-pickup-chat">
+                      {{ 'agents.form.advanced.comportamiento.pickup_chat' | translate }}
+                    </label>
+                    <select
+                      id="agent-pickup-chat"
+                      class="field__input"
+                      [value]="form().pickupTypeChat"
+                      (change)="onPickupChatChange($event)"
+                    >
+                      <option value="auto">
+                        {{ 'agents.form.fields.pickup_auto' | translate }}
+                      </option>
+                      <option value="manual">
+                        {{ 'agents.form.fields.pickup_manual' | translate }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Chats simultáneos (chat-only setting) + Orden aleatorio. -->
+                <div class="grid grid--2">
+                  <div class="field">
                     <label class="field__label" for="agent-max-chats">
                       {{ 'agents.form.advanced.comportamiento.max_chats' | translate }}
                     </label>
@@ -760,29 +783,30 @@
                       }
                     </select>
                   </div>
-                </div>
-
-                <div class="perm-toggle-row">
-                  <div class="perm-toggle-row__copy">
-                    <span class="perm-toggle-row__label">
-                      {{ 'agents.form.advanced.comportamiento.random_order' | translate }}
-                    </span>
-                    <button
-                      type="button"
-                      class="perm-toggle-row__info"
-                      [attr.aria-label]="
-                        'agents.form.advanced.comportamiento.random_order_hint' | translate
-                      "
-                      [title]="'agents.form.advanced.comportamiento.random_order_hint' | translate"
-                    >
-                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
-                    </button>
+                  <div class="perm-toggle-row perm-toggle-row--in-grid">
+                    <div class="perm-toggle-row__copy">
+                      <span class="perm-toggle-row__label">
+                        {{ 'agents.form.advanced.comportamiento.random_order' | translate }}
+                      </span>
+                      <button
+                        type="button"
+                        class="perm-toggle-row__info"
+                        [attr.aria-label]="
+                          'agents.form.advanced.comportamiento.random_order_hint' | translate
+                        "
+                        [title]="
+                          'agents.form.advanced.comportamiento.random_order_hint' | translate
+                        "
+                      >
+                        <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                      </button>
+                    </div>
+                    <aed-toggle-switch
+                      [checked]="form().randomOrder"
+                      [ariaLabel]="'agents.form.advanced.comportamiento.random_order' | translate"
+                      (checkedChange)="onRandomOrderChange($event)"
+                    />
                   </div>
-                  <aed-toggle-switch
-                    [checked]="form().randomOrder"
-                    [ariaLabel]="'agents.form.advanced.comportamiento.random_order' | translate"
-                    (checkedChange)="onRandomOrderChange($event)"
-                  />
                 </div>
               </div>
             </section>
@@ -882,6 +906,66 @@
                     }
                   </div>
                 </div>
+              </div>
+            </section>
+
+            <!-- Sesión (flat sub-section) -->
+            <section class="sub-section">
+              <div class="sub-section__head sub-section__head--flat">
+                <lucide-icon [img]="logInIcon" [size]="13" aria-hidden="true" />
+                <span class="sub-section__title">
+                  {{ 'agents.form.advanced.sesion.title' | translate }}
+                </span>
+              </div>
+              <div class="sub-section__body">
+                <div class="perm-toggle-row">
+                  <div class="perm-toggle-row__copy">
+                    <span class="perm-toggle-row__label">
+                      {{ 'agents.form.advanced.sesion.login_ext_override' | translate }}
+                    </span>
+                    <button
+                      type="button"
+                      class="perm-toggle-row__info"
+                      [attr.aria-label]="
+                        'agents.form.advanced.sesion.login_ext_override_hint' | translate
+                      "
+                      [title]="'agents.form.advanced.sesion.login_ext_override_hint' | translate"
+                    >
+                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                    </button>
+                  </div>
+                  <aed-toggle-switch
+                    [checked]="form().loginExtOverride"
+                    [ariaLabel]="'agents.form.advanced.sesion.login_ext_override' | translate"
+                    (checkedChange)="onLoginExtOverrideChange($event)"
+                  />
+                </div>
+
+                @if (mode() === 'edit') {
+                  <div class="sub-section__inset">
+                    <div class="sub-section__inset-head">
+                      {{ 'agents.form.advanced.sesion.security' | translate }}
+                    </div>
+                    <div class="sub-section__inset-row">
+                      <div class="sub-section__inset-copy">
+                        <span class="sub-section__inset-label">
+                          {{ 'agents.form.advanced.sesion.expire_pwd' | translate }}
+                        </span>
+                        <p class="sub-section__inset-hint">
+                          {{ 'agents.form.advanced.sesion.expire_pwd_hint' | translate }}
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        class="btn btn--ghost"
+                        (click)="requestExpirePassword()"
+                      >
+                        <lucide-icon [img]="keyIcon" [size]="14" aria-hidden="true" />
+                        {{ 'agents.form.advanced.sesion.expire_pwd' | translate }}
+                      </button>
+                    </div>
+                  </div>
+                }
               </div>
             </section>
           </aed-section-card>
