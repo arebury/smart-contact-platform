@@ -47,13 +47,21 @@ Imagina tres "idiomas" hablando del mismo color:
 
 ---
 
-## Las 5 "plantas" del sistema (la cascada)
+## Las plantas del sistema (la cascada)
 
-Piensa en los tokens como un edificio de 5 plantas. Cuanto más
-abajo, más "crudo" es el valor. Cuanto más arriba, más cerca está
-de un componente concreto.
+Piensa en los tokens como un edificio. Cuanto más abajo, más
+"crudo" es el valor. Cuanto más arriba, más cerca está de un
+componente concreto.
+
+El sistema tiene **7 plantas en total** (las verás numeradas
+así en el `README.md` técnico y en los nombres de los archivos
+en `layers/`):
 
 ```
+   PLANTA 7: dark mode        overrides oscuros del producto
+   ─────────────────────       (DESACTIVADA — AED es light-only)
+   PLANTA 6: bridge PrimeNG   conecta --p-* (PrimeNG) con --sc-*
+   ─────────────────────       (cocina interna, vive en aed-preset.ts)
    PLANTA 5: extensiones      z-index, motion, sombras del producto
    ─────────────────────       (cosas que PrimeNG no contempla)
    PLANTA 4: componentes      "el botón primario por dentro"
@@ -65,6 +73,20 @@ de un componente concreto.
    PLANTA 1: primitivos       el azul-500 crudo, los 12px, el radio-200
    ─────────────────────       (los valores absolutos)
 ```
+
+**Para ti como diseñadora, las 5 plantas que importan son la 1
+hasta la 5.** Las plantas 6 y 7 existen pero no las tocas
+nunca:
+
+- **Planta 6 (bridge PrimeNG)** — un "traductor" que vive en el
+  archivo `aed-preset.ts`. Su único trabajo es decir "el color
+  primario de PrimeNG ES el `--sc-bg-primary` de AED". Es código
+  TypeScript, no CSS. El dev team lo gestiona; tú no escribes ahí.
+- **Planta 7 (dark mode)** — un archivo (`07-dark.css`) que
+  redefine los colores cuando alguien activa modo oscuro. AED
+  está **siempre en modo claro** por decisión de marca
+  (operadores en oficinas iluminadas, ergonomía > estética). Esa
+  planta existe por arquitectura pero está apagada.
 
 ### ¿Cuándo está cada cosa en cada planta?
 
@@ -128,14 +150,17 @@ Ejemplos: `--sc-z-modal`, `--sc-transition-fast`,
   avísanos para validar en pantallas.
 
 ### 🚫 Mejor no toques (déjalo al dev team)
-- **`--p-*` (variables de PrimeNG)**: NUNCA se declaran a mano.
-  Las gestiona un archivo de configuración (`aed-preset.ts`) que
-  ya enlaza cada `--p-*` con un `--sc-*`. Si necesitas que un
-  componente de PrimeNG se vea distinto, lo correcto es cambiar
-  el `--sc-*` al que ya está apuntando, no inventar variables.
+- **Planta 6 — `aed-preset.ts`**: el "bridge" entre PrimeNG y AED.
+  NUNCA se declaran variables `--p-*` a mano; este archivo ya
+  enlaza cada una con un `--sc-*`. Si necesitas que un componente
+  de PrimeNG se vea distinto, lo correcto es cambiar el `--sc-*`
+  al que ya está apuntando, no inventar variables nuevas.
+- **Planta 7 — `07-dark.css`**: modo oscuro. Está apagado por
+  decisión de marca, pero el archivo existe. No lo tocamos sin un
+  cambio de estrategia explícito.
 - **El orden de las plantas** (la cascada): si añades un valor en
   la planta equivocada, se pueden producir bucles infinitos o que
-  el modo oscuro no funcione.
+  el modo oscuro no funcione si algún día se activara.
 - **Archivos en `src/app/core/tokens/layers/`** directamente sin
   hablarlo: si necesitas un valor nuevo, hablamos para decidir en
   qué planta vive.
