@@ -19,11 +19,11 @@
   border-radius: var(--sc-radius-200);
 
   /* Compact variant — used when the nav lives inside a transparent rail.
-   * Keeps the bordered "block" framing so the index reads as a contained
-   * unit, but drops the surface fill so the page background shows
-   * through. */
+   * Keeps the bordered "block" framing (border + radius + padding) and
+   * the white surface fill so the index reads as a contained card sitting
+   * on the page background. */
   &--compact {
-    background: transparent;
+    /* same chrome as base — placeholder so consumers can still target it */
   }
 }
 
