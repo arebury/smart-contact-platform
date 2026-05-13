@@ -58,15 +58,12 @@
   flex-direction: column;
   gap: var(--sc-spacing-300);
   padding: var(--sc-spacing-400);
-  background: var(--sc-bg-surface);
-  border-right: 1px solid var(--sc-border-default);
+  background: transparent;
   overflow-y: auto;
 
   @media (max-width: 1024px) {
     position: static;
     height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--sc-border-default);
   }
 }
 

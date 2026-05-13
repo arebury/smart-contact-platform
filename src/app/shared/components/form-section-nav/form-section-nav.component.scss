@@ -18,13 +18,12 @@
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-200);
 
-  /* When embedded inside another rail (hybrid identity panel), drop the
-   * outer card chrome — the parent already provides the surface. */
+  /* Compact variant — used when the nav lives inside a transparent rail.
+   * Keeps the bordered "block" framing so the index reads as a contained
+   * unit, but drops the surface fill so the page background shows
+   * through. */
   &--compact {
-    padding: 0;
     background: transparent;
-    border: 0;
-    border-radius: 0;
   }
 }
 
