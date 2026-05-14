@@ -235,7 +235,48 @@ En Netlify UI, **2 sites desde el mismo repo `arebury/smart-contact-platform`**:
 
 **Memory site**: queda como está conectado a su repo viejo. Lo migramos en Fase 3 (no en esta sesión).
 
-### 1.9 Cierre Fase 1
+### 1.9 Memoria multi-nivel (anti-bloat)
+
+El sistema de memoria escala a 3+ proyectos sin que se infle. 4 niveles:
+
+**L1 — User global** (`~/CLAUDE.md`):
+- Cross-project, machine-específico.
+- Cosas SOBRE Rafa que no cambian (non-dev, español plano, no devaluar
+  lo ya hecho, session-end protocol).
+- MAX 5 KB.
+- Migrar AQUÍ: `feedback_communication_style`, `feedback_session_end_protocol`,
+  `feedback_devaluation_existing_work`, `feedback_no_audit_docs` del current
+  `~/.claude/projects/-Users-rafareses-Desktop-AED/memory/`.
+
+**L2 — Monorepo root** (`smart-contact-platform/CLAUDE.md`):
+- En repo, compartido con team.
+- Cross-app: cómo orquestan aed/memory/ds-docs/design-system entre sí.
+- MAX 8 KB.
+- Migrar AQUÍ (contenido de memorias previas): operativa Netlify multi-site,
+  plan refactor estructural (si se reactiva algún día).
+
+**L3 — Por app/package** (`apps/<x>/CLAUDE.md`, `packages/<x>/CLAUDE.md`):
+- En repo, compartido con team.
+- Específico de cada proyecto.
+- MAX 10 KB.
+- AED: específico-AED quirks (puede heredar feedback_no_layout_shift, etc).
+
+**L4 — AI auto-memory** (`~/.claude/projects/<encoded>/memory/`):
+- Machine-específico. Supplementario.
+- Detalles que no merecen estar en repo.
+- MAX 5 KB por archivo. MAX 25 líneas el `MEMORY.md` index.
+
+**Política de pruning**:
+- Cada session-end, Claude revisa: ¿algún archivo pasa del tope? Compactar o split.
+- Memorias efímeras ("hicimos X en sesión Y") se compactan a `DECISIONS.md` y se eliminan tras 1-2 sesiones.
+- Trimestral: revisión de memorias staleness. Borrar lo que ya no aplica.
+
+**Naming consistency** (para filtrado rápido):
+- `feedback_*.md` — preferencias del usuario.
+- `reference_*.md` — hechos del codebase / arquitectura.
+- `project_*.md` — estado de proyectos.
+
+### 1.10 Cierre Fase 1
 
 Una vez todo lo de arriba listo:
 - PR `chore/sc-monorepo` con todo el cambio.
