@@ -1,0 +1,100 @@
+:host {
+  display: block;
+  /* See note in agent-form-page.component.scss (DD#57): `min-height`
+   * keeps the sticky-form-header / sticky rail in scope when the form
+   * grows past one viewport. */
+  min-height: 100%;
+  background: var(--sc-bg-default);
+}
+
+.page {
+  background: var(--sc-bg-default);
+
+  &__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--sc-spacing-500) var(--sc-spacing-600);
+
+    /*
+     * Identity-panel layout — see group-form for the full pattern doc.
+     */
+    &--with-panel {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 0;
+
+      @media (max-width: 1024px) {
+        grid-template-columns: 1fr;
+      }
+    }
+  }
+
+  &__form {
+    min-width: 0;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--sc-spacing-500) var(--sc-spacing-600);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+/* Rail — section index only. Identity (photo + pills + email) lives in
+ * the rich sticky header at the top of the page. */
+.ipanel {
+  position: sticky;
+  top: var(--sc-form-panel-top, 80px);
+  align-self: start;
+  height: calc(100dvh - var(--sc-form-panel-top, 80px));
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-400);
+  background: transparent;
+  overflow-y: auto;
+
+  @media (max-width: 1024px) {
+    position: static;
+    height: auto;
+  }
+}
+
+/* Header meta line — projected into <sc-sticky-form-header> */
+.header-meta__chunk {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-100);
+  color: var(--sc-text-secondary);
+  font-size: var(--sc-font-size-100);
+
+  > lucide-icon {
+    flex: 0 0 auto;
+    color: var(--sc-icon-subtle);
+  }
+}
+
+/*
+ * `.grid`, `.field`, `.checkbox-grid` (incl. `--services`),
+ * `.checkbox-row`, `.pill` (base + `--type` + `--status-*`) are
+ * now defined in `src/styles/_forms.scss` (DD#53, DD#56). Local
+ * override below: only the `--child` indent modifier and a slightly
+ * taller padding (8px vs the global 4px) specific to user-form's
+ * permission lists.
+ */
+.checkbox-row {
+  padding: var(--sc-spacing-100) 0;
+
+  &--child {
+    padding-left: var(--sc-spacing-500);
+  }
+}
+
+input[type='checkbox'] {
+  accent-color: var(--sc-bg-primary);
+  cursor: pointer;
+  vertical-align: middle;
+}

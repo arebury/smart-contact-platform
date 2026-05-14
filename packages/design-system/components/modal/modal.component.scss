@@ -1,0 +1,153 @@
+/*
+ * Modal card chrome. The PrimeNG `<p-dialog>` host is reset to
+ * transparent (see `:host ::ng-deep .sc-modal-host` below) so the
+ * visible chrome is entirely this `.sc-modal` block.
+ */
+.sc-modal {
+  display: flex;
+  flex-direction: column;
+  background: var(--sc-modal-bg);
+  border: 1px solid var(--sc-modal-border);
+  border-radius: var(--sc-modal-radius);
+  box-shadow: var(--sc-modal-shadow);
+  /* Cap height so very long body content scrolls inside the modal */
+  max-height: min(85vh, 720px);
+
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
+    border-bottom: 1px solid var(--sc-modal-divider);
+  }
+
+  &__head-icon {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sc-modal-head-icon-fg);
+    /* Reserve a fixed slot so adding/removing the icon never shifts the
+     * title baseline. */
+    width: 16px;
+    height: 28px; /* matches title line-height so they align on baseline */
+  }
+
+  &__head-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--sc-font-family-h4);
+    font-weight: var(--sc-font-weight-h4);
+    font-size: var(--sc-font-size-h4);
+    line-height: var(--sc-line-height-h4);
+    color: var(--sc-modal-title);
+    /* Long titles wrap; never truncate (the user needs to read what
+     * they're confirming). */
+    word-break: break-word;
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-family: var(--sc-font-family-body-2);
+    font-weight: var(--sc-font-weight-body-2);
+    font-size: var(--sc-font-size-body-2);
+    line-height: var(--sc-line-height-body-2);
+    color: var(--sc-modal-subtitle);
+  }
+
+  &__close {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--sc-modal-close-fg);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--sc-modal-close-bg-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    overflow-y: auto;
+    padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
+    color: var(--sc-modal-title);
+  }
+
+  &__foot {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    /* Two adjacent buttons (especially when both are styled equally — e.g.
+     * "Sí, descartar" vs "Seguir editando") need breathing room so the
+     * user reads them as opposing choices, not one wide bar split. */
+    gap: var(--sc-spacing-600);
+    padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
+    border-top: 1px solid var(--sc-modal-divider);
+  }
+
+  /* Bodyless dialogs (confirm-host etc.) have no body padding between
+   * head and foot, so the head's border-bottom + foot's border-top
+   * collapse into a single visible line in the gap. Drop both — the
+   * dialog reads as one continuous block. */
+  &--bodyless &__head {
+    border-bottom: 0;
+  }
+
+  &--bodyless &__foot {
+    border-top: 0;
+  }
+}
+
+/*
+ * PrimeNG `<p-dialog>` wraps our content in a styled container that
+ * paints its own background, border and padding. Strip those so the
+ * `.sc-modal` card we render is the only visible chrome.
+ */
+:host ::ng-deep .sc-modal-host {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+:host ::ng-deep .sc-modal-host .p-dialog-content {
+  background: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+}
+
+/*
+ * Buttons projected via `<div modal-actions>` need a minimum width and an
+ * equal-share flex behaviour so that "Descartar" / "Seguir editando" read
+ * as two balanced choices rather than one tight pill and one wide one.
+ * The rule has to live at the top level (outside `.sc-modal {}`) because
+ * `:host` is a pseudo-class on the component element — nesting it inside
+ * a descendant selector would resolve to `.sc-modal :host …` and match
+ * nothing. Content projection puts these buttons outside this component's
+ * encapsulated scope, so `::ng-deep` is the cleanest piercing path.
+ */
+:host ::ng-deep .sc-modal__foot .btn {
+  min-width: 128px;
+}

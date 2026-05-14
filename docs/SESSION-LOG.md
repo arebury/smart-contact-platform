@@ -10,6 +10,82 @@
 
 ---
 
+## 2026-05-14 · Session 27 — Monorepo foundation (Smart Contact Platform) — branch `chore/sc-monorepo`
+
+> Pasamos de single-app (`arebury/aed`) a monorepo (`arebury/smart-contact-platform`)
+> con npm workspaces. Tres slots: `apps/aed/`, `apps/ds-docs/` (nuevo, scaffold mínimo),
+> `packages/design-system/` (los 24 componentes + tokens). Brand prefix `aed-` → `sc-`
+> en 126 archivos, preservando `features/config/aed/` (feature name, no marca).
+> Build verde en ambas apps.
+
+### Worked on
+
+- **Renombrado repo en GitHub**: `arebury/aed` → `arebury/smart-contact-platform`
+  (vía `gh api PATCH`). Remote local actualizado, Netlify auto-redirect.
+- **Estructura nueva**:
+  - `apps/aed/src/` (todo lo de `src/app/core,features,shared` excepto `shared/components`).
+  - `packages/design-system/components/` (los 24 componentes shared).
+  - `packages/design-system/tokens/` (las 7 capas + `sc-preset.ts`).
+  - `apps/ds-docs/src/` (Angular app nueva: home + button gallery extraído de `dev/`).
+- **Configs**:
+  - `angular.json` multi-project (aed + ds-docs, prefix `sc`).
+  - `package.json` con `workspaces: ["apps/*", "packages/*"]`.
+  - Per-app `package.json` con `name: @sc/<app>`.
+  - `tsconfig.json` con `paths` fallback (`@shared/*` resuelve a packages/ds si no existe en apps/aed/).
+  - `apps/<app>/tsconfig.app.json` extends de root.
+  - `netlify.toml` apunta a `dist/aed/browser`; instrucciones para 2do site en UI.
+- **Rename aed→sc** (126 archivos): brand prefix → `sc-` con perl quirurgico
+  (patrones `<aed-`, `'aed-`, `.aed-`, `--aed-`); luego segunda pasada `\baed-` global
+  excluyendo `features/config/aed/`. `AedPreset` → `ScPreset`, file también.
+  `.aed-dark` → `.sc-dark` global. `<aed-root>` → `<sc-root>`.
+- **Memory multi-nivel** (Fase 1.9 del plan):
+  - `/CLAUDE.md` (raíz, monorepo orchestration).
+  - `apps/aed/CLAUDE.md` (AED-specific).
+  - `apps/ds-docs/CLAUDE.md` (ds-docs-specific).
+  - `packages/design-system/CLAUDE.md` (SCDS conventions).
+  - `packages/design-system/docs/MIGRATION-INVENTORY.md` con los 24 componentes + status.
+- **Docs split**:
+  - `docs/CLAUDE.md` original (audit) → `packages/design-system/docs/CLAUDE.md`.
+  - `docs/memory.md` → `apps/aed/docs/MEMORY.md`.
+  - `docs/DECISIONS.md`, `DECISIONES.md`, `ROADMAP.md` → `apps/aed/docs/`.
+  - `docs/audit/`, `phase-0-analysis.md`, `design-system.md`, `impeccable.md` → `packages/design-system/docs/`.
+  - `docs/refactor-structure/` → `docs/archive/` (NO-GO cerrado).
+  - `docs/SESSION-LOG.md` y `NEXT-SESSION-PLAN.md` quedan en `/docs/` (cross-project).
+
+### Decisiones clave
+
+- **npm workspaces, NO pnpm** (desviación documentada del NEXT-SESSION-PLAN). Razón:
+  pnpm no instalado local + Netlify ya cableado con npm + Memory 3.0 (que usa pnpm)
+  vive en repo separado, no se migra en esta fase. Easy switch a pnpm más tarde si se
+  quiere.
+- **Carpeta `features/config/aed/` se queda con nombre `aed/`** (feature, no marca).
+  Clases `AedAgentesPageComponent` etc también. Solo el selector se vuelve
+  `sc-aed-agentes-page` (brand prefix + feature name).
+- **TS paths con array fallback**: `@shared/*` resuelve a `apps/aed/src/app/shared/*`
+  Y a `packages/design-system/*` (en ese orden). Permite mover archivos sin tocar
+  imports.
+
+### Verificación
+
+- `npx ng build aed --configuration=development` → ✓ (3.7 s, 49 chunks).
+- `npx ng build ds-docs --configuration=development` → ✓ (3.1 s, 7 chunks).
+
+### Lo que queda fuera de esta sesión
+
+- Configurar el 2do site Netlify (ds-docs) en la UI — Rafa debe hacerlo.
+- Actualizar `packages/design-system/tokens/README.md` y `design-system.md`
+  para reflejar rename `.aed-dark` → `.sc-dark` (cosmético, no rompe nada).
+- Bootstrap Custom Variables collection en Figma — no antes de tener 5+ customs
+  reales documentados.
+- Migrar Memory 3.0 al monorepo — Fase 3, futura.
+
+### Próximo
+
+Implementar componente Input (text/email/password) — primer ciclo
+component-by-component completo: package + ds-docs page + spec doc + Figma URL.
+
+---
+
 ## 2026-05-14 · Session 26 — Design tokens audit + Bucket A→C+D-mini cleanup ([PR #44](https://github.com/arebury/aed/pull/44))
 
 > Five-fase audit of the `--sc-*` cascade and `aed-preset.ts` bridge

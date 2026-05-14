@@ -1,0 +1,49 @@
+/*
+ * Settings shell — wraps every `/config/*` route in a header (top) +
+ * sidebar + main column layout, mirroring the /admin form pattern where
+ * `sticky-form-header` spans the full page width above the rail.
+ * Main paints the muted canvas (#f7f8fa equivalent) so child pages drop
+ * their own page background.
+ */
+:host {
+  display: block;
+  min-height: 100%;
+  background: var(--sc-bg-secondary-subtle);
+}
+
+.settings-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Chrome (bg + border + sticky) lives on `sc-page-header` itself —
+ * this wrapper is a passive container so the layout grid stays tidy. */
+.settings-shell__header {
+  z-index: 2;
+}
+
+.settings-shell__body {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
+}
+
+.settings-shell__rail {
+  flex: 0 0 256px;
+  width: 256px;
+  position: sticky;
+  /* Same offset the /admin form rails use to sit below `sticky-form-header`. */
+  top: var(--sc-form-panel-top, 80px);
+  align-self: stretch;
+  /* Sticky needs an explicit height. We subtract the header offset so
+   * the rail's scroll area doesn't extend past the visible viewport. */
+  height: calc(100dvh - var(--sc-form-panel-top, 80px));
+  z-index: 1;
+}
+
+.settings-shell__main {
+  flex: 1;
+  min-width: 0;
+}

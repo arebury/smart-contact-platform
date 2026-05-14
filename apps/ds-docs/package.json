@@ -1,0 +1,10 @@
+{
+  "name": "@sc/ds-docs",
+  "version": "0.1.0",
+  "description": "Smart Contact Design System — documentation site (Angular).",
+  "private": true,
+  "scripts": {
+    "build": "cd ../.. && ng build ds-docs",
+    "start": "cd ../.. && ng serve ds-docs"
+  }
+}

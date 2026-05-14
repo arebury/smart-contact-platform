@@ -1,0 +1,253 @@
+<sc-sticky-form-header
+  [mode]="mode()"
+  [entityKey]="mode() === 'create' ? 'groups.form.create_title' : 'groups.entity_singular'"
+  [name]="form().name"
+  [canSave]="canSave()"
+  [saving]="saving()"
+  namePlaceholderKey="groups.form.fields.name"
+  (nameChange)="onNameRename($event)"
+  (save)="save()"
+  (cancelled)="cancel()"
+>
+  <span header-leading>
+    <sc-illustrated-avatar
+      [name]="(initial()?.name ?? form().name) || 'Grupo'"
+      pool="abstract"
+      [size]="44"
+    />
+  </span>
+  <!--
+    Projection wrapper outside the @if — see agent-form-page for the
+    rationale (Angular's content projection misses attribute-selector
+    slots declared inside an `@if`).
+  -->
+  <span header-meta>
+    @if (mode() === 'edit' && form().phone) {
+      <span class="header-meta__chunk">
+        <lucide-icon [img]="phoneIcon" [size]="13" [attr.aria-hidden]="true" />
+        <span>{{ form().phone }}</span>
+      </span>
+    }
+  </span>
+</sc-sticky-form-header>
+
+<div class="page">
+  <div class="page__inner page__inner--with-panel">
+    <aside class="ipanel" aria-label="Índice del formulario">
+      <sc-form-section-nav
+        [sections]="navSections()"
+        [activeId]="activeSection()"
+        [compact]="true"
+        (activeChange)="activeSection.set($event)"
+      />
+    </aside>
+    <div class="page__form">
+      @switch (activeSection()) {
+        @case ('group-section-identity') {
+          <sc-section-card
+            anchorId="group-section-identity"
+            [icon]="activeIcon()"
+            titleKey="groups.form.section.identity"
+          >
+            <div class="grid grid--2">
+              <div class="field">
+                <label class="field__label" for="group-phone">
+                  {{ 'groups.form.fields.phone' | translate }}
+                </label>
+                <input
+                  id="group-phone"
+                  type="text"
+                  class="field__input"
+                  [value]="form().phone"
+                  (input)="onTextInput('phone', $event)"
+                />
+              </div>
+
+              <div class="field">
+                <label class="field__label" for="group-priority">
+                  {{ 'groups.form.fields.priority' | translate }}
+                </label>
+                <select
+                  id="group-priority"
+                  class="field__input"
+                  [value]="form().priority"
+                  (change)="onPriorityChange($event)"
+                >
+                  @for (p of priorities; track p) {
+                    <option [value]="p">{{ priorityKeys[p] | translate }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="field field--inline">
+                <sc-toggle-switch
+                  [checked]="form().typification"
+                  [ariaLabel]="'groups.form.fields.typification' | translate"
+                  (checkedChange)="onTypificationChange($event)"
+                />
+                <div>
+                  <span class="field__label-inline">
+                    {{ 'groups.form.fields.typification' | translate }}
+                  </span>
+                  <span class="field__help">
+                    {{ 'groups.form.fields.typification_hint' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </sc-section-card>
+
+          @if (mode() === 'edit') {
+            <sc-form-danger-zone
+              descriptionKey="groups.form.danger_zone_description"
+              (action)="requestDelete()"
+            />
+          }
+        }
+
+        @case ('group-section-channels') {
+          <sc-section-card
+            anchorId="group-section-channels"
+            [icon]="activeIcon()"
+            titleKey="groups.form.section.channels"
+          >
+            <div class="channel-grid">
+              @for (channel of channels; track channel) {
+                <label class="checkbox-row">
+                  <input
+                    type="checkbox"
+                    [checked]="hasChannel(channel)"
+                    (change)="toggleChannel(channel)"
+                  />
+                  <span>{{ channelKeys[channel] | translate }}</span>
+                </label>
+              }
+            </div>
+            <span class="field__error" aria-live="polite">
+              @if (errors()['channels']; as err) {
+                {{ err | translate }}
+              }
+            </span>
+          </sc-section-card>
+        }
+
+        @case ('group-section-strategy') {
+          <sc-section-card
+            anchorId="group-section-strategy"
+            [icon]="activeIcon()"
+            titleKey="groups.form.section.strategy"
+            hintKey="groups.form.section.strategy_hint"
+          >
+            <div class="grid grid--2">
+              <div class="field">
+                <label class="field__label" for="group-strategy">
+                  {{ 'groups.form.fields.phone_strategy' | translate }}
+                </label>
+                <select
+                  id="group-strategy"
+                  class="field__input"
+                  [value]="form().strategy"
+                  (change)="onStrategyChange($event)"
+                >
+                  @for (s of phoneStrategies; track s) {
+                    <option [value]="s">{{ s }}</option>
+                  }
+                </select>
+              </div>
+
+              @if (hasChat()) {
+                <div class="field">
+                  <label class="field__label" for="group-chat-strategy">
+                    {{ 'groups.form.fields.chat_strategy' | translate }}
+                  </label>
+                  <select
+                    id="group-chat-strategy"
+                    class="field__input"
+                    [value]="form().chatStrategy"
+                    (change)="onChatStrategyChange($event)"
+                  >
+                    @for (s of chatStrategies; track s) {
+                      <option [value]="s">{{ s }}</option>
+                    }
+                  </select>
+                </div>
+              }
+
+              @if (hasFixedCapacity()) {
+                <div class="field">
+                  <label class="field__label" for="group-capacity">
+                    {{ 'groups.form.fields.capacity' | translate }}
+                    <span class="field__hint">({{ 'common.optional' | translate }})</span>
+                  </label>
+                  <input
+                    id="group-capacity"
+                    type="number"
+                    min="0"
+                    class="field__input"
+                    [value]="form().capacityValue"
+                    (input)="onTextInput('capacityValue', $event)"
+                  />
+                  <span class="field__help">{{
+                    'groups.form.fields.capacity_hint' | translate
+                  }}</span>
+                </div>
+              }
+            </div>
+          </sc-section-card>
+        }
+
+        @case ('group-section-agents') {
+          <sc-section-card
+            anchorId="group-section-agents"
+            [icon]="activeIcon()"
+            titleKey="groups.form.section.agents"
+            hintKey="groups.form.section.agents_hint"
+          >
+            <sc-agent-channel-table
+              [groupChannels]="formGroupChannels()"
+              [links]="form().links"
+              [availableAgents]="availableAgents()"
+              [groupId]="editingId() ?? 0"
+              (linksChange)="onLinksChange($event)"
+            />
+          </sc-section-card>
+        }
+      }
+    </div>
+  </div>
+</div>
+
+<sc-delete-entity-dialog
+  [visible]="deleteVisible()"
+  mode="single"
+  [items]="deleteItems()"
+  [entitySingular]="'grupo'"
+  [entityPlural]="'grupos'"
+  (cancelled)="cancelDelete()"
+  (confirm)="confirmDelete()"
+/>
+
+@if (cascadeConfirm(); as c) {
+  <sc-modal
+    [visible]="true"
+    [title]="'groups.form.cascade.title' | translate"
+    [subtitle]="
+      'groups.form.cascade.body'
+        | translate
+          : {
+              channels: c.removed.map(channelLabel.bind(this)).join(', '),
+              count: c.affected,
+            }
+    "
+    (cancelled)="cancelCascade()"
+  >
+    <div modal-actions>
+      <button type="button" class="btn btn--secondary" (click)="cancelCascade()">
+        {{ 'common.cancel' | translate }}
+      </button>
+      <button type="button" class="btn btn--danger" (click)="confirmCascade()">
+        {{ 'groups.form.cascade.confirm' | translate }}
+      </button>
+    </div>
+  </sc-modal>
+}
