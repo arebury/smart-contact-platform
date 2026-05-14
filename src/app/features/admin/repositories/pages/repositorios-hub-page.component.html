@@ -1,8 +1,6 @@
 <div class="hub">
   <div class="hub__inner">
-    <header class="hub__header">
-      <h1 class="hub__title">{{ 'sidebar.repositories' | translate }}</h1>
-    </header>
+    <aed-page-header titleKey="sidebar.repositories" [icon]="pageIcon" />
 
     <div class="hub__categories">
       @for (category of categories; track category.titleKey) {

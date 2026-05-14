@@ -6,6 +6,7 @@ import {
   ChevronRight,
   Clock,
   FileStack,
+  FolderTree,
   LucideAngularModule,
   MessageSquare,
   Phone,
@@ -14,6 +15,8 @@ import {
   Tags,
   Variable,
 } from 'lucide-angular';
+
+import { PageHeaderComponent } from '@shared/components';
 import type { LucideIconData } from '../components/repo-types';
 
 interface HubItem {
@@ -36,7 +39,7 @@ interface HubCategory {
  */
 @Component({
   selector: 'aed-repositorios-hub-page',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [LucideAngularModule, PageHeaderComponent, TranslateModule],
   templateUrl: './repositorios-hub-page.component.html',
   styleUrl: './repositorios-hub-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,6 +48,7 @@ export class RepositoriosHubPageComponent {
   private readonly router = inject(Router);
 
   protected readonly chevronIcon = ChevronRight;
+  protected readonly pageIcon = FolderTree;
 
   protected readonly categories: readonly HubCategory[] = [
     {
