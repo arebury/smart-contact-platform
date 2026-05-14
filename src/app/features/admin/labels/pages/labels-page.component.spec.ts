@@ -17,7 +17,7 @@ describe('LabelsPageComponent', () => {
     const fixture = TestBed.createComponent(LabelsPageComponent);
     fixture.detectChanges();
     const html = fixture.nativeElement as HTMLElement;
-    expect(html.querySelector('.page__title')).not.toBeNull();
+    expect(html.querySelector('.page-header__title')).not.toBeNull();
     expect(html.querySelectorAll('.table__row').length).toBeGreaterThan(0);
   });
 
