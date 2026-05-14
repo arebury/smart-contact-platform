@@ -29,6 +29,11 @@ export const appRoutes: Routes = [
         loadChildren: () => import('./features/config/config.routes').then((m) => m.configRoutes),
       },
       {
+        // Dev-only galleries — not in the sidebar, reach by URL.
+        path: 'dev',
+        loadChildren: () => import('./dev/dev.routes').then((m) => m.devRoutes),
+      },
+      {
         path: '',
         loadChildren: () =>
           import('./features/supervision/supervision.routes').then((m) => m.supervisionRoutes),

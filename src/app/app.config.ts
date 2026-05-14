@@ -43,7 +43,11 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '.aed-dark',
           cssLayer: {
             name: 'primeng',
-            order: 'primeng',
+            // `reset` layer is declared in styles/_reset.scss and holds the
+            // generic element resets; `primeng` follows so PrimeNG's
+            // `.p-button` etc. win over `button { background: none }`. Custom
+            // AED component CSS stays UNLAYERED → still beats both.
+            order: 'reset, primeng',
           },
         },
       },
