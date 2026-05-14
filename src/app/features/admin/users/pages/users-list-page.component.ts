@@ -26,6 +26,7 @@ import {
   DeleteEntityDialogComponent,
   EmptyStateComponent,
   InlineRenameCellComponent,
+  PageHeaderComponent,
 } from '@shared/components';
 import { USER_TYPE_LABEL_KEYS, USER_TYPES, User, UserType } from '../data/users-data';
 import { UsersStore } from '../state/users.store';
@@ -50,6 +51,7 @@ interface ContextMenuPos {
     EmptyStateComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
+    PageHeaderComponent,
     SortableHeaderDirective,
     TranslateModule,
   ],
@@ -74,6 +76,7 @@ export class UsersListPageComponent {
   protected readonly trashIcon = Trash2;
   protected readonly copyIcon = Copy;
   protected readonly emptyIcon = UserCog;
+  protected readonly pageIcon = UserCog;
 
   protected readonly typeLabelKeys = USER_TYPE_LABEL_KEYS;
   protected readonly users = this.usersStore.users;

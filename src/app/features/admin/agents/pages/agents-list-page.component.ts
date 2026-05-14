@@ -37,6 +37,7 @@ import {
   ImpactItem,
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
+  PageHeaderComponent,
 } from '@shared/components';
 import {
   AGENT_TYPE_LABEL_KEYS,
@@ -93,6 +94,7 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
+    PageHeaderComponent,
     SortableHeaderDirective,
     TranslateModule,
   ],
@@ -147,6 +149,7 @@ export class AgentsListPageComponent {
   protected readonly chatIcon = MessageSquare;
   protected readonly emailIcon = Mail;
   protected readonly emptyIcon = Headphones;
+  protected readonly pageIcon = Headphones;
 
   protected readonly typeKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
