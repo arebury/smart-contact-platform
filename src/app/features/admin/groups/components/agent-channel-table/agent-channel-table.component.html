@@ -60,7 +60,11 @@
   <!-- Table -->
   @if (assignedRows().length === 0) {
     <div class="actbl__empty">
-      {{ 'groups.form.assigned.empty' | translate }}
+      <span class="actbl__empty-icon" aria-hidden="true">
+        <lucide-icon [img]="emptyIcon" [size]="22" />
+      </span>
+      <p class="actbl__empty-title">{{ 'groups.form.assigned.empty_title' | translate }}</p>
+      <p class="actbl__empty-body">{{ 'groups.form.assigned.empty' | translate }}</p>
     </div>
   } @else {
     <table class="actbl__table">

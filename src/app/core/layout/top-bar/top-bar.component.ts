@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Keyboard, LucideAngularModule } from 'lucide-angular';
+import { ArrowLeft, Keyboard, LucideAngularModule } from 'lucide-angular';
 
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { NAV_ICONS } from '../../icons/nav-icons';
@@ -45,6 +45,21 @@ export class TopBarComponent {
 
   protected readonly trail = this.breadcrumbs.trail;
 
+  /** Path to the previous breadcrumb (`null` when the current page is a
+   *  top-level route, e.g. on the dashboard or admin root). */
+  protected readonly backPath = computed<string | null>(() => {
+    const t = this.trail();
+    if (t.length < 2) return null;
+    return t[t.length - 2]?.path ?? null;
+  });
+
+  /** Translated label of the page we'd go back to — used in the tooltip. */
+  protected readonly backLabel = computed<string | null>(() => {
+    const t = this.trail();
+    if (t.length < 2) return null;
+    return t[t.length - 2]?.label ?? null;
+  });
+
   /* Hard-coded today; eventually flows from a Supervisor / session service. */
   protected readonly userName = 'Mario Supervisor';
   protected readonly userPhone = '+34 917 945 449';
@@ -58,9 +73,16 @@ export class TopBarComponent {
   protected readonly logoutIcon = NAV_ICONS['log-out'];
   protected readonly dashboardIcon = NAV_ICONS['layout-dashboard'];
   protected readonly shortcutsIcon = Keyboard;
+  protected readonly backIcon = ArrowLeft;
 
   protected goToDashboard(): void {
     void this.router.navigateByUrl('/dashboard');
+  }
+
+  protected goBack(): void {
+    const path = this.backPath();
+    if (!path) return;
+    void this.router.navigateByUrl(path);
   }
 
   protected openShortcuts(): void {

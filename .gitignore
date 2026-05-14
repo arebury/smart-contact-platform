@@ -44,6 +44,10 @@ testem.log
 .DS_Store
 Thumbs.db
 
+# iCloud Drive duplication artefacts (files like `foo 2.ts`, `bar 2/`)
+*\ 2.*
+*\ 2/
+
 # Env
 .env
 .env.local

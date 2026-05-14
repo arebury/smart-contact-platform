@@ -134,19 +134,26 @@
     }
   }
 
+  /* Edit-name affordance — by default it sits as a soft pill so users
+   * spot the pencil without hunting; the pill darkens on hover for the
+   * usual "this is clickable" cue. Was a flat transparent icon before —
+   * too easy to miss. */
   &__icon-btn {
-    background: transparent;
+    background: var(--sc-bg-secondary-subtle);
     border: 0;
-    padding: var(--sc-spacing-50);
-    color: var(--sc-icon-subtle);
+    padding: 6px;
+    color: var(--sc-text-secondary);
     cursor: pointer;
     border-radius: var(--sc-radius-100);
     display: inline-flex;
     align-items: center;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default);
 
     &:hover {
       background: var(--sc-bg-secondary-hover);
-      color: var(--sc-text-secondary);
+      color: var(--sc-text-primary);
     }
 
     &:focus-visible {
