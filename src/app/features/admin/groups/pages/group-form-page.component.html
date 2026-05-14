@@ -16,16 +16,19 @@
       [size]="44"
     />
   </span>
-  @if (mode() === 'edit') {
-    <span header-meta>
-      @if (form().phone) {
-        <span class="header-meta__chunk">
-          <lucide-icon [img]="phoneIcon" [size]="13" [attr.aria-hidden]="true" />
-          <span>{{ form().phone }}</span>
-        </span>
-      }
-    </span>
-  }
+  <!--
+    Projection wrapper outside the @if — see agent-form-page for the
+    rationale (Angular's content projection misses attribute-selector
+    slots declared inside an `@if`).
+  -->
+  <span header-meta>
+    @if (mode() === 'edit' && form().phone) {
+      <span class="header-meta__chunk">
+        <lucide-icon [img]="phoneIcon" [size]="13" [attr.aria-hidden]="true" />
+        <span>{{ form().phone }}</span>
+      </span>
+    }
+  </span>
 </aed-sticky-form-header>
 
 <div class="page">
