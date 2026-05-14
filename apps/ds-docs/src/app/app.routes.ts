@@ -12,6 +12,11 @@ export const appRoutes: Routes = [
       import('./pages/button/buttons-gallery.component').then((m) => m.ButtonsGalleryComponent),
   },
   {
+    path: 'components/input',
+    loadComponent: () =>
+      import('./pages/input/inputs-gallery.component').then((m) => m.InputsGalleryComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

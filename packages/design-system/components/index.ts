@@ -43,6 +43,9 @@ export type {
 
 export { InlineRenameCellComponent } from './inline-rename-cell/inline-rename-cell.component';
 
+export { InputComponent } from './input/input.component';
+export type { ScInputSize, ScInputType } from './input/input.component';
+
 export { ModalComponent } from './modal/modal.component';
 
 export { LabelChipComponent } from './label-chip/label-chip.component';

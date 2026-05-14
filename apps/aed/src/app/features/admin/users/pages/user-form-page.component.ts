@@ -21,6 +21,7 @@ import {
   FormDangerZoneComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  InputComponent,
   PhotoUploadComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
@@ -61,6 +62,7 @@ interface FormState {
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
     FormSectionNavComponent,
+    InputComponent,
     LucideAngularModule,
     PhotoUploadComponent,
     SectionCardComponent,
@@ -211,6 +213,10 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected onTextInput<K extends 'name' | 'email' | 'identifier'>(key: K, event: Event): void {
     const value = (event.target as HTMLInputElement).value;
+    this.updateField(key, value);
+  }
+
+  protected onTextValue<K extends 'name' | 'email' | 'identifier'>(key: K, value: string): void {
     this.updateField(key, value);
   }
 

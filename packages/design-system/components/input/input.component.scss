@@ -1,0 +1,152 @@
+/*
+ * sc-input — Smart Contact text input.
+ *
+ * The actual chrome (border, radius, padding, focus, hover, disabled,
+ * invalid colors) lives on the inner `<input pInputText>` and inherits
+ * from `sc-preset.ts → semantic.colorScheme.{light,dark}.formField.*`
+ * + `semantic.formField.*`. We do NOT redefine those styles here.
+ *
+ * This stylesheet handles:
+ *   - vertical field layout (label / input / helper-or-error)
+ *   - left / right icon overlay
+ *   - size variants (sm / md / lg)
+ *   - error state propagation to the underlying input
+ */
+
+.sc-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-50, 4px);
+  min-width: 0;
+}
+
+.sc-input__label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-size: var(--sc-font-size-100);
+  font-weight: var(--sc-font-weight-medium);
+  color: var(--sc-text-secondary);
+  margin-bottom: 2px;
+}
+
+.sc-input__required {
+  color: var(--sc-text-danger);
+  font-weight: var(--sc-font-weight-medium);
+}
+
+.sc-input__field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* The native input takes the full width of the field; icons absolutely
+ * positioned on top so they don't push the placeholder text. */
+.sc-input__control {
+  width: 100%;
+  font-family: inherit;
+}
+
+/* Icon slots — 14×14 (Figma spec), centered vertically, 12px from edge. */
+.sc-input__icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 14px;
+  height: 14px;
+  color: var(--sc-text-subtle);
+  font-size: 14px;
+  line-height: 1;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sc-input__icon--left {
+  left: var(--sc-spacing-200);
+}
+
+.sc-input__icon--right {
+  right: var(--sc-spacing-200);
+}
+
+/* Reserve space for icons so the placeholder doesn't slide under them.
+ * 14px icon + 8px gap + 12px edge padding = ~34px of inner reserve. */
+.sc-input__field--has-left .sc-input__control {
+  padding-left: calc(var(--sc-spacing-200) + 14px + var(--sc-spacing-150));
+}
+.sc-input__field--has-right .sc-input__control {
+  padding-right: calc(var(--sc-spacing-200) + 14px + var(--sc-spacing-150));
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Size variants. PrimeNG ships `p-inputtext-sm` and `p-inputtext-lg`
+ * classes; we trigger them via host class instead so the consumer only
+ * sets `[size]` once at the wrapper level.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-input--sm .sc-input__control {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: var(--sc-font-size-100);
+}
+
+.sc-input--lg .sc-input__control {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: var(--sc-font-size-300);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Invalid state — sc-preset already maps `--p-inputtext-border-color`
+ * to `--sc-border-error` when the `<input>` has aria-invalid OR when
+ * we manually paint via this host class. The class path handles cases
+ * where the consumer uses `[error]` without a FormControl behind it.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-input--invalid .sc-input__control {
+  border-color: var(--sc-border-error);
+
+  &:hover,
+  &:focus {
+    border-color: var(--sc-border-error);
+  }
+}
+
+.sc-input--invalid .sc-input__icon {
+  color: var(--sc-text-danger);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Footer message (helper text OR error).
+ * Reserve 1.25em min-height even when empty so toggling validation
+ * doesn't shift layout (DD#16, "no layout shift" feedback).
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-input__msg {
+  display: block;
+  min-height: 1.25em;
+  margin-top: var(--sc-spacing-50);
+  font-size: var(--sc-font-size-50);
+  line-height: 1.25;
+  color: var(--sc-text-subtle);
+}
+
+.sc-input__msg--error {
+  color: var(--sc-text-danger);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Disabled. PrimeNG handles input bg/color; we dim the label too so
+ * the whole field reads as inert.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-input--disabled .sc-input__label {
+  color: var(--sc-text-disabled);
+}
+
+.sc-input--disabled .sc-input__icon {
+  color: var(--sc-text-disabled);
+}

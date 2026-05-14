@@ -61,45 +61,25 @@
             titleKey="users.form.section.identity"
           >
             <div class="grid grid--2">
-              <div class="field">
-                <label class="field__label" for="user-email">
-                  {{ 'users.form.fields.email' | translate }}
-                  <span class="field__required" aria-hidden="true">*</span>
-                </label>
-                <input
-                  id="user-email"
-                  type="email"
-                  class="field__input"
-                  [class.field__input--error]="!!errors()['email']"
-                  [attr.aria-describedby]="errors()['email'] ? 'user-email-error' : null"
-                  [attr.aria-invalid]="!!errors()['email']"
-                  [value]="form().email"
-                  (input)="onTextInput('email', $event)"
-                  autocomplete="email"
-                />
-                <span id="user-email-error" class="field__error" aria-live="polite">
-                  @if (errors()['email']; as err) {
-                    {{ err | translate }}
-                  }
-                </span>
-              </div>
+              <sc-input
+                inputId="user-email"
+                type="email"
+                autocomplete="email"
+                [label]="'users.form.fields.email' | translate"
+                [required]="true"
+                [value]="form().email"
+                (valueChange)="onTextValue('email', $event)"
+                [error]="errors()['email'] ? (errors()['email']! | translate) : undefined"
+              />
 
-              <div class="field">
-                <label class="field__label" for="user-identifier">
-                  {{ 'users.form.fields.identifier' | translate }}
-                  <span class="field__hint">({{ 'common.optional' | translate }})</span>
-                </label>
-                <input
-                  id="user-identifier"
-                  type="text"
-                  class="field__input"
-                  [value]="form().identifier"
-                  (input)="onTextInput('identifier', $event)"
-                />
-                <span class="field__help">{{
-                  'users.form.fields.identifier_hint' | translate
-                }}</span>
-              </div>
+              <sc-input
+                inputId="user-identifier"
+                type="text"
+                [label]="'users.form.fields.identifier' | translate"
+                [helperText]="'users.form.fields.identifier_hint' | translate"
+                [value]="form().identifier"
+                (valueChange)="onTextValue('identifier', $event)"
+              />
 
               <div class="field">
                 <label class="field__label" for="user-type">

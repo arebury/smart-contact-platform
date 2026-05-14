@@ -1,0 +1,53 @@
+@if (label()) {
+  <label class="sc-input__label" [attr.for]="resolvedId()">
+    {{ label() }}
+    @if (required()) {
+      <span class="sc-input__required" aria-hidden="true">*</span>
+    }
+  </label>
+}
+
+<div
+  class="sc-input__field"
+  [ngClass]="{
+    'sc-input__field--has-left': hasLeftIcon(),
+    'sc-input__field--has-right': hasRightIcon(),
+  }"
+>
+  @if (hasLeftIcon()) {
+    <i class="sc-input__icon sc-input__icon--left {{ leftIcon() }}" aria-hidden="true"></i>
+  }
+
+  <input
+    pInputText
+    class="sc-input__control"
+    [id]="resolvedId()"
+    [type]="type()"
+    [placeholder]="placeholder() ?? ''"
+    [disabled]="disabled()"
+    [readonly]="readonly()"
+    [attr.name]="name() ?? null"
+    [attr.autocomplete]="autocomplete() ?? null"
+    [attr.maxlength]="maxlength() ?? null"
+    [attr.aria-invalid]="isInvalid() ? true : null"
+    [attr.aria-describedby]="footerText() ? resolvedId() + '-msg' : null"
+    [attr.aria-required]="required() ? true : null"
+    [value]="value()"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+  />
+
+  @if (hasRightIcon()) {
+    <i class="sc-input__icon sc-input__icon--right {{ rightIcon() }}" aria-hidden="true"></i>
+  }
+</div>
+
+@if (footerText()) {
+  <span
+    class="sc-input__msg"
+    [class.sc-input__msg--error]="!!error()"
+    [id]="resolvedId() + '-msg'"
+  >
+    {{ footerText() }}
+  </span>
+}

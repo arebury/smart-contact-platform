@@ -1,0 +1,138 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Input</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-input&gt;</code> envuelve PrimeNG <code>pInputText</code> con el patrón SCDS
+      (label + required + helper + error + iconos). Soporta
+      <code>[(ngModel)]</code>, Reactive Forms y signals via <code>[(value)]</code>.
+    </p>
+  </header>
+
+  <!-- 1. Basic — placeholder only. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Basic</h2>
+    <p class="gallery__hint">Sin label, sin helper. Solo placeholder. El caso más simple.</p>
+    <div class="gallery__row">
+      <sc-input placeholder="Escribe algo…" [(value)]="textValue" />
+    </div>
+    <p class="gallery__output">Valor: <code>{{ textValue() || '(vacío)' }}</code></p>
+  </section>
+
+  <!-- 2. With label + required + helper. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Label + required + helper</h2>
+    <p class="gallery__hint">Patrón típico de formulario: label arriba, asterisco rojo si es required, texto de ayuda debajo.</p>
+    <div class="gallery__row">
+      <sc-input
+        label="Email"
+        type="email"
+        placeholder="tu@empresa.com"
+        helperText="Lo usaremos para confirmar tu cuenta."
+        [required]="true"
+        [(value)]="emailValue"
+      />
+    </div>
+  </section>
+
+  <!-- 3. With icons. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Iconos (left / right)</h2>
+    <p class="gallery__hint">Iconos PrimeIcon vía <code>[leftIcon]</code> y <code>[rightIcon]</code>. El input reserva espacio para que el placeholder no se solape.</p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-input
+        label="Búsqueda"
+        placeholder="Buscar…"
+        leftIcon="pi pi-search"
+        [(value)]="searchValue"
+      />
+      <sc-input
+        label="URL"
+        placeholder="https://…"
+        rightIcon="pi pi-external-link"
+      />
+    </div>
+  </section>
+
+  <!-- 4. Sizes. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Tamaños (sm / md / lg)</h2>
+    <p class="gallery__hint">Tres tamaños via <code>[size]</code>. <code>md</code> es el default.</p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-input label="Small" size="sm" placeholder="32px alto" />
+      <sc-input label="Medium (default)" placeholder="40px alto" />
+      <sc-input label="Large" size="lg" placeholder="48px alto" />
+    </div>
+  </section>
+
+  <!-- 5. States: disabled, readonly, error. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">5 · Estados</h2>
+    <p class="gallery__hint">Disabled, readonly, error con mensaje. El error sobreescribe al helper.</p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-input
+        label="Disabled"
+        placeholder="No editable"
+        [disabled]="true"
+        [(value)]="disabledValue"
+      />
+      <sc-input
+        label="Readonly"
+        [readonly]="true"
+        [(value)]="disabledValue"
+      />
+      <sc-input
+        label="Email (con error)"
+        type="email"
+        [(value)]="errorValue"
+        error="Este email no es válido."
+        helperText="Lo usaremos para confirmar tu cuenta."
+      />
+    </div>
+  </section>
+
+  <!-- 6. ngModel binding. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">6 · [(ngModel)] binding</h2>
+    <p class="gallery__hint">Compatible con FormsModule. Útil para forms no-Reactive existentes en AED.</p>
+    <div class="gallery__row">
+      <sc-input
+        label="Vía ngModel"
+        [(ngModel)]="ngModelValue"
+      />
+    </div>
+    <p class="gallery__output">Valor: <code>{{ ngModelValue() }}</code></p>
+  </section>
+
+  <!-- 7. Reactive Forms with validation. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">7 · Reactive Forms + validación</h2>
+    <p class="gallery__hint">El input se pinta como inválido cuando el FormControl tiene errores Y ha sido touched.</p>
+    <div class="gallery__row">
+      <sc-input
+        label="Email (Reactive Form)"
+        type="email"
+        placeholder="Requerido + formato email"
+        [formControl]="reactiveEmail"
+        [error]="reactiveEmail.touched && reactiveEmail.invalid
+          ? (reactiveEmail.errors?.['required'] ? 'Email requerido.' : 'Formato de email inválido.')
+          : undefined"
+      />
+      <button class="gallery__btn" (click)="touchReactive()">Marcar touched (simula blur)</button>
+    </div>
+  </section>
+
+  <!-- 8. All HTML input types. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">8 · Tipos HTML</h2>
+    <p class="gallery__hint">text / email / password / tel / url / search. El tipo influye en el teclado móvil y el autocomplete del navegador.</p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-input label="text (default)" type="text" placeholder="Cualquier texto" />
+      <sc-input label="email" type="email" placeholder="tu@empresa.com" autocomplete="email" />
+      <sc-input label="password" type="password" placeholder="••••••••" autocomplete="current-password" />
+      <sc-input label="tel" type="tel" placeholder="+34 600 000 000" autocomplete="tel" />
+      <sc-input label="url" type="url" placeholder="https://…" />
+      <sc-input label="search" type="search" placeholder="Buscar…" leftIcon="pi pi-search" />
+    </div>
+  </section>
+</div>

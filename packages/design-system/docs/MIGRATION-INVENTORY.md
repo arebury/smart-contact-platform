@@ -37,7 +37,7 @@
 | 23 | Impact preview dialog | ✓ | Custom | `<sc-impact-preview-dialog>` | TODO | TODO | Muestra impacto antes de mutación |
 | 24 | Page header | ✓ | Custom | `<sc-page-header>` | TODO | TODO | Headers de page (lista + form) |
 | 25 | Sticky form header | ✓ | Custom | `<sc-sticky-form-header>` | TODO | TODO | Sticky on scroll, redimensiona photo-upload |
-| -- | Input (text/email/password) | ⏳ | PrimeNG target | `<p-inputText>` (planeado) | TODO | TODO | **NEXT** |
+| 26 | Input (text/email/password/tel/url/search) | ✓ | Wrapper (sc-input envuelve pInputText) | `<sc-input>` | [Frame 6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | `docs/components/02-input.md` | Migra 2 de 28 candidatos en AED (user-form-page); resto migra por feature al tocarse |
 | -- | Dropdown / select | ⏳ | PrimeNG target | `<p-select>` (planeado) | - | - | |
 | -- | Datepicker | ⏳ | PrimeNG target | `<p-datepicker>` (planeado) | - | - | |
 | -- | Tabs | ⏳ | PrimeNG target | `<p-tabs>` (planeado) | - | - | |
