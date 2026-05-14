@@ -16,6 +16,9 @@
     "save": "Guardar",
     "saving": "Guardando…",
     "discard": "Descartar",
+    "form_nav": {
+      "label": "Secciones del formulario"
+    },
     "create": "Crear",
     "units": {
       "seconds": "seg"

@@ -12,25 +12,28 @@ import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
-  Info,
-  Mail,
-  Phone,
-  PhoneCall,
-  LucideAngularModule,
-  ShieldCheck,
-  Tag,
-  SlidersHorizontal,
-  Plug,
-  Globe,
-  Settings,
   ChevronDown,
   ChevronRight,
-  Search,
-  X,
   FileStack,
-  MessageSquare,
-  LogIn,
+  Globe,
+  IdCard,
+  Info,
   Key,
+  LogIn,
+  LucideAngularModule,
+  Mail,
+  MessageSquare,
+  Phone,
+  PhoneCall,
+  Plug,
+  Search,
+  Settings,
+  ShieldCheck,
+  SlidersHorizontal,
+  Tag,
+  Trash2,
+  Users as UsersIcon,
+  X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
@@ -355,12 +358,50 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       return { ...f, templateIds: updated };
     });
   }
-  protected readonly navSections: readonly FormNavSection[] = [
-    { id: 'agent-section-identity', labelKey: 'agents.form.section.identification' },
-    { id: 'agent-section-groups', labelKey: 'agents.form.section.groups' },
-    { id: 'agent-section-permissions', labelKey: 'agents.form.section.permissions' },
-    { id: 'agent-section-advanced', labelKey: 'agents.form.section.advanced' },
-  ];
+  /**
+   * Section index for the form shell. In `edit` mode, Identity drops to
+   * the end of the list — once the agent exists, you rarely re-edit
+   * identity fields, so the index leads with what gets iterated on.
+   * Danger zone is only added in edit mode (no "delete" while creating).
+   */
+  protected readonly navSections = computed<readonly FormNavSection[]>(() => {
+    const identity: FormNavSection = {
+      id: 'agent-section-identity',
+      labelKey: 'agents.form.section.identification',
+      icon: IdCard,
+    };
+    const groups: FormNavSection = {
+      id: 'agent-section-groups',
+      labelKey: 'agents.form.section.groups',
+      icon: UsersIcon,
+    };
+    const permissions: FormNavSection = {
+      id: 'agent-section-permissions',
+      labelKey: 'agents.form.section.permissions',
+      icon: ShieldCheck,
+    };
+    const advanced: FormNavSection = {
+      id: 'agent-section-advanced',
+      labelKey: 'agents.form.section.advanced',
+      icon: SlidersHorizontal,
+    };
+    const danger: FormNavSection = {
+      id: 'agent-section-danger',
+      labelKey: 'common.delete',
+      icon: Trash2,
+    };
+    if (this.mode() === 'edit') {
+      return [groups, permissions, advanced, identity, danger];
+    }
+    return [identity, groups, permissions, advanced];
+  });
+
+  protected readonly activeSection = signal<string>('agent-section-identity');
+
+  protected readonly activeIcon = computed(() => {
+    const id = this.activeSection();
+    return this.navSections().find((s) => s.id === id)?.icon ?? null;
+  });
 
   /**
    * Matrix layout for the calls/transfers permissions, matching the
@@ -473,6 +514,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         scheduleIds: new Set(agent.schedules ?? []),
         templateIds: new Set(agent.templates ?? []),
       });
+      this.activeSection.set('agent-section-groups');
       this.releaseLock = this.crossTab.acquire('agent', agent.id, () =>
         this.conflictWarning.set(true),
       );

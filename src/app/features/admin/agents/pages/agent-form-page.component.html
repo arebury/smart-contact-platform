@@ -53,15 +53,20 @@
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Índice del formulario">
-      <aed-form-section-nav [sections]="navSections" [compact]="true" />
+      <aed-form-section-nav
+        [sections]="navSections()"
+        [activeId]="activeSection()"
+        [compact]="true"
+        (activeChange)="activeSection.set($event)"
+      />
     </aside>
 
     <div class="page__form">
-      <div class="form-grid">
-        <!-- ── LEFT COLUMN — Identificación (sticky) ─────────────── -->
-        <aside class="form-grid__identity">
+      @switch (activeSection()) {
+        @case ('agent-section-identity') {
           <aed-section-card
             anchorId="agent-section-identity"
+            [icon]="activeIcon()"
             titleKey="agents.form.section.identification"
           >
             <!-- Photo + name removed from the card body: both live in the
@@ -248,12 +253,12 @@
               </span>
             </div>
           </aed-section-card>
-        </aside>
+        }
 
-        <!-- ── RIGHT COLUMN — Settings (scrollable) ──────────────── -->
-        <div class="form-grid__settings">
+        @case ('agent-section-groups') {
           <aed-section-card
             anchorId="agent-section-groups"
+            [icon]="activeIcon()"
             titleKey="agents.form.section.groups"
             hintKey="agents.form.section.groups_hint"
           >
@@ -264,11 +269,13 @@
               (linksChange)="onLinksChange($event)"
             />
           </aed-section-card>
+        }
 
+        @case ('agent-section-permissions') {
           <aed-section-card
             anchorId="agent-section-permissions"
             titleKey="agents.form.section.permissions"
-            [icon]="shieldIcon"
+            [icon]="activeIcon()"
           >
             <!-- Permisos generales: dos toggles per-agente.
                  "Dispositivos externos" vive en /admin/aed/agentes como ajuste global. -->
@@ -383,14 +390,14 @@
               </tbody>
             </table>
           </aed-section-card>
+        }
 
+        @case ('agent-section-advanced') {
           <aed-section-card
             anchorId="agent-section-advanced"
             titleKey="agents.form.section.advanced"
             hintKey="agents.form.section.advanced_hint"
-            [icon]="settingsIcon"
-            [collapsible]="true"
-            [initiallyCollapsed]="true"
+            [icon]="activeIcon()"
           >
             <!-- Labels (accordion sub-section) -->
             <section class="sub-section sub-section--accordion">
@@ -982,15 +989,15 @@
               </div>
             </section>
           </aed-section-card>
+        }
 
-          @if (mode() === 'edit') {
-            <aed-form-danger-zone
-              descriptionKey="agents.form.danger_zone_description"
-              (action)="requestDelete()"
-            />
-          }
-        </div>
-      </div>
+        @case ('agent-section-danger') {
+          <aed-form-danger-zone
+            descriptionKey="agents.form.danger_zone_description"
+            (action)="requestDelete()"
+          />
+        }
+      }
     </div>
   </div>
 </div>

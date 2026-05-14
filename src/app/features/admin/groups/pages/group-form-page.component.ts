@@ -10,7 +10,15 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, Phone } from 'lucide-angular';
+import {
+  GitBranch,
+  IdCard,
+  LucideAngularModule,
+  MessageSquare,
+  Phone,
+  Trash2,
+  Users as UsersIcon,
+} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -96,12 +104,50 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly phoneStrategies = PHONE_STRATEGIES;
   protected readonly chatStrategies = CHAT_STRATEGIES;
 
-  protected readonly navSections: readonly FormNavSection[] = [
-    { id: 'group-section-identity', labelKey: 'groups.form.section.identity' },
-    { id: 'group-section-channels', labelKey: 'groups.form.section.channels' },
-    { id: 'group-section-strategy', labelKey: 'groups.form.section.strategy' },
-    { id: 'group-section-agents', labelKey: 'groups.form.section.agents' },
-  ];
+  /**
+   * Section index for the form shell. In `edit` mode, Identity drops to
+   * the end of the list — it's rarely touched once a group exists, so
+   * the index leads with the sections the user actually iterates on.
+   * Danger zone is only added in edit mode (no "delete" while creating).
+   */
+  protected readonly navSections = computed<readonly FormNavSection[]>(() => {
+    const identity: FormNavSection = {
+      id: 'group-section-identity',
+      labelKey: 'groups.form.section.identity',
+      icon: IdCard,
+    };
+    const channels: FormNavSection = {
+      id: 'group-section-channels',
+      labelKey: 'groups.form.section.channels',
+      icon: MessageSquare,
+    };
+    const strategy: FormNavSection = {
+      id: 'group-section-strategy',
+      labelKey: 'groups.form.section.strategy',
+      icon: GitBranch,
+    };
+    const agents: FormNavSection = {
+      id: 'group-section-agents',
+      labelKey: 'groups.form.section.agents',
+      icon: UsersIcon,
+    };
+    const danger: FormNavSection = {
+      id: 'group-section-danger',
+      labelKey: 'common.delete',
+      icon: Trash2,
+    };
+    if (this.mode() === 'edit') {
+      return [channels, strategy, agents, identity, danger];
+    }
+    return [identity, channels, strategy, agents];
+  });
+
+  protected readonly activeSection = signal<string>('group-section-identity');
+
+  protected readonly activeIcon = computed(() => {
+    const id = this.activeSection();
+    return this.navSections().find((s) => s.id === id)?.icon ?? null;
+  });
 
   protected readonly phoneIcon = Phone;
 
@@ -180,6 +226,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       });
       this.initialChannels.set(new Set(group.channels));
       this.initialLinks.set(seedLinks);
+      this.activeSection.set('group-section-channels');
       this.releaseLock = this.crossTab.acquire('group', group.id, () =>
         this.conflictWarning.set(true),
       );
