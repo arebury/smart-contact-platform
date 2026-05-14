@@ -10,14 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  IdCard,
-  Layers,
-  LucideAngularModule,
-  Mail,
-  Network,
-  ShieldCheck,
-} from 'lucide-angular';
+import { IdCard, Layers, LucideAngularModule, Mail, Network, ShieldCheck } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
