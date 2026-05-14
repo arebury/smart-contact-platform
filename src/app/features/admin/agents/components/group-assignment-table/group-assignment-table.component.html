@@ -50,7 +50,11 @@
 
   @if (assignedRows().length === 0) {
     <div class="gatbl__empty">
-      {{ 'agents.form.assigned.empty' | translate }}
+      <span class="gatbl__empty-icon" aria-hidden="true">
+        <lucide-icon [img]="emptyIcon" [size]="22" />
+      </span>
+      <p class="gatbl__empty-title">{{ 'agents.form.assigned.empty_title' | translate }}</p>
+      <p class="gatbl__empty-body">{{ 'agents.form.assigned.empty' | translate }}</p>
     </div>
   } @else {
     <table class="gatbl__table">

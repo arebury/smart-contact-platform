@@ -90,6 +90,7 @@
   },
   "topbar": {
     "go_to_dashboard": "Ir al dashboard",
+    "back_to": "Volver a {{name}}",
     "keyboard_shortcuts": "Atajos de teclado (?)",
     "user": {
       "help": "Centro de ayuda",
@@ -563,7 +564,8 @@
         "add_suggest": "Añadir al grupo:",
         "add_suggest_aria": "Añadir a {{name}} al grupo",
         "counter": "{{assigned}} asignados · {{zero}} sin canales",
-        "empty": "Aún no hay agentes asignados a este grupo. Usa el buscador para añadir.",
+        "empty_title": "Sin agentes asignados",
+        "empty": "Usa el buscador de arriba para asignar el primer agente a este grupo.",
         "no_results": "Ningún agente asignado coincide con el filtro.",
         "col_agent": "Agente",
         "col_active": "Activo",
@@ -775,7 +777,8 @@
         "picker_placeholder": "Buscar o añadir grupo…",
         "picker_aria": "Añadir grupo al agente",
         "counter": "{{count}} grupos",
-        "empty": "Aún no hay grupos asignados a este agente. Usa el buscador para añadir.",
+        "empty_title": "Sin grupos asignados",
+        "empty": "Usa el buscador de arriba para asignar el primer grupo a este agente.",
         "col_group": "Grupo",
         "col_channels_here": "Canales en este grupo",
         "col_active": "Activo",

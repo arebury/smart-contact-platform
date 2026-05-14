@@ -1,9 +1,164 @@
 # Decisions log
 
 > Permanent record of decisions that shape the codebase. Each entry says what
-> we decided, *why*, and what we discarded *and why*. We add to this file
+> we decided, _why_, and what we discarded _and why_. We add to this file
 > whenever a session locks in something that future contributors would
 > otherwise have to re-derive.
+
+---
+
+## 61 — `aed-page-header` is the single header recipe for every page in the app (2026-05-14)
+
+**Decision.** Every page in the app — list pages (`/admin/*`),
+form pages (entity edit / create), config pages (`/config/*`),
+and the repositories hub — renders the same header recipe via
+the shared `aed-page-header` component. The recipe matches
+`sticky-form-header` exactly: sticky at `top:0`, white surface
+fill, bottom border, xs shadow, 44×44 leading icon, padding
+12/24, gap 16, optional uppercase eyebrow + title + subtitle +
+trailing actions slot.
+
+**Why.**
+
+- The brief was strict: "Prioridad consistencia para la
+  expectativa de usuario". Multiple visual styles of "page
+  header" across routes broke that expectation.
+- The form pages already had a polished `sticky-form-header`
+  with photo + name + pills + meta + save. Lists / config had
+  ad-hoc `<header class="page__header">` markups with no
+  shared rhythm.
+- Adopting one recipe (rather than two) means future pages
+  inherit the look for free; future tweaks (e.g. typography
+  pass) happen in one file.
+
+**How.**
+
+- `aed-page-header` is the static variant; `sticky-form-header`
+  remains the form variant (it keeps the name input, status
+  pop animation, save/cancel actions).
+- Both share visual tokens — same chip background, same
+  typography, same vertical weight. Reading both files
+  side-by-side feels like sibling components.
+- `aed-page-header` exposes `[page-header-actions]` as a
+  content-projection slot so list pages project their primary
+  CTA ("Nuevo agente", "Nuevo grupo"…) without the component
+  needing to know about them.
+
+**Discarded.**
+
+- _Adding the page-header inside each route's `<div class="page">`_
+  — visible in early PR #38, undone in PR #41. The
+  `.page__inner` padding kept the header from spanning viewport
+  edges; lifting it out matches the form pattern.
+- _A separate "list page header" component_ — short-lived
+  alternative; rejected for the duplication it would cause.
+
+**Reference.** PRs #38, #39, #40, #41.
+
+---
+
+## 60 — `/config` shell lifts the page header out of each leaf via `PageHeaderService` (2026-05-14)
+
+**Decision.** `aed-settings-shell` renders the page header at
+the top, spanning the full viewport width above the rail +
+main grid — the same structural layout that `/admin` edit
+pages have with `sticky-form-header`. Each `/config/*` leaf
+component writes its `{ titleKey, subtitleKey, entityKey, icon }`
+into a new `PageHeaderService` signal on construction; the
+shell reads the signal and renders `aed-page-header`.
+
+**Why.**
+
+- The user said: "el header en configuración de AED... tiene
+  que ser igual. Es decir el mismo layout que el resto. Un
+  header, y después un sidebar donde está el índice, y el main
+  content." That requires the header to span the entire shell
+  width, not sit inside the right-column `main` area.
+- Each `/config` leaf has a different title / icon / subtitle —
+  the shell can't hard-code them. A signal-based service is
+  cheap, type-safe, and lets the shell rerender via
+  `effect()` / `computed()` without subscriptions.
+
+**Discarded.**
+
+- _Read `data` off the activated route_ — simpler in theory,
+  but page metadata can depend on runtime state (an entity name,
+  a feature flag). The service form keeps the door open.
+- _Content projection from the leaf into the shell_ — Angular
+  routes don't compose like nested components; each leaf is
+  rendered into a `<router-outlet>`, so there's no host the
+  leaf can `[slot]` into.
+
+**Reference.** PR #40 (`PageHeaderService` in
+`@core/services/page-header.service.ts`).
+
+---
+
+## 59 — Form section nav is tab-based (controlled), not scroll-spy (2026-05-14)
+
+**Decision.** Each section in the entity edit/create form is a
+switchable pane rendered via `@switch (activeSection())`. The
+nav (`aed-form-section-nav`) is controlled: the parent owns
+the `activeId` signal and the nav emits `activeChange`. No
+scroll-spy. **In edit mode, the Identity entry drops to the
+end of the nav and the form opens on the second entry**
+(channels / groups / sections).
+
+**Why.**
+
+- The form is dense (especially the agent form, with seven
+  sub-sections inside "Configuración avanzada" alone).
+  Showing every section at once forces the user to scroll
+  to find the one they want.
+- Identity is **set once and rarely re-edited**. In edit
+  mode, opening the user on the section they iterate on
+  (channels for groups, groups for agents, sections for
+  users) skips an extra click.
+- Tab navigation makes section reorganisation cheap: the
+  `navSections` is an array — swap entries to change the
+  user's mental model without touching the DOM.
+
+**Discarded.**
+
+- _Scroll-spy with smooth scroll_ (the previous behaviour) —
+  great for long-read content, not for editing forms where
+  each pane is a focused unit.
+- _Stack with collapse_ (PR #36 considered) — half-measure;
+  hides noise but keeps the navigation problem.
+
+**Reference.** PR #35.
+
+---
+
+## 58 — Danger zone lives at the bottom of the Identidad tab, not in the section nav (2026-05-14)
+
+**Decision.** In edit mode, the "Eliminar este {entity}" card
+(`aed-form-danger-zone`) renders at the bottom of the Identidad
+pane — not as an entry in the section nav. The nav navigates;
+the danger zone acts.
+
+**Why.**
+
+- The brief: "el eliminar del índice... busco consistencia y
+  criterio". The user noticed that putting a destructive
+  action in the same list as the navigable sections muddied
+  what the index _is for_.
+- Identity is already the last index entry in edit mode (DD
+  #59). Tucking the danger zone at the bottom of that pane
+  means the user has to go to Identidad → scroll past the
+  identity fields → see the danger card. That's deliberate
+  friction, consistent with GitHub / Stripe.
+
+**Discarded.**
+
+- _Kebab menu (⋮) in the sticky-form-header_ — fast access,
+  but doesn't punish the destructive choice with appropriate
+  friction.
+- _Always-visible danger zone at the page footer_ — adds noise
+  even when the user is editing channels and has zero intent
+  to delete.
+
+**Reference.** PR #36.
 
 ---
 
@@ -71,20 +226,20 @@ one is deferred to a future session.
 
 **Discarded.**
 
-- *Extract `.sub-section` to `_forms.scss` immediately.* The agent
+- _Extract `.sub-section` to `_forms.scss` immediately._ The agent
   form is the only consumer today; premature extraction. Promote on
   the second adopter (likely user-form or group-form when they get
   the same treatment).
-- *Add Sesión sub-section from the prototype.* Needs a new
+- _Add Sesión sub-section from the prototype._ Needs a new
   `loginExtOverride` field on `Agent` plus a "Expirar contraseña"
   dialog/store action. Out of scope for this PR; tracked in
   `roadmap.md`. The sub-section pattern accommodates it cleanly.
-- *Add a `pickupTypeChat` field.* Today only one global `pickupType`
+- _Add a `pickupTypeChat` field._ Today only one global `pickupType`
   exists. Splitting per-channel is a small data-model expansion;
   deferred until the user confirms it's a real need vs. the
   Voice-only legacy default.
-- *Keep the side nav showing Languages and Labels as separate
-  entries.* Both now live inside one card; collapsing the nav to
+- _Keep the side nav showing Languages and Labels as separate
+  entries._ Both now live inside one card; collapsing the nav to
   reference only the parent ("Configuración avanzada") matches the
   user's scroll model.
 
@@ -114,13 +269,14 @@ Same playbook as DD#55 (extract perm-matrix) and DD#53 (extract
 component, because each consumer's data binding is form-specific.
 
 **Side effects.**
+
 - Animation is now uniform: every `.pill--status-active` /
   `.pill--status-inactive` in the admin forms pops on render
   (360ms scale 0.94 → 1.05 → 1, with `@media (prefers-reduced-motion)`
   honoured). user-form and group-form inherit it without local code.
 - Dead `.pill--type` (agent-form) and `.pill--channel` (group-form)
   variants were dropped — their templates never referenced them.
-  `.pill--type` survives in `_forms.scss` because user-form *does*
+  `.pill--type` survives in `_forms.scss` because user-form _does_
   use it; `--channel` is gone (group-form's channel chips use a
   different component path).
 
@@ -129,8 +285,8 @@ single canonical brand-subtle variant — both render identically, but
 template class names communicate intent ("this is a type / role
 pill"), so the cost of touching every consumer's HTML outweighs the
 saving. (b) Remove the `status-pop` animation across the board to
-calm down the surfaces — UX brand-voice says *calm · dense ·
-operational*, not motionless; status-pop is subtle and gives genuine
+calm down the surfaces — UX brand-voice says _calm · dense ·
+operational_, not motionless; status-pop is subtle and gives genuine
 state-change feedback, so we standardised it as on, not off.
 
 ---
@@ -229,22 +385,22 @@ pattern as `LabelCascadeService`.
 
 **What we discarded.**
 
-- *Banner / inline-alert approach (mismatch warning).* Considered as
+- _Banner / inline-alert approach (mismatch warning)._ Considered as
   the cheaper band-aid: keep the global `Agent.channels` and show a
   "you have channel X but this group doesn't offer it" alert. Rejected
-  because the mismatch is a *symptom*, not a *constraint*. Tooling
+  because the mismatch is a _symptom_, not a _constraint_. Tooling
   around symptoms compounds over time; structural fix doesn't recur.
-- *Verbatim copy of Voice's Figura 15 table.* Single ambiguous "channel"
+- _Verbatim copy of Voice's Figura 15 table._ Single ambiguous "channel"
   column with no bulk controls. Works in Voice for trained operators,
   not for a non-dev admin managing dozens of groups + hundreds of agents.
   Replaced with one column per channel the group owns, tri-state column
   headers for bulk-toggle, indeterminate-state semantics, and an inline
   picker with search and paste-list-friendly Enter-to-add.
-- *Drag-reorder of agent rows in the group form.* The Voice form had
+- _Drag-reorder of agent rows in the group form._ The Voice form had
   none and our user reads visual order as priority — drag-reorder of
   permissions rows would lie about the underlying model (sort is by
   name; level-routing is a separate strategy field).
-- *Generic `AedListPickerComponent` extracted up front.* Two callers
+- _Generic `AedListPickerComponent` extracted up front._ Two callers
   (agent-form, group-form) share the picker pattern, but their data
   shape differs (Group with channels vs Agent alone). Embedded inline
   in each table component for V1; will extract only if a third caller
@@ -373,7 +529,7 @@ bootstrap so the switch survives shell restarts.
   can revert that one commit instead of the whole upgrade.
 - **Playwright as the regression net.** Three majors + three PrimeNG
   bumps without visual checks would be a leap of faith — `tsc
-  --noEmit` catches type drift but doesn't catch a re-rendered
+--noEmit` catches type drift but doesn't catch a re-rendered
   PrimeNG component that lost its border-radius. Snapshotting at
   every step makes "did anything visibly change?" answerable in 30
   seconds.
@@ -393,7 +549,7 @@ bootstrap so the switch survives shell restarts.
   actually work together. The `--legacy-peer-deps` route documented
   per step is more honest about what we're accepting.
 - Skipping the v19 / v20 stops and going straight to v21. `ng
-  update` doesn't support multi-major hops for the Angular
+update` doesn't support multi-major hops for the Angular
   schematics; trying to leap would have left half the migrations
   un-applied.
 - Trimming the visual regression to "spot-check 2-3 screens." Three
@@ -526,7 +682,7 @@ before "what can they do."
 
 **Discarded.**
 
-- Keeping the rail's identity strip *and* a richer header — would
+- Keeping the rail's identity strip _and_ a richer header — would
   duplicate state (the avatar, the name, the status pill rendered
   twice) and force every dirty/save event to ripple through two
   surfaces.
@@ -560,7 +716,7 @@ don't pass the flag and keep the existing loud `btn--danger`
 treatment as the trailing primary action.
 
 **Why.** "Discard unsaved changes" is the one destructive prompt
-where the destructive option is *not* the recommended outcome — the
+where the destructive option is _not_ the recommended outcome — the
 modal exists because the user navigated away by accident, and the
 default action should preserve work (NN/g, Apple HIG, Material).
 Other destructive prompts (reset all data, delete an entity) are
@@ -690,15 +846,16 @@ appears only when there are changes. Avoids menu noise when the
 user is just browsing settings.
 
 **Discarded.**
-- *One global Save at page level for Servicio* — simpler in code,
+
+- _One global Save at page level for Servicio_ — simpler in code,
   but breaks the Figma's two-card mental model and would require
   resolving inter-card dirty interactions. Two saves is closer to
   the source of truth.
-- *Sticky page-level "Cambios sin guardar" pill* (the secondary
+- _Sticky page-level "Cambios sin guardar" pill_ (the secondary
   recommendation from the UX consult). Kept it on the shelf — none
   of these pages today is long enough to lose Save out of viewport.
   If the iframe section grows or new sub-sections land, revisit.
-- *Reactive Forms / FormGroup.* Each page is a flat list of
+- _Reactive Forms / FormGroup._ Each page is a flat list of
   primitives with no validators worth the FormGroup overhead.
   Signals + plain `(input)/(change)` handlers are smaller and
   matched the rest of the codebase.
@@ -706,7 +863,8 @@ user is just browsing settings.
 **How to roll back.** Replace the three component templates with
 the previous `aed-sub-placeholder.component.html` (deleted in this
 push, recoverable from git). Drop the new `*.scss` files. The shell
-+ sidebar stay; only the page contents revert. ~10 minutes.
+
+- sidebar stay; only the page contents revert. ~10 minutes.
 
 ---
 
@@ -743,13 +901,14 @@ preference (which prefixes count as "special"), so it sits more
 naturally next to Apariencia / Datos than under "AED defaults".
 
 **Discarded.**
-- *Wrap every `/config/*` route in the shell.* Was the first
+
+- _Wrap every `/config/_` route in the shell.\* Was the first
   implementation. Reverted because the user clarified the shell is
   AED-specific.
-- *Keep AED as a single page (numeración especial) and add the new
-  sub-pages as siblings.* Couldn't — the user's IA explicitly puts
+- _Keep AED as a single page (numeración especial) and add the new
+  sub-pages as siblings._ Couldn't — the user's IA explicitly puts
   Servicio/Agentes/Grupos under AED.
-- *Inline the country picker into Sistema's component class.* Would
+- _Inline the country picker into Sistema's component class._ Would
   have ballooned Sistema to ~600 lines and mixed two unrelated save
   flows (Sistema's reset vs Numeración especial's discard/save).
   Extracting to a section component keeps each piece self-contained.
@@ -762,7 +921,7 @@ Sistema's template. ~15 minutes.
 
 ---
 
-## 44 — SettingsShell pattern: 256px sticky rail + main outlet, scoped to /config/aed/* only (2026-05-07)
+## 44 — SettingsShell pattern: 256px sticky rail + main outlet, scoped to /config/aed/\* only (2026-05-07)
 
 **Decision.** A new `SettingsShellComponent` (in
 `features/config/layout/`) wraps the AED hub routes with a
@@ -772,6 +931,7 @@ the right that paints the muted page canvas
 (`var(--sc-bg-secondary-subtle)`).
 
 The sidebar (`SettingsSidebarComponent`) renders:
+
 - Header: "Configuración AED" / "Ajustes de la plataforma"
   (Inter 16/12, primary/subtle text).
 - Nav: a `<nav aria-label="Configuración AED">` with three
@@ -810,14 +970,15 @@ max consult) is collapsing to a `<select>` above main below 768px;
 flagged in SESSION-LOG as queued.
 
 **Discarded.**
-- *Rail with the same items as the main app sidebar's "Configuración"
-  tree (Seguridad / Personalización / AED / Integraciones / Sistema)*
+
+- _Rail with the same items as the main app sidebar's "Configuración"
+  tree (Seguridad / Personalización / AED / Integraciones / Sistema)_
   — was the first implementation, before the user clarified the
   layout is AED-specific.
-- *Backdrop-blur or glass on the rail.* Same reasoning as DD#43:
+- _Backdrop-blur or glass on the rail._ Same reasoning as DD#43:
   blur is the AI-SaaS fingerprint we walk away from. Solid surface
-  + 1px border is the deliberate choice.
-- *Compact-when-stuck rail.* Same reasoning as DD#43: not yet
+  - 1px border is the deliberate choice.
+- _Compact-when-stuck rail._ Same reasoning as DD#43: not yet
   worth the IntersectionObserver complexity at today's content
   volume.
 
@@ -840,6 +1001,7 @@ under the bar gradually instead of cutting off at a hard edge.
 fingerprint and we walk away from it everywhere else (DD#39).
 
 **Why.**
+
 - For long lists (200+ entries on the production-scale future),
   search is iterative: type → scroll → refine → repeat. A sticky
   search input removes the round-trip.
@@ -851,6 +1013,7 @@ fingerprint and we walk away from it everywhere else (DD#39).
   mask + the explicit no-blur rule.
 
 **Discarded.**
+
 - **`backdrop-filter: blur(20px)`** — recognisable AI-SaaS pattern.
   Solid surface + soft gradient looks deliberate.
 - **Hide-on-scroll-down / show-on-scroll-up** (Linear pattern) —
@@ -883,11 +1046,12 @@ bar returns to in-flow scrolling. ~5 minutes.
 **Decision.** The `/config/sistema` page hosts two unrelated
 features that share the property of being prototype-only or
 prototype-adjacent:
-  - **Apariencia** — the three-state theme picker
-    (Claro / Oscuro / Sistema), production-ready, owned by
-    `ThemeService`.
-  - **Datos** — the "Restaurar datos de fábrica" button, prototype-
-    only, removed when the real backend lands. See DD#38.
+
+- **Apariencia** — the three-state theme picker
+  (Claro / Oscuro / Sistema), production-ready, owned by
+  `ThemeService`.
+- **Datos** — the "Restaurar datos de fábrica" button, prototype-
+  only, removed when the real backend lands. See DD#38.
 
 **Why this structure.** The two affordances have different
 lifecycles (theme is permanent; reset is temporary), but they
@@ -913,12 +1077,13 @@ below with a clearly-labelled section title.
 **Decision.** A single `<aed-illustrated-avatar>` component drives
 every entity-shaped avatar slot in the app. Two SVG pools live under
 `src/assets/avatars/`:
-  - `illustrated/` — 24 person portraits. Default. Used wherever
-    the entity is conceptually a person (agents, users, the topbar
-    supervisor avatar).
-  - `abstract/` — 3 non-personal abstract patterns. Used for
-    entities that are NOT people (groups). Picked via `[pool]
-    ="'abstract'"`.
+
+- `illustrated/` — 24 person portraits. Default. Used wherever
+  the entity is conceptually a person (agents, users, the topbar
+  supervisor avatar).
+- `abstract/` — 3 non-personal abstract patterns. Used for
+  entities that are NOT people (groups). Picked via `[pool]
+="'abstract'"`.
 
 The component picks one SVG from the active pool by hashing the
 entity name (djb2 + modulo). When `[photo]` is set, the photo wins.
@@ -934,6 +1099,7 @@ no-photo placeholder renders the same hashed illustration the
 list shows — the form preview matches the row cell.
 
 **Why.**
+
 - **Initials over hashed colour was the original treatment**
   (`EntityAvatarComponent`). It read fine in dense lists but
   flat in detail / form views. The illustrated portraits have
@@ -949,6 +1115,7 @@ list shows — the form preview matches the row cell.
   rarely number in the dozens, so collisions are tolerable).
 
 **Discarded.**
+
 - **Manual avatar picker.** Considered for the agent form (the 8
   named avatars in `src/assets/avatars/named/` are kept around for
   this in case it's ever wanted). Cut for now: the deterministic
@@ -984,20 +1151,20 @@ display order. Header columns themselves are NOT draggable.
 
 **Why.** Three options were on the table when reorder was requested:
 
-  - **(a) Migrate to `<p-table>` for `[reorderableColumns]="true"`.**
-    Rejected because of DD#39 — kills the custom design system.
-  - **(b) CDK Drag-Drop inside the column-manager popover.** The
-    convention used by Notion, Linear, Airtable's settings panels,
-    GitHub's project boards. Discoverable via the explicit "columns"
-    affordance, low layout risk (the popover handles overflow
-    locally), no contention with sortable headers (which already
-    consume header clicks).
-  - **(c) Drag from the `<th>` headers themselves**, spreadsheet-
-    style. Rejected as too rare in admin tools — users don't expect
-    `<table>` headers to be draggable, and the gesture collides
-    with the existing sort-on-header-click. Plus it requires
-    custom drop-zone math across cells, a lot of code for a
-    rarely-used affordance.
+- **(a) Migrate to `<p-table>` for `[reorderableColumns]="true"`.**
+  Rejected because of DD#39 — kills the custom design system.
+- **(b) CDK Drag-Drop inside the column-manager popover.** The
+  convention used by Notion, Linear, Airtable's settings panels,
+  GitHub's project boards. Discoverable via the explicit "columns"
+  affordance, low layout risk (the popover handles overflow
+  locally), no contention with sortable headers (which already
+  consume header clicks).
+- **(c) Drag from the `<th>` headers themselves**, spreadsheet-
+  style. Rejected as too rare in admin tools — users don't expect
+  `<table>` headers to be draggable, and the gesture collides
+  with the existing sort-on-header-click. Plus it requires
+  custom drop-zone math across cells, a lot of code for a
+  rarely-used affordance.
 
 Locked columns (e.g. `name`) are NOT draggable and pin to the top
 of the menu. The data-driven render loop keeps them at slot 0 of
@@ -1008,18 +1175,20 @@ not in the column manager at all, hard-coded in the template.
 The persisted shape is `string[]` (visible keys in order) instead
 of `Set<string>`. This carries both axes (visibility + order) in
 one value with no schema duplication. Reading the stored list:
-  - keys not in the current declaration are dropped (column
-    removed from code);
-  - newly-declared keys not in the stored list are appended in
-    declaration order, honouring `defaultVisible: false` if set
-    (so a developer can add a hidden-by-default column without
-    surprising existing users).
+
+- keys not in the current declaration are dropped (column
+  removed from code);
+- newly-declared keys not in the stored list are appended in
+  declaration order, honouring `defaultVisible: false` if set
+  (so a developer can add a hidden-by-default column without
+  surprising existing users).
 
 `storageKey` carries a `_v<N>` suffix; bumping invalidates stale
 caches. Bumped to `_v2` in this commit for agents and groups when
 the schema changed and `code` shipped hidden by default.
 
 **Discarded.**
+
 - A separate "Reset" button per axis (one for visibility, one for
   order). The single "Restablecer" link in the popover head resets
   both — clearer mental model.
@@ -1061,22 +1230,24 @@ entirely — `p-table` ships a strong opinionated chrome that is the
 exact convention we walked away from.
 
 The hybrid name comes from this split:
-  - **HTML semantics** stay native: `<table>`, `<thead>`, `<tbody>`,
-    `<tr>`, `<th>`, `<td>`. Screen readers, keyboard navigation,
-    print, and copy-paste all work the way browsers expect — no
-    custom ARIA scaffolding required.
-  - **Design system** is custom: every cell type (`status`,
-    `channels`, `type`, `actions`) renders through a `.sc-*` class
-    owned by us, so the visual language is a single source of truth
-    across the three list pages.
-  - **Render logic** is Angular component-driven: each list page
-    composes `aed-illustrated-avatar`, `aed-group-popover`,
-    `aed-inline-rename-cell`, `aed-bulk-edit-menu`, etc into the
-    `<td>` slots it needs. We get the productive pieces of
-    component-driven UI without ceding the chrome to a black-box
-    grid component.
+
+- **HTML semantics** stay native: `<table>`, `<thead>`, `<tbody>`,
+  `<tr>`, `<th>`, `<td>`. Screen readers, keyboard navigation,
+  print, and copy-paste all work the way browsers expect — no
+  custom ARIA scaffolding required.
+- **Design system** is custom: every cell type (`status`,
+  `channels`, `type`, `actions`) renders through a `.sc-*` class
+  owned by us, so the visual language is a single source of truth
+  across the three list pages.
+- **Render logic** is Angular component-driven: each list page
+  composes `aed-illustrated-avatar`, `aed-group-popover`,
+  `aed-inline-rename-cell`, `aed-bulk-edit-menu`, etc into the
+  `<td>` slots it needs. We get the productive pieces of
+  component-driven UI without ceding the chrome to a black-box
+  grid component.
 
 **Discarded.**
+
 - **`<p-table>` migration** (option a in the audit). Cost: rewrite
   the three list pages, fight `:host ::ng-deep` to override
   `.p-datatable-*` selectors that don't accept the `.sc-*` tokens
@@ -1090,8 +1261,9 @@ The hybrid name comes from this split:
 **How to roll back if production needs `p-table`.** Drop
 `src/styles/_table-elements.scss`, remove the `@use 'table-elements'`
 line in `main.scss`, replace each list-page table with `<p-table>`
-+ column templates, and accept that the agents/users/groups screens
-will adopt PrimeNG's chrome. Estimate: ~1 day per list page.
+
+- column templates, and accept that the agents/users/groups screens
+  will adopt PrimeNG's chrome. Estimate: ~1 day per list page.
 
 ---
 
@@ -1175,6 +1347,7 @@ that referenced `--sc-line-height-400` for an H3 now use the semantic
 `--sc-line-height-h3` token directly.
 
 **Why.** Two gaps were hidden in the previous setup:
+
 1.  The token `--sc-font-family-primary: 'Inter', system-ui, sans-serif`
     was declared, but no `<link>` to Google Fonts existed in
     `index.html`. The browser silently fell back to `system-ui` for
@@ -1385,8 +1558,9 @@ A single `<aed-confirm-host>` component, mounted once in
 routes button clicks back into the service.
 `DiscardDialogService.confirm()` keeps its public signature and now
 calls `confirmHost.request({...})` internally. `ConfirmDialogModule`
-+ PrimeNG's `ConfirmationService` removed from `app.config.ts` and
-`app.component.ts`.
+
+- PrimeNG's `ConfirmationService` removed from `app.config.ts` and
+  `app.component.ts`.
 
 **Why.** `ConfirmationService` rendered the raw PrimeNG
 `<p-confirmDialog>` chrome — different geometry, no leading icon
@@ -1483,7 +1657,7 @@ removes the thumb-slide animation but keeps the colour change.
 
 **Discarded.** A `<button aria-pressed="true|false">` — works but
 re-implements form association manually. Pure CSS-only with no input
-— breaks `<form>` submission. `<input type="checkbox">` *without*
+— breaks `<form>` submission. `<input type="checkbox">` _without_
 `role="switch"` — visually a switch, semantically a checkbox; screen
 readers say the wrong thing.
 
@@ -1506,7 +1680,7 @@ the user has nothing to do anyway.
 **Discarded.** `QuicklinkStrategy` (only preload visible links) —
 right answer for a marketing site where most chunks won't be
 visited in a session; wrong here because the user navigates
-*everywhere*. Removing lazy loading entirely (single bundle) —
+_everywhere_. Removing lazy loading entirely (single bundle) —
 inflates initial paint and main-thread parse for no gain on a
 client-only app of this size.
 
@@ -1621,7 +1795,7 @@ that lingered as the page navigated read as lag. The press snap is
 the opposite: instant tactile feedback the moment the click lands,
 and because the transition duration is zero on `:active`, there's no
 fade-out animation racing the navigation. Hover stays soft (100ms)
-because hover *is* a continuous gesture.
+because hover _is_ a continuous gesture.
 
 **Discarded.** Removing transitions entirely — hover changes look
 abrupt and unfinished. Bouncier press (`scale(0.95)`, spring easing)
@@ -1644,7 +1818,7 @@ instance.
 Labels, Templates) and a runtime string (the 9 repo instances each
 have their own `entityPluralSpanish` in their config). One signature
 that fits both is a literal string; the alternative would be two
-inputs (`entityPluralKey` *or* `entityPlural`) with a runtime
+inputs (`entityPluralKey` _or_ `entityPlural`) with a runtime
 "exactly-one-of" check. The component stays dumb, the caller decides
 where the string comes from.
 
@@ -1724,7 +1898,7 @@ The original toast simply expires on its own 8-second life.
 **Decision.** Inline form validation errors render as
 `<span class="field__error" aria-live="polite">` that is **always**
 in the DOM. CSS gives the span `min-height: 1.25em`. The `@if`
-controls only the *text* inside the span, not the element itself.
+controls only the _text_ inside the span, not the element itself.
 
 **Why.** The previous pattern (`@if (errors()['x']; as err) { <span>…</span> }`)
 adds the span to the DOM only when an error exists, which pushes
@@ -1895,7 +2069,7 @@ common case of "duplicate then change one word".
 push surrounding content. Bulk action bars overlay (always-reserved
 bottom padding, `position: fixed`). Inline editors share the resting
 cell's height. Validation slots reserve `min-height` so messages appear
-*into* an allocated space.
+_into_ an allocated space.
 
 **Concretely.** Three sites refactored: list pages no longer animate
 `padding-bottom` on selection (always reserved). `InlineRenameCellComponent`
@@ -1975,6 +2149,7 @@ actually requires them.
 ## 4 — File-system convention: aliases + per-feature routes + flat pages (2026-05-05)
 
 **Decision.** Every feature follows the same shape:
+
 ```
 features/<scope>/<feature>/
 ├── <feature>.routes.ts      # composer mapped from the parent
@@ -1983,6 +2158,7 @@ features/<scope>/<feature>/
 ├── components/              # feature-private UI
 └── pages/<page>.component.{ts,html,scss,spec.ts}
 ```
+
 Imports use `@core/*`, `@shared/*`, `@features/*` aliases (configured in
 `tsconfig.json`). Sibling files inside the same feature stay relative.
 
@@ -2046,7 +2222,6 @@ would have meant the design system was decorative.
 
 **Discarded.** "Use the prototype look as-is" (decorative tokens) and "use a
 hybrid" (proto density + JSON colors) were rejected for the same reason.
-
 
 ---
 

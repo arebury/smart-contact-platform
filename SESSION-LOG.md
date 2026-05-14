@@ -10,6 +10,103 @@
 
 ---
 
+## 2026-05-14 · Session 25 — Tab-based form nav, unified page header across the app, danger zone moves home (PRs #35–#42 + 2 hotfixes)
+
+> Eight PRs + two `main` hotfixes. Long iterative session pulled
+> the form shell from `explore/form-aircall-shell` into `main`
+> piecewise, then folded the lessons back across /admin lists
+> and /config so every page in the app reads with the same
+> vertical rhythm. CI was failing silently behind every merge
+> because branch protection didn't gate on green — caught and
+> fixed at the end.
+
+### Worked on
+
+- **PR #35** — Replaced scroll-spy section nav with **controlled
+  tab navigation** across agent / group / user form shells. Each
+  section is a switchable pane via `@switch (activeSection())`.
+  In **edit** mode, the Identity entry drops to the end of the
+  nav and the form opens on the second entry (channels / groups
+  / sections). Rationale: identity fields are set once and rarely
+  re-edited; lead the index with what users iterate on. Adds
+  icons to nav entries.
+- **PR #36** — Index polish + chip toggles + danger zone
+  relocated. Form-nav adopts settings-sidebar visual (chip 28×28,
+  inline label · hint, no dot). Rail widened 220→300 to fit hint
+  inline. Hints shortened (≤30 chars). Eliminar drops out of the
+  index — now at bottom of Identidad tab (GitHub / Stripe danger
+  zone pattern). Chip cluster fuses into the Grupo name cell in
+  `group-assignment-table`, each chip gains ✓ when on / + when
+  off so the toggle nature is unambiguous. Yellow zero-channels
+  warning icon removed from `agent-channel-table` (header counter
+  already surfaces the state in aggregate).
+- **PR #37** — Chip-per-row in `agent-channel-table` (groups
+  form). Solves the "single-channel group looks sparse" case
+  (one bare checkbox in a column). Visual consistency with the
+  sibling `group-assignment-table` in the agent form. Drops the
+  column-header bulk toggle — power-user feature, can be added
+  to the bulkbar if missed.
+- **PR #38** — Unifies every `/admin` list page (Agentes, Grupos,
+  Usuarios, Etiquetas, Plantillas, Repositorios) under a new
+  shared `aed-page-header` component. Each page now opens with
+  icon + title + (optional eyebrow / subtitle) + actions slot.
+- **PR #39** — Last bespoke header migrated: the repositories hub
+  landing.
+- **PR #40** — /config layout matches /admin form layout. A
+  single `aed-page-header` lives in `aed-settings-shell`
+  spanning the full page width above the sidebar + main columns.
+  Each /config leaf writes its title / icon / subtitle into a
+  new `PageHeaderService` signal on construction; the shell
+  renders it. Agent edit header trims to spec (presence pill
+  only, no admin status). Group edit header trims to spec (no
+  priority pill). Discard-changes modal buttons tighten to
+  spacing-200 gap and right-align — the previous 50/50 stretch
+  read as "two panels" rather than a clear primary/secondary
+  choice in a narrow dialog.
+- **PR #41** — Full visual parity between list/config and form
+  headers: `aed-page-header` now mirrors `sticky-form-header` in
+  every visual axis (sticky top:0, white surface, bottom border,
+  xs shadow, 44×44 icon, padding 12/24, gap 16). Every list page
+  lifts the header _out_ of `.page` so it spans viewport edge
+  to edge. Settings-sidebar drops its hint subtitle to match the
+  title-only form-section-nav. Form rails revert 300→240 now
+  that the inline hint is gone. Agent edit header always shows
+  email + extension (with `Sin email` / `Sin extensión`
+  fallback) so the structure is consistent across every agent
+  regardless of data.
+- **PR #42** — Polish batch: back-button in topbar breadcrumbs
+  (only renders when the trail has a parent crumb; navigates to
+  the second-to-last crumb's path). Empty states in both link
+  tables (`group-assignment-table` and `agent-channel-table`)
+  gain icon + title + body — same rhythm as the list pages.
+  Pencil edit-name button in `sticky-form-header` reads as a
+  soft pill at rest (was flat-transparent — too easy to miss).
+  `.gitignore` now filters iCloud's ` 2.*` duplicate artefacts
+  so they stop polluting `git status` locally.
+- **Hotfix `152fb7c`** — `prettier --write` on 13 files that
+  shipped unformatted across the earlier PRs. CI was failing
+  silently behind every merge because branch protection didn't
+  block on red — Netlify never deployed.
+- **Hotfix `e1048ae`** — `templates-page.spec` and
+  `labels-page.spec` updated selectors from `.page__title` →
+  `.page-header__title` after the migration to `aed-page-header`.
+
+### State of `main`
+
+`af9c1b3` → `152fb7c` → `e1048ae` (all green). Netlify deploys
+unblocked. Eight feature PRs + two main hotfixes landed; the app
+visually presents a single header recipe across every route now.
+
+### Pending heading into the next session
+
+- Bulk channel-toggle in `agent-channel-table` — removed when
+  refactoring to chip-per-row. If it's missed, add as an action
+  in the row-selection bulkbar.
+- Verify in Netlify preview that the sticky offset between the
+  page-header and the /config rail behaves at every viewport.
+
+---
+
 ## 2026-05-11 · Session 24 — GUIA grows up: PrimeOne UI Kit workflow + themes/handoff/migrations (PR #33 + #34)
 
 > Two PRs merged into `main` (`0604c8c` and `8560308`). Pure-docs
@@ -159,9 +256,9 @@ Token roadmap items + Phase 4 still untouched.
   - User caught: "no entiendo nada, de por qué hablamos de tres
     idiomas, siendo figma y smart contact ubicados ambos en
     figma, el mismo idioma". Fixed — the "three worlds" framing
-    was wrong. The SC design system *lives in* Figma; same value,
+    was wrong. The SC design system _lives in_ Figma; same value,
     two representations. Reframed as two worlds (Figma ↔ code)
-    with PrimeNG as a *consumer* coming through the
+    with PrimeNG as a _consumer_ coming through the
     `aed-preset.ts` bridge. New ASCII diagram makes the
     relationship explicit.
 
@@ -177,6 +274,7 @@ Token roadmap items + Phase 4 still untouched.
 ### Outstanding
 
 Tracked in `roadmap.md → 3.7 Agents`:
+
 - Column-visibility selector in agents list (needs `MultiSelectChip`)
 - Frozen-column data table
 - Photo upload preview
@@ -190,6 +288,7 @@ incluiría.
 
 In the working tree (untracked, not committed) appeared 8 files
 that look like macOS Finder duplicates or debug snapshots:
+
 - `docs/dd-53-per-group-channels-ux 2.md`
 - `src/styles/_forms 2.scss`
 - `e2e/snap-agent.ts`, `snap-debug.ts`, `snap-edit.ts`,
@@ -223,7 +322,7 @@ in-progress Playwright work).
   `.identity-card__head` block. user-form and group-form already
   followed the "header-only" pattern; the agent form was the lone
   duplicator. Removed the `__head` HTML + the orphan `__head/__photo/
-  __name` SCSS. Identity card now starts with Email + Phone. Photo
+__name` SCSS. Identity card now starts with Email + Phone. Photo
   and name editing is exclusive to the sticky header.
 
 - **PR #30** (`9465bec`) — Configuración avanzada close-out (the two
@@ -270,7 +369,7 @@ in-progress Playwright work).
     none/some/all over the visible templates (consistent with
     `.perm-matrix` headers in DD#55).
   - **tokens**: `var(--sc-bg-elevated, #fff)` → `var(--sc-bg-elevated,
-    var(--sc-bg-surface))`. Pure `#fff` fallback violated
+var(--sc-bg-surface))`. Pure `#fff` fallback violated
     `.impeccable.md` banned-patterns.
 
 ### Result
@@ -285,6 +384,7 @@ in-progress Playwright work).
 ### Outstanding
 
 Still tracked in `roadmap.md → 3.7 Agents`:
+
 - Column-visibility selector in agents list (UX win, needs
   `MultiSelectChip` primitive)
 - Frozen-column data table
@@ -403,7 +503,7 @@ Phase 4 (README + docs) untouched.
 - 5 PRs merged. main: `e74c32b` → `c858544`.
 - 163/163 tests pass throughout. Lint + format + tsc clean.
 - Audit de DD#54 cerrado entero (6/6). Lista en `roadmap.md →
-  UI consistency debt` queda toda tachada.
+UI consistency debt` queda toda tachada.
 - Working tree clean.
 
 ### Outstanding — del prototipo Configuración avanzada
@@ -558,7 +658,7 @@ ordered by priority. Audit #1 was the highest-value item and is now
 
 1. **Pill status hex literals + animation drift** (Media). group-form
    and user-form use hardcoded `#1a8a4a`/`#1a6a3a` for status pills;
-   agent-form uses `--sc-presence-*` tokens *and* a pop animation.
+   agent-form uses `--sc-presence-*` tokens _and_ a pop animation.
    Fix: tokenize + decide animation on/off uniformly across forms.
 2. **Dead `.toggle` SCSS** in
    `user-form-page.component.scss:124-169` (Media, ~5 min). Track +
@@ -750,7 +850,7 @@ marketing.
   smeared across 7 files (extensions layer, modal, app.component,
   command-palette, group-popover, toggle-switch, keyboard-shortcuts).
   New `--sc-shadow-color-rgb: 15 23 42` and `--sc-shadow-focus-ring-rgb:
-  90 211 230` tokens in the extensions layer; consumers now read
+90 211 230` tokens in the extensions layer; consumers now read
   `rgb(var(--sc-shadow-color-rgb) / 0.04)`. Future "warm up the
   shadows" tweak ripples from one declaration.
 
@@ -765,12 +865,14 @@ marketing.
   baseline ↔ after-preset (light + dark): byte-identical.
 
 **Decisiones tomadas**
+
 - DD#52: `--p-*` overrides move from a flat CSS file to a JS preset
   composed via `definePreset(Aura, …)`. Same source of truth (the
   preset's values are `var(--sc-…)` references); same emitted CSS at
   runtime; lives where v21 expects.
 
 **Bloqueos / decisiones diferidas**
+
 - The dark-mode `colorScheme` token chain in `aed-preset.ts` carries
   duplicated entries for light and dark surface scales. PrimeNG's
   preset compiler treats them as distinct sections and we provide
@@ -779,6 +881,7 @@ marketing.
   semantics that diverge between modes.
 
 **Queued next**
+
 - Same parked items as before (perf SCSS extraction, a11y P2 sweep,
   Telegram drawer). Now with both Playwright + the v21-aligned
   preset in place, future preset-level tweaks (e.g. customising
@@ -831,6 +934,7 @@ marketing.
   Angular CDK 21.2.10 · Lucide-angular 1.0 · Node 20.20.2.
 
 **Decisiones tomadas**
+
 - DD#51: Major-version upgrade lands as a single PR via the
   `chore/upgrade-angular-21` branch. Granular commits per major step
   (one per Angular major) so any future bisect can pinpoint which
@@ -842,12 +946,14 @@ marketing.
   muddy the diff.
 
 **Bloqueos / decisiones diferidas**
+
 - Performance + SCSS-extraction items from Session 16's audits stay
   parked — best tackled now that we have Playwright wired up.
 - Color-mix migration of dark-mode translucencies likewise — the
   visual A/B comparison the user wanted is now feasible.
 
 **Queued next**
+
 - Open the PR `chore/upgrade-angular-21 → main` and merge once the
   user signs off.
 - Resume the deferred Session 16 items (perf hot spots, SCSS
@@ -875,7 +981,7 @@ marketing.
 - **Dead-code cleanup.** Removed `EntityAvatarComponent` (orphan
   export), four `errors.*` i18n keys (no consumers), the orphan i18n
   triplet `agents.form.section.{identity, identity_hint, contact,
-  contact_hint, channels_hint}` left behind by the Identificación
+contact_hint, channels_hint}` left behind by the Identificación
   card consolidation. Extracted `EMAIL_RE` + `PIN_RE` into
   `@core/utils/validators` (was duplicated across agents + users
   forms). Fixed a dormant memory leak in `BreadcrumbService`
@@ -920,18 +1026,18 @@ marketing.
 
 - **WCAG AA pass.** New `aedSortable` directive (`@core/directives`)
   makes admin list table headers keyboard-accessible: `role="button"`
-  + `tabindex="0"` + Enter/Space activation + `aria-sort` reflecting
-  current direction + a shared focus ring in `_table-elements.scss`.
-  Applied to agents, groups and users lists. App-shell ships a
-  skip-to-content link (`<a href="#main-content">`) that appears on
-  focus, lifts above all chrome, and lands the user inside the
-  routed view. `<main>` got `tabindex="-1"` so the skip can target
-  it. Visually-hidden `<h1>` added inside `StickyFormHeader` so form
-  pages have a real page heading for screen readers (the visual
-  chrome is unchanged). Confirmation input in `delete-entity-dialog`
-  gets a real `<label>` instead of a `<p>`. Command-palette search
-  gets `aria-label`. Channel icons in agents-list now sit inside an
-  `aria-label`-wrapped span so the channel name is announced.
+  - `tabindex="0"` + Enter/Space activation + `aria-sort` reflecting
+    current direction + a shared focus ring in `_table-elements.scss`.
+    Applied to agents, groups and users lists. App-shell ships a
+    skip-to-content link (`<a href="#main-content">`) that appears on
+    focus, lifts above all chrome, and lands the user inside the
+    routed view. `<main>` got `tabindex="-1"` so the skip can target
+    it. Visually-hidden `<h1>` added inside `StickyFormHeader` so form
+    pages have a real page heading for screen readers (the visual
+    chrome is unchanged). Confirmation input in `delete-entity-dialog`
+    gets a real `<label>` instead of a `<p>`. Command-palette search
+    gets `aria-label`. Channel icons in agents-list now sit inside an
+    `aria-label`-wrapped span so the channel name is announced.
 
 - **Cross-feature decoupling.** New `LabelCascadeService`
   (`@features/admin/services/`) owns the cross-store choreography
@@ -950,6 +1056,7 @@ marketing.
   via thin delegates so templates and tests don't change.
 
 **Decisiones tomadas**
+
 - DD#50: PrimeNG-style 7-layer token architecture replaces the
   monolithic `sc-tokens.css`. Layer 6 is the bridge — equivalent of
   a programmatic `definePreset()` call but expressed as flat CSS so
@@ -967,6 +1074,7 @@ marketing.
   among them.
 
 **Bloqueos / decisiones diferidas**
+
 - Telegram drawer for "agent assigned to group without channel
   permission" still parked until we discuss Telegram as a channel.
 - Dark-mode rgb() literals (e.g. `rgb(127 29 29 / 0.22)` in 04 +
@@ -974,9 +1082,10 @@ marketing.
   need visual A/B comparison and Node 25 keeps blocking the local
   dev server.
 - Local Node 25 still rejects `ng build`. Validation is `tsc
-  --noEmit` only; Netlify per-branch deploys validate the full build.
+--noEmit` only; Netlify per-branch deploys validate the full build.
 
 **Queued next**
+
 - Color-mix migration of dark-mode translucencies + shadow color
   tokenisation in a session where we can validate visually.
 - Telegram drawer cuando el usuario quiera abrir esa conversación.
@@ -994,7 +1103,7 @@ marketing.
 - **Performance + tests audits.** Two more parallel audits ran —
   performance scan and test-coverage scan. Performance hot spots:
   PreloadAllModules eager fetch (deliberately kept), `translate.
-  instant()` inside list-page filter+sort comparators (deferred,
+instant()` inside list-page filter+sort comparators (deferred,
   ~30 min memoization), component-SCSS duplication (deferred,
   multi-hour refactor that wants visual validation). Test coverage
   was ~10% — 14 specs across ~150 implementation files.
@@ -1009,10 +1118,10 @@ marketing.
 - **Tests on the most-critical untested zones.** Three new spec
   files closing the highest-leverage gaps:
   - `selection-state.spec.ts` — covers `toggle / toggleAll / clear`
-    + `allSelected / someSelected / count` computeds + the visible-
-    list thunk (filtered list shrinking the selection target).
-    The helper feeds three list pages, so a regression here would
-    silently break every bulk operation.
+    - `allSelected / someSelected / count` computeds + the visible-
+      list thunk (filtered list shrinking the selection target).
+      The helper feeds three list pages, so a regression here would
+      silently break every bulk operation.
   - `form-dirty.guard.spec.ts` — clean form lets navigation through;
     dirty form prompts the discard dialog; resolves true on confirm,
     false on keep-editing. The guard is the only thing keeping the
@@ -1074,6 +1183,7 @@ marketing.
   (`Disponible`, `Ocupado`, …) were dead rules from an earlier schema.
 
 **Decisiones tomadas**
+
 - DD#49: rich identity header replaces the persona rail; rail keeps
   only the section index. Validated against the user's Aircall-style
   reference image plus the React `Identificación` snippet.
@@ -1083,13 +1193,15 @@ marketing.
   the create-agent flow.
 
 **Bloqueos / decisiones diferidas**
+
 - Drawer for "agentes asignados sin permisos del canal" inside the
   group form is parked until the Telegram-channel discussion lands —
   user wants to study how Telegram fits before designing the drawer.
 - Local Node 25.2.1 still rejects `ng build`. Validation is `tsc
-  --noEmit` only; Netlify per-branch deploys validate the full build.
+--noEmit` only; Netlify per-branch deploys validate the full build.
 
 **Queued next**
+
 - User signaled "y después continuamos" — there is a point 6+ batch
   coming. Wait for the next prompt.
 
@@ -1190,7 +1302,7 @@ marketing.
   separate clusters. Search width pinned to 280px (was elastic up
   to 480px). Close-icon size 13 → 14 to match the rest of the bar.
   `.page__action-bar` removed. Templates / labels list pages were
-  *not* swept this round.
+  _not_ swept this round.
 
 - **Compact identity strip** (`form-hybrid-rail`). Restructured the
   rail to look like the aircall-shell persona but smaller:
@@ -1199,7 +1311,7 @@ marketing.
     right. No name in the rail (still in the StickyFormHeader).
   - Stats sit in their own bordered container below
     (`background: bg-default; border: 1px solid border-subtle;
-    border-radius: radius-200`). Three-tier hierarchy: identity →
+border-radius: radius-200`). Three-tier hierarchy: identity →
     data → navigation.
   - 1px divider between stats and the section nav. Compact form-
     section-nav stays.
@@ -1216,8 +1328,6 @@ marketing.
   the team review.
 - Per-branch Netlify deploys validating each prototype URL — already
   rebuilding on push, no action this session.
-
-
 
 > Started with five small items from the user (two bugs, a UX
 > analysis, a toast micro-interaction, and a documentation
@@ -1245,7 +1355,7 @@ marketing.
   StickyFormHeaderComponent. No code change.
 
 - **Toast action — micro-interaction + solid variant.** `.aed-toast__
-  action` now scales 1.04 on hover, 0.98 on active, with
+action` now scales 1.04 on hover, 0.98 on active, with
   `prefers-reduced-motion` fallback. Added an opt-in `--solid` variant
   for high-stakes actions (paint with primary token).
 
@@ -1284,8 +1394,8 @@ marketing.
     number), Tiempos de gestión (2 numbers), Voz/desbordamiento
     (codec select + 2 switches), Enrutamiento (2 selects),
     Apertura de ficha (3 radios).
-  Shared chrome lives in `aed-defaults-page.component.scss`; each
-  page additionally loads its own page-specific extras.
+    Shared chrome lives in `aed-defaults-page.component.scss`; each
+    page additionally loads its own page-specific extras.
 
 - **UX/a11y guidance applied** (per the ui-ux-pro-max consult mid-
   session): destino × col-toggle as real `<table>` for SR semantics;
@@ -1316,7 +1426,7 @@ marketing.
 - `aed-bg-default` token used in some accordion hover paths is
   fine but worth a quick audit when the design-system pass happens.
 - Real backend wiring for save flows (today they're 600ms simulated
-  + toast).
+  - toast).
 - Three placeholders in main app sidebar (personalización,
   integraciones) still load the global PlaceholderPageComponent —
   not in scope for this session, but they're visually inconsistent
@@ -1352,7 +1462,7 @@ marketing.
   button visibly when navigating between pages — chrome shifting
   under the user. New global rule
   `.page__actions > .btn--primary { min-width: 144px; justify-content
-  : center; }` floors the geometry.
+: center; }` floors the geometry.
 
 - **Command palette icons match the sidebar.** The "Acciones"
   category shipped without icons while "Páginas" had them — palette
@@ -1509,7 +1619,7 @@ marketing.
   surface→transparent gradient on a `::after` pseudo-element so
   scrolling content emerges from under the bar gradually instead
   of cutting off at a hard edge. Explicitly NO `backdrop-filter:
-  blur(...)` — that's the AI-SaaS-default fingerprint walked away
+blur(...)` — that's the AI-SaaS-default fingerprint walked away
   from in DD#39. Documented as DD#43 + roadmap "Future-leaning,
   already prototyped" because the value scales with dataset size.
 
@@ -1542,7 +1652,7 @@ marketing.
 > things" to "do all the rest of what we have on the list" and then
 > to "document everything explicitly before we close". The doc weight
 > in this entry reflects the second half — it's the only place a future
-> contributor can recover *why* this many surfaces moved at once.
+> contributor can recover _why_ this many surfaces moved at once.
 
 **Worked on (in shipping order)**
 
@@ -1572,7 +1682,7 @@ marketing.
   children inherited the parent crumb (`Admin > Grupos > Grumpos`)
   was fixed by reading `route.routeConfig.data` instead of
   `route.data` (skipping Angular's default `paramsInheritanceStrategy
-  : 'emptyOnly'` merge). 13 page components shed their breadcrumb
+: 'emptyOnly'` merge). 13 page components shed their breadcrumb
   boilerplate; 9 of them lost their `ngOnInit/ngOnDestroy` entirely.
   Section-level crumbs (Administración / Configuración) were dropped
   from the trail later — sidebar already marks the section in cyan,
@@ -1656,12 +1766,12 @@ marketing.
 
 - **CI / Netlify deploy unblocked.** Every commit since
   `c135df7` (dark mode) had failed `ng build --configuration
-  production` because `IllustratedAvatar.photo` was typed
+production` because `IllustratedAvatar.photo` was typed
   `string | null` while `Agent.photo?: string` is `string |
-  undefined`. `tsc --noEmit` didn't catch it; Angular's strict
+undefined`. `tsc --noEmit` didn't catch it; Angular's strict
   template type-check did. Widened the input type. A second CI
   failure on the same chain — `NG5002: 'as' is only on the
-  primary @if block` — was fixed by nesting `@if` inside `@else`.
+primary @if block` — was fixed by nesting `@if` inside `@else`.
   Result: `f00a4ae` is the first green CI on `main` since dark
   mode shipped, which unblocks the Netlify auto-deploy.
 
@@ -1972,9 +2082,9 @@ earlier the same day; this entry covers PRs #5–13 plus the wrap-up.)
   the prototype gaps the mirror-eval flagged for the long forms:
   `<aed-photo-upload>` shared component (round avatar with hover overlay,
   JPG/PNG/GIF up to 800 KB, "Eliminar foto" link); `AVAILABLE_LANGUAGES`
-  + multi-select chip pattern in the Agent form; two-column layout in
-  the User form with a sticky 280px summary sidebar (photo + name + email
-  / type / identifier rows + Grupos/Servicios tab strip).
+  - multi-select chip pattern in the Agent form; two-column layout in
+    the User form with a sticky 280px summary sidebar (photo + name + email
+    / type / identifier rows + Grupos/Servicios tab strip).
 
 - **Cleanup** ([PR #6](https://github.com/arebury/aed/pull/6)). Moved
   `AVAILABLE_GROUPS_REF` + the `AgentGroupRef` type from the Agents
@@ -2008,7 +2118,7 @@ earlier the same day; this entry covers PRs #5–13 plus the wrap-up.)
   PrimeNG's) — fixed the wrong selector (`.p-toast-icon-close` →
   `.p-toast-close-button`). CTA click felt fuzzy — added a global
   micro-interaction layer (100ms hover transitions, `:active { scale(0.98);
-  transition: 0 }` for tactile snap, `prefers-reduced-motion` opt-out).
+transition: 0 }` for tactile snap, `prefers-reduced-motion` opt-out).
   Closed the last prototype gap: agent labels UI in the form (chip
   picker between Channels and Groups, reuses `<aed-label-chip>`).
 
@@ -2057,6 +2167,7 @@ earlier the same day; this entry covers PRs #5–13 plus the wrap-up.)
   `var(--sc-color-gray-0)`.
 
 **Decisiones tomadas** (full rationale in DECISIONS.md #20–27)
+
 - #20 `ResultCounter` takes an already-translated literal, not a key
 - #21 Press feedback is `scale(0.98)` with zero transition (snap, not fade)
 - #22 Side-stripe borders > 1px are banned (carry-over from /impeccable)
@@ -2067,11 +2178,13 @@ earlier the same day; this entry covers PRs #5–13 plus the wrap-up.)
 - #27 Toggle switch is a real `<input type="checkbox" role="switch">`, never a button
 
 **Bloqueos / decisiones diferidas**
+
 - None outstanding. The audit backlog and the mirror-eval are both
   exhausted save for items requiring real backend (skeleton screens
   during fetch) or out-of-plan product work (the 16 placeholder routes).
 
 **Migration status: CLOSED.**
+
 - Functional parity with the React prototype: complete (last gap, agent
   labels UI, closed in PR #9).
 - Smart Contact design system: applied via canonical Button (PR #10),
@@ -2090,6 +2203,7 @@ earlier the same day; this entry covers PRs #5–13 plus the wrap-up.)
   not built.
 
 **Queued next**
+
 - Nothing. Future work is product (the placeholder routes when they
   become priorities), not migration debt.
 
@@ -2098,6 +2212,7 @@ earlier the same day; this entry covers PRs #5–13 plus the wrap-up.)
 ## 2026-05-06 · Session 4 — CI green, form-safety pass, undo stack
 
 **Worked on**
+
 - **CI repaired** ([PR #1](https://github.com/arebury/aed/pull/1)). CI was
   red on every commit since #1 — never green. Three classes of failure
   stacked:
@@ -2145,6 +2260,7 @@ earlier the same day; this entry covers PRs #5–13 plus the wrap-up.)
 
 **Decisiones tomadas** (see DECISIONS.md #11–#18 for the full
 rationale of each)
+
 - `cancel` is a forbidden output name; rename pattern is `cancel` →
   `cancelled` (past-tense Angular convention for "what happened").
 - Form-dirty contract is a `Signal<boolean>` (not a method), read by
@@ -2170,6 +2286,7 @@ rationale of each)
   so stacked PRs run.
 
 **Bloqueos / decisiones diferidas**
+
 - `ng build` and `ng lint` still don't run locally on Node 25. CI is
   the source of truth. `nvm install 20` remains a prerequisite for
   fast local iteration.
@@ -2178,6 +2295,7 @@ rationale of each)
   for long forms, profile-summary sidebar in User form.
 
 **Queued next**
+
 - **Sprint 3 — User+Agent form parity**: photo upload, languages
   multi-select, mini-TOC sidebar, User profile sidebar.
 - **Sprint 4 — List polish**: frozen Name column, group-count popover
@@ -2189,13 +2307,14 @@ rationale of each)
 ## 2026-05-06 · Session 3 — Bulk + duplicate parity, list polish, no-CLS pass
 
 **Worked on**
+
 - Cuatro primitivas compartidas nuevas en `src/app/shared/components/`:
   `InlineRenameCellComponent` (input que reemplaza la celda nombre tras un
   duplicate, sin layout shift) · `ColumnSelectorComponent` (popover PrimeNG
-  + persistencia versionada en `localStorage`) · `ImpactPreviewDialogComponent`
-  (preview de operación bulk con chips removibles al hover) ·
-  `BulkEditMenuComponent` (popover con field-picker → value-picker que emite
-  un `commit` para que el caller abra el impact preview).
+  - persistencia versionada en `localStorage`) · `ImpactPreviewDialogComponent`
+    (preview de operación bulk con chips removibles al hover) ·
+    `BulkEditMenuComponent` (popover con field-picker → value-picker que emite
+    un `commit` para que el caller abra el impact preview).
 - `AgentsStore`: `bulkUpdate(ids, field, value)` + `updatePresence(id, p)` +
   `duplicate` ahora marca status=inactive y prefija "Copia de …".
 - `GroupsStore`: `bulkUpdate(ids, field, value)` con priority/strategy/channels.
@@ -2214,6 +2333,7 @@ rationale of each)
   duplicados " 2.ts" creados por el FS bajo presión. Disco al 95%.
 
 **Decisiones tomadas**
+
 - **Layout-shift-as-defect**: nueva regla de diseño persistida en memoria
   (`feedback_no_layout_shift.md`). Bulk bars overlayan; inline editors,
   validation slots y presence selector reservan espacio mínimo.
@@ -2227,6 +2347,7 @@ rationale of each)
 - `common.draft_badge` reemplaza `users.draft_badge` (UX-audit issue).
 
 **Bloqueos / decisiones diferidas**
+
 - **macOS FS / disco 95%**: borrados espontáneos durante writes; bash
   commands lentos; archivos " 2.ts" duplicados aparecen solos. El
   `nvm install 20` + liberar disco siguen siendo prerequisitos para
@@ -2239,13 +2360,15 @@ rationale of each)
 Inventariado contra `docs/prototype-reference/` después de cerrar
 duplication + bulk:
 
-*List pages*
+_List pages_
+
 - Result counter footer ("N agentes encontrados" — pequeño, abajo)
 - Group/Agent count popover en columna Grupos (mostrar primeros N + "+M más")
 - Frozen "Name" column visualmente sticky al hacer scroll horizontal
 - Confirmación textual en bulk delete cuando count ≥ 3 (UX-audit pending)
 
-*Form pages — paridad de secciones*
+_Form pages — paridad de secciones_
+
 - Cross-tab warning (entidad eliminada en otra pestaña)
 - Navigation guard con `DiscardDialog` (cambios sin guardar)
 - Atajo `Ctrl+S` para guardar
@@ -2256,16 +2379,18 @@ duplication + bulk:
 - Languages multi-select en Agents
 - Sidebar resumen en User form
 
-*Cross-cutting*
+_Cross-cutting_
+
 - `ToggleSwitchComponent` custom (hoy se usa `<input type="checkbox">`
   estilizado; el prototipo tiene un switch propio)
 - Undo stack con toast actions de 8s (presence change, delete, bulk update)
 
 **Queued next**
+
 - PR aparte: arreglar GitHub Actions CI (`gh run view --log-failed`).
 - Iniciar el "form parity pass": cross-tab warning + nav guard + Ctrl+S
-  + inline validation con slot reservado, como infra compartida sobre las
-  3 features.
+  - inline validation con slot reservado, como infra compartida sobre las
+    3 features.
 - Implementar `ToggleSwitchComponent` y migrar los checkboxes-as-toggle
   de los forms al nuevo componente.
 
@@ -2274,6 +2399,7 @@ duplication + bulk:
 ## 2026-05-05 · Session 2 — Phase 3 closes + UX audit + docs pack
 
 **Worked on**
+
 - Phase 3.2 Templates → 3.3 Repositories (1 generic + 9 instances + hub) →
   3.4 Config (AED + Seguridad) → 3.5 Users (list + form) → 3.6 Groups
   (list + form with `@angular/cdk` drag-drop) → 3.7 Agents (list + form,
@@ -2292,6 +2418,7 @@ duplication + bulk:
   el log de la sesión 1, validado en sesión 2: el sitio sí compila ahora).
 
 **Decisiones tomadas**
+
 - AgentsStore expandido del stub slim al schema completo del prototipo
   manteniendo retro-compat con Labels y Seguridad (aditivo). Lockfile
   versión bumped a 2 para re-seed.
@@ -2305,6 +2432,7 @@ duplication + bulk:
   mover a `common.draft_badge` en próxima ronda.
 
 **Bloqueos / decisiones diferidas**
+
 - Local Node 25.2.1 sigue rompiendo el `ng build` (SemVer issue). Validación
   local solo via `tsc --noEmit`. Recomendación: `nvm install 20` para
   poder iterar en local con build real.
@@ -2314,6 +2442,7 @@ duplication + bulk:
   durante git commit; resuelto borrando `.angular/` cache + reintento.
 
 **Queued next**
+
 - Ejecutar los Top-5 fixes Critical de [`docs/ux-audit.md`](./docs/ux-audit.md)
   en una sola PR de "UX consistency pass" antes de meter feature nueva:
   loading bar global · entity en sticky header en edit mode ·
@@ -2328,6 +2457,7 @@ duplication + bulk:
 ## 2026-05-05 · Session 1 — Bootstrap to first usable build
 
 **Worked on**
+
 - Phase 0: page inventory of the React+Vite+Tailwind+shadcn prototype, design
   token mapping (JSON → PrimeNG), 5 ambiguity questions resolved.
 - Phase 1: Angular 18 + PrimeNG 18 workspace scaffolded with ESLint, Prettier,
@@ -2344,6 +2474,7 @@ duplication + bulk:
   renamed to `repositories/components/` to free the alias namespace.
 
 **Decisions taken**
+
 - JSON wins over the prototype's monochrome look — brand reads as
   blue/700 + soft-blue acento + radius-200 default.
 - Spanish URLs and UI stay; `@ngx-translate/core` wired now so adding `en` is a
@@ -2357,6 +2488,7 @@ duplication + bulk:
   [`DECISIONS.md`](./DECISIONS.md).
 
 **Blockers / open questions**
+
 - Local Node.js v25.2.1 crashes Angular CLI (`SemVer is not a constructor`).
   Local builds are validated only via `tsc --noEmit`; full `ng build` runs
   fine on Netlify (Node 20). User should `nvm install 20` to validate
@@ -2366,6 +2498,7 @@ duplication + bulk:
   build step.
 
 **Queued next**
+
 - Migrate Templates → Repositories (hub + 9 instances) → Config (AED + Seguridad)
   → Users → Groups (with CDK drag-drop) → Agents — in that order.
 - Audit + fix CI failures (lint, format, test).
