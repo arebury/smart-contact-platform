@@ -1,9 +1,11 @@
 <div class="page">
   <div class="page__inner">
-    <header class="page__header">
-      <h1 class="page__title">{{ 'config.sistema.heading' | translate }}</h1>
-      <p class="page__subtitle">{{ 'config.sistema.subtitle' | translate }}</p>
-    </header>
+    <aed-page-header
+      entityKey="config.sidebar.title"
+      titleKey="config.sistema.heading"
+      subtitleKey="config.sistema.subtitle"
+      [icon]="settingsIcon"
+    />
 
     <section class="card">
       <div class="card__head">

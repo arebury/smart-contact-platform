@@ -1,9 +1,11 @@
 <div class="page">
   <div class="page__inner">
-    <header class="page__header">
-      <h1 class="page__title">{{ 'config.seguridad.heading' | translate }}</h1>
-      <p class="page__subtitle">{{ 'config.seguridad.subtitle_empty' | translate }}</p>
-    </header>
+    <aed-page-header
+      entityKey="config.sidebar.title"
+      titleKey="config.seguridad.heading"
+      subtitleKey="config.seguridad.subtitle_empty"
+      [icon]="shieldIcon"
+    />
 
     <div class="empty">
       <span class="empty__icon" aria-hidden="true">

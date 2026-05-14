@@ -30,7 +30,7 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ConfirmHostService, ThemeService, type ThemeMode } from '@core/services';
-import { ToggleSwitchComponent } from '@shared/components';
+import { PageHeaderComponent, ToggleSwitchComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 
 import { NumeracionEspecialSectionComponent } from '../sections/numeracion-especial-section.component';
@@ -78,6 +78,7 @@ const APP_DATA_PREFIX = 'smartcontact_';
   imports: [
     LucideAngularModule,
     NumeracionEspecialSectionComponent,
+    PageHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
   ],

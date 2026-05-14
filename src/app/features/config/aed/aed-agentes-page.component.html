@@ -1,9 +1,11 @@
 <div class="page">
   <div class="page__inner">
-    <header class="page__header">
-      <h1 class="page__title">{{ 'config.aed.subpages.agentes.heading' | translate }}</h1>
-      <p class="page__subtitle">{{ 'config.aed.subpages.agentes.subtitle' | translate }}</p>
-    </header>
+    <aed-page-header
+      entityKey="config.sidebar.title"
+      titleKey="config.aed.subpages.agentes.heading"
+      subtitleKey="config.aed.subpages.agentes.subtitle"
+      [icon]="userIcon"
+    />
 
     <section class="settings-card" aria-labelledby="agentes-card-title">
       <div class="settings-card__head">

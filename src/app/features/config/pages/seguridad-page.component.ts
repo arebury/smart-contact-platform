@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Shield } from 'lucide-angular';
 
+import { PageHeaderComponent } from '@shared/components';
+
 /**
  * Seguridad page (`/config/seguridad`).
  *
@@ -13,7 +15,7 @@ import { LucideAngularModule, Shield } from 'lucide-angular';
  */
 @Component({
   selector: 'aed-seguridad-page',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [LucideAngularModule, PageHeaderComponent, TranslateModule],
   templateUrl: './seguridad-page.component.html',
   styleUrl: './seguridad-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

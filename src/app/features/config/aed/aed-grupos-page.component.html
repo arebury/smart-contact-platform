@@ -1,9 +1,11 @@
 <div class="page">
   <div class="page__inner">
-    <header class="page__header">
-      <h1 class="page__title">{{ 'config.aed.subpages.grupos.heading' | translate }}</h1>
-      <p class="page__subtitle">{{ 'config.aed.subpages.grupos.subtitle' | translate }}</p>
-    </header>
+    <aed-page-header
+      entityKey="config.sidebar.title"
+      titleKey="config.aed.subpages.grupos.heading"
+      subtitleKey="config.aed.subpages.grupos.subtitle"
+      [icon]="groupsIcon"
+    />
 
     <section class="settings-card" aria-labelledby="grupos-card-title">
       <div class="settings-card__head">

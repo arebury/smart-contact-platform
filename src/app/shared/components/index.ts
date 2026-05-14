@@ -48,6 +48,8 @@ export { ModalComponent } from './modal/modal.component';
 export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';
 
+export { PageHeaderComponent } from './page-header/page-header.component';
+
 export { PhotoUploadComponent } from './photo-upload/photo-upload.component';
 
 export { SectionCardComponent } from './section-card/section-card.component';

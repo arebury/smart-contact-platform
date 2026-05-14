@@ -3,7 +3,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CirclePlus, Info, LucideAngularModule, Phone, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { ToggleSwitchComponent } from '@shared/components';
+import { PageHeaderComponent, ToggleSwitchComponent } from '@shared/components';
 
 interface VisibilidadEstados {
   postConversando: boolean;
@@ -96,7 +96,7 @@ const EVENTOS_LABELS: readonly (keyof EventosNotificacion)[] = [
  */
 @Component({
   selector: 'aed-aed-servicio-page',
-  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+  imports: [LucideAngularModule, PageHeaderComponent, ToggleSwitchComponent, TranslateModule],
   templateUrl: './aed-servicio-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-servicio-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
