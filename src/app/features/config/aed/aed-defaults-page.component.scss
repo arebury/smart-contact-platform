@@ -61,7 +61,7 @@
 
   &__hint {
     margin: 4px 0 0;
-    font-size: var(--sc-font-size-50, 12px);
+    font-size: var(--sc-font-size-50);
     line-height: 18px;
     color: var(--sc-text-subtle);
   }
@@ -83,7 +83,7 @@
   }
 
   &__link {
-    font-size: var(--sc-font-size-50, 12px);
+    font-size: var(--sc-font-size-50);
     line-height: 18px;
     color: var(--sc-color-soft-blue-700);
     text-decoration: none;
@@ -124,7 +124,7 @@
 
   &__hint {
     margin: 0;
-    font-size: var(--sc-font-size-50, 12px);
+    font-size: var(--sc-font-size-50);
     line-height: 18px;
     color: var(--sc-text-subtle);
   }
@@ -154,7 +154,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-100);
-    font-size: var(--sc-font-size-50, 12px);
+    font-size: var(--sc-font-size-50);
     line-height: 18px;
     font-weight: var(--sc-font-weight-medium, 500);
     color: var(--sc-text-secondary);
@@ -199,7 +199,7 @@
   }
 
   &__suffix {
-    font-size: var(--sc-font-size-50, 12px);
+    font-size: var(--sc-font-size-50);
     color: var(--sc-text-subtle);
     white-space: nowrap;
   }
@@ -288,7 +288,7 @@ select.field__input {
   }
 
   &__label {
-    font-size: var(--sc-font-size-100, 14px);
+    font-size: var(--sc-font-size-100);
     line-height: 22px;
     font-weight: var(--sc-font-weight-medium, 500);
     color: var(--sc-text-secondary);
@@ -296,7 +296,7 @@ select.field__input {
 
   &__hint {
     margin: 0;
-    font-size: var(--sc-font-size-50, 12px);
+    font-size: var(--sc-font-size-50);
     line-height: 18px;
     color: var(--sc-text-subtle);
   }
@@ -311,7 +311,7 @@ select.field__input {
   height: 36px;
   padding: 0 var(--sc-spacing-300);
   font-family: inherit;
-  font-size: var(--sc-font-size-100, 14px);
+  font-size: var(--sc-font-size-100);
   font-weight: var(--sc-font-weight-medium, 500);
   border-radius: var(--sc-radius-200);
   border: 1px solid transparent;

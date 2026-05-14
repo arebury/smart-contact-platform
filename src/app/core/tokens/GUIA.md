@@ -766,6 +766,34 @@ si ves uno nuevo, lo arreglamos al momento.
 
 ---
 
+## Decisiones técnicas anotadas
+
+> Aclaraciones técnicas surgidas en auditorías para que no se pierdan.
+> Si una decisión empieza a parecer arbitraria, mírala aquí.
+
+- **Focus ring de 2px (no 1px).** Aura usa `focus.ring.width: 1` por
+  defecto. En AED el preset lo fuerza a `2px` por accesibilidad: con
+  un focus ring de 1px sobre un input ya bordeado, el usuario de
+  teclado no distingue qué control tiene el foco. La decisión está
+  en `aed-preset.ts → semantic.focusRing.width`.
+
+- **Escala de grises propia (no Aura slate).** Los `--sc-color-gray-*`
+  son una rampa custom de SmartContact, sistemáticamente más clara
+  y desaturada que el `slate` de Aura. Es decisión de marca: una
+  herramienta operacional que se mira 8h al día necesita un gris
+  más cálido y menos contrastado. Si en algún sitio el gris se siente
+  "incorrecto", reportar — no asumir que hay drift contra Aura.
+
+- **Dark mode activo con default `'system'`.** Versiones tempranas
+  de esta guía decían que AED era light-only por marca; el código
+  ya tiene `ThemeService` totalmente operativo siguiendo
+  `prefers-color-scheme`. Los archivos `07-dark.css` y los overrides
+  de `colorScheme.dark` en el preset son producción, no
+  arquitectura latente. Si Diseño quiere desactivarlo, decisión
+  explícita en sesión + DD.
+
+---
+
 ## ¿Te perdiste? Pregunta sin miedo
 
 Si después de leer la guía no sabes:

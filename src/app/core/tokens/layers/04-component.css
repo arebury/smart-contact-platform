@@ -98,7 +98,7 @@
   --sc-modal-bg: var(--sc-color-gray-0);
   --sc-modal-border: var(--sc-color-blue-100);
   --sc-modal-divider: var(--sc-color-gray-200);
-  --sc-modal-radius: var(--sc-radius-300);
+  --sc-modal-radius: var(--sc-radius-400);
   --sc-modal-shadow: 0 24px 48px rgb(var(--sc-shadow-color-rgb) / 0.16);
   --sc-modal-padding-x: var(--sc-spacing-500);
   --sc-modal-padding-y: var(--sc-spacing-400);
@@ -149,17 +149,17 @@
   --sc-toast-info-icon-bg: var(--sc-color-electric-blue-500);
 
   /* Warning (PrimeNG calls it "warn") */
-  --sc-toast-warn-bg: var(--sc-color-yellow-50);
-  --sc-toast-warn-border: var(--sc-color-yellow-500);
-  --sc-toast-warn-icon-bg: var(--sc-color-yellow-500);
+  --sc-toast-warn-bg: var(--sc-color-amber-50);
+  --sc-toast-warn-border: var(--sc-color-amber-500);
+  --sc-toast-warn-icon-bg: var(--sc-color-amber-500);
 
   /* Error */
   --sc-toast-error-bg: var(--sc-color-red-50);
   --sc-toast-error-border: var(--sc-color-red-500);
   --sc-toast-error-icon-bg: var(--sc-color-red-500);
 
-  /* Indigo (reserved for future "neutral notice" — not currently used) */
-  --sc-toast-indigo-bg: var(--sc-color-indigo-50);
-  --sc-toast-indigo-border: var(--sc-color-indigo-500);
-  --sc-toast-indigo-icon-bg: var(--sc-color-indigo-500);
+  /* Violet (reserved for future "neutral notice" — not currently used) */
+  --sc-toast-violet-bg: var(--sc-color-violet-50);
+  --sc-toast-violet-border: var(--sc-color-violet-500);
+  --sc-toast-violet-icon-bg: var(--sc-color-violet-500);
 }

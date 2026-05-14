@@ -215,8 +215,8 @@
     width: auto;
   }
 
-  &__th-col {
-    text-align: center !important;
+  thead th&__th-col {
+    text-align: center;
     width: 140px;
 
     /*

@@ -20,9 +20,16 @@
    * semantic tokens: a "red" tag does not imply danger, and a
    * "green" tag does not imply success.
    *
-   * 4 of the 8 hues (orange, amber, teal, purple) are not present in
-   * the JSON primitives, so they are declared as direct values here.
-   * The other 4 piggy-back on existing JSON scales for consistency.
+   * Source of values:
+   * - gray, red, orange, amber, teal, purple → reference primitives
+   *   in layer 1.
+   * - green → Aura `emerald` scale (NOT AED `--sc-color-green-*`,
+   *   which is Aura `green`). Label needs a brighter fresh green
+   *   than the brand semantic green. Kept in hex until/unless we
+   *   promote `emerald` as a primitive.
+   * - blue → Aura standard `blue` scale (NOT AED `--sc-color-blue-*`,
+   *   which is the custom brand navy). Label needs a bright sky-blue
+   *   distinct from brand. Kept in hex.
    */
   --sc-label-gray-bg: var(--sc-color-gray-100);
   --sc-label-gray-text: var(--sc-color-gray-700);
@@ -34,35 +41,35 @@
   --sc-label-red-border: var(--sc-color-red-200);
   --sc-label-red-dot: var(--sc-color-red-500);
 
-  --sc-label-orange-bg: #fff7ed;
-  --sc-label-orange-text: #c2410c;
-  --sc-label-orange-border: #fed7aa;
-  --sc-label-orange-dot: #f97316;
+  --sc-label-orange-bg: var(--sc-color-orange-50);
+  --sc-label-orange-text: var(--sc-color-orange-700);
+  --sc-label-orange-border: var(--sc-color-orange-200);
+  --sc-label-orange-dot: var(--sc-color-orange-500);
 
-  --sc-label-amber-bg: #fffbeb;
-  --sc-label-amber-text: #b45309;
-  --sc-label-amber-border: #fde68a;
-  --sc-label-amber-dot: #f59e0b;
+  --sc-label-amber-bg: var(--sc-color-amber-50);
+  --sc-label-amber-text: var(--sc-color-amber-700);
+  --sc-label-amber-border: var(--sc-color-amber-200);
+  --sc-label-amber-dot: var(--sc-color-amber-500);
 
   --sc-label-green-bg: #ecfdf5;
   --sc-label-green-text: #047857;
   --sc-label-green-border: #a7f3d0;
   --sc-label-green-dot: #10b981;
 
-  --sc-label-teal-bg: #f0fdfa;
-  --sc-label-teal-text: #0f766e;
-  --sc-label-teal-border: #99f6e4;
-  --sc-label-teal-dot: #14b8a6;
+  --sc-label-teal-bg: var(--sc-color-teal-50);
+  --sc-label-teal-text: var(--sc-color-teal-700);
+  --sc-label-teal-border: var(--sc-color-teal-200);
+  --sc-label-teal-dot: var(--sc-color-teal-500);
 
   --sc-label-blue-bg: #eff6ff;
   --sc-label-blue-text: #1d4ed8;
   --sc-label-blue-border: #bfdbfe;
   --sc-label-blue-dot: #3b82f6;
 
-  --sc-label-purple-bg: #faf5ff;
-  --sc-label-purple-text: #7e22ce;
-  --sc-label-purple-border: #e9d5ff;
-  --sc-label-purple-dot: #a855f7;
+  --sc-label-purple-bg: var(--sc-color-purple-50);
+  --sc-label-purple-text: var(--sc-color-purple-700);
+  --sc-label-purple-border: var(--sc-color-purple-200);
+  --sc-label-purple-dot: var(--sc-color-purple-500);
 
   /* ---------- Agent presence states ---------- */
   /*

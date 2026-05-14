@@ -38,7 +38,7 @@
 .settings-sidebar__subtitle {
   margin: 2px 0 0;
   font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-  font-size: var(--sc-font-size-50, 12px);
+  font-size: var(--sc-font-size-50);
   line-height: 18px;
   color: var(--sc-text-subtle);
 }
@@ -115,7 +115,7 @@
 
 .nav-item__label {
   font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-  font-size: var(--sc-font-size-100, 14px);
+  font-size: var(--sc-font-size-100);
   line-height: 20px;
   font-weight: var(--sc-font-weight-medium, 500);
   color: var(--sc-text-secondary);

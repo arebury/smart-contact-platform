@@ -27,6 +27,11 @@ export const AedPreset = definePreset(Aura, {
    * `yellow`, `red`, `blue` re-maps Aura's defaults to our `--sc-*`
    * scales so PrimeNG components consume AED palettes directly. We
    * also override `borderRadius` which Aura keeps under `primitive`.
+   *
+   * Note: the `yellow:` key is PrimeNG's primitive name (kept as Aura
+   * vocabulary); its values reference AED's `--sc-color-amber-*` since
+   * AED's "warning" tone is amber, not yellow. The naming mismatch is
+   * intentional — PrimeNG-internal vs AED-vocabulary stays decoupled.
    */
   primitive: {
     borderRadius: {
@@ -50,17 +55,17 @@ export const AedPreset = definePreset(Aura, {
       950: 'var(--sc-color-green-950)',
     },
     yellow: {
-      50: 'var(--sc-color-yellow-50)',
-      100: 'var(--sc-color-yellow-100)',
-      200: 'var(--sc-color-yellow-200)',
-      300: 'var(--sc-color-yellow-300)',
-      400: 'var(--sc-color-yellow-400)',
-      500: 'var(--sc-color-yellow-500)',
-      600: 'var(--sc-color-yellow-600)',
-      700: 'var(--sc-color-yellow-700)',
-      800: 'var(--sc-color-yellow-800)',
-      900: 'var(--sc-color-yellow-900)',
-      950: 'var(--sc-color-yellow-950)',
+      50: 'var(--sc-color-amber-50)',
+      100: 'var(--sc-color-amber-100)',
+      200: 'var(--sc-color-amber-200)',
+      300: 'var(--sc-color-amber-300)',
+      400: 'var(--sc-color-amber-400)',
+      500: 'var(--sc-color-amber-500)',
+      600: 'var(--sc-color-amber-600)',
+      700: 'var(--sc-color-amber-700)',
+      800: 'var(--sc-color-amber-800)',
+      900: 'var(--sc-color-amber-900)',
+      950: 'var(--sc-color-amber-950)',
     },
     red: {
       50: 'var(--sc-color-red-50)',
@@ -134,7 +139,7 @@ export const AedPreset = definePreset(Aura, {
         shadow: 'var(--sc-shadow-dialog)',
       },
       popover: {
-        borderRadius: 'var(--sc-radius-300)',
+        borderRadius: 'var(--sc-radius-200)',
         shadow: 'var(--sc-shadow-popover)',
       },
       select: {
@@ -182,6 +187,7 @@ export const AedPreset = definePreset(Aura, {
           hoverBorderColor: 'var(--sc-border-strong)',
           focusBorderColor: 'var(--sc-bg-primary)',
           invalidBorderColor: 'var(--sc-border-error)',
+          invalidPlaceholderColor: 'var(--sc-text-danger)',
           /* Aura's default formField.shadow is `rgba(18, 18, 23, 0.05)`
            * — pure-black. Override with the AED `--sc-shadow-xs` which
            * is tinted via `--sc-shadow-color-rgb`. */
@@ -259,6 +265,7 @@ export const AedPreset = definePreset(Aura, {
           hoverBorderColor: 'var(--sc-border-strong)',
           focusBorderColor: 'var(--sc-bg-primary)',
           invalidBorderColor: 'var(--sc-border-error)',
+          invalidPlaceholderColor: 'var(--sc-text-danger)',
           shadow: 'var(--sc-shadow-xs)',
         },
         text: {

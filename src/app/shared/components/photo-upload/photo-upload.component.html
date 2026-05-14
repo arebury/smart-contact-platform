@@ -1,4 +1,4 @@
-<div class="photo-upload">
+<div class="photo-upload" [class.photo-upload--sm]="size() === 'sm'">
   <button
     type="button"
     class="photo-upload__button"
@@ -12,7 +12,11 @@
       <img class="photo-upload__image" [src]="src" alt="" />
     } @else {
       @if (name(); as entityName) {
-        <aed-illustrated-avatar class="photo-upload__illustrated" [name]="entityName" [size]="64" />
+        <aed-illustrated-avatar
+          class="photo-upload__illustrated"
+          [name]="entityName"
+          [size]="size() === 'sm' ? 44 : 64"
+        />
       } @else {
         <lucide-icon
           [img]="placeholderIcon"
