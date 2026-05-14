@@ -22,10 +22,10 @@
   --sc-text-accent: var(--sc-color-soft-blue-600);
   --sc-text-link: var(--sc-color-soft-blue-600);
   --sc-text-success: var(--sc-color-green-600);
-  --sc-text-warning: var(--sc-color-yellow-600);
+  --sc-text-warning: var(--sc-color-amber-600);
   --sc-text-danger: var(--sc-color-red-600);
   --sc-text-info: var(--sc-text-accent);
-  --sc-text-indigo: var(--sc-color-indigo-700);
+  --sc-text-violet: var(--sc-color-violet-700);
   --sc-text-on-primary: var(--sc-color-gray-0);
   --sc-text-on-secondary: var(--sc-color-gray-800);
   --sc-text-on-accent: var(--sc-color-gray-800);
@@ -33,7 +33,7 @@
   --sc-text-on-success: var(--sc-color-gray-0);
   --sc-text-on-warning: var(--sc-color-gray-0);
   --sc-text-on-info: var(--sc-color-gray-0);
-  --sc-text-on-indigo: var(--sc-color-gray-0);
+  --sc-text-on-violet: var(--sc-color-gray-0);
 
   /* ---------- Background ---------- */
   --sc-bg-default: var(--sc-color-gray-50);
@@ -77,8 +77,8 @@
   /* Status */
   --sc-bg-success: var(--sc-color-green-600);
   --sc-bg-success-subtle: var(--sc-color-green-50);
-  --sc-bg-warning: var(--sc-color-yellow-500);
-  --sc-bg-warning-subtle: var(--sc-color-yellow-50);
+  --sc-bg-warning: var(--sc-color-amber-500);
+  --sc-bg-warning-subtle: var(--sc-color-amber-50);
   --sc-bg-danger: var(--sc-color-red-600);
   --sc-bg-danger-hover: var(--sc-color-red-700);
   --sc-bg-danger-active: var(--sc-color-red-800);
@@ -92,13 +92,13 @@
   --sc-bg-info-active: var(--sc-color-electric-blue-700);
   --sc-bg-info-subtle: var(--sc-color-electric-blue-50);
 
-  /* Indigo */
-  --sc-bg-indigo: var(--sc-color-indigo-500);
-  --sc-bg-indigo-hover: var(--sc-color-indigo-600);
-  --sc-bg-indigo-active: var(--sc-color-indigo-700);
-  --sc-bg-indigo-subtle: var(--sc-color-indigo-50);
-  --sc-bg-indigo-subtle-hover: var(--sc-color-indigo-100);
-  --sc-bg-indigo-subtle-active: var(--sc-color-indigo-200);
+  /* Violet */
+  --sc-bg-violet: var(--sc-color-violet-500);
+  --sc-bg-violet-hover: var(--sc-color-violet-600);
+  --sc-bg-violet-active: var(--sc-color-violet-700);
+  --sc-bg-violet-subtle: var(--sc-color-violet-50);
+  --sc-bg-violet-subtle-hover: var(--sc-color-violet-100);
+  --sc-bg-violet-subtle-active: var(--sc-color-violet-200);
 
   /* ---------- Border ---------- */
   --sc-border-default: var(--sc-color-gray-200);
@@ -120,9 +120,9 @@
 
   --sc-border-success: var(--sc-color-green-600);
   --sc-border-success-subtle: var(--sc-color-green-200);
-  --sc-border-warning: var(--sc-color-yellow-500);
-  --sc-border-warning-subtle: var(--sc-color-yellow-200);
-  --sc-border-error: var(--sc-color-red-500);
+  --sc-border-warning: var(--sc-color-amber-500);
+  --sc-border-warning-subtle: var(--sc-color-amber-200);
+  --sc-border-error: var(--sc-color-red-400);
   /* Focus-ring border — matches the focus outline used by buttons +
    * form fields (--sc-color-soft-blue-500). Consumed by PrimeNG via
    * the preset's `focusRing.color`. */
@@ -133,8 +133,8 @@
 
   --sc-border-info: var(--sc-color-electric-blue-500);
   --sc-border-info-subtle: var(--sc-color-electric-blue-200);
-  --sc-border-indigo: var(--sc-color-indigo-500);
-  --sc-border-indigo-subtle: var(--sc-color-indigo-200);
+  --sc-border-violet: var(--sc-color-violet-500);
+  --sc-border-violet-subtle: var(--sc-color-violet-200);
 
   /* ---------- Icon ---------- */
   --sc-icon-primary: var(--sc-color-gray-800);
@@ -146,10 +146,10 @@
 
   --sc-icon-accent: var(--sc-color-soft-blue-600);
   --sc-icon-success: var(--sc-color-green-600);
-  --sc-icon-warning: var(--sc-color-yellow-600);
+  --sc-icon-warning: var(--sc-color-amber-600);
   --sc-icon-error: var(--sc-color-red-600);
   --sc-icon-info: var(--sc-icon-accent);
-  --sc-icon-indigo: var(--sc-color-indigo-500);
+  --sc-icon-violet: var(--sc-color-violet-500);
 
   --sc-icon-on-primary: var(--sc-color-gray-0);
   --sc-icon-on-secondary: var(--sc-color-gray-800);
@@ -158,7 +158,7 @@
   --sc-icon-on-success: var(--sc-color-gray-0);
   --sc-icon-on-warning: var(--sc-color-gray-800);
   --sc-icon-on-info: var(--sc-icon-on-accent);
-  --sc-icon-on-indigo: var(--sc-color-indigo-50);
+  --sc-icon-on-violet: var(--sc-color-violet-50);
 
   /* ---------- Typography roles ---------- */
   /*

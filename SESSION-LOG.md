@@ -10,6 +10,128 @@
 
 ---
 
+## 2026-05-14 · Session 26 — Design tokens audit + Bucket A→C+D-mini cleanup ([PR #44](https://github.com/arebury/aed/pull/44))
+
+> Five-fase audit of the `--sc-*` cascade and `aed-preset.ts` bridge
+> against the Aura JSON v4 snapshot. Started from a CLAUDE.md that
+> framed `aed-preset.ts` as "AI-inferred debt to discard"; Fase 0
+> diagnosis surfaced that the `--sc-*` system is a deliberate
+> 7-layer cascade with 36 KB of GUIA doc — replanned the audit
+> mid-session and locked in DD#63 (keep + align, don't replace).
+> Closed the real debt in Buckets A→C; deferred Bucket D
+> (component-shadow overrides, 571 `px` literals, emerald/sky
+> primitive promotion) as discrecional.
+
+### Worked on
+
+- **Fase -1 to 3** — diagnostic-only. Output in
+  [`docs/audit/00-diagnosis.md`](docs/audit/00-diagnosis.md) →
+  [`03-bridge-coverage.md`](docs/audit/03-bridge-coverage.md).
+  Inventoried what was load-bearing (~17 of 19 `::ng-deep`, 16 of
+  19 `!important`) vs real debt. Token-by-token classification of
+  every `--sc-*` against Aura primitives + semantic shape.
+- **Bucket A** — 8 trivial gap fixes: missing
+  `formField.invalidPlaceholderColor`, `--sc-border-error`
+  red-500→red-400, `--sc-modal-radius` 8→12 (resolves internal
+  inconsistency with preset's `overlay.modal.border-radius`),
+  `overlay.popover.border-radius` 8→6, 14 SCSS fallbacks with
+  wrong fallback values stripped, Tailwind layers removed from
+  `cssLayer.order`, 3 technical notes added to GUIA.
+- **Bucket B.1** — dropped untracked `06-primeng-bridge.css`
+  (superseded by `aed-preset.ts` since DD#52; not imported).
+- **Bucket B.2** — promoted `orange`, `teal`, `purple` to primitives
+  (3 × 11 steps = 33 lines in `01-primitive.css`); 12 hex refs in
+  `03-palette.css` upgraded to `var()`. `green` (= Aura emerald)
+  and `blue` (= Aura sky) stay in hex with documented rationale.
+- **Bucket B.3** — new `[size]='md' | 'sm'` API on
+  `<aed-photo-upload>` replaces 8 `::ng-deep` rules in
+  `sticky-form-header` that previously forced the projected
+  component to 44×44. 3 questionable `!important` removed by
+  chaining the class to the element type (specificity tie that
+  source-order wins).
+- **Bucket C** — naming alignment with Aura/Figma: 38 refs
+  `--sc-color-yellow-*` → `--sc-color-amber-*`, 28 refs
+  `--sc-color-indigo-*` → `--sc-color-violet-*` plus all semantic
+  aliases (`--sc-bg-violet`, `--sc-toast-violet-*`, etc). Side
+  effect: 4 `--sc-label-amber-*` upgraded from hex to `var()`.
+  PrimeNG primitive key `yellow:` in `aed-preset.ts` stays (Aura
+  vocabulary); its values now point at `--sc-color-amber-*`.
+- **Bucket D mini** — promoted `emerald` (= Aura emerald) and
+  `azure` (= Aura blue, renamed to avoid colliding with AED's
+  custom-navy `--sc-color-blue-*`) to primitives. 8 hex refs in
+  `--sc-label-{green,blue}-*` upgraded to `var()`. `03-palette.css`
+  hex count: 24 → 6 (presence + priority custom brand only).
+- **SCSS syntax bug** caught + fixed: Bucket B.3 used
+  `thead th&__th-col` to bump specificity. Dart Sass forbids `&`
+  outside a compound selector's first position; `tsc --noEmit`
+  doesn't compile SCSS so it was invisible until `ng serve` ran
+  the angular-sass plugin. Rewrote as `thead th.perm-matrix__th-col`
+  (same specificity, explicit class). Commit `01aa44a`.
+- **Playwright harness patched** for Vite compatibility: changed
+  `waitUntil: 'networkidle'` → `'domcontentloaded'` + tolerant
+  goto. The previous version never resolved because Vite keeps a
+  long-lived WS open and `PreloadAllModules` pulls lazy chunks
+  perpetually. Captures 2/10 screens cleanly now (1/10 was zero
+  before); the rest still trip Playwright's internal font wait.
+  Flagged in commit `f2010ac` for a future pass to gate every
+  screen on a per-screen `waitFor` selector.
+
+### Notable
+
+- **CLAUDE.md re-encoded** at session start (UTF-8 corruption from
+  the original paste — `Ã­` → `í`, `âââ` → `├──`, etc) and then
+  rewritten entirely after Fase 0 surfaced the architectural
+  mismatch with reality. See DD#63.
+- **Dev server unblocked**: `npx ng serve` plain never binds the
+  port — `@angular/build:dev-server` (Vite-based in Angular 21)
+  finishes the build, starts watch mode, then dies silently
+  before binding. `npx ng serve --no-hmr` arranca cleanly. HMR
+  was the culprit. Saved as a project reference in memory so
+  future sessions don't re-derive it.
+- **node_modules was corrupted on disk** before the reinstall —
+  498 `* 2*` duplicate directories from iCloud/Time Machine sync.
+  Caused `npm install` to fail with ENOTEMPTY. Fixed by full
+  `rm -rf node_modules && npm install`.
+- Memory updated with a new feedback entry on **devaluation of
+  existing work** as an antipattern (third sibling to
+  complexity-inflation and preparation-as-progress); was the
+  failure mode that the original CLAUDE.md walked into.
+
+### Open
+
+- **Visual validation partial**: Playwright captures 2 of 10
+  screens (`01-dashboard`, `02-agents-list`) under the patched
+  harness. The remaining 8 trip an internal "wait for fonts"
+  guard inside `page.screenshot`. Needs per-screen `waitFor`
+  selectors or a snapshot build that disables `PreloadAllModules`.
+  Out of scope for this audit — flagged in `f2010ac` for future.
+- **Bucket D** bigger half (open, no commitment): override the
+  ~110 component-individual shadows that fall to Aura pure-black
+  (`popover.shadow`, `menu.shadow`, `autocomplete.overlay.shadow`,
+  `datepicker.panel.shadow` are the visible ones); classify the
+  571 `px` literals in component SCSS as legit-fixed-dim vs
+  spacing-token-misses (standalone sub-audit).
+- **Naming**: `azure` was picked because AED's `--sc-color-blue-*`
+  is the custom brand navy and we needed a name for Aura's
+  saturated blue. Trivial rename if a different label is
+  preferred.
+- **Structural refactor** plan stashed at
+  [`docs/refactor-structure/CLAUDE.md`](docs/refactor-structure/CLAUDE.md)
+  for a future session (post-audit-merge + ≥1 week gap). Has a
+  Fase 0.5 kill switch so the work terminates cleanly if no
+  refactor case exists.
+
+### Commits (pushed to origin, [PR #44](https://github.com/arebury/aed/pull/44))
+
+- `e88bd07` chore(tokens): add audit deliverables and Aura JSON reference
+- `ac259b7` chore(tokens): apply audit cleanup — gaps, dead code, debt, renames
+- `f0236d9` docs(close): log Session 26 epilogue + DD #63
+- `f13e526` chore(tokens): promote emerald + azure to primitives (Bucket D mini)
+- `01aa44a` fix(tokens): SCSS — replace `th&__class` with explicit class chaining
+- `f2010ac` fix(e2e): snapshot.ts — use `domcontentloaded` + tolerant goto for Vite
+
+---
+
 ## 2026-05-14 · Session 25 — Tab-based form nav, unified page header across the app, danger zone moves home (PRs #35–#42 + 2 hotfixes)
 
 > Eight PRs + two `main` hotfixes. Long iterative session pulled

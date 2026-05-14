@@ -55,12 +55,12 @@
    * token form lets a future color-scale tweak propagate here for
    * free. */
   --sc-bg-success-subtle: color-mix(in srgb, var(--sc-color-green-800) 18%, transparent);
-  --sc-bg-warning-subtle: color-mix(in srgb, var(--sc-color-yellow-800) 18%, transparent);
+  --sc-bg-warning-subtle: color-mix(in srgb, var(--sc-color-amber-800) 18%, transparent);
   --sc-bg-danger-subtle: color-mix(in srgb, var(--sc-color-red-900) 22%, transparent);
   --sc-bg-danger-subtle-hover: color-mix(in srgb, var(--sc-color-red-900) 32%, transparent);
   --sc-bg-danger-subtle-active: color-mix(in srgb, var(--sc-color-red-900) 42%, transparent);
   --sc-bg-info-subtle: color-mix(in srgb, var(--sc-color-electric-blue-800) 22%, transparent);
-  --sc-bg-indigo-subtle: color-mix(in srgb, var(--sc-color-indigo-800) 22%, transparent);
+  --sc-bg-violet-subtle: color-mix(in srgb, var(--sc-color-violet-800) 22%, transparent);
 
   /* ---------- Semantic · Border ---------- */
   --sc-border-default: var(--sc-color-gray-800);
@@ -126,9 +126,9 @@
   --sc-toast-close: var(--sc-color-gray-200);
   --sc-toast-success-bg: color-mix(in srgb, var(--sc-color-green-900) 40%, transparent);
   --sc-toast-info-bg: color-mix(in srgb, var(--sc-color-electric-blue-800) 40%, transparent);
-  --sc-toast-warn-bg: color-mix(in srgb, var(--sc-color-yellow-800) 40%, transparent);
+  --sc-toast-warn-bg: color-mix(in srgb, var(--sc-color-amber-800) 40%, transparent);
   --sc-toast-error-bg: color-mix(in srgb, var(--sc-color-red-900) 40%, transparent);
-  --sc-toast-indigo-bg: color-mix(in srgb, var(--sc-color-indigo-800) 40%, transparent);
+  --sc-toast-violet-bg: color-mix(in srgb, var(--sc-color-violet-800) 40%, transparent);
 
   /* ---------- Extensions · Sidebar ---------- */
   /* One step darker than the page so it still reads as "the chrome"

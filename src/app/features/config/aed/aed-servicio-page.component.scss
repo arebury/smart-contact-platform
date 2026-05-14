@@ -33,7 +33,7 @@
   background: var(--sc-bg-secondary-subtle);
   border: 1px solid var(--sc-border-default);
   border-radius: 999px;
-  font-size: var(--sc-font-size-50, 12px);
+  font-size: var(--sc-font-size-50);
   color: var(--sc-text-secondary);
 
   &__label {
@@ -97,7 +97,7 @@
       background: var(--sc-color-green-500);
     }
     &[data-tone='amber'] {
-      background: var(--sc-color-yellow-500);
+      background: var(--sc-color-amber-500);
     }
     &[data-tone='red'] {
       background: var(--sc-color-red-500);
@@ -135,7 +135,7 @@
 
 .field__caption {
   margin: 0 0 var(--sc-spacing-100);
-  font-size: var(--sc-font-size-50, 12px);
+  font-size: var(--sc-font-size-50);
   line-height: 18px;
   color: var(--sc-text-subtle);
 }

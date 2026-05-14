@@ -73,4 +73,21 @@
       color: var(--sc-text-primary);
     }
   }
+
+  /* Compact variant for projection into the sticky form header.
+   * 44×44 avatar, no hint row, no remove link — the header chrome
+   * already provides the "you can change the photo" affordance. */
+  &--sm {
+    gap: 0;
+
+    .photo-upload__button {
+      width: 44px;
+      height: 44px;
+    }
+
+    .photo-upload__hint,
+    .photo-upload__remove {
+      display: none;
+    }
+  }
 }

@@ -47,14 +47,25 @@ const SCREENS: readonly Screen[] = [
 async function snap(page: Page, screen: Screen, baseUrl: string, outDir: string): Promise<void> {
   const url = `${baseUrl}${screen.path}`;
   console.log(`→ ${screen.name}: ${url}`);
-  await page.goto(url, { waitUntil: 'networkidle', timeout: 30_000 });
+  // `domcontentloaded` rather than `networkidle` / `load`: Vite's
+  // dev server keeps a long-lived WS open and `PreloadAllModules`
+  // continuously pulls lazy chunks in the background, so neither
+  // `networkidle` nor `load` ever fires reliably against `ng serve`.
+  // We absorb the navigation timeout so the screenshot still
+  // happens even on partial loads — the explicit `waitFor`
+  // selector below covers the per-screen settle for real content.
+  await page
+    .goto(url, { waitUntil: 'domcontentloaded', timeout: 30_000 })
+    .catch((err) => {
+      console.warn(`  (goto: ${err instanceof Error ? err.message.split('\n')[0] : err})`);
+    });
   if (screen.waitFor) {
     await page.waitForSelector(screen.waitFor, { timeout: 10_000 }).catch(() => {
       console.warn(`  (waitFor "${screen.waitFor}" timed out, screenshotting anyway)`);
     });
   }
   // Settle: lazy fonts / illustrated avatars / async data finish painting.
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(1000);
   await page.screenshot({ path: resolve(outDir, `${screen.name}.png`), fullPage: true });
 }
 

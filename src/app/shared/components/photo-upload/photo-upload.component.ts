@@ -49,6 +49,12 @@ export class PhotoUploadComponent {
   readonly name = input<string | null | undefined>(null);
   /** Tooltip / aria-label override; defaults to a generic "Cambiar foto". */
   readonly ariaLabel = input<string>('Cambiar foto');
+  /**
+   * Visual size. `md` (default) renders the 64×64 avatar + hint row +
+   * remove link used in form bodies. `sm` renders a 44×44 avatar only
+   * (no hint, no remove) for use inside a compact sticky header.
+   */
+  readonly size = input<'md' | 'sm'>('md');
 
   readonly photoChange = output<string | null>();
 

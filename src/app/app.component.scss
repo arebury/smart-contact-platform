@@ -44,12 +44,12 @@
     border-color: var(--sc-toast-error-border);
   }
 
-  /* Indigo "neutral notice" — used for state changes that aren't a
+  /* Violet "neutral notice" — used for state changes that aren't a
    * celebration (e.g. "Borrador creado", "Renombrado"). Quieter than
    * success, more present than info. Maps to PrimeNG `severity: 'secondary'`. */
   &[data-severity='secondary'] {
-    background: var(--sc-toast-indigo-bg);
-    border-color: var(--sc-toast-indigo-border);
+    background: var(--sc-toast-violet-bg);
+    border-color: var(--sc-toast-violet-border);
   }
 
   &__icon {
@@ -75,7 +75,7 @@
       background: var(--sc-toast-error-icon-bg);
     }
     .aed-toast[data-severity='secondary'] & {
-      background: var(--sc-toast-indigo-icon-bg);
+      background: var(--sc-toast-violet-icon-bg);
     }
   }
 

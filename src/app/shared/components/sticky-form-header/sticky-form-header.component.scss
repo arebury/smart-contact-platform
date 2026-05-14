@@ -23,32 +23,6 @@
     &:empty {
       display: none;
     }
-
-    /* When a `<aed-photo-upload>` is projected here, scale it to a 44px
-     * avatar — large enough to read as a portrait, small enough to keep
-     * the header compact. The hint + remove-button rows that make sense
-     * inside a card body don't render here. */
-    ::ng-deep .photo-upload {
-      gap: 0;
-    }
-    ::ng-deep .photo-upload__button {
-      width: 44px;
-      height: 44px;
-    }
-    ::ng-deep .photo-upload__hint,
-    ::ng-deep .photo-upload__remove {
-      display: none;
-    }
-    ::ng-deep .photo-upload__illustrated {
-      width: 44px;
-      height: 44px;
-    }
-    ::ng-deep aed-illustrated-avatar svg,
-    ::ng-deep aed-illustrated-avatar img,
-    ::ng-deep aed-illustrated-avatar > div {
-      width: 44px;
-      height: 44px;
-    }
   }
 
   &__title-block {
