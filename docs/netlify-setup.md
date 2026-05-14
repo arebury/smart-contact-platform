@@ -13,9 +13,9 @@ Un solo repo (`arebury/smart-contact-platform`) → 2 sites Netlify:
 | Site | Qué sirve | URL | Build command | Publish dir |
 |------|-----------|-----|---------------|-------------|
 | `aedmigration` | App AED (Supervisor) | aedmigration.netlify.app | lee de `/netlify.toml` (raíz) | `dist/aed/browser` |
-| `ds-smartcontact` | Sitio docs SCDS | ds-smartcontact.netlify.app | lee de `apps/ds-docs/netlify.toml` | `dist/ds-docs/browser` (via toml) |
+| `ds-smartcontact` | Sitio docs SCDS | ds-smartcontact.netlify.app | UI override (no toml) | `dist/ds-docs/browser` |
 
-**Cada site tiene su `netlify.toml` versionado** — el de la raíz para AED (default), el de `apps/ds-docs/` para ds-docs. El truco es que ds-smartcontact debe tener **Base directory = `apps/ds-docs`** en su Netlify UI, así Netlify lee el toml de esa carpeta en vez del raíz.
+**El `netlify.toml` de la raíz configura AED por defecto.** El site `aedmigration` lo respeta automáticamente. El site `ds-smartcontact` lleva su build command + publish dir como override en la UI de Netlify (no en git) — más simple que mantener un toml per-app que entra en conflicto con la UI.
 
 ---
 
@@ -29,31 +29,31 @@ Si aún no existe:
 3. Branch to deploy: `main` (después de mergear la foundation PR).
 4. Acepta los defaults del wizard sin tocar nada — vamos a sobrescribir después.
 
-### 2. Apuntar al netlify.toml de ds-docs
+### 2. Override de build settings (UI únicamente)
 
 Una vez creado el site, ve a:
 
 **Site settings → Build & deploy → Continuous deployment → Build settings → Edit settings**
 
-Rellena solo este campo, deja los otros 2 VACÍOS:
+Rellena los 3 campos exactos así:
 
 ```
-Base directory:      apps/ds-docs
-Build command:       (VACÍO — lo lee del netlify.toml de apps/ds-docs)
-Publish directory:   (VACÍO — lo lee del netlify.toml de apps/ds-docs)
+Base directory:      (VACÍO — déjalo en blanco)
+Build command:       npm install --no-audit --no-fund && npm run build:ds-docs
+Publish directory:   dist/ds-docs/browser
 ```
 
 Guarda.
 
-> Por qué este enfoque y no el típico "override todo en UI":
-> ya probamos con Build command + Publish dir en UI y los settings no
-> se aplicaban consistentemente. Tener el `netlify.toml` viviendo en
-> `apps/ds-docs/` es source-of-truth versionada, y se aplica automáticamente
-> cuando el site usa esa carpeta como Base directory. Si Netlify ignora
-> esos settings, el commit te da la pista.
->
-> El `npm install` corre con `cd ../..` para volver a la raíz (donde está
-> el lockfile de npm workspaces). Está en el `command` del toml.
+**También revisa**: Site settings → Build & deploy → "Ignore builds"
+debe estar VACÍO. Si tiene una rule custom, bórrala — bloquea rebuilds
+desde commits en `packages/`.
+
+> Por qué solo UI y no per-app `netlify.toml`:
+> probamos meter `apps/ds-docs/netlify.toml` con base directory, y la
+> coexistencia con la config UI causó deadlocks de rebuild (commits a
+> packages/ no disparaban deploy). Una sola fuente de truth (UI) es más
+> simple y predecible — aunque pierdes versionado de la config.
 
 ### 3. Trigger un deploy nuevo
 
@@ -117,14 +117,14 @@ tipo `npm run build` y `dist/aed/browser`), bórralos para que use el toml.
 
 ## Cuando añadas un 3er site (futuro: Memory)
 
-Mismo patrón:
+Mismo patrón que ds-smartcontact:
 1. Añade el script `build:memory` al `package.json` raíz.
-2. Crea `apps/memory/netlify.toml` (copia de `apps/ds-docs/netlify.toml`, cambia `ds-docs` por `memory`).
-3. En Netlify: crea site nuevo, conecta repo, en UI mete:
+2. En Netlify: crea site nuevo, conecta repo.
+3. Override en UI:
    ```
-   Base directory:    apps/memory
-   Build command:     (VACÍO)
-   Publish directory: (VACÍO)
+   Base directory:    (VACÍO)
+   Build command:     npm install --no-audit --no-fund && npm run build:memory
+   Publish directory: dist/memory/browser
    ```
 4. Trigger deploy.
 
