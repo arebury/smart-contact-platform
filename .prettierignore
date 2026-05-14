@@ -4,3 +4,7 @@ docs/prototype-reference/
 coverage/
 *.lock
 package-lock.json
+
+# Figma plugin export — documental reference, not maintained by us.
+# Re-imports from Marta should land as-is so re-sync diffs stay clean.
+src/assets/tokens/design-tokens.json
