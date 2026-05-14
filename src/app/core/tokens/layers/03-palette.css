@@ -21,15 +21,16 @@
    * "green" tag does not imply success.
    *
    * Source of values:
-   * - gray, red, orange, amber, teal, purple → reference primitives
-   *   in layer 1.
-   * - green → Aura `emerald` scale (NOT AED `--sc-color-green-*`,
-   *   which is Aura `green`). Label needs a brighter fresh green
-   *   than the brand semantic green. Kept in hex until/unless we
-   *   promote `emerald` as a primitive.
-   * - blue → Aura standard `blue` scale (NOT AED `--sc-color-blue-*`,
-   *   which is the custom brand navy). Label needs a bright sky-blue
-   *   distinct from brand. Kept in hex.
+   * - gray, red, orange, amber, teal, purple → AED `--sc-color-*`
+   *   primitives that mirror the same-named Aura primitives.
+   * - green → AED `--sc-color-emerald-*` primitive (Aura's `emerald`,
+   *   chosen for a brighter "fresh green" distinct from AED's
+   *   brand-semantic green which is Aura's `green`).
+   * - blue → AED `--sc-color-azure-*` primitive (Aura's `blue`,
+   *   renamed to `azure` so it doesn't collide with AED's
+   *   `--sc-color-blue-*` which is the custom brand navy).
+   *
+   * All label hues now reference primitives; no hex literals.
    */
   --sc-label-gray-bg: var(--sc-color-gray-100);
   --sc-label-gray-text: var(--sc-color-gray-700);
@@ -51,20 +52,20 @@
   --sc-label-amber-border: var(--sc-color-amber-200);
   --sc-label-amber-dot: var(--sc-color-amber-500);
 
-  --sc-label-green-bg: #ecfdf5;
-  --sc-label-green-text: #047857;
-  --sc-label-green-border: #a7f3d0;
-  --sc-label-green-dot: #10b981;
+  --sc-label-green-bg: var(--sc-color-emerald-50);
+  --sc-label-green-text: var(--sc-color-emerald-700);
+  --sc-label-green-border: var(--sc-color-emerald-200);
+  --sc-label-green-dot: var(--sc-color-emerald-500);
 
   --sc-label-teal-bg: var(--sc-color-teal-50);
   --sc-label-teal-text: var(--sc-color-teal-700);
   --sc-label-teal-border: var(--sc-color-teal-200);
   --sc-label-teal-dot: var(--sc-color-teal-500);
 
-  --sc-label-blue-bg: #eff6ff;
-  --sc-label-blue-text: #1d4ed8;
-  --sc-label-blue-border: #bfdbfe;
-  --sc-label-blue-dot: #3b82f6;
+  --sc-label-blue-bg: var(--sc-color-azure-50);
+  --sc-label-blue-text: var(--sc-color-azure-700);
+  --sc-label-blue-border: var(--sc-color-azure-200);
+  --sc-label-blue-dot: var(--sc-color-azure-500);
 
   --sc-label-purple-bg: var(--sc-color-purple-50);
   --sc-label-purple-text: var(--sc-color-purple-700);

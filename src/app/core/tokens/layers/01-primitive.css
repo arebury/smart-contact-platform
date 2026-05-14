@@ -164,6 +164,39 @@
   --sc-color-purple-900: #581c87;
   --sc-color-purple-950: #3b0764;
 
+  /* ---------- Color · Emerald (label palette) ---------- */
+  /* Mirrors Aura's `emerald` scale. Used by `--sc-label-green-*`,
+   * which needs a brighter "fresh green" distinct from AED's
+   * brand-semantic green (`--sc-color-green-*` = Aura `green`). */
+  --sc-color-emerald-50: #ecfdf5;
+  --sc-color-emerald-100: #d1fae5;
+  --sc-color-emerald-200: #a7f3d0;
+  --sc-color-emerald-300: #6ee7b7;
+  --sc-color-emerald-400: #34d399;
+  --sc-color-emerald-500: #10b981;
+  --sc-color-emerald-600: #059669;
+  --sc-color-emerald-700: #047857;
+  --sc-color-emerald-800: #065f46;
+  --sc-color-emerald-900: #064e3b;
+  --sc-color-emerald-950: #022c22;
+
+  /* ---------- Color · Azure (label palette) ---------- */
+  /* Mirrors Aura's `blue` scale (Tailwind blue, saturated sky-blue).
+   * Named `azure` to avoid collision with AED's `--sc-color-blue-*`
+   * which is the custom brand navy. Used by `--sc-label-blue-*`,
+   * which needs a bright sky-blue distinct from brand identity. */
+  --sc-color-azure-50: #eff6ff;
+  --sc-color-azure-100: #dbeafe;
+  --sc-color-azure-200: #bfdbfe;
+  --sc-color-azure-300: #93c5fd;
+  --sc-color-azure-400: #60a5fa;
+  --sc-color-azure-500: #3b82f6;
+  --sc-color-azure-600: #2563eb;
+  --sc-color-azure-700: #1d4ed8;
+  --sc-color-azure-800: #1e40af;
+  --sc-color-azure-900: #1e3a8a;
+  --sc-color-azure-950: #172554;
+
   /* ---------- Typography ---------- */
   --sc-font-family-primary: 'Inter', system-ui, -apple-system, sans-serif;
   --sc-font-family-secondary: 'Open Sans', sans-serif;
