@@ -24,5 +24,8 @@ export type { ThemeMode } from './theme.service';
 
 export { KeyboardShortcutsService } from './keyboard-shortcuts.service';
 
+export { PageHeaderService } from './page-header.service';
+export type { PageHeaderState } from './page-header.service';
+
 export { UndoStackService } from './undo-stack.service';
 export type { UndoEntry } from './undo-stack.service';

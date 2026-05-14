@@ -30,7 +30,8 @@ import {
 import { MessageService } from 'primeng/api';
 
 import { ConfirmHostService, ThemeService, type ThemeMode } from '@core/services';
-import { PageHeaderComponent, ToggleSwitchComponent } from '@shared/components';
+import { PageHeaderService } from '@core/services';
+import { ToggleSwitchComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 
 import { NumeracionEspecialSectionComponent } from '../sections/numeracion-especial-section.component';
@@ -78,7 +79,6 @@ const APP_DATA_PREFIX = 'smartcontact_';
   imports: [
     LucideAngularModule,
     NumeracionEspecialSectionComponent,
-    PageHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
   ],
@@ -93,6 +93,16 @@ export class SistemaPageComponent {
   private readonly doc = inject(DOCUMENT);
   private readonly messages = inject(MessageService);
   private readonly agentsStore = inject(AgentsStore);
+  private readonly pageHeader = inject(PageHeaderService);
+
+  constructor() {
+    this.pageHeader.set({
+      titleKey: 'config.sistema.heading',
+      subtitleKey: 'config.sistema.subtitle',
+      entityKey: 'config.sidebar.title',
+      icon: Settings,
+    });
+  }
 
   protected readonly settingsIcon = Settings;
   protected readonly resetIcon = RotateCcw;

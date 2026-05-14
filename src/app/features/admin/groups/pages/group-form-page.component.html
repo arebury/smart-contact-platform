@@ -17,11 +17,6 @@
     />
   </span>
   @if (mode() === 'edit') {
-    <span header-pills>
-      <span class="pill pill--priority pill--priority-{{ form().priority }}">
-        {{ priorityKeys[form().priority] | translate }}
-      </span>
-    </span>
     <span header-meta>
       @if (form().phone) {
         <span class="header-meta__chunk">

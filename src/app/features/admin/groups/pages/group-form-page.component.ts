@@ -114,25 +114,21 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const identity: FormNavSection = {
       id: 'group-section-identity',
       labelKey: 'groups.form.section.identity',
-      hintKey: 'groups.form.section.identity_hint',
       icon: IdCard,
     };
     const channels: FormNavSection = {
       id: 'group-section-channels',
       labelKey: 'groups.form.section.channels',
-      hintKey: 'groups.form.section.channels_hint',
       icon: MessageSquare,
     };
     const strategy: FormNavSection = {
       id: 'group-section-strategy',
       labelKey: 'groups.form.section.strategy',
-      hintKey: 'groups.form.section.strategy_hint',
       icon: GitBranch,
     };
     const agents: FormNavSection = {
       id: 'group-section-agents',
       labelKey: 'groups.form.section.agents',
-      hintKey: 'groups.form.section.agents_hint',
       icon: UsersIcon,
     };
     if (this.mode() === 'edit') {

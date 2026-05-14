@@ -368,25 +368,21 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const identity: FormNavSection = {
       id: 'agent-section-identity',
       labelKey: 'agents.form.section.identification',
-      hintKey: 'agents.form.section.identification_hint',
       icon: IdCard,
     };
     const groups: FormNavSection = {
       id: 'agent-section-groups',
       labelKey: 'agents.form.section.groups',
-      hintKey: 'agents.form.section.groups_hint',
       icon: UsersIcon,
     };
     const permissions: FormNavSection = {
       id: 'agent-section-permissions',
       labelKey: 'agents.form.section.permissions',
-      hintKey: 'agents.form.section.permissions_hint',
       icon: ShieldCheck,
     };
     const advanced: FormNavSection = {
       id: 'agent-section-advanced',
       labelKey: 'agents.form.section.advanced',
-      hintKey: 'agents.form.section.advanced_hint',
       icon: SlidersHorizontal,
     };
     if (this.mode() === 'edit') {

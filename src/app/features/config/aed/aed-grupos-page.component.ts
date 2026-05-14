@@ -3,7 +3,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ChevronDown, Info, LucideAngularModule, UsersRound } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { PageHeaderComponent, ToggleSwitchComponent } from '@shared/components';
+import { PageHeaderService } from '@core/services';
+import { ToggleSwitchComponent } from '@shared/components';
 
 interface FormState {
   capacidadTipo: 'fija' | 'variable';
@@ -51,7 +52,7 @@ const DEFAULT_FORM: FormState = {
  */
 @Component({
   selector: 'aed-aed-grupos-page',
-  imports: [LucideAngularModule, PageHeaderComponent, ToggleSwitchComponent, TranslateModule],
+  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
   templateUrl: './aed-grupos-page.component.html',
   styleUrl: './aed-defaults-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,6 +60,16 @@ const DEFAULT_FORM: FormState = {
 export class AedGruposPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly pageHeader = inject(PageHeaderService);
+
+  constructor() {
+    this.pageHeader.set({
+      titleKey: 'config.aed.subpages.grupos.heading',
+      subtitleKey: 'config.aed.subpages.grupos.subtitle',
+      entityKey: 'config.sidebar.title',
+      icon: UsersRound,
+    });
+  }
 
   protected readonly groupsIcon = UsersRound;
   protected readonly chevronIcon = ChevronDown;
