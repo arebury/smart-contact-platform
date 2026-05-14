@@ -114,16 +114,6 @@
             <td class="actbl__td-name">
               <aed-illustrated-avatar [name]="row.agent.name" pool="illustrated" [size]="24" />
               <span class="actbl__name-label">{{ row.agent.name }}</span>
-              @if (row.link.active && row.link.channels.length === 0) {
-                <span
-                  class="actbl__warn"
-                  [title]="'groups.form.assigned.warn_no_channels' | translate"
-                  role="img"
-                  [attr.aria-label]="'groups.form.assigned.warn_no_channels' | translate"
-                >
-                  <lucide-icon [img]="warnIcon" [size]="13" aria-hidden="true" />
-                </span>
-              }
             </td>
             @for (ch of groupChannels(); track ch) {
               <td class="actbl__td-channel">

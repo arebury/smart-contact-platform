@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Search, Trash2, X } from 'lucide-angular';
+import { Check, LucideAngularModule, Plus, Search, Trash2, X } from 'lucide-angular';
 
 import { IllustratedAvatarComponent, ToggleSwitchComponent } from '@shared/components';
 
@@ -63,6 +63,8 @@ export class GroupAssignmentTableComponent {
   protected readonly searchIcon = Search;
   protected readonly closeIcon = X;
   protected readonly trashIcon = Trash2;
+  protected readonly checkIcon = Check;
+  protected readonly plusIcon = Plus;
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;
 
   protected readonly pickerQuery = signal('');

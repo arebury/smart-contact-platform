@@ -124,6 +124,13 @@
           </div>
         </div>
           </aed-section-card>
+
+          @if (mode() === 'edit') {
+            <aed-form-danger-zone
+              descriptionKey="users.form.danger_zone_description"
+              (action)="requestDelete()"
+            />
+          }
         }
 
         @case ('user-section-sections') {
@@ -189,13 +196,6 @@
           }
         </div>
           </aed-section-card>
-        }
-
-        @case ('user-section-danger') {
-          <aed-form-danger-zone
-            descriptionKey="users.form.danger_zone_description"
-            (action)="requestDelete()"
-          />
         }
       }
     </div>

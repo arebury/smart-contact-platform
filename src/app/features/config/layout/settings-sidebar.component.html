@@ -21,7 +21,9 @@
         </span>
         <span class="nav-item__copy">
           <span class="nav-item__label">{{ item.labelKey | translate }}</span>
-          <span class="nav-item__hint">{{ item.hintKey | translate }}</span>
+          @if (item.hintKey) {
+            <span class="nav-item__hint">{{ item.hintKey | translate }}</span>
+          }
         </span>
       </a>
     }

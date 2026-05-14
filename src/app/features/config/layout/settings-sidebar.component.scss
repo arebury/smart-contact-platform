@@ -92,8 +92,8 @@
 
 .nav-item__icon {
   flex: 0 0 auto;
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -101,28 +101,49 @@
   background: var(--sc-color-gray-100);
   color: var(--sc-text-secondary);
   border: 1px solid transparent;
+  transition:
+    background var(--sc-transition-fast, 120ms) ease,
+    color var(--sc-transition-fast, 120ms) ease;
 }
 
+/* Inline label · hint — kept on a single row so each entry takes one
+ * line. The hint truncates with ellipsis when the rail is narrow; widen
+ * the rail (parent) if more hint copy needs to read. */
 .nav-item__copy {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: baseline;
+  gap: 6px;
   min-width: 0;
+  flex: 1 1 auto;
+  overflow: hidden;
 }
 
 .nav-item__label {
   font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
   font-size: var(--sc-font-size-100, 14px);
-  line-height: 22px;
+  line-height: 20px;
   font-weight: var(--sc-font-weight-medium, 500);
   color: var(--sc-text-secondary);
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .nav-item__hint {
   font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-  font-size: var(--sc-font-size-50, 12px);
+  font-size: var(--sc-font-size-75, 12px);
   line-height: 18px;
   color: var(--sc-text-subtle);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+
+  /* Middle dot separator before the hint. */
+  &::before {
+    content: '·';
+    margin-right: 6px;
+    color: var(--sc-text-subtle);
+  }
 }
 
 .settings-sidebar__foot {

@@ -16,10 +16,15 @@
         >
           @if (section.icon; as ic) {
             <span class="form-nav__icon" aria-hidden="true">
-              <lucide-icon [img]="ic" [size]="14" />
+              <lucide-icon [img]="ic" [size]="15" />
             </span>
           }
-          <span class="form-nav__label">{{ section.labelKey | translate }}</span>
+          <span class="form-nav__copy">
+            <span class="form-nav__label">{{ section.labelKey | translate }}</span>
+            @if (section.hintKey; as h) {
+              <span class="form-nav__hint">{{ h | translate }}</span>
+            }
+          </span>
         </a>
       </li>
     }

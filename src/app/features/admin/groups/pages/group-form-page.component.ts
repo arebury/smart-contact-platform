@@ -16,7 +16,6 @@ import {
   LucideAngularModule,
   MessageSquare,
   Phone,
-  Trash2,
   Users as UsersIcon,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
@@ -108,36 +107,36 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
    * Section index for the form shell. In `edit` mode, Identity drops to
    * the end of the list — it's rarely touched once a group exists, so
    * the index leads with the sections the user actually iterates on.
-   * Danger zone is only added in edit mode (no "delete" while creating).
+   * Delete is *not* in the nav — it lives at the bottom of the Identity
+   * tab (danger zone pattern, GitHub / Stripe).
    */
   protected readonly navSections = computed<readonly FormNavSection[]>(() => {
     const identity: FormNavSection = {
       id: 'group-section-identity',
       labelKey: 'groups.form.section.identity',
+      hintKey: 'groups.form.section.identity_hint',
       icon: IdCard,
     };
     const channels: FormNavSection = {
       id: 'group-section-channels',
       labelKey: 'groups.form.section.channels',
+      hintKey: 'groups.form.section.channels_hint',
       icon: MessageSquare,
     };
     const strategy: FormNavSection = {
       id: 'group-section-strategy',
       labelKey: 'groups.form.section.strategy',
+      hintKey: 'groups.form.section.strategy_hint',
       icon: GitBranch,
     };
     const agents: FormNavSection = {
       id: 'group-section-agents',
       labelKey: 'groups.form.section.agents',
+      hintKey: 'groups.form.section.agents_hint',
       icon: UsersIcon,
     };
-    const danger: FormNavSection = {
-      id: 'group-section-danger',
-      labelKey: 'common.delete',
-      icon: Trash2,
-    };
     if (this.mode() === 'edit') {
-      return [channels, strategy, agents, identity, danger];
+      return [channels, strategy, agents, identity];
     }
     return [identity, channels, strategy, agents];
   });

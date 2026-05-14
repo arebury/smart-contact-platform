@@ -9,6 +9,8 @@ export interface FormNavSection {
   readonly id: string;
   /** i18n key for the link label. */
   readonly labelKey: string;
+  /** Optional i18n key for a short hint shown inline next to the label. */
+  readonly hintKey?: string;
   /** Lucide icon shown to the left of the label. Optional. */
   readonly icon?: LucideIconRef;
 }

@@ -202,13 +202,6 @@
     font-weight: var(--sc-font-weight-medium);
   }
 
-  &__warn {
-    display: inline-flex;
-    align-items: center;
-    color: var(--sc-color-yellow-700);
-    margin-left: var(--sc-spacing-100);
-  }
-
   &__td-channel,
   &__td-active {
     text-align: center;

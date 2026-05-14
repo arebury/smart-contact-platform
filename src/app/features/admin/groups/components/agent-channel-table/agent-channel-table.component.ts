@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { AlertTriangle, LucideAngularModule, Plus, Search, Trash2, X } from 'lucide-angular';
+import { LucideAngularModule, Plus, Search, Trash2, X } from 'lucide-angular';
 
 import {
   IllustratedAvatarComponent,
@@ -72,7 +72,6 @@ export class AgentChannelTableComponent {
   protected readonly searchIcon = Search;
   protected readonly closeIcon = X;
   protected readonly trashIcon = Trash2;
-  protected readonly warnIcon = AlertTriangle;
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;
 
   /**
