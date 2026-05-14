@@ -19,9 +19,6 @@
   </span>
   @if (mode() === 'edit') {
     <span header-pills>
-      <span class="pill pill--status pill--status-{{ form().status }}">
-        {{ 'agents.status.' + form().status | translate }}
-      </span>
       <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
         <span class="pill__dot" aria-hidden="true"></span>
         {{ presenceKeys[form().presenceStatus] | translate }}

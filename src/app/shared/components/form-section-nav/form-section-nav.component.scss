@@ -93,15 +93,6 @@
     color var(--sc-transition-fast, 120ms) ease;
 }
 
-.form-nav__copy {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  min-width: 0;
-  flex: 1 1 auto;
-  overflow: hidden;
-}
-
 .form-nav__label {
   font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
   font-size: var(--sc-font-size-100, 14px);
@@ -109,23 +100,8 @@
   font-weight: var(--sc-font-weight-medium, 500);
   color: var(--sc-text-secondary);
   white-space: nowrap;
-  flex: 0 0 auto;
-}
-
-.form-nav__hint {
-  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
-  font-size: var(--sc-font-size-75, 12px);
-  line-height: 18px;
-  color: var(--sc-text-subtle);
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  flex: 1 1 auto;
   min-width: 0;
-
-  /* Middle dot separator before the hint when both are present. */
-  &::before {
-    content: '·';
-    margin-right: 6px;
-    color: var(--sc-text-subtle);
-  }
 }

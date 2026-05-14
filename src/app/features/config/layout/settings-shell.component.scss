@@ -1,9 +1,9 @@
 /*
- * Settings shell — wraps every `/config/*` route in a sidebar + main
- * column layout (Figma node 224:9167). The rail uses `position: sticky`
- * inside `.app-shell__content` so the sidebar stays put while the page
- * scrolls. Main paints the muted canvas (#f7f8fa equivalent) so child
- * pages drop their own page background.
+ * Settings shell — wraps every `/config/*` route in a header (top) +
+ * sidebar + main column layout, mirroring the /admin form pattern where
+ * `sticky-form-header` spans the full page width above the rail.
+ * Main paints the muted canvas (#f7f8fa equivalent) so child pages drop
+ * their own page background.
  */
 :host {
   display: block;
@@ -13,8 +13,21 @@
 
 .settings-shell {
   display: flex;
-  align-items: stretch;
+  flex-direction: column;
   min-height: 100%;
+}
+
+.settings-shell__header {
+  background: var(--sc-bg-surface);
+  border-bottom: 1px solid var(--sc-border-default);
+  padding: 0 var(--sc-spacing-600);
+}
+
+.settings-shell__body {
+  display: flex;
+  align-items: stretch;
+  flex: 1;
+  min-height: 0;
 }
 
 .settings-shell__rail {
@@ -23,10 +36,10 @@
   position: sticky;
   top: 0;
   align-self: stretch;
-  /* Sticky elements need an explicit height to actually stick. 100dvh
-   * is too tall (it ignores the topbar) but works visually because the
-   * sidebar's intrinsic content is shorter — the sticky just anchors
-   * to the top of the scrolling parent. */
+  /* Sticky needs an explicit height. 100dvh is taller than the visible
+   * shell once the topbar is subtracted, but works visually because the
+   * sidebar's intrinsic content is shorter — the sticky just anchors to
+   * the top of the scrolling parent. */
   height: 100dvh;
   z-index: 1;
 }

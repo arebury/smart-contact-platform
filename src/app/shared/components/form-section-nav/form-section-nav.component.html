@@ -19,12 +19,7 @@
               <lucide-icon [img]="ic" [size]="15" />
             </span>
           }
-          <span class="form-nav__copy">
-            <span class="form-nav__label">{{ section.labelKey | translate }}</span>
-            @if (section.hintKey; as h) {
-              <span class="form-nav__hint">{{ h | translate }}</span>
-            }
-          </span>
+          <span class="form-nav__label">{{ section.labelKey | translate }}</span>
         </a>
       </li>
     }

@@ -3,8 +3,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ChevronDown, ChevronUp, LucideAngularModule, UserRound } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
+import { PageHeaderService } from '@core/services';
 import {
-  PageHeaderComponent,
   ToggleSwitchComponent,
   TriStateCheckboxComponent,
   type TriState,
@@ -66,13 +66,7 @@ const DEFAULT_FORM: FormState = {
  */
 @Component({
   selector: 'aed-aed-agentes-page',
-  imports: [
-    LucideAngularModule,
-    PageHeaderComponent,
-    ToggleSwitchComponent,
-    TranslateModule,
-    TriStateCheckboxComponent,
-  ],
+  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule, TriStateCheckboxComponent],
   templateUrl: './aed-agentes-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-agentes-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -80,6 +74,16 @@ const DEFAULT_FORM: FormState = {
 export class AedAgentesPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly pageHeader = inject(PageHeaderService);
+
+  constructor() {
+    this.pageHeader.set({
+      titleKey: 'config.aed.subpages.agentes.heading',
+      subtitleKey: 'config.aed.subpages.agentes.subtitle',
+      entityKey: 'config.sidebar.title',
+      icon: UserRound,
+    });
+  }
 
   protected readonly userIcon = UserRound;
   protected readonly chevronDown = ChevronDown;

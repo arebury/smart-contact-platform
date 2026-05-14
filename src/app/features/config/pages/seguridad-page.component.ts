@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Shield } from 'lucide-angular';
 
-import { PageHeaderComponent } from '@shared/components';
+import { PageHeaderService } from '@core/services';
 
 /**
  * Seguridad page (`/config/seguridad`).
@@ -15,11 +15,22 @@ import { PageHeaderComponent } from '@shared/components';
  */
 @Component({
   selector: 'aed-seguridad-page',
-  imports: [LucideAngularModule, PageHeaderComponent, TranslateModule],
+  imports: [LucideAngularModule, TranslateModule],
   templateUrl: './seguridad-page.component.html',
   styleUrl: './seguridad-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeguridadPageComponent {
+  private readonly pageHeader = inject(PageHeaderService);
+
+  constructor() {
+    this.pageHeader.set({
+      titleKey: 'config.seguridad.heading',
+      subtitleKey: 'config.seguridad.subtitle_empty',
+      entityKey: 'config.sidebar.title',
+      icon: Shield,
+    });
+  }
+
   protected readonly shieldIcon = Shield;
 }
