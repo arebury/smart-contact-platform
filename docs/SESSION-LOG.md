@@ -10,6 +10,66 @@
 
 ---
 
+## 2026-05-14 · Session 28 — Input component (sc-input) + Figma 1:1 audit + Netlify deploy debugging
+
+> Sesión post-foundation. Cocinamos el primer componente nuevo end-to-end (Input) +
+> tracker localStorage en ds-docs + audit honesto de paridad Figma + 4 commits a main
+> + lucha con la config de Netlify que tardó dos horas en estabilizarse.
+
+### Worked on
+
+- **sc-input component** (`packages/design-system/components/input/`):
+  - Wrapper sobre PrimeNG `pInputText` con label, required, helper, error, leftIcon, rightIcon, sizes (sm/md/lg).
+  - Soporta `[(value)]` (signal model), `[(ngModel)]` (FormsModule), `[formControl]` (Reactive Forms) — los 3 contratos vía ControlValueAccessor.
+  - No-CLS: helper/error reservan 1.25em incluso vacío.
+  - a11y completa (label real, aria-required, aria-invalid, aria-describedby).
+- **ds-docs page** `/components/input`: 8 secciones (basic, label+helper, iconos, sizes, estados, ngModel, Reactive Forms, tipos HTML).
+- **Spec doc** `packages/design-system/docs/components/02-input.md`: API completa, bindings, tokens consumidos, divergencias documentadas, recipe de migración.
+- **Migración AED proof-of-concept**: `user-form-page.component.html` con 2 inputs (email + identifier) usando `<sc-input>`. Bundle del lazy chunk pasa de 44.23 kB → 41.85 kB. Resto (26 inputs en otras 5 pages) queda como follow-up por feature.
+- **Tracker localStorage** en ds-docs home: checklist personal de los 30 componentes del catálogo, badge Type (🟦 Full PrimeNG · 🟣 Custom-preset · 🟢 Extended · ⚪ Pure SC) + Status + Figma parity %, persiste en navegador.
+- **MIGRATION-INVENTORY.md**: 2 columnas nuevas (Type, Figma parity).
+- **Dark mode tweaks**: input bg en dark = canvas (gray-950) para que el input se "embeba" en lugar de flotar; focus ring → `--sc-color-electric-blue-500` (más vibrante, match Figma).
+- **Figma 1:1 audit del Input**: 80% inicial → 90% tras Nivel 2 fixes (label 12→14px, helper 10→12px, preset.formField padding 16/12 → 12/8). El 10% restante es paleta `--sc-color-gray-*` divergente de Aura slate (Nivel 1 — pendiente).
+
+### Decisiones clave
+
+- **Categorización de componentes**: Type column con 🟦 Full PrimeNG (passthrough) / 🟣 Custom-preset (overrides en sc-preset) / 🟢 Extended (wrapper SC sobre PrimeNG) / ⚪ Pure SC (sin equivalente). Mental model que pidió Rafa para registrar qué se está cocinando dónde.
+- **Filled / Float-label / Ifta-label variants del Input**: NO implementadas. AED no las usa. Anti-pattern cocinar para necesidades imaginarias.
+- **Netlify config: UI-only, sin per-app toml**. Probamos con `apps/ds-docs/netlify.toml` y entró en conflicto con UI override → deadlock de rebuild. Volvemos a configuración UI por site, root `netlify.toml` SIN bloque `[build]` (solo env, redirects, headers consistentes entre sites).
+- **Repo va a moverse a `~/dev/smart-contact-platform/`** (fuera de iCloud Desktop). Pendiente de ejecutar próxima sesión.
+
+### Lo que NO se cerró
+
+- **🔴 BLOCKER: ds-smartcontact deploy falla por `@netlify/angular-runtime` plugin**.
+  - aedmigration: ✓ deploy verde con UI override.
+  - ds-smartcontact: ✗ FAIL. Error literal: *"Publish directory is configured incorrectly. Please set it to dist/aed/browser"*. El plugin auto-detecta angular.json (que tiene 2 proyectos: aed + ds-docs) y elige `aed` por defecto, ignorando que el build command es `npm run build:ds-docs`.
+  - Causa raíz: el plugin valida la publish dir contra el `defaultProject` de angular.json (aed) en lugar del proyecto que el build acaba de compilar.
+  - Posibles fixes (probar mañana en orden):
+    1. Setear env var en Netlify UI de ds-smartcontact: `ANGULAR_PROJECT=ds-docs` o equivalente que respete el plugin.
+    2. Forzar output dir vía `ng build ds-docs --output-path=dist/aed/browser` y publish dir = `dist/aed/browser` (workaround, deja huella confusa).
+    3. Volver a per-site `netlify.toml` con `[[plugins]]` block configurando `targetProject`. Lección anterior nos dijo que conflictuaba con UI — pero quizás funciona si UI queda VACÍA.
+    4. Disable el plugin para ese site (env var `NETLIFY_NEXT_PLUGIN_SKIP=true` u homólogo Angular si existe).
+- **Move del repo a `~/dev/`**: rsync arrancado pero killed antes de completar. Limpio (sin partial copy).
+- **Nivel 1 reconciliación de paleta gray a Aura slate**: planeado, requiere Playwright diff de pantallas AED. Sesión separada.
+- **Migración de 26 inputs restantes en AED** (agent-form, group-form, 3 config pages): por feature al tocarse.
+
+### Fricciones que costaron tiempo (anotar para evitar)
+
+- **Carpeta en `~/Desktop/AED/` sincronizada por iCloud**: `.DS_Store` rompió cadenas `&&`, archivos fantasma reaparecieron en raíz tras `git mv`, perms `600` raros.
+- **Memoria física baja al hacer push gigante** (369 archivos): 3 fallos `mmap timed out` hasta `git gc`.
+- **Config Netlify dual** (UI + per-app toml): conflicto invisible. Ambas pelean por la precedencia. Resuelto borrando el toml.
+- **Asincronía Claude/Perplexity/Netlify**: Perplexity reportó "todo correcto" cuando ds-smartcontact servía AED. Lecciones: verificación obligatoria post-claim (curl + screenshot, no visual).
+
+### Commits pusheados a main
+
+- `50b87ee` feat(input): cook sc-input + ds-docs page + user-form-page migration
+- `d209b85` fix(dark): align dark-mode input bg + focus ring to Figma
+- `cf2fcc4` feat(ds-docs): personal validation tracker + Nivel 2 sc-input fixes
+- `25553a7` revert(netlify): delete per-app netlify.toml, consolidate to UI-only
+- `0f9e174` fix(netlify): strip [build] block from root toml — let UI override
+
+---
+
 ## 2026-05-14 · Session 27 — Monorepo foundation (Smart Contact Platform) — branch `chore/sc-monorepo`
 
 > Pasamos de single-app (`arebury/aed`) a monorepo (`arebury/smart-contact-platform`)
