@@ -1,19 +1,28 @@
 {
-  "name": "aed",
+  "name": "smart-contact-platform",
   "version": "0.1.0",
-  "description": "AED — SmartContact Supervisor module (Angular + PrimeNG)",
+  "description": "Smart Contact monorepo — AED app, ds-docs site, Smart Contact Design System (SCDS).",
   "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "CHROME_BIN=\"$(node -e 'console.log(require(\"@playwright/test\").chromium.executablePath())')\" ng test --watch=false --browsers=ChromeHeadless",
-    "test:watch": "CHROME_BIN=\"$(node -e 'console.log(require(\"@playwright/test\").chromium.executablePath())')\" ng test --browsers=ChromeHeadless",
-    "test:ci": "ng test --watch=false --browsers=ChromeHeadless --code-coverage",
-    "lint": "ng lint",
-    "format": "prettier --write \"src/**/*.{ts,html,scss,css,json}\"",
-    "format:check": "prettier --check \"src/**/*.{ts,html,scss,css,json}\""
+    "start": "ng serve aed",
+    "start:aed": "ng serve aed",
+    "start:ds-docs": "ng serve ds-docs",
+    "build": "ng build aed",
+    "build:aed": "ng build aed",
+    "build:ds-docs": "ng build ds-docs",
+    "build:all": "ng build aed && ng build ds-docs",
+    "watch": "ng build aed --watch --configuration development",
+    "test": "CHROME_BIN=\"$(node -e 'console.log(require(\"@playwright/test\").chromium.executablePath())')\" ng test aed --watch=false --browsers=ChromeHeadless",
+    "test:watch": "CHROME_BIN=\"$(node -e 'console.log(require(\"@playwright/test\").chromium.executablePath())')\" ng test aed --browsers=ChromeHeadless",
+    "test:ci": "ng test aed --watch=false --browsers=ChromeHeadless --code-coverage",
+    "lint": "ng lint aed",
+    "format": "prettier --write \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",
+    "format:check": "prettier --check \"{apps,packages}/**/*.{ts,html,scss,css,json}\""
   },
   "dependencies": {
     "@angular/animations": "^21.2.12",

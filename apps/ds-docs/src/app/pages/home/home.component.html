@@ -1,0 +1,21 @@
+<section class="hero">
+  <span class="hero__eyebrow">Smart Contact Design System · v0.1</span>
+  <h1 class="hero__title">Una sola fuente de verdad para SC.</h1>
+  <p class="hero__lede">
+    Tokens, componentes y patrones que consume AED — y consumirá Memory cuando llegue su turno.
+    Crece componente a componente.
+  </p>
+</section>
+
+<section class="components">
+  <h2 class="components__title">Components</h2>
+  <div class="components__grid">
+    @for (c of components; track c.slug) {
+      <a class="component-card" [routerLink]="['/components', c.slug]">
+        <span class="component-card__status" [class]="'is-' + c.status">{{ c.status }}</span>
+        <h3 class="component-card__name">{{ c.name }}</h3>
+        <p class="component-card__summary">{{ c.summary }}</p>
+      </a>
+    }
+  </div>
+</section>

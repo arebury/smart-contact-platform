@@ -1,4 +1,14 @@
-# Netlify build configuration for AED — SmartContact Supervisor.
+# Netlify build config — Smart Contact Platform monorepo.
+#
+# This root toml drives the **AED app** site (aedmigration.netlify.app).
+# For the **ds-docs** site (new), configure build settings in Netlify UI:
+#
+#   Build command:    npm install --no-audit --no-fund && npm run build:ds-docs
+#   Publish directory: dist/ds-docs/browser
+#   Base directory:   (leave empty — repo root)
+#
+# Both sites read from the same repo (`arebury/smart-contact-platform`),
+# differentiated only by the build command + publish dir.
 #
 # The Angular `application` builder emits a `browser/` folder under the
 # configured outputPath. We point Netlify at that folder so it serves the
@@ -7,9 +17,9 @@
 [build]
   # Use `npm install` (not `npm ci`) because Karma's `chokidar@3` and
   # @angular/compiler-cli's `chokidar@4` produce a transitive tree that
-  # `npm ci` rejects under strict lockfile validation. `npm install` resolves
-  # the conflict the same way the local install does.
-  command = "npm install --no-audit --no-fund && npm run build"
+  # `npm ci` rejects under strict lockfile validation. `npm install`
+  # resolves the conflict the same way the local install does.
+  command = "npm install --no-audit --no-fund && npm run build:aed"
   publish = "dist/aed/browser"
 
 [build.environment]

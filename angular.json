@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "newProjectRoot": "projects",
+  "newProjectRoot": "apps",
   "projects": {
     "aed": {
       "projectType": "application",
@@ -18,18 +18,18 @@
           "standalone": true
         }
       },
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "aed",
+      "root": "apps/aed",
+      "sourceRoot": "apps/aed/src",
+      "prefix": "sc",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
             "outputPath": "dist/aed",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
+            "index": "apps/aed/src/index.html",
+            "browser": "apps/aed/src/main.ts",
             "polyfills": ["zone.js"],
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "apps/aed/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -38,11 +38,11 @@
               },
               {
                 "glob": "**/*",
-                "input": "src/assets",
+                "input": "apps/aed/src/assets",
                 "output": "/assets"
               }
             ],
-            "styles": ["src/styles/main.scss"],
+            "styles": ["apps/aed/src/styles/main.scss"],
             "scripts": []
           },
           "configurations": {
@@ -92,7 +92,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "tsconfig.spec.json",
+            "tsConfig": "apps/aed/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -101,18 +101,86 @@
               },
               {
                 "glob": "**/*",
-                "input": "src/assets",
+                "input": "apps/aed/src/assets",
                 "output": "/assets"
               }
             ],
-            "styles": ["src/styles/main.scss"],
+            "styles": ["apps/aed/src/styles/main.scss"],
             "scripts": []
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+            "lintFilePatterns": [
+              "apps/aed/src/**/*.ts",
+              "apps/aed/src/**/*.html",
+              "packages/design-system/**/*.ts",
+              "packages/design-system/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "ds-docs": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "changeDetection": "OnPush",
+          "standalone": true
+        }
+      },
+      "root": "apps/ds-docs",
+      "sourceRoot": "apps/ds-docs/src",
+      "prefix": "sc",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:application",
+          "options": {
+            "outputPath": "dist/ds-docs",
+            "index": "apps/ds-docs/src/index.html",
+            "browser": "apps/ds-docs/src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "apps/ds-docs/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [],
+            "styles": ["apps/ds-docs/src/styles/main.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "750kB",
+                  "maximumError": "1.5MB"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular/build:dev-server",
+          "configurations": {
+            "production": {
+              "buildTarget": "ds-docs:build:production"
+            },
+            "development": {
+              "buildTarget": "ds-docs:build:development"
+            }
+          },
+          "defaultConfiguration": "development",
+          "options": {
+            "port": 4300,
+            "host": "localhost"
           }
         }
       }

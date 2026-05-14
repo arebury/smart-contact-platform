@@ -19,10 +19,17 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@core/*": ["src/app/core/*"],
-      "@shared/*": ["src/app/shared/*"],
-      "@features/*": ["src/app/features/*"],
-      "@env/*": ["src/environments/*"]
+      "@core/*": ["apps/aed/src/app/core/*"],
+      "@features/*": ["apps/aed/src/app/features/*"],
+      "@env/*": ["apps/aed/src/environments/*"],
+      "@shared/*": [
+        "apps/aed/src/app/shared/*",
+        "packages/design-system/*"
+      ],
+      "@sc/design-system": ["packages/design-system/components/index.ts"],
+      "@sc/design-system/*": ["packages/design-system/*"],
+      "@sc/tokens": ["packages/design-system/tokens/sc-preset.ts"],
+      "@sc/tokens/*": ["packages/design-system/tokens/*"]
     }
   },
   "angularCompilerOptions": {

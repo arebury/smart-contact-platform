@@ -1,0 +1,89 @@
+<sc-modal
+  [visible]="visible()"
+  [icon]="alertIcon"
+  [title]="dialogTitle()"
+  [subtitle]="dialogSubtitle()"
+  width="440px"
+  (cancelled)="cancelled.emit()"
+>
+  @if (mode() === 'single') {
+    @if (singleDetailMessage(); as detail) {
+      <p class="delete-entity__detail">{{ detail }}</p>
+    }
+
+    <div class="delete-entity__confirm">
+      <label class="delete-entity__confirm-label" for="delete-confirm-input">
+        {{ 'common.delete_dialog.type_to_confirm' | translate }}
+      </label>
+      <button
+        type="button"
+        class="delete-entity__copy-name"
+        (click)="onCopy()"
+        [title]="'common.click_to_copy' | translate"
+      >
+        <span>{{ singleTarget() }}</span>
+        @if (copied()) {
+          <lucide-icon
+            [img]="checkIcon"
+            [size]="12"
+            class="delete-entity__copy-check"
+            aria-hidden="true"
+          />
+        } @else {
+          <lucide-icon
+            [img]="copyIcon"
+            [size]="12"
+            class="delete-entity__copy-icon"
+            aria-hidden="true"
+          />
+        }
+      </button>
+      <input
+        id="delete-confirm-input"
+        type="text"
+        class="delete-entity__confirm-input"
+        [placeholder]="singleTarget()"
+        [ngModel]="confirmText()"
+        (ngModelChange)="confirmText.set($event)"
+        autocomplete="off"
+      />
+    </div>
+  } @else {
+    @if (visibleItems().length === 0) {
+      <div class="delete-entity__empty" role="status">
+        <p>{{ 'common.delete_dialog.empty_pruned' | translate }}</p>
+        <button type="button" class="btn btn--secondary btn--sm" (click)="resetChips()">
+          {{ 'common.delete_dialog.reset' | translate }}
+        </button>
+      </div>
+    } @else {
+      <div class="delete-entity__chips">
+        @for (item of visibleItems(); track item.id) {
+          <span class="delete-entity__chip">
+            <span>{{ item.name }}</span>
+            <button
+              type="button"
+              class="delete-entity__chip-remove"
+              [attr.aria-label]="'common.remove_from_list' | translate: { name: item.name }"
+              (click)="removeChip(item.id)"
+            >
+              <lucide-icon [img]="closeIcon" [size]="10" aria-hidden="true" />
+            </button>
+          </span>
+        }
+      </div>
+    }
+    @if (bulkFooterMessage(); as footer) {
+      <p class="delete-entity__detail">{{ footer }}</p>
+    }
+  }
+
+  <div modal-actions>
+    <button type="button" class="btn btn--secondary" (click)="cancelled.emit()">
+      {{ 'common.cancel' | translate }}
+    </button>
+    <button type="button" class="btn btn--danger" [disabled]="!canConfirm()" (click)="onConfirm()">
+      {{ 'common.delete' | translate }}
+    </button>
+  </div>
+</sc-modal>

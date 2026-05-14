@@ -1,0 +1,11 @@
+/*
+ * Token bridge — re-exports the canonical CSS custom properties from
+ * packages/design-system/tokens/index.css (the layered token system) so
+ * SCSS partials can @use them.
+ *
+ * IMPORTANT: never declare new tokens here. The single source of truth
+ * is the seven-layer cascade under `packages/design-system/tokens/layers/`.
+ * This file exists only to expose those tokens to SCSS partials.
+ */
+
+@import '../../../../packages/design-system/tokens/index.css';

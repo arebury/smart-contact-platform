@@ -1,0 +1,22 @@
+/*
+ * Smart Contact Design System — docs site global styles.
+ * Consumes the same SCDS token layers AED uses, so screenshots and
+ * component playgrounds render in the exact production palette.
+ */
+
+@import '../../../../packages/design-system/tokens/index.css';
+@import 'primeicons/primeicons.css';
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  background: var(--sc-bg-default);
+  color: var(--sc-text-primary);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

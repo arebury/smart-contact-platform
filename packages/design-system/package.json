@@ -1,0 +1,23 @@
+{
+  "name": "@sc/design-system",
+  "version": "0.1.0",
+  "description": "Smart Contact Design System (SCDS) — tokens + components consumed by AED, ds-docs, and (future) Memory apps.",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./components/index.ts",
+    "./components": "./components/index.ts",
+    "./components/*": "./components/*",
+    "./tokens": "./tokens/sc-preset.ts",
+    "./tokens/*": "./tokens/*"
+  },
+  "peerDependencies": {
+    "@angular/cdk": "^21.0.0",
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/forms": "^21.0.0",
+    "@primeng/themes": "^21.0.0",
+    "primeicons": "^7.0.0",
+    "primeng": "^21.0.0"
+  }
+}
