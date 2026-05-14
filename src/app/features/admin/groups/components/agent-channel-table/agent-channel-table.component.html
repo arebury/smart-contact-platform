@@ -76,20 +76,6 @@
           <th class="actbl__th-name" scope="col">
             {{ 'groups.form.assigned.col_agent' | translate }}
           </th>
-          @for (ch of groupChannels(); track ch) {
-            <th class="actbl__th-channel" scope="col">
-              <aed-tri-state-checkbox
-                [state]="columnState(ch)"
-                [ariaLabel]="
-                  'groups.form.assigned.toggle_all_channel'
-                    | translate: { channel: channelKeys[ch] | translate }
-                "
-                (cycle)="bulkToggleColumn(ch, $event)"
-              >
-                <span>{{ channelKeys[ch] | translate }}</span>
-              </aed-tri-state-checkbox>
-            </th>
-          }
           <th class="actbl__th-active" scope="col">
             {{ 'groups.form.assigned.col_active' | translate }}
           </th>
@@ -114,18 +100,32 @@
             <td class="actbl__td-name">
               <aed-illustrated-avatar [name]="row.agent.name" pool="illustrated" [size]="24" />
               <span class="actbl__name-label">{{ row.agent.name }}</span>
+              <span class="actbl__chips">
+                @for (ch of groupChannels(); track ch) {
+                  <label
+                    class="actbl__chip"
+                    [class.actbl__chip--on]="hasChannel(row.link, ch)"
+                    [class.actbl__chip--off]="!hasChannel(row.link, ch)"
+                    [class.actbl__chip--disabled]="!row.link.active"
+                  >
+                    <input
+                      type="checkbox"
+                      [checked]="hasChannel(row.link, ch)"
+                      [disabled]="!row.link.active"
+                      (change)="toggleChannel(row.agent.id, ch)"
+                      [attr.aria-label]="row.agent.name + ' — ' + (channelKeys[ch] | translate)"
+                    />
+                    <lucide-icon
+                      [img]="hasChannel(row.link, ch) ? checkIcon : plusIcon"
+                      [size]="12"
+                      class="actbl__chip-icon"
+                      aria-hidden="true"
+                    />
+                    <span>{{ channelKeys[ch] | translate }}</span>
+                  </label>
+                }
+              </span>
             </td>
-            @for (ch of groupChannels(); track ch) {
-              <td class="actbl__td-channel">
-                <input
-                  type="checkbox"
-                  [checked]="hasChannel(row.link, ch)"
-                  [disabled]="!row.link.active"
-                  (change)="toggleChannel(row.agent.id, ch)"
-                  [attr.aria-label]="row.agent.name + ' — ' + (channelKeys[ch] | translate)"
-                />
-              </td>
-            }
             <td class="actbl__td-active">
               <aed-toggle-switch
                 [checked]="row.link.active"
@@ -151,7 +151,7 @@
         }
         @if (visibleRows().length === 0) {
           <tr>
-            <td [attr.colspan]="3 + groupChannels().length" class="actbl__no-results">
+            <td colspan="4" class="actbl__no-results">
               {{ 'groups.form.assigned.no_results' | translate }}
             </td>
           </tr>

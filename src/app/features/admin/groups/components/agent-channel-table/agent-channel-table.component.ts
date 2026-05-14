@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Plus, Search, Trash2, X } from 'lucide-angular';
+import { Check, LucideAngularModule, Plus, Search, Trash2, X } from 'lucide-angular';
 
 import {
   IllustratedAvatarComponent,
@@ -72,6 +72,7 @@ export class AgentChannelTableComponent {
   protected readonly searchIcon = Search;
   protected readonly closeIcon = X;
   protected readonly trashIcon = Trash2;
+  protected readonly checkIcon = Check;
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;
 
   /**
@@ -148,20 +149,6 @@ export class AgentChannelTableComponent {
     return all ? 'all' : some ? 'some' : 'none';
   });
 
-  /** Tri-state per channel column over the visible rows. */
-  protected columnState(channel: Channel): TriState {
-    const visible = this.visibleRows();
-    if (visible.length === 0) return 'none';
-    let some = false;
-    let all = true;
-    for (const r of visible) {
-      const hasIt = r.link.channels.includes(channel);
-      if (hasIt) some = true;
-      else all = false;
-    }
-    return all ? 'all' : some ? 'some' : 'none';
-  }
-
   protected hasChannel(link: GroupAgentLink, channel: Channel): boolean {
     return link.channels.includes(channel);
   }
@@ -199,22 +186,6 @@ export class AgentChannelTableComponent {
 
   protected toggleActive(agentId: number, active: boolean): void {
     this.linksChange.emit(this.links().map((l) => (l.agentId === agentId ? { ...l, active } : l)));
-  }
-
-  /** Bulk: toggle a channel across the *visible* rows (respects search filter). */
-  protected bulkToggleColumn(channel: Channel, on: boolean): void {
-    const visibleSet = new Set(this.visibleIds());
-    this.linksChange.emit(
-      this.links().map((l) => {
-        if (!visibleSet.has(l.agentId)) return l;
-        const has = l.channels.includes(channel);
-        if (has === on) return l;
-        const channels = on
-          ? this.canonicalize([...l.channels, channel])
-          : l.channels.filter((c) => c !== channel);
-        return { ...l, channels };
-      }),
-    );
   }
 
   /** Bulk: pause all selected (active = false). */
