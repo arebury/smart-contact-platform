@@ -17,14 +17,24 @@
       (photoChange)="onPhotoChange($event)"
     />
   </span>
-  @if (mode() === 'edit') {
-    <span header-pills>
+  <!--
+    Projection wrappers stay OUTSIDE the @if — Angular's content projection
+    resolves slot membership from the static template structure of the host,
+    and an attribute-selector slot inside an `@if` doesn't always register
+    (the slot renders empty even when the @if is true). The inner content
+    is `@if`-guarded so create mode renders empty wrappers, which the
+    sticky-header SCSS collapses via `:empty`.
+  -->
+  <span header-pills>
+    @if (mode() === 'edit') {
       <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
         <span class="pill__dot" aria-hidden="true"></span>
         {{ presenceKeys[form().presenceStatus] | translate }}
       </span>
-    </span>
-    <span header-meta>
+    }
+  </span>
+  <span header-meta>
+    @if (mode() === 'edit') {
       <span class="header-meta__chunk">
         <lucide-icon [img]="mailIcon" [size]="13" [attr.aria-hidden]="true" />
         <span>{{ form().email || ('agents.form.fields.email_empty' | translate) }}</span>
@@ -43,8 +53,8 @@
           <span>{{ 'agents.form.fields.extension_empty' | translate }}</span>
         }
       </span>
-    </span>
-  }
+    }
+  </span>
 </aed-sticky-form-header>
 
 <div class="page">

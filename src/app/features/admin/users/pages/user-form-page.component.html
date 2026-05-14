@@ -17,22 +17,27 @@
       (photoChange)="onPhotoChange($event)"
     />
   </span>
-  @if (mode() === 'edit') {
-    <span header-pills>
+  <!--
+    Projection wrappers outside the @if — see agent-form-page for the
+    rationale (Angular's content projection misses attribute-selector
+    slots declared inside an `@if`).
+  -->
+  <span header-pills>
+    @if (mode() === 'edit') {
       <span class="pill pill--type">{{ typeLabelKeys[form().type] | translate }}</span>
       <span class="pill pill--status pill--status-{{ form().status }}">
         {{ 'users.status.' + form().status | translate }}
       </span>
-    </span>
-    <span header-meta>
-      @if (form().email) {
-        <span class="header-meta__chunk">
-          <lucide-icon [img]="mailIcon" [size]="13" [attr.aria-hidden]="true" />
-          <span>{{ form().email }}</span>
-        </span>
-      }
-    </span>
-  }
+    }
+  </span>
+  <span header-meta>
+    @if (mode() === 'edit' && form().email) {
+      <span class="header-meta__chunk">
+        <lucide-icon [img]="mailIcon" [size]="13" [attr.aria-hidden]="true" />
+        <span>{{ form().email }}</span>
+      </span>
+    }
+  </span>
 </aed-sticky-form-header>
 
 <div class="page">
