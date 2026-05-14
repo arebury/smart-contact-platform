@@ -754,6 +754,8 @@
         "type": "Tipo de agente",
         "extension": "Extensión",
         "extension_placeholder": "Selecciona una extensión disponible",
+        "extension_empty": "Sin extensión",
+        "email_empty": "Sin email",
         "pickup": "Tipo de descolgado",
         "pickup_auto": "Automático",
         "pickup_manual": "Manual",

@@ -25,15 +25,13 @@
       </span>
     </span>
     <span header-meta>
-      @if (form().email) {
-        <span class="header-meta__chunk">
-          <lucide-icon [img]="mailIcon" [size]="13" [attr.aria-hidden]="true" />
-          <span>{{ form().email }}</span>
-        </span>
-      }
-      @if (form().extension) {
-        <span class="header-meta__chunk">
-          <lucide-icon [img]="phoneIcon" [size]="13" [attr.aria-hidden]="true" />
+      <span class="header-meta__chunk">
+        <lucide-icon [img]="mailIcon" [size]="13" [attr.aria-hidden]="true" />
+        <span>{{ form().email || ('agents.form.fields.email_empty' | translate) }}</span>
+      </span>
+      <span class="header-meta__chunk">
+        <lucide-icon [img]="phoneIcon" [size]="13" [attr.aria-hidden]="true" />
+        @if (form().extension) {
           <span>
             {{ 'agents.form.fields.extension' | translate }}
             {{ form().extension }}
@@ -41,8 +39,10 @@
               <span class="header-meta__sub">· {{ 'agents.ext.' + t | translate }}</span>
             }
           </span>
-        </span>
-      }
+        } @else {
+          <span>{{ 'agents.form.fields.extension_empty' | translate }}</span>
+        }
+      </span>
     </span>
   }
 </aed-sticky-form-header>
