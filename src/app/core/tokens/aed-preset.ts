@@ -81,8 +81,9 @@ export const AedPreset = definePreset(Aura, {
       950: 'var(--sc-color-red-950)',
     },
     /*
-     * Aura emits `--p-blue-*` as its "info" tone. AED's info color is
-     * electric-blue, not brand blue — point this scale at electric-blue.
+     * Aura emits `--p-blue-*` as the info tone for Message and Toast
+     * components — point at AED electric-blue so info banners pick up
+     * the brand color.
      */
     blue: {
       50: 'var(--sc-color-electric-blue-50)',
@@ -96,6 +97,50 @@ export const AedPreset = definePreset(Aura, {
       800: 'var(--sc-color-electric-blue-800)',
       900: 'var(--sc-color-electric-blue-900)',
       950: 'var(--sc-color-electric-blue-950)',
+    },
+    /*
+     * `<p-button severity="info">` references `{sky.*}` (not `{blue.*}`)
+     * in PrimeOne's component definitions. Override `primitive.sky` to
+     * AED electric-blue so the info-button matches the rest of AED's
+     * info treatment (Message, Toast, etc.). No other PrimeNG component
+     * consumes `--p-sky-*` in Aura v4, so this is button-info-only.
+     */
+    sky: {
+      50: 'var(--sc-color-electric-blue-50)',
+      100: 'var(--sc-color-electric-blue-100)',
+      200: 'var(--sc-color-electric-blue-200)',
+      300: 'var(--sc-color-electric-blue-300)',
+      400: 'var(--sc-color-electric-blue-400)',
+      500: 'var(--sc-color-electric-blue-500)',
+      600: 'var(--sc-color-electric-blue-600)',
+      700: 'var(--sc-color-electric-blue-700)',
+      800: 'var(--sc-color-electric-blue-800)',
+      900: 'var(--sc-color-electric-blue-900)',
+      950: 'var(--sc-color-electric-blue-950)',
+    },
+    /*
+     * `<p-button severity="warn">` references `{orange.*}` in PrimeOne.
+     * AED's warning semantic is amber (`--sc-color-amber-*`, ex-yellow),
+     * matching Message and Toast warn treatments. Override
+     * `primitive.orange` so the warn-button matches the rest of AED.
+     *
+     * Note: AED has a separate `--sc-color-orange-*` primitive used by
+     * the label palette (`--sc-label-orange-*`). That scale is consumed
+     * directly from AED CSS, not through the PrimeNG bridge, so this
+     * override doesn't affect label colors.
+     */
+    orange: {
+      50: 'var(--sc-color-amber-50)',
+      100: 'var(--sc-color-amber-100)',
+      200: 'var(--sc-color-amber-200)',
+      300: 'var(--sc-color-amber-300)',
+      400: 'var(--sc-color-amber-400)',
+      500: 'var(--sc-color-amber-500)',
+      600: 'var(--sc-color-amber-600)',
+      700: 'var(--sc-color-amber-700)',
+      800: 'var(--sc-color-amber-800)',
+      900: 'var(--sc-color-amber-900)',
+      950: 'var(--sc-color-amber-950)',
     },
   },
   semantic: {
