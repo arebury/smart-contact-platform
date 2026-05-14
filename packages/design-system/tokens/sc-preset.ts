@@ -159,11 +159,12 @@ export const ScPreset = definePreset(Aura, {
     },
     /* Focus ring — already covered by AED's button + form-field
      * styles, but PrimeNG components use this for their own focus
-     * affordance. */
+     * affordance. Electric-blue chosen to match the brand "info"
+     * tone — vibrant blue glow visible in Figma input focus state. */
     focusRing: {
       width: '2px',
       style: 'solid',
-      color: 'var(--sc-color-soft-blue-500)',
+      color: 'var(--sc-color-electric-blue-500)',
       offset: '2px',
     },
     formField: {
@@ -301,7 +302,10 @@ export const ScPreset = definePreset(Aura, {
           activeColor: 'var(--sc-bg-primary-active)',
         },
         formField: {
-          background: 'var(--sc-bg-surface)',
+          /* Dark-mode inputs are "embedded" — same bg as the canvas
+           * (gray-950) instead of floating one step lighter. Matches
+           * Smart Contact Prime dark mode (frame 9795:26786). */
+          background: 'var(--sc-bg-default)',
           disabledBackground: 'var(--sc-bg-disabled)',
           color: 'var(--sc-text-primary)',
           disabledColor: 'var(--sc-text-disabled)',
