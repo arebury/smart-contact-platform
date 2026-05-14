@@ -36,157 +36,182 @@
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Índice del formulario">
-      <aed-form-section-nav [sections]="navSections" [compact]="true" />
+      <aed-form-section-nav
+        [sections]="navSections()"
+        [activeId]="activeSection()"
+        [compact]="true"
+        (activeChange)="activeSection.set($event)"
+      />
     </aside>
     <div class="page__form">
-      <aed-section-card anchorId="group-section-identity" titleKey="groups.form.section.identity">
-        <div class="grid grid--2">
-          <div class="field">
-            <label class="field__label" for="group-phone">
-              {{ 'groups.form.fields.phone' | translate }}
-            </label>
-            <input
-              id="group-phone"
-              type="text"
-              class="field__input"
-              [value]="form().phone"
-              (input)="onTextInput('phone', $event)"
-            />
-          </div>
+      @switch (activeSection()) {
+        @case ('group-section-identity') {
+          <aed-section-card
+            anchorId="group-section-identity"
+            [icon]="activeIcon()"
+            titleKey="groups.form.section.identity"
+          >
+            <div class="grid grid--2">
+              <div class="field">
+                <label class="field__label" for="group-phone">
+                  {{ 'groups.form.fields.phone' | translate }}
+                </label>
+                <input
+                  id="group-phone"
+                  type="text"
+                  class="field__input"
+                  [value]="form().phone"
+                  (input)="onTextInput('phone', $event)"
+                />
+              </div>
 
-          <div class="field">
-            <label class="field__label" for="group-priority">
-              {{ 'groups.form.fields.priority' | translate }}
-            </label>
-            <select
-              id="group-priority"
-              class="field__input"
-              [value]="form().priority"
-              (change)="onPriorityChange($event)"
-            >
-              @for (p of priorities; track p) {
-                <option [value]="p">{{ priorityKeys[p] | translate }}</option>
+              <div class="field">
+                <label class="field__label" for="group-priority">
+                  {{ 'groups.form.fields.priority' | translate }}
+                </label>
+                <select
+                  id="group-priority"
+                  class="field__input"
+                  [value]="form().priority"
+                  (change)="onPriorityChange($event)"
+                >
+                  @for (p of priorities; track p) {
+                    <option [value]="p">{{ priorityKeys[p] | translate }}</option>
+                  }
+                </select>
+              </div>
+
+              <div class="field field--inline">
+                <aed-toggle-switch
+                  [checked]="form().typification"
+                  [ariaLabel]="'groups.form.fields.typification' | translate"
+                  (checkedChange)="onTypificationChange($event)"
+                />
+                <div>
+                  <span class="field__label-inline">
+                    {{ 'groups.form.fields.typification' | translate }}
+                  </span>
+                  <span class="field__help">
+                    {{ 'groups.form.fields.typification_hint' | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </aed-section-card>
+        }
+
+        @case ('group-section-channels') {
+          <aed-section-card
+            anchorId="group-section-channels"
+            [icon]="activeIcon()"
+            titleKey="groups.form.section.channels"
+          >
+            <div class="channel-grid">
+              @for (channel of channels; track channel) {
+                <label class="checkbox-row">
+                  <input
+                    type="checkbox"
+                    [checked]="hasChannel(channel)"
+                    (change)="toggleChannel(channel)"
+                  />
+                  <span>{{ channelKeys[channel] | translate }}</span>
+                </label>
               }
-            </select>
-          </div>
-
-          <div class="field field--inline">
-            <aed-toggle-switch
-              [checked]="form().typification"
-              [ariaLabel]="'groups.form.fields.typification' | translate"
-              (checkedChange)="onTypificationChange($event)"
-            />
-            <div>
-              <span class="field__label-inline">
-                {{ 'groups.form.fields.typification' | translate }}
-              </span>
-              <span class="field__help">
-                {{ 'groups.form.fields.typification_hint' | translate }}
-              </span>
             </div>
-          </div>
-        </div>
-      </aed-section-card>
-
-      <aed-section-card anchorId="group-section-channels" titleKey="groups.form.section.channels">
-        <div class="channel-grid">
-          @for (channel of channels; track channel) {
-            <label class="checkbox-row">
-              <input
-                type="checkbox"
-                [checked]="hasChannel(channel)"
-                (change)="toggleChannel(channel)"
-              />
-              <span>{{ channelKeys[channel] | translate }}</span>
-            </label>
-          }
-        </div>
-        <span class="field__error" aria-live="polite">
-          @if (errors()['channels']; as err) {
-            {{ err | translate }}
-          }
-        </span>
-      </aed-section-card>
-
-      <aed-section-card
-        anchorId="group-section-strategy"
-        titleKey="groups.form.section.strategy"
-        hintKey="groups.form.section.strategy_hint"
-      >
-        <div class="grid grid--2">
-          <div class="field">
-            <label class="field__label" for="group-strategy">
-              {{ 'groups.form.fields.phone_strategy' | translate }}
-            </label>
-            <select
-              id="group-strategy"
-              class="field__input"
-              [value]="form().strategy"
-              (change)="onStrategyChange($event)"
-            >
-              @for (s of phoneStrategies; track s) {
-                <option [value]="s">{{ s }}</option>
+            <span class="field__error" aria-live="polite">
+              @if (errors()['channels']; as err) {
+                {{ err | translate }}
               }
-            </select>
-          </div>
+            </span>
+          </aed-section-card>
+        }
 
-          @if (hasChat()) {
-            <div class="field">
-              <label class="field__label" for="group-chat-strategy">
-                {{ 'groups.form.fields.chat_strategy' | translate }}
-              </label>
-              <select
-                id="group-chat-strategy"
-                class="field__input"
-                [value]="form().chatStrategy"
-                (change)="onChatStrategyChange($event)"
-              >
-                @for (s of chatStrategies; track s) {
-                  <option [value]="s">{{ s }}</option>
-                }
-              </select>
+        @case ('group-section-strategy') {
+          <aed-section-card
+            anchorId="group-section-strategy"
+            [icon]="activeIcon()"
+            titleKey="groups.form.section.strategy"
+            hintKey="groups.form.section.strategy_hint"
+          >
+            <div class="grid grid--2">
+              <div class="field">
+                <label class="field__label" for="group-strategy">
+                  {{ 'groups.form.fields.phone_strategy' | translate }}
+                </label>
+                <select
+                  id="group-strategy"
+                  class="field__input"
+                  [value]="form().strategy"
+                  (change)="onStrategyChange($event)"
+                >
+                  @for (s of phoneStrategies; track s) {
+                    <option [value]="s">{{ s }}</option>
+                  }
+                </select>
+              </div>
+
+              @if (hasChat()) {
+                <div class="field">
+                  <label class="field__label" for="group-chat-strategy">
+                    {{ 'groups.form.fields.chat_strategy' | translate }}
+                  </label>
+                  <select
+                    id="group-chat-strategy"
+                    class="field__input"
+                    [value]="form().chatStrategy"
+                    (change)="onChatStrategyChange($event)"
+                  >
+                    @for (s of chatStrategies; track s) {
+                      <option [value]="s">{{ s }}</option>
+                    }
+                  </select>
+                </div>
+              }
+
+              @if (hasFixedCapacity()) {
+                <div class="field">
+                  <label class="field__label" for="group-capacity">
+                    {{ 'groups.form.fields.capacity' | translate }}
+                    <span class="field__hint">({{ 'common.optional' | translate }})</span>
+                  </label>
+                  <input
+                    id="group-capacity"
+                    type="number"
+                    min="0"
+                    class="field__input"
+                    [value]="form().capacityValue"
+                    (input)="onTextInput('capacityValue', $event)"
+                  />
+                  <span class="field__help">{{ 'groups.form.fields.capacity_hint' | translate }}</span>
+                </div>
+              }
             </div>
-          }
+          </aed-section-card>
+        }
 
-          @if (hasFixedCapacity()) {
-            <div class="field">
-              <label class="field__label" for="group-capacity">
-                {{ 'groups.form.fields.capacity' | translate }}
-                <span class="field__hint">({{ 'common.optional' | translate }})</span>
-              </label>
-              <input
-                id="group-capacity"
-                type="number"
-                min="0"
-                class="field__input"
-                [value]="form().capacityValue"
-                (input)="onTextInput('capacityValue', $event)"
-              />
-              <span class="field__help">{{ 'groups.form.fields.capacity_hint' | translate }}</span>
-            </div>
-          }
-        </div>
-      </aed-section-card>
+        @case ('group-section-agents') {
+          <aed-section-card
+            anchorId="group-section-agents"
+            [icon]="activeIcon()"
+            titleKey="groups.form.section.agents"
+            hintKey="groups.form.section.agents_hint"
+          >
+            <aed-agent-channel-table
+              [groupChannels]="formGroupChannels()"
+              [links]="form().links"
+              [availableAgents]="availableAgents()"
+              [groupId]="editingId() ?? 0"
+              (linksChange)="onLinksChange($event)"
+            />
+          </aed-section-card>
+        }
 
-      <aed-section-card
-        anchorId="group-section-agents"
-        titleKey="groups.form.section.agents"
-        hintKey="groups.form.section.agents_hint"
-      >
-        <aed-agent-channel-table
-          [groupChannels]="formGroupChannels()"
-          [links]="form().links"
-          [availableAgents]="availableAgents()"
-          [groupId]="editingId() ?? 0"
-          (linksChange)="onLinksChange($event)"
-        />
-      </aed-section-card>
-
-      @if (mode() === 'edit') {
-        <aed-form-danger-zone
-          descriptionKey="groups.form.danger_zone_description"
-          (action)="requestDelete()"
-        />
+        @case ('group-section-danger') {
+          <aed-form-danger-zone
+            descriptionKey="groups.form.danger_zone_description"
+            (action)="requestDelete()"
+          />
+        }
       }
     </div>
   </div>

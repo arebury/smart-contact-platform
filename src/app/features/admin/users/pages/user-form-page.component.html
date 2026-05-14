@@ -38,12 +38,23 @@
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Índice del formulario">
-      <aed-form-section-nav [sections]="navSections" [compact]="true" />
+      <aed-form-section-nav
+        [sections]="navSections()"
+        [activeId]="activeSection()"
+        [compact]="true"
+        (activeChange)="activeSection.set($event)"
+      />
     </aside>
 
     <div class="page__form">
-      <aed-section-card anchorId="user-section-identity" titleKey="users.form.section.identity">
-        <div class="grid grid--2">
+      @switch (activeSection()) {
+        @case ('user-section-identity') {
+          <aed-section-card
+            anchorId="user-section-identity"
+            [icon]="activeIcon()"
+            titleKey="users.form.section.identity"
+          >
+            <div class="grid grid--2">
           <div class="field">
             <label class="field__label" for="user-email">
               {{ 'users.form.fields.email' | translate }}
@@ -112,13 +123,16 @@
             </span>
           </div>
         </div>
-      </aed-section-card>
+          </aed-section-card>
+        }
 
-      <aed-section-card
-        anchorId="user-section-sections"
-        titleKey="users.form.section.sections"
-        hintKey="users.form.section.sections_hint"
-      >
+        @case ('user-section-sections') {
+          <aed-section-card
+            anchorId="user-section-sections"
+            [icon]="activeIcon()"
+            titleKey="users.form.section.sections"
+            hintKey="users.form.section.sections_hint"
+          >
         <div class="checkbox-grid">
           @for (def of sectionDefs; track def.key) {
             <label class="checkbox-row" [class.checkbox-row--child]="!!def.parent">
@@ -131,12 +145,15 @@
             </label>
           }
         </div>
-      </aed-section-card>
+          </aed-section-card>
+        }
 
-      <aed-section-card
-        anchorId="user-section-permissions"
-        titleKey="users.form.section.permissions"
-      >
+        @case ('user-section-permissions') {
+          <aed-section-card
+            anchorId="user-section-permissions"
+            [icon]="activeIcon()"
+            titleKey="users.form.section.permissions"
+          >
         <div class="checkbox-grid">
           @for (def of permissionDefs; track def.key) {
             <label class="checkbox-row">
@@ -149,13 +166,16 @@
             </label>
           }
         </div>
-      </aed-section-card>
+          </aed-section-card>
+        }
 
-      <aed-section-card
-        anchorId="user-section-services"
-        titleKey="users.form.section.services"
-        hintKey="users.form.section.services_hint"
-      >
+        @case ('user-section-services') {
+          <aed-section-card
+            anchorId="user-section-services"
+            [icon]="activeIcon()"
+            titleKey="users.form.section.services"
+            hintKey="users.form.section.services_hint"
+          >
         <div class="checkbox-grid checkbox-grid--services">
           @for (service of availableServices; track service) {
             <label class="checkbox-row">
@@ -168,13 +188,15 @@
             </label>
           }
         </div>
-      </aed-section-card>
+          </aed-section-card>
+        }
 
-      @if (mode() === 'edit') {
-        <aed-form-danger-zone
-          descriptionKey="users.form.danger_zone_description"
-          (action)="requestDelete()"
-        />
+        @case ('user-section-danger') {
+          <aed-form-danger-zone
+            descriptionKey="users.form.danger_zone_description"
+            (action)="requestDelete()"
+          />
+        }
       }
     </div>
   </div>

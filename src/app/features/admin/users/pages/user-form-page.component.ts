@@ -10,7 +10,15 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, Mail } from 'lucide-angular';
+import {
+  IdCard,
+  Layers,
+  LucideAngularModule,
+  Mail,
+  Network,
+  ShieldCheck,
+  Trash2,
+} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
@@ -99,12 +107,49 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly conflictWarning = signal(false);
   private releaseLock: (() => void) | null = null;
 
-  protected readonly navSections: readonly FormNavSection[] = [
-    { id: 'user-section-identity', labelKey: 'users.form.section.identity' },
-    { id: 'user-section-sections', labelKey: 'users.form.section.sections' },
-    { id: 'user-section-permissions', labelKey: 'users.form.section.permissions' },
-    { id: 'user-section-services', labelKey: 'users.form.section.services' },
-  ];
+  /**
+   * Section index for the form shell. In `edit` mode, Identity drops to
+   * the end — user identity is set once and rarely touched again. Danger
+   * zone is only added in edit mode (no "delete" while creating).
+   */
+  protected readonly navSections = computed<readonly FormNavSection[]>(() => {
+    const identity: FormNavSection = {
+      id: 'user-section-identity',
+      labelKey: 'users.form.section.identity',
+      icon: IdCard,
+    };
+    const sections: FormNavSection = {
+      id: 'user-section-sections',
+      labelKey: 'users.form.section.sections',
+      icon: Layers,
+    };
+    const permissions: FormNavSection = {
+      id: 'user-section-permissions',
+      labelKey: 'users.form.section.permissions',
+      icon: ShieldCheck,
+    };
+    const services: FormNavSection = {
+      id: 'user-section-services',
+      labelKey: 'users.form.section.services',
+      icon: Network,
+    };
+    const danger: FormNavSection = {
+      id: 'user-section-danger',
+      labelKey: 'common.delete',
+      icon: Trash2,
+    };
+    if (this.mode() === 'edit') {
+      return [sections, permissions, services, identity, danger];
+    }
+    return [identity, sections, permissions, services];
+  });
+
+  protected readonly activeSection = signal<string>('user-section-identity');
+
+  protected readonly activeIcon = computed(() => {
+    const id = this.activeSection();
+    return this.navSections().find((s) => s.id === id)?.icon ?? null;
+  });
 
   protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
 
@@ -146,6 +191,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         services: new Set(user.assignedServices),
         photo: user.photo ?? null,
       });
+      this.activeSection.set('user-section-sections');
       this.releaseLock = this.crossTab.acquire('user', user.id, () =>
         this.conflictWarning.set(true),
       );
