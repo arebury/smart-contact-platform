@@ -1,29 +1,30 @@
+<aed-page-header titleKey="templates.page_title" [icon]="fileStackIcon">
+  <div
+    page-header-actions
+    class="page__create-anchor"
+    (aedClickOutside)="closeCreatePanel()"
+    [aedClickOutsideEnabled]="creating()"
+  >
+    <button type="button" class="btn btn--primary" (click)="onCreateClick()">
+      <lucide-icon [img]="plusIcon" [size]="15" aria-hidden="true" />
+      <span>{{ 'templates.create_button' | translate }}</span>
+    </button>
+
+    @if (creating()) {
+      <div class="page__panel-anchor">
+        <aed-template-form-panel
+          [defaultType]="activeTab()"
+          [existingTitles]="existingTitles()"
+          (save)="onCreateSubmit($event)"
+          (cancelled)="closeCreatePanel()"
+        />
+      </div>
+    }
+  </div>
+</aed-page-header>
+
 <div class="page" [class.page--has-selection]="selectedIds().size > 0">
   <div class="page__inner">
-    <aed-page-header titleKey="templates.page_title" [icon]="fileStackIcon">
-      <div
-        page-header-actions
-        class="page__create-anchor"
-        (aedClickOutside)="closeCreatePanel()"
-        [aedClickOutsideEnabled]="creating()"
-      >
-        <button type="button" class="btn btn--primary" (click)="onCreateClick()">
-          <lucide-icon [img]="plusIcon" [size]="15" aria-hidden="true" />
-          <span>{{ 'templates.create_button' | translate }}</span>
-        </button>
-
-        @if (creating()) {
-          <div class="page__panel-anchor">
-            <aed-template-form-panel
-              [defaultType]="activeTab()"
-              [existingTitles]="existingTitles()"
-              (save)="onCreateSubmit($event)"
-              (cancelled)="closeCreatePanel()"
-            />
-          </div>
-        }
-      </div>
-    </aed-page-header>
 
     <div class="tabs" role="tablist">
       <button
