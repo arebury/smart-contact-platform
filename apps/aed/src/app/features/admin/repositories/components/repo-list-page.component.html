@@ -218,11 +218,7 @@
   (confirm)="confirmDelete($event)"
 />
 
-<sc-bulk-action-bar
-  [count]="selectedIds().size"
-  [entity]="bulkEntity()"
-  (clear)="clearSelection()"
->
+<sc-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity()" (clear)="clearSelection()">
   <button type="button" class="btn btn--bulk-danger" (click)="requestDeleteSelection()">
     {{ 'common.delete' | translate }}
   </button>

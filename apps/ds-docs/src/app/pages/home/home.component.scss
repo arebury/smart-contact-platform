@@ -57,7 +57,9 @@
   background: var(--sc-bg-surface);
   text-decoration: none;
   color: inherit;
-  transition: border-color 120ms ease, transform 120ms ease;
+  transition:
+    border-color 120ms ease,
+    transform 120ms ease;
 
   &:hover {
     border-color: var(--sc-border-strong);
