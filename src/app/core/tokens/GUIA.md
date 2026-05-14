@@ -745,7 +745,7 @@ si ves uno nuevo, lo arreglamos al momento.
   2. Si introduce colores nuevos, lo evaluamos: ¿es algo que se
      va a repetir, o es un one-shot decorativo?
 - **Resultado**: Gradiente alineado al brand. Aviso: el
-  `.impeccable.md` del proyecto **prohíbe gradientes en texto**
+  `impeccable.md` del proyecto **prohíbe gradientes en texto**
   (es un patrón de "AI slop"). En fondos sí, en `background-clip:
   text` no.
 

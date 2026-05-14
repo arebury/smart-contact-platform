@@ -54,7 +54,7 @@ future contributor) doesn't have to re-derive context from `git log` alone.
 
 ## Design tokens
 
-The single source of truth is [`src/app/core/tokens/sc-tokens.css`](./src/app/core/tokens/sc-tokens.css). Every visual decision flows through it.
+The single source of truth is [`src/app/core/tokens/sc-tokens.css`](../src/app/core/tokens/sc-tokens.css). Every visual decision flows through it.
 
 - **JSON wins over the prototype look (decision #1).** When the prototype's
   monochrome theme conflicts with `design-tokens-complete.json`, the JSON
@@ -146,11 +146,11 @@ need them).
 
 ## Reference docs
 
-- [`docs/phase-0-analysis.md`](./docs/phase-0-analysis.md) — full Phase 0
+- [`docs/phase-0-analysis.md`](./phase-0-analysis.md) — full Phase 0
   analysis (page inventory, token mapping, ambiguity resolution).
 - [`roadmap.md`](./roadmap.md) — feature-by-feature progress.
-- [`src/app/core/tokens/README.md`](./src/app/core/tokens/README.md) — how to
+- [`src/app/core/tokens/README.md`](../src/app/core/tokens/README.md) — how to
   add or change a design token.
-- [`docs/prototype-reference/`](./docs/prototype-reference/) — frozen React + Vite +
+- [`docs/prototype-reference/`](./prototype-reference/) — frozen React + Vite +
   Tailwind + shadcn/ui prototype that the Angular project is migrated from.
   Read-only reference; do not import from it.

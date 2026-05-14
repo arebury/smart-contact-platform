@@ -400,7 +400,7 @@ input[type='checkbox'] {
       outline: 2px solid var(--sc-color-soft-blue-500);
       outline-offset: 2px;
     }
-    /* Tactile press — DD#57 review / .impeccable.md principle 3. */
+    /* Tactile press — DD#57 review / impeccable.md principle 3. */
     &:active {
       transform: scale(0.98);
     }
@@ -559,7 +559,7 @@ input[type='checkbox'] {
     outline-offset: 2px;
   }
 
-  /* Tactile press — .impeccable.md principle 3. */
+  /* Tactile press — impeccable.md principle 3. */
   &:active {
     transform: scale(0.98);
   }

@@ -11,7 +11,7 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 
 - ✅ Prototype inventory (20 functional pages + 16 placeholders)
 - ✅ Token JSON → PrimeNG mapping table
-- ✅ Ambiguity resolution with user (5 questions answered, see [`docs/phase-0-analysis.md`](./docs/phase-0-analysis.md))
+- ✅ Ambiguity resolution with user (5 questions answered, see [`docs/phase-0-analysis.md`](./phase-0-analysis.md))
 
 ## Phase 1 — Repo scaffolding ✅
 
@@ -25,7 +25,7 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 
 - ✅ `src/app/core/tokens/sc-tokens.css` (~200 tokens: 8 color scales × 11 steps + typography + spacing + radius + semantic + custom + label palette)
 - ✅ PrimeNG `--p-*` overrides (primary scale → blue, surface scale → gray, content/text/borders, radius, form fields, focus ring, status presets, mask, modal/popover overlays)
-- ✅ Token authoring guide ([`src/app/core/tokens/README.md`](./src/app/core/tokens/README.md))
+- ✅ Token authoring guide ([`src/app/core/tokens/README.md`](../src/app/core/tokens/README.md))
 
 ## Phase 3 — Component migration
 
