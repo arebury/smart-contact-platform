@@ -797,7 +797,7 @@ input[type='checkbox'] {
     border-bottom: 1px solid var(--sc-border-default);
   }
 
-  thead th&__th-check {
+  thead th.picker-table__th-check {
     width: 36px;
     text-align: center;
   }
@@ -847,7 +847,7 @@ input[type='checkbox'] {
     white-space: nowrap;
   }
 
-  tbody td&__empty {
+  tbody td.picker-table__empty {
     padding: var(--sc-spacing-400) var(--sc-spacing-250);
     text-align: center;
     font-size: var(--sc-font-size-75);
