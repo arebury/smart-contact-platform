@@ -8,14 +8,61 @@
 </section>
 
 <section class="components">
-  <h2 class="components__title">Components</h2>
+  <h2 class="components__title">Componentes con documentación viva</h2>
+  <p class="components__hint">Componentes con página interactiva en este sitio. El resto está implementado y disponible vía <code>@sc/design-system</code>, pero su page aún no está documentada aquí.</p>
   <div class="components__grid">
-    @for (c of components; track c.slug) {
-      <a class="component-card" [routerLink]="['/components', c.slug]">
-        <span class="component-card__status" [class]="'is-' + c.status">{{ c.status }}</span>
-        <h3 class="component-card__name">{{ c.name }}</h3>
-        <p class="component-card__summary">{{ c.summary }}</p>
-      </a>
+    @for (c of readyComponents(); track c.slug) {
+      @if (c.pageRoute) {
+        <a class="component-card" [routerLink]="c.pageRoute">
+          <span class="component-card__status is-ready">{{ c.status }}</span>
+          <h3 class="component-card__name">{{ c.name }}</h3>
+          <p class="component-card__summary">{{ c.summary }}</p>
+        </a>
+      }
     }
   </div>
+</section>
+
+<section class="tracking">
+  <header class="tracking__head">
+    <h2 class="tracking__title">Mi seguimiento</h2>
+    <span class="tracking__count">{{ validatedCount() }} / {{ tracked().length }} validados</span>
+  </header>
+  <p class="tracking__hint">
+    Checklist personal — marca cada componente cuando lo hayas validado como production-ready
+    en AED. Se guarda en este navegador (localStorage), no se sincroniza con nadie.
+  </p>
+
+  <ul class="tracker-list">
+    @for (item of tracked(); track item.slug) {
+      <li class="tracker-item" [class.is-validated]="item.isValidated">
+        <label class="tracker-item__check">
+          <input
+            type="checkbox"
+            [checked]="item.isValidated"
+            (change)="toggleValidated(item.slug)"
+          />
+          <span aria-hidden="true" class="tracker-item__box"></span>
+        </label>
+
+        <div class="tracker-item__body">
+          <div class="tracker-item__row">
+            <span class="tracker-item__name">{{ item.name }}</span>
+            <span class="tracker-item__badge" [class]="'type-' + item.type">
+              {{ typeLabel(item.type) }}
+            </span>
+            <span class="tracker-item__status" [class]="'status-' + item.status">
+              {{ item.status }}
+            </span>
+            @if (item.figmaParity !== undefined) {
+              <span class="tracker-item__parity" [class.is-100]="item.figmaParity === 100">
+                Figma {{ item.figmaParity }}%
+              </span>
+            }
+          </div>
+          <p class="tracker-item__summary">{{ item.summary }}</p>
+        </div>
+      </li>
+    }
+  </ul>
 </section>

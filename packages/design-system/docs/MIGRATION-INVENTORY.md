@@ -1,43 +1,47 @@
 # Migration Inventory — Smart Contact Design System
 
-> Status legend: ✓ done · 🚧 in progress · ⏳ pending · ❓ unclassified
+> Status: ✓ done · 🚧 in progress · ⏳ pending
 >
-> Esta lista cubre cada componente actual o planificado de SCDS. Se actualiza
-> cada vez que se cocina un componente nuevo o se promueve uno existente
-> desde AED. La fuente de verdad del API y código vive en
-> `packages/design-system/components/`. La fuente de verdad del Figma se anota
-> en columna "Figma" cuando exista (link de frame).
+> Type: 🟦 Full PrimeNG (passthrough) · 🟣 Custom-preset (PrimeNG con overrides brand) · 🟢 Extended (wrapper SC sobre PrimeNG) · ⚪ Pure SC (sin equivalente PrimeNG)
+>
+> Figma parity: % visual match con el frame Figma referenciado. 100% = pixel-perfect verificado en
+> Playwright. 80-99% = alineado en estructura, divergencias menores documentadas. <80% = gap
+> significativo (documentar en el spec doc del componente).
+>
+> Esta lista cubre cada componente actual o planificado de SCDS. La fuente de verdad del API y
+> código vive en `packages/design-system/components/`. El catálogo interactivo (checklist con
+> localStorage para tracking personal) está en `apps/ds-docs/src/app/pages/home/home.component.ts`.
 
 ## Components
 
-| #  | Name | Status | Type | Selector | Figma | Doc | Notes |
-|----|------|--------|------|----------|-------|-----|-------|
-| 01 | Button | ✓ | PrimeNG + sc-preset | `<p-button>` | TODO | `docs/components/01-button.md` (TBD) | sky→electric-blue, orange→amber overrides en sc-preset |
-| 02 | Modal | ✓ | Wrapper (sc-modal envuelve p-dialog) | `<sc-modal>` | TODO | TODO | Chrome reset vía `::ng-deep .p-dialog` |
-| 03 | Toast | ✓ | Wrapper (sc-toast usa p-toast) | `<sc-toast>` | TODO | TODO | Severidades success/info/warn/error/secondary |
-| 04 | Photo upload | ✓ | Custom | `<sc-photo-upload>` | TODO | TODO | API `[size]='md'\|'sm'` (DD#56) |
-| 05 | Toggle switch | ✓ | Custom | `<sc-toggle-switch>` | TODO | TODO | Native checkbox + label asociada |
-| 06 | Tri-state checkbox | ✓ | Custom | `<sc-tri-state-checkbox>` | TODO | TODO | Estados: unchecked / indeterminate / checked |
-| 07 | Illustrated avatar | ✓ | Custom | `<sc-illustrated-avatar>` | TODO | TODO | Pools: abstract / illustrated / named / special |
-| 08 | Section card | ✓ | Custom | `<sc-section-card>` | TODO | TODO | Anchor para `sc-form-section-nav` scroll-spy |
-| 09 | Bulk action bar | ✓ | Custom | `<sc-bulk-action-bar>` | TODO | TODO | Overlay, no layout shift (memoria) |
-| 10 | Bulk edit menu | ✓ | Custom | `<sc-bulk-edit-menu>` | TODO | TODO | Combinable con bulk-action-bar |
-| 11 | Empty state | ✓ | Custom | `<sc-empty-state>` | TODO | TODO | CTA opcional via slot |
-| 12 | Form danger zone | ✓ | Custom | `<sc-form-danger-zone>` | TODO | TODO | Border rojo, requiere confirm |
-| 13 | Form section nav | ✓ | Custom | `<sc-form-section-nav>` | TODO | TODO | Scroll-spy a `sc-section-card` |
-| 14 | Confirm host | ✓ | Custom (host) | `<sc-confirm-host>` | TODO | TODO | Routea desde ConfirmHostService |
-| 15 | Label chip | ✓ | Custom | `<sc-label-chip>` | TODO | TODO | Color palette de `--sc-label-*` |
-| 16 | Color dot picker | ✓ | Custom | `<sc-color-dot-picker>` | TODO | TODO | Selección de color para label |
-| 17 | Inline rename cell | ✓ | Custom | `<sc-inline-rename-cell>` | TODO | TODO | In-place edit de cell de tabla |
-| 18 | Group popover | ✓ | Custom | `<sc-group-popover>` | TODO | TODO | Popover con miembros + acciones |
-| 19 | Column selector | ✓ | Custom | `<sc-column-selector>` | TODO | TODO | Show/hide cols de tabla |
-| 20 | Command palette | ✓ | Custom | `<sc-command-palette>` | TODO | TODO | ⌘K trigger global |
-| 21 | Keyboard shortcuts | ✓ | Custom | `<sc-keyboard-shortcuts>` | TODO | TODO | Help overlay con bindings |
-| 22 | Delete entity dialog | ✓ | Custom | `<sc-delete-entity-dialog>` | TODO | TODO | Confirm para borrar entidad |
-| 23 | Impact preview dialog | ✓ | Custom | `<sc-impact-preview-dialog>` | TODO | TODO | Muestra impacto antes de mutación |
-| 24 | Page header | ✓ | Custom | `<sc-page-header>` | TODO | TODO | Headers de page (lista + form) |
-| 25 | Sticky form header | ✓ | Custom | `<sc-sticky-form-header>` | TODO | TODO | Sticky on scroll, redimensiona photo-upload |
-| 26 | Input (text/email/password/tel/url/search) | ✓ | Wrapper (sc-input envuelve pInputText) | `<sc-input>` | [Frame 6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | `docs/components/02-input.md` | Migra 2 de 28 candidatos en AED (user-form-page); resto migra por feature al tocarse |
+| #  | Name | Status | Type | Selector | Figma | Figma parity | Doc |
+|----|------|--------|------|----------|-------|--------------|-----|
+| 01 | Button | ✓ | 🟣 Custom-preset | `<p-button>` | TODO | 100% | `docs/components/01-button.md` (TBD) |
+| 02 | Modal | ✓ | 🟢 Extended | `<sc-modal>` | TODO | TBD | TODO |
+| 03 | Toast | ✓ | 🟢 Extended | `<sc-toast>` | TODO | TBD | TODO |
+| 04 | Photo upload | ✓ | ⚪ Pure SC | `<sc-photo-upload>` | TODO | TBD | TODO |
+| 05 | Toggle switch | ✓ | ⚪ Pure SC | `<sc-toggle-switch>` | TODO | TBD | TODO |
+| 06 | Tri-state checkbox | ✓ | ⚪ Pure SC | `<sc-tri-state-checkbox>` | TODO | TBD | TODO |
+| 07 | Illustrated avatar | ✓ | ⚪ Pure SC | `<sc-illustrated-avatar>` | TODO | TBD | TODO |
+| 08 | Section card | ✓ | ⚪ Pure SC | `<sc-section-card>` | TODO | TBD | TODO |
+| 09 | Bulk action bar | ✓ | ⚪ Pure SC | `<sc-bulk-action-bar>` | TODO | TBD | TODO |
+| 10 | Bulk edit menu | ✓ | ⚪ Pure SC | `<sc-bulk-edit-menu>` | TODO | TBD | TODO |
+| 11 | Empty state | ✓ | ⚪ Pure SC | `<sc-empty-state>` | TODO | TBD | TODO |
+| 12 | Form danger zone | ✓ | ⚪ Pure SC | `<sc-form-danger-zone>` | TODO | TBD | TODO |
+| 13 | Form section nav | ✓ | ⚪ Pure SC | `<sc-form-section-nav>` | TODO | TBD | TODO |
+| 14 | Confirm host | ✓ | ⚪ Pure SC | `<sc-confirm-host>` | TODO | TBD | TODO |
+| 15 | Label chip | ✓ | ⚪ Pure SC | `<sc-label-chip>` | TODO | TBD | TODO |
+| 16 | Color dot picker | ✓ | ⚪ Pure SC | `<sc-color-dot-picker>` | TODO | TBD | TODO |
+| 17 | Inline rename cell | ✓ | ⚪ Pure SC | `<sc-inline-rename-cell>` | TODO | TBD | TODO |
+| 18 | Group popover | ✓ | ⚪ Pure SC | `<sc-group-popover>` | TODO | TBD | TODO |
+| 19 | Column selector | ✓ | ⚪ Pure SC | `<sc-column-selector>` | TODO | TBD | TODO |
+| 20 | Command palette | ✓ | ⚪ Pure SC | `<sc-command-palette>` | TODO | TBD | TODO |
+| 21 | Keyboard shortcuts | ✓ | ⚪ Pure SC | `<sc-keyboard-shortcuts>` | TODO | TBD | TODO |
+| 22 | Delete entity dialog | ✓ | ⚪ Pure SC | `<sc-delete-entity-dialog>` | TODO | TBD | TODO |
+| 23 | Impact preview dialog | ✓ | ⚪ Pure SC | `<sc-impact-preview-dialog>` | TODO | TBD | TODO |
+| 24 | Page header | ✓ | ⚪ Pure SC | `<sc-page-header>` | TODO | TBD | TODO |
+| 25 | Sticky form header | ✓ | ⚪ Pure SC | `<sc-sticky-form-header>` | TODO | TBD | TODO |
+| 26 | Input (text/email/password/tel/url/search) | ✓ | 🟢 Extended | `<sc-input>` | [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | **90%** — label/helper font-size y padding alineados a Figma. Restante 10%: paleta `--sc-color-gray-*` divergente de Aura slate (Nivel 1 pendiente, audit Phase 2) | `docs/components/02-input.md` |
 | -- | Dropdown / select | ⏳ | PrimeNG target | `<p-select>` (planeado) | - | - | |
 | -- | Datepicker | ⏳ | PrimeNG target | `<p-datepicker>` (planeado) | - | - | |
 | -- | Tabs | ⏳ | PrimeNG target | `<p-tabs>` (planeado) | - | - | |

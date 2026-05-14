@@ -24,7 +24,8 @@
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
-  font-size: var(--sc-font-size-100);
+  /* Figma spec: 14px / Inter Regular / line-height 21px. */
+  font-size: var(--sc-font-size-200);
   font-weight: var(--sc-font-weight-medium);
   color: var(--sc-text-secondary);
   margin-bottom: 2px;
@@ -129,8 +130,9 @@
   display: block;
   min-height: 1.25em;
   margin-top: var(--sc-spacing-50);
-  font-size: var(--sc-font-size-50);
-  line-height: 1.25;
+  /* Figma spec: 12px / Inter Regular / line-height 21px. */
+  font-size: var(--sc-font-size-100);
+  line-height: 1.45;
   color: var(--sc-text-subtle);
 }
 

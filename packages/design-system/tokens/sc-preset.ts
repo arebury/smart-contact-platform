@@ -168,8 +168,12 @@ export const ScPreset = definePreset(Aura, {
       offset: '2px',
     },
     formField: {
-      paddingX: 'var(--sc-spacing-300)',
-      paddingY: 'var(--sc-spacing-200)',
+      /* Padding 12x8 — matches Figma input spec (11.5/8). 11.5 sin
+       * token sub-pixel se redondea a 12 (--sc-spacing-200). 8px exacto
+       * via --sc-spacing-100. Aplica a todos los formFields PrimeNG
+       * (input, dropdown, datepicker, etc). */
+      paddingX: 'var(--sc-spacing-200)',
+      paddingY: 'var(--sc-spacing-100)',
       borderRadius: 'var(--sc-radius-200)',
       transitionDuration: 'var(--sc-transition-base)',
     },
