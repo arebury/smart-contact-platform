@@ -90,12 +90,21 @@
 - **Hotfix `e1048ae`** — `templates-page.spec` and
   `labels-page.spec` updated selectors from `.page__title` →
   `.page-header__title` after the migration to `aed-page-header`.
+- **PR #43** (`8e1d9a9`) — content projection bug in the agent
+  / group / user form headers: pills + meta slots rendered empty
+  in edit mode. Cause confirmed via live DOM — Angular 17+
+  resolves projection slot membership from the static template
+  structure of the host, and an attribute-selector slot declared
+  *inside* an `@if` at the consumer level doesn't always
+  register. Fix: projection wrappers live outside the `@if`, only
+  the inner content is `@if`-guarded. Locked in as DD #62.
 
 ### State of `main`
 
-`af9c1b3` → `152fb7c` → `e1048ae` (all green). Netlify deploys
-unblocked. Eight feature PRs + two main hotfixes landed; the app
-visually presents a single header recipe across every route now.
+`8e1d9a9` (PR #43) — Netlify deploys unblocked, agent edit
+header now renders the full spec (foto / presencia / email /
+ext + tipo) confirmed in production. Eight feature PRs + two
+hotfixes + one projection fix landed.
 
 ### Pending heading into the next session
 

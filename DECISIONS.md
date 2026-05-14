@@ -7,6 +7,51 @@
 
 ---
 
+## 62 — Attribute-selector projection wrappers live _outside_ `@if` blocks (2026-05-14)
+
+**Decision.** When a consumer renders content into a component
+that uses `<ng-content select="[attr]">`, the wrapping element
+that carries the matching attribute (`<span header-pills>`,
+`<span modal-actions>`, etc) **must not** sit inside an `@if`
+block at the consumer level. Guard only the inner content; the
+wrapper stays static.
+
+**Why.** Angular 17+ resolves projection slot membership from
+the static template structure of the host. An attribute-selector
+slot declared _inside_ an `@if` at the consumer level doesn't
+always register — the host's `<ng-content>` sees no children and
+renders the slot empty even when the `@if` is true. We hit this
+in production on the agent edit header: pills + meta rendered
+as empty `<span class="sticky-header__pills"></span>` even with
+`mode() === 'edit'`. Confirmed via the live DOM.
+
+**Pattern.**
+
+```html
+<!-- Wrong: wrapper inside @if -->
+@if (mode() === 'edit') {
+  <span header-pills>...</span>
+}
+
+<!-- Right: wrapper static, content gated -->
+<span header-pills>
+  @if (mode() === 'edit') {
+    ...
+  }
+</span>
+```
+
+**Cost.** The slot wrapper renders even when its content is
+empty. The shared host SCSS already collapses these via
+`&:empty { display: none; }`, so this is a zero-visual-cost
+trade-off.
+
+**Reference.** PR #43 (`8e1d9a9`). Applied to all three form
+headers (agent / group / user) for consistency, even though
+only the agent header had surfaced the bug visually.
+
+---
+
 ## 61 — `aed-page-header` is the single header recipe for every page in the app (2026-05-14)
 
 **Decision.** Every page in the app — list pages (`/admin/*`),
