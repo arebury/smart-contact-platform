@@ -3,7 +3,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ChevronDown, Info, LucideAngularModule, UsersRound } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
-import { ToggleSwitchComponent } from '@shared/components';
+import { PageHeaderComponent, ToggleSwitchComponent } from '@shared/components';
 
 interface FormState {
   capacidadTipo: 'fija' | 'variable';
@@ -51,7 +51,7 @@ const DEFAULT_FORM: FormState = {
  */
 @Component({
   selector: 'aed-aed-grupos-page',
-  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+  imports: [LucideAngularModule, PageHeaderComponent, ToggleSwitchComponent, TranslateModule],
   templateUrl: './aed-grupos-page.component.html',
   styleUrl: './aed-defaults-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

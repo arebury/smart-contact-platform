@@ -253,6 +253,13 @@
               </span>
             </div>
           </aed-section-card>
+
+          @if (mode() === 'edit') {
+            <aed-form-danger-zone
+              descriptionKey="agents.form.danger_zone_description"
+              (action)="requestDelete()"
+            />
+          }
         }
 
         @case ('agent-section-groups') {
@@ -989,13 +996,6 @@
               </div>
             </section>
           </aed-section-card>
-        }
-
-        @case ('agent-section-danger') {
-          <aed-form-danger-zone
-            descriptionKey="agents.form.danger_zone_description"
-            (action)="requestDelete()"
-          />
         }
       }
     </div>

@@ -1,9 +1,11 @@
 <div class="page">
   <div class="page__inner">
-    <header class="page__header">
-      <h1 class="page__title">{{ 'config.aed.subpages.servicio.heading' | translate }}</h1>
-      <p class="page__subtitle">{{ 'config.aed.subpages.servicio.subtitle' | translate }}</p>
-    </header>
+    <aed-page-header
+      entityKey="config.sidebar.title"
+      titleKey="config.aed.subpages.servicio.heading"
+      subtitleKey="config.aed.subpages.servicio.subtitle"
+      [icon]="serviceIcon"
+    />
 
     <!-- Estados card -->
     <section class="settings-card" aria-labelledby="servicio-estados-title">

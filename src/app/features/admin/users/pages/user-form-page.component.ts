@@ -17,7 +17,6 @@ import {
   Mail,
   Network,
   ShieldCheck,
-  Trash2,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
@@ -109,37 +108,37 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   /**
    * Section index for the form shell. In `edit` mode, Identity drops to
-   * the end — user identity is set once and rarely touched again. Danger
-   * zone is only added in edit mode (no "delete" while creating).
+   * the end — user identity is set once and rarely touched again.
+   * Delete is *not* in the nav — it lives at the bottom of the Identity
+   * tab (danger zone pattern, GitHub / Stripe).
    */
   protected readonly navSections = computed<readonly FormNavSection[]>(() => {
     const identity: FormNavSection = {
       id: 'user-section-identity',
       labelKey: 'users.form.section.identity',
+      hintKey: 'users.form.section.identity_hint',
       icon: IdCard,
     };
     const sections: FormNavSection = {
       id: 'user-section-sections',
       labelKey: 'users.form.section.sections',
+      hintKey: 'users.form.section.sections_hint',
       icon: Layers,
     };
     const permissions: FormNavSection = {
       id: 'user-section-permissions',
       labelKey: 'users.form.section.permissions',
+      hintKey: 'users.form.section.permissions_hint',
       icon: ShieldCheck,
     };
     const services: FormNavSection = {
       id: 'user-section-services',
       labelKey: 'users.form.section.services',
+      hintKey: 'users.form.section.services_hint',
       icon: Network,
     };
-    const danger: FormNavSection = {
-      id: 'user-section-danger',
-      labelKey: 'common.delete',
-      icon: Trash2,
-    };
     if (this.mode() === 'edit') {
-      return [sections, permissions, services, identity, danger];
+      return [sections, permissions, services, identity];
     }
     return [identity, sections, permissions, services];
   });

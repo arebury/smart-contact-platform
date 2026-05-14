@@ -4,6 +4,7 @@ import { ChevronDown, ChevronUp, LucideAngularModule, UserRound } from 'lucide-a
 import { MessageService } from 'primeng/api';
 
 import {
+  PageHeaderComponent,
   ToggleSwitchComponent,
   TriStateCheckboxComponent,
   type TriState,
@@ -65,7 +66,13 @@ const DEFAULT_FORM: FormState = {
  */
 @Component({
   selector: 'aed-aed-agentes-page',
-  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule, TriStateCheckboxComponent],
+  imports: [
+    LucideAngularModule,
+    PageHeaderComponent,
+    ToggleSwitchComponent,
+    TranslateModule,
+    TriStateCheckboxComponent,
+  ],
   templateUrl: './aed-agentes-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-agentes-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -462,13 +462,13 @@
       "section": {
         "summary": "Resumen de perfil",
         "identity": "Identidad",
-        "identity_hint": "Datos básicos y rol del usuario",
+        "identity_hint": "Datos básicos y rol",
         "sections": "Secciones",
-        "sections_hint": "Áreas del panel a las que tendrá acceso",
+        "sections_hint": "Áreas del panel accesibles",
         "permissions": "Permisos",
-        "permissions_hint": "Acciones avanzadas que el usuario puede realizar",
+        "permissions_hint": "Acciones avanzadas",
         "services": "Servicios asignados",
-        "services_hint": "Servicios VUI bajo supervisión del usuario"
+        "services_hint": "Servicios VUI bajo supervisión"
       },
       "summary": {
         "tab_groups": "Grupos",
@@ -549,13 +549,13 @@
       "edit_breadcrumb": "Editar grupo",
       "section": {
         "identity": "Identidad",
-        "identity_hint": "Datos básicos y prioridad del grupo",
+        "identity_hint": "Datos básicos y prioridad",
         "channels": "Canales",
-        "channels_hint": "Tipos de contacto que el grupo atiende",
+        "channels_hint": "Tipos de contacto",
         "strategy": "Estrategia",
-        "strategy_hint": "Cómo se distribuyen las llamadas y chats entre los agentes",
+        "strategy_hint": "Distribución de llamadas y chats",
         "agents": "Agentes asignados",
-        "agents_hint": "Define qué canales atiende cada agente y si está activo"
+        "agents_hint": "Canales por agente"
       },
       "assigned": {
         "query_placeholder": "Buscar agente…",
@@ -679,7 +679,7 @@
       "edit_breadcrumb": "Editar agente",
       "section": {
         "identification": "Identificación",
-        "identification_hint": "Foto, nombre, contacto, extensión, canales y grabación",
+        "identification_hint": "Foto, contacto y extensión",
         "channels": "Canales",
         "recording": "Grabación",
         "recording_hint": "Si las llamadas del agente quedan grabadas",
@@ -688,11 +688,11 @@
         "labels": "Etiquetas",
         "labels_hint": "Categorías que ayudan a filtrar y organizar agentes",
         "groups": "Grupos asignados",
-        "groups_hint": "En qué grupos trabaja el agente y qué canales atiende en cada uno",
+        "groups_hint": "Grupos y canales por grupo",
         "permissions": "Permisos",
-        "permissions_hint": "Capacidades específicas del agente",
+        "permissions_hint": "Capacidades del agente",
         "advanced": "Configuración avanzada",
-        "advanced_hint": "Etiquetas, comportamiento, integración e idioma del agente"
+        "advanced_hint": "Etiquetas, comportamiento, idioma"
       },
       "advanced": {
         "labels": {

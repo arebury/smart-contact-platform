@@ -31,7 +31,6 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   Tag,
-  Trash2,
   Users as UsersIcon,
   X,
 } from 'lucide-angular';
@@ -362,36 +361,36 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
    * Section index for the form shell. In `edit` mode, Identity drops to
    * the end of the list — once the agent exists, you rarely re-edit
    * identity fields, so the index leads with what gets iterated on.
-   * Danger zone is only added in edit mode (no "delete" while creating).
+   * Delete is *not* in the nav — it lives at the bottom of the Identity
+   * tab (danger zone pattern, GitHub / Stripe).
    */
   protected readonly navSections = computed<readonly FormNavSection[]>(() => {
     const identity: FormNavSection = {
       id: 'agent-section-identity',
       labelKey: 'agents.form.section.identification',
+      hintKey: 'agents.form.section.identification_hint',
       icon: IdCard,
     };
     const groups: FormNavSection = {
       id: 'agent-section-groups',
       labelKey: 'agents.form.section.groups',
+      hintKey: 'agents.form.section.groups_hint',
       icon: UsersIcon,
     };
     const permissions: FormNavSection = {
       id: 'agent-section-permissions',
       labelKey: 'agents.form.section.permissions',
+      hintKey: 'agents.form.section.permissions_hint',
       icon: ShieldCheck,
     };
     const advanced: FormNavSection = {
       id: 'agent-section-advanced',
       labelKey: 'agents.form.section.advanced',
+      hintKey: 'agents.form.section.advanced_hint',
       icon: SlidersHorizontal,
     };
-    const danger: FormNavSection = {
-      id: 'agent-section-danger',
-      labelKey: 'common.delete',
-      icon: Trash2,
-    };
     if (this.mode() === 'edit') {
-      return [groups, permissions, advanced, identity, danger];
+      return [groups, permissions, advanced, identity];
     }
     return [identity, groups, permissions, advanced];
   });
