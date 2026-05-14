@@ -17,7 +17,11 @@ import { MessageService } from 'primeng/api';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { clampToViewport } from '@core/utils/viewport';
-import { BulkActionBarComponent, DeleteEntityDialogComponent } from '@shared/components';
+import {
+  BulkActionBarComponent,
+  DeleteEntityDialogComponent,
+  PageHeaderComponent,
+} from '@shared/components';
 import { Template, TemplateType } from '../data/templates-data';
 import { TemplatesStore } from '../state/templates.store';
 import {
@@ -38,6 +42,7 @@ interface ContextMenuPos {
     ClickOutsideDirective,
     DeleteEntityDialogComponent,
     LucideAngularModule,
+    PageHeaderComponent,
     TemplateFormPanelComponent,
     TranslateModule,
   ],

@@ -1,15 +1,16 @@
 <div class="page">
   <div class="page__inner">
-    <header class="page__header">
-      <h1 class="page__title">{{ 'users.page_title' | translate }}</h1>
-
-      <div class="page__actions">
-        <button type="button" class="btn btn--primary" (click)="onCreateClick()">
-          <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
-          <span>{{ 'users.create_button' | translate }}</span>
-        </button>
-      </div>
-    </header>
+    <aed-page-header titleKey="users.page_title" [icon]="pageIcon">
+      <button
+        page-header-actions
+        type="button"
+        class="btn btn--primary"
+        (click)="onCreateClick()"
+      >
+        <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+        <span>{{ 'users.create_button' | translate }}</span>
+      </button>
+    </aed-page-header>
 
     <div class="page__action-bar">
       <aed-column-selector

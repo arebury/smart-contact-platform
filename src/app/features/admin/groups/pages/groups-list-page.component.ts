@@ -36,6 +36,7 @@ import {
   ImpactItem,
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
+  PageHeaderComponent,
 } from '@shared/components';
 import {
   CHANNEL_LABEL_KEYS,
@@ -81,6 +82,7 @@ const COLUMN_PREF_KEY = 'sc_groups_columns_v2';
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
+    PageHeaderComponent,
     SortableHeaderDirective,
     TranslateModule,
   ],
@@ -114,6 +116,7 @@ export class GroupsListPageComponent {
   protected readonly chatIcon = MessageSquare;
   protected readonly emailIcon = Mail;
   protected readonly emptyIcon = Users2;
+  protected readonly pageIcon = Users2;
 
   protected readonly priorityKeys = PRIORITY_LABEL_KEYS;
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;

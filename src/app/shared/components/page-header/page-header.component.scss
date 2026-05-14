@@ -58,3 +58,16 @@
   color: var(--sc-text-subtle);
   line-height: 1.3;
 }
+
+/* Trailing slot for buttons (e.g. "Nuevo agente"). Empty by default so
+ * pages that don't project anything collapse cleanly via :empty. */
+.page-header__actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-200);
+
+  &:empty {
+    display: none;
+  }
+}

@@ -17,7 +17,11 @@ import { MessageService } from 'primeng/api';
 import { ClickOutsideDirective } from '@core/directives';
 import { XlsxExportService } from '@core/services';
 import { clampToViewport } from '@core/utils/viewport';
-import { BulkActionBarComponent, LabelChipComponent } from '@shared/components';
+import {
+  BulkActionBarComponent,
+  LabelChipComponent,
+  PageHeaderComponent,
+} from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 import { LabelCascadeService } from '@features/admin/services/label-cascade.service';
 import { Label, LabelColor } from '../data/labels-data';
@@ -44,6 +48,7 @@ interface ContextMenuPos {
     LabelChipComponent,
     LabelFormPanelComponent,
     LucideAngularModule,
+    PageHeaderComponent,
     TranslateModule,
   ],
   templateUrl: './labels-page.component.html',

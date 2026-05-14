@@ -17,6 +17,7 @@ import { XlsxExportService } from '@core/services/xlsx-export.service';
 import { clampToViewport } from '@core/utils/viewport';
 import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
 import { DeleteEntityDialogComponent } from '@shared/components/delete-entity-dialog/delete-entity-dialog.component';
+import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 import { RepoFormPanelComponent, RepoFormSubmission } from './repo-form-panel.component';
 import { RepoEntity, RepoPageConfig, RepoStore } from './repo-types';
 
@@ -40,6 +41,7 @@ interface ContextMenuPos {
     ClickOutsideDirective,
     DeleteEntityDialogComponent,
     LucideAngularModule,
+    PageHeaderComponent,
     RepoFormPanelComponent,
     TranslateModule,
   ],

@@ -1,9 +1,8 @@
 <div class="page" [class.page--has-selection]="selectedIds().size > 0">
   <div class="page__inner">
-    <header class="page__header">
-      <h1 class="page__title">{{ 'templates.page_title' | translate }}</h1>
-
+    <aed-page-header titleKey="templates.page_title" [icon]="fileStackIcon">
       <div
+        page-header-actions
         class="page__create-anchor"
         (aedClickOutside)="closeCreatePanel()"
         [aedClickOutsideEnabled]="creating()"
@@ -24,7 +23,7 @@
           </div>
         }
       </div>
-    </header>
+    </aed-page-header>
 
     <div class="tabs" role="tablist">
       <button
