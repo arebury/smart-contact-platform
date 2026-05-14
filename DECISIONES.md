@@ -1,8 +1,4 @@
-# Decisiones (versión humana)
-
-> Bitácora en castellano de las decisiones de diseño y producto del proyecto.
-> Pensada para que cualquiera pueda entender **qué se decidió, por qué, y qué
-> se descartó** sin tener que leer código ni jerga técnica.
+# Decisiones (versión para PMs)
 >
 > **¿Buscas la versión técnica?** Está en
 > [`DECISIONS.md`](./DECISIONS.md) — mismo orden, mismos números (DD#43,
