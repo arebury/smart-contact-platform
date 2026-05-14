@@ -17,10 +17,10 @@
   min-height: 100%;
 }
 
+/* Chrome (bg + border + sticky) lives on `aed-page-header` itself —
+ * this wrapper is a passive container so the layout grid stays tidy. */
 .settings-shell__header {
-  background: var(--sc-bg-surface);
-  border-bottom: 1px solid var(--sc-border-default);
-  padding: 0 var(--sc-spacing-600);
+  z-index: 2;
 }
 
 .settings-shell__body {
@@ -34,13 +34,12 @@
   flex: 0 0 256px;
   width: 256px;
   position: sticky;
-  top: 0;
+  /* Same offset the /admin form rails use to sit below `sticky-form-header`. */
+  top: var(--aed-form-panel-top, 80px);
   align-self: stretch;
-  /* Sticky needs an explicit height. 100dvh is taller than the visible
-   * shell once the topbar is subtracted, but works visually because the
-   * sidebar's intrinsic content is shorter — the sticky just anchors to
-   * the top of the scrolling parent. */
-  height: 100dvh;
+  /* Sticky needs an explicit height. We subtract the header offset so
+   * the rail's scroll area doesn't extend past the visible viewport. */
+  height: calc(100dvh - var(--aed-form-panel-top, 80px));
   z-index: 1;
 }
 

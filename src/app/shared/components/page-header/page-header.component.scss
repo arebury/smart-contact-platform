@@ -1,18 +1,30 @@
+/*
+ * Static page header — visually identical to `sticky-form-header` so list
+ * / config pages and entity edit pages read with the same vertical weight
+ * and chrome. The user-facing brief was strict: the moment the rail
+ * collapses behind the header, every page should feel like the same
+ * surface, regardless of route family.
+ *
+ * Sticks to the top of the scrolling parent (the app-shell content).
+ * Unlike `sticky-form-header`, this variant has no save/cancel actions
+ * baked in — the page projects its own buttons (e.g. "Nuevo agente")
+ * into `[page-header-actions]`.
+ */
 :host {
   display: block;
+  position: sticky;
+  top: 0;
+  z-index: var(--sc-z-sticky-form-header, 5);
 }
 
-/* Visual recipe sized to match `sticky-form-header` so list / config
- * pages and entity forms read with the same vertical weight. The static
- * variant drops the sticky behaviour, the photo upload and the save
- * actions — kept just leading icon + entity eyebrow + title + subtitle
- * + an actions slot. */
 .page-header {
+  background: var(--sc-bg-surface);
+  border-bottom: 1px solid var(--sc-border-default);
+  box-shadow: var(--sc-shadow-xs);
+  padding: var(--sc-spacing-300) var(--sc-spacing-600);
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-300);
-  padding: var(--sc-spacing-200) 0;
-  margin-bottom: var(--sc-spacing-300);
+  gap: var(--sc-spacing-400);
 }
 
 .page-header__icon {
@@ -20,8 +32,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border-radius: var(--sc-radius-200);
   background: var(--sc-color-gray-100, var(--sc-bg-secondary-subtle));
   color: var(--sc-text-secondary);
@@ -30,7 +42,7 @@
 .page-header__title-block {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
   min-width: 0;
   flex: 1;
 }
@@ -50,17 +62,21 @@
   font-weight: var(--sc-font-weight-subtitle-1);
   color: var(--sc-text-primary);
   margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 480px;
 }
 
 .page-header__subtitle {
-  margin: 1px 0 0;
+  margin: 2px 0 0;
   font-size: var(--sc-font-size-100);
   color: var(--sc-text-subtle);
   line-height: 1.3;
 }
 
-/* Trailing slot for buttons (e.g. "Nuevo agente"). Empty by default so
- * pages that don't project anything collapse cleanly via :empty. */
+/* Trailing slot for the page's primary action (e.g. "Nuevo agente").
+ * Collapses cleanly when nothing is projected. */
 .page-header__actions {
   flex: 0 0 auto;
   display: flex;

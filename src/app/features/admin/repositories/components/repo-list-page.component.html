@@ -1,30 +1,31 @@
+<aed-page-header [titleKey]="config().titleKey" [icon]="config().icon">
+  <div
+    page-header-actions
+    class="page__create-anchor"
+    (aedClickOutside)="closeCreatePanel()"
+    [aedClickOutsideEnabled]="creating()"
+  >
+    <button type="button" class="btn btn--primary" (click)="onCreateClick()">
+      <lucide-icon [img]="plusIcon" [size]="13" aria-hidden="true" />
+      <span>{{ 'common.create' | translate }}</span>
+    </button>
+
+    @if (creating()) {
+      <div class="page__panel-anchor">
+        <aed-repo-form-panel
+          [fields]="config().fields"
+          [existingNames]="existingNames()"
+          [entityNameSpanish]="config().entityNameSpanish"
+          (save)="onCreateSubmit($event)"
+          (cancelled)="closeCreatePanel()"
+        />
+      </div>
+    }
+  </div>
+</aed-page-header>
+
 <div class="page" [class.page--has-selection]="selectedIds().size > 0">
   <div class="page__inner">
-    <aed-page-header [titleKey]="config().titleKey" [icon]="config().icon">
-      <div
-        page-header-actions
-        class="page__create-anchor"
-        (aedClickOutside)="closeCreatePanel()"
-        [aedClickOutsideEnabled]="creating()"
-      >
-        <button type="button" class="btn btn--primary" (click)="onCreateClick()">
-          <lucide-icon [img]="plusIcon" [size]="13" aria-hidden="true" />
-          <span>{{ 'common.create' | translate }}</span>
-        </button>
-
-        @if (creating()) {
-          <div class="page__panel-anchor">
-            <aed-repo-form-panel
-              [fields]="config().fields"
-              [existingNames]="existingNames()"
-              [entityNameSpanish]="config().entityNameSpanish"
-              (save)="onCreateSubmit($event)"
-              (cancelled)="closeCreatePanel()"
-            />
-          </div>
-        }
-      </div>
-    </aed-page-header>
 
     <div class="page__action-bar">
       <div class="page__search">
