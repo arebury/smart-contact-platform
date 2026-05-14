@@ -11,6 +11,99 @@
 
 ---
 
+## DD#63 — Auditoría de design tokens: cerrar deuda real, mantener el sistema `--sc-*` (2026-05-14)
+
+**Qué.** Una sesión completa de auditoría sobre las 7 capas de
+tokens `--sc-*` y el bridge `aed-preset.ts`. La pregunta de partida
+era "¿tiramos el preset y volvemos a Aura puro?". Tras leer el
+código y la doc, la respuesta fue **no**: el sistema actual es
+deliberado, está documentado en `GUIA.md` (36 KB), y la
+arquitectura "componente → `--sc-*` → preset → PrimeNG" es la
+correcta para una marca que envuelve un framework de UI.
+
+El trabajo se limitó a **cerrar deuda real** y **alinear
+nombres** sin tocar la estructura:
+
+- 8 huecos pequeños en el preset (placeholder inválido en rojo,
+  borde de error un tono más claro alineado con Aura, radius del
+  modal coherente con el del preset, etc).
+- Un archivo muerto borrado (`06-primeng-bridge.css` — la versión
+  vieja del bridge antes de DD#52).
+- 3 paletas (`orange`, `teal`, `purple`) movidas a "primitivos"
+  para que dejen de vivir en hex y sigan a Aura si éste cambia
+  algún valor.
+- Un componente (`<aed-photo-upload>`) ganó un input `[size]`
+  para no depender de que el contenedor le forzara el tamaño con
+  CSS sucio (`::ng-deep`). 8 reglas frágiles eliminadas.
+- 3 `!important` cuestionables reescritos como CSS limpio.
+- **Renombres de marca**: la escala que se llamaba `yellow` en
+  realidad tenía los valores del `amber` de Aura → renombrada a
+  `amber`. La que se llamaba `indigo` era en realidad un violeta
+  → renombrada a `violet`. Total: 66 referencias actualizadas en
+  un pase mecánico.
+
+**Por qué.**
+
+- El `aed-preset.ts` (DD#52) **no es código generado al azar**:
+  es un puente de 250 líneas que conecta cada variable interna
+  de PrimeNG con un token nuestro. Tirar eso significaría
+  reescribir cientos de referencias por todos los componentes,
+  rehacer el modo oscuro, y tirar la `GUIA.md` que documenta el
+  sistema para diseño. Coste enorme para cero beneficio
+  arquitectónico.
+- Los nombres mal puestos (`yellow` siendo amber, `indigo` siendo
+  violet) son fricciones reales para diseño: si Marta exporta de
+  Figma con los nombres correctos de Aura, ahora el código habla
+  el mismo idioma. Antes del rename, había que traducir
+  mentalmente cada vez.
+- La deuda visible era pequeña y acotada — bien cerrarla ahora,
+  con la pintura todavía húmeda y con `tsc --noEmit` validando.
+
+**Qué se descartó.**
+
+- El plan original del CLAUDE.md (que decía "el preset es deuda,
+  movemos a `_legacy/`, los componentes pasan a consumir `--p-*`
+  directamente"). Eso describía un proyecto distinto al que hay
+  en disco. Se rehizo el plan después de la Fase 0 cuando el
+  diagnóstico mostró el desajuste.
+- Una calibración "noir mode" que aparecía en el plan inicial.
+  Innecesaria: el color de marca (`#1B273D`) ya estaba
+  implementado, el modo oscuro ya funcionaba. Se reconcilió que
+  el `#1c273e` mencionado en conversación era una transcripción
+  imperfecta del `#1b273d` real (un bit de diferencia, mismo
+  color).
+- Renombrar la clave `yellow:` dentro de `aed-preset.ts` (donde
+  vive el vocabulario de PrimeNG). Esa clave es contrato con la
+  librería externa, no con nosotros. Se queda como `yellow:`
+  pero sus valores apuntan a `--sc-color-amber-*`.
+- Validación visual con Playwright. El servidor de desarrollo
+  Angular 21 no arranca correctamente en este entorno
+  (compila bien, pero no abre el puerto 4200). No es problema
+  del audit; queda pendiente para una sesión aparte. Las
+  diferencias visuales esperadas están descritas en el commit y
+  son contenidas.
+
+**Cuándo aplica.** Para el próximo cambio de tokens, partir del
+mismo principio: cambiar el `--sc-*` correspondiente en
+`01-primitive.css` o el alias semántico en `02-semantic.css`; si
+PrimeNG necesita verlo, añadir o ajustar el override en
+`aed-preset.ts`. Los componentes NO se tocan para cambios de
+color/spacing/radii — el sistema propaga solo.
+
+**Pendiente para futuras sesiones**:
+
+- Validar visual con Playwright cuando el dev server vuelva a
+  funcionar.
+- Bucket D (opcional): override de las ~110 sombras
+  componente-a-componente que actualmente caen a "negro puro"
+  de Aura en vez de a la sombra tintada del brand; promover
+  `emerald` y `sky` para cerrar los últimos 8 hex en la paleta
+  de etiquetas; auditar los 571 `px` sueltos en SCSS para
+  separar dimensiones legítimas de spacings que deberían ser
+  tokens.
+
+---
+
 ## DD#52 — La capa "PrimeNG bridge" pasa de CSS plano a un preset JS, alineado con PrimeNG 21 (2026-05-10)
 
 **Qué.** Antes había un archivo CSS (`06-primeng-bridge.css`) que

@@ -7,6 +7,83 @@
 
 ---
 
+## 63 — Keep the `--sc-*` system as source of truth; align names with Aura/Figma (2026-05-14)
+
+**Decision.** The 7-layer `--sc-*` cascade under
+`src/app/core/tokens/layers/` stays as the single source of truth
+for AED's visual identity. `aed-preset.ts` stays as the bridge
+that forwards each `--p-*` PrimeNG emits to a `var(--sc-*)`. The
+audit on this branch:
+
+- Closes real, narrow debt (gap overrides in the preset, dead
+  code, naming drift) without restructuring the system.
+- Aligns naming with Aura/Figma vocabulary where AED's labels
+  were misleading: `--sc-color-yellow-*` → `--sc-color-amber-*`
+  (values were Aura amber all along), `--sc-color-indigo-*` →
+  `--sc-color-violet-*` (values were closer to violet than indigo).
+- Does NOT migrate components to consume `--p-*` directly, does
+  NOT move `aed-preset.ts` to `_legacy/`, does NOT rewrite the
+  GUIA / README.
+
+**Why.**
+
+- The arrival framing assumed `aed-preset.ts` was AI-inferred
+  scaffolding to discard. Reading the code surfaced the actual
+  shape: a 250-line forwarder pointing at `--sc-color-*`,
+  `--sc-spacing-*`, `--sc-radius-*` declared deliberately in the
+  cascade (DD#52, plus 36 KB of `GUIA.md` walking through it).
+  Discarding that to "consume `--p-*` directly" would have meant
+  rewriting hundreds of references, redoing dark mode (already
+  built per DD#52), and throwing away the doc — for no
+  architectural win.
+- The actual flow `component → --sc-* → preset → --p-* → PrimeNG`
+  is the right shape for a brand that wraps a UI framework:
+  identity lives in one ramp, framework drift is absorbed at the
+  bridge, components stay decoupled from PrimeNG's internal
+  vocabulary.
+- The visible debt was small, audit-fixable, and worth closing
+  before it grew: 8 trivial gaps, ~110 unbridged component
+  shadows, 3 questionable `!important`, 8 invasive `::ng-deep`,
+  571 unclassified `px` literals. Buckets A→C closed the first
+  four. Bucket D remains.
+
+**What we discarded.**
+
+- The original CLAUDE.md plan (move preset to `_legacy/`,
+  consume `--p-*` from components, declare a fresh "noir mode"
+  identity from scratch, Fase 1.5 calibration with Aura puro
+  applied temporarily). It described a different repository than
+  what's checked in. Rewriting CLAUDE.md after Fase 0 was the
+  cheapest way to align the agent with reality before continuing.
+- A separate audit doc per Bucket. The audit deliverables stay as
+  fase-numbered docs (`00-diagnosis.md` → `03-bridge-coverage.md`);
+  the cleanup itself is captured in the commit body of
+  `ac259b7` because every bucket touched overlapping files and a
+  per-bucket history would have required staging surgery for
+  little long-term value.
+- Renaming `yellow:` (the primitive key inside `aed-preset.ts`).
+  That key is PrimeNG's vocabulary, not AED's — keeping it
+  decouples our token names from upstream rename risk.
+
+**Cost.**
+
+- 25 source files touched, 2 commits, +237 / −146 lines.
+- One unresolved-but-bracketed issue: the Angular 21 dev server
+  (`@angular/build:dev-server`) silently fails to bind port 4200
+  after a clean install in this environment. Build succeeds, watch
+  starts, no error, no listening port. Not caused by this audit
+  (reproduces against `main` mentally too — first interaction
+  with the server in the session was already broken). Visual
+  validation via Playwright is therefore deferred; the diff
+  signal is well-bounded by the commit message, but unverified.
+
+**Reference.** Commits
+[`e88bd07`](https://github.com/) (audit deliverables, including
+`docs/audit/00-diagnosis.md` through `03-bridge-coverage.md`) and
+[`ac259b7`](https://github.com/) (cleanup buckets A–C).
+
+---
+
 ## 62 — Attribute-selector projection wrappers live _outside_ `@if` blocks (2026-05-14)
 
 **Decision.** When a consumer renders content into a component
