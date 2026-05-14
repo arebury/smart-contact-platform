@@ -484,7 +484,7 @@ The legacy fields are dropped from the entity interfaces. Links live in
 `GroupAgentLinksStore` (a signal-based, localStorage-backed sibling of
 `AgentsStore` and `GroupsStore`); the seed is a static
 `GROUP_AGENT_LINKS_SEED` array of 159 rows. See
-[`docs/dd-53-per-group-channels-ux.md`](docs/dd-53-per-group-channels-ux.md)
+[`docs/dd-53-per-group-channels-ux.md`](./dd-53-per-group-channels-ux.md)
 for the full UX spec and ASCII mockups.
 
 **Why.** Voice's user manual (Figura 15, page 20) reveals the legacy
@@ -542,7 +542,7 @@ links, so the count reflects real impact, not the already-clamped state.
 **Decision.** The previous `06-primeng-bridge.css` — a layer that
 hand-declared every `--p-*` runtime variable as an override pointing
 at a `--sc-*` token — is replaced by a JS preset in
-[`src/app/core/tokens/aed-preset.ts`](src/app/core/tokens/aed-preset.ts).
+[`src/app/core/tokens/aed-preset.ts`](../src/app/core/tokens/aed-preset.ts).
 The preset wraps Aura via `definePreset(Aura, …)` and is registered
 in `app.config.ts`:
 
@@ -596,11 +596,11 @@ PrimeNG 21 expects.
 
 **Files.**
 
-- [`src/app/core/tokens/aed-preset.ts`](src/app/core/tokens/aed-preset.ts) — new, 200 lines.
-- [`src/app/app.config.ts`](src/app/app.config.ts) — `Aura` import swapped for `AedPreset`.
+- [`src/app/core/tokens/aed-preset.ts`](../src/app/core/tokens/aed-preset.ts) — new, 200 lines.
+- [`src/app/app.config.ts`](../src/app/app.config.ts) — `Aura` import swapped for `AedPreset`.
 - `src/app/core/tokens/layers/06-primeng-bridge.css` — **deleted**.
-- [`src/app/core/tokens/index.css`](src/app/core/tokens/index.css) — drops the layer-6 import + adds a comment explaining the move.
-- [`src/app/core/tokens/README.md`](src/app/core/tokens/README.md), [`docs/design-system.md`](docs/design-system.md) — refreshed to reflect the new architecture.
+- [`src/app/core/tokens/index.css`](../src/app/core/tokens/index.css) — drops the layer-6 import + adds a comment explaining the move.
+- [`src/app/core/tokens/README.md`](../src/app/core/tokens/README.md), [`docs/design-system.md`](./design-system.md) — refreshed to reflect the new architecture.
 
 **Companion fixes (same branch, scoped tightly).**
 
@@ -689,7 +689,7 @@ update` doesn't support multi-major hops for the Angular
   Angular CDK 21.2.10 · Lucide-angular 1.0.
 - `~/.zshrc` — added nvm bootstrap block so Node 20 survives shell
   restarts.
-- [`docs/design-system.md`](docs/design-system.md) — stack reference
+- [`docs/design-system.md`](./design-system.md) — stack reference
   updated to Angular 21.2 + PrimeNG 21.1.
 
 **Open follow-ups.** Optional schematics deferred for separate
@@ -762,10 +762,10 @@ resolved value, byte-identical CSS output.
 
 **Files.**
 
-- [`src/app/core/tokens/index.css`](src/app/core/tokens/index.css) — orchestrator.
-- [`src/app/core/tokens/layers/01-primitive.css`](src/app/core/tokens/layers/01-primitive.css) through [`07-dark.css`](src/app/core/tokens/layers/07-dark.css).
-- [`src/app/core/tokens/README.md`](src/app/core/tokens/README.md) — rules for adding new tokens.
-- [`docs/design-system.md`](docs/design-system.md) — full architecture overview.
+- [`src/app/core/tokens/index.css`](../src/app/core/tokens/index.css) — orchestrator.
+- [`src/app/core/tokens/layers/01-primitive.css`](../src/app/core/tokens/layers/01-primitive.css) through [`07-dark.css`](../src/app/core/tokens/layers/07-dark.css).
+- [`src/app/core/tokens/README.md`](../src/app/core/tokens/README.md) — rules for adding new tokens.
+- [`docs/design-system.md`](./design-system.md) — full architecture overview.
 
 ---
 
@@ -817,11 +817,11 @@ before "what can they do."
 
 **Files.**
 
-- [`src/app/shared/components/sticky-form-header/sticky-form-header.component.{ts,html,scss}`](src/app/shared/components/sticky-form-header/) — new `[header-pills]` + `[header-meta]` slots, default `showBack: false`, 44px photo scaling.
-- [`src/app/features/admin/agents/pages/agent-form-page.component.{ts,html,scss}`](src/app/features/admin/agents/pages/) — rich header, rail simplified, body 2-column with consolidated Identificación card. Recording moves out of Permisos → Devices.
-- [`src/app/features/admin/groups/pages/group-form-page.component.{html,scss,ts}`](src/app/features/admin/groups/pages/) — rich header (avatar + priority pill + phone meta), rail simplified.
-- [`src/app/features/admin/users/pages/user-form-page.component.{ts,html,scss}`](src/app/features/admin/users/pages/) — rich header (photo + type/status pills + email meta), rail simplified.
-- [`src/assets/i18n/es.json`](src/assets/i18n/es.json) — adds `agents.form.section.identification` + `recording_hint` keys.
+- [`src/app/shared/components/sticky-form-header/sticky-form-header.component.{ts,html,scss}`](../src/app/shared/components/sticky-form-header/) — new `[header-pills]` + `[header-meta]` slots, default `showBack: false`, 44px photo scaling.
+- [`src/app/features/admin/agents/pages/agent-form-page.component.{ts,html,scss}`](../src/app/features/admin/agents/pages/) — rich header, rail simplified, body 2-column with consolidated Identificación card. Recording moves out of Permisos → Devices.
+- [`src/app/features/admin/groups/pages/group-form-page.component.{html,scss,ts}`](../src/app/features/admin/groups/pages/) — rich header (avatar + priority pill + phone meta), rail simplified.
+- [`src/app/features/admin/users/pages/user-form-page.component.{ts,html,scss}`](../src/app/features/admin/users/pages/) — rich header (photo + type/status pills + email meta), rail simplified.
+- [`src/assets/i18n/es.json`](../src/assets/i18n/es.json) — adds `agents.form.section.identification` + `recording_hint` keys.
 
 ---
 
@@ -861,10 +861,10 @@ splintering it into two components.
 
 **Files.**
 
-- [`src/app/core/services/confirm-host.service.ts`](src/app/core/services/confirm-host.service.ts) — `emphasis` field on `ConfirmRequest`.
-- [`src/app/core/services/discard-dialog.service.ts`](src/app/core/services/discard-dialog.service.ts) — opts in.
-- [`src/app/shared/components/confirm-host/confirm-host.component.ts`](src/app/shared/components/confirm-host/confirm-host.component.ts) — `acceptClass` / `rejectClass` computeds.
-- [`src/app/shared/components/confirm-host/confirm-host.component.html`](src/app/shared/components/confirm-host/confirm-host.component.html) — conditional ordering.
+- [`src/app/core/services/confirm-host.service.ts`](../src/app/core/services/confirm-host.service.ts) — `emphasis` field on `ConfirmRequest`.
+- [`src/app/core/services/discard-dialog.service.ts`](../src/app/core/services/discard-dialog.service.ts) — opts in.
+- [`src/app/shared/components/confirm-host/confirm-host.component.ts`](../src/app/shared/components/confirm-host/confirm-host.component.ts) — `acceptClass` / `rejectClass` computeds.
+- [`src/app/shared/components/confirm-host/confirm-host.component.html`](../src/app/shared/components/confirm-host/confirm-host.component.html) — conditional ordering.
 
 ---
 

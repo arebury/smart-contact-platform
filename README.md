@@ -91,7 +91,7 @@ features/<scope>/<feature>/
 
 ¿Por qué? Porque cuando un compañero te pregunte _"¿dónde meto X?"_, la
 respuesta es siempre la misma. La regla y el resto de convenciones viven
-en [`memory.md`](./memory.md).
+en [`memory.md`](./docs/memory.md).
 
 ---
 
@@ -119,10 +119,10 @@ Para entender la arquitectura entera: [`docs/design-system.md`](./docs/design-sy
 
 | Si quieres… | Ve a |
 | --- | --- |
-| Entender por qué tomamos cada decisión grande | [`DECISIONS.md`](./DECISIONS.md) (técnica) · [`DECISIONES.md`](./DECISIONES.md) (versión humana en castellano) |
-| Saber qué pasó en cada sesión de trabajo | [`SESSION-LOG.md`](./SESSION-LOG.md) |
-| Convenciones de código y arquitectura | [`memory.md`](./memory.md) |
-| Roadmap: qué hay hecho y qué queda | [`roadmap.md`](./roadmap.md) |
+| Entender por qué tomamos cada decisión grande | [`DECISIONS.md`](./docs/DECISIONS.md) (técnica) · [`DECISIONES.md`](./docs/DECISIONES.md) (versión humana en castellano) |
+| Saber qué pasó en cada sesión de trabajo | [`SESSION-LOG.md`](./docs/SESSION-LOG.md) |
+| Convenciones de código y arquitectura | [`memory.md`](./docs/memory.md) |
+| Roadmap: qué hay hecho y qué queda | [`roadmap.md`](./docs/roadmap.md) |
 | Análisis original de la migración | [`docs/phase-0-analysis.md`](./docs/phase-0-analysis.md) |
 | Arquitectura del design system | [`docs/design-system.md`](./docs/design-system.md) |
 | Añadir o cambiar un design token | [`src/app/core/tokens/README.md`](./src/app/core/tokens/README.md) |
@@ -136,7 +136,7 @@ Para entender la arquitectura entera: [`docs/design-system.md`](./docs/design-sy
 `@ngx-translate/core` + `xlsx` + `lucide-angular` + `ESLint` +
 `Prettier` + `Karma/Jasmine` para tests + `Playwright` para visual
 regression. El **por qué** de cada elección está en
-[`memory.md`](./memory.md#stack).
+[`memory.md`](./docs/memory.md#stack).
 
 ---
 
@@ -158,11 +158,11 @@ configura solo. Los logs de cada build los ves en el panel de Netlify.
 ## Si abres este proyecto en una sesión nueva
 
 1. Lee este README (1 minuto).
-2. Echa un ojo a [`SESSION-LOG.md`](./SESSION-LOG.md) para ver qué pasó
+2. Echa un ojo a [`SESSION-LOG.md`](./docs/SESSION-LOG.md) para ver qué pasó
    la última vez (la entrada más nueva está arriba).
-3. Mira [`roadmap.md`](./roadmap.md) para saber qué hay pendiente.
+3. Mira [`roadmap.md`](./docs/roadmap.md) para saber qué hay pendiente.
 4. ¿Vas a tomar una decisión que afecta al resto de la app? Documéntala
-   en [`DECISIONS.md`](./DECISIONS.md) cuando termines.
+   en [`DECISIONS.md`](./docs/DECISIONS.md) cuando termines.
 5. Cuando vayas a parar, di "**cerramos**" — el asistente hace push,
    actualiza `SESSION-LOG.md` y deja todo listo para la próxima.
 

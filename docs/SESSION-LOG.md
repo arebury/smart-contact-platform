@@ -25,8 +25,8 @@
 ### Worked on
 
 - **Fase -1 to 3** — diagnostic-only. Output in
-  [`docs/audit/00-diagnosis.md`](docs/audit/00-diagnosis.md) →
-  [`03-bridge-coverage.md`](docs/audit/03-bridge-coverage.md).
+  [`docs/audit/00-diagnosis.md`](./audit/00-diagnosis.md) →
+  [`03-bridge-coverage.md`](./audit/03-bridge-coverage.md).
   Inventoried what was load-bearing (~17 of 19 `::ng-deep`, 16 of
   19 `!important`) vs real debt. Token-by-token classification of
   every `--sc-*` against Aura primitives + semantic shape.
@@ -116,7 +116,7 @@
   saturated blue. Trivial rename if a different label is
   preferred.
 - **Structural refactor** plan stashed at
-  [`docs/refactor-structure/CLAUDE.md`](docs/refactor-structure/CLAUDE.md)
+  [`docs/refactor-structure/CLAUDE.md`](./refactor-structure/CLAUDE.md)
   for a future session (post-audit-merge + ≥1 week gap). Has a
   Fase 0.5 kill switch so the work terminates cleanly if no
   refactor case exists.
@@ -493,7 +493,7 @@ __name` SCSS. Identity card now starts with Email + Phone. Photo
   - **spacing**: sub-section body now applies `> .grid + .grid`
     margin (was missing — adjacent grids touched).
   - **micro**: accordion heads + `.btn` got `:active { scale(0.98) }`
-    per `.impeccable.md` principle 3.
+    per `impeccable.md` principle 3.
   - **polish**: `.picker-list__row-meta` (agenda numbers preview)
     ellipsis + 240px cap; Plantillas master checkbox switched from
     native `<input>` to `<aed-tri-state-checkbox>` so it reflects
@@ -501,7 +501,7 @@ __name` SCSS. Identity card now starts with Email + Phone. Photo
     `.perm-matrix` headers in DD#55).
   - **tokens**: `var(--sc-bg-elevated, #fff)` → `var(--sc-bg-elevated,
 var(--sc-bg-surface))`. Pure `#fff` fallback violated
-    `.impeccable.md` banned-patterns.
+    `impeccable.md` banned-patterns.
 
 ### Result
 
@@ -841,7 +841,7 @@ The legacy platform's user manual (Voice / Suite Voice, PDF, page 20
 Figura 15) is the canonical visual brief for the per-(agent, group)
 permission flow and the destino-matrix layout. The migration target
 is capability parity with Voice, not pixel-parity. The user's
-brand-voice direction (`.impeccable.md`): **calm · dense ·
+brand-voice direction (`impeccable.md`): **calm · dense ·
 operational** — like Linear / Stripe internal, not "modern SaaS"
 marketing.
 
@@ -2267,7 +2267,7 @@ transition: 0 }` for tactile snap, `prefers-reduced-motion` opt-out).
   `user+tag@…`. Slop removal (per /impeccable absolute_bans):
   `.cross-tab-warning` and `<aed-sidebar-nav-item>` active state both
   drop the side-stripe pattern for full borders / background tints.
-  `.impeccable.md` design context committed.
+  `impeccable.md` design context committed.
 
 - **Canonical modal** ([PR #11](https://github.com/arebury/aed/pull/11)).
   `<aed-modal>` shell matching Figma 1037:34069. Three slots (header
@@ -2542,7 +2542,7 @@ _Cross-cutting_
   navegación clara hacia los demás docs.
 - Creó [`SESSION-LOG.md`](./SESSION-LOG.md), [`DECISIONS.md`](./DECISIONS.md),
   bloque de "session-end protocol" en [`memory.md`](./memory.md), y
-  [`docs/ux-audit.md`](./docs/ux-audit.md) con ~35 hallazgos accionables
+  [`docs/ux-audit.md`](./ux-audit.md) con ~35 hallazgos accionables
   agrupados por flujo (5 críticos top + 3 críticos para limpiar el sidebar).
 - Reflow Prettier de los 66 archivos que faltaban por formatear.
 - CI fix de Phase anterior arregla el deploy de Netlify (commit cargado en
@@ -2574,7 +2574,7 @@ _Cross-cutting_
 
 **Queued next**
 
-- Ejecutar los Top-5 fixes Critical de [`docs/ux-audit.md`](./docs/ux-audit.md)
+- Ejecutar los Top-5 fixes Critical de [`docs/ux-audit.md`](./ux-audit.md)
   en una sola PR de "UX consistency pass" antes de meter feature nueva:
   loading bar global · entity en sticky header en edit mode ·
   validación inline en forms · confirmación textual en bulk delete con
