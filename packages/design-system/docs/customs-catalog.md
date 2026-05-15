@@ -17,6 +17,20 @@
 2. **Component extensions** — slots / variants / behaviors que SC añade y Figma no modela.
 3. **Component overloads** — slots Figma reusados con semántica SC distinta.
 4. **Sizes / density** — SC añade variantes que Figma no contempla (sm/lg en algunos componentes).
+5. **Gaps conocidos** — piezas del Kit Figma que aún no tienen wrapper SCDS (decisión consciente).
+
+---
+
+## Checklist anti-divergencia
+
+Antes de añadir cualquier prop / slot / CSS override a un componente SCDS, responder estas 4 preguntas en orden:
+
+1. **¿PrimeNG ya lo expone?** Si sí → exponerlo con el mismo nombre de input, mismo evento, mismos templates (`pTemplate` content projection). NO inventar API custom.
+2. **¿Hay un token PrimeNG que lo cubra?** Si sí → consumirlo via `sc-preset.ts`, NO inventar variable nueva.
+3. **¿La divergencia es brand-required?** Si sí → entry obligatoria en este catálogo con razón concreta + mapping en código. Si no → no añadir.
+4. **¿Smart Contact Prime al portarlo solo tendría que hacer "import + linkar CSS"?** Si no → revisar.
+
+Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 los componentProperties (variants), auto-layout, paddings (incluso decimales), tokens (boundVariables).
 
 ---
 
@@ -138,6 +152,41 @@
 
 ---
 
+## 5. Gaps conocidos
+
+Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión consciente: añadir solo cuando aparezca primer caso real de uso en AED.
+
+### 5.1 `sc-input-group` — gap (Figma `❖ InputGroup` node 6738:22644)
+
+- **Figma SC**: 8 variants `Left × Right × SecondLeft × SecondRight` para addons laterales del input (icon, button, prefix/suffix).
+- **PrimeNG**: `<p-inputgroup>` + `<p-inputgroup-addon>` cubren esto.
+- **Estado**: cero consumers reales en AED. El sc-input antiguamente tenía props `leftIcon`/`rightIcon` que mezclaban este componente con `❖ InputText` — eliminados en Session 31 por divergencia (`refactor(sc-input): remove leftIcon/rightIcon`).
+- **Cuándo crear**: primer caso real en AED de input con addon (icono prefix, botón "ir", currency suffix, etc.).
+- **Decisión hasta entonces**: el consumer usa `<p-inputgroup>` directamente con `<sc-input>` dentro.
+
+### 5.2 `sc-select-button` — gap (Figma `❖ SelectButton` node 6738:46433)
+
+- **Figma SC**: 24 variants `Select (First/Second/Third/Fourth/Multiple) × OptionAmount (2/3/4) × Multiple (true/false) × Invalid (true/false)`.
+- **PrimeNG**: `<p-selectbutton>` (componente distinto a `<p-select>`).
+- **Composición**: el `❖ SelectButton` Figma **NO** referencia `❖ Button` — son nodes independientes. Si en algún momento Marta vincula los 2 en el Kit, este wrapper hereda automáticamente.
+- **Estado**: sin uso en AED hoy. Caso típico: filtros segmented horizontal ("Todos / Activos / Archivados"), choice radio visual.
+- **Cuándo crear**: primer filtro segmented real en AED.
+
+### 5.3 `sc-tag` — gap (Figma `❖ Tag` node 6738:55116)
+
+- **Figma SC**: 4 variants `Basic / Severity (Primary/Secondary/Success/Info/Warn/Danger/Contrast) / Pill / Icon`. NO removible, fondo lleno de color (vs `❖ Chip` que es outline + removible).
+- **PrimeNG**: `<p-tag>`.
+- **Relación con sc-label-chip**: NO confundir. `sc-label-chip` cumple el rol del **Chip** Figma (outline, removible, categórico). `sc-tag` sería un componente nuevo para etiquetar contenido (estado de un ticket, severity de una alerta) — semántica distinta.
+- **Cuándo crear**: primer caso de tag visual en AED (severity de algo, estado lleno color).
+
+### 5.4 Reclasificación: `sc-tri-state-checkbox` (Session 31)
+
+- **No es gap** (el componente existe), pero estaba mal etiquetado.
+- **Auditoría confirmó**: NO importa `primeng/*`, usa `<input type="checkbox">` nativo + CSS custom para los 3 estados. Es **pure-sc**, no extended.
+- **Acción**: tracker `apps/ds-docs/src/app/pages/home/home.component.ts` actualizado en commit `3a54db6`. Sin impacto runtime.
+
+---
+
 ## Cómo añadir una divergencia nueva a este catálogo
 
 1. Detéctala en un audit (memory `feedback_figma_specs_thorough.md`).
@@ -165,4 +214,4 @@ Recomendación cuando se active la Fase 4:
 
 ---
 
-Última actualización: 2026-05-15 (Session 30).
+Última actualización: 2026-05-15 (Session 31).
