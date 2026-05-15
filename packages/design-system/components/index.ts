@@ -52,6 +52,9 @@ export type { ScInputNumberSize } from './input-number/input-number.component';
 export { SelectComponent } from './select/select.component';
 export type { ScSelectSize } from './select/select.component';
 
+export { MultiSelectComponent } from './multi-select/multi-select.component';
+export type { ScMultiSelectSize, ScMultiSelectDisplay } from './multi-select/multi-select.component';
+
 export { DatepickerComponent } from './datepicker/datepicker.component';
 export type { ScDatepickerSize, ScDatepickerView } from './datepicker/datepicker.component';
 

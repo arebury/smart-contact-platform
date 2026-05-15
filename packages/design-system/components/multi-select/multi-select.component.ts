@@ -1,0 +1,150 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  forwardRef,
+  inject,
+  Injector,
+  input,
+  model,
+  ViewEncapsulation,
+} from '@angular/core';
+import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { MultiSelectModule } from 'primeng/multiselect';
+
+export type ScMultiSelectSize = 'sm' | 'md' | 'lg';
+export type ScMultiSelectDisplay = 'chip' | 'comma';
+
+let scMultiSelectIdCounter = 0;
+
+/**
+ * Smart Contact multi-select. Wraps PrimeNG `<p-multiselect>` with the
+ * SCDS field-pattern chrome (label + required + helper + error).
+ *
+ * Aligned 1:1 with Figma `Smart Contact Prime → ❖ MultiSelect` (canvas
+ * 6738:22651): tokens `multiselect/*` mirror `select/*` exactly (border
+ * slate-300, padding 10.5/7, shadow #1212170D, dropdown 35px slate-400).
+ * Sizes Sm/Lg use the same decimal Figma values as sc-input/sc-select.
+ *
+ * Two display modes via `[display]`:
+ *   - 'chip'  → selected items render as removable pills inside the input
+ *   - 'comma' → selected items render as comma-separated text
+ */
+@Component({
+  selector: 'sc-multi-select',
+  standalone: true,
+  imports: [MultiSelectModule, FormsModule],
+  templateUrl: './multi-select.component.html',
+  styleUrl: './multi-select.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MultiSelectComponent),
+      multi: true,
+    },
+  ],
+  host: {
+    class: 'sc-multi-select',
+    '[class.sc-multi-select--sm]': "size() === 'sm'",
+    '[class.sc-multi-select--lg]': "size() === 'lg'",
+    '[class.sc-multi-select--invalid]': 'isInvalid()',
+    '[class.sc-multi-select--disabled]': 'disabled()',
+    '[class.sc-multi-select--filled]': 'filled()',
+  },
+})
+export class MultiSelectComponent implements ControlValueAccessor {
+  // ─── Chrome (mirrors sc-select) ─────────────────────────────────────
+  readonly size = input<ScMultiSelectSize>('md');
+  readonly label = input<string>();
+  readonly required = input<boolean>(false);
+  readonly helperText = input<string>();
+  readonly error = input<string>();
+  readonly placeholder = input<string>('');
+  readonly disabled = model<boolean>(false);
+  readonly inputId = input<string>();
+  readonly name = input<string>();
+
+  // ─── MultiSelect-specific ──────────────────────────────────────────
+  readonly options = input<readonly unknown[]>([]);
+  readonly optionLabel = input<string>('label');
+  readonly optionValue = input<string>();
+  /** How to render selected items inside the input. */
+  readonly display = input<ScMultiSelectDisplay>('comma');
+  /** Show search/filter input inside the dropdown. */
+  readonly filter = input<boolean>(false);
+  readonly filterBy = input<string>();
+  /** Show "Select all" toggle at the top of the dropdown. */
+  readonly showToggleAll = input<boolean>(true);
+  /** Hard limit on how many items can be selected. */
+  readonly selectionLimit = input<number>();
+  /** When `display='comma'`, fold to "N items selected" after this many. */
+  readonly maxSelectedLabels = input<number>(3);
+  /** Label template for fold state, e.g. "{0} elementos seleccionados". */
+  readonly selectedItemsLabel = input<string>('{0} seleccionados');
+  /** Show the "×" clear button. */
+  readonly showClear = input<boolean>(false);
+  readonly emptyFilterMessage = input<string>('Sin resultados');
+  readonly emptyMessage = input<string>('Sin opciones');
+  /** Background "filled" variant (Figma node 6220:7054): bg slate-50. */
+  readonly filled = input<boolean>(false);
+
+  // ─── Two-way value binding ─────────────────────────────────────────
+  /** Array of selected values (id-only if `optionValue` set, else whole objects). */
+  readonly value = model<unknown[]>([]);
+
+  // ─── Derived ───────────────────────────────────────────────────────
+  protected readonly resolvedId = computed(
+    () => this.inputId() ?? `sc-multi-select-${++scMultiSelectIdCounter}`,
+  );
+
+  protected readonly isInvalid = computed(() => {
+    if (this.error()) return true;
+    const ctrl = this._ngControl?.control;
+    return !!ctrl && ctrl.invalid && (ctrl.touched || ctrl.dirty);
+  });
+
+  protected readonly footerText = computed(() => this.error() || this.helperText() || '');
+
+  protected readonly pSize = computed<'small' | 'large' | undefined>(() => {
+    const s = this.size();
+    return s === 'sm' ? 'small' : s === 'lg' ? 'large' : undefined;
+  });
+
+  protected readonly optionsMutable = computed(() => this.options() as unknown[]);
+
+  // ─── ControlValueAccessor ──────────────────────────────────────────
+  private _onChange: (v: unknown[]) => void = () => {};
+  private _onTouched: () => void = () => {};
+  private readonly _injector = inject(Injector);
+  private get _ngControl(): NgControl | null {
+    try {
+      return this._injector.get(NgControl, null, { self: true, optional: true });
+    } catch {
+      return null;
+    }
+  }
+
+  writeValue(v: unknown[] | null | undefined): void {
+    this.value.set(Array.isArray(v) ? v : []);
+  }
+  registerOnChange(fn: (v: unknown[]) => void): void {
+    this._onChange = fn;
+  }
+  registerOnTouched(fn: () => void): void {
+    this._onTouched = fn;
+  }
+  setDisabledState(state: boolean): void {
+    this.disabled.set(state);
+  }
+
+  protected onModelChange(v: unknown[]): void {
+    this.value.set(v ?? []);
+    this._onChange(v ?? []);
+  }
+
+  protected onBlur(): void {
+    this._onTouched();
+  }
+}

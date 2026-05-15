@@ -1,0 +1,113 @@
+/*
+ * sc-multi-select — Smart Contact multi-select dropdown.
+ *
+ * Wraps <p-multiselect>. Chrome (border, padding, focus, hover,
+ * disabled, invalid) hereda de sc-preset → semantic.formField.*
+ * (mismo bridge que sc-input / sc-select).
+ *
+ * Figma reference: Smart Contact Prime → ❖ MultiSelect (canvas
+ * 6738:22651). Tokens `multiselect/*` son IDÉNTICOS a `select/*`:
+ *  - border slate-300, radius 6, padding 10.5/7
+ *  - shadow #1212170D offset(0,1) r2
+ *  - chevron 14px slate-400 en área 35px
+ *  - filled bg slate-50
+ *  - invalid border red-400 / placeholder red-600
+ */
+
+.sc-multi-select {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.sc-multi-select__label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-size: var(--sc-font-size-200);
+  font-weight: var(--sc-font-weight-medium);
+  color: var(--sc-text-secondary);
+  margin-bottom: 0;
+}
+
+.sc-multi-select__required {
+  color: var(--sc-text-danger);
+  font-weight: var(--sc-font-weight-medium);
+}
+
+.sc-multi-select__control {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.sc-multi-select__control .p-multiselect {
+  width: 100%;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Size variants — valores EXACTOS Figma, verificados en nodos
+ * 7154:137768 (Small) y 7154:138077 (Large).
+ *   Small:  font 12.25 / padding 8.75x / 5.25y
+ *   Normal: font 14    / padding 10.5x / 7y   (heredado del preset)
+ *   Large:  font 15.75 / padding 12.25x / 8.75y
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-multi-select--sm .sc-multi-select__control .p-multiselect-label {
+  padding: 5.25px 8.75px;
+  font-size: 12.25px;
+}
+.sc-multi-select--lg .sc-multi-select__control .p-multiselect-label {
+  padding: 8.75px 12.25px;
+  font-size: 15.75px;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Filled variant — Figma `Filled=True` node 6220:7054.
+ *   `multiselect/filled/background = #f8fafc` (slate-50).
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-multi-select--filled .sc-multi-select__control .p-multiselect {
+  background: var(--sc-color-gray-50);
+}
+.sc-multi-select--filled .sc-multi-select__control .p-multiselect:hover {
+  background: var(--sc-color-gray-100);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Invalid state — Figma `Invalid=True` node 6220:7085 confirma:
+ *   `multiselect/invalid/border/color: #f87171` (red-400)
+ *   `multiselect/invalid/placeholder/color: #dc2626` (red-600)
+ * Ambos ya alineados via --sc-border-error / --sc-text-danger.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-multi-select--invalid .sc-multi-select__control .p-multiselect {
+  border-color: var(--sc-border-error);
+
+  &:hover,
+  &:focus,
+  &:focus-within {
+    border-color: var(--sc-border-error);
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Footer message — reserve 1.25em (no layout shift).
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-multi-select__msg {
+  display: block;
+  min-height: 1.25em;
+  font-size: var(--sc-font-size-100);
+  line-height: 1.45;
+  color: var(--sc-text-subtle);
+}
+
+.sc-multi-select__msg--error {
+  color: var(--sc-text-danger);
+}
+
+.sc-multi-select--disabled .sc-multi-select__label {
+  color: var(--sc-text-disabled);
+}

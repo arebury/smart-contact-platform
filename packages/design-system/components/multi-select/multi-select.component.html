@@ -1,0 +1,46 @@
+@if (label()) {
+  <label class="sc-multi-select__label" [attr.for]="resolvedId()">
+    {{ label() }}
+    @if (required()) {
+      <span class="sc-multi-select__required" aria-hidden="true">*</span>
+    }
+  </label>
+}
+
+<p-multiselect
+  class="sc-multi-select__control"
+  [inputId]="resolvedId()"
+  [options]="optionsMutable()"
+  [optionLabel]="optionLabel()"
+  [optionValue]="optionValue()"
+  [placeholder]="placeholder()"
+  [disabled]="disabled()"
+  [display]="display()"
+  [filter]="filter()"
+  [filterBy]="filterBy() ?? optionLabel()"
+  [showToggleAll]="showToggleAll()"
+  [selectionLimit]="selectionLimit() ?? null"
+  [maxSelectedLabels]="maxSelectedLabels()"
+  [selectedItemsLabel]="selectedItemsLabel()"
+  [showClear]="showClear()"
+  [emptyFilterMessage]="emptyFilterMessage()"
+  [emptyMessage]="emptyMessage()"
+  [size]="pSize()"
+  [ngModel]="value()"
+  (ngModelChange)="onModelChange($event)"
+  (onBlur)="onBlur()"
+  [attr.name]="name() ?? null"
+  [attr.aria-describedby]="footerText() ? resolvedId() + '-msg' : null"
+  [attr.aria-required]="required() ? true : null"
+  [attr.aria-invalid]="isInvalid() ? true : null"
+/>
+
+@if (footerText()) {
+  <span
+    class="sc-multi-select__msg"
+    [class.sc-multi-select__msg--error]="!!error()"
+    [id]="resolvedId() + '-msg'"
+  >
+    {{ footerText() }}
+  </span>
+}

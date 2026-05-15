@@ -136,6 +136,16 @@ export class HomeComponent {
       figmaParity: 100,
     },
     {
+      slug: 'multi-select',
+      name: 'MultiSelect',
+      type: 'extended',
+      status: 'ready',
+      pageRoute: '/components/multi-select',
+      whatItDoes: 'Desplegable para elegir VARIAS opciones a la vez (al contrario que select, que es solo una). Los seleccionados aparecen como texto separado por comas O como pills removibles (X cada uno) según prefieras.',
+      whereToSee: 'AED aún no lo usa nativamente, pero próximo caso: asignación de canales a un agente (Email + WhatsApp + Teléfono…). Demo en ds-docs hasta entonces.',
+      figmaParity: 100,
+    },
+    {
       slug: 'modal',
       name: 'Modal',
       type: 'extended',
