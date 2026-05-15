@@ -84,7 +84,16 @@ export class HomeComponent {
       pageRoute: '/components/input',
       whatItDoes: 'Campo de texto para formularios: nombre, email, contraseña, teléfono… Incluye label, texto de ayuda y mensaje de error.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → cualquier campo de la ficha.',
-      figmaParity: 80,
+      figmaParity: 100,
+    },
+    {
+      slug: 'input-number',
+      name: 'Input number',
+      type: 'extended',
+      status: 'ready',
+      pageRoute: '/components/input-number',
+      whatItDoes: 'Campo numérico para formularios: capacidades, contadores, segundos, porcentajes. Mismo aspecto que el campo de texto pero con la unidad ("s", "%", "agentes") a la derecha y el número alineado a la derecha también.',
+      whereToSee: 'AED → Configuración → AED → Servicio → "Pausa standard" (segundos). También en "Crear grupo" → capacidad.',
     },
     {
       slug: 'modal',

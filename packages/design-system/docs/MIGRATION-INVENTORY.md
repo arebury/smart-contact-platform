@@ -41,7 +41,8 @@
 | 23 | Impact preview dialog | ✓ | ⚪ Pure SC | `<sc-impact-preview-dialog>` | TODO | TBD | TODO |
 | 24 | Page header | ✓ | ⚪ Pure SC | `<sc-page-header>` | TODO | TBD | TODO |
 | 25 | Sticky form header | ✓ | ⚪ Pure SC | `<sc-sticky-form-header>` | TODO | TBD | TODO |
-| 26 | Input (text/email/password/tel/url/search) | ✓ | 🟢 Extended | `<sc-input>` | [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | **90%** — label/helper font-size y padding alineados a Figma. Restante 10%: paleta `--sc-color-gray-*` divergente de Aura slate (Nivel 1 pendiente, audit Phase 2) | `docs/components/02-input.md` |
+| 26 | Input (text/email/password/tel/url/search) | ✓ | 🟢 Extended | `<sc-input>` | [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | **~100%** — label/helper alineados, paleta gray reconciliada con Aura slate (Session 30) | `docs/components/02-input.md` |
+| 27 | Input number | ✓ | 🟢 Extended | `<sc-input-number>` | TODO | TBD — pendiente reference frame Figma | `docs/components/03-input-number.md` |
 | -- | Dropdown / select | ⏳ | PrimeNG target | `<p-select>` (planeado) | - | - | |
 | -- | Datepicker | ⏳ | PrimeNG target | `<p-datepicker>` (planeado) | - | - | |
 | -- | Tabs | ⏳ | PrimeNG target | `<p-tabs>` (planeado) | - | - | |

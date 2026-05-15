@@ -1,0 +1,150 @@
+/*
+ * sc-input-number — Smart Contact numeric input.
+ *
+ * Mirrors sc-input's chrome (label / input / helper-or-error) so the
+ * two read as a family. Differences:
+ *   - text-align: right by default (numeric reading convention)
+ *   - optional suffix slot (unit label inside the field, right side)
+ *   - hides native browser spinners (they're inconsistent + ugly)
+ *
+ * The actual border/radius/padding/focus/disabled colors come from
+ * sc-preset → semantic.formField.*, same as sc-input.
+ */
+
+.sc-input-number {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-50, 4px);
+  min-width: 0;
+}
+
+.sc-input-number__label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 2px;
+  font-size: var(--sc-font-size-200);
+  font-weight: var(--sc-font-weight-medium);
+  color: var(--sc-text-secondary);
+  margin-bottom: 2px;
+}
+
+.sc-input-number__required {
+  color: var(--sc-text-danger);
+  font-weight: var(--sc-font-weight-medium);
+}
+
+.sc-input-number__field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.sc-input-number__control {
+  width: 100%;
+  font-family: inherit;
+  /* Numbers read right-aligned. */
+  text-align: right;
+  /* Inter has tabular figures on by default at 'tnum'; help variable fonts behave. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Strip browser-default spinners — they clash with our design and
+ * aren't used in AED. Consumers who need them can re-enable per case. */
+.sc-input-number__control::-webkit-outer-spin-button,
+.sc-input-number__control::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.sc-input-number__control {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Suffix — unit label glued to the right edge of the input.
+ * Reserves space via padding-right so the number doesn't bleed under it. */
+.sc-input-number__suffix {
+  position: absolute;
+  right: var(--sc-spacing-200);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--sc-text-subtle);
+  font-size: var(--sc-font-size-100);
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.sc-input-number__field--has-suffix .sc-input-number__control {
+  /* Leave room for up to ~3 char suffix ("min", "s/m", "%"); for
+   * longer units the consumer can override via ::part or a custom
+   * class on the host. */
+  padding-right: calc(var(--sc-spacing-200) + 32px);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Size variants — same scale as sc-input.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-input-number--sm .sc-input-number__control {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: var(--sc-font-size-100);
+}
+.sc-input-number--sm .sc-input-number__suffix {
+  font-size: var(--sc-font-size-50);
+}
+
+.sc-input-number--lg .sc-input-number__control {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  font-size: var(--sc-font-size-300);
+}
+.sc-input-number--lg .sc-input-number__suffix {
+  font-size: var(--sc-font-size-200);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Invalid state — sc-preset already paints invalid border via
+ * aria-invalid; the host class covers the manual `[error]` path.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-input-number--invalid .sc-input-number__control {
+  border-color: var(--sc-border-error);
+
+  &:hover,
+  &:focus {
+    border-color: var(--sc-border-error);
+  }
+}
+
+.sc-input-number--invalid .sc-input-number__suffix {
+  color: var(--sc-text-danger);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Footer message — reserve 1.25em so validation toggling never
+ * shifts layout (DD#16, "no layout shift" feedback).
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-input-number__msg {
+  display: block;
+  min-height: 1.25em;
+  margin-top: var(--sc-spacing-50);
+  font-size: var(--sc-font-size-100);
+  line-height: 1.45;
+  color: var(--sc-text-subtle);
+}
+
+.sc-input-number__msg--error {
+  color: var(--sc-text-danger);
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Disabled — dim the label + suffix so the whole field reads inert.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-input-number--disabled .sc-input-number__label,
+.sc-input-number--disabled .sc-input-number__suffix {
+  color: var(--sc-text-disabled);
+}

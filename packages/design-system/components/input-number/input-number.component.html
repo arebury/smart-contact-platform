@@ -1,0 +1,45 @@
+@if (label()) {
+  <label class="sc-input-number__label" [attr.for]="resolvedId()">
+    {{ label() }}
+    @if (required()) {
+      <span class="sc-input-number__required" aria-hidden="true">*</span>
+    }
+  </label>
+}
+
+<div class="sc-input-number__field" [ngClass]="{ 'sc-input-number__field--has-suffix': hasSuffix() }">
+  <input
+    pInputText
+    class="sc-input-number__control"
+    type="number"
+    inputmode="numeric"
+    [id]="resolvedId()"
+    [placeholder]="placeholder() ?? ''"
+    [disabled]="disabled()"
+    [readonly]="readonly()"
+    [attr.name]="name() ?? null"
+    [attr.min]="min() ?? null"
+    [attr.max]="max() ?? null"
+    [attr.step]="step()"
+    [attr.aria-invalid]="isInvalid() ? true : null"
+    [attr.aria-describedby]="footerText() ? resolvedId() + '-msg' : null"
+    [attr.aria-required]="required() ? true : null"
+    [value]="displayValue()"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+  />
+
+  @if (hasSuffix()) {
+    <span class="sc-input-number__suffix" aria-hidden="true">{{ suffix() }}</span>
+  }
+</div>
+
+@if (footerText()) {
+  <span
+    class="sc-input-number__msg"
+    [class.sc-input-number__msg--error]="!!error()"
+    [id]="resolvedId() + '-msg'"
+  >
+    {{ footerText() }}
+  </span>
+}
