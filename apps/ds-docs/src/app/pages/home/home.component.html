@@ -52,11 +52,14 @@
 <section class="tracking">
   <header class="tracking__head">
     <h2 class="tracking__title">Mi seguimiento</h2>
-    <span class="tracking__count">{{ validatedCount() }} / {{ tracked().length }} validados</span>
+    <span class="tracking__count">{{ validatedCount() }} / {{ tracked().length }} hechos en Figma</span>
   </header>
   <p class="tracking__hint">
-    Checklist personal — marca cada componente cuando lo hayas validado como production-ready
-    en AED. Se guarda en este navegador (localStorage), no se sincroniza con nadie.
+    Para el equipo de diseño — marca cada componente cuando ya esté plasmado en Figma con
+    el nuevo Design System Smart Contact. Es el puente entre el catálogo de código y las
+    pantallas que vais a diseñar: si está marcado, podéis componer con esa pieza sabiendo
+    que el prototipo se parecerá 1:1 al implementado. Se guarda en este navegador
+    (localStorage), no se sincroniza con nadie.
   </p>
 
   <div class="tracker-toolbar" role="search">
@@ -116,7 +119,7 @@
           Todos
         </button>
         <button type="button" class="filter-chip is-validated-chip" [class.is-active]="validationFilter() === 'validated'" (click)="setValidationFilter('validated')">
-          ✓ Validados <span class="filter-chip__count">{{ validatedCount() }}</span>
+          ✓ Hechos en Figma <span class="filter-chip__count">{{ validatedCount() }}</span>
         </button>
         <button type="button" class="filter-chip" [class.is-active]="validationFilter() === 'pending'" (click)="setValidationFilter('pending')">
           Pendientes <span class="filter-chip__count">{{ pendingCount() }}</span>
