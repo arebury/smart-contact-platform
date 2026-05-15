@@ -16,7 +16,7 @@
 
 | #  | Name | Status | Type | Selector | Figma | Figma parity | Doc |
 |----|------|--------|------|----------|-------|--------------|-----|
-| 01 | Button | ✓ | 🟣 Custom-preset | `<p-button>` | TODO | 100% | `docs/components/01-button.md` (TBD) |
+| 01 | Button | ✓ | 🟣 Custom-preset | `<p-button>` | [6738:49717](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-49717) | **100%** — Session 30 audit Nivel-2 contra los 1965 variants Figma. Padding 10.5/7 ✓ matchea preset. Brand divergences (Primary navy, Info electric-blue, Warn amber) documentadas. | `docs/components/01-button.md` |
 | 02 | Modal | ✓ | 🟢 Extended | `<sc-modal>` | TODO | TBD | TODO |
 | 03 | Toast | ✓ | 🟢 Extended | `<sc-toast>` | TODO | TBD | TODO |
 | 04 | Photo upload | ✓ | ⚪ Pure SC | `<sc-photo-upload>` | TODO | TBD | TODO |
