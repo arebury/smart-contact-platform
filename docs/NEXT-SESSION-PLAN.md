@@ -65,6 +65,89 @@ no) migración AED.
 
 ---
 
+## Fase 3 (futura, NO activar todavía) — Memory 3.0 consume tokens de SCDS ("Camino B")
+
+**Contexto**: Memory 3.0 vive en `~/dev/memory/`, su propio repo, stack
+React 18 + Vite + Radix UI + Tailwind. Smart Contact Platform es Angular
+21 + PrimeNG. **No se pueden compartir componentes entre frameworks**,
+pero sí se pueden compartir tokens CSS y specs.
+
+El objetivo de esta fase es: Memory deja de tener su propia copia de
+valores de marca (colores, spacing, radius, type) y consume directamente
+los `--sc-*` que viven en SCDS. Cuando aquí cambiamos un token, Memory
+ve el cambio al hacer pull.
+
+**Cuándo activar (gates explícitos)**:
+
+- [ ] Paleta gray reconciliada (Fase 1 cerrada).
+- [ ] Layer 2 (semantic) estable, sin renames pendientes.
+- [ ] Al menos 5–7 componentes "cocinados" con spec doc en
+  `packages/design-system/docs/components/`.
+- [ ] `customs-catalog.md` creado con las primeras divergencias
+  documentadas.
+
+Hasta que esos 4 puntos estén marcados, NO arrancar esta fase — el
+token layer todavía se mueve.
+
+**Plan concreto cuando se active**:
+
+1. **Decidir mecanismo de distribución** (escoger uno):
+   - **A. Git submodule** del repo SC apuntando solo a
+     `packages/design-system/tokens/`. Memory hace `git submodule update`
+     para pullear cambios. Más control de versión, más plumbing.
+   - **B. npm package publicado** (`@smartcontact/tokens`). Memory hace
+     `npm install @smartcontact/tokens@latest`. Más cómodo, requiere
+     publishing pipeline (probablemente GitHub Actions release on tag).
+   - **C. Script de copia** que ejecutas a mano (o en pre-commit) y
+     copia los `.css` de tokens SC → carpeta `src/styles/tokens/` de
+     Memory. Simplísimo, menos bonito, no hay versionado.
+
+   Recomendación preliminar: **C para empezar** (1 tarde de trabajo) y
+   migrar a A/B si las copias manuales se vuelven dolor.
+
+2. **Setup en Memory**:
+   - Crear `src/styles/sc-tokens/` con las 7 capas copiadas (o
+     submoduladas).
+   - Importar `01-primitive.css` y `02-semantic.css` desde el entry CSS
+     de Memory.
+   - Borrar de Memory cualquier variable propia que duplique un `--sc-*`
+     (probablemente vars de color en `src/styles/`).
+   - Verificar que el build sigue verde y que las pantallas no rompen
+     (Tailwind config sigue intacto; los `--sc-*` se usan en CSS plano,
+     no en clases Tailwind — al menos al principio).
+
+3. **Mapping Tailwind → SCDS tokens** (opcional, second pass):
+   - Si quieres que las clases Tailwind (`bg-slate-100`, `text-gray-700`)
+     de Memory también consuman `--sc-*`, extender el `tailwind.config.ts`
+     de Memory con un theme override que apunte los colores a los
+     `--sc-color-*` correspondientes.
+   - Esto convierte Memory en "consumer puro" de SCDS sin tener que
+     reescribir cada utility class.
+
+4. **Actualizar Memory's `README.md`** explicando que los tokens vienen
+   de SCDS y cómo pullear updates.
+
+5. **Documentar en SCDS** que Memory es consumidor:
+   - Entry en `packages/design-system/docs/consumers.md` (TBD) listando
+     qué apps consumen los tokens y por qué vía.
+   - Esto fuerza a que cualquier cambio breaking de token notifique a
+     todos los consumidores.
+
+**Lo que NO incluye esta fase**:
+
+- NO mover Memory al monorepo. Sigue en su repo propio. Lo único que
+  comparte con SCDS son los tokens.
+- NO reimplementar componentes Angular en React. Memory mantiene sus
+  Radix-based components; lo único que cambia es de dónde sacan los
+  valores de color/spacing.
+- NO publicar componentes Angular como package npm para que Memory los
+  consuma. Imposible cross-framework.
+
+**Tiempo estimado**: 2-4h (Camino C). 6-8h si va por submodule/npm con
+release pipeline.
+
+---
+
 ## Reglas operativas (no cambian)
 
 1. **Verificación obligatoria post-claim**: cuando un agente (Claude /
