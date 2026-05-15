@@ -40,8 +40,6 @@ interface ScInputProps {
   required?: boolean;           // añade * rojo después del label
   helperText?: string;          // texto debajo del input
   error?: string;               // mensaje error (overrides helperText, pinta borde rojo)
-  leftIcon?: string;            // PrimeIcon class, ej. 'pi pi-search'
-  rightIcon?: string;           // PrimeIcon class
 
   // HTML
   type?: 'text' | 'email' | 'password' | 'tel' | 'url' | 'search';  // default 'text'
@@ -105,11 +103,11 @@ emailControl = new FormControl('', [Validators.required, Validators.email]);
 
 ## Tamaños (verificados Figma)
 
-| size | Padding (x / y) | Font size | Icon |
-|------|------------------|-----------|------|
-| `sm` | 8.75 / 5.25 | 12.25px | 12.25px |
-| `md` (default) | 10.5 / 7 | 14px | 14px |
-| `lg` | 12.25 / 8.75 | 15.75px | 15.75px |
+| size | Padding (x / y) | Font size |
+|------|------------------|-----------|
+| `sm` | 8.75 / 5.25 | 12.25px |
+| `md` (default) | 10.5 / 7 | 14px |
+| `lg` | 12.25 / 8.75 | 15.75px |
 
 Todos decimales raw (off-scale en `--sc-spacing-*` / `--sc-font-size-*`). Ver tabla completa de tokens al final del doc.
 
@@ -276,6 +274,6 @@ Auditado Session 30. Tokens verificados vía `mcp__claude_ai_Figma__get_variable
 ## Divergencias documentadas
 
 - **Padding decimal (10.5 / 7, 8.75 / 5.25, 12.25 / 8.75)**: valores raw px porque caen off-scale en `--sc-spacing-*`. Honesto 1:1 con Figma > tokens "limpios". Aplica a sc-input y, vía preset, a sc-select / sc-datepicker / cualquier formField PrimeNG.
-- **Icon size raw decimal (12.25, 15.75)**: misma justificación. `--sc-icon-size-*` no contempla decimales.
 - **Focus border color**: preset usa `--sc-bg-primary` (brand navy) en vez del Figma `#3b82f6` (azure). Decisión SC: el accent visible (electric blue) lo aplica el focusRing CSS, mientras el border respeta la primary. Cambio TBD si la audit visual dice que falta accent.
+- **Sin slots de icon** (ni `leftIcon` ni `rightIcon`): el componente Figma `❖ InputText` no contempla iconos internos. Para casos input+icon el Kit ofrece `❖ InputGroup` como componente separado (8 variants left/right/secondLeft/secondRight). Cuando aparezca el primer caso real en AED, usar `<p-inputgroup>` directo o crear `sc-input-group` wrapper.
 - **Float Label / Ifta Label variants** (4 valores × 2 booleans en Figma): NO implementados como props del `<sc-input>`. La composición Float Label se hace afuera vía `<p-floatlabel>` envolviendo `<sc-input>` (ver sección 9 de la página demo). Ifta Label sin caso real en AED.

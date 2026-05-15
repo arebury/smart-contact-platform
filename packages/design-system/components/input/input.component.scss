@@ -49,39 +49,6 @@
   font-family: inherit;
 }
 
-/* Icon slots — 14×14 (Figma spec), centered vertically, 12px from edge. */
-.sc-input__icon {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 14px;
-  height: 14px;
-  color: var(--sc-text-subtle);
-  font-size: 14px;
-  line-height: 1;
-  pointer-events: none;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.sc-input__icon--left {
-  left: var(--sc-spacing-200);
-}
-
-.sc-input__icon--right {
-  right: var(--sc-spacing-200);
-}
-
-/* Reserve space for icons so the placeholder doesn't slide under them.
- * 14px icon + 8px gap + 12px edge padding = ~34px of inner reserve. */
-.sc-input__field--has-left .sc-input__control {
-  padding-left: calc(var(--sc-spacing-200) + 14px + var(--sc-spacing-150));
-}
-.sc-input__field--has-right .sc-input__control {
-  padding-right: calc(var(--sc-spacing-200) + 14px + var(--sc-spacing-150));
-}
-
 /* ────────────────────────────────────────────────────────────────────
  * Size variants — valores EXACTOS Figma Smart Contact Prime,
  * verificados en nodos 7039:21970 (Small) y 7039:74791 (Large).
@@ -110,17 +77,6 @@
   font-size: 15.75px;
 }
 
-/* Icon size también escala por size (Figma `iconfield/figma/{sm,lg}/icon/size`). */
-.sc-input--sm .sc-input__icon {
-  width: 12.25px;
-  height: 12.25px;
-  font-size: 12.25px;
-}
-.sc-input--lg .sc-input__icon {
-  width: 15.75px;
-  height: 15.75px;
-  font-size: 15.75px;
-}
 
 /* ────────────────────────────────────────────────────────────────────
  * Filled variant — Figma `Filled=True` node 1729:42481.
@@ -151,10 +107,6 @@
   }
 }
 
-.sc-input--invalid .sc-input__icon {
-  color: var(--sc-text-danger);
-}
-
 /* ────────────────────────────────────────────────────────────────────
  * Footer message (helper text OR error).
  * Reserve 1.25em min-height even when empty so toggling validation
@@ -181,9 +133,5 @@
  * ────────────────────────────────────────────────────────────────────
  */
 .sc-input--disabled .sc-input__label {
-  color: var(--sc-text-disabled);
-}
-
-.sc-input--disabled .sc-input__icon {
   color: var(--sc-text-disabled);
 }

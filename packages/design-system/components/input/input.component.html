@@ -7,17 +7,7 @@
   </label>
 }
 
-<div
-  class="sc-input__field"
-  [ngClass]="{
-    'sc-input__field--has-left': hasLeftIcon(),
-    'sc-input__field--has-right': hasRightIcon(),
-  }"
->
-  @if (hasLeftIcon()) {
-    <i class="sc-input__icon sc-input__icon--left {{ leftIcon() }}" aria-hidden="true"></i>
-  }
-
+<div class="sc-input__field">
   <input
     pInputText
     class="sc-input__control"
@@ -36,10 +26,6 @@
     (input)="onInput($event)"
     (blur)="onBlur()"
   />
-
-  @if (hasRightIcon()) {
-    <i class="sc-input__icon sc-input__icon--right {{ rightIcon() }}" aria-hidden="true"></i>
-  }
 </div>
 
 @if (footerText()) {

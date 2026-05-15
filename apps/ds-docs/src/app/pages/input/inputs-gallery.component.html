@@ -53,25 +53,6 @@
     </div>
   </section>
 
-  <!-- 3. With icons. -->
-  <section class="gallery__section">
-    <h2 class="gallery__h2">3 · Iconos (left / right)</h2>
-    <p class="gallery__hint">Iconos PrimeIcon vía <code>[leftIcon]</code> y <code>[rightIcon]</code>. El input reserva espacio para que el placeholder no se solape.</p>
-    <div class="gallery__row gallery__row--grid">
-      <sc-input
-        label="Búsqueda"
-        placeholder="Buscar…"
-        leftIcon="pi pi-search"
-        [(value)]="searchValue"
-      />
-      <sc-input
-        label="URL"
-        placeholder="https://…"
-        rightIcon="pi pi-external-link"
-      />
-    </div>
-  </section>
-
   <!-- 4. Sizes. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">4 · Tamaños (sm / md / lg)</h2>
@@ -150,7 +131,7 @@
       <sc-input label="password" type="password" placeholder="••••••••" autocomplete="current-password" />
       <sc-input label="tel" type="tel" placeholder="+34 600 000 000" autocomplete="tel" />
       <sc-input label="url" type="url" placeholder="https://…" />
-      <sc-input label="search" type="search" placeholder="Buscar…" leftIcon="pi pi-search" />
+      <sc-input label="search" type="search" placeholder="Buscar…" />
     </div>
   </section>
 

@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -38,7 +37,7 @@ let scInputIdCounter = 0;
 @Component({
   selector: 'sc-input',
   standalone: true,
-  imports: [InputTextModule, NgClass],
+  imports: [InputTextModule],
   templateUrl: './input.component.html',
   styleUrl: './input.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,8 +65,6 @@ export class InputComponent implements ControlValueAccessor {
   readonly required = input<boolean>(false);
   readonly helperText = input<string>();
   readonly error = input<string>();
-  readonly leftIcon = input<string>();
-  readonly rightIcon = input<string>();
 
   readonly type = input<ScInputType>('text');
   readonly placeholder = input<string>();
@@ -98,9 +95,6 @@ export class InputComponent implements ControlValueAccessor {
 
   /** Text under the input: error wins over helperText. */
   protected readonly footerText = computed(() => this.error() || this.helperText() || '');
-
-  protected readonly hasLeftIcon = computed(() => !!this.leftIcon());
-  protected readonly hasRightIcon = computed(() => !!this.rightIcon());
 
   // ControlValueAccessor support — backs `[(ngModel)]` and Reactive Forms.
   private _onChange: (v: string) => void = () => {};

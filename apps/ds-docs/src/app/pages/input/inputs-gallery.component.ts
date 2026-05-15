@@ -16,7 +16,6 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 export class InputsGalleryComponent {
   protected readonly textValue = signal('');
   protected readonly emailValue = signal('rafa@smartcontact.io');
-  protected readonly searchValue = signal('');
   protected readonly disabledValue = signal('Disabled value');
   protected readonly errorValue = signal('not-an-email');
   protected readonly ngModelValue = signal('Two-way via ngModel');
