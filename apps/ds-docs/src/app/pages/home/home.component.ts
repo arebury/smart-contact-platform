@@ -126,6 +126,16 @@ export class HomeComponent {
       figmaParity: 100,
     },
     {
+      slug: 'tooltip',
+      name: 'Tooltip',
+      type: 'full-primeng',
+      status: 'ready',
+      pageRoute: '/components/tooltip',
+      whatItDoes: 'Cajita oscura con texto que aparece al pasar el ratón por encima de un botón o icono. Sirve para explicar botones que solo tienen icono (sin texto) o para añadir contexto a un campo.',
+      whereToSee: 'AED tiene tooltips en los botones icon-only de las tablas (ej: el botón "borrar" papelera). En ds-docs tienes ejemplos interactivos.',
+      figmaParity: 100,
+    },
+    {
       slug: 'modal',
       name: 'Modal',
       type: 'extended',

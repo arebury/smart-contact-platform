@@ -41,6 +41,11 @@ export const appRoutes: Routes = [
       import('./pages/tabs/tabs-gallery.component').then((m) => m.TabsGalleryComponent),
   },
   {
+    path: 'components/tooltip',
+    loadComponent: () =>
+      import('./pages/tooltip/tooltip-gallery.component').then((m) => m.TooltipGalleryComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

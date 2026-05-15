@@ -1,0 +1,75 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Tooltip</h1>
+    <p class="gallery__lede">
+      <code>[pTooltip]</code> es una directiva de PrimeNG, no un componente con slot. Se aplica como atributo a cualquier elemento (típicamente botones icon-only o iconos info). Tokens visuales ajustados a Figma vía <code>sc-preset.ts</code>. Categoría 🟦 <strong>Full PrimeNG passthrough</strong>.
+    </p>
+  </header>
+
+  <!-- 1. Basic — hover para ver tooltip. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Basic (hover)</h2>
+    <p class="gallery__hint">Pasa el ratón por encima del botón para ver el tooltip. Default position = right.</p>
+    <div class="gallery__row gallery__row--grid">
+      <p-button label="Hover me" pTooltip="Soy un tooltip básico" />
+    </div>
+  </section>
+
+  <!-- 2. Positions. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Posiciones (right / left / top / bottom)</h2>
+    <p class="gallery__hint">
+      <code>tooltipPosition</code> = right (default) / left / top / bottom. PrimeNG calcula la flecha automáticamente.
+    </p>
+    <div class="gallery__row gallery__row--grid">
+      <p-button label="Right" pTooltip="A la derecha" tooltipPosition="right" />
+      <p-button label="Left" pTooltip="A la izquierda" tooltipPosition="left" />
+      <p-button label="Top" pTooltip="Arriba" tooltipPosition="top" />
+      <p-button label="Bottom" pTooltip="Abajo" tooltipPosition="bottom" />
+    </div>
+  </section>
+
+  <!-- 3. Icon-only with tooltip (típico AED). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Botón icon-only (el caso más común)</h2>
+    <p class="gallery__hint">
+      Patrón típico: botón sin label necesita <code>[aria-label]</code> O <code>[pTooltip]</code> para accesibilidad. PrimeNG aplica el tooltip text como aria-label automáticamente.
+    </p>
+    <div class="gallery__row gallery__row--grid">
+      <p-button icon="pi pi-refresh" severity="secondary" pTooltip="Recargar" tooltipPosition="bottom" />
+      <p-button icon="pi pi-trash" severity="danger" pTooltip="Borrar" tooltipPosition="bottom" />
+      <p-button icon="pi pi-cog" severity="secondary" pTooltip="Ajustes" tooltipPosition="bottom" />
+      <p-button icon="pi pi-info-circle" severity="info" pTooltip="Más información sobre este apartado" tooltipPosition="bottom" />
+    </div>
+  </section>
+
+  <!-- 4. Long text — verifica max-width Figma 175px. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Texto largo (max-width 175px)</h2>
+    <p class="gallery__hint">
+      Figma define <code>tooltip/max/width: 175px</code>. Textos largos hacen wrap automático dentro de ese límite.
+    </p>
+    <div class="gallery__row">
+      <p-button
+        label="Hover me"
+        pTooltip="Este es un tooltip muy largo que va a hacer wrap en varias líneas porque excede los 175px de ancho máximo definidos en el spec del Figma."
+        tooltipPosition="bottom"
+      />
+    </div>
+  </section>
+
+  <!-- 5. On any element (no solo botones). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">5 · En cualquier elemento (icono, texto, etc.)</h2>
+    <p class="gallery__hint">
+      <code>[pTooltip]</code> se aplica a cualquier elemento HTML. Útil para ayuda contextual en labels, iconos info, etc.
+    </p>
+    <div class="gallery__row gallery__row--grid">
+      <span style="display:inline-flex;align-items:center;gap:6px;cursor:help">
+        Capacidad del grupo
+        <i class="pi pi-info-circle" style="font-size:14px;color:var(--sc-color-gray-400)" pTooltip="Número máximo de agentes simultáneos en el grupo."></i>
+      </span>
+    </div>
+  </section>
+</div>
