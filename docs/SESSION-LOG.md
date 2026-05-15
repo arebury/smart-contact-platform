@@ -63,9 +63,40 @@
 - **Memory**: cero integración. Camino B sigue con los 4 gates ✅.
 - **Bugs silenciosos del SCSS arreglados**: select/multi-select/datepicker (variants filled + invalid hover/focus ya funcionales). sc-select label truncation arreglado.
 
-### Commits Session 31 (18 total)
+### Bloque 4 — Migraciones Fase 1.A/1.B + auditoría pure-sc (2 commits)
+
+**Migraciones (commit `a2c0203`)**:
+- agent-form-page (4 inputs): email + phone + pin + iframe-url. Componente
+  sc-input enriquecido con prop `inputmode` (hint al teclado virtual mobile).
+- aed-servicio-page (1 input): callblending-url.
+- aed-agentes-page (2 inputs): iframe-url + iframe-titulo.
+- Handlers legacy huérfanos eliminados.
+
+**NO migrados** (gap conocido — necesitan sc-input-group / sc-search wrappers):
+- Search bars `.page__search-input` en list pages (agents-list, groups-list,
+  labels, templates, repo-list).
+- `tag-input__field` (input + botón Add) en aed-servicio estados.
+- `picker-search__input` (input + icon + clear) en agent-form agendas/plantillas.
+- `search__input` + `confirm__input` en sistema-page regen.
+
+**Auditoría profunda pure-sc** (22 componentes): cero issues detectados.
+- 0 console.* / debugger huérfanos.
+- 0 falta OnPush ChangeDetection.
+- 0 NgClass single-use mejorable a `[class.X]`.
+- 0 SCSS selector bug pattern (`.sc-X__control .p-Y` descendant cuando ambas
+  clases viven en mismo elemento — el bug que afectaba a 3 Extended).
+- 0 TODOs / FIXMEs huérfanos.
+- 0 dead imports.
+
+Catálogo pure-sc en muy buen estado. La auditoría más profunda (comentarios
+WHY donde no obvios, a11y aria-*, naming consistency) queda para sesión
+dedicada futura — componente por componente.
+
+### Commits Session 31 (20 total)
 
 ```
+a2c0203 feat(aed): migrate 7 native text/email/url inputs to sc-input
+f9ce216 docs(close): session 31 log + plan refresh (sesión sigue abierta)
 4754fbf chore(extended): cleanup post-audit — fix CSS dead selectors en multi-select + datepicker
 c219bb0 chore(sc-input,sc-select): cleanup post-audit — dead code + SCSS selector bug
 b7cf53f docs(customs-catalog): añadir checklist anti-divergencia + sección 5 gaps conocidos
