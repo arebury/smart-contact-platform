@@ -10,6 +10,119 @@
 
 ---
 
+## 2026-05-15 · Session 30 — Paleta gray → Aura slate + Figma 1:1 audits + 5 componentes cocinados
+
+> Sesión larga ("todo el día"). Cerramos Fase 1 (paleta) con editorial-redesign del audit HTML,
+> cocinamos 3 componentes nuevos (input-number, select, datepicker), retro-auditamos los 2 viejos
+> (button, input) ahora que el usuario pidió rigor Figma 1:1 token-by-token, y añadimos tabs +
+> tooltip como Custom-preset / Full PrimeNG. 11 commits a main.
+
+### Worked on
+
+- **Fase 1 cerrada — paleta `--sc-color-gray-*` → Aura slate**. Swap de 11 valores en
+  `01-primitive.css`, baseline + after Playwright en 10 pantallas AED × light/dark = 40 PNGs.
+  Diff HTML `e2e/screenshots/diff.html` con scrollable notes, smooth-scroll anchors, FAB,
+  pulse highlight, atajos teclado, y dual theme toggle. Verificado live vía script
+  `e2e/verify-palette.ts`.
+- **Editorial redesign del diff page** vía skill `/ui-ux-pro-max` (Swiss Modernism 2.0 + Dark
+  OLED): tipografía Space Grotesk + Inter + JetBrains Mono, single-accent electric-blue,
+  numbered screen pagination, theme persistence en localStorage. Eating-own-dogfood: el chrome
+  del audit usa los tokens slate que justifica.
+- **ds-docs public assets glob** añadido a `angular.json` para que `apps/ds-docs/public/audits/`
+  se deploye al site. Bundle audit copiado y commiteado bajo `audits/2026-05-15-palette-slate/`.
+  ZIP en `~/Downloads/` para compartir local.
+- **sc-input-number cocinado** end-to-end: wrapper sobre `<input type="number">` con suffix
+  unidad, min/max/step, value `number | null`. Página `/components/input-number` (8 secciones),
+  spec doc 03-input-number.md, inventory + tracker.
+- **sc-select cocinado** end-to-end: wrapper sobre `<p-select>`, options string[] o objects,
+  optionLabel/optionValue, filter+filterBy, showClear, sizes. Página `/components/select` (8
+  secciones), spec doc 04-select.md.
+- **sc-datepicker cocinado** end-to-end: wrapper sobre `<p-datepicker>`, single date popup +
+  inline, view date/month/year, min/max, button-bar. Página `/components/datepicker` (10
+  secciones), spec doc 05-datepicker.md.
+- **Audit retroactivo sc-input contra Figma** (canvas 6738:46804, 240 variants, 8 ejes).
+  Cambios:
+  - Preset `formField.paddingX/Y` de `--sc-spacing-200/100 (12/8)` → raw `10.5px/7px`. Afecta
+    globalmente todos los formFields PrimeNG (input, select, datepicker, multiselect…). Ajuste
+    fino de 1.5px x, 1px y.
+  - Sizes sm/lg con valores Figma decimales: sm 12.25 font + 8.75/5.25 padding; lg 15.75 font
+    + 12.25/8.75 padding. Iconos 12.25 / 15.75.
+  - Nuevo prop `[filled]` con bg slate-50 (Figma `Filled=True` variant 1729:42481).
+- **Audit retroactivo sc-button contra Figma** (canvas 6738:49717, 1965 variants, 9 ejes).
+  Spec doc 01-button.md creado (era TBD). Padding/radius/weight/gap ya alineados post-input
+  audit. Tres brand divergences confirmadas y documentadas (Primary navy vs azure, Info
+  electric-blue vs sky, Warn amber vs orange).
+- **Audit retroactivo sc-select** (canvas 6738:22642, 258 variants). Mismas sizes decimales que
+  input, nuevo prop `[filled]`, invalid border red-400 / placeholder red-600 ya alineados con
+  `--sc-border-error / --sc-text-danger`.
+- **sc-tabs como Custom-preset** (canvas 6738:49740). Overrides en `components.tabs` para tab
+  padding 14/15.75 y tabpanel padding 12.25/15.75/15.75/15.75 (Aura defaults divergían 1rem).
+  Página `/components/tabs` (basic, scrollable, con iconos). Spec doc 06-tabs.md.
+- **pTooltip como Full PrimeNG** (canvas 6738:50212). Overrides `components.tooltip.root` con
+  bg slate-700, padding 10.5/7, max-width 175. Página `/components/tooltip` (basic, posiciones,
+  icon-only, texto largo). Spec doc 07-tooltip.md.
+
+### Decisiones clave
+
+- **`formField.paddingX/Y` raw px sin token**: el Figma 10.5/7 cae off-scale en `--sc-spacing-*`.
+  Honesto 1:1 > "tokens limpios redondeados". Aplica a TODOS los form fields.
+- **Brand divergences explícitas en spec docs**: en lugar de "respetar Figma literalmente"
+  conservamos las decisiones SC (Primary navy, Info electric-blue, Warn amber, Tabs active navy)
+  y las documentamos como divergencias intencionadas con razón.
+- **Sizes sm/lg con decimales raw**: sc-input sm 12.25/8.75/5.25, lg 15.75/12.25/8.75. Mismo
+  patrón en sc-select. Aplicado vía `.sc-input--sm/lg` overrides porque PrimeNG `[size]` no
+  cubre estos decimales.
+- **Memoria nueva**: `feedback_figma_specs_thorough.md` registra el principio "réplica exacta
+  1:1 cuando hay Figma MCP, cero aproximaciones, extraer variables de TODAS las variantes
+  antes de codear". Vinculada en MEMORY.md.
+
+### Lo que NO se cerró
+
+- **Netlify ds-smartcontact no redeploya** desde commit `8fb3d49` de la sesión 29 (mañana). La
+  build live sigue siendo `main-I4GZGIIL.js` — anterior a todos los commits de hoy. Causa
+  desconocida (auto-deploys off, build silently failing, queue stuck). El URL público del audit
+  `https://ds-smartcontact.netlify.app/audits/2026-05-15-palette-slate/diff.html` redirige al
+  SPA. **Workaround entregado**: ZIP en `~/Downloads/sc-palette-audit-2026-05-15.zip` (5.3 MB)
+  para compartir vía Slack/Drive. Diagnóstico vía Netlify dashboard requerido por el usuario.
+- **Polish visual de ds-docs con /ui-ux-pro-max + /impeccable**: pedido como mejora futura.
+  Sin urgencia. Recomendado activar cuando lleguemos a 8-10 componentes documentados (ahora
+  vamos por 7 cocinados + 24 migrados sin spec).
+- **POC migración sc-input-number en AED**: diferida porque toca contrato del store
+  (`capacityValue: string` → `number | null` afectaría 5 sitios). Recipe en spec doc 03.
+- **POC migración 20+ `<select>` nativos en AED** con `<sc-select>`: por feature al tocarse.
+
+### Fricciones que costaron tiempo (anotar para evitar)
+
+- **Asunción de specs sin verificar variantes** (sc-datepicker primera versión): saqué tokens
+  solo del Focus panel default. El usuario corrigió, ahora todas las audits Figma son
+  exhaustivas por variant. Memoria guardada.
+- **PrimeNG token shape ≠ flat**: tooltip esperaba `root: {}` wrapper. Build falla con
+  TS2353. Para futuras Custom-preset additions, comprobar el `.d.ts` de
+  `@primeuix/themes/types/<component>` antes de escribir.
+- **MCP get_metadata 500KB+ outputs**: button canvas devolvió 501k chars que no caben en
+  context. Solución: persisted file + parse con python regex (axes + canonical lookup).
+
+### Commits pusheados a main (11)
+
+- `07bf868` docs(close): session 29 log + plan refresh post-icloud-migration
+- `869ae37` docs(plan): mark Netlify Fase 1 as done (Netlify verification)
+- `0d818f9` docs(plan): add Fase 3 future — Memory consumes SCDS tokens (Camino B)
+- `39acb17` feat(tokens): align --sc-color-gray-* ramp to Aura slate
+- `035ef08` chore(ds-docs): wire public/ assets glob + publish palette audit
+- `04dd6b1` chore(audit): editorial redesign of palette diff page + nav improvements
+- `2782ecb` feat(input-number): cook sc-input-number + ds-docs page + spec doc
+- `40607be` feat(select): cook sc-select wrapping p-select + ds-docs + spec doc
+- `2318c2f` feat(datepicker): cook sc-datepicker 1:1 with Figma + full variant token table
+- `629eb6b` fix(input,preset): retroactive Figma 1:1 audit + filled variant
+- `1cfed2d` docs(button): Nivel-2 Figma audit + spec doc 01-button.md
+- `bd3995c` fix(select): retroactive Figma 1:1 audit + filled variant + sm/lg fixes
+- `8b9e080` feat(tabs,tooltip): Custom-preset overrides 1:1 with Figma + sc-tabs gallery
+- `a03cd20` feat(tooltip): document [pTooltip] 1:1 with Figma + ds-docs gallery
+
+(14 en total — algunos fueron doc-only, etiquetados feat/fix/docs/chore según corresponda.)
+
+---
+
 ## 2026-05-15 · Session 29 — iCloud migration + Netlify blocker fix + tracker non-dev rewrite
 
 > Sesión de infra "de mantenimiento" que limpia tres deudas: el deploy de
