@@ -16,7 +16,7 @@
         <a class="component-card" [routerLink]="c.pageRoute">
           <span class="component-card__status is-ready">{{ c.status }}</span>
           <h3 class="component-card__name">{{ c.name }}</h3>
-          <p class="component-card__summary">{{ c.summary }}</p>
+          <p class="component-card__summary">{{ c.whatItDoes }}</p>
         </a>
       }
     }
@@ -60,7 +60,11 @@
               </span>
             }
           </div>
-          <p class="tracker-item__summary">{{ item.summary }}</p>
+          <p class="tracker-item__summary">{{ item.whatItDoes }}</p>
+          <p class="tracker-item__where">
+            <span class="tracker-item__where-label">Dónde verlo:</span>
+            {{ item.whereToSee }}
+          </p>
         </div>
       </li>
     }

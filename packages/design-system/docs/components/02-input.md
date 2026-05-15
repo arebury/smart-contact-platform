@@ -131,11 +131,57 @@ Cambiar la apariencia de TODOS los inputs SC = editar `sc-preset.ts`, no este co
 - El espacio del `__msg` (helper/error) tiene `min-height: 1.25em` — el layout NO se desplaza cuando aparece/desaparece el mensaje.
 - Los iconos están absolutos sobre el input — no empujan el placeholder.
 
+## Float Label (composición con `<p-floatlabel>`)
+
+`<sc-input>` está pensado para el patrón **label encima del input** (gestiona el `<label>` por dentro). Para el patrón **label flotante** — el que entra/sale del campo al hacer focus — usar el wrapper nativo de PrimeNG `<p-floatlabel>` envolviendo un `pInputText`, sin `<sc-input>`. Los tokens visuales (border, focus ring, paleta) se aplican igual porque `pInputText` lee de `sc-preset.formField.*`.
+
+Tres variantes según dónde aparece el label cuando el campo está enfocado:
+
+| Variante | Comportamiento | Cuándo usarla |
+|---|---|---|
+| `over` (default) | Label dentro al estar vacío; sube fuera al hacer focus o tener valor. | Forms compactos donde la label arriba ocuparía demasiado vertical. |
+| `in` | Label dentro siempre, encogido arriba cuando hay valor. | Forms muy densos (filtros, búsquedas avanzadas). |
+| `on` | Label sentado sobre el borde superior del input. | Materializa-style; útil cuando la label es larga. |
+
+```typescript
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextModule } from 'primeng/inputtext';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  standalone: true,
+  imports: [FloatLabelModule, InputTextModule, FormsModule],
+  template: `
+    <p-floatlabel variant="over">
+      <input pInputText id="email" [(ngModel)]="email" autocomplete="email" />
+      <label for="email">Email</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="in">
+      <input pInputText id="name" [(ngModel)]="name" autocomplete="off" />
+      <label for="name">Nombre completo</label>
+    </p-floatlabel>
+
+    <p-floatlabel variant="on">
+      <input pInputText id="company" [(ngModel)]="company" autocomplete="organization" />
+      <label for="company">Empresa</label>
+    </p-floatlabel>
+  `,
+})
+export class FormWithFloatLabel {
+  email = '';
+  name = '';
+  company = '';
+}
+```
+
+**No-goal actual**: integrar `[floatLabel]="'in' | 'on' | 'over'"` como prop de `<sc-input>`. Cocinar sólo cuando aparezca un caso real en AED que necesite combinar float label con la API de `<sc-input>` (helper, error, iconos). De momento, los dos patrones coexisten.
+
 ## Decisiones de divergencia con Figma
 
 - **Border radius**: la Figma usa 6px. Mantenemos via `sc-preset.formField.borderRadius = var(--sc-radius-200)`. ✓ aligned.
 - **Padding Y**: Figma usa 8px en tamaño normal. Mantenemos via `sc-preset.formField.paddingY = var(--sc-spacing-200)`. ✓ aligned.
-- **Float Label** y **Ifta Label** del Figma: NO implementados en v0.1. Si aparece caso real, cocinar variante después.
+- **Ifta Label** del Figma: NO implementado. Es un caso poco común; si aparece, cocinar variante después.
 - **Filled variant** del Figma: NO implementado. Es un look "input con valor pre-relleno" que en Angular se consigue con CSS `:not(:placeholder-shown)` si hace falta — sin variante explícita.
 
 ## Migración desde el patrón AED viejo

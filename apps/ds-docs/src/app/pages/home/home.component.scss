@@ -282,6 +282,23 @@
   color: var(--sc-text-subtle);
 }
 
+.tracker-item__where {
+  margin: 6px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--sc-text-soft, var(--sc-text-subtle));
+  padding: 6px 10px;
+  border-left: 2px solid var(--sc-color-electric-blue-300, var(--sc-color-blue-300));
+  background: color-mix(in srgb, var(--sc-color-electric-blue-50, var(--sc-color-blue-50)) 40%, transparent);
+  border-radius: 0 4px 4px 0;
+}
+
+.tracker-item__where-label {
+  font-weight: 600;
+  color: var(--sc-text-primary);
+  margin-right: 4px;
+}
+
 /* Type badges — color-coded per category */
 .tracker-item__badge {
   font-size: 10px;

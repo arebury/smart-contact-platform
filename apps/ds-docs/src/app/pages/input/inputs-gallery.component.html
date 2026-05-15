@@ -135,4 +135,31 @@
       <sc-input label="search" type="search" placeholder="Buscar…" leftIcon="pi pi-search" />
     </div>
   </section>
+
+  <!-- 9. Float label (composition with PrimeNG p-floatlabel). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">9 · Float label</h2>
+    <p class="gallery__hint">
+      Patrón alternativo: la label flota dentro del campo y se reduce al hacer focus o cuando hay valor. Se compone con
+      <code>&lt;p-floatlabel&gt;</code> envolviendo un <code>pInputText</code> — NO se usa <code>&lt;sc-input&gt;</code>
+      aquí porque <code>&lt;sc-input&gt;</code> gestiona su propia label arriba. Tokens visuales y focus ring siguen
+      siendo los de SCDS.
+    </p>
+    <div class="gallery__row gallery__row--grid">
+      <p-floatlabel variant="over">
+        <input pInputText id="float-over" [(ngModel)]="floatOverValue" autocomplete="off" />
+        <label for="float-over">Email (variant="over")</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="in">
+        <input pInputText id="float-in" [(ngModel)]="floatInValue" autocomplete="off" />
+        <label for="float-in">Nombre (variant="in")</label>
+      </p-floatlabel>
+
+      <p-floatlabel variant="on">
+        <input pInputText id="float-on" [(ngModel)]="floatOnValue" autocomplete="off" />
+        <label for="float-on">Empresa (variant="on")</label>
+      </p-floatlabel>
+    </div>
+  </section>
 </div>
