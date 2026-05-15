@@ -452,6 +452,19 @@ export class HomeComponent {
   protected readonly unusedCount = computed(() => this.catalog.filter((c) => c.aedUses === 0).length);
 
   /**
+   * Spec docs publicados — count manual sincronizado con
+   * `packages/design-system/docs/components/*.md`. Bumpear cuando se añada
+   * un spec doc nuevo. Mantener hardcoded (vs dynamic import) para no
+   * acoplar al filesystem desde el cliente.
+   */
+  protected readonly specDocsCount = 33;
+
+  /** Componentes con gallery interactiva en este sitio (entries con pageRoute). */
+  protected readonly galleriesCount = computed(
+    () => this.catalog.filter((c) => !!c.pageRoute).length,
+  );
+
+  /**
    * Lista filtrada por search + tipo + validación.
    * Search matchea name + whatItDoes + whereToSee (case-insensitive).
    */
