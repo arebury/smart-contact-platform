@@ -1,4 +1,10 @@
-<label class="tri-checkbox" [class.tri-checkbox--disabled]="disabled()">
+<label
+  class="tri-checkbox"
+  [class.tri-checkbox--disabled]="disabled()"
+  [class.tri-checkbox--sm]="size() === 'sm'"
+  [class.tri-checkbox--lg]="size() === 'lg'"
+  [class.tri-checkbox--filled]="filled()"
+>
   <input
     #input
     type="checkbox"

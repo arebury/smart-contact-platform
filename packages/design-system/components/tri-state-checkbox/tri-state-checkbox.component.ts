@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 
 export type TriState = 'none' | 'some' | 'all';
+export type ScCheckboxSize = 'sm' | 'md' | 'lg';
 
 let triStateIdCounter = 0;
 
@@ -42,6 +43,10 @@ export class TriStateCheckboxComponent implements AfterViewInit {
   readonly state = input.required<TriState>();
   readonly disabled = input<boolean>(false);
   readonly ariaLabel = input<string | null>(null);
+  /** Size variant (Figma `Size=Small/Normal/Large`). Default 'md' (17.5px). */
+  readonly size = input<ScCheckboxSize>('md');
+  /** Filled background variant (Figma `Filled=True`): bg slate-50 cuando unchecked. */
+  readonly filled = input<boolean>(false);
 
   /** Emits the next intended boolean state — see cycle behavior above. */
   readonly cycle = output<boolean>();
