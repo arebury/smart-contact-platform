@@ -1,3 +1,14 @@
+@use '../../../../../../packages/design-system/styles/sc-toast';
+
+/* ════════════════════════════════════════════════════════════════════
+ * sc-toast — chrome styles importadas desde el partial compartido del
+ * design-system (single source of truth — mismo @use que usa AED's
+ * app.component.scss).
+ *
+ * Los strips `:host ::ng-deep .p-toast …` al final son locales —
+ * necesitan view encapsulation del componente Angular.
+ * ════════════════════════════════════════════════════════════════════ */
+
 .gallery {
   max-width: 840px;
   display: flex;
@@ -158,98 +169,6 @@
   &:hover {
     border-color: var(--sc-border-strong);
     background: var(--sc-bg-secondary-hover);
-  }
-}
-
-/* ════════════════════════════════════════════════════════════════════
- * Local copy of the sc-toast styles from AED's app.component.scss.
- * TODO Session 31: extract to packages/design-system/styles/_sc-toast.scss
- * and @import from both AED and ds-docs to avoid drift.
- * ════════════════════════════════════════════════════════════════════ */
-
-.sc-toast {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--sc-toast-gap-content);
-  width: var(--sc-toast-width);
-  padding: var(--sc-toast-padding-y) var(--sc-toast-padding-x);
-  border: 1px solid var(--sc-toast-info-border);
-  border-radius: var(--sc-toast-radius);
-  background: var(--sc-toast-info-bg);
-  backdrop-filter: blur(var(--sc-toast-backdrop-blur));
-  -webkit-backdrop-filter: blur(var(--sc-toast-backdrop-blur));
-  color: var(--sc-toast-title);
-
-  &[data-severity='success'] { background: var(--sc-toast-success-bg); border-color: var(--sc-toast-success-border); }
-  &[data-severity='info']    { background: var(--sc-toast-info-bg);    border-color: var(--sc-toast-info-border); }
-  &[data-severity='warn']    { background: var(--sc-toast-warn-bg);    border-color: var(--sc-toast-warn-border); }
-  &[data-severity='error']   { background: var(--sc-toast-error-bg);   border-color: var(--sc-toast-error-border); }
-  &[data-severity='secondary'] { background: var(--sc-toast-violet-bg); border-color: var(--sc-toast-violet-border); }
-
-  &__icon {
-    flex: 0 0 auto;
-    width: var(--sc-toast-icon-size);
-    height: var(--sc-toast-icon-size);
-    display: flex; align-items: center; justify-content: center;
-    border-radius: var(--sc-toast-icon-radius);
-    color: var(--sc-toast-icon-fg);
-    .sc-toast[data-severity='success'] &   { background: var(--sc-toast-success-icon-bg); }
-    .sc-toast[data-severity='info'] &      { background: var(--sc-toast-info-icon-bg); }
-    .sc-toast[data-severity='warn'] &      { background: var(--sc-toast-warn-icon-bg); }
-    .sc-toast[data-severity='error'] &     { background: var(--sc-toast-error-icon-bg); }
-    .sc-toast[data-severity='secondary'] & { background: var(--sc-toast-violet-icon-bg); }
-  }
-
-  &__body { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: var(--sc-toast-gap-text); }
-
-  &__title {
-    font-family: var(--sc-font-family-primary);
-    font-weight: var(--sc-toast-summary-font-weight);
-    font-size: var(--sc-toast-summary-font-size);
-    line-height: var(--sc-line-height-220);
-    color: var(--sc-toast-title);
-  }
-
-  &__message {
-    font-family: var(--sc-font-family-primary);
-    font-weight: var(--sc-toast-detail-font-weight);
-    font-size: var(--sc-toast-detail-font-size);
-    line-height: var(--sc-line-height-100);
-    color: var(--sc-toast-message);
-  }
-
-  &__action {
-    flex: 0 0 auto;
-    align-self: flex-start;
-    padding: 6px var(--sc-spacing-200);
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-200);
-    background: var(--sc-bg-surface);
-    color: var(--sc-toast-title);
-    font-family: var(--sc-font-family-primary);
-    font-size: var(--sc-font-size-100);
-    font-weight: var(--sc-font-weight-medium);
-    line-height: 1;
-    cursor: pointer;
-    transition: background 120ms ease, transform 120ms ease;
-    &:hover { background: var(--sc-bg-subtle); transform: scale(1.04); }
-    &:active { transform: scale(0.98); }
-    &:focus-visible { outline: 2px solid var(--sc-border-focus); outline-offset: 2px; }
-  }
-
-  &__close {
-    flex: 0 0 auto;
-    align-self: flex-start;
-    margin-left: 4px;
-    width: var(--sc-toast-close-button-width);
-    height: var(--sc-toast-close-button-height);
-    padding: 0; border: 0; background: transparent;
-    color: var(--sc-toast-close);
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    border-radius: var(--sc-toast-close-button-radius);
-    &:hover { background: rgb(0 0 0 / 0.06); }
-    &:focus-visible { outline: 2px solid var(--sc-border-focus); outline-offset: 2px; }
   }
 }
 

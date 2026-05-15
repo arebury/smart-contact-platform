@@ -1,211 +1,21 @@
+/* ════════════════════════════════════════════════════════════════════
+ * sc-toast — chrome styles importadas desde el partial compartido en
+ * el design-system. La clase `.sc-toast` y todas sus descendientes
+ * viven en `packages/design-system/styles/_sc-toast.scss` para que AED
+ * y ds-docs compartan una única source of truth.
+ *
+ * Ver `packages/design-system/docs/components/10-toast.md` para spec
+ * completo (tokens por severity + SC extensions documentadas).
+ *
+ * Los strips `:host ::ng-deep .p-toast …` MÁS ABAJO en este archivo
+ * NO se pueden mover al partial — necesitan estar dentro del
+ * componente Angular con view encapsulation. Se mantienen locales.
+ * ════════════════════════════════════════════════════════════════════ */
+@use '../../../../packages/design-system/styles/sc-toast';
+
 :host {
   display: block;
   height: 100%;
-}
-
-/*
- * Toast — Smart Contact design system.
- *
- * Auditado 1:1 con Figma `Smart Contact Prime → ❖ Toast` (canvas
- * 6738:53165) en Session 30. Cambios visuales clave vs versión previa:
- *   - width 400 → 350px (Figma `toast/width`)
- *   - radius 12 → 6px (Figma `toast/border/radius`)
- *   - padding 16 → 10.5px (Figma `toast/content/padding` raw)
- *   - icon 24 → 15.75px (Figma `toast/icon/size`)
- *   - borders pasan de severity-500/600 (saturated) a severity-200
- *     (tinted) — match Figma frosted-notification look
- *   - backdrop-filter blur 1.5px (Figma `toast/blur`)
- *   - close button 24px → 24.5px circular (radius 12.25)
- *
- * Layout: icon · body · optional action button · close X (single row).
- *
- * SC extensions sobre PrimeNG Toast:
- *   - Severity 'secondary' overloaded → violet tone (NOT slate como
- *     Figma) para "neutral notices" tipo "borrador creado".
- *   - Action button slot (data-undoId en el message) — Figma NO modela
- *     botón de acción, es undo-pattern SC.
- *   - Icon-square chrome (background colored behind the glyph) — Figma
- *     no lo modela, es SC extension.
- *
- * All colors flow through `--sc-toast-*` tokens (layer 4 — component).
- */
-.sc-toast {
-  display: flex;
-  align-items: flex-start;
-  gap: var(--sc-toast-gap-content);
-  width: var(--sc-toast-width);
-  padding: var(--sc-toast-padding-y) var(--sc-toast-padding-x);
-  border: 1px solid var(--sc-toast-info-border);
-  border-radius: var(--sc-toast-radius);
-  background: var(--sc-toast-info-bg);
-  /* Backdrop blur — frosted-glass effect per Figma `toast/blur: 1.5`. */
-  backdrop-filter: blur(var(--sc-toast-backdrop-blur));
-  -webkit-backdrop-filter: blur(var(--sc-toast-backdrop-blur));
-  color: var(--sc-toast-title);
-
-  &[data-severity='success'] {
-    background: var(--sc-toast-success-bg);
-    border-color: var(--sc-toast-success-border);
-  }
-
-  &[data-severity='info'] {
-    background: var(--sc-toast-info-bg);
-    border-color: var(--sc-toast-info-border);
-  }
-
-  &[data-severity='warn'] {
-    background: var(--sc-toast-warn-bg);
-    border-color: var(--sc-toast-warn-border);
-  }
-
-  &[data-severity='error'] {
-    background: var(--sc-toast-error-bg);
-    border-color: var(--sc-toast-error-border);
-  }
-
-  /* Violet "neutral notice" — used for state changes that aren't a
-   * celebration (e.g. "Borrador creado", "Renombrado"). Quieter than
-   * success, more present than info. Maps to PrimeNG `severity: 'secondary'`. */
-  &[data-severity='secondary'] {
-    background: var(--sc-toast-violet-bg);
-    border-color: var(--sc-toast-violet-border);
-  }
-
-  &__icon {
-    flex: 0 0 auto;
-    width: var(--sc-toast-icon-size);
-    height: var(--sc-toast-icon-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--sc-toast-icon-radius);
-    color: var(--sc-toast-icon-fg);
-
-    .sc-toast[data-severity='success'] & {
-      background: var(--sc-toast-success-icon-bg);
-    }
-    .sc-toast[data-severity='info'] & {
-      background: var(--sc-toast-info-icon-bg);
-    }
-    .sc-toast[data-severity='warn'] & {
-      background: var(--sc-toast-warn-icon-bg);
-    }
-    .sc-toast[data-severity='error'] & {
-      background: var(--sc-toast-error-icon-bg);
-    }
-    .sc-toast[data-severity='secondary'] & {
-      background: var(--sc-toast-violet-icon-bg);
-    }
-  }
-
-  &__body {
-    flex: 1 1 auto;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sc-toast-gap-message);
-  }
-
-  &__title {
-    /* Figma `toast/summary/font/size: 14`, `toast/summary/font/weight: 500`. */
-    font-family: var(--sc-font-family-primary);
-    font-weight: var(--sc-toast-summary-font-weight);
-    font-size: var(--sc-toast-summary-font-size);
-    line-height: var(--sc-line-height-220);
-    color: var(--sc-toast-title);
-  }
-
-  &__message {
-    /* Figma `toast/detail/font/size: 12.25` raw, `toast/detail/font/weight: 500`. */
-    font-family: var(--sc-font-family-primary);
-    font-weight: var(--sc-toast-detail-font-weight);
-    font-size: var(--sc-toast-detail-font-size);
-    line-height: var(--sc-line-height-100);
-    color: var(--sc-toast-message);
-  }
-
-  &__action {
-    flex: 0 0 auto;
-    align-self: flex-start;
-    /* 6px Y is off the spacing scale (4 → 8 has no in-between step) — kept raw. */
-    padding: 6px var(--sc-spacing-200);
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-200);
-    background: var(--sc-bg-surface);
-    color: var(--sc-toast-title);
-    font-family: var(--sc-font-family-primary);
-    font-size: var(--sc-font-size-100);
-    font-weight: var(--sc-font-weight-medium);
-    line-height: 1;
-    cursor: pointer;
-    /* Scale 1.04 grows the chip ~1px each side — enough to feel reactive
-     * without shifting surrounding layout (transforms don't trigger CLS).
-     * Pair with the background change so the hover reads as both "warmer"
-     * and "lifted". */
-    transform-origin: center;
-    transition:
-      background var(--sc-transition-fast, 120ms) ease,
-      transform var(--sc-transition-fast, 120ms) ease;
-
-    &:hover {
-      background: var(--sc-bg-subtle);
-      transform: scale(1.04);
-    }
-
-    &:active {
-      transform: scale(0.98);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--sc-border-focus);
-      outline-offset: 2px;
-    }
-  }
-
-  /* Solid variant: paint with the primary token so the action reads as
-   * the dominant CTA when the toast carries a high-stakes message
-   * (e.g. "Cambios sin guardar — Reanudar"). Same micro-interaction so
-   * the family stays coherent. Trigger by adding `data-action="solid"`
-   * on the toast root, or `.sc-toast__action--solid` on the button. */
-  &[data-action='solid'] &__action,
-  &__action--solid {
-    background: var(--sc-bg-primary);
-    border-color: var(--sc-bg-primary);
-    color: var(--sc-text-on-primary);
-
-    &:hover {
-      background: var(--sc-bg-primary-hover);
-      border-color: var(--sc-bg-primary-hover);
-    }
-  }
-
-  &__close {
-    /* Figma `toast/close/button/width|height: 24.5`,
-     * `toast/close/button/border/radius: 12.25` (= circular). */
-    flex: 0 0 auto;
-    align-self: flex-start;
-    margin-left: 4px;
-    width: var(--sc-toast-close-button-width);
-    height: var(--sc-toast-close-button-height);
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: var(--sc-toast-close);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--sc-toast-close-button-radius);
-
-    &:hover {
-      background: rgb(0 0 0 / 0.06);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--sc-border-focus);
-      outline-offset: 2px;
-    }
-  }
 }
 
 /*
@@ -216,9 +26,8 @@
   background: transparent;
   border: 0;
   /* Figma `toast/<severity>/shadow: drop-shadow #0X0X0X0A offset(0,4) r8 spread:0`
-   * — translated to a single drop-shadow with 4% opacity. Tinted black
-   * per severity in Figma; here usamos un negro neutro plano y dejamos
-   * que el tint salga del backdrop-blur del .sc-toast. */
+   * — single drop-shadow with 4% opacity. Tinted negro neutro plano,
+   * el tint sale del backdrop-blur del .sc-toast. */
   box-shadow: var(--sc-toast-shadow);
   margin-bottom: var(--sc-spacing-200);
 }
@@ -231,15 +40,4 @@
 :host ::ng-deep .p-toast .p-toast-message-icon,
 :host ::ng-deep .p-toast .p-toast-close-button {
   display: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sc-toast__action {
-    transition: background var(--sc-transition-fast, 120ms) ease;
-
-    &:hover,
-    &:active {
-      transform: none;
-    }
-  }
 }
