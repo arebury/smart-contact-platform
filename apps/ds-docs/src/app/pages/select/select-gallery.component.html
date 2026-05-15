@@ -105,6 +105,19 @@
     </div>
   </section>
 
+  <!-- 5b. Filled variant — Figma `Filled=True` audit Session 30. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">5b · Filled (background slate-50)</h2>
+    <p class="gallery__hint">
+      Variant del Figma <code>Filled=True</code> (node <code>6195:7785</code>) — bg <code>--sc-color-gray-50</code>. Hover sube a slate-100. Útil para campos que destacan del canvas blanco.
+    </p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-select label="Filled (sm)" size="sm" placeholder="Elige…" [options]="fruits" [filled]="true" />
+      <sc-select label="Filled (md)" placeholder="Elige…" [options]="fruits" [filled]="true" />
+      <sc-select label="Filled (lg)" size="lg" placeholder="Elige…" [options]="fruits" [filled]="true" />
+    </div>
+  </section>
+
   <!-- 6. Error state. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">6 · Error</h2>

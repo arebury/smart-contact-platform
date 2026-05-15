@@ -1,6 +1,8 @@
 # 04 · Select (`<sc-select>`)
 
 > Dropdown / single-select para formularios SC. Envuelve PrimeNG `<p-select>` con la chrome SCDS. Para multi-select usar `<sc-multi-select>` (TBD).
+>
+> **Auditado 1:1 con Figma `Smart Contact Prime → ❖ Select` (canvas `6738:22642`) — Session 30.** 258 variants en Figma (8 ejes: State / Invalid / Disabled / Filled / Size / IftaLabel / FloatLabel / FloatLabelVariant / Group). Tokens extraídos vía MCP en cada variant clave.
 
 ## TL;DR
 
@@ -108,16 +110,67 @@ cityCode = signal<string | undefined>('MAD');
 | Invalid | `[error]="..."` o FormControl invalid+touched | border danger |
 | Filled (con valor) | usuario seleccionó | texto slate-700 en lugar de placeholder slate-500 |
 
-## Tokens consumidos (Figma → tokens SC)
+## Tokens consumidos (Figma → SC) — matriz exhaustiva por variant
 
-- `--p-select-border-color` ← `--sc-color-gray-300` (= `#cbd5e1`)
-- `--p-select-background` ← `--sc-color-gray-0` (= `#ffffff`)
-- `--p-select-border-radius` ← `--sc-radius-200` (= `6px`)
-- `--p-select-padding-x/y` ← `10.5px / 7px` (Figma)
-- `--p-select-shadow` ← drop-shadow `#1212170D` offset (0,1) radius 2
-- Chevron 14px slate-400, dropdown area 35px wide
-- Label `--sc-text-secondary` (slate-700), 14px Inter
-- Helper `--sc-text-secondary`, 12px
+Auditado Session 30. Tokens verificados vía MCP en cada variant del Figma `Smart Contact Prime → ❖ Select` (canvas `6738:22642`).
+
+### Default Normal — node `6195:7753`
+
+| Token Figma | Valor | Mapeo SC |
+|-------------|-------|----------|
+| `select/padding/x` | `10.5` | preset `formField.paddingX` (raw) |
+| `select/padding/y` | `7` | preset `formField.paddingY` (raw) |
+| `select/border/radius` | `6` | `--sc-radius-200` |
+| `select/background` | `#ffffff` | `--sc-color-gray-0` |
+| `select/border/color` | `#cbd5e1` | `--sc-color-gray-300` (slate) |
+| `select/placeholder/color` | `#64748b` | `--sc-color-gray-500` |
+| `select/dropdown/color` | `#94a3b8` | `--sc-color-gray-400` (chevron) |
+| `select/dropdown/width` | `35` | área click chevron |
+| `select/shadow` | `#1212170D` offset(0,1) r2 | preset formField.shadow |
+| `icon/size` | `14` | chevron 14×14 |
+
+### Size = Small — node `7154:136752`
+
+| Token Figma | Valor | Mapeo SC |
+|-------------|-------|----------|
+| `select/sm/font/size` | `12.25` | sc-select.scss `.sc-select--sm .p-select-label` raw |
+| `select/sm/padding/x` | `8.75` | raw |
+| `select/sm/padding/y` | `5.25` | raw |
+
+### Size = Large — node `7154:137061`
+
+| Token Figma | Valor | Mapeo SC |
+|-------------|-------|----------|
+| `select/lg/font/size` | `15.75` | sc-select.scss `.sc-select--lg .p-select-label` raw |
+| `select/lg/padding/x` | `12.25` | raw |
+| `select/lg/padding/y` | `8.75` | raw |
+
+### Filled = True — node `6195:7785`
+
+| Token Figma | Valor | Mapeo SC |
+|-------------|-------|----------|
+| `select/filled/background` | `#f8fafc` | `--sc-color-gray-50` via `.sc-select--filled` |
+| (border, padding, shadow, chevron) | iguales que Default | hereda preset |
+
+### Invalid = True — node `6195:7816`
+
+| Token Figma | Valor | Mapeo SC |
+|-------------|-------|----------|
+| `select/invalid/border/color` | `#f87171` (red-400) | `--sc-border-error` ✓ ya alineado |
+| `select/invalid/placeholder/color` | `#dc2626` (red-600) | `--sc-text-danger` ✓ ya alineado |
+
+### Hover / Focus / Disabled
+
+- **Hover (`6195:7769`)**: preset CSS `hoverBorderColor: --sc-border-strong` (slate-400).
+- **Focus (`6195:7777`)**: preset CSS `focusBorderColor: --sc-bg-primary` (SC navy). Figma muestra azure `#3b82f6` — divergencia de brand documentada (mismo trade-off que sc-input).
+- **Disabled (`6195:7761`)**: `disabled/opacity: 60%` (token global) + chrome del preset.
+
+## Divergencias documentadas
+
+- **Padding decimal (10.5/7, 8.75/5.25, 12.25/8.75)**: heredado del preset.formField. Compartido con sc-input / sc-datepicker.
+- **Focus border color**: preset usa SC navy en vez del azure Figma (focus ring electric-blue suple el accent).
+- **Ifta Label / Float Label variants**: 4 valores × 2 booleanos en Figma. NO implementados como props del `<sc-select>`. Composición Float Label = `<p-floatlabel>` por fuera, igual que con sc-input.
+- **Group=True (option groups)**: Figma muestra group headers. PrimeNG p-select lo soporta nativamente con `[group]="true"` + `optionGroupLabel`. NO expuesto aún en el wrapper — añadir cuando aparezca caso real.
 
 ## Migración desde `<select>` nativo
 

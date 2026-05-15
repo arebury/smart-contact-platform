@@ -51,8 +51,42 @@
 }
 
 /* ────────────────────────────────────────────────────────────────────
+ * Size variants — valores EXACTOS Figma Smart Contact Prime,
+ * verificados nodos 7154:136752 (Small) y 7154:137061 (Large).
+ *   Small:  font 12.25 / padding 8.75x / 5.25y
+ *   Normal: font 14    / padding 10.5x / 7y   (heredado del preset)
+ *   Large:  font 15.75 / padding 12.25x / 8.75y
+ * Decimales raw (off-scale en `--sc-spacing-*` / `--sc-font-size-*`).
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-select--sm .sc-select__control .p-select-label {
+  padding: 5.25px 8.75px;
+  font-size: 12.25px;
+}
+.sc-select--lg .sc-select__control .p-select-label {
+  padding: 8.75px 12.25px;
+  font-size: 15.75px;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Filled variant — Figma `Filled=True` node 6195:7785.
+ *   `select/filled/background = #f8fafc` (slate-50).
+ * Border/shadow/dropdown sin cambio; solo bg.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-select--filled .sc-select__control .p-select {
+  background: var(--sc-color-gray-50);
+}
+.sc-select--filled .sc-select__control .p-select:hover {
+  background: var(--sc-color-gray-100);
+}
+
+/* ────────────────────────────────────────────────────────────────────
  * Invalid state — sc-preset paints invalid border via aria-invalid on
  * the inner control. Host class covers the manual `[error]` path.
+ * Figma: `select/invalid/border/color: #f87171` (red-400, =
+ * `--sc-border-error`), `select/invalid/placeholder/color: #dc2626`
+ * (red-600, = `--sc-text-danger`). Ya aligned.
  * ────────────────────────────────────────────────────────────────────
  */
 .sc-select--invalid .sc-select__control .p-select {

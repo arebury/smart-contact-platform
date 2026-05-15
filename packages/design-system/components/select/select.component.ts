@@ -51,6 +51,7 @@ let scSelectIdCounter = 0;
     '[class.sc-select--lg]': "size() === 'lg'",
     '[class.sc-select--invalid]': 'isInvalid()',
     '[class.sc-select--disabled]': 'disabled()',
+    '[class.sc-select--filled]': 'filled()',
   },
 })
 export class SelectComponent implements ControlValueAccessor {
@@ -82,6 +83,8 @@ export class SelectComponent implements ControlValueAccessor {
   readonly emptyFilterMessage = input<string>('Sin resultados');
   /** Empty-state copy when `options` is empty. */
   readonly emptyMessage = input<string>('Sin opciones');
+  /** Background "filled" variant (Figma node 6195:7785): bg slate-50. */
+  readonly filled = input<boolean>(false);
 
   // ─── Two-way value binding ─────────────────────────────────────────
   readonly value = model<unknown>(undefined);
