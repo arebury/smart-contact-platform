@@ -806,16 +806,12 @@
                   <label class="field__label" for="agent-max-chats">
                     {{ 'agents.form.advanced.comportamiento.max_chats' | translate }}
                   </label>
-                  <select
-                    id="agent-max-chats"
-                    class="field__input"
+                  <sc-select
+                    inputId="agent-max-chats"
+                    [options]="maxChatsOptions"
                     [value]="form().maxChats"
-                    (change)="onMaxChatsChange($event)"
-                  >
-                    @for (n of maxChatsOptions; track n) {
-                      <option [value]="n">{{ n }}</option>
-                    }
-                  </select>
+                    (valueChange)="onMaxChatsValueChange($event)"
+                  />
                 </div>
 
                 <!-- Orden aleatorio — standalone toggle row (kept apart

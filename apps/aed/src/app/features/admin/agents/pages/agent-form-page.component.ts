@@ -47,6 +47,7 @@ import {
   LabelChipComponent,
   PhotoUploadComponent,
   SectionCardComponent,
+  SelectComponent,
   StickyFormHeaderComponent,
   ToggleSwitchComponent,
   TriStateCheckboxComponent,
@@ -139,6 +140,7 @@ interface FormState {
     LucideAngularModule,
     PhotoUploadComponent,
     SectionCardComponent,
+    SelectComponent,
     StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
@@ -584,8 +586,15 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.updateField('randomOrder', checked);
   }
 
-  protected onMaxChatsChange(event: Event): void {
-    this.updateField('maxChats', Number((event.target as HTMLSelectElement).value));
+  /**
+   * Adapter para `<sc-select>` (`number[]` options). El componente emite el
+   * primitive directamente — no necesita parseo de string como el handler
+   * legacy de `<select>` native.
+   */
+  protected onMaxChatsValueChange(value: unknown): void {
+    if (typeof value === 'number' && Number.isFinite(value)) {
+      this.updateField('maxChats', value);
+    }
   }
 
   protected onIframeUrlInput(event: Event): void {
