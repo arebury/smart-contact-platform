@@ -144,7 +144,12 @@
             "polyfills": ["zone.js"],
             "tsConfig": "apps/ds-docs/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
-            "assets": [],
+            "assets": [
+              {
+                "glob": "**/*",
+                "input": "apps/ds-docs/public"
+              }
+            ],
             "styles": ["apps/ds-docs/src/styles/main.scss"],
             "scripts": []
           },

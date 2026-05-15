@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Paleta gray → Aura slate · diff</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font-family: -apple-system, system-ui, sans-serif; margin: 0; background: #0b0f14; color: #e2e8f0; }
+  header { padding: 24px 32px; border-bottom: 1px solid #334155; position: sticky; top: 0; background: #0b0f14; z-index: 10; }
+  h1 { margin: 0 0 4px; font-size: 20px; font-weight: 600; }
+  p  { margin: 0; font-size: 13px; opacity: 0.7; }
+  nav { display: flex; gap: 8px; margin-top: 12px; }
+  nav button { background: #1e293b; color: #e2e8f0; border: 1px solid #334155; padding: 6px 12px; font-size: 12px; border-radius: 4px; cursor: pointer; font-family: inherit; }
+  nav button.active { background: #1464fe; border-color: #1464fe; color: #fff; }
+  details.notes { margin-top: 16px; background: #0f172a; border: 1px solid #334155; border-radius: 6px; }
+  details.notes > summary { padding: 10px 14px; cursor: pointer; font-size: 13px; font-weight: 600; color: #e2e8f0; list-style: none; }
+  details.notes > summary::-webkit-details-marker { display: none; }
+  details.notes > summary::before { content: '▶'; display: inline-block; margin-right: 8px; transition: transform 0.15s; color: #64748b; }
+  details.notes[open] > summary::before { transform: rotate(90deg); }
+  .notes-body { padding: 4px 18px 18px; font-size: 13px; line-height: 1.55; color: #cbd5e1; }
+  .notes-body p { margin: 8px 0; }
+  .notes-body ol, .notes-body ul { margin: 8px 0; padding-left: 22px; }
+  .notes-body li { margin: 4px 0; }
+  .notes-body table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 12px; }
+  .notes-body th, .notes-body td { padding: 6px 10px; text-align: left; border-bottom: 1px solid #1e293b; }
+  .notes-body th { color: #94a3b8; font-weight: 500; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+  .notes-body td:nth-child(1) { color: #64748b; font-family: ui-monospace, monospace; }
+  .notes-body code { background: #1e293b; padding: 1px 6px; border-radius: 3px; font-size: 12px; }
+  .notes-body .muted { color: #64748b; font-size: 12px; margin-top: 14px; }
+  .notes-body .callout { background: #1e293b; border-left: 3px solid #1464fe; padding: 10px 14px; border-radius: 0 4px 4px 0; margin: 10px 0 14px; font-size: 13px; color: #e2e8f0; }
+  .notes-body .callout em { color: #cbd5e1; font-style: italic; }
+  main { padding: 0; }
+  .screen { padding: 32px; border-bottom: 1px solid #1e293b; }
+  .screen h2 { margin: 0 0 16px; font-size: 16px; font-weight: 500; color: #cbd5e1; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .col { display: flex; flex-direction: column; gap: 8px; }
+  .col h3 { margin: 0; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 600; }
+  .col h3.before { color: #f59e0b; }
+  .col h3.after  { color: #22c55e; }
+  img { width: 100%; height: auto; display: block; border: 1px solid #334155; border-radius: 6px; background: #fff; }
+  body.dark img { background: #0f172a; }
+  .hidden { display: none; }
+</style>
+</head>
+<body class="light">
+<header>
+  <h1>Paleta gray → Aura slate · diff</h1>
+  <p>10 pantallas AED · before (paleta actual) vs after (Aura slate). Pincha en una imagen para verla a tamaño completo.</p>
+  <nav>
+    <button id="btn-light" class="active" onclick="setTheme('light')">Light mode</button>
+    <button id="btn-dark"                  onclick="setTheme('dark')">Dark mode</button>
+  </nav>
+  <details class="notes" open>
+    <summary>Cómo leer este diff — empieza por Dark mode</summary>
+    <div class="notes-body">
+      <div class="callout">
+        <strong>👉 Pulsa "Dark mode" arriba antes de juzgar.</strong> El cambio se aprecia
+        <em>muchísimo</em> más en dark: los fondos pasan de un gris-azulado al "negro de verdad"
+        de Aura/Tailwind slate. En light mode el cambio es deliberadamente sutil — solo se mueven
+        de forma notable los grises medios (helper text, labels, body text secundario).
+      </div>
+      <p><strong>Qué estamos cambiando y por qué</strong>: la paleta de grises de Smart Contact
+      Design System (SCDS) tenía 12 valores propios que corrían ~10% más claros que <em>Aura
+      slate</em>, la referencia que usa Figma. Esto causaba que cualquier elemento gris
+      (bordes, helper text, fondos de dark mode) divergiera ligeramente del diseño. Alinearnos
+      con Aura slate cierra esa brecha globalmente sin tocar nada componente a componente.</p>
+      <p><strong>El swap no es uniforme</strong>. Los claros casi no se mueven; los medios y
+      oscuros sí. Tabla del impacto por step:</p>
+      <table>
+        <thead><tr><th>Step</th><th>Cambio RGB aprox</th><th>Dónde se usa</th><th>¿Lo notas?</th></tr></thead>
+        <tbody>
+          <tr><td>50</td>  <td>~2 ud</td><td>Page background</td>     <td>No</td></tr>
+          <tr><td>100</td> <td>~6 ud</td><td>Card background</td>     <td>Apenas</td></tr>
+          <tr><td>200</td> <td>~9 ud</td><td>Borders</td>             <td>Apenas</td></tr>
+          <tr><td>300</td> <td>~8 ud</td><td>Borders hover</td>       <td>Apenas</td></tr>
+          <tr><td>400</td> <td>~18 ud</td><td>Disabled</td>           <td>Algo</td></tr>
+          <tr><td>500</td> <td>~34 ud</td><td>Helper text</td>        <td><strong>Sí (light)</strong></td></tr>
+          <tr><td>600</td> <td>~34 ud</td><td>Labels</td>             <td><strong>Sí (light)</strong></td></tr>
+          <tr><td>700</td> <td>~21 ud</td><td>Body text</td>          <td>Sí</td></tr>
+          <tr><td>800</td> <td>~13 ud</td><td>Dark mode bg primario</td><td><strong>Sí (dark)</strong></td></tr>
+          <tr><td>900</td> <td>~8 ud</td><td>Dark mode bg canvas</td>  <td><strong>Sí (dark)</strong></td></tr>
+          <tr><td>950</td> <td>~9 ud</td><td>Dark mode bg profundo</td><td><strong>Sí (dark)</strong></td></tr>
+        </tbody>
+      </table>
+      <p><strong>Dónde mirar mejor</strong>:</p>
+      <ul>
+        <li><strong>Dark mode, cualquier pantalla con contenido</strong> (02, 03, 04, 05, 06, 07, 09) — los fondos quedan más profundos, las cards y modals tienen más contraste con el canvas.</li>
+        <li><strong>Light mode, <code>03-agent-create</code> o <code>07-user-create</code></strong> — labels (gray-600/700) y helper text bajo los inputs (gray-500) más oscuros y legibles.</li>
+        <li><strong>Light mode, listas (02, 04, 06)</strong> — texto secundario de filas más contrastado.</li>
+      </ul>
+      <p class="muted">Las pantallas <code>01-dashboard</code>, <code>08-labels</code> y <code>10-config-aed</code> en este snapshot caen en un auth wall / placeholder vacío, así que tienen poca chicha para apreciar el cambio. Aun así el CSS sí se aplicó: los 11 tokens <code>--sc-color-gray-*</code> están vivos con los valores de Aura slate (verificado en navegador con Playwright).</p>
+    </div>
+  </details>
+</header>
+<main id="main"></main>
+<script>
+const SCREENS = [
+  '01-dashboard', '02-agents-list', '03-agent-create',
+  '04-groups-list', '05-group-create',
+  '06-users-list', '07-user-create',
+  '08-labels', '09-templates', '10-config-aed',
+];
+function render(theme) {
+  const main = document.getElementById('main');
+  main.innerHTML = SCREENS.map(s => `
+    <section class="screen">
+      <h2>${s}</h2>
+      <div class="row">
+        <div class="col">
+          <h3 class="before">ANTES (paleta actual)</h3>
+          <a href="before-slate-${theme}/${s}.png" target="_blank"><img src="before-slate-${theme}/${s}.png" loading="lazy"></a>
+        </div>
+        <div class="col">
+          <h3 class="after">DESPUÉS (Aura slate)</h3>
+          <a href="after-slate-${theme}/${s}.png" target="_blank"><img src="after-slate-${theme}/${s}.png" loading="lazy"></a>
+        </div>
+      </div>
+    </section>
+  `).join('');
+}
+function setTheme(theme) {
+  document.body.className = theme;
+  document.getElementById('btn-light').classList.toggle('active', theme === 'light');
+  document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
+  render(theme);
+}
+setTheme('light');
+</script>
+</body>
+</html>
