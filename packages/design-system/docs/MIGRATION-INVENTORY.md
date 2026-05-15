@@ -41,7 +41,7 @@
 | 23 | Impact preview dialog | ✓ | ⚪ Pure SC | `<sc-impact-preview-dialog>` | TODO | TBD | TODO |
 | 24 | Page header | ✓ | ⚪ Pure SC | `<sc-page-header>` | TODO | TBD | TODO |
 | 25 | Sticky form header | ✓ | ⚪ Pure SC | `<sc-sticky-form-header>` | TODO | TBD | TODO |
-| 26 | Input (text/email/password/tel/url/search) | ✓ | 🟢 Extended | `<sc-input>` | [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | **~100%** — label/helper alineados, paleta gray reconciliada con Aura slate (Session 30) | `docs/components/02-input.md` |
+| 26 | Input (text/email/password/tel/url/search) | ✓ | 🟢 Extended | `<sc-input>` | [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | **100%** — Session 30 audit Nivel-2 contra los 240 variants Figma. Padding 10.5/7 (default), 8.75/5.25 (sm), 12.25/8.75 (lg) raw decimal. Variant `[filled]` añadida (slate-50 bg) | `docs/components/02-input.md` |
 | 27 | Input number | ✓ | 🟢 Extended | `<sc-input-number>` | TODO | TBD — pendiente reference frame Figma | `docs/components/03-input-number.md` |
 | 28 | Select / dropdown | ✓ | 🟢 Extended | `<sc-select>` | [6738:22642](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22642) | **~100%** — tokens slate alineados con Figma, padding 10.5/7, shadow `#1212170D` offset(0,1) r2 | `docs/components/04-select.md` |
 | 29 | Datepicker | ✓ | 🟢 Extended | `<sc-datepicker>` | [6738:20817](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-20817) | **~100%** — input chrome slate-300/6px/shadow, panel slate-200 bg white + dates 28×28 circulares, anchor-gutter 2 | `docs/components/05-datepicker.md` |

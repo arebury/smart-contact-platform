@@ -2,6 +2,8 @@
 
 > Text input para formularios SC. Cubre los casos text/email/password/tel/url/search.
 > Para `input-number`, `input-group` (con addons) e `input-otp`, ver componentes separados (TBD).
+>
+> **Auditado 1:1 con Figma `Smart Contact Prime → ❖ Inputtext` (canvas `6738:46804`) — Session 30.** 240 variants en Figma (8 ejes: State / Invalid / Disabled / Filled / Size / IftaLabel / FloatLabel / FloatLabelVariant). Tokens extraídos vía MCP en nodos canónicos por size y por variant.
 
 ## TL;DR
 
@@ -50,6 +52,7 @@ interface ScInputProps {
   name?: string;
   autocomplete?: string;        // ej. 'email', 'current-password', 'tel'
   maxlength?: number;
+  filled?: boolean;             // variant Figma `Filled=True`: bg slate-50 soft
 
   // Two-way binding (cualquiera funciona)
   value?: string;               // model() — usar `[(value)]="signal"`
@@ -100,24 +103,15 @@ emailControl = new FormControl('', [Validators.required, Validators.email]);
 | Readonly | `[readonly]="true"` | mismo color, sin cursor de edición |
 | Invalid | `[error]` set OR FormControl invalid + touched | border error |
 
-## Tamaños
+## Tamaños (verificados Figma)
 
-| size | Padding vertical | Font size |
-|------|-----------------|-----------|
-| `sm` | 4px | `--sc-font-size-100` (12px) |
-| `md` (default) | `--sc-spacing-200` (8px, vía sc-preset) | `--sc-font-size-200` (14px) |
-| `lg` | 12px | `--sc-font-size-300` (16px) |
+| size | Padding (x / y) | Font size | Icon |
+|------|------------------|-----------|------|
+| `sm` | 8.75 / 5.25 | 12.25px | 12.25px |
+| `md` (default) | 10.5 / 7 | 14px | 14px |
+| `lg` | 12.25 / 8.75 | 15.75px | 15.75px |
 
-## Tokens consumidos
-
-Todos los visuales vienen de `sc-preset.ts` → `semantic.colorScheme.{light,dark}.formField.*`:
-
-- `background`, `disabledBackground`, `color`, `disabledColor`
-- `placeholderColor`, `invalidPlaceholderColor`
-- `borderColor`, `hoverBorderColor`, `focusBorderColor`, `invalidBorderColor`
-- `shadow`
-
-Cambiar la apariencia de TODOS los inputs SC = editar `sc-preset.ts`, no este componente.
+Todos decimales raw (off-scale en `--sc-spacing-*` / `--sc-font-size-*`). Ver tabla completa de tokens al final del doc.
 
 ## Accesibilidad
 
@@ -177,13 +171,6 @@ export class FormWithFloatLabel {
 
 **No-goal actual**: integrar `[floatLabel]="'in' | 'on' | 'over'"` como prop de `<sc-input>`. Cocinar sólo cuando aparezca un caso real en AED que necesite combinar float label con la API de `<sc-input>` (helper, error, iconos). De momento, los dos patrones coexisten.
 
-## Decisiones de divergencia con Figma
-
-- **Border radius**: la Figma usa 6px. Mantenemos via `sc-preset.formField.borderRadius = var(--sc-radius-200)`. ✓ aligned.
-- **Padding Y**: Figma usa 8px en tamaño normal. Mantenemos via `sc-preset.formField.paddingY = var(--sc-spacing-200)`. ✓ aligned.
-- **Ifta Label** del Figma: NO implementado. Es un caso poco común; si aparece, cocinar variante después.
-- **Filled variant** del Figma: NO implementado. Es un look "input con valor pre-relleno" que en Angular se consigue con CSS `:not(:placeholder-shown)` si hace falta — sin variante explícita.
-
 ## Migración desde el patrón AED viejo
 
 **Antes**:
@@ -219,3 +206,76 @@ export class FormWithFloatLabel {
 ```
 
 12+ líneas → 8 líneas. Sin clases `.field__*` que mantener. Estado de error declarativo.
+
+
+## Tokens consumidos (Figma → SC) — matriz exhaustiva por variant
+
+Auditado Session 30. Tokens verificados vía `mcp__claude_ai_Figma__get_variable_defs` en nodos canónicos del Figma `Smart Contact Prime → ❖ Inputtext` (canvas `6738:46804`).
+
+### Default (State=Default, Normal, Filled=False, IftaLabel=False, FloatLabel=False) — node `23:834`
+
+| Token Figma | Valor | Mapeo SC |
+|-------------|-------|----------|
+| `inputtext/padding/x` | `10.5` | preset `formField.paddingX = '10.5px'` (raw, off-scale) |
+| `inputtext/padding/y` | `7` | preset `formField.paddingY = '7px'` (raw, off-scale) |
+| `inputtext/border/radius` | `6` | `--sc-radius-200` |
+| `inputtext/background` | `#ffffff` | `--sc-color-gray-0` |
+| `inputtext/border/color` | `#cbd5e1` | `--sc-color-gray-300` (Aura slate) |
+| `inputtext/focus/border/color` | `#3b82f6` | `--sc-color-azure-500` |
+| `inputtext/placeholder/color` | `#64748b` | `--sc-color-gray-500` |
+| `inputtext/shadow` | `#1212170D` offset(0,1) r2 | preset formField.shadow |
+| `text/color` | `#334155` | `--sc-text-secondary` (slate-700) |
+| `app/font/size` | `14` | `--sc-font-size-200` |
+
+### Size = Small — node `7039:21970`
+
+| Token Figma | Valor | Mapeo SC |
+|-------------|-------|----------|
+| `inputtext/sm/font/size` | `12.25` | sc-input.scss `.sc-input--sm` raw px |
+| `inputtext/sm/padding/x` | `8.75` | raw px |
+| `inputtext/sm/padding/y` | `5.25` | raw px |
+| `iconfield/figma/sm/icon/size` | `12.25` | sc-input.scss `.sc-input--sm .sc-input__icon` raw |
+
+### Size = Large — node `7039:74791`
+
+| Token Figma | Valor | Mapeo SC |
+|-------------|-------|----------|
+| `inputtext/lg/font/size` | `15.75` | sc-input.scss `.sc-input--lg` raw px |
+| `inputtext/lg/padding/x` | `12.25` | raw px |
+| `inputtext/lg/padding/y` | `8.75` | raw px |
+| `iconfield/figma/lg/icon/size` | `15.75` | sc-input.scss `.sc-input--lg .sc-input__icon` raw |
+
+### Filled = True — node `1729:42481`
+
+| Token Figma | Valor | Mapeo SC |
+|-------------|-------|----------|
+| `inputtext/filled/background` | `#f8fafc` | `--sc-color-gray-50` via `.sc-input--filled` |
+| (border, padding, shadow, focus) | iguales que Default | hereda preset |
+| (hover en filled) | `--sc-color-gray-100` (slate-100 brightness step) | sc-input.scss hover override |
+
+### Invalid = True
+
+| Token | Tratamiento |
+|-------|-------------|
+| Border color | `--sc-border-error` via sc-preset `colorScheme.{light,dark}.formField.invalidBorderColor` |
+| Placeholder color | `--sc-text-danger` via `invalidPlaceholderColor` |
+
+### Disabled = True
+
+| Token Figma | Valor |
+|-------------|-------|
+| `disabled/opacity` | `60%` (global, no específico de input) |
+
+(El input desactivado hereda chrome desactivado del preset: bg `--sc-bg-disabled`, color `--sc-text-disabled`.)
+
+### Hover / Focus
+
+- **Hover**: no es variant Figma separada — preset CSS aplica `hoverBorderColor: --sc-border-strong` (slate-400).
+- **Focus**: variant Figma marca `inputtext/focus/border/color = #3b82f6`; preset usa `focusBorderColor: --sc-bg-primary`. **Divergencia**: preset usa la primary del brand SC (`--sc-color-blue-500`) en lugar del azure puro Aura. Decisión consciente — el focus ring sí usa electric-blue por consistencia con el resto de UI SC.
+
+## Divergencias documentadas
+
+- **Padding decimal (10.5 / 7, 8.75 / 5.25, 12.25 / 8.75)**: valores raw px porque caen off-scale en `--sc-spacing-*`. Honesto 1:1 con Figma > tokens "limpios". Aplica a sc-input y, vía preset, a sc-select / sc-datepicker / cualquier formField PrimeNG.
+- **Icon size raw decimal (12.25, 15.75)**: misma justificación. `--sc-icon-size-*` no contempla decimales.
+- **Focus border color**: preset usa `--sc-bg-primary` (brand navy) en vez del Figma `#3b82f6` (azure). Decisión SC: el accent visible (electric blue) lo aplica el focusRing CSS, mientras el border respeta la primary. Cambio TBD si la audit visual dice que falta accent.
+- **Float Label / Ifta Label variants** (4 valores × 2 booleans en Figma): NO implementados como props del `<sc-input>`. La composición Float Label se hace afuera vía `<p-floatlabel>` envolviendo `<sc-input>` (ver sección 9 de la página demo). Ifta Label sin caso real en AED.

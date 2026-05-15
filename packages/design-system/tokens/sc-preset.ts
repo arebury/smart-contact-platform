@@ -168,12 +168,16 @@ export const ScPreset = definePreset(Aura, {
       offset: '2px',
     },
     formField: {
-      /* Padding 12x8 — matches Figma input spec (11.5/8). 11.5 sin
-       * token sub-pixel se redondea a 12 (--sc-spacing-200). 8px exacto
-       * via --sc-spacing-100. Aplica a todos los formFields PrimeNG
-       * (input, dropdown, datepicker, etc). */
-      paddingX: 'var(--sc-spacing-200)',
-      paddingY: 'var(--sc-spacing-100)',
+      /* Padding 10.5/7 — valor EXACTO Figma Smart Contact Prime
+       * (`inputtext/padding/x = 10.5`, `inputtext/padding/y = 7`),
+       * verificado en nodos 23:834 (input default Normal), 6195:7753
+       * (select), 109:12493 (datepicker idle). Antes redondeábamos a
+       * 12/8 vía tokens, pero la 1:1 audit con Figma exige decimales.
+       * Raw px aquí (no token) porque 10.5 y 7 caen off-scale en
+       * `--sc-spacing-*`. Aplica a todos los formFields PrimeNG
+       * (input, select, datepicker, multiselect, etc). */
+      paddingX: '10.5px',
+      paddingY: '7px',
       borderRadius: 'var(--sc-radius-200)',
       transitionDuration: 'var(--sc-transition-base)',
     },

@@ -83,21 +83,56 @@
 }
 
 /* ────────────────────────────────────────────────────────────────────
- * Size variants. PrimeNG ships `p-inputtext-sm` and `p-inputtext-lg`
- * classes; we trigger them via host class instead so the consumer only
- * sets `[size]` once at the wrapper level.
+ * Size variants — valores EXACTOS Figma Smart Contact Prime,
+ * verificados en nodos 7039:21970 (Small) y 7039:74791 (Large).
+ *
+ *  Small:  font 12.25 / padding 8.75x / 5.25y
+ *  Normal: font 14    / padding 10.5x / 7y   (heredado del preset)
+ *  Large:  font 15.75 / padding 12.25x / 8.75y
+ *
+ * Decimales raw (no token) porque caen off-scale en `--sc-font-size-*`
+ * y `--sc-spacing-*`. Esta es la cota 1:1 que pide la audit con Figma.
  * ────────────────────────────────────────────────────────────────────
  */
 .sc-input--sm .sc-input__control {
-  padding-top: 4px;
-  padding-bottom: 4px;
-  font-size: var(--sc-font-size-100);
+  padding-top: 5.25px;
+  padding-bottom: 5.25px;
+  padding-left: 8.75px;
+  padding-right: 8.75px;
+  font-size: 12.25px;
 }
 
 .sc-input--lg .sc-input__control {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  font-size: var(--sc-font-size-300);
+  padding-top: 8.75px;
+  padding-bottom: 8.75px;
+  padding-left: 12.25px;
+  padding-right: 12.25px;
+  font-size: 15.75px;
+}
+
+/* Icon size también escala por size (Figma `iconfield/figma/{sm,lg}/icon/size`). */
+.sc-input--sm .sc-input__icon {
+  width: 12.25px;
+  height: 12.25px;
+  font-size: 12.25px;
+}
+.sc-input--lg .sc-input__icon {
+  width: 15.75px;
+  height: 15.75px;
+  font-size: 15.75px;
+}
+
+/* ────────────────────────────────────────────────────────────────────
+ * Filled variant — Figma `Filled=True` node 1729:42481.
+ *   `inputtext/filled/background = #f8fafc` (slate-50 soft fill).
+ * Border y demás tokens permanecen igual; solo cambia el background.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-input--filled .sc-input__control {
+  background: var(--sc-color-gray-50);
+}
+.sc-input--filled .sc-input__control:hover {
+  background: var(--sc-color-gray-100);
 }
 
 /* ────────────────────────────────────────────────────────────────────

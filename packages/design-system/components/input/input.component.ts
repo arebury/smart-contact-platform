@@ -56,6 +56,7 @@ let scInputIdCounter = 0;
     '[class.sc-input--lg]': "size() === 'lg'",
     '[class.sc-input--invalid]': 'isInvalid()',
     '[class.sc-input--disabled]': 'disabled()',
+    '[class.sc-input--filled]': 'filled()',
   },
 })
 export class InputComponent implements ControlValueAccessor {
@@ -76,6 +77,8 @@ export class InputComponent implements ControlValueAccessor {
   readonly name = input<string>();
   readonly autocomplete = input<string>();
   readonly maxlength = input<number>();
+  /** Background "filled" variant (Figma node 1729:42481): bg slate-50. */
+  readonly filled = input<boolean>(false);
 
   // ─── Two-way value binding (signal-friendly) ───────────────────────
   /** Current value. Use `[(value)]="signalName"` from consumers. */
