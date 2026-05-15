@@ -111,15 +111,6 @@ export class SelectComponent implements ControlValueAccessor {
    */
   protected readonly projectedTemplates = contentChildren(PrimeTemplate);
 
-  /** Map por nombre de pTemplate ('item', 'selectedItem', etc.) para el HTML. */
-  protected readonly templatesByName = computed(() => {
-    const map: Record<string, PrimeTemplate> = {};
-    for (const t of this.projectedTemplates()) {
-      if (t.name) map[t.name] = t;
-    }
-    return map;
-  });
-
   // ─── Derived ───────────────────────────────────────────────────────
   protected readonly resolvedId = computed(
     () => this.inputId() ?? `sc-select-${++scSelectIdCounter}`,

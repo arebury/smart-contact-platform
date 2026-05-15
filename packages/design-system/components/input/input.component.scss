@@ -1,16 +1,16 @@
 /*
  * sc-input — Smart Contact text input.
  *
- * The actual chrome (border, radius, padding, focus, hover, disabled,
- * invalid colors) lives on the inner `<input pInputText>` and inherits
- * from `sc-preset.ts → semantic.colorScheme.{light,dark}.formField.*`
- * + `semantic.formField.*`. We do NOT redefine those styles here.
+ * La chrome real (border, radius, padding, focus, hover, disabled,
+ * invalid colors) vive en el `<input pInputText>` interno y hereda
+ * de `sc-preset.ts → semantic.colorScheme.{light,dark}.formField.*`
+ * + `semantic.formField.*`. Aquí NO redefinimos esos estilos.
  *
- * This stylesheet handles:
+ * Este SCSS maneja:
  *   - vertical field layout (label / input / helper-or-error)
- *   - left / right icon overlay
- *   - size variants (sm / md / lg)
- *   - error state propagation to the underlying input
+ *   - size variants (sm / md / lg) con decimales Figma exactos
+ *   - error state propagation al input subyacente
+ *   - filled variant (bg slate-50)
  */
 
 .sc-input {
@@ -42,8 +42,6 @@
   align-items: center;
 }
 
-/* The native input takes the full width of the field; icons absolutely
- * positioned on top so they don't push the placeholder text. */
 .sc-input__control {
   width: 100%;
   font-family: inherit;

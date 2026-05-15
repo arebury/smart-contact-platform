@@ -71,13 +71,19 @@
  * Filled variant — Figma `Filled=True` node 6195:7785.
  *   `select/filled/background = #f8fafc` (slate-50).
  * Border/shadow/dropdown sin cambio; solo bg.
+ *
+ * NB: `.sc-select__control` y `.p-select` viven en el MISMO elemento
+ * (PrimeNG añade `.p-select` al `<p-select>` que ya lleva nuestra clase).
+ * Por eso usamos el selector simple, NO descendant. El descendant
+ * (`.sc-select__control .p-select`) sería dead code silencioso.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-select--filled .sc-select__control .p-select {
+.sc-select--filled .sc-select__control {
   background: var(--sc-color-gray-50);
-}
-.sc-select--filled .sc-select__control .p-select:hover {
-  background: var(--sc-color-gray-100);
+
+  &:hover {
+    background: var(--sc-color-gray-100);
+  }
 }
 
 /* ────────────────────────────────────────────────────────────────────
@@ -88,7 +94,7 @@
  * (red-600, = `--sc-text-danger`). Ya aligned.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-select--invalid .sc-select__control .p-select {
+.sc-select--invalid .sc-select__control {
   border-color: var(--sc-border-error);
 
   &:hover,

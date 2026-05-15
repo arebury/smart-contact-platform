@@ -7,7 +7,6 @@ import {
   Injector,
   input,
   model,
-  signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
@@ -26,13 +25,14 @@ export type ScInputType =
 let scInputIdCounter = 0;
 
 /**
- * Smart Contact text input. Wraps PrimeNG's `pInputText` directive with
- * the SCDS field-pattern chrome (label + required mark + helper + error
- * + optional left/right icons).
+ * Smart Contact text input. Wraps PrimeNG's `pInputText` directive with the
+ * SCDS field-pattern chrome (label + required mark + helper + error).
  *
- * Pairs with FormsModule (`[(ngModel)]`) AND signals (`[(value)]`). Use
- * whichever fits the consumer's state model — both push to the same
- * underlying value.
+ * Pairs con FormsModule (`[(ngModel)]`), Reactive Forms (`[formControl]`)
+ * y signals (`[(value)]`) indistintamente — todos empujan al mismo valor
+ * interno via `ControlValueAccessor`. Para casos input + addon (icono,
+ * botón, prefix/suffix) ver `<p-inputgroup>` o futuro `sc-input-group`
+ * (gap conocido del catálogo: customs-catalog.md §5.1).
  */
 @Component({
   selector: 'sc-input',
