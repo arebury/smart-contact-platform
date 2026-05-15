@@ -10,19 +10,30 @@
 #   Build command:     npm install --no-audit --no-fund && npm run build:aed
 #   Publish directory: dist/aed/browser
 #   Base directory:    (vacío)
+#   Env vars override: (ninguna — usa default ANGULAR_PROJECT=aed de abajo)
 #
 # Site `ds-smartcontact`:
 #   Build command:     npm install --no-audit --no-fund && npm run build:ds-docs
 #   Publish directory: dist/ds-docs/browser
 #   Base directory:    (vacío)
+#   Env vars override: ANGULAR_PROJECT = ds-docs
+#
+# ¿Por qué ANGULAR_PROJECT? `@netlify/angular-runtime` lee angular.json y,
+# si hay varios `projects`, agarra el primero (= aed) y exige que la
+# publish dir matchee `dist/aed/browser`. Para ds-docs hay que decirle
+# explícitamente con la env var. Fuente:
+# https://github.com/netlify/angular-runtime/blob/main/src/helpers/setUpEdgeFunction.js
 #
 # Lo que queda en este archivo (env, redirects, headers) aplica a TODOS
 # los sites que builden desde este repo — son consistentes entre AED y
-# ds-docs (Angular SPA, mismo Node version, mismo cache policy).
+# ds-docs (Angular SPA, mismo Node version, mismo cache policy). El
+# ANGULAR_PROJECT default es "aed" porque es el caso más común; el site
+# ds-smartcontact lo sobreescribe en la UI.
 
 [build.environment]
   NODE_VERSION = "20"
   NPM_VERSION = "10"
+  ANGULAR_PROJECT = "aed"
 
 # SPA fallback: every unknown URL must hit index.html so the Angular Router
 # can take over (otherwise refreshing /admin/labels returns a 404).
