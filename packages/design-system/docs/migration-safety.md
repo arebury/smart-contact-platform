@@ -161,7 +161,52 @@ Si las 4 son "no", probablemente NO necesitas la divergence.
 
 Detalle completo en [`customs-catalog.md §0`](customs-catalog.md).
 
-### 6. Componentes pure-sc justificados vs sospechosos
+### 6. CVA wrappers con signals: `untracked()` SIN side-effects
+
+Cuando un wrapper CVA escribe a un signal dentro de `writeValue()`, envolver con `untracked()` aísla la escritura del contexto reactivo. Patrón establecido S32:
+
+```typescript
+writeValue(v: string | null | undefined): void {
+  untracked(() => this.value.set(v ?? ''));
+}
+```
+
+**Regla crítica** (Perplexity audit S32): el bloque `untracked` debe escribir SOLO el signal de valor del CVA (`this.value.set(...)`). NO meter side-effects:
+
+```typescript
+// ❌ MAL — side-effects silenciados:
+writeValue(v: string): void {
+  untracked(() => {
+    this.value.set(v);
+    this.dirty.set(false);   // <-- el effect que observa dirty NO se entera
+    this.lastSync.set(Date.now());
+  });
+}
+
+// ✅ BIEN — solo el signal CVA:
+writeValue(v: string): void {
+  untracked(() => this.value.set(v));
+  // Side-effects (si los hubiera) van FUERA, sin untracked:
+  this.dirty.set(false);
+}
+```
+
+Verificado S32: los 6 wrappers actuales (input, select, multi-select, datepicker, input-number, search) cumplen esta regla. Para wrappers futuros, mantener la disciplina.
+
+### 7. Refactor de wrappers PrimeNG: audit CSS overrides en consumers
+
+Cuando se refactoriza un wrapper SCDS cambiando su DOM interno (ej. `<input type="checkbox">` → `<p-toggleswitch>`), los consumers podrían tener CSS overrides apuntando al DOM antiguo que se rompen silenciosamente (AOT NO los detecta — solo valida tipos TS).
+
+**Checklist post-refactor**:
+
+1. `grep -rn ".sc-X__internal\|.toggle-switch input\|patrón viejo" apps/aed/src --include="*.scss"` — buscar selectors apuntando al DOM antiguo del wrapper.
+2. Verificar AOT verde (cubre TS strict pero NO CSS).
+3. Si hay screenshots Playwright: comparar antes/después.
+4. Si NO hay tests visuales: revisar consumers manualmente en dev server.
+
+Verificado S32 para toggle-switch (refactor CSS-checkbox → p-toggleswitch wrapper): cero overrides huérfanos en AED, los 21 consumers safe.
+
+### 8. Componentes pure-sc justificados vs sospechosos
 
 **Justificados (no tocar)**:
 - App patterns sin PrimeNG eq: `command-palette`, `keyboard-shortcuts`, `page-header`, `sticky-form-header`, `section-card`, `form-section-nav`, `form-danger-zone`, `empty-state`, `bulk-action-bar`.
