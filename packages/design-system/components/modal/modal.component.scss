@@ -14,11 +14,13 @@
   max-height: min(85vh, 720px);
 
   &__head {
+    /* Figma `dialog/header/padding: 17.5` all sides, `dialog/header/gap: 7`.
+     * NO border-bottom — el padding scheme + tipografía dan jerarquía
+     * sin necesidad de divider lines (Figma reference). */
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
-    border-bottom: 1px solid var(--sc-modal-divider);
+    gap: var(--sc-modal-header-gap);
+    padding: var(--sc-modal-padding);
   }
 
   &__head-icon {
@@ -42,11 +44,12 @@
   }
 
   &__title {
+    /* Figma `dialog/title/font/size: 17.5` (raw), `font/weight: 600`. */
     margin: 0;
-    font-family: var(--sc-font-family-h4);
-    font-weight: var(--sc-font-weight-h4);
-    font-size: var(--sc-font-size-h4);
-    line-height: var(--sc-line-height-h4);
+    font-family: var(--sc-font-family-primary);
+    font-weight: var(--sc-modal-title-font-weight);
+    font-size: var(--sc-modal-title-font-size);
+    line-height: 1.4;
     color: var(--sc-modal-title);
     /* Long titles wrap; never truncate (the user needs to read what
      * they're confirming). */
@@ -87,34 +90,42 @@
   }
 
   &__body {
+    /* Figma `dialog/content/padding`: 17.5 lados/abajo, top:0
+     * (el header ya pone 17.5 abajo — sin top el doble padding desaparece
+     * en la costura). Acepta cualquier contenido stackeado via <ng-content>:
+     * párrafos, formularios, sc-input, sc-select, listas, lo que sea.
+     * El contenedor es scrollable (overflow-y: auto) si el cap de
+     * max-height del modal se supera. */
     flex: 1 1 auto;
     overflow-y: auto;
-    padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
+    padding: 0 var(--sc-modal-padding) var(--sc-modal-padding);
     color: var(--sc-modal-title);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-300);  /* gap default entre elementos directos del body */
   }
 
   &__foot {
+    /* Figma `dialog/footer/padding`: 17.5 lados/abajo, top:0 (content
+     * ya pone 17.5 abajo). `dialog/footer/gap: 7` entre botones. */
     flex: 0 0 auto;
     display: flex;
     justify-content: flex-end;
-    /* Two adjacent buttons (especially when both are styled equally — e.g.
-     * "Sí, descartar" vs "Seguir editando") need breathing room so the
-     * user reads them as opposing choices, not one wide bar split. */
-    gap: var(--sc-spacing-600);
-    padding: var(--sc-modal-padding-y) var(--sc-modal-padding-x);
-    border-top: 1px solid var(--sc-modal-divider);
+    gap: var(--sc-modal-footer-gap);
+    padding: 0 var(--sc-modal-padding) var(--sc-modal-padding);
+    border-top: 0;
   }
 
-  /* Bodyless dialogs (confirm-host etc.) have no body padding between
-   * head and foot, so the head's border-bottom + foot's border-top
-   * collapse into a single visible line in the gap. Drop both — the
-   * dialog reads as one continuous block. */
+  /* Bodyless modals (confirm-host etc.) have no body slot. Sin border-bottom
+   * en header (que ya quitamos) ni border-top en footer (también quitado),
+   * no hace falta override — el modal lee como un solo bloque continuo.
+   * Mantenemos la clase para futuras necesidades de styling. */
   &--bodyless &__head {
-    border-bottom: 0;
+    /* placeholder for future overrides */
   }
 
   &--bodyless &__foot {
-    border-top: 0;
+    /* placeholder for future overrides */
   }
 }
 
