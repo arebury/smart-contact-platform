@@ -96,11 +96,31 @@
 .gallery__row {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-400);
-  padding: var(--sc-spacing-500);
+  gap: 18px;
+  padding: 24px;
+  background: var(--sc-bg-elevated);
   border: 1px solid var(--sc-border-default);
-  border-radius: var(--sc-radius-300);
-  background: var(--sc-bg-surface);
+  border-radius: 6px;
+  position: relative;
+
+  &::before {
+    content: 'demo';
+    position: absolute;
+    top: 10px;
+    right: 14px;
+    font-family: var(--dsd-font-mono);
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--sc-color-gray-400);
+  }
+
+  &--grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    align-items: start;
+  }
 }
 
 .gallery__row--grid {

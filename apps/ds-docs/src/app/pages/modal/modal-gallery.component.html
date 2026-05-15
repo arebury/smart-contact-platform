@@ -1,0 +1,139 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Modal / Dialog</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-modal&gt;</code> envuelve <code>&lt;p-dialog&gt;</code> con header + body slot stackeable + footer.
+      Pulsa los botones de cada sección para ver el modal en vivo. ESC cierra; click en el mask también.
+    </p>
+  </header>
+
+  <!-- 1. Basic — info modal. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Basic (info)</h2>
+    <p class="gallery__hint">Modal mínimo: title + subtitle + body con un párrafo.</p>
+    <div class="gallery__row">
+      <p-button label="Abrir info modal" severity="info" (click)="basicOpen.set(true)" />
+    </div>
+    <sc-modal
+      [visible]="basicOpen()"
+      title="¿Cómo funciona el reset de contraseña?"
+      subtitle="Te enviamos un enlace a tu email registrado."
+      [icon]="icons.info"
+      (cancelled)="basicOpen.set(false)"
+    >
+      <p>El enlace caduca a las 24 horas. Si no lo recibes en 5 minutos, comprueba tu carpeta de spam o pide otro.</p>
+      <p>Por seguridad, te pediremos confirmación adicional desde dispositivos que no reconozcamos.</p>
+      <div modal-actions>
+        <p-button label="Entendido" severity="secondary" (click)="basicOpen.set(false)" />
+      </div>
+    </sc-modal>
+  </section>
+
+  <!-- 2. Confirm — danger (con bodyless). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Confirm danger (bodyless)</h2>
+    <p class="gallery__hint">
+      Cuando la descripción cabe en el subtitle, <code>[bodyless]="true"</code> contrae el modal a header + footer pegados (sin band visual de body).
+    </p>
+    <div class="gallery__row">
+      <p-button label="Eliminar agente" severity="danger" (click)="confirmOpen.set(true)" />
+    </div>
+    <sc-modal
+      [visible]="confirmOpen()"
+      title="¿Eliminar agente?"
+      subtitle="«María García» será eliminada permanentemente. Esta acción no se puede deshacer."
+      [icon]="icons.trash"
+      [bodyless]="true"
+      (cancelled)="confirmOpen.set(false)"
+    >
+      <div modal-actions>
+        <p-button label="Cancelar" severity="secondary" (click)="confirmOpen.set(false)" />
+        <p-button label="Eliminar" severity="danger" (click)="onDelete()" />
+      </div>
+    </sc-modal>
+  </section>
+
+  <!-- 3. Discard changes (bodyless warning). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Discard changes</h2>
+    <p class="gallery__hint">Otro caso típico bodyless: aviso de pérdida de cambios.</p>
+    <div class="gallery__row">
+      <p-button label="Descartar cambios" severity="warn" (click)="bodylessOpen.set(true)" />
+    </div>
+    <sc-modal
+      [visible]="bodylessOpen()"
+      title="¿Descartar cambios?"
+      subtitle="Perderás lo que has editado en este formulario."
+      [icon]="icons.warning"
+      [bodyless]="true"
+      (cancelled)="bodylessOpen.set(false)"
+    >
+      <div modal-actions>
+        <p-button label="Seguir editando" severity="secondary" (click)="bodylessOpen.set(false)" />
+        <p-button label="Sí, descartar" severity="danger" (click)="onDiscard()" />
+      </div>
+    </sc-modal>
+  </section>
+
+  <!-- 4. Form inside modal (body slot stacking). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Form dentro del body slot (stacking)</h2>
+    <p class="gallery__hint">
+      El body slot acepta cualquier markup. Los hijos directos se apilan verticalmente con gap 16px por defecto.
+      Aquí: 2 inputs sc-input apilados con stacking automático.
+    </p>
+    <div class="gallery__row">
+      <p-button label="Editar agente" severity="info" [icon]="'pi pi-pencil'" (click)="formOpen.set(true)" />
+    </div>
+    <sc-modal
+      [visible]="formOpen()"
+      title="Editar agente"
+      subtitle="Cambios se aplican al guardar"
+      [icon]="icons.edit"
+      [width]="'520px'"
+      (cancelled)="formOpen.set(false)"
+    >
+      <sc-input label="Nombre" [(value)]="agentName" />
+      <sc-input label="Email" type="email" [(value)]="agentEmail" />
+
+      <div modal-actions>
+        <p-button label="Cancelar" severity="secondary" (click)="formOpen.set(false)" />
+        <p-button label="Guardar" severity="info" (click)="onSave()" />
+      </div>
+    </sc-modal>
+  </section>
+
+  <!-- 5. Scrolling body (long content). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">5 · Body largo con scroll interno</h2>
+    <p class="gallery__hint">
+      El body tiene <code>max-height: min(85vh, 720px)</code>. Contenido largo scrollea dentro del body sin
+      desbordar la pantalla. Header y footer quedan fijos arriba y abajo.
+    </p>
+    <div class="gallery__row">
+      <p-button label="Abrir documento largo" severity="info" (click)="scrollOpen.set(true)" />
+    </div>
+    <sc-modal
+      [visible]="scrollOpen()"
+      title="Términos del servicio"
+      subtitle="Última actualización: 15 de mayo, 2026"
+      [icon]="icons.info"
+      [width]="'560px'"
+      (cancelled)="scrollOpen.set(false)"
+    >
+      @for (i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+        <div>
+          <h3 style="margin: 0 0 4px; font-size: 14px; font-weight: 600;">Cláusula {{ i }}</h3>
+          <p style="margin: 0; line-height: 1.5; color: var(--sc-text-secondary); font-size: 13px;">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          </p>
+        </div>
+      }
+      <div modal-actions>
+        <p-button label="Cerrar" severity="secondary" (click)="scrollOpen.set(false)" />
+        <p-button label="Aceptar" severity="info" (click)="scrollOpen.set(false)" />
+      </div>
+    </sc-modal>
+  </section>
+</div>

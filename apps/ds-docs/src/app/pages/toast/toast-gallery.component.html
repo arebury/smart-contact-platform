@@ -1,0 +1,104 @@
+<!-- Local p-toast con la chrome SC (mismo template que app.component.html
+     en AED) — para que los toasts en esta gallery NO floten en el documento
+     global de ds-docs sino dentro de su propia área. -->
+<p-toast position="bottom-right">
+  <ng-template let-message pTemplate="message">
+    <div
+      class="sc-toast"
+      role="status"
+      aria-live="assertive"
+      aria-atomic="true"
+      [attr.data-severity]="message.severity ?? 'info'"
+    >
+      <div class="sc-toast__icon" aria-hidden="true">
+        <lucide-icon [img]="iconFor(message.severity)" [size]="14" aria-hidden="true" />
+      </div>
+      <div class="sc-toast__body">
+        @if (message.summary) {
+          <div class="sc-toast__title">{{ message.summary }}</div>
+        }
+        @if (message.detail) {
+          <div class="sc-toast__message">{{ message.detail }}</div>
+        }
+      </div>
+      @if (message.data?.undoEntryId; as undoId) {
+        <button type="button" class="sc-toast__action" (click)="onUndoClick(undoId)">
+          Deshacer
+        </button>
+      }
+      <button
+        type="button"
+        class="sc-toast__close"
+        aria-label="Cerrar"
+        (click)="onClose()"
+      >
+        <lucide-icon [img]="icons.close" [size]="14" aria-hidden="true" />
+      </button>
+    </div>
+  </ng-template>
+</p-toast>
+
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Toast</h1>
+    <p class="gallery__lede">
+      Notificación efímera anclada abajo a la derecha. Basada en
+      <code>&lt;p-toast&gt;</code> de PrimeNG con un <code>pTemplate="message"</code> override
+      + tokens <code>--sc-toast-*</code>. Pulsa los botones de cada sección para ver el toast en vivo.
+    </p>
+  </header>
+
+  <!-- 1. Severities. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Severities</h2>
+    <p class="gallery__hint">5 tonos: success / info / warn / error / secondary (overload SC → violeta para "neutral notices" tipo borrador creado).</p>
+    <div class="gallery__row">
+      <p-button label="Success" severity="success" (click)="fireSuccess()" />
+      <p-button label="Info" severity="info" (click)="fireInfo()" />
+      <p-button label="Warn" severity="warn" (click)="fireWarn()" />
+      <p-button label="Error" severity="danger" (click)="fireError()" />
+      <p-button label="Secondary (violet)" severity="secondary" (click)="fireSecondary()" />
+    </div>
+  </section>
+
+  <!-- 2. Undo action. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Con botón "Deshacer" (SC extension)</h2>
+    <p class="gallery__hint">
+      Patrón undo: <code>data.undoEntryId</code> en <code>MessageService.add()</code> añade un botón de acción al toast. Figma no modela este slot — es extensión SC.
+    </p>
+    <div class="gallery__row">
+      <p-button label="Eliminar (con undo)" severity="danger" (click)="fireUndo()" />
+    </div>
+  </section>
+
+  <!-- 3. Sticky. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Sticky (no auto-dismiss)</h2>
+    <p class="gallery__hint">
+      <code>sticky: true</code> evita el auto-dismiss. Usado para acciones de fondo (sincronización, carga larga). El usuario debe cerrarlo con la X.
+    </p>
+    <div class="gallery__row">
+      <p-button label="Iniciar sync (sticky)" severity="info" (click)="fireSticky()" />
+    </div>
+  </section>
+
+  <!-- 4. Long content (text wrap). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Texto largo</h2>
+    <p class="gallery__hint">El toast tiene <code>width: 350px</code> fijo (Figma) — textos largos hacen wrap natural dentro de ese ancho.</p>
+    <div class="gallery__row">
+      <p-button label="Mostrar aviso largo" severity="warn" (click)="fireLong()" />
+    </div>
+  </section>
+
+  <!-- 5. Clear all. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">5 · Limpiar todos</h2>
+    <p class="gallery__hint"><code>MessageService.clear()</code> sin argumentos cierra todos los toasts activos.</p>
+    <div class="gallery__row">
+      <p-button label="Limpiar toasts" severity="secondary" (click)="clearAll()" />
+    </div>
+  </section>
+</div>

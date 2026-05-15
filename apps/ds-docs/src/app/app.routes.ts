@@ -53,6 +53,21 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: 'components/toast',
+    loadComponent: () =>
+      import('./pages/toast/toast-gallery.component').then((m) => m.ToastGalleryComponent),
+  },
+  {
+    path: 'components/modal',
+    loadComponent: () =>
+      import('./pages/modal/modal-gallery.component').then((m) => m.ModalGalleryComponent),
+  },
+  {
+    path: 'components/checkbox',
+    loadComponent: () =>
+      import('./pages/checkbox/checkbox-gallery.component').then((m) => m.CheckboxGalleryComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
