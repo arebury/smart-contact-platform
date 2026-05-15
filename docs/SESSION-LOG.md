@@ -10,6 +10,91 @@
 
 ---
 
+## 2026-05-15 · Session 29 — iCloud migration + Netlify blocker fix + tracker non-dev rewrite
+
+> Sesión de infra "de mantenimiento" que limpia tres deudas: el deploy de
+> ds-smartcontact que llevaba bloqueado desde la 28, la migración del repo
+> fuera de iCloud, y un rewrite del tracker de la home de ds-docs para que
+> hable como el usuario (no como un dev).
+
+### Worked on
+
+- **Netlify blocker (Fase 1 del plan)**: causa raíz confirmada — el plugin
+  `@netlify/angular-runtime` elige el primer proyecto del `angular.json`
+  cuando no encuentra una env var que le diga cuál usar. Fix:
+  `ANGULAR_PROJECT=aed` como default en `netlify.toml`, y en la UI de
+  Netlify de ds-smartcontact override con `ANGULAR_PROJECT=ds-docs`. El
+  cambio del toml está pusheado (`8fb3d49`); falta confirmar visualmente
+  que el próximo deploy de ds-smartcontact pasa verde.
+- **Float Label en docs del Input**: nueva sección en la página
+  `/components/input` y en el spec doc mostrando el patrón compuesto con
+  `<p-floatlabel>` (variantes in / on / over). Borrada la nota "NOT
+  implemented" que sobraba — el patrón es composición nativa de PrimeNG,
+  sc-input mantiene su label-on-top.
+- **Tracker home ds-docs en lenguaje de Rafa**: cada entrada del catálogo
+  cambia `summary` (orientado a dev) por `whatItDoes` (qué hace, en plano)
+  y `whereToSee` (pantalla AED concreta donde mirarlo). Reduce fricción
+  cuando Rafa valida componente a componente.
+- **Migración del repo fuera de iCloud (Fase 2 del plan)**: `~/Desktop/AED`
+  → `~/dev/smart-contact-platform`. Plan A (rsync) abortado tras 25 min
+  copiando solo 8.5 MB — los objetos `.git/` estaban "dataless" en iCloud
+  y cada acceso bajaba de la nube. Plan B (git clone fresh + copia manual
+  del único untracked relevante, `.claude/settings.local.json`) tardó ~3
+  min. Builds de aed + ds-docs validados en la nueva ruta. Journal con la
+  historia y checklist anti-iCloud en
+  [`.notes/journal/2026-05-15-icloud-migration.md`](../.notes/journal/2026-05-15-icloud-migration.md).
+- **Memory 3.0 migrada también** a `~/dev/memory/` (rsync sí valía:
+  17 MB y archivos sin commitear).
+- **Limpieza final** (ya en esta sesión): `rm -rf ~/Desktop/AED` ejecutado
+  tras verificar repo nuevo limpio + HEAD en `fe9317e`. Carpeta vieja ya
+  no existe.
+
+### Decisiones clave
+
+- **`ANGULAR_PROJECT=aed` como default global**: deja el repo determinista
+  para futuros sites Netlify que arranquen apuntando a aed. La excepción
+  (ds-docs) se override por site en la UI. Más limpio que tener un toml
+  por app peleando con la UI (lección de la 28).
+- **`git clone` siempre antes que `rsync`** para mover repos pesados.
+  Convertido en checklist en el journal de migración para próximos
+  proyectos.
+- **Tracker en idioma del usuario, no del autor del código**. `summary`
+  era útil cuando lo escribió Claude; `whatItDoes` + `whereToSee` es
+  útil cuando lo lee Rafa para validar. Patrón aplicable a cualquier
+  surface de ds-docs que mire un no-dev.
+
+### Lo que NO se cerró
+
+- **Verificación live del deploy ds-smartcontact**: el toml está pusheado
+  con `ANGULAR_PROJECT=aed` y se espera que Rafa setee
+  `ANGULAR_PROJECT=ds-docs` en Netlify UI del site ds-smartcontact +
+  trigger deploy. Hasta que un `curl` contra
+  `https://ds-smartcontact.netlify.app/` devuelva el hash de bundle
+  esperado y el texto del tracker, Fase 1 queda como "fix designed,
+  pending live confirmation".
+- **Nivel 1 paleta gray → Aura slate (Fase 3)**: sin tocar, sigue
+  pendiente.
+- **Migración de los 26 inputs restantes en AED** (agent-form,
+  group-form, 3 config pages): se hará por feature al tocarse.
+
+### Fricciones que costaron tiempo (anotar para evitar)
+
+- **rsync sobre `.git/` en iCloud**: lección cara — `cloudd` al 100% CPU,
+  archivos pequeños bajando uno a uno de la nube. Para repos commited al
+  100%, `git clone` es siempre más rápido y más limpio.
+- **No detectar antes que `~/Desktop` era iCloud**: los síntomas
+  (`.DS_Store` rompiendo `&&`, archivos fantasma, `git mv` lento,
+  duplicados " 2") venían arrastrándose días. Documentado en el journal
+  para que el próximo proyecto no caiga.
+
+### Commits pusheados a main
+
+- `8fb3d49` docs(netlify): document ANGULAR_PROJECT env var + set aed as default
+- `70b6b53` feat(ds-docs): float label demo + non-dev tracker entries
+- `fe9317e` docs(notes): icloud migration journal — why we moved repos out of Desktop
+
+---
+
 ## 2026-05-14 · Session 28 — Input component (sc-input) + Figma 1:1 audit + Netlify deploy debugging
 
 > Sesión post-foundation. Cocinamos el primer componente nuevo end-to-end (Input) +
