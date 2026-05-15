@@ -19,28 +19,28 @@
 | 01 | Button | ✓ | 🟣 Custom-preset | `<p-button>` | [6738:49717](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-49717) | **100%** — Session 30 audit Nivel-2 contra los 1965 variants Figma. Padding 10.5/7 ✓ matchea preset. Brand divergences (Primary navy, Info electric-blue, Warn amber) documentadas. | `docs/components/01-button.md` |
 | 02 | Modal / Dialog | ✓ | 🟢 Extended | `<sc-modal>` | [6738:50207](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50207) ConfirmDialog · [6738:50208](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50208) ConfirmPopup | **100%** — Session 30 audit. Border slate-200, radius 12, padding 17.5 uniforme (top:0 en body/footer), title 17.5/600, header gap 7, footer gap 7, double-layer shadow. Body slot con stacking auto via `display: flex; gap: 16px`. SC extensions documentadas (3-slot shell, bodyless mode). | `docs/components/11-modal.md` |
 | 03 | Toast | ✓ | 🟣 Custom-preset + template | `<p-toast>` + pTemplate override en `app.component.html` | [6738:53165](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-53165) | **100%** — Session 30 audit. Width 350, radius 6, padding 10.5, icon 15.75, borders severity-200 tinted, backdrop blur 1.5, close 24.5 circular. SC extensions: action button (undo), icon-square chrome, severity=secondary→violet. | `docs/components/10-toast.md` |
-| 04 | Photo upload | ✓ | ⚪ Pure SC | `<sc-photo-upload>` | TODO | TBD | TODO |
-| 05 | Toggle switch | ✓ | ⚪ Pure SC | `<sc-toggle-switch>` | TODO | TBD | TODO |
+| 04 | Photo upload | ✓ | ⚪ Pure SC | `<sc-photo-upload>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/29-photo-upload.md` |
+| 05 | Toggle switch | ✓ | 🟢 Extended | `<sc-toggle-switch>` | [6738:22645](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22645) | **100%** — S32 refactor: ahora wrapper de `<p-toggleswitch>` (era CSS sobre input nativo). Hereda chrome + a11y PrimeNG. | `docs/components/15-toggle-switch.md` |
 | 06 | Tri-state checkbox | ✓ | 🟢 Extended | `<sc-tri-state-checkbox>` | [6738:22640](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22640) | **100%** — Session 30 audit Nivel-2 contra los 60 variants Figma. Box 17.5/14/21 por size, border slate-300 1px, icon 12.25, filled bg slate-50. Checked=navy primary (era blue-700, ahora alineado a `--sc-bg-primary`). `'some'` indeterminate = SC extension. | `docs/components/09-checkbox.md` |
-| 07 | Illustrated avatar | ✓ | ⚪ Pure SC | `<sc-illustrated-avatar>` | TODO | TBD | TODO |
+| 07 | Illustrated avatar | ✓ | ⚪ Pure SC | `<sc-illustrated-avatar>` | n/a (asset custom, no Figma) | n/a | `docs/components/16-illustrated-avatar.md` |
 | 08 | Section card | ✓ | ⚪ Pure SC | `<sc-section-card>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/13-section-card.md` |
-| 09 | Bulk action bar | ✓ | ⚪ Pure SC | `<sc-bulk-action-bar>` | TODO | TBD | TODO |
-| 10 | Bulk edit menu | ✓ | ⚪ Pure SC | `<sc-bulk-edit-menu>` | TODO | TBD | TODO |
+| 09 | Bulk action bar | ✓ | ⚪ Pure SC | `<sc-bulk-action-bar>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/23-bulk-action-bar.md` |
+| 10 | Bulk edit menu | ✓ | ⚪ Pure SC | `<sc-bulk-edit-menu>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/24-bulk-edit-menu.md` |
 | 11 | Empty state | ✓ | ⚪ Pure SC | `<sc-empty-state>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/12-empty-state.md` |
-| 12 | Form danger zone | ✓ | ⚪ Pure SC | `<sc-form-danger-zone>` | TODO | TBD | TODO |
-| 13 | Form section nav | ✓ | ⚪ Pure SC | `<sc-form-section-nav>` | TODO | TBD | TODO |
-| 14 | Confirm host | ✓ | ⚪ Pure SC | `<sc-confirm-host>` | TODO | TBD | TODO |
-| 15 | Label chip | ✓ | ⚪ Pure SC | `<sc-label-chip>` | TODO | TBD | TODO |
-| 16 | Color dot picker | ✓ | ⚪ Pure SC | `<sc-color-dot-picker>` | TODO | TBD | TODO |
-| 17 | Inline rename cell | ✓ | ⚪ Pure SC | `<sc-inline-rename-cell>` | TODO | TBD | TODO |
-| 18 | Group popover | ✓ | ⚪ Pure SC | `<sc-group-popover>` | TODO | TBD | TODO |
-| 19 | Column selector | ✓ | ⚪ Pure SC | `<sc-column-selector>` | TODO | TBD | TODO |
-| 20 | Command palette | ✓ | ⚪ Pure SC | `<sc-command-palette>` | TODO | TBD | TODO |
-| 21 | Keyboard shortcuts | ✓ | ⚪ Pure SC | `<sc-keyboard-shortcuts>` | TODO | TBD | TODO |
-| 22 | Delete entity dialog | ✓ | ⚪ Pure SC | `<sc-delete-entity-dialog>` | TODO | TBD | TODO |
-| 23 | Impact preview dialog | ✓ | ⚪ Pure SC | `<sc-impact-preview-dialog>` | TODO | TBD | TODO |
-| 24 | Page header | ✓ | ⚪ Pure SC | `<sc-page-header>` | TODO | TBD | TODO |
-| 25 | Sticky form header | ✓ | ⚪ Pure SC | `<sc-sticky-form-header>` | TODO | TBD | TODO |
+| 12 | Form danger zone | ✓ | ⚪ Pure SC | `<sc-form-danger-zone>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/21-form-danger-zone.md` |
+| 13 | Form section nav | ✓ | ⚪ Pure SC | `<sc-form-section-nav>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/20-form-section-nav.md` |
+| 14 | Confirm host | ✓ | ⚪ Pure SC | `<sc-confirm-host>` | n/a (composición sobre sc-modal, hereda) | n/a | `docs/components/33-confirm-host.md` |
+| 15 | Label chip | ✓ | ⚪ Pure SC | `<sc-label-chip>` | [6738:55109](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-55109) Chip | TBD — semántica `LabelColor` propia, no se wrappea `<p-tag>` (decisión S32) | `docs/components/17-label-chip.md` |
+| 16 | Color dot picker | ✓ | ⚪ Pure SC | `<sc-color-dot-picker>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/18-color-dot-picker.md` |
+| 17 | Inline rename cell | ✓ | ⚪ Pure SC | `<sc-inline-rename-cell>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/28-inline-rename-cell.md` |
+| 18 | Group popover | ✓ | ⚪ Pure SC | `<sc-group-popover>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/30-group-popover.md` |
+| 19 | Column selector | ✓ | ⚪ Pure SC | `<sc-column-selector>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/27-column-selector.md` |
+| 20 | Command palette | ✓ | ⚪ Pure SC | `<sc-command-palette>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/31-command-palette.md` |
+| 21 | Keyboard shortcuts | ✓ | ⚪ Pure SC | `<sc-keyboard-shortcuts>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/32-keyboard-shortcuts.md` |
+| 22 | Delete entity dialog | ✓ | ⚪ Pure SC | `<sc-delete-entity-dialog>` | n/a (composición sobre sc-modal, hereda) | n/a | `docs/components/26-delete-entity-dialog.md` |
+| 23 | Impact preview dialog | ✓ | ⚪ Pure SC | `<sc-impact-preview-dialog>` | n/a (composición sobre sc-modal, hereda) | n/a | `docs/components/25-impact-preview-dialog.md` |
+| 24 | Page header | ✓ | ⚪ Pure SC | `<sc-page-header>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/19-page-header.md` |
+| 25 | Sticky form header | ✓ | ⚪ Pure SC | `<sc-sticky-form-header>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/22-sticky-form-header.md` |
 | 26 | Input (text/email/password/tel/url/search) | ✓ | 🟢 Extended | `<sc-input>` | [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | **100%** — Session 30 audit Nivel-2 contra los 240 variants Figma. Padding 10.5/7 (default), 8.75/5.25 (sm), 12.25/8.75 (lg) raw decimal. Variant `[filled]` añadida (slate-50 bg) | `docs/components/02-input.md` |
 | 27 | Input number | ✓ | 🟢 Extended | `<sc-input-number>` | TODO | TBD — pendiente reference frame Figma | `docs/components/03-input-number.md` |
 | 28 | Select / dropdown | ✓ | 🟢 Extended | `<sc-select>` | [6738:22642](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22642) | **100%** — Session 30 audit Nivel-2 contra los 258 variants. Padding decimal 8.75/5.25 (sm), 10.5/7 (md), 12.25/8.75 (lg). Variants Filled + Invalid añadidos / verificados. | `docs/components/04-select.md` |
@@ -48,6 +48,7 @@
 | 30 | Tabs | ✓ | 🟣 Custom-preset | `<p-tabs>` | [6738:49740](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-49740) | **100%** — Session 30 audit Nivel-2. Padding tab 14/15.75, tabpanel 12.25/15.75/15.75/15.75 overrides en `components.tabs`. Active = navy (brand divergence vs azure). | `docs/components/06-tabs.md` |
 | 31 | Tooltip | ✓ | 🟦 Full PrimeNG | `[pTooltip]` | [6738:50212](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50212) | **100%** — Session 30 audit. bg slate-700, padding 10.5/7, radius 6, max-width 175. Overrides en `components.tooltip.root`. Shadow heredado de overlay.popover. | `docs/components/07-tooltip.md` |
 | 32 | MultiSelect | ✓ | 🟢 Extended | `<sc-multi-select>` | [6738:22651](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22651) | **100%** — Session 30. Tokens `multiselect/*` idénticos a `select/*` (mismo chrome). Display `comma` o `chip`, selectionLimit, filter. | `docs/components/08-multi-select.md` |
+| 33 | Search | ✓ | 🟢 Extended | `<sc-search>` | [11861:55210](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=11861-55210) | **100%** — S31 cocinado. Composición `<p-iconfield>` + `<p-inputicon>` + `pInputText` + clear button auto + opcional kbd hint `⌘K`/`/`. Figma canvas compuesto (Light + Dark + Components frame). | `docs/components/14-search.md` |
 
 ## Tokens
 

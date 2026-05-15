@@ -1,69 +1,9 @@
-.toggle {
-  position: relative;
+/* Wrapper Extended sobre <p-toggleswitch>. El chrome visual (track + thumb,
+ * focus ring, transitions) lo provee PrimeNG vía tokens --p-toggleswitch-*
+ * mapeados a --sc-* en sc-preset.ts. Mantener este SCSS mínimo — cualquier
+ * brand-divergence va al preset, no aquí. */
+
+:host {
   display: inline-flex;
   align-items: center;
-  flex: 0 0 auto;
-  width: 36px;
-  height: 20px;
-  cursor: pointer;
-
-  &--disabled {
-    cursor: not-allowed;
-  }
-
-  &__input {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    opacity: 0;
-    cursor: inherit;
-
-    &:focus-visible + .toggle__track {
-      outline: 2px solid var(--sc-color-electric-blue-500);
-      outline-offset: 2px;
-    }
-  }
-
-  &__track {
-    width: 100%;
-    height: 100%;
-    border-radius: 9999px;
-    background: var(--sc-color-gray-300);
-    transition: background-color 100ms ease;
-    pointer-events: none;
-    position: relative;
-  }
-
-  &__thumb {
-    position: absolute;
-    top: 2px;
-    left: 2px;
-    width: 16px;
-    height: 16px;
-    border-radius: 9999px;
-    background: var(--sc-color-gray-0);
-    box-shadow: 0 1px 2px rgb(var(--sc-shadow-color-rgb) / 0.2);
-    transition: transform 120ms ease;
-  }
-
-  &__input:checked + .toggle__track {
-    background: var(--sc-color-blue-700);
-  }
-
-  &__input:checked + .toggle__track .toggle__thumb {
-    transform: translateX(16px);
-  }
-
-  &__input:disabled + .toggle__track {
-    opacity: 0.5;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    &__track,
-    &__thumb {
-      transition: none;
-    }
-  }
 }

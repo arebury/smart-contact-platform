@@ -203,6 +203,20 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
 - **Auditoría confirmó**: NO importa `primeng/*`, usa `<input type="checkbox">` nativo + CSS custom para los 3 estados. Es **pure-sc**, no extended.
 - **Acción**: tracker `apps/ds-docs/src/app/pages/home/home.component.ts` actualizado en commit `3a54db6`. Sin impacto runtime.
 
+### 5.6 `sc-toggle-button` — gap (Figma `❖ ToggleButton` node 6738:46435)
+
+- **Figma SC**: button con estado pressed/unpressed. Diferente de `❖ ToggleSwitch` (que es el switch-style; ese ya está cubierto por `<sc-toggle-switch>`).
+- **PrimeNG**: `<p-togglebutton>`.
+- **Cuándo crear**: primer caso real en AED — segmented toggle de un single estado (ej. "Mostrar solo activos" si fuese button con press state vs un toggle switch). No hay caso hoy.
+
+### 5.7 Refactors de consistencia Session 32 (pure-sc → Extended)
+
+- **No son divergencias** — al revés, son **alineaciones con PrimeNG** que reducen el custom innecesario. Se documentan aquí como reseña para Memory / futuros contributors:
+  - `sc-toggle-switch`: era CSS sobre `<input type="checkbox">`; ahora wrapper de `<p-toggleswitch>`. Misma API pública, 21 consumers AED no se enteraron.
+  - `sc-bulk-edit-menu`: internamente usa `<sc-select>` × 2 (era `<select>` HTML nativo).
+- **Declines documentados**: `inline-rename-cell` y `label-chip` evaluados en S32 — declinados con justificación (ver `docs/inconsistencies-backlog.md` items #2 y #4). El `<sc-input>` rompería la metáfora "flat cell" de rename-cell; el modelo `LabelColor` de label-chip no encaja con `<p-tag>` ni `<p-chip>`.
+- **Política**: post-S32, prioridad clara — **minimizar custom sobre PrimeNG** (memoria `feedback_minimal_customization`). Antes de cualquier nuevo pure-sc, las 4 preguntas del checklist §0 son obligatorias.
+
 ---
 
 ## Cómo añadir una divergencia nueva a este catálogo

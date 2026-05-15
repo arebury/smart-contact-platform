@@ -1,31 +1,31 @@
 <div class="bulk-edit" role="group" aria-label="Editar en bloque">
-  <label class="bulk-edit__pair">
+  <span class="bulk-edit__pair">
     <span class="bulk-edit__lead">Cambiar</span>
-    <span class="bulk-edit__select">
-      <select
-        [value]="selectedFieldKey()"
-        (change)="onFieldChange($event)"
-        aria-label="Campo a editar"
-      >
-        @for (f of fields(); track f.key) {
-          <option [value]="f.key">{{ f.label }}</option>
-        }
-      </select>
-      <lucide-icon class="bulk-edit__chev" [img]="chevronIcon" [size]="16" aria-hidden="true" />
-    </span>
-  </label>
+    <sc-select
+      class="bulk-edit__select"
+      size="sm"
+      optionLabel="label"
+      optionValue="key"
+      [options]="fields()"
+      [value]="selectedFieldKey()"
+      (valueChange)="onFieldValueChange($event)"
+      name="bulk-field"
+    />
+  </span>
 
-  <label class="bulk-edit__pair">
+  <span class="bulk-edit__pair">
     <span class="bulk-edit__lead">a</span>
-    <span class="bulk-edit__select">
-      <select [value]="selectedValue()" (change)="onValueChange($event)" aria-label="Nuevo valor">
-        @for (v of selectedField().values; track v.value) {
-          <option [value]="v.value">{{ v.label }}</option>
-        }
-      </select>
-      <lucide-icon class="bulk-edit__chev" [img]="chevronIcon" [size]="16" aria-hidden="true" />
-    </span>
-  </label>
+    <sc-select
+      class="bulk-edit__select"
+      size="sm"
+      optionLabel="label"
+      optionValue="value"
+      [options]="selectedField()?.values ?? []"
+      [value]="selectedValue()"
+      (valueChange)="onValueValueChange($event)"
+      name="bulk-value"
+    />
+  </span>
 
   <button
     type="button"

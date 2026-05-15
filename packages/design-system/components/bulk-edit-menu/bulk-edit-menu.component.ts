@@ -7,7 +7,8 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { LucideAngularModule, ChevronDown } from 'lucide-angular';
+
+import { SelectComponent } from '../select/select.component';
 
 export interface BulkEditFieldOption {
   /** Stable key passed back to the caller. */
@@ -42,7 +43,7 @@ export interface BulkEditCommit {
  */
 @Component({
   selector: 'sc-bulk-edit-menu',
-  imports: [LucideAngularModule],
+  imports: [SelectComponent],
   templateUrl: './bulk-edit-menu.component.html',
   styleUrl: './bulk-edit-menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,13 +55,11 @@ export class BulkEditMenuComponent {
 
   readonly commit = output<BulkEditCommit>();
 
-  protected readonly chevronIcon = ChevronDown;
-
   protected readonly selectedFieldKey = signal<string>('');
   protected readonly selectedValue = signal<string>('');
 
-  protected readonly selectedField = computed(
-    () => this.fields().find((f) => f.key === this.selectedFieldKey()) ?? this.fields()[0],
+  protected readonly selectedField = computed<BulkEditFieldOption | null>(
+    () => this.fields().find((f) => f.key === this.selectedFieldKey()) ?? this.fields()[0] ?? null,
   );
 
   protected readonly canApply = computed(() => {
@@ -78,15 +77,17 @@ export class BulkEditMenuComponent {
     });
   }
 
-  protected onFieldChange(event: Event): void {
-    const key = (event.target as HTMLSelectElement).value;
-    this.selectedFieldKey.set(key);
-    const next = this.fields().find((f) => f.key === key)?.values[0]?.value ?? '';
+  protected onFieldValueChange(value: unknown): void {
+    if (typeof value !== 'string') return;
+    this.selectedFieldKey.set(value);
+    /* Cascade reset: el nuevo field puede no soportar el value previo. Caer
+     * al primer value del nuevo field garantiza un commit consistente. */
+    const next = this.fields().find((f) => f.key === value)?.values[0]?.value ?? '';
     this.selectedValue.set(next);
   }
 
-  protected onValueChange(event: Event): void {
-    this.selectedValue.set((event.target as HTMLSelectElement).value);
+  protected onValueValueChange(value: unknown): void {
+    if (typeof value === 'string') this.selectedValue.set(value);
   }
 
   protected onApply(): void {
