@@ -341,4 +341,45 @@ export const ScPreset = definePreset(Aura, {
       },
     },
   },
+  /* ────────────────────────────────────────────────────────────────────
+   * Per-component overrides — used for components where Aura defaults
+   * diverge from Figma `Smart Contact Prime`. Each block here is the
+   * minimal subset of the component's token tree; everything else
+   * inherits Aura defaults (which inherit from semantic above).
+   *
+   * Audit references (Session 30):
+   *   tabs    → canvas 6738:49740
+   *   tooltip → canvas 6738:50212
+   * ────────────────────────────────────────────────────────────────────
+   */
+  components: {
+    tabs: {
+      /* Figma tab padding 14/15.75 (raw decimals from `tabs/tab/padding/x,y`,
+       * node 3358:29419). Aura default 1rem/1.125rem (16/18) → diverge. */
+      tab: {
+        padding: '14px 15.75px',
+        gap: '7px',
+        /* Color tokens inherit: color = text.muted, activeColor = primary.
+         * Our SC primary is navy (--sc-bg-primary), Figma shows azure.
+         * Documented brand divergence — same as button[severity=primary]. */
+      },
+      /* Figma tabpanel padding 12.25/15.75/15.75/15.75 (top/right/bottom/left,
+       * tokens `tabs/tabpanel/padding/*`, node 6555:1639). */
+      tabpanel: {
+        padding: '12.25px 15.75px 15.75px 15.75px',
+      },
+    },
+    /* Tooltip — node 327:12831 family.
+     * Figma: bg slate-700, color white, padding 10.5/7, radius 6,
+     * max-width 175, shadow same as datepicker panel. */
+    tooltip: {
+      root: {
+        background: 'var(--sc-color-gray-700)',
+        color: 'var(--sc-color-gray-0)',
+        padding: '7px 10.5px',
+        borderRadius: 'var(--sc-radius-200)',
+        maxWidth: '175px',
+      },
+    },
+  },
 });

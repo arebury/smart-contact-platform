@@ -116,6 +116,16 @@ export class HomeComponent {
       figmaParity: 100,
     },
     {
+      slug: 'tabs',
+      name: 'Tabs',
+      type: 'custom-preset',
+      status: 'ready',
+      pageRoute: '/components/tabs',
+      whatItDoes: 'Navegación por pestañas dentro de UNA pantalla. Por ejemplo: "Activos / Archivados / Todos" en una lista, o secciones de un formulario largo. El tab activo se marca con un underline en color de marca.',
+      whereToSee: 'Aún no hay tabs nativos en AED — primer caso planeado es la pantalla de configuración avanzada. Demo en ds-docs hasta entonces.',
+      figmaParity: 100,
+    },
+    {
       slug: 'modal',
       name: 'Modal',
       type: 'extended',

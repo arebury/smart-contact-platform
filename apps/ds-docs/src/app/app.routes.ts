@@ -36,6 +36,11 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: 'components/tabs',
+    loadComponent: () =>
+      import('./pages/tabs/tabs-gallery.component').then((m) => m.TabsGalleryComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

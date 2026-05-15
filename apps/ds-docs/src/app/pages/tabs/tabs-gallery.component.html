@@ -1,0 +1,80 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Tabs</h1>
+    <p class="gallery__lede">
+      <code>&lt;p-tabs&gt;</code> de PrimeNG, con tokens visuales ajustados a Figma vía <code>sc-preset.ts</code>.
+      SCDS NO envuelve el componente (categoría 🟣 Custom-preset, igual que <code>&lt;p-button&gt;</code>) — se
+      usa el API nativo de PrimeNG y la chrome SC se aplica vía preset.
+    </p>
+  </header>
+
+  <!-- 1. Basic. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Basic (string values)</h2>
+    <p class="gallery__hint">Composición mínima: tabs + tablist con tab labels + tabpanels con tabpanel content. value como string para el binding.</p>
+    <div class="gallery__row">
+      <p-tabs [(value)]="activeTab" style="width:100%">
+        <p-tablist>
+          <p-tab value="agents">Agents</p-tab>
+          <p-tab value="groups">Groups</p-tab>
+          <p-tab value="users">Users</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="agents">
+            <p>Contenido del tab <strong>Agents</strong>. Aquí pintas tu tabla, filtros, etc.</p>
+          </p-tabpanel>
+          <p-tabpanel value="groups">
+            <p>Contenido del tab <strong>Groups</strong>.</p>
+          </p-tabpanel>
+          <p-tabpanel value="users">
+            <p>Contenido del tab <strong>Users</strong>.</p>
+          </p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+    <p class="gallery__output">Tab activo: <code>{{ activeTab() }}</code></p>
+  </section>
+
+  <!-- 2. Scrollable when overflow. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Scrollable (overflow horizontal)</h2>
+    <p class="gallery__hint">Cuando hay muchos tabs, <code>[scrollable]="true"</code> añade botones ◄ ► para navegar.</p>
+    <div class="gallery__row">
+      <p-tabs value="t1" scrollable style="width:100%">
+        <p-tablist>
+          @for (i of [1,2,3,4,5,6,7,8,9,10,11,12]; track i) {
+            <p-tab [value]="'t' + i">Tab {{ i }}</p-tab>
+          }
+        </p-tablist>
+        <p-tabpanels>
+          @for (i of [1,2,3,4,5,6,7,8,9,10,11,12]; track i) {
+            <p-tabpanel [value]="'t' + i">
+              <p>Panel {{ i }}.</p>
+            </p-tabpanel>
+          }
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+  </section>
+
+  <!-- 3. With icons in tabs. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Iconos en los tabs</h2>
+    <p class="gallery__hint">Cualquier markup dentro del <code>&lt;p-tab&gt;</code> funciona — combina icono + texto.</p>
+    <div class="gallery__row">
+      <p-tabs value="home" style="width:100%">
+        <p-tablist>
+          <p-tab value="home"><i class="pi pi-home" style="margin-right:7px"></i>Home</p-tab>
+          <p-tab value="cog"><i class="pi pi-cog" style="margin-right:7px"></i>Settings</p-tab>
+          <p-tab value="user"><i class="pi pi-user" style="margin-right:7px"></i>Profile</p-tab>
+        </p-tablist>
+        <p-tabpanels>
+          <p-tabpanel value="home"><p>Home panel.</p></p-tabpanel>
+          <p-tabpanel value="cog"><p>Settings panel.</p></p-tabpanel>
+          <p-tabpanel value="user"><p>Profile panel.</p></p-tabpanel>
+        </p-tabpanels>
+      </p-tabs>
+    </div>
+  </section>
+</div>
