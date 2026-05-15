@@ -106,6 +106,16 @@ export class HomeComponent {
       figmaParity: 100,
     },
     {
+      slug: 'datepicker',
+      name: 'Datepicker',
+      type: 'extended',
+      status: 'ready',
+      pageRoute: '/components/datepicker',
+      whatItDoes: 'Selector de fecha. Abre un calendario al hacer click. Soporta selección día/mes/año, rangos min-max ("solo próximos 30 días"), y modo inline (calendario siempre visible).',
+      whereToSee: 'Aún no hay datepickers visibles en AED — primer caso planeado es "fecha de alta del agente". Demo en ds-docs hasta entonces.',
+      figmaParity: 100,
+    },
+    {
       slug: 'modal',
       name: 'Modal',
       type: 'extended',

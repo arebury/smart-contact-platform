@@ -1,0 +1,150 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Datepicker</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-datepicker&gt;</code> envuelve PrimeNG <code>&lt;p-datepicker&gt;</code> con el patrón SCDS
+      (label + required + helper + error). Modo popup por defecto, con icono de calendario dentro del input.
+      Soporta <code>[(value)]</code> (signal de <code>Date | null</code>), <code>[(ngModel)]</code> y Reactive Forms.
+    </p>
+  </header>
+
+  <!-- 1. Basic. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Basic (popup)</h2>
+    <p class="gallery__hint">Input con icono de calendario. Al click se abre el panel con el mes actual.</p>
+    <div class="gallery__row">
+      <sc-datepicker label="Fecha" [(value)]="basicValue" />
+    </div>
+    <p class="gallery__output">Valor: <code>{{ formatDate(basicValue()) }}</code></p>
+  </section>
+
+  <!-- 2. Pre-selected + helper. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Pre-seleccionado + helper</h2>
+    <p class="gallery__hint">Estado inicial con hoy, texto de ayuda debajo.</p>
+    <div class="gallery__row">
+      <sc-datepicker
+        label="Fecha de alta"
+        helperText="Por defecto hoy. Puedes cambiarla si tienes otra fecha confirmada."
+        [(value)]="preselected"
+      />
+    </div>
+    <p class="gallery__output">Valor: <code>{{ formatDate(preselected()) }}</code></p>
+  </section>
+
+  <!-- 3. Bounded (min/max). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Min / Max — solo próximos 30 días</h2>
+    <p class="gallery__hint">El panel deshabilita las fechas fuera del rango (gris, sin click).</p>
+    <div class="gallery__row">
+      <sc-datepicker
+        label="Próxima cita"
+        helperText="Tienen que ser dentro de los próximos 30 días."
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        [(value)]="boundedValue"
+      />
+    </div>
+  </section>
+
+  <!-- 4. Sizes. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Tamaños (sm / md / lg)</h2>
+    <p class="gallery__hint">Mismas alturas que <code>&lt;sc-input&gt;</code>.</p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-datepicker label="Small" size="sm" />
+      <sc-datepicker label="Medium (default)" />
+      <sc-datepicker label="Large" size="lg" />
+    </div>
+  </section>
+
+  <!-- 5. Estados. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">5 · Estados</h2>
+    <p class="gallery__hint">Disabled, con "×" para limpiar, y error con mensaje.</p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-datepicker label="Disabled" [disabled]="true" [(value)]="disabledValue" />
+      <sc-datepicker label="Clearable" [showClear]="true" [(value)]="preselected" />
+      <sc-datepicker
+        label="Con error"
+        error="Esta fecha ya está reservada."
+        helperText="Lo usaremos para asignar el agente."
+        [(value)]="preselected"
+      />
+    </div>
+  </section>
+
+  <!-- 6. Button bar (today / clear in panel). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">6 · Button bar (hoy / limpiar)</h2>
+    <p class="gallery__hint">Añade dos botones en el footer del panel: "Hoy" salta a hoy, "Limpiar" deja el campo vacío.</p>
+    <div class="gallery__row">
+      <sc-datepicker
+        label="Con button bar"
+        [showButtonBar]="true"
+        [(value)]="basicValue"
+      />
+    </div>
+  </section>
+
+  <!-- 7. Inline mode. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">7 · Inline (sin popup)</h2>
+    <p class="gallery__hint">El calendario siempre visible. Útil en wizards o pantallas dedicadas a elegir fecha.</p>
+    <div class="gallery__row">
+      <sc-datepicker
+        label="Selecciona una fecha"
+        [inline]="true"
+        [(value)]="inlineValue"
+      />
+    </div>
+    <p class="gallery__output">Valor: <code>{{ formatDate(inlineValue()) }}</code></p>
+  </section>
+
+  <!-- 8. View=month / year. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">8 · View=month / View=year</h2>
+    <p class="gallery__hint">Cuando solo necesitas mes o año (informes, filtros), el panel arranca directamente en esa vista.</p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-datepicker
+        label="Mes"
+        view="month"
+        dateFormat="mm/yy"
+        placeholder="mm/aaaa"
+        [(value)]="monthValue"
+      />
+      <sc-datepicker
+        label="Año"
+        view="year"
+        dateFormat="yy"
+        placeholder="aaaa"
+        [(value)]="yearValue"
+      />
+    </div>
+  </section>
+
+  <!-- 9. ngModel. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">9 · [(ngModel)]</h2>
+    <p class="gallery__hint">Compatible con FormsModule. Cualquier <code>Date</code> que le metas se renderiza con el dateFormat.</p>
+    <div class="gallery__row">
+      <sc-datepicker label="Vía ngModel" [(ngModel)]="ngModelValue" />
+    </div>
+    <p class="gallery__output">Valor: <code>{{ formatDate(ngModelValue()) }}</code></p>
+  </section>
+
+  <!-- 10. Reactive Forms. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">10 · Reactive Forms + validación</h2>
+    <p class="gallery__hint">El picker se pinta inválido cuando el FormControl tiene errores Y ha sido touched.</p>
+    <div class="gallery__row">
+      <sc-datepicker
+        label="Fecha (requerida)"
+        [formControl]="reactiveDate"
+        [error]="reactiveDate.touched && reactiveDate.invalid ? 'Campo requerido.' : undefined"
+      />
+      <button class="gallery__btn" (click)="touchReactive()">Marcar touched</button>
+    </div>
+  </section>
+</div>

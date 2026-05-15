@@ -52,6 +52,9 @@ export type { ScInputNumberSize } from './input-number/input-number.component';
 export { SelectComponent } from './select/select.component';
 export type { ScSelectSize } from './select/select.component';
 
+export { DatepickerComponent } from './datepicker/datepicker.component';
+export type { ScDatepickerSize, ScDatepickerView } from './datepicker/datepicker.component';
+
 export { ModalComponent } from './modal/modal.component';
 
 export { LabelChipComponent } from './label-chip/label-chip.component';

@@ -29,6 +29,13 @@ export const appRoutes: Routes = [
       import('./pages/select/select-gallery.component').then((m) => m.SelectGalleryComponent),
   },
   {
+    path: 'components/datepicker',
+    loadComponent: () =>
+      import('./pages/datepicker/datepicker-gallery.component').then(
+        (m) => m.DatepickerGalleryComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
