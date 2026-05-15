@@ -122,7 +122,14 @@ dedicada futura — componente por componente.
 - §5.1 sc-input-group: gap clarificado (reducido a "addon merge"; search ahora cubierto por sc-search).
 - §5.5 nuevo: sc-search documentado con composición + decisión IconField vs InputGroup + estado del Figma node 11861:55210.
 
-**Figma `❖ Search` (node 11861:55210)**: Rafa creó la página vacía durante la sesión. Pendiente de componer visualmente — el spec doc 14-search.md tiene la receta. Plugin Desktop Bridge no conectó esta sesión a pesar de intentos — TBD próxima sesión cuando funcione el WebSocket.
+**Figma `❖ Search` (node 11861:55210)**: Rafa creó la página vacía durante la sesión. Después activó el **Figma Dev Mode MCP** (puerto 3845, distinto al Desktop Bridge en 9224 que no conectó). Usando `claude_ai_Figma__use_figma` compuse:
+- _Page Header con título "Search" + descripción del componente.
+- Examples frame con _Section Header instanciado.
+- Mode: Light card con 5 variants iniciales del Search instanciados desde `inputtext` COMPONENT_SET (23:835) del Kit — el `inputtext` ya expone `Show Left Icon` con default `search` (6751:110784), por lo que NO necesitamos crear un component set propio: sc-search es un **preset del InputText** con icon search configurado. Variants: Basic empty, With value + clear, Filled, Size = Small, Disabled.
+
+Pendiente refinement: Mode Dark + Main Component "Search" como preset del inputtext + slot placeholder real (el `floatLabel` no renderiza como placeholder visible en empty state — el Kit usa otro slot que hay que investigar). TBD próxima sesión o cuando Rafa decida.
+
+Aprendizaje arquitectónico: `sc-search` en código es Extended (composición p-iconfield + pInputText + chrome funcional), pero en el Kit Figma SC podría ser representado simplemente como un **preset variant** del `❖ InputText` existente (con icon search default + behaviors). Decisión queda para diseño.
 
 ### Commits Session 31 (21 total)
 
