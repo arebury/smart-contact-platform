@@ -1,8 +1,18 @@
 # NEXT SESSION PLAN — Smart Contact Platform
 
-> **Para Claude en la próxima sesión**: lee este archivo + el último entry de
-> [`SESSION-LOG.md`](./SESSION-LOG.md) y arranca por la Fase activa sin
-> re-explicación.
+> **Para Claude en la próxima sesión** (importante para contexto completo):
+>
+> 1. Lee ESTE archivo completo.
+> 2. Lee la entry Session 30 entera en [`SESSION-LOG.md`](./SESSION-LOG.md) — es larga
+>    pero contiene TODO el día (30 commits cubriendo paleta gray, 13 specs cocinados,
+>    11 galleries, Netlify desbloqueado, polish 2-pass, POC migrations, partial extraction,
+>    customs catalog, tracker cleanup).
+> 3. Lee [`.impeccable.md`](../.impeccable.md) — design context + regla CRITICAL: polish
+>    requests NUNCA tocan componentes ni tokens.
+> 4. Memoria personal en `~/.claude/projects/-Users-rafareses-dev-smart-contact-platform/memory/MEMORY.md`
+>    — feedback acumulado (tono no-dev, Figma 1:1, no layout shift, etc.).
+> 5. Si vas a tocar Figma vía MCP: file key `khNq9dJKNi13pNllrqm6dx`. Memoria
+>    `feedback_figma_specs_thorough.md` con el protocolo.
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
@@ -28,9 +38,24 @@
 - ✅ `.impeccable.md` design context con regla CRITICAL: polish requests **NUNCA**
   tocan componentes ni tokens — solo el chrome de ds-docs / app shells.
 
-Last commit en main: `3bc4f5f` (customs-catalog).
+Last commit en main: `dc6f32e` (tracker cleanup post-verificación de Rafa).
 
 **4 fases del plan anterior — todas completadas en una sola sesión.**
+
+### Estado factual del catálogo al cerrar
+
+- **13 spec docs**: button, input, input-number, select, multi-select, datepicker, tabs,
+  tooltip, checkbox, toast, modal, empty-state, section-card.
+- **11 galleries interactivas live** en `https://ds-smartcontact.netlify.app/components/*`.
+- **AED consume**: sc-button (everywhere), sc-input (user-form + 1), sc-input-number
+  (aed-grupos x3 — POC Session 30), sc-select (aed-grupos x1 — POC Session 30),
+  sc-tri-state-checkbox (6 usos), sc-modal, sc-toast (MessageService), pTooltip.
+- **AED NO consume aún**: sc-multi-select (sin caso real), sc-datepicker (sin caso real),
+  sc-tabs (no hay tabs nativos en AED).
+- **Memory**: cero integración SCDS — proyecto React aparte. Camino B listo para activar.
+- **Partials compartidos**: `_sc-toast.scss` (único hasta ahora) — patrón establecido para
+  futuros extracts cuando aparezca un segundo consumer.
+- **Customs catalog**: 11 brand divergences documentadas en `docs/customs-catalog.md`.
 
 ---
 

@@ -173,8 +173,30 @@ Tras cerrar la sesión inicial (commit `3c7094b`), el usuario continuó:
   SC vs Figma de Session 30 en un catálogo único por categoría (brand colors x3,
   component extensions x5, component overloads x1, sizes off-Figma x2). Cierra Fase 3
   del NEXT-SESSION-PLAN.
+- **Tracker cleanup** (commit `dc6f32e`): respondiendo a "¿está actualizado el
+  checklist?", detecté 5 entries duplicadas pending al final del catálogo
+  (input-number, dropdown, datepicker, tabs, tooltip) — sobrantes del catálogo
+  antiguo, antes de cocinarlos. Eliminadas. Además actualizo whereToSee de
+  input-number y select para reflejar el POC real (`aed-grupos-page`, no
+  `aed-servicio`/`agent-form` como decían las estimaciones previas).
 
-### Commits pusheados a main (29)
+### Verificación final del catálogo en uso real
+
+| Componente | AED uso | Memory uso |
+|-----------|---------|------------|
+| sc-input-number | ✅ 3 fields aed-grupos-page (POC) | ❌ no integrada |
+| sc-select | ✅ 1 field aed-grupos-page (POC) | ❌ |
+| sc-multi-select | ❌ 0 (sin caso real) | ❌ |
+| sc-datepicker | ❌ 0 (sin caso real) | ❌ |
+| sc-tabs | ❌ 0 (AED no tiene tabs nativos) | ❌ |
+| pTooltip | ✅ usado pre-Session 30 | ❌ |
+| sc-input | ✅ user-form (Session 28), 26 más pending | ❌ |
+| sc-modal, sc-toast, sc-tri-state-checkbox | ✅ usados — audits visuales propagados | ❌ |
+
+Memory cero integración SCDS. Fase 3 (Camino B — Memory consume tokens) tiene
+los 4 gates ✅ cumplidos, lista para activar cuando se pida.
+
+### Commits pusheados a main (30)
 
 ```
 07bf868 docs(close): session 29 log + plan refresh post-icloud-migration
@@ -205,6 +227,8 @@ cf2b5a6 feat(ds-docs): /impeccable second-pass polish (8 upgrades)
 3b429ac feat(aed): POC migrations sc-input-number + sc-select in aed-grupos-page
 8ca90ab refactor(toast): extract _sc-toast.scss partial — single source of truth
 3bc4f5f docs(customs-catalog): consolidate SC brand divergences from session 30 audits
+f7b3a4f docs(close): session 30 truly-final log + plan refresh
+dc6f32e fix(ds-docs): clean tracker — remove 5 stale duplicates + reflect POC migrations
 ```
 
 ### Estado del catálogo al cerrar
