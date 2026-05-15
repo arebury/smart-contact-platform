@@ -26,6 +26,14 @@ interface ComponentEntry {
    */
   whereToSee: string;
   figmaParity?: number;
+  /**
+   * Veces que aparece en AED templates (snapshot manual de
+   * `grep -rh "<sc-X" apps/aed/src --include="*.html" | wc -l`).
+   * 0 = sin uso real todavía. Sirve como ruta de conversación con devs:
+   * los componentes con `aedUses > 0` son los que el equipo de
+   * desarrollo ya tiene interiorizados.
+   */
+  aedUses: number;
 }
 
 const STORAGE_KEY = 'sc-ds-validated';
@@ -74,6 +82,7 @@ export class HomeComponent {
       name: 'Button',
       type: 'custom-preset',
       status: 'ready',
+      aedUses: 38,
       pageRoute: '/components/button',
       whatItDoes: 'Botón de acción (primario azul, secundario gris, peligro rojo, etc.).',
       whereToSee: 'En cualquier pantalla. Ej: AED → Administración → Agentes → botón "Crear agente" arriba a la derecha.',
@@ -84,6 +93,7 @@ export class HomeComponent {
       name: 'Input',
       type: 'extended',
       status: 'ready',
+      aedUses: 9,
       pageRoute: '/components/input',
       whatItDoes: 'Campo de texto para formularios: nombre, email, contraseña, teléfono… Incluye label, texto de ayuda y mensaje de error.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → cualquier campo de la ficha.',
@@ -94,6 +104,7 @@ export class HomeComponent {
       name: 'Input number',
       type: 'extended',
       status: 'ready',
+      aedUses: 7,
       pageRoute: '/components/input-number',
       whatItDoes: 'Campo numérico para formularios: capacidades, contadores, segundos, porcentajes. Mismo aspecto que el campo de texto pero con la unidad ("s", "%", "agentes") a la derecha y el número alineado a la derecha también.',
       whereToSee: 'AED → Configuración → AED → Grupos → Capacidad ("Límite de cola") + 2 tiempos en segundos (transferencia, max espera). 3 fields migrados como POC. Resto pendiente de migración por feature.',
@@ -103,6 +114,7 @@ export class HomeComponent {
       name: 'Select / dropdown',
       type: 'extended',
       status: 'ready',
+      aedUses: 11,
       pageRoute: '/components/select',
       whatItDoes: 'Desplegable para elegir UNA opción entre varias. Reemplaza los menús nativos del navegador para que se vean igual en Chrome, Safari y Firefox y combinen con el resto de campos.',
       whereToSee: 'AED → Configuración → AED → Grupos → Tipo de voz (G.711, G.722…). 1 field migrado como POC. ~20+ selects nativos restantes en agent-form, group-form y otras config pages, por migrar feature por feature.',
@@ -113,6 +125,7 @@ export class HomeComponent {
       name: 'Datepicker',
       type: 'extended',
       status: 'ready',
+      aedUses: 0,
       pageRoute: '/components/datepicker',
       whatItDoes: 'Selector de fecha. Abre un calendario al hacer click. Soporta selección día/mes/año, rangos min-max ("solo próximos 30 días"), y modo inline (calendario siempre visible).',
       whereToSee: 'Aún no hay datepickers visibles en AED — primer caso planeado es "fecha de alta del agente". Demo en ds-docs hasta entonces.',
@@ -123,6 +136,7 @@ export class HomeComponent {
       name: 'Tabs',
       type: 'custom-preset',
       status: 'ready',
+      aedUses: 0,
       pageRoute: '/components/tabs',
       whatItDoes: 'Navegación por pestañas dentro de UNA pantalla. Por ejemplo: "Activos / Archivados / Todos" en una lista, o secciones de un formulario largo. El tab activo se marca con un underline en color de marca.',
       whereToSee: 'Aún no hay tabs nativos en AED — primer caso planeado es la pantalla de configuración avanzada. Demo en ds-docs hasta entonces.',
@@ -133,6 +147,7 @@ export class HomeComponent {
       name: 'Tooltip',
       type: 'full-primeng',
       status: 'ready',
+      aedUses: 0,
       pageRoute: '/components/tooltip',
       whatItDoes: 'Cajita oscura con texto que aparece al pasar el ratón por encima de un botón o icono. Sirve para explicar botones que solo tienen icono (sin texto) o para añadir contexto a un campo.',
       whereToSee: 'AED tiene tooltips en los botones icon-only de las tablas (ej: el botón "borrar" papelera). En ds-docs tienes ejemplos interactivos.',
@@ -143,6 +158,7 @@ export class HomeComponent {
       name: 'MultiSelect',
       type: 'extended',
       status: 'ready',
+      aedUses: 0,
       pageRoute: '/components/multi-select',
       whatItDoes: 'Desplegable para elegir VARIAS opciones a la vez (al contrario que select, que es solo una). Los seleccionados aparecen como texto separado por comas O como pills removibles (X cada uno) según prefieras.',
       whereToSee: 'AED aún no lo usa nativamente, pero próximo caso: asignación de canales a un agente (Email + WhatsApp + Teléfono…). Demo en ds-docs hasta entonces.',
@@ -153,6 +169,7 @@ export class HomeComponent {
       name: 'Modal',
       type: 'extended',
       status: 'ready',
+      aedUses: 2,
       pageRoute: '/components/modal',
       whatItDoes: 'Ventana emergente con título, body (acepta cualquier contenido apilado) y botones de acción. Se abre centrada sobre la pantalla con un velo gris detrás.',
       whereToSee: 'AED → Administración → Etiquetas → click en una etiqueta para editarla (se abre encima). Demo interactiva en ds-docs con 5 escenarios.',
@@ -163,6 +180,7 @@ export class HomeComponent {
       name: 'Toast',
       type: 'custom-preset',
       status: 'ready',
+      aedUses: 1,
       pageRoute: '/components/toast',
       whatItDoes: 'Notificación pequeña que aparece y desaparece sola en una esquina (típicamente abajo a la derecha). Soporta success / info / warn / error / "neutral notice" violeta + botón "deshacer" opcional.',
       whereToSee: 'AED → guarda cualquier cambio (ej: edita una etiqueta y dale a "Guardar") → ves el "Guardado correctamente". Demo interactiva en ds-docs.',
@@ -173,6 +191,7 @@ export class HomeComponent {
       name: 'Photo upload',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 2,
       whatItDoes: 'Sube una foto arrastrándola o haciendo click; permite recortarla y previsualizarla.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → bloque "Foto del agente".',
     },
@@ -181,6 +200,7 @@ export class HomeComponent {
       name: 'Toggle switch',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 21,
       whatItDoes: 'Interruptor on/off estilo iOS (la bolita que se desliza de izquierda a derecha).',
       whereToSee: 'AED → Configuración → AED → Servicio → opciones tipo "Activo / Inactivo".',
     },
@@ -189,6 +209,7 @@ export class HomeComponent {
       name: 'Checkbox (tri-state)',
       type: 'extended',
       status: 'ready',
+      aedUses: 6,
       pageRoute: '/components/checkbox',
       whatItDoes: 'Checkbox con 3 estados: vacío, marcado a medias (cuando hay selección parcial) y marcado del todo. Tres tamaños sm/md/lg + variant filled (slate-50). Patrón típico: "seleccionar todo" del header de tabla.',
       whereToSee: 'AED → Administración → Etiquetas → checkbox de cabecera de la tabla (cuando marcas algunas filas pero no todas se pone a medias). Demo interactiva en ds-docs.',
@@ -199,6 +220,7 @@ export class HomeComponent {
       name: 'Illustrated avatar',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 7,
       whatItDoes: 'Avatar dibujado que se asigna automáticamente a usuarios o agentes que no tienen foto subida.',
       whereToSee: 'AED → Administración → Agentes → en la tabla, los agentes sin foto muestran un avatar ilustrado.',
     },
@@ -207,6 +229,7 @@ export class HomeComponent {
       name: 'Section card',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 12,
       whatItDoes: 'Tarjeta blanca con título que agrupa campos relacionados dentro de un formulario largo.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → cada bloque blanco con título ("Datos personales", "Configuración", etc.) es una section-card.',
     },
@@ -215,6 +238,7 @@ export class HomeComponent {
       name: 'Bulk action bar',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 6,
       whatItDoes: 'Barra que aparece flotando abajo cuando seleccionas varios elementos de una tabla, con acciones masivas (borrar varios, editar varios…).',
       whereToSee: 'AED → Administración → Etiquetas → marca 2 o más etiquetas con los checkboxes → aparece la barra flotante abajo.',
     },
@@ -223,6 +247,7 @@ export class HomeComponent {
       name: 'Bulk edit menu',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 2,
       whatItDoes: 'Menú desplegable de "edición masiva" que sale de la barra anterior para cambiar un campo a varios elementos a la vez.',
       whereToSee: 'AED → Administración → Etiquetas → marca varias → en la barra de abajo dale a "Editar" → sale este menú.',
     },
@@ -231,6 +256,7 @@ export class HomeComponent {
       name: 'Empty state',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 3,
       whatItDoes: 'Mensaje grande con ilustración que aparece cuando una lista o pantalla está vacía ("No hay nada todavía").',
       whereToSee: 'AED → cualquier sección vacía (ej: una pantalla recién creada sin datos aún).',
     },
@@ -239,6 +265,7 @@ export class HomeComponent {
       name: 'Form danger zone',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 3,
       whatItDoes: 'Bloque rojo al final de los formularios de edición con acciones destructivas (borrar la entidad entera).',
       whereToSee: 'AED → edita un agente o etiqueta ya existente → baja al final del formulario.',
     },
@@ -247,6 +274,7 @@ export class HomeComponent {
       name: 'Form section nav',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 3,
       whatItDoes: 'Navegación lateral del formulario: muestra las secciones y resalta en cuál estás según vas haciendo scroll.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → barra lateral izquierda con el índice de secciones.',
     },
@@ -255,6 +283,7 @@ export class HomeComponent {
       name: 'Confirm host',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 1,
       whatItDoes: 'Pop-up de "¿Estás seguro?" que aparece antes de acciones importantes (borrar, archivar…).',
       whereToSee: 'AED → intenta borrar cualquier cosa → sale el "¿Estás seguro?".',
     },
@@ -263,6 +292,7 @@ export class HomeComponent {
       name: 'Label chip',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 3,
       whatItDoes: 'Etiqueta de color con texto (las pastillitas redondeadas con el color de la categoría).',
       whereToSee: 'AED → Administración → Etiquetas → cada etiqueta de la tabla se muestra como un chip.',
     },
@@ -271,6 +301,7 @@ export class HomeComponent {
       name: 'Color dot picker',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 1,
       whatItDoes: 'Selector de color: muestra varios círculos de colores y eliges uno haciendo click.',
       whereToSee: 'AED → Administración → Etiquetas → crear o editar etiqueta → fila de círculos de colores.',
     },
@@ -279,6 +310,7 @@ export class HomeComponent {
       name: 'Inline rename cell',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 3,
       whatItDoes: 'Editar el nombre de algo directamente en la tabla, sin abrir formulario (típicamente con doble-click).',
       whereToSee: 'AED → Administración → Etiquetas → doble-click sobre el nombre de una etiqueta → se vuelve editable in-situ.',
     },
@@ -287,6 +319,7 @@ export class HomeComponent {
       name: 'Group popover',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 1,
       whatItDoes: 'Tarjeta flotante que aparece al pasar el ratón sobre un grupo, mostrando sus miembros y acciones rápidas.',
       whereToSee: 'AED → Administración → Grupos → pasa el ratón sobre la fila de un grupo.',
     },
@@ -295,6 +328,7 @@ export class HomeComponent {
       name: 'Column selector',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 3,
       whatItDoes: 'Menú para mostrar u ocultar columnas en tablas que tienen muchas.',
       whereToSee: 'AED → Administración → Agentes (o cualquier tabla con muchas columnas) → icono de engranaje/columnas arriba a la derecha de la tabla.',
     },
@@ -303,6 +337,7 @@ export class HomeComponent {
       name: 'Command palette',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 1,
       whatItDoes: 'Buscador rápido global que se abre con ⌘K (Cmd+K en Mac, Ctrl+K en Windows) y permite saltar a cualquier sección.',
       whereToSee: 'AED → en cualquier pantalla pulsa Cmd+K (o Ctrl+K).',
     },
@@ -311,6 +346,7 @@ export class HomeComponent {
       name: 'Keyboard shortcuts',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 1,
       whatItDoes: 'Pantalla de ayuda que lista todos los atajos de teclado disponibles.',
       whereToSee: 'AED → pulsa "?" en cualquier pantalla (o el icono de ayuda en la barra superior).',
     },
@@ -319,6 +355,7 @@ export class HomeComponent {
       name: 'Delete entity dialog',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 8,
       whatItDoes: 'Ventana específica para confirmar que quieres borrar algo (más explícita que un "¿seguro?" normal).',
       whereToSee: 'AED → Administración → Etiquetas → borra una etiqueta → diálogo que pide confirmación.',
     },
@@ -327,6 +364,7 @@ export class HomeComponent {
       name: 'Impact preview dialog',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 2,
       whatItDoes: 'Ventana que aparece antes de un cambio importante avisando de a cuántas cosas va a afectar ("Esto afectará a X agentes…").',
       whereToSee: 'AED → Administración → Grupos → borra o cambia un grupo con miembros → diálogo de impacto.',
     },
@@ -335,6 +373,7 @@ export class HomeComponent {
       name: 'Page header',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 8,
       whatItDoes: 'Cabecera grande de página: título, descripción opcional y botones de acción a la derecha.',
       whereToSee: 'AED → Administración → Agentes → la zona de arriba con el título "Agentes" y el botón "Crear agente".',
     },
@@ -343,6 +382,7 @@ export class HomeComponent {
       name: 'Sticky form header',
       type: 'pure-sc',
       status: 'ready',
+      aedUses: 3,
       whatItDoes: 'Cabecera del formulario que se queda pegada arriba cuando haces scroll, para que siempre veas el título y los botones Guardar/Cancelar.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → empieza a hacer scroll hacia abajo y verás que la cabecera se queda fija.',
     },
@@ -355,6 +395,7 @@ export class HomeComponent {
   protected readonly searchQuery = signal('');
   protected readonly typeFilter = signal<ComponentType | 'all'>('all');
   protected readonly validationFilter = signal<'all' | 'validated' | 'pending'>('all');
+  protected readonly usageFilter = signal<'all' | 'in-use' | 'unused'>('all');
 
   /** Ref al input de búsqueda para autofocus con "/" (shortcut tipo GitHub). */
   private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
@@ -391,6 +432,10 @@ export class HomeComponent {
 
   protected readonly pendingCount = computed(() => this.catalog.length - this.validated().size);
 
+  /** Cuántos componentes están ya en uso real en AED (aedUses > 0). */
+  protected readonly inUseCount = computed(() => this.catalog.filter((c) => c.aedUses > 0).length);
+  protected readonly unusedCount = computed(() => this.catalog.filter((c) => c.aedUses === 0).length);
+
   /**
    * Lista filtrada por search + tipo + validación.
    * Search matchea name + whatItDoes + whereToSee (case-insensitive).
@@ -399,10 +444,13 @@ export class HomeComponent {
     const q = this.searchQuery().trim().toLowerCase();
     const type = this.typeFilter();
     const validation = this.validationFilter();
+    const usage = this.usageFilter();
     return this.tracked().filter((item) => {
       if (type !== 'all' && item.type !== type) return false;
       if (validation === 'validated' && !item.isValidated) return false;
       if (validation === 'pending' && item.isValidated) return false;
+      if (usage === 'in-use' && item.aedUses === 0) return false;
+      if (usage === 'unused' && item.aedUses > 0) return false;
       if (!q) return true;
       const haystack = `${item.name} ${item.whatItDoes} ${item.whereToSee}`.toLowerCase();
       return haystack.includes(q);
@@ -436,6 +484,10 @@ export class HomeComponent {
     this.validationFilter.set(v);
   }
 
+  protected setUsageFilter(v: 'all' | 'in-use' | 'unused'): void {
+    this.usageFilter.set(v);
+  }
+
   protected onSearchInput(event: Event): void {
     this.searchQuery.set((event.target as HTMLInputElement).value);
   }
@@ -449,6 +501,7 @@ export class HomeComponent {
     this.searchQuery.set('');
     this.typeFilter.set('all');
     this.validationFilter.set('all');
+    this.usageFilter.set('all');
   }
 
   /**

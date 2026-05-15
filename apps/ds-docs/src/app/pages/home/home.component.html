@@ -62,6 +62,43 @@
     (localStorage), no se sincroniza con nadie.
   </p>
 
+  <details class="tracker-glossary">
+    <summary>Qué significa cada etiqueta (clic para abrir)</summary>
+    <dl class="tracker-glossary__list">
+      <dt><span class="tracker-item__badge type-full-primeng">Full PrimeNG</span></dt>
+      <dd>Es el componente de PrimeNG tal cual, sin tocarle nada — funciona como viene de fábrica.</dd>
+
+      <dt><span class="tracker-item__badge type-custom-preset">Custom (preset)</span></dt>
+      <dd>Componente de PrimeNG con un preset de Smart Contact aplicado encima (colores, sizes, etc.). No le añadimos slots ni props extra.</dd>
+
+      <dt><span class="tracker-item__badge type-extended">Extended</span></dt>
+      <dd>Componente de PrimeNG ENVUELTO con chrome propio de Smart Contact: label arriba, helper/error abajo, asterisco de "requerido". La pieza interactiva sigue siendo PrimeNG; lo que añadimos es el marco.</dd>
+
+      <dt><span class="tracker-item__badge type-pure-sc">Pure SC</span></dt>
+      <dd>Componente 100% Smart Contact, sin PrimeNG por dentro. Lo dibujamos a mano porque PrimeNG no tiene equivalente (ej. la avatar ilustrada, la barra de acciones bulk).</dd>
+
+      <dt>
+        <span class="tracker-item__badge" style="background: color-mix(in srgb, var(--sc-color-green-600) 18%, transparent); color: var(--sc-color-green-800);">✓ Hechos en Figma</span>
+      </dt>
+      <dd>Ya está plasmado en el archivo Figma del DS — podéis usarlo en pantallas sabiendo que el código existe y se parece 1:1.</dd>
+
+      <dt>
+        <span class="tracker-item__badge" style="background: var(--sc-bg-secondary-hover); color: var(--sc-text-subtle);">Pendientes</span>
+      </dt>
+      <dd>Existe en código pero todavía no lo habéis dibujado en Figma — si lo usáis en una pantalla, hay que confirmar que coincide visualmente.</dd>
+
+      <dt>
+        <span class="tracker-item__usage is-in-use">● AED N×</span>
+      </dt>
+      <dd>El componente ya se usa N veces en pantallas reales de AED. Los devs lo tienen interiorizado: si lo metéis en un diseño, no necesitan documentación adicional.</dd>
+
+      <dt>
+        <span class="tracker-item__usage">○ sin uso</span>
+      </dt>
+      <dd>Está terminado pero aún ninguna pantalla de AED lo consume. Si vais a ser los primeros en usarlo, hablad con los devs antes para alinear el patrón.</dd>
+    </dl>
+  </details>
+
   <div class="tracker-toolbar" role="search">
     <div class="tracker-search">
       <svg class="tracker-search__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -125,6 +162,19 @@
           Pendientes <span class="filter-chip__count">{{ pendingCount() }}</span>
         </button>
       </div>
+
+      <div class="tracker-filters__group" role="group" aria-label="Filtrar por uso en AED">
+        <span class="tracker-filters__label">Uso</span>
+        <button type="button" class="filter-chip" [class.is-active]="usageFilter() === 'all'" (click)="setUsageFilter('all')">
+          Todos
+        </button>
+        <button type="button" class="filter-chip is-in-use-chip" [class.is-active]="usageFilter() === 'in-use'" (click)="setUsageFilter('in-use')">
+          ● En uso en AED <span class="filter-chip__count">{{ inUseCount() }}</span>
+        </button>
+        <button type="button" class="filter-chip" [class.is-active]="usageFilter() === 'unused'" (click)="setUsageFilter('unused')">
+          Sin uso aún <span class="filter-chip__count">{{ unusedCount() }}</span>
+        </button>
+      </div>
     </div>
 
     <p class="tracker-toolbar__result" aria-live="polite">
@@ -172,6 +222,15 @@
             @if (item.figmaParity !== undefined) {
               <span class="tracker-item__parity" [class.is-100]="item.figmaParity === 100">
                 Figma {{ item.figmaParity }}%
+              </span>
+            }
+            @if (item.aedUses > 0) {
+              <span class="tracker-item__usage is-in-use" [attr.title]="item.aedUses + ' usos en templates AED'">
+                ● AED {{ item.aedUses }}×
+              </span>
+            } @else {
+              <span class="tracker-item__usage" title="Aún no usado en AED">
+                ○ sin uso
               </span>
             }
           </div>

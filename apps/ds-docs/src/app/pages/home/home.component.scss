@@ -280,6 +280,72 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Glossary — qué significa cada etiqueta. Para el equipo de diseño
+ * que entra fresco al tracker. Collapsible para no robar protagonismo.
+ * ------------------------------------------------------------------ */
+.tracker-glossary {
+  margin-bottom: var(--sc-spacing-400);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+  background: var(--sc-bg-elevated);
+  overflow: hidden;
+
+  > summary {
+    list-style: none;
+    cursor: pointer;
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    font-size: 12.5px;
+    font-weight: 500;
+    color: var(--sc-text-secondary);
+    user-select: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::before {
+      content: '▸ ';
+      display: inline-block;
+      margin-right: 4px;
+      color: var(--sc-text-subtle);
+      transition: transform 120ms ease;
+    }
+  }
+
+  &[open] > summary::before {
+    content: '▾ ';
+  }
+
+  &:hover > summary {
+    background: var(--sc-bg-secondary-hover);
+  }
+}
+
+.tracker-glossary__list {
+  margin: 0;
+  padding: var(--sc-spacing-300) var(--sc-spacing-400) var(--sc-spacing-400);
+  border-top: 1px solid var(--sc-border-default);
+  background: var(--sc-bg-surface);
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--sc-spacing-150) var(--sc-spacing-300);
+
+  > dt {
+    display: flex;
+    align-items: center;
+    margin: 0;
+  }
+
+  > dd {
+    margin: 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--sc-text-secondary);
+    align-self: center;
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Tracker toolbar: search + filter chips + result counter
  * ------------------------------------------------------------------ */
 .tracker-toolbar {
@@ -486,6 +552,11 @@
   &.is-validated-chip:not(.is-active) {
     color: var(--sc-color-green-800);
     border-color: color-mix(in srgb, var(--sc-color-green-600) 30%, var(--sc-border-default));
+  }
+
+  &.is-in-use-chip:not(.is-active) {
+    color: var(--sc-color-electric-blue-800, var(--sc-color-blue-800));
+    border-color: color-mix(in srgb, var(--sc-color-electric-blue-500, var(--sc-color-blue-500)) 30%, var(--sc-border-default));
   }
 }
 
@@ -747,6 +818,30 @@
   &.status-pending {
     background: var(--sc-bg-secondary-hover);
     color: var(--sc-text-subtle);
+  }
+}
+
+/* AED usage badge — el más relevante para el equipo de diseño: indica
+ * qué piezas el equipo de devs ya tiene interiorizadas (en uso) vs las
+ * que están listas pero aún no se han adoptado. Ruta de conversación
+ * con devs. */
+.tracker-item__usage {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--dsd-font-mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--sc-bg-elevated);
+  color: var(--sc-text-subtle);
+  letter-spacing: 0.02em;
+
+  &.is-in-use {
+    background: color-mix(in srgb, var(--sc-color-electric-blue-100, var(--sc-color-blue-100)) 60%, transparent);
+    color: var(--sc-color-electric-blue-800, var(--sc-color-blue-800));
+    font-weight: 600;
   }
 }
 
