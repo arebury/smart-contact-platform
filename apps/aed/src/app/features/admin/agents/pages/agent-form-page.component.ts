@@ -268,6 +268,22 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     return this.labelsStore.labels().filter((label) => !ids.has(label.id));
   });
 
+  /** Idiomas aún no añadidos — para alimentar el `<sc-select>` action-add. */
+  protected readonly addableLanguages = computed(() => {
+    const set = new Set(this.form().languages);
+    return this.availableLanguages.filter((l) => !set.has(l));
+  });
+
+  /**
+   * Signals "transitorios" del valor del select action-add. Siempre vuelven
+   * a `null` tras un pick exitoso porque el patrón es "elegir uno → se va
+   * al chip de fuera → el select queda vacío para el siguiente". Con un
+   * `<select>` nativo bastaba con `event.target.value = ''`; con sc-select
+   * (bind unidireccional) hay que mover el reset al signal del consumer.
+   */
+  protected readonly labelPickValue = signal<number | null>(null);
+  protected readonly languagePickValue = signal<string | null>(null);
+
   /** All agendas from the repository store. Source of truth lives in
    * `Repositorios > Agendas`; this form just reads + assigns. */
   protected readonly availableSchedules = this.agendasStore.items;
@@ -695,9 +711,40 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.formDirty.set(true);
   }
 
+  /**
+   * Adapter `<sc-select>` para el patrón action-add de idiomas. El select
+   * usa `addableLanguages()` (filtra ya añadidos) — el guard de duplicados
+   * queda como red de seguridad. Reset del signal a null tras el pick.
+   */
+  protected onLanguageValueAdd(value: unknown): void {
+    if (typeof value !== 'string' || !value) return;
+    this.form.update((f) =>
+      f.languages.includes(value) ? f : { ...f, languages: [...f.languages, value] },
+    );
+    this.formDirty.set(true);
+    this.languagePickValue.set(null);
+  }
+
   protected onLanguageRemove(lang: string): void {
     this.formDirty.set(true);
     this.form.update((f) => ({ ...f, languages: f.languages.filter((l) => l !== lang) }));
+  }
+
+  /**
+   * Adapter `<sc-select>` para el patrón action-add de labels. El select
+   * usa `addableLabels()` con `optionValue="id"` así emite el number directo.
+   * Reset del signal a null tras el pick para volver a placeholder.
+   */
+  protected onLabelValueAdd(value: unknown): void {
+    if (typeof value !== 'number' || !Number.isFinite(value)) return;
+    this.form.update((f) => {
+      if (f.labelIds.has(value)) return f;
+      const next = new Set(f.labelIds);
+      next.add(value);
+      return { ...f, labelIds: next };
+    });
+    this.formDirty.set(true);
+    this.labelPickValue.set(null);
   }
 
   protected onLabelAdd(event: Event): void {

@@ -453,19 +453,16 @@
                     @if (availableLabels().length === 0) {
                       <p class="field__help">{{ 'agents.form.labels_empty' | translate }}</p>
                     } @else {
-                      <select
-                        id="agent-label"
-                        class="field__input"
-                        [value]="''"
-                        (change)="onLabelAdd($event)"
+                      <sc-select
+                        inputId="agent-label"
+                        optionValue="id"
+                        [options]="addableLabels()"
+                        [placeholder]="'agents.form.labels_placeholder' | translate"
+                        [value]="labelPickValue()"
+                        (valueChange)="onLabelValueAdd($event)"
                       >
-                        <option value="">
-                          {{ 'agents.form.labels_placeholder' | translate }}
-                        </option>
-                        @for (label of addableLabels(); track label.id) {
-                          <option [value]="label.id">{{ label.name }}</option>
-                        }
-                      </select>
+                        <ng-template pTemplate="item" let-l>{{ l.name }}</ng-template>
+                      </sc-select>
                     }
                     <div class="label-chips">
                       @for (chip of selectedLabelChips(); track chip.id) {
@@ -903,19 +900,13 @@
                   <label class="field__label" for="agent-language">
                     {{ 'common.languages.label' | translate }}
                   </label>
-                  <select
-                    id="agent-language"
-                    class="field__input"
-                    [value]="''"
-                    (change)="onLanguageAdd($event)"
-                  >
-                    <option value="">{{ 'common.languages.placeholder' | translate }}</option>
-                    @for (lang of availableLanguages; track lang) {
-                      @if (!form().languages.includes(lang)) {
-                        <option [value]="lang">{{ lang }}</option>
-                      }
-                    }
-                  </select>
+                  <sc-select
+                    inputId="agent-language"
+                    [options]="addableLanguages()"
+                    [placeholder]="'common.languages.placeholder' | translate"
+                    [value]="languagePickValue()"
+                    (valueChange)="onLanguageValueAdd($event)"
+                  />
                   <div class="language-chips">
                     @for (lang of form().languages; track lang) {
                       <span class="language-chip">
