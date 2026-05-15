@@ -207,7 +207,10 @@ export class HomeComponent {
     {
       slug: 'checkbox',
       name: 'Checkbox (tri-state)',
-      type: 'extended',
+      // Reclasificado de 'extended' → 'pure-sc' tras auditoría Figma SC:
+      // el componente NO importa nada de PrimeNG, usa `<input type="checkbox">`
+      // nativo con CSS custom para los 3 estados. Es pure-sc por definición.
+      type: 'pure-sc',
       status: 'ready',
       aedUses: 6,
       pageRoute: '/components/checkbox',
