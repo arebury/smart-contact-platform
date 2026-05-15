@@ -38,16 +38,15 @@
   font-weight: var(--sc-font-weight-medium);
 }
 
+/* `.sc-select__control` ES el <p-select> (esa clase se aplica al root del
+ * componente PrimeNG). Mantener `display: inline-flex` (default PrimeNG)
+ * es crítico: el `.p-select-label` interno usa `flex: 1 1 auto; width: 1%`
+ * para estirarse al espacio disponible. Si lo cambiamos a `display: block`,
+ * flex deja de aplicar y el label colapsa a ~3-21px truncando el valor a
+ * la primera letra. Solo añadimos width: 100% para que ocupe el wrapper. */
 .sc-select__control {
-  display: block;
   width: 100%;
   min-width: 0;
-}
-
-/* The inner p-select element should fill the wrapper width. PrimeNG
- * defaults to `inline-flex` width:auto; force full width. */
-.sc-select__control .p-select {
-  width: 100%;
 }
 
 /* ────────────────────────────────────────────────────────────────────

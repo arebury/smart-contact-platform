@@ -108,31 +108,14 @@ export class AedGruposPageComponent {
     this.update('aperturaFicha', value);
   }
 
-  protected onNumberInput<K extends 'limiteCola' | 'tiempoTransferencia' | 'tiempoMaxEspera'>(
-    key: K,
-    event: Event,
-  ): void {
-    const raw = (event.target as HTMLInputElement).value;
-    const parsed = Number(raw);
-    if (Number.isFinite(parsed) && parsed >= 0) this.update(key, parsed);
-  }
-
   /**
    * Adapter para `<sc-input-number>` que emite `number | null` directamente.
-   * Si null → no actualizamos (mantener último valor válido — UX consistente con
-   * el handler legacy de arriba que ignora valores parseados como NaN).
+   * Si null → no actualizamos (mantener último valor válido).
    */
   protected onNumberValueChange<
     K extends 'limiteCola' | 'tiempoTransferencia' | 'tiempoMaxEspera',
   >(key: K, value: number | null): void {
     if (value !== null && Number.isFinite(value) && value >= 0) this.update(key, value);
-  }
-
-  protected onSelectChange<K extends 'tipoVoz' | 'prioridad' | 'estrategia'>(
-    key: K,
-    event: Event,
-  ): void {
-    this.update(key, (event.target as HTMLSelectElement).value);
   }
 
   /**

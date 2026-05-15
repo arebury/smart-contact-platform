@@ -189,32 +189,24 @@
               <label class="field__label" for="grupos-prioridad">
                 {{ 'config.aed.subpages.grupos.enrutamiento.prioridad' | translate }}
               </label>
-              <select
-                id="grupos-prioridad"
-                class="field__input"
+              <sc-select
+                inputId="grupos-prioridad"
+                [options]="prioridadOptions"
                 [value]="form().prioridad"
-                (change)="onSelectChange('prioridad', $event)"
-              >
-                @for (option of prioridadOptions; track option) {
-                  <option [value]="option">{{ option }}</option>
-                }
-              </select>
+                (valueChange)="onSelectValueChange('prioridad', $event)"
+              />
             </div>
 
             <div class="field">
               <label class="field__label" for="grupos-estrategia">
                 {{ 'config.aed.subpages.grupos.enrutamiento.estrategia' | translate }}
               </label>
-              <select
-                id="grupos-estrategia"
-                class="field__input"
+              <sc-select
+                inputId="grupos-estrategia"
+                [options]="estrategiaOptions"
                 [value]="form().estrategia"
-                (change)="onSelectChange('estrategia', $event)"
-              >
-                @for (option of estrategiaOptions; track option) {
-                  <option [value]="option">{{ option }}</option>
-                }
-              </select>
+                (valueChange)="onSelectValueChange('estrategia', $event)"
+              />
             </div>
           </div>
         </section>

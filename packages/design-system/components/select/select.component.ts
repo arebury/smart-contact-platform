@@ -111,6 +111,26 @@ export class SelectComponent implements ControlValueAccessor {
   /** PrimeNG's `[options]` is typed `any[]` (mutable); cast our readonly array. */
   protected readonly optionsMutable = computed(() => this.options() as unknown[]);
 
+  /**
+   * `true` cuando `options` es un array de primitives (string/number/boolean).
+   * En ese caso PrimeNG espera que NO se le pase `optionLabel`/`optionValue` —
+   * si los pasamos con un string array, intenta resolver `.label` en cada
+   * string y todas las opciones renderizan vacías (bug visible en grupos:
+   * tipoVoz, prioridad, estrategia con string[] mostraban "empty empty…").
+   */
+  protected readonly hasPrimitiveOptions = computed(() => {
+    const opts = this.options();
+    return opts.length > 0 && opts.every((o) => o === null || typeof o !== 'object');
+  });
+
+  protected readonly resolvedOptionLabel = computed(() =>
+    this.hasPrimitiveOptions() ? undefined : this.optionLabel(),
+  );
+
+  protected readonly resolvedOptionValue = computed(() =>
+    this.hasPrimitiveOptions() ? undefined : this.optionValue(),
+  );
+
   // ─── ControlValueAccessor ──────────────────────────────────────────
   private _onChange: (v: unknown) => void = () => {};
   private _onTouched: () => void = () => {};
