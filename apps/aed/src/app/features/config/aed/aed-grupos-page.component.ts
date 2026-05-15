@@ -4,7 +4,11 @@ import { ChevronDown, Info, LucideAngularModule, UsersRound } from 'lucide-angul
 import { MessageService } from 'primeng/api';
 
 import { PageHeaderService } from '@core/services';
-import { ToggleSwitchComponent } from '@shared/components';
+import {
+  InputNumberComponent,
+  SelectComponent,
+  ToggleSwitchComponent,
+} from '@shared/components';
 
 interface FormState {
   capacidadTipo: 'fija' | 'variable';
@@ -52,7 +56,13 @@ const DEFAULT_FORM: FormState = {
  */
 @Component({
   selector: 'sc-aed-grupos-page',
-  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+  imports: [
+    LucideAngularModule,
+    ToggleSwitchComponent,
+    TranslateModule,
+    InputNumberComponent,
+    SelectComponent,
+  ],
   templateUrl: './aed-grupos-page.component.html',
   styleUrl: './aed-defaults-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -107,11 +117,33 @@ export class AedGruposPageComponent {
     if (Number.isFinite(parsed) && parsed >= 0) this.update(key, parsed);
   }
 
+  /**
+   * Adapter para `<sc-input-number>` que emite `number | null` directamente.
+   * Si null → no actualizamos (mantener último valor válido — UX consistente con
+   * el handler legacy de arriba que ignora valores parseados como NaN).
+   */
+  protected onNumberValueChange<
+    K extends 'limiteCola' | 'tiempoTransferencia' | 'tiempoMaxEspera',
+  >(key: K, value: number | null): void {
+    if (value !== null && Number.isFinite(value) && value >= 0) this.update(key, value);
+  }
+
   protected onSelectChange<K extends 'tipoVoz' | 'prioridad' | 'estrategia'>(
     key: K,
     event: Event,
   ): void {
     this.update(key, (event.target as HTMLSelectElement).value);
+  }
+
+  /**
+   * Adapter para `<sc-select>` que emite `unknown` (el wrapper tipa el value
+   * genérico). Coerce a string para los campos de string-only del form.
+   */
+  protected onSelectValueChange<K extends 'tipoVoz' | 'prioridad' | 'estrategia'>(
+    key: K,
+    value: unknown,
+  ): void {
+    if (typeof value === 'string') this.update(key, value);
   }
 
   protected discard(): void {

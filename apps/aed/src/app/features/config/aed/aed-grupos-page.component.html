@@ -60,19 +60,13 @@
                 [attr.title]="'config.aed.subpages.grupos.capacidad.limite_info' | translate"
               />
             </label>
-            <div class="field__row">
-              <input
-                id="grupos-limite-cola"
-                type="number"
-                min="1"
-                class="field__input field__input--num"
-                [value]="form().limiteCola"
-                (input)="onNumberInput('limiteCola', $event)"
-              />
-              <span class="field__suffix">
-                {{ 'config.aed.subpages.grupos.capacidad.limite_suffix' | translate }}
-              </span>
-            </div>
+            <sc-input-number
+              inputId="grupos-limite-cola"
+              [min]="1"
+              [suffix]="'config.aed.subpages.grupos.capacidad.limite_suffix' | translate"
+              [value]="form().limiteCola"
+              (valueChange)="onNumberValueChange('limiteCola', $event)"
+            />
           </div>
         </section>
 
@@ -95,17 +89,13 @@
                 <span>{{ 'config.aed.subpages.grupos.tiempos.transferencia' | translate }}</span>
                 <lucide-icon [img]="infoIcon" [size]="12" class="field__info" aria-hidden="true" />
               </label>
-              <div class="field__row">
-                <input
-                  id="grupos-tiempo-transfer"
-                  type="number"
-                  min="0"
-                  class="field__input field__input--num"
-                  [value]="form().tiempoTransferencia"
-                  (input)="onNumberInput('tiempoTransferencia', $event)"
-                />
-                <span class="field__suffix">{{ 'common.units.seconds' | translate }}</span>
-              </div>
+              <sc-input-number
+                inputId="grupos-tiempo-transfer"
+                [min]="0"
+                [suffix]="'common.units.seconds' | translate"
+                [value]="form().tiempoTransferencia"
+                (valueChange)="onNumberValueChange('tiempoTransferencia', $event)"
+              />
             </div>
 
             <div class="field">
@@ -113,17 +103,13 @@
                 <span>{{ 'config.aed.subpages.grupos.tiempos.max_cola' | translate }}</span>
                 <lucide-icon [img]="infoIcon" [size]="12" class="field__info" aria-hidden="true" />
               </label>
-              <div class="field__row">
-                <input
-                  id="grupos-tiempo-cola"
-                  type="number"
-                  min="0"
-                  class="field__input field__input--num"
-                  [value]="form().tiempoMaxEspera"
-                  (input)="onNumberInput('tiempoMaxEspera', $event)"
-                />
-                <span class="field__suffix">{{ 'common.units.seconds' | translate }}</span>
-              </div>
+              <sc-input-number
+                inputId="grupos-tiempo-cola"
+                [min]="0"
+                [suffix]="'common.units.seconds' | translate"
+                [value]="form().tiempoMaxEspera"
+                (valueChange)="onNumberValueChange('tiempoMaxEspera', $event)"
+              />
             </div>
           </div>
         </section>
@@ -142,16 +128,12 @@
             <label class="field__label" for="grupos-tipo-voz">
               {{ 'config.aed.subpages.grupos.voz.tipo_label' | translate }}
             </label>
-            <select
-              id="grupos-tipo-voz"
-              class="field__input"
+            <sc-select
+              inputId="grupos-tipo-voz"
+              [options]="vozOptions"
               [value]="form().tipoVoz"
-              (change)="onSelectChange('tipoVoz', $event)"
-            >
-              @for (option of vozOptions; track option) {
-                <option [value]="option">{{ option }}</option>
-              }
-            </select>
+              (valueChange)="onSelectValueChange('tipoVoz', $event)"
+            />
           </div>
 
           <div class="grid grid--2">
