@@ -92,9 +92,43 @@ Catálogo pure-sc en muy buen estado. La auditoría más profunda (comentarios
 WHY donde no obvios, a11y aria-*, naming consistency) queda para sesión
 dedicada futura — componente por componente.
 
-### Commits Session 31 (20 total)
+### Bloque 5 — sc-search nuevo componente + migrar 8 consumers (1 commit)
+
+**Componente nuevo `sc-search`** (commit `92d8f95`):
+- `packages/design-system/components/search/` con TS + HTML + SCSS + index.
+- Composición PrimeNG: `<p-iconfield>` + `<p-inputicon>` + `<input pInputText type="search">` + clear button auto + opcional kbd hint (⌘K / /).
+- Decisión clave: usar **`<p-iconfield>`** (icon overlay decorativo) NO `<p-inputgroup>` (addon merge). Semánticas distintas. Aplica regla anti-divergencia #1 del customs-catalog.
+- API: `[(value)]`, `placeholder`, `size sm/md/lg`, `filled`, `showClear` default true, `shortcutHint`, `clearAriaLabel`, `(keydown)` re-emit, `focus()` pública. ControlValueAccessor completo.
+- Spec doc `14-search.md` con receta, variants, migración legacy, tokens, Figma reference.
+- Gallery `/components/search` con 8 secciones (básico, hint ⌘K, picker sm, filled, prefilled, focus API, keydown, Reactive Forms).
+- Tracker catalog entry: type `extended`, aedUses 7 post-migración.
+
+**Migración 8 consumers AED a `<sc-search>`** (mismo commit):
+- 6 list-pages toolbars (agents, groups, labels, templates, repos, users) — pattern con `shortcutHint="⌘K"`.
+- 2 picker-search dentro de agent-form (agendas + plantillas) — pattern `size="sm"` sin hint.
+- Total: el patrón `.page__search` que vivía duplicado en 6 SCSS locales + el `.picker-search` chrome interno → unificados en 1 componente del DS.
+
+**Cleanup SCSS**:
+- 6 archivos SCSS list-pages: bloques `&__search-input/-icon/-clear` eliminados (≈ 200 líneas dead CSS).
+- `apps/aed/src/styles/main.scss`: regla global `.page__search-kbd` eliminada.
+- `agent-form-page.component.scss`: bloque `.picker-search` interno (icon/input/clear) eliminado.
+- Quedan como hooks de sizing/margin: `.page__search` (wrapper de sizing en list-pages) + `.picker-search` (margin posicional en agent-form). El chrome real vive ahora en `sc-search`.
+
+**TS cleanup**:
+- Handlers legacy huérfanos eliminados en `agent-form-page.component.ts`:
+  `onScheduleSearchInput / clearScheduleSearch / onTemplateSearchInput / clearTemplateSearch` (signals expuestos directos sin wrapper).
+
+**customs-catalog actualizado**:
+- §5.1 sc-input-group: gap clarificado (reducido a "addon merge"; search ahora cubierto por sc-search).
+- §5.5 nuevo: sc-search documentado con composición + decisión IconField vs InputGroup + estado del Figma node 11861:55210.
+
+**Figma `❖ Search` (node 11861:55210)**: Rafa creó la página vacía durante la sesión. Pendiente de componer visualmente — el spec doc 14-search.md tiene la receta. Plugin Desktop Bridge no conectó esta sesión a pesar de intentos — TBD próxima sesión cuando funcione el WebSocket.
+
+### Commits Session 31 (21 total)
 
 ```
+92d8f95 feat(sc-search): nuevo componente Extended + migrar 8 consumers AED + spec doc + gallery
+08ed711 docs(close): session 31 bloque 4 — Fase 1.A/1.B migraciones + auditoría pure-sc
 a2c0203 feat(aed): migrate 7 native text/email/url inputs to sc-input
 f9ce216 docs(close): session 31 log + plan refresh (sesión sigue abierta)
 4754fbf chore(extended): cleanup post-audit — fix CSS dead selectors en multi-select + datepicker
