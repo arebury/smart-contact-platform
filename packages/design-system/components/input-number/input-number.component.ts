@@ -1,4 +1,3 @@
-import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -36,7 +35,7 @@ let scInputNumberIdCounter = 0;
 @Component({
   selector: 'sc-input-number',
   standalone: true,
-  imports: [InputTextModule, NgClass],
+  imports: [InputTextModule],
   templateUrl: './input-number.component.html',
   styleUrl: './input-number.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

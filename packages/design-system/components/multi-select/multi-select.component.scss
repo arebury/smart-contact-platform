@@ -36,14 +36,14 @@
   font-weight: var(--sc-font-weight-medium);
 }
 
+/* `.sc-multi-select__control` ES el <p-multiselect> (esa clase se aplica
+ * al root del componente PrimeNG, que añade `.p-multiselect` al mismo
+ * elemento). NO usar `display: block` — rompe el flex interno del label
+ * (bug análogo al que tenía sc-select pre-Session 31). El default
+ * `inline-flex` de PrimeNG es lo correcto. */
 .sc-multi-select__control {
-  display: block;
   width: 100%;
   min-width: 0;
-}
-
-.sc-multi-select__control .p-multiselect {
-  width: 100%;
 }
 
 /* ────────────────────────────────────────────────────────────────────
@@ -68,11 +68,12 @@
  *   `multiselect/filled/background = #f8fafc` (slate-50).
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-multi-select--filled .sc-multi-select__control .p-multiselect {
+.sc-multi-select--filled .sc-multi-select__control {
   background: var(--sc-color-gray-50);
-}
-.sc-multi-select--filled .sc-multi-select__control .p-multiselect:hover {
-  background: var(--sc-color-gray-100);
+
+  &:hover {
+    background: var(--sc-color-gray-100);
+  }
 }
 
 /* ────────────────────────────────────────────────────────────────────
@@ -82,7 +83,7 @@
  * Ambos ya alineados via --sc-border-error / --sc-text-danger.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-multi-select--invalid .sc-multi-select__control .p-multiselect {
+.sc-multi-select--invalid .sc-multi-select__control {
   border-color: var(--sc-border-error);
 
   &:hover,

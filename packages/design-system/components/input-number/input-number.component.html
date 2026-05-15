@@ -7,7 +7,7 @@
   </label>
 }
 
-<div class="sc-input-number__field" [ngClass]="{ 'sc-input-number__field--has-suffix': hasSuffix() }">
+<div class="sc-input-number__field" [class.sc-input-number__field--has-suffix]="hasSuffix()">
   <input
     pInputText
     class="sc-input-number__control"

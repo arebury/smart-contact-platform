@@ -38,17 +38,17 @@
   font-weight: var(--sc-font-weight-medium);
 }
 
+/* `.sc-datepicker__control` ES el <p-datepicker> (la clase se aplica al
+ * root del componente PrimeNG, que añade `.p-datepicker` al mismo
+ * elemento). NO usar `display: block` — rompe el flex interno (bug
+ * análogo a sc-select / sc-multi-select pre-Session 31). */
 .sc-datepicker__control {
-  display: block;
   width: 100%;
   min-width: 0;
 }
 
-/* Force inner p-datepicker (and its calendar trigger button) to fill
- * the wrapper width. PrimeNG defaults to inline-flex auto-width. */
-.sc-datepicker__control .p-datepicker {
-  width: 100%;
-}
+/* `.p-datepicker-input` SÍ es descendiente real (el <input> nativo
+ * dentro del p-datepicker) — el selector descendant aquí es correcto. */
 .sc-datepicker__control .p-datepicker-input {
   width: 100%;
 }
