@@ -165,6 +165,16 @@ export class HomeComponent {
       figmaParity: 100,
     },
     {
+      slug: 'search',
+      name: 'Search',
+      type: 'extended',
+      status: 'ready',
+      aedUses: 0,
+      pageRoute: '/components/search',
+      whatItDoes: 'Campo de búsqueda con icono lupa a la izquierda + botón × para vaciar + opcional pista de atajo (⌘K, /) que se ve cuando el campo está vacío. Lo típico de un buscador de tabla o de un picker.',
+      whereToSee: 'Aún no migrado en AED. Los buscadores actuales (lista de agentes, grupos, etiquetas, plantillas, repositorios + pickers de agendas/plantillas dentro del formulario de agente) están con HTML+CSS local en cada página. Migración en cola — cuando se haga, el componente vivirá en una sola fuente.',
+    },
+    {
       slug: 'modal',
       name: 'Modal',
       type: 'extended',

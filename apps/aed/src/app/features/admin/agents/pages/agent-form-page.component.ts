@@ -47,6 +47,7 @@ import {
   InputComponent,
   LabelChipComponent,
   PhotoUploadComponent,
+  SearchComponent,
   SectionCardComponent,
   SelectComponent,
   StickyFormHeaderComponent,
@@ -142,6 +143,7 @@ interface FormState {
     LucideAngularModule,
     PhotoUploadComponent,
     PrimeTemplate,
+    SearchComponent,
     SectionCardComponent,
     SelectComponent,
     StickyFormHeaderComponent,
@@ -209,18 +211,6 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly templateSearch = signal('');
   protected readonly templateTab = signal<TemplateType>('chat');
 
-  protected onScheduleSearchInput(event: Event): void {
-    this.scheduleSearch.set((event.target as HTMLInputElement).value);
-  }
-  protected clearScheduleSearch(): void {
-    this.scheduleSearch.set('');
-  }
-  protected onTemplateSearchInput(event: Event): void {
-    this.templateSearch.set((event.target as HTMLInputElement).value);
-  }
-  protected clearTemplateSearch(): void {
-    this.templateSearch.set('');
-  }
   protected setTemplateTab(tab: TemplateType): void {
     this.templateTab.set(tab);
     this.templateSearch.set('');

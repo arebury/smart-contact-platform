@@ -27,6 +27,7 @@ import {
   EmptyStateComponent,
   InlineRenameCellComponent,
   PageHeaderComponent,
+  SearchComponent,
 } from '@shared/components';
 import { USER_TYPE_LABEL_KEYS, USER_TYPES, User, UserType } from '../data/users-data';
 import { UsersStore } from '../state/users.store';
@@ -52,6 +53,7 @@ interface ContextMenuPos {
     InlineRenameCellComponent,
     LucideAngularModule,
     PageHeaderComponent,
+    SearchComponent,
     SortableHeaderDirective,
     TranslateModule,
   ],

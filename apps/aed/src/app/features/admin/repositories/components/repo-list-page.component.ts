@@ -18,6 +18,7 @@ import { clampToViewport } from '@core/utils/viewport';
 import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
 import { DeleteEntityDialogComponent } from '@shared/components/delete-entity-dialog/delete-entity-dialog.component';
 import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
+import { SearchComponent } from '@shared/components/search/search.component';
 import { RepoFormPanelComponent, RepoFormSubmission } from './repo-form-panel.component';
 import { RepoEntity, RepoPageConfig, RepoStore } from './repo-types';
 
@@ -43,6 +44,7 @@ interface ContextMenuPos {
     LucideAngularModule,
     PageHeaderComponent,
     RepoFormPanelComponent,
+    SearchComponent,
     TranslateModule,
   ],
   templateUrl: './repo-list-page.component.html',

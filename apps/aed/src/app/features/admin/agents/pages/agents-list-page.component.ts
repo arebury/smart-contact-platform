@@ -38,6 +38,7 @@ import {
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
   PageHeaderComponent,
+  SearchComponent,
 } from '@shared/components';
 import {
   AGENT_TYPE_LABEL_KEYS,
@@ -95,6 +96,7 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
     InlineRenameCellComponent,
     LucideAngularModule,
     PageHeaderComponent,
+    SearchComponent,
     SortableHeaderDirective,
     TranslateModule,
   ],

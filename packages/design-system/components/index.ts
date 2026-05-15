@@ -67,6 +67,9 @@ export { PageHeaderComponent } from './page-header/page-header.component';
 
 export { PhotoUploadComponent } from './photo-upload/photo-upload.component';
 
+export { SearchComponent } from './search/search.component';
+export type { ScSearchSize } from './search/search.component';
+
 export { SectionCardComponent } from './section-card/section-card.component';
 
 export { StickyFormHeaderComponent } from './sticky-form-header/sticky-form-header.component';

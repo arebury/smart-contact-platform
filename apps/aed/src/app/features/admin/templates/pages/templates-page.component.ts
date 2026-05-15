@@ -21,6 +21,7 @@ import {
   BulkActionBarComponent,
   DeleteEntityDialogComponent,
   PageHeaderComponent,
+  SearchComponent,
 } from '@shared/components';
 import { Template, TemplateType } from '../data/templates-data';
 import { TemplatesStore } from '../state/templates.store';
@@ -43,6 +44,7 @@ interface ContextMenuPos {
     DeleteEntityDialogComponent,
     LucideAngularModule,
     PageHeaderComponent,
+    SearchComponent,
     TemplateFormPanelComponent,
     TranslateModule,
   ],

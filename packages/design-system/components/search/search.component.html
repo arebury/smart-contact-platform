@@ -1,0 +1,36 @@
+<p-iconfield iconPosition="left" class="sc-search__field">
+  <p-inputicon>
+    <lucide-icon [img]="searchIcon" [size]="14" aria-hidden="true" />
+  </p-inputicon>
+
+  <input
+    #input
+    pInputText
+    type="search"
+    class="sc-search__control"
+    [id]="resolvedId()"
+    [placeholder]="placeholder()"
+    [disabled]="disabled()"
+    [attr.name]="name() ?? null"
+    [attr.autofocus]="autoFocus() ? true : null"
+    [value]="value()"
+    (input)="onInput($event)"
+    (blur)="onBlur()"
+    (keydown)="onKeydown($event)"
+    autocomplete="off"
+    spellcheck="false"
+  />
+
+  @if (showClear() && value()) {
+    <button
+      type="button"
+      class="sc-search__clear"
+      (click)="onClear()"
+      [attr.aria-label]="clearAriaLabel()"
+    >
+      <lucide-icon [img]="clearIcon" [size]="13" aria-hidden="true" />
+    </button>
+  } @else if (shortcutHint() && !value()) {
+    <kbd class="sc-search__kbd" aria-hidden="true">{{ shortcutHint() }}</kbd>
+  }
+</p-iconfield>

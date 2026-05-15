@@ -13,29 +13,15 @@
         [storageKey]="columnPrefKey"
         (visibilityChange)="onColumnsChange($event)"
       />
-      <div class="page__search">
-        <lucide-icon class="page__search-icon" [img]="searchIcon" [size]="14" aria-hidden="true" />
-        <input
-          type="text"
-          class="page__search-input"
-          [placeholder]="'users.search_placeholder' | translate"
-          [value]="searchQuery()"
-          (input)="searchQuery.set($any($event.target).value)"
-          (keydown)="onSearchKey($event)"
-        />
-        @if (searchQuery()) {
-          <button
-            type="button"
-            class="page__search-clear"
-            (click)="searchQuery.set('')"
-            [attr.aria-label]="'labels.clear_search' | translate"
-          >
-            <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
-          </button>
-        } @else {
-          <kbd class="page__search-kbd" aria-hidden="true">⌘K</kbd>
-        }
-      </div>
+      <sc-search
+        class="page__search"
+        [placeholder]="'users.search_placeholder' | translate"
+        shortcutHint="⌘K"
+        [clearAriaLabel]="'labels.clear_search' | translate"
+        [value]="searchQuery()"
+        (valueChange)="searchQuery.set($event)"
+        (keydown)="onSearchKey($event)"
+      />
       <span class="sc-action-divider" aria-hidden="true"></span>
       <button
         type="button"

@@ -571,59 +571,11 @@ input[type='checkbox'] {
  * table). Not promoted to `_forms.scss` yet — single consumer; if
  * user-form or group-form pick them up, extract.
  */
+/* `.picker-search` queda como hook posicional / margin para que el
+ * `<sc-search size="sm">` se integre dentro del sub-section accordion.
+ * El chrome interno (icon, input, clear) ahora vive en el componente. */
 .picker-search {
-  position: relative;
-  display: flex;
-  align-items: center;
-
-  &__icon {
-    position: absolute;
-    left: var(--sc-spacing-200);
-    color: var(--sc-icon-subtle);
-    pointer-events: none;
-  }
-
-  &__input {
-    width: 100%;
-    padding: var(--sc-spacing-150) var(--sc-spacing-200) var(--sc-spacing-150)
-      calc(var(--sc-spacing-200) + 20px);
-    border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-200);
-    background: var(--sc-bg-surface);
-    font-size: var(--sc-font-size-100);
-    color: var(--sc-text-primary);
-    transition: border-color var(--sc-transition-fast) var(--sc-easing-default);
-
-    &::placeholder {
-      color: var(--sc-text-subtle);
-    }
-
-    &:focus {
-      outline: none;
-      border-color: var(--sc-border-focus, var(--sc-color-blue-500));
-    }
-  }
-
-  &__clear {
-    position: absolute;
-    right: var(--sc-spacing-150);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    width: 18px;
-    height: 18px;
-    border: 0;
-    background: transparent;
-    color: var(--sc-icon-subtle);
-    cursor: pointer;
-    border-radius: var(--sc-radius-full);
-    transition: color var(--sc-transition-fast) var(--sc-easing-default);
-
-    &:hover {
-      color: var(--sc-text-secondary);
-    }
-  }
+  display: block;
 }
 
 .picker-list {

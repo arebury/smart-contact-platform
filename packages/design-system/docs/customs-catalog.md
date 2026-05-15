@@ -156,13 +156,13 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 
 Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión consciente: añadir solo cuando aparezca primer caso real de uso en AED.
 
-### 5.1 `sc-input-group` — gap (Figma `❖ InputGroup` node 6738:22644)
+### 5.1 `sc-input-group` — gap parcial (Figma `❖ InputGroup` node 6738:22644)
 
-- **Figma SC**: 8 variants `Left × Right × SecondLeft × SecondRight` para addons laterales del input (icon, button, prefix/suffix).
+- **Figma SC**: 8 variants `Left × Right × SecondLeft × SecondRight` para addons laterales del input (icon, button, prefix/suffix con border merge).
 - **PrimeNG**: `<p-inputgroup>` + `<p-inputgroup-addon>` cubren esto.
-- **Estado**: cero consumers reales en AED. El sc-input antiguamente tenía props `leftIcon`/`rightIcon` que mezclaban este componente con `❖ InputText` — eliminados en Session 31 por divergencia (`refactor(sc-input): remove leftIcon/rightIcon`).
-- **Cuándo crear**: primer caso real en AED de input con addon (icono prefix, botón "ir", currency suffix, etc.).
-- **Decisión hasta entonces**: el consumer usa `<p-inputgroup>` directamente con `<sc-input>` dentro.
+- **Estado**: el caso "icon overlay decorativo" (search bars, picker search) está cubierto por `sc-search` (Session 31, §5.5 abajo) usando `<p-iconfield>` que es semánticamente distinto. Lo que queda como gap es estrictamente "input + addon con border merge" (ej. input + botón "Añadir" del tag-input en aed-servicio).
+- **Cuándo crear**: primer caso real con dolor. El único hoy es el tag-input de aed-servicio estados — 1 sitio, low priority.
+- **Decisión hasta entonces**: el consumer usa `<p-inputgroup>` directamente con `<sc-input>` dentro. NO confundir con search: para search hay `<sc-search>`.
 
 ### 5.2 `sc-select-button` — gap (Figma `❖ SelectButton` node 6738:46433)
 
@@ -178,6 +178,24 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
 - **PrimeNG**: `<p-tag>`.
 - **Relación con sc-label-chip**: NO confundir. `sc-label-chip` cumple el rol del **Chip** Figma (outline, removible, categórico). `sc-tag` sería un componente nuevo para etiquetar contenido (estado de un ticket, severity de una alerta) — semántica distinta.
 - **Cuándo crear**: primer caso de tag visual en AED (severity de algo, estado lleno color).
+
+### 5.5 `sc-search` — componente nuevo (Session 31, Figma `❖ Search` node 11861:55210)
+
+- **Estado**: ✅ creado en Session 31 + spec doc 14-search.md + gallery
+  `/components/search` en ds-docs + 7 consumers reales migrados (5 list-pages
+  toolbars + 2 picker-search en agent-form). Tipo `extended` en el tracker.
+- **Composición**: `<p-iconfield iconPosition="left">` + `<p-inputicon>` +
+  `<input pInputText type="search">` + clear button (×) + opcional kbd hint
+  (⌘K, /). El componente añade chrome funcional encima del IconField nativo
+  PrimeNG (clear automático cuando hay value, focus API pública).
+- **Por qué NO se usa `<p-inputgroup>` aquí**: IconField es overlay
+  decorativo dentro del input (correcto para search). InputGroup es addon
+  con border merge (para botones de acción). Semánticas distintas — no
+  intercambiables.
+- **Figma**: página `❖ Search` (node 11861:55210) creada por Rafa al cierre
+  de Session 31, pendiente de que Marta/Rafa compongan los variants (Size
+  sm/md/lg × HasHint × Filled × Disabled). El spec doc 14-search.md tiene
+  la receta detallada.
 
 ### 5.4 Reclasificación: `sc-tri-state-checkbox` (Session 31)
 

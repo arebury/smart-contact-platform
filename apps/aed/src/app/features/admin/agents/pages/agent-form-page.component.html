@@ -489,33 +489,16 @@
               @if (agendasAccOpen()) {
                 <div id="agent-acc-agendas-body" class="sub-section__body">
                   @if (availableSchedules().length > 4) {
-                    <div class="picker-search">
-                      <lucide-icon
-                        [img]="searchIcon"
-                        [size]="13"
-                        class="picker-search__icon"
-                        aria-hidden="true"
-                      />
-                      <input
-                        type="text"
-                        class="picker-search__input"
-                        [placeholder]="
-                          'agents.form.advanced.agendas.search_placeholder' | translate
-                        "
-                        [value]="scheduleSearch()"
-                        (input)="onScheduleSearchInput($event)"
-                      />
-                      @if (scheduleSearch()) {
-                        <button
-                          type="button"
-                          class="picker-search__clear"
-                          (click)="clearScheduleSearch()"
-                          [attr.aria-label]="'common.search_clear' | translate"
-                        >
-                          <lucide-icon [img]="xIcon" [size]="12" aria-hidden="true" />
-                        </button>
-                      }
-                    </div>
+                    <sc-search
+                      class="picker-search"
+                      size="sm"
+                      [placeholder]="
+                        'agents.form.advanced.agendas.search_placeholder' | translate
+                      "
+                      [clearAriaLabel]="'common.search_clear' | translate"
+                      [value]="scheduleSearch()"
+                      (valueChange)="scheduleSearch.set($event)"
+                    />
                   }
                   <ul class="picker-list" role="listbox" aria-multiselectable="true">
                     @if (filteredSchedules().length === 0) {
@@ -636,33 +619,16 @@
                       </button>
                     }
                   </div>
-                  <div class="picker-search">
-                    <lucide-icon
-                      [img]="searchIcon"
-                      [size]="13"
-                      class="picker-search__icon"
-                      aria-hidden="true"
-                    />
-                    <input
-                      type="text"
-                      class="picker-search__input"
-                      [placeholder]="
-                        'agents.form.advanced.plantillas.search_placeholder' | translate
-                      "
-                      [value]="templateSearch()"
-                      (input)="onTemplateSearchInput($event)"
-                    />
-                    @if (templateSearch()) {
-                      <button
-                        type="button"
-                        class="picker-search__clear"
-                        (click)="clearTemplateSearch()"
-                        [attr.aria-label]="'common.search_clear' | translate"
-                      >
-                        <lucide-icon [img]="xIcon" [size]="12" aria-hidden="true" />
-                      </button>
-                    }
-                  </div>
+                  <sc-search
+                    class="picker-search"
+                    size="sm"
+                    [placeholder]="
+                      'agents.form.advanced.plantillas.search_placeholder' | translate
+                    "
+                    [clearAriaLabel]="'common.search_clear' | translate"
+                    [value]="templateSearch()"
+                    (valueChange)="templateSearch.set($event)"
+                  />
                   <div class="picker-table-wrap">
                     <table class="picker-table">
                       <thead>

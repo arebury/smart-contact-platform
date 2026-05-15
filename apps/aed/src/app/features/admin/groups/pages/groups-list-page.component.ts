@@ -37,6 +37,7 @@ import {
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
   PageHeaderComponent,
+  SearchComponent,
 } from '@shared/components';
 import {
   CHANNEL_LABEL_KEYS,
@@ -83,6 +84,7 @@ const COLUMN_PREF_KEY = 'sc_groups_columns_v2';
     InlineRenameCellComponent,
     LucideAngularModule,
     PageHeaderComponent,
+    SearchComponent,
     SortableHeaderDirective,
     TranslateModule,
   ],

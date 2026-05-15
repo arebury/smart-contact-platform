@@ -53,6 +53,11 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: 'components/search',
+    loadComponent: () =>
+      import('./pages/search/search-gallery.component').then((m) => m.SearchGalleryComponent),
+  },
+  {
     path: 'components/toast',
     loadComponent: () =>
       import('./pages/toast/toast-gallery.component').then((m) => m.ToastGalleryComponent),

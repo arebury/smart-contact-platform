@@ -21,6 +21,7 @@ import {
   BulkActionBarComponent,
   LabelChipComponent,
   PageHeaderComponent,
+  SearchComponent,
 } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 import { LabelCascadeService } from '@features/admin/services/label-cascade.service';
@@ -49,6 +50,7 @@ interface ContextMenuPos {
     LabelFormPanelComponent,
     LucideAngularModule,
     PageHeaderComponent,
+    SearchComponent,
     TranslateModule,
   ],
   templateUrl: './labels-page.component.html',
