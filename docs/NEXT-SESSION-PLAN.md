@@ -3,272 +3,189 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
-> 2. Lee la entry **Session 31** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
->    18 commits cubriendo migraciones AED (13 inputs/selects), ds-docs tracker
->    re-encuadrado (audiencia diseño + glosario + filter chips + AED usage count),
->    auditoría Figma SC + cleanup de los 7 Extended (3 bugs CSS silenciosos
->    análogos arreglados, props huérfanas eliminadas, customs-catalog formalizado).
-> 3. Lee también la entry Session 30 para contexto previo (cocinados, polish, etc.).
-> 4. Lee [`.impeccable.md`](../.impeccable.md) — design context + regla CRITICAL:
+> 2. Lee la entry **Session 32** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    sprint con cierre Fase 1 + 19 spec docs + migration-safety doc + backlog
+>    persistente + 4 refactors consistencia + 4 memorias estructurales nuevas.
+> 3. Lee también la entry Session 31 para contexto previo.
+> 4. Lee [`packages/design-system/docs/migration-safety.md`](../packages/design-system/docs/migration-safety.md)
+>    — **filosofía SCDS** + reglas blindaje + matriz qué tocar/qué no + pro tips
+>    devs futuros. **Documento clave** post-S32, captura la política Rafa.
+> 5. Lee [`packages/design-system/docs/inconsistencies-backlog.md`](../packages/design-system/docs/inconsistencies-backlog.md)
+>    — **fuente única de deuda/gaps** del DS. Antes de proponer nada, mirar
+>    aquí qué hay pendiente.
+> 6. Lee [`.impeccable.md`](../.impeccable.md) — design context + regla CRITICAL:
 >    polish requests NUNCA tocan componentes ni tokens.
-> 5. Memoria personal en `~/.claude/projects/-Users-rafareses-dev-smart-contact-platform/memory/MEMORY.md`
->    — feedback acumulado. Atención particular a:
->    - `feedback_figma_link_before_component.md` — PEDIR el link Figma SC ANTES de tocar/crear/refinar componente.
->    - `feedback_figma_links_full_pages.md` — los links que Rafa pasa son root canvas (todos los variants en 1 JSON).
->    - `feedback_figma_specs_thorough.md` — extraer specs exhaustivas (no solo screenshot).
->    - `feedback_ds_docs_validados_audience.md` — el tracker es para diseño, no devs.
-> 6. Si vas a tocar Figma vía MCP: file key `khNq9dJKNi13pNllrqm6dx`. Los links que Rafa pasa son ROOT canvas, no nodes puntuales — extraer toda la info del mismo JSON.
-> 7. Checklist anti-divergencia formalizado en [`packages/design-system/docs/customs-catalog.md`](../packages/design-system/docs/customs-catalog.md) — usar las 4 preguntas antes de tocar cualquier componente.
+> 7. Memoria personal en `~/.claude/projects/-Users-rafareses-dev-smart-contact-platform/memory/MEMORY.md`
+>    — feedback acumulado. Atención particular a las **4 memorias nuevas S32**:
+>    - `feedback_migration_safety.md` — 3 reglas blindaje migración.
+>    - `feedback_minimal_customization.md` — política customización mínima sobre PrimeNG.
+>    - `feedback_track_inconsistencies.md` — toda inconsistencia detectada → backlog.
+>    - `feedback_figma_link_workflow.md` — links Figma SC → anotar inmediatamente en docs.
+> 8. Si vas a tocar Figma vía MCP: file key `khNq9dJKNi13pNllrqm6dx`. Los links que Rafa pasa son ROOT canvas, no nodes puntuales — extraer toda la info del mismo JSON.
+> 9. Checklist anti-divergencia formalizado en [`customs-catalog.md §0`](../packages/design-system/docs/customs-catalog.md) — 4 preguntas obligatorias antes de tocar componentes.
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
 
 ---
 
-## Estado al cerrar (Session 31, 2026-05-15)
+## Estado al cerrar (Session 32, 2026-05-15)
 
-**Hitos clave de Session 31 (24 commits totales)**:
+**Hitos clave de Session 32**:
 
-- ✅ **agent-form-page 100% sin selects nativos**: 8 selects migrados a `<sc-select>`
-  (max-chats, pickup call/chat, type, presence, ext, label, language). Patrones
-  cubiertos: primitives (number[]), array literal con `| translate` pipe, content
-  projection `pTemplate` (B refinada), action-add con signal externo + reset.
-- ✅ **agent-form-page 4 inputs text/email/url migrados a `<sc-input>`**: email,
-  phone, pin, iframe-url. Componente sc-input enriquecido con prop `inputmode`
-  (hint al teclado virtual mobile).
-- ✅ **aed-servicio + group-form**: 3 `<sc-input-number>` + 1 `<sc-input-number>` con
-  refactor del modelo (string → number). Mejora estructural del componente:
-  `--sc-input-number-suffix-pad` calculado del length del suffix.
-- ✅ **aed-grupos 100% migrado**: 2 `<sc-select>` (prioridad, estrategia) + 2 bugs del
-  componente arreglados (primitives + display block).
-- ✅ **aed-servicio + aed-agentes**: 3 inputs text/url adicionales migrados a
-  `<sc-input>` (callblending-url, iframe-url, iframe-titulo).
-- ✅ **NUEVO componente `sc-search`** (Extended): composición p-iconfield +
-  p-inputicon + pInputText + clear button auto + opcional kbd hint (⌘K/). 8
-  consumers AED migrados (6 list-pages toolbars + 2 picker-search agent-form).
-  Cleanup de ~200 líneas dead CSS distribuido en 6 SCSS local-by-page +
-  main.scss + agent-form. Spec doc 14-search.md + gallery `/components/search`.
-- ✅ **Figma SC `❖ Search` (node 11861:55210)** compuesto via `claude_ai_Figma__use_figma`:
-  Page Header + Examples frame con Mode Light + Mode Dark cards (5 variants cada
-  uno) + Components frame con Main Component "search" preset del InputText.
-  Aprendizaje: sc-search en Figma es **preset del InputText**, no component set
-  propio — el InputText del Kit ya expone los slots necesarios.
-- ✅ **ds-docs tracker** re-encuadrado: audiencia DISEÑO (no devs). "Hecho en Figma"
-  ≠ "validado en producción". Glosario llano + AED usage count + 3 grupos de filter
-  chips + search con shortcut `/`.
-- ✅ **Auditoría Figma SC** de 6 nodes (Input, InputGroup, Select, SelectButton,
-  MultiSelect, Datepicker) + Breadcrumb + Chip + Tag. 3 gaps identificados
-  (sc-input-group, sc-select-button, sc-tag). 1 prop huérfana eliminada
-  (`leftIcon`/`rightIcon` mezclaba 2 componentes Figma).
-- ✅ **Cleanup post-audit Extended**: 3 bugs CSS silenciosos análogos arreglados
-  (sc-select / sc-multi-select / sc-datepicker — el selector `.sc-X__control .p-X`
-  era dead porque ambas clases viven en el mismo elemento). Dead imports eliminados.
-- ✅ **Auditoría profunda pure-sc** (22 componentes): cero issues (0 console.*,
-  0 NgClass single-use, 0 SCSS selector bug, 0 dead imports). Catálogo en muy
-  buen estado.
-- ✅ **customs-catalog formalizado**: checklist anti-divergencia (4 preguntas
-  obligatorias) + sección 5 con gaps conocidos (sc-input-group, sc-select-button,
-  sc-tag) + sc-search documentado (gap → cubierto) + reclasificación
-  tri-state-checkbox.
+- ✅ **Fase 1 AED migraciones cerrada al 100%**: 5 forms residuales (template, label, user, group, repo) migrados a SCDS. Sin nativos restantes en formularios.
+- ✅ **Auditoría nivel-2 pure-sc**: 21 componentes, 0 P0/P1 reales, 12 P2 caso a caso → todos DECLINE. Catálogo en estado muy sano (8/21 clean directamente, 13 ya documentados con comments inline).
+- ✅ **19 nuevos spec docs** (15-33): cobertura 100% de pure-sc (era 2/21, ahora 21/21). Catálogo total: 33 docs.
+- ✅ **`migration-safety.md`** (NUEVO): doc estructural con filosofía SCDS + 3 reglas blindaje + matriz qué tocar/qué no + 6 pro tips devs futuros. **Lectura obligatoria** para próximos contributors.
+- ✅ **`inconsistencies-backlog.md`** (NUEVO): punto único tracking de deuda/gaps con severidad + fase + status. 17 entries iniciales (S30+S31+S32 histórico).
+- ✅ **4 refactors consistencia** (memoria `minimal-customization`):
+  - `bulk-edit-menu`: `<select>` × 2 → `<sc-select>` con pTemplate.
+  - `toggle-switch`: pure-sc CSS → wrapper de `<p-toggleswitch>`. 21 consumers AED intactos.
+  - `inline-rename-cell` + `label-chip`: declined con justificación documentada (rompería visual / no encaja con p-tag/p-chip).
+- ✅ **4 memorias estructurales nuevas** capturando feedback Rafa: migration safety, minimal customization, track inconsistencies, figma link workflow.
+- ✅ **Audit Figma SC vs PrimeOne base**: confirmado NO se han modificado variables Figma base. Política `audit/01-identity-recap.md §2.10` consistente. Riesgo migración Prime upstream: BAJO.
 
-Last commit en main: `6a58810` (docs close Figma Search canvas).
+Last commit en main: `1c52d58` (docs scds spec docs + refactors S32).
 
 ### Estado factual del catálogo al cerrar
 
-- **33 entries en tracker ds-docs** (button + 14 spec docs + 18 pure-sc + reclasificaciones).
-  - **21 pure-sc**, **8 extended** (incluye sc-search nuevo), **3 custom-preset**, **1 full-primeng**.
-  - Post sc-search migraciones: el conteo AED usage de search subirá a 7 cuando
-    snapshot manual se actualice (TODO próxima sesión recount).
-- **AED usage por componente** (snapshot pre sc-search migrations):
-  - button 38, toggle-switch 21, section-card 12, **select 11**, **input 14**
-    (post-S31), page-header 8, delete-entity-dialog 8, **input-number 7**,
-    illustrated-avatar 7, **search 7** (post-S31), tri-state-checkbox 6,
-    bulk-action-bar 6, label-chip 3, modal 2, ... etc. **Sin uso aún**:
-    datepicker, multi-select, tabs, tooltip.
-- **14 spec docs** + **11 galleries live** + gallery search nueva pendiente de
-  deploy.
-- **Figma SC `❖ Search`**: composición completa Light + Dark + Components + Main
-  Component. Pendiente refinement minor (Right Icon swap a X clear cuando Marta
-  trabaje pantallas reales).
-- **Memory**: cero integración. Camino B con 4 gates ✅ cumplidos, esperando activación.
-- **Customs catalog**: checklist anti-divergencia + 5 secciones (brand colors,
-  extensions, overloads, sizes, gaps). sc-search documentado en §5.5.
+- **33 spec docs en `packages/design-system/docs/components/`** (era 14 al inicio S32):
+  - 11 Extended (wrappers PrimeNG): input, input-number, select, multi-select, datepicker, modal, checkbox, search, **toggle-switch (nuevo Extended S32)**, label-chip*, **dialog/tooltip**.
+  - 4 Custom-preset: button, toast, tabs.
+  - 1 Full-PrimeNG: tooltip.
+  - 17+ Pure-SC: section-card, empty-state, photo-upload, illustrated-avatar, page-header, form-section-nav, form-danger-zone, sticky-form-header, bulk-action-bar, bulk-edit-menu, impact-preview-dialog, delete-entity-dialog, column-selector, inline-rename-cell, group-popover, command-palette, keyboard-shortcuts, confirm-host, color-dot-picker.
+- **AED usage por componente** (recount oficial post-S32):
+  - sc-toggle-switch 21 · sc-input 21 · sc-select 16 · sc-section-card 12 ·
+    sc-search 8 · sc-page-header 8 · sc-delete-entity-dialog 8 · sc-input-number 7 ·
+    sc-illustrated-avatar 7 · sc-tri-state-checkbox 6 · sc-bulk-action-bar 6 ·
+    sc-sticky-form-header 3 · sc-label-chip 3 · sc-inline-rename-cell 3 ·
+    sc-form-section-nav 3 · sc-form-danger-zone 3 · sc-empty-state 3 ·
+    sc-column-selector 3 · sc-photo-upload 2 · sc-modal 2 · sc-impact-preview-dialog 2 ·
+    sc-bulk-edit-menu 2 · sc-keyboard-shortcuts 1 · sc-group-popover 1 ·
+    sc-confirm-host 1 · sc-command-palette 1 · sc-color-dot-picker 1 ·
+    **sc-multi-select 0 · sc-datepicker 0** (esperan primer caso real AED).
+- **Backlog inconsistencies**: 17 entries — 2 ✅ resueltas S32 (bulk-edit-menu, toggle-switch refactors), 2 ⏸️ rechazadas con justificación (inline-rename-cell, label-chip), 4 gaps componente conocidos (`sc-input-group`, `sc-select-button`, `sc-tag`, `sc-toggle-button`), resto deuda histórica.
+- **Customs catalog**: 13 entries (sin nuevas en S32 — los refactors son **alineación**, no divergence). §5.6 `sc-toggle-button` gap nuevo + §5.7 reseña refactors S32.
+- **Figma SC**: NO se modificaron variables base. Canvas `❖ Search` (node 11861:55210) compuesto S31 sigue intacto.
 
 ---
 
-## Fase 1 (activa) — Migraciones AED restantes (mucho menos pendiente post-S31)
+## Fase 1 — ✅ CERRADA
 
-### Inputs/selects nativos restantes (inventario al cierre S31)
-
-- **`<sc-input>` / `<sc-input-number>` / `<sc-select>`** en formularios: la mayoría
-  migrados. Pendientes residuales sin tocar todavía:
-  - **`group-form-page`** restantes (post-capacityValue): inputs name + phone
-    (verificar inventario), select chatStrategy.
-  - **`user-form-page`**: 2 inputs (email + nombre) sin migrar — son los del
-    "create user", relativamente bajos en uso.
-  - **`label-form-panel`** / **`template-form-panel`** / **`repo-form-panel`**:
-    inputs internos sin migrar — fuera del scope crítico.
-  - **`agent-form-page`**: ya 100% migrado salvo 2 picker-search (ya migrados a
-    `<sc-search>` en S31).
-- **NO migrables a sc-input directo (gap conocido en customs-catalog)**:
-  - `tag-input` en aed-servicio estados — necesita `sc-input-group` con addon
-    button (1 caso real, low priority).
-  - `confirm__input` + `search__input` en sistema-page regen — chrome custom
-    (1 sitio).
-
-**Tiempo estimado**: ~30-60 min para terminar la migración completa de inputs
-texto en formularios principales. Sin urgencia.
-
-**Recordar**: aplicar el patrón establecido (adapter `onXValueChange(value: unknown)`,
-content projection `pTemplate` cuando label requiera i18n derivada, signals
-transitorios para action-add).
-
-### Patrones de migración consolidados Session 31
-
-| Caso | Patrón |
-|---|---|
-| Primitives (`string[]`/`number[]`) | `[options]` directo. El sc-select detecta primitives y omite optionLabel/Value. |
-| `[{label, value}]` hardcoded con i18n | Array literal en template con `\| translate` pipe inline (estrategia D). Reactivo a cambio idioma. |
-| Colecciones derivadas con i18n lookup | Content projection `<ng-template pTemplate="item" let-X>{{ keys[X] \| translate }}</ng-template>` (B refinada). |
-| Action-add (value="" + array externo) | Signal transitorio `signal<T \| null>(null)` que se resetea tras pick. Adapter `onXValueAdd` + computed `addableX()`. |
+Migraciones inputs/selects nativos AED → SCDS: 100% completa.
+Inputs y selects que NO migran (justificados, NO en backlog):
+- `inline-rename-cell` mantiene `<input>` nativo (decision visual S32).
+- `bulk-edit-menu` ahora usa `<sc-select>` internamente (refactor S32).
 
 ---
 
-## Fase 2 — Más componentes nuevos cuando aparezca caso real
+## Fase 2 — Componentes nuevos por trigger real
 
-Los 3 gaps documentados en customs-catalog §5:
+Los **4 gaps documentados en customs-catalog §5** + **inconsistencies-backlog #5-#8**:
 
-1. **`sc-input-group`** (Figma node 6738:22644) — wrapper de `<p-inputgroup>` para
-   addons left/right. Cuándo: primer caso real input+icono o input+botón en AED.
-2. **`sc-select-button`** (Figma node 6738:46433) — wrapper de `<p-selectbutton>`
-   para chips toggle segmented. Cuándo: primer filtro segmented real en AED.
-3. **`sc-tag`** (Figma node 6738:55116) — wrapper de `<p-tag>` para etiquetas
-   categóricas no removibles. NO confundir con `sc-label-chip` que cubre el Chip
-   Figma (6738:55109). Cuándo: primer caso de tag visual (severity/estado lleno
-   color).
+1. **`sc-input-group`** (Figma node 6738:22644) — wrapper de `<p-inputgroup>` para addon left/right. **Trigger**: primer caso real input+icono o input+botón en AED. Hay 1 caso pendiente (`tag-input` aed-servicio estados).
+2. **`sc-select-button`** (Figma node 6738:46433) — wrapper de `<p-selectbutton>` para chips toggle segmented. **Trigger**: primer filtro segmented real en AED. Sin caso hoy.
+3. **`sc-tag`** (Figma node 6738:55116) — wrapper de `<p-tag>` para etiquetas severity-fill no removibles. **Trigger**: primer caso de tag visual (severity/estado lleno color). NO confundir con `sc-label-chip` que cubre el `❖ Chip` (categorical color custom).
+4. **`sc-toggle-button`** (Figma node 6738:46435) — wrapper de `<p-togglebutton>` para button con estado pressed/unpressed. **Trigger**: primer caso real en AED. Sin caso hoy.
 
 Nuevos componentes hipotéticos (NO empezar sin caso real):
 - Autocomplete, TimePicker, DateRange, Pagination, SegmentedControl.
 
 ---
 
-## Fase 3 — Auditoría adicional pendiente
+## Fase 3 — Auditorías adicionales pendientes (del backlog)
 
-### A — Auditoría profunda pure-sc (22 componentes)
+Ver `packages/design-system/docs/inconsistencies-backlog.md` para listing completo. Items prioritarios:
 
-Session 31 hizo pasada superficial (0 dead imports, 0 console.* huérfanos). Falta
-auditoría profunda componente por componente:
-- Comentarios profesionales WHY donde no son obvios.
-- CSS structure (selectores, especificidad).
-- A11y (aria-*, focus management).
-- TS strict (any injustificados).
-- Naming consistency.
+### A — Item #9 — Deuda `::ng-deep` sticky-form-header
 
-**Estimación**: 1 sesión dedicada de 2-3h, componente por componente con OK explícito.
+8 `::ng-deep` sobre `<sc-photo-upload>` proyectado en slot. Debería usar el prop `[size]` existente en photo-upload. Documentado en `audit/00-diagnosis.md` Fase 4. Estimación: 30 min.
 
-### B — Auditoría adicional Extended
+### B — Item #12-#13 — Auditorías Figma SC pendientes
 
-- **sc-select** Filled/Invalid: el SCSS apunta a otros node-ids del Figma
-  (`6195:7785` Filled, `6195:7816` Invalid) que NO se auditaron en S31. Verificar
-  si esos nodes existen y replicar 1:1 si aplica.
-- **sc-modal**: auditoría 1:1 contra Figma `❖ Dialog` del Kit (no fetch en S31).
-- **sc-button** SCSS: mover `apps/aed/src/styles/_buttons.scss` →
-  `packages/design-system/styles/_buttons.scss` siguiendo patrón `_sc-toast.scss`.
-  **Condición**: cuando aparezca segundo consumer (ds-docs hoy no usa `.btn`).
+- `sc-modal` 1:1 contra Figma `❖ Dialog` del Kit (no fetched en S31).
+- `sc-select` Filled/Invalid: SCSS apunta a nodos `6195:7785` / `6195:7816` no auditados.
 
-### C — Componentes pure-sc sin spec doc (~12)
+### C — Item #14-#15 — Refinement Figma SC Search (Marta dependent)
 
-bulk-action-bar, bulk-edit-menu, photo-upload, illustrated-avatar, form-danger-zone,
-form-section-nav, etc. Spec doc + entry en `MIGRATION-INVENTORY.md`.
+- Right Icon en variant "With value + clear icon": defaultea a search; cambiar a X cuando se importe icon al Kit.
+- Variants formales del Main Component (Size sm/md/lg × Filled × Disabled) como component set propio.
 
-### D — Refinement Figma SC `❖ Search` (heredado S31)
+### D — Item #17 — Build error ds-docs (P1)
 
-- Right Icon en variant "With value + clear icon": defaultea a search; cambiar a X
-  clear cuando se importe icon X al Kit (decisión Marta).
-- Variants formales del Main Component "search" (Size sm/md/lg × Filled × Disabled)
-  como component set propio si Marta quiere — hoy es 1 main component sin variants.
+`NG8008: GalleryFooterComponent required input 'slug' must be specified`. Pre-existente en main. Bloquea build production de ds-docs.
 
-### E — Mapeo Memory components + usage count (cuando se active Camino B)
+### E — Mapeo Memory components + usage count (Camino B, Fase 4)
 
-Réplicar el patrón `aedUses: N` del tracker para `memoryUses: N`. Permite ver
-prioridad combinada de cada componente del DS (cuántas veces se usa en AED + Memory).
-Útil para conversación con devs de Memory.
+Replicar el patrón `aedUses: N` para `memoryUses: N` cuando Memory consuma SCDS.
 
 ---
 
 ## Fase 4 — Memory consume tokens SCDS ("Camino B")
 
-Los **4 gates ya están ✅ cumplidos** (paleta cerrada, layer 2 estable, 13 specs,
-customs catalog completo con checklist). Listo para activar cuando el usuario lo
-pida.
+Los **4 gates ya están ✅ cumplidos** desde S31. Plan concreto (sin cambios):
 
-**Plan concreto** (sin cambios desde sesiones anteriores):
-
-1. Decidir mecanismo: **Camino C (script de copia)** para empezar — 1 tarde.
-2. Setup en Memory: crear `src/styles/sc-tokens/` con las 7 capas copiadas +
-   importar `01-primitive.css` + `02-semantic.css` desde el entry CSS.
+1. Decidir mecanismo: **Camino C (script de copia)** para empezar.
+2. Setup en Memory: `src/styles/sc-tokens/` con las 7 capas copiadas + importar `01-primitive.css` + `02-semantic.css`.
 3. Borrar de Memory cualquier `--*` que duplique un `--sc-*`.
 4. Verificar build verde + pantallas no rompen.
 5. (Opcional) Mapping Tailwind → `--sc-*` en `tailwind.config.ts` de Memory.
 6. Documentar en SCDS `docs/consumers.md` que Memory es consumer.
 
-**Tiempo estimado**: 2-4h.
-
-**Importante**: las brand divergences del catálogo NO se transmiten automáticamente.
-Memory hereda los tokens vía CSS variables, pero su capa de componentes (React +
-Radix) decide conscientemente cuál usar. Ver final de `customs-catalog.md` para guía.
+Tiempo: 2-4h. Requiere acceso al repo Memory (no está en monorepo).
 
 ---
 
-## Reglas operativas (actualizadas Session 31)
+## Reglas operativas (actualizadas Session 32)
 
-1. **Polish requests NUNCA tocan componentes ni tokens** (regla CRITICAL en
-   `.impeccable.md`). Solo ds-docs vehicle + app shells. Los componentes son
-   interpretaciones 1:1 sacred de los tokens Figma.
+1. **Polish requests NUNCA tocan componentes ni tokens** (CRITICAL `.impeccable.md`).
 
-2. **🆕 PEDIR link Figma SC ANTES de tocar/crear/refinar un componente** (memoria
-   `feedback_figma_link_before_component.md`). Si Rafa no tiene el link a mano,
-   esperar a que lo busque. NO inventar diseño que después haya que rehacer.
+2. **🆕 Customizar lo MÍNIMO sobre PrimeNG** (memoria `minimal-customization`). Antes de crear pure-sc nuevo, 3 preguntas: ¿PrimeNG ya lo tiene? → wrapper. ¿pTemplate cubre el render? → usar slot. ¿PrimeNG NO lo tiene? → pure-sc + entry catalog.
 
-3. **🆕 Los links Figma de Rafa son root canvas, no nodes puntuales** (memoria
-   `feedback_figma_links_full_pages.md`). Extraer todo del mismo JSON (Examples,
-   Components, Parts, Variants), no pedir más nodes.
+3. **🆕 Migration safety SIEMPRE** (memoria `migration-safety`). 3 reglas: `--sc-*` único source + wrappers encapsulan + customs-catalog registra TODA divergence. Doc completa en `packages/design-system/docs/migration-safety.md`.
 
-4. **🆕 Aplicar checklist anti-divergencia** antes de añadir cualquier prop / slot
-   / CSS override (customs-catalog §0). 4 preguntas: ¿PrimeNG ya lo expone? ¿token
-   PrimeNG cubre? ¿brand-required? ¿handoff Prime = import+linkar CSS?
+4. **🆕 Inconsistencias detectadas → backlog persistente** (memoria `track-inconsistencies`). Toda finding sin acción inmediata → entry en `inconsistencies-backlog.md` con severidad + fase. No postergar sin trazabilidad.
 
-5. **Figma specs exhaustivos**: extraer auto-layout, paddings (incluso decimales),
-   tokens (boundVariables), variants (componentProperties), composición
-   (componentId). No solo el screenshot. Memoria `feedback_figma_specs_thorough.md`.
+5. **🆕 Links Figma SC → anotar inmediatamente** (memoria `figma-link-workflow`). Rafa pasa links puntuales; Claude tiene acceso al file entero via MCP. Anotar en spec doc + MIGRATION-INVENTORY el mismo turno.
 
-6. **Verificación obligatoria post-claim**: cuando un agente reporte "hecho", pedir
-   1 verificación reproducible (curl, screenshot, hash).
+6. **PEDIR link Figma SC ANTES de tocar/crear/refinar componente** (memoria `figma-link-before-component`). Si Rafa no tiene a mano, esperar.
 
-7. **CLAUDE.md de cada proyecto se mantiene <10 KB**. Detalle al `docs/`.
+7. **Los links Figma de Rafa son root canvas, no nodes puntuales** (memoria `figma-links-full-pages`). Extraer todo del mismo JSON.
 
-8. **Componentes y refactors menores**: directo a `main`. Cambios estructurales
-   gordos: rama + PR.
+8. **Aplicar checklist anti-divergencia** (customs-catalog §0). 4 preguntas obligatorias antes de añadir prop / slot / CSS override.
 
-9. **Cuando dudes, pregunta**. Rafa no es dev — opciones claras con tradeoffs.
+9. **Figma specs exhaustivos**: extraer auto-layout, paddings (incluso decimales), tokens (boundVariables), variants (componentProperties). Memoria `figma-specs-thorough`.
 
-10. **Nunca clavar un repo en `~/Desktop/`, `~/Documents/` o cualquier ruta con
-    icono ☁️**. Usar `~/dev/`. Migración confirmada exitosa post-Session 30 (sin más
-    problemas de push iCloud).
+10. **Verificación obligatoria post-claim**: cuando un agente reporte "hecho", pedir 1 verificación reproducible (curl, screenshot, hash, AOT verde).
 
-11. **Spec doc nuevo cada vez que cocines un componente**. Patrón establecido:
-    TL;DR / Cuándo / API / Tokens por variant / Divergencias / Migración AED /
-    Página demo / Figma reference. 13 ejemplos en `docs/components/01-13`.
+11. **🆕 Audit reportes requieren sanity check** (lección S32). Trust agents para research, verify la severidad antes de aplicar. Especialmente: estilo TypeScript (`: void` explicit), `::ng-deep` documentados, JSDoc faltantes (puede que ya tenga inline comments).
 
-12. **Brand divergence nueva** → entry en `customs-catalog.md` + mention en el spec
-    doc del componente afectado. Catalog es la fuente única.
+12. **CLAUDE.md de cada proyecto se mantiene <10 KB**. Detalle al `docs/`.
 
-13. **ds-docs vehicle** = polish ok. **packages/design-system/components/** + tokens
-    + sc-preset.ts = sacred. Ver `.impeccable.md` para detalle.
+13. **Componentes y refactors menores**: directo a `main`. Cambios estructurales gordos: rama + PR.
 
-14. **🆕 Bug pattern conocido — SCSS selector dead en wrappers PrimeNG**: cuando un
-    wrapper SCDS aplica una clase (ej. `sc-X__control`) al `<p-X>` root, PrimeNG
-    añade su propia clase (`p-X`) al MISMO elemento. NO usar selectores descendant
-    como `.sc-X__control .p-X` — usar `.sc-X__control` directo. Y NO usar
-    `display: block` en estos wrappers — rompe el `inline-flex` interno de
-    PrimeNG. Aplicar a futuros wrappers nuevos.
+14. **Cuando dudes, pregunta**. Rafa no es dev — opciones claras con tradeoffs.
+
+15. **Nunca clavar repo en `~/Desktop/`, `~/Documents/` ni rutas iCloud ☁️**. Usar `~/dev/`.
+
+16. **Spec doc nuevo cada vez que cocines un componente**. Patrón establecido: TL;DR / Cuándo / API / Tokens por variant / Divergencias / Migración AED / Página demo / Figma reference. 33 ejemplos en `docs/components/01-33`.
+
+17. **Brand divergence nueva** → entry en `customs-catalog.md` + mention en el spec doc del componente afectado. Catalog es la fuente única.
+
+18. **ds-docs vehicle** = polish ok. **packages/design-system/components/** + tokens + sc-preset.ts = sacred. Ver `.impeccable.md` para detalle.
+
+19. **Bug pattern conocido — SCSS selector dead en wrappers PrimeNG**: cuando un wrapper SCDS aplica una clase (ej. `sc-X__control`) al `<p-X>` root, PrimeNG añade su propia clase (`p-X`) al MISMO elemento. NO usar selectores descendant `.sc-X__control .p-X` — usar `.sc-X__control` directo. Y NO usar `display: block` en estos wrappers — rompe el `inline-flex` interno de PrimeNG.
+
+---
+
+## Sugerencias arranque próxima sesión
+
+Por orden de ROI:
+
+1. **Item #17 backlog (NG8008 ds-docs build)**: P1, bloquea build production. Fix → 15-30 min.
+2. **Item #9 backlog (sticky-form-header `::ng-deep`)**: deuda real desde S30. Refactor a usar `[size]` prop → 30-45 min.
+3. **Items #12-#13 (auditorías Figma sc-modal + sc-select Filled/Invalid)**: cuando Rafa tenga ganas de pasada de Figma. 1-2h.
+4. **Galleries ds-docs faltantes**: los 19 nuevos spec docs (15-33) tienen "Página demo: pendiente". Crear las galleries en `apps/ds-docs/src/app/pages/` para que la audiencia diseño tenga vista interactiva. Variable según componente.
+5. **Memory Camino B activation** (Fase 4): si Rafa decide arrancar consumer #2 del DS, ~2-4h.
+
+**Recomendación**: arrancar con #1 (fix ds-docs build) + #2 (sticky-form-header) en bloque corto. Ambos cierran deuda histórica P1/P2 con ROI claro.

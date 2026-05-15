@@ -10,6 +10,86 @@
 
 ---
 
+## 2026-05-15 · Session 32 — Cierre Fase 1 AED + sprint 19 spec docs pure-sc + migration-safety doc + refactors consistencia + backlog persistente
+
+> Sesión larga (Opus 4.7 1M context, tiempo + tokens ilimitados por decisión Rafa).
+> Tres bloques entrelazados con feedback estructural fundamental del usuario.
+>
+> **Bloque A — migraciones AED residuales** (commit `9aa472b`): 5 forms cerrados
+> (template-form-panel, label-form-panel, user-form-page, group-form-page,
+> repo-form-panel). 10 controles nativos → SCDS. Fase 1 al 100%.
+>
+> **Bloque B — auditoría nivel-2 pure-sc** (21 componentes): 0 P0/P1 reales tras
+> sanity check. 12 candidatos P2 (WHY missing) revisados caso a caso → todos
+> DECLINE (catálogo en estado muy sano).
+>
+> **Bloque C — sprint cobertura completa** (commit `1c52d58`): 19 nuevos spec
+> docs (15-33), `migration-safety.md` (filosofía + reglas), `inconsistencies-backlog.md`
+> (deuda persistente), 4 refactors consistencia (2 aplicados + 2 declined
+> justificados), updates MIGRATION-INVENTORY + tracker + customs-catalog.
+>
+> **Feedback estructural Rafa** (4 memorias nuevas):
+> 1. Customizar lo MÍNIMO sobre PrimeNG. Styling sí, reinventar lógica/HTML no.
+> 2. Migration safety blindaje: `--sc-*` source único + wrappers encapsulan + customs-catalog registra divergence.
+> 3. Toda inconsistencia detectada → backlog persistente, no postergar sin trazabilidad.
+> 4. Cada link Figma SC que Rafa pasa → anotar inmediatamente en docs (Claude tiene acceso al file entero via MCP fileKey `khNq9dJKNi13pNllrqm6dx`).
+
+### Worked on
+
+- **Bloque A — 5 forms residuales AED → SCDS** (commit `9aa472b`):
+  - `template-form-panel`: 1 input (title) → `<sc-input>` con `[label]` interno.
+  - `label-form-panel`: 2 inputs (name + description) → `<sc-input>` × 2.
+  - `user-form-page`: 1 select (type) → `<sc-select>` con pTemplate item/selectedItem.
+  - `group-form-page`: 1 input (phone, tipo `tel`) + 3 selects (priority, strategy, chatStrategy).
+  - `repo-form-panel`: input + select dinámicos en `@for`/`@switch`.
+  - Cleanup: SCSS dead (`panel__input`, `panel__select` compounds) ~70 líneas; 4 handlers Event-based dead; widening `Record<string, string>` en `priorityKeys` + `typeLabelKeys`.
+  - Bundle inicial: -7kB neto.
+
+- **Bloque B — auditoría nivel-2 pure-sc** (21 componentes):
+  - Subagent Explore con criterios formales (TS strict, WHY missing, CSS deuda, a11y, naming, cosmético).
+  - Reporte: 0 P0, 7 P1, 12 P2, 1 P3. **Sanity check rechazó los 7 P1**: "métodos sin `: void` explícito" no es convention proyecto (inconsistencia en TODO el catálogo, no deuda); `::ng-deep` en impact-preview-dialog justificado por CLAUDE de design-system (chrome PrimeNG mounted en body portal).
+  - 12 P2 revisados caso a caso: TODOS DECLINE. Cada uno con razón concreta (JSDoc componente cubre, comments inline existen, código autoexplicativo).
+
+- **Bloque C — sprint cobertura completa** (commit `1c52d58`, 30 archivos):
+  - **19 nuevos spec docs** (`docs/components/15-33`): toggle-switch, illustrated-avatar, label-chip, color-dot-picker, page-header, form-section-nav, form-danger-zone, sticky-form-header, bulk-action-bar, bulk-edit-menu, impact-preview-dialog, delete-entity-dialog, column-selector, inline-rename-cell, photo-upload, group-popover, command-palette, keyboard-shortcuts, confirm-host. Patrón consistente: TL;DR / Cuándo / Cuándo NO / Anatomía / API / Tokens / Decisiones diseño SC / A11y / Uso en AED / Página demo / Figma reference.
+  - **`migration-safety.md`** (NUEVO): doc estructural con 3 reglas blindaje + arquitectura de aislamiento + matriz "qué tocar / qué no" (✅/⚠️/🔴) + histórico S30-S32 + 6 pro tips para devs futuros + riesgos vivos clasificados.
+  - **`inconsistencies-backlog.md`** (NUEVO): punto único de tracking de deuda/gaps con severidad (P0-P3) + fase + status (🆕/🚧/✅/⏸️). 17 entries iniciales agregando histórico S30+S31+S32.
+  - **4 refactors consistencia** (memoria `minimal-customization`):
+    - ✅ #1 `bulk-edit-menu`: `<select>` × 2 → `<sc-select>` con `optionLabel`/`optionValue` + pTemplate.
+    - ⏸️ #2 `inline-rename-cell`: declined. `<sc-input>` rompería metáfora "flat cell".
+    - ✅ #3 `toggle-switch`: CSS sobre `<input type="checkbox">` → wrapper de `<p-toggleswitch>` (Figma SC node 6738:22645). API pública estable, 21 consumers AED intactos.
+    - ⏸️ #4 `label-chip`: declined. Modelo `LabelColor` no encaja con `<p-tag>`/`<p-chip>`.
+  - **Updates**: MIGRATION-INVENTORY (Doc column 19 + entry sc-search #33 + toggle-switch reclasificado a Extended); customs-catalog §5.6 (sc-toggle-button gap, Figma 6738:46435) + §5.7 (refactors S32 reseña); ds-docs tracker (counts post-Bloque A: input 21, select 16, search 8).
+
+- **Memorias nuevas** (rafa-explicit "acuérdate"):
+  - `feedback_migration_safety.md`: 3 reglas blindaje migración PrimeNG/Figma.
+  - `feedback_minimal_customization.md`: política customización mínima sobre PrimeNG.
+  - `feedback_track_inconsistencies.md`: toda inconsistencia detectada → backlog persistente.
+  - `feedback_figma_link_workflow.md`: links Figma SC que Rafa pasa → anotar inmediatamente en docs.
+
+- **Audit Figma background** (subagent): confirmó **NO se han modificado variables base del kit PrimeOne en el file Figma SC**. Todas las 13 divergencias documentadas viven en código (`sc-preset.ts` + `tokens/layers/*.css`). Política `01-identity-recap.md §2.10` consistente. Riesgo migración upstream: BAJO.
+
+### Métricas
+
+- **Commits S32**: 2 (`9aa472b` refactor forms + `1c52d58` sprint docs).
+- **Docs nuevos**: 21 (19 spec + migration-safety + inconsistencies-backlog).
+- **Componentes refactor**: 2 aplicados (bulk-edit-menu, toggle-switch), 2 declined justificados.
+- **Spec docs total catalog**: 33 (era 14 al inicio de S32).
+- **Pure-sc cobertura doc**: 21/21 (100%, eran 2/21 al inicio).
+- **AED forms cobertura SCDS**: 100% (Fase 1 cerrada).
+- **Memorias nuevas**: 4 estructurales.
+
+### Decisiones clave
+
+1. **1 md por componente confirmado** como pattern del DS (consistente con shadcn / Material / Polaris / PrimeNG showcase). Mantener pese a low-usage components — onboarding y trazabilidad ganan al overhead.
+2. **Decline justificado vale resolución**: items #2 y #4 del backlog declinados con razón documentada en spec doc + backlog. NO acción ≠ deuda invisible.
+3. **Audit reportes requieren sanity check**: el subagent del Bloque B over-categorizó P1 (`: void` style → no era convention; `::ng-deep` justified → no era deuda). Lección: trust agents para research, verify la severidad antes de aplicar.
+4. **Refactor consistency apunta a minimal customization** (memoria nueva). 4 sospechosos evaluados: 2 sí, 2 no — criterio caso a caso, no "todo o nada".
+
+Last commit en main: `1c52d58` (docs scds spec docs + refactors S32).
+
+---
+
 ## 2026-05-15 · Session 31 — Migraciones AED + ds-docs tracker re-encuadrado + auditoría Figma SC + cleanup Extended
 
 > Sesión larga continuación de Session 30. 3 bloques:
