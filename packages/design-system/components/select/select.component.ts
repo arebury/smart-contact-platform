@@ -9,6 +9,7 @@ import {
   Injector,
   input,
   model,
+  untracked,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
@@ -166,7 +167,10 @@ export class SelectComponent implements ControlValueAccessor {
   }
 
   writeValue(v: unknown): void {
-    this.value.set(v);
+    /* `untracked` aísla la escritura del signal de cualquier reactive
+     * context (signal forms futuro, effect en consumer). Defensa Angular
+     * docs para CVA + signals. */
+    untracked(() => this.value.set(v));
   }
   registerOnChange(fn: (v: unknown) => void): void {
     this._onChange = fn;

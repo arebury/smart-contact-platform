@@ -7,6 +7,7 @@ import {
   Injector,
   input,
   model,
+  untracked,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
@@ -127,7 +128,8 @@ export class MultiSelectComponent implements ControlValueAccessor {
   }
 
   writeValue(v: unknown[] | null | undefined): void {
-    this.value.set(Array.isArray(v) ? v : []);
+    /* `untracked` aísla la escritura del signal (defensa CVA + signals). */
+    untracked(() => this.value.set(Array.isArray(v) ? v : []));
   }
   registerOnChange(fn: (v: unknown[]) => void): void {
     this._onChange = fn;

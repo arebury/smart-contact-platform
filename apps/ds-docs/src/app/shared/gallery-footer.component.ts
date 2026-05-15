@@ -19,6 +19,7 @@ const COMPONENTS: readonly NavLink[] = [
   { slug: 'checkbox', name: 'Checkbox', num: '09' },
   { slug: 'toast', name: 'Toast', num: '10' },
   { slug: 'modal', name: 'Modal', num: '11' },
+  { slug: 'search', name: 'Search', num: '14' },
 ];
 
 const SPEC_DOC_NAMES: Record<string, string> = {
@@ -33,6 +34,7 @@ const SPEC_DOC_NAMES: Record<string, string> = {
   checkbox: '09-checkbox.md',
   toast: '10-toast.md',
   modal: '11-modal.md',
+  search: '14-search.md',
 };
 
 /**

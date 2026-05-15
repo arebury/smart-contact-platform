@@ -7,6 +7,7 @@ import {
   Injector,
   input,
   model,
+  untracked,
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
@@ -128,12 +129,15 @@ export class InputNumberComponent implements ControlValueAccessor {
   }
 
   writeValue(v: number | string | null | undefined): void {
-    if (v === null || v === undefined || v === '') {
-      this.value.set(null);
-      return;
-    }
-    const n = typeof v === 'number' ? v : Number(v);
-    this.value.set(Number.isFinite(n) ? n : null);
+    /* `untracked` aísla la escritura del signal (defensa CVA + signals). */
+    untracked(() => {
+      if (v === null || v === undefined || v === '') {
+        this.value.set(null);
+        return;
+      }
+      const n = typeof v === 'number' ? v : Number(v);
+      this.value.set(Number.isFinite(n) ? n : null);
+    });
   }
   registerOnChange(fn: (v: number | null) => void): void {
     this._onChange = fn;

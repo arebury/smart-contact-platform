@@ -7,6 +7,7 @@ import {
   Injector,
   input,
   model,
+  untracked,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
@@ -125,11 +126,14 @@ export class DatepickerComponent implements ControlValueAccessor {
   }
 
   writeValue(v: Date | string | null | undefined): void {
-    if (v === null || v === undefined || v === '') {
-      this.value.set(null);
-      return;
-    }
-    this.value.set(v instanceof Date ? v : new Date(v));
+    /* `untracked` aísla la escritura del signal (defensa CVA + signals). */
+    untracked(() => {
+      if (v === null || v === undefined || v === '') {
+        this.value.set(null);
+        return;
+      }
+      this.value.set(v instanceof Date ? v : new Date(v));
+    });
   }
   registerOnChange(fn: (v: Date | null) => void): void {
     this._onChange = fn;

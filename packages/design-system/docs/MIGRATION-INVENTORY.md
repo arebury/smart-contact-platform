@@ -61,6 +61,95 @@ Capa | Archivo | Status
 5. Extensions | `tokens/layers/05-extensions.css` | ✓
 7. Dark | `tokens/layers/07-dark.css` | ✓ (capa 6 vivió como CSS, ahora es `sc-preset.ts`)
 
+## Figma verification log
+
+> Fecha del último audit Figma SC vs implementación SCDS por componente.
+> Pattern: cada sesión que toque Figma actualiza la fecha del componente
+> auditado. Drift detection ligero (memoria `feedback_track_inconsistencies`,
+> backlog #20). Pattern industria (Atlassian, IBM Carbon).
+>
+> Solo aplica a componentes con Figma reference real (no `n/a` pattern in-house).
+
+| Componente | Última verificación | Sesión | Notas |
+|---|---|---|---|
+| `<p-button>` | 2026-05-15 | S30 | Nivel-2 contra 1965 variants, parity 100% |
+| `<sc-modal>` | 2026-05-15 | S30 | Border slate-200, radius 12, padding 17.5 |
+| `<p-toast>` | 2026-05-15 | S30 | Width 350, severity-200 tinted borders |
+| `<sc-tri-state-checkbox>` | 2026-05-15 | S30 | 60 variants Nivel-2, navy primary |
+| `<sc-input>` | 2026-05-15 | S30 | 240 variants Nivel-2, padding decimal raw |
+| `<p-tabs>` | 2026-05-15 | S30 | Padding tab 14/15.75 |
+| `<p-tooltip>` | 2026-05-15 | S30 | bg slate-700, padding 10.5/7 |
+| `<sc-multi-select>` | 2026-05-15 | S30 | Tokens idénticos a select |
+| `<sc-select>` | 2026-05-15 | S30 | 258 variants Nivel-2, Filled + Invalid |
+| `<sc-datepicker>` | 2026-05-15 | S30 | input slate-300/6px, dates 28×28 |
+| `<sc-search>` | 2026-05-15 | S31 | Composición aditiva canvas Light+Dark+Components |
+| `<sc-toggle-switch>` | 2026-05-15 | S32 | Refactor a wrapper p-toggleswitch, Figma node 6738:22645 |
+| `<sc-label-chip>` | 2026-05-15 | S32 | Figma `❖ Chip` node 6738:55109 confirmado |
+
+**Verificación global variables Figma SC**: 2026-05-15 (S32). Subagent audit confirmó NO se han modificado variables base del kit PrimeOne. Política `audit/01-identity-recap.md §2.10` consistente. Próxima verificación recomendada: cuando Marta haga cambios en el file, o cada 3 meses (whichever first).
+
+## Lifecycle / Maturity
+
+> Clasificación tipo GitHub Primer para que devs consumers sepan qué componentes
+> son seguros para construir encima vs cuáles aún están bajo validación o son
+> internos del shell. NO confundir con el "Status" (✓ done) — esto es ciclo de
+> vida API + adopción real.
+>
+> Pattern: añadir/actualizar entries cuando un componente cambie de fase.
+> Trigger típico: 5+ consumers para promover de `low-usage` a `stable`.
+
+### `stable` (API estable + alto uso AED, seguro construir encima)
+
+| Componente | AED uses | Notas |
+|---|---|---|
+| `<p-button>` | 38 (incluye `.btn` class) | Top usage del catálogo |
+| `<sc-toggle-switch>` | 21 | Refactor S32 a wrapper p-toggleswitch |
+| `<sc-input>` | 21 | Migración 100% en S31+S32 |
+| `<sc-select>` | 16 | Migración 100% en S31+S32 |
+| `<sc-section-card>` | 12 | Patrón canónico form long |
+| `<sc-search>` | 8 | Cocinado S31, migrado consumers |
+| `<sc-page-header>` | 8 | Mirror visual con sticky-form-header |
+| `<sc-delete-entity-dialog>` | 8 | Pattern industry |
+| `<sc-input-number>` | 7 | Estable |
+| `<sc-illustrated-avatar>` | 7 | Custom asset |
+| `<sc-tri-state-checkbox>` | 6 | API estable |
+| `<sc-bulk-action-bar>` | 6 | Pattern Gmail/Linear |
+| `<sc-sticky-form-header>` | 3 | Patrón canónico Create/Edit |
+| `<sc-form-section-nav>` | 3 | Patrón canónico form long |
+| `<sc-form-danger-zone>` | 3 | Pattern industry |
+| `<sc-empty-state>` | 3 | Patrón canónico list pages |
+| `<sc-label-chip>` | 3 | Modelo LabelColor propio |
+| `<sc-modal>` | 2 | Pattern foundation |
+| `<p-toast>` | 1 (singleton) | App-level |
+| `<p-tabs>` | 0 (esperando caso) | API estable |
+| `<p-tooltip>` | 0+ (utility) | API estable |
+
+### `low-usage` (API estable, pocos consumers — validar antes de generalizar)
+
+| Componente | AED uses | Razón |
+|---|---|---|
+| `<sc-photo-upload>` | 2 | Solo en sticky-form-header de agent/user |
+| `<sc-impact-preview-dialog>` | 2 | Solo bulk operations específicas |
+| `<sc-bulk-edit-menu>` | 2 | Solo users + agents list pages |
+| `<sc-column-selector>` | 3 | Solo list pages con muchas columnas |
+| `<sc-inline-rename-cell>` | 3 | Solo post-duplicate flow |
+| `<sc-group-popover>` | 1 | Solo agents-list-page columna grupos |
+| `<sc-color-dot-picker>` | 1 | Solo label form |
+| `<sc-multi-select>` | 0 | Esperando primer caso real |
+| `<sc-datepicker>` | 0 | Esperando primer caso real |
+
+### `internal` (singletons app-level, no consumidos como library)
+
+| Componente | AED uses | Razón |
+|---|---|---|
+| `<sc-confirm-host>` | 1 (singleton) | Servicio + host único |
+| `<sc-command-palette>` | 1 (singleton) | ⌘K overlay global |
+| `<sc-keyboard-shortcuts>` | 1 (singleton) | `?` cheat sheet global |
+
+### `experimental` — _ninguno hoy_
+
+Reservado para componentes nuevos cuya API aún puede cambiar significativamente. Cuando se cocine un componente con esa intención, marcarlo aquí + en el spec doc.
+
 ## Próximos pasos por componente
 
 Workflow para CADA componente que entra a SCDS:

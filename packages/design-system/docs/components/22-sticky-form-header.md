@@ -161,6 +161,6 @@ Pendiente — gallery `/components/sticky-form-header` con:
 
 **No aplica** — pattern in-house. Mirror visual con `<sc-page-header>`. Si Marta modela ambos como una familia, anotar URL.
 
-## Deuda conocida
+## Deuda
 
-- 8 `::ng-deep` sobre `<sc-photo-upload>` para redimensionarlo al pasarlo via slot `header-leading`. Sería más limpio con un input `[size]` en photo-upload (ya existe) — la deuda es histórica, pendiente de cleanup. Ver `docs/audit/00-diagnosis.md` Fase 4.
+**Ninguna.** El SCSS actual NO contiene `::ng-deep` — el `<sc-photo-upload>` proyectado via slot `header-leading` se redimensiona desde el consumer pasando `[size]="sm"` directamente. La deuda histórica documentada en `audit/00-diagnosis.md` Fase 4 ya fue resuelta en sesión previa (verificado S32).

@@ -8,6 +8,7 @@ import {
   input,
   model,
   output,
+  untracked,
   viewChild,
   ViewEncapsulation,
 } from '@angular/core';
@@ -110,7 +111,8 @@ export class SearchComponent implements ControlValueAccessor {
   private readonly _el = inject(ElementRef);
 
   writeValue(v: string | null | undefined): void {
-    this.value.set(v ?? '');
+    /* `untracked` aísla la escritura del signal (defensa CVA + signals). */
+    untracked(() => this.value.set(v ?? ''));
   }
   registerOnChange(fn: (v: string) => void): void {
     this._onChange = fn;

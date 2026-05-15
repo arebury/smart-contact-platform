@@ -142,6 +142,6 @@ Pendiente — gallery `/components/photo-upload` con:
 
 **No aplica** — pattern in-house. Si Marta lo modela en Smart Contact Prime, anotar URL.
 
-## Deuda conocida
+## Deuda
 
-Su uso desde `<sc-sticky-form-header>` (slot leading) implica 8 `::ng-deep` en el header SCSS para redimensionar el upload. Sería más limpio con prop `[size]` (que ya existe en photo-upload), pero el header no la usa todavía. Documentado en `00-diagnosis.md` Fase 4.
+**Ninguna.** El consumer pasa `[size]="sm"` directamente desde `<sc-sticky-form-header>` (slot leading) — sin `::ng-deep` requerido. Verificado S32 (la deuda histórica `00-diagnosis.md` Fase 4 ya estaba resuelta).
