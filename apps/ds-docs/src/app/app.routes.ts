@@ -73,6 +73,41 @@ export const appRoutes: Routes = [
       import('./pages/checkbox/checkbox-gallery.component').then((m) => m.CheckboxGalleryComponent),
   },
   {
+    path: 'components/toggle-switch',
+    loadComponent: () =>
+      import('./pages/toggle-switch/toggle-switch-gallery.component').then(
+        (m) => m.ToggleSwitchGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/section-card',
+    loadComponent: () =>
+      import('./pages/section-card/section-card-gallery.component').then(
+        (m) => m.SectionCardGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/page-header',
+    loadComponent: () =>
+      import('./pages/page-header/page-header-gallery.component').then(
+        (m) => m.PageHeaderGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/illustrated-avatar',
+    loadComponent: () =>
+      import('./pages/illustrated-avatar/illustrated-avatar-gallery.component').then(
+        (m) => m.IllustratedAvatarGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/delete-entity-dialog',
+    loadComponent: () =>
+      import('./pages/delete-entity-dialog/delete-entity-dialog-gallery.component').then(
+        (m) => m.DeleteEntityDialogGalleryComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

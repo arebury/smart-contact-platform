@@ -19,7 +19,12 @@ const COMPONENTS: readonly NavLink[] = [
   { slug: 'checkbox', name: 'Checkbox', num: '09' },
   { slug: 'toast', name: 'Toast', num: '10' },
   { slug: 'modal', name: 'Modal', num: '11' },
+  { slug: 'section-card', name: 'Section card', num: '13' },
   { slug: 'search', name: 'Search', num: '14' },
+  { slug: 'toggle-switch', name: 'Toggle switch', num: '15' },
+  { slug: 'illustrated-avatar', name: 'Illustrated avatar', num: '16' },
+  { slug: 'page-header', name: 'Page header', num: '19' },
+  { slug: 'delete-entity-dialog', name: 'Delete entity dialog', num: '26' },
 ];
 
 const SPEC_DOC_NAMES: Record<string, string> = {
@@ -34,7 +39,12 @@ const SPEC_DOC_NAMES: Record<string, string> = {
   checkbox: '09-checkbox.md',
   toast: '10-toast.md',
   modal: '11-modal.md',
+  'section-card': '13-section-card.md',
   search: '14-search.md',
+  'toggle-switch': '15-toggle-switch.md',
+  'illustrated-avatar': '16-illustrated-avatar.md',
+  'page-header': '19-page-header.md',
+  'delete-entity-dialog': '26-delete-entity-dialog.md',
 };
 
 /**

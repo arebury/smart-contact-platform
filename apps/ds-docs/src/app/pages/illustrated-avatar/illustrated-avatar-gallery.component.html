@@ -1,0 +1,94 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Illustrated Avatar</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-illustrated-avatar&gt;</code> renderiza una ilustración SVG hasheada del nombre.
+      Mismo nombre → mismo avatar siempre (cross-pages, cross-reloads, dark mode). Si pasas
+      <code>[photo]</code>, la foto subida gana sobre la ilustración. Dos pools: <strong>illustrated</strong>
+      (24 retratos de personas, default) y <strong>abstract</strong> (3 patrones para grupos /
+      entidades no-personales).
+    </p>
+  </header>
+
+  <!-- 1. Illustrated pool -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Pool illustrated (personas)</h2>
+    <p class="gallery__hint">Hash DJB2 del nombre → bucket en [0, 24). 8 names diferentes → 8 ilustraciones distintas (idealmente).</p>
+    <div class="gallery__row" style="flex-direction: row; flex-wrap: wrap; gap: 12px;">
+      @for (n of personNames; track n) {
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+          <sc-illustrated-avatar [name]="n" [size]="56" />
+          <span style="font-size: 11px; color: var(--sc-text-secondary);">{{ n }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- 2. Abstract pool -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Pool abstract (grupos / entidades)</h2>
+    <p class="gallery__hint">Para grupos / queues / servicios — asignar "cara humana" a una entidad funcional rompe la metáfora. Solo 3 patrones disponibles; con muchas entidades los avatares se repiten — es intencional.</p>
+    <div class="gallery__row" style="flex-direction: row; flex-wrap: wrap; gap: 12px;">
+      @for (n of groupNames; track n) {
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
+          <sc-illustrated-avatar [name]="n" pool="abstract" [size]="56" />
+          <span style="font-size: 11px; color: var(--sc-text-secondary);">{{ n }}</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- 3. Sizes -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Sizes (32 / 44 / 64 / 80)</h2>
+    <p class="gallery__hint"><code>[size]</code> en píxeles. Default 40. El SVG escala con el contenedor, la circunferencia mantiene proporción.</p>
+    <div class="gallery__row" style="flex-direction: row; align-items: flex-end; gap: 16px;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+        <sc-illustrated-avatar name="María García" [size]="32" />
+        <span style="font-size: 11px; color: var(--sc-text-secondary);">32px</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+        <sc-illustrated-avatar name="María García" [size]="44" />
+        <span style="font-size: 11px; color: var(--sc-text-secondary);">44px (sticky header)</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+        <sc-illustrated-avatar name="María García" [size]="64" />
+        <span style="font-size: 11px; color: var(--sc-text-secondary);">64px (form body)</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+        <sc-illustrated-avatar name="María García" [size]="80" />
+        <span style="font-size: 11px; color: var(--sc-text-secondary);">80px (detail view)</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Con foto subida (la foto gana) -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Photo wins over illustration</h2>
+    <p class="gallery__hint">Si pasas <code>[photo]</code> con un data URL o URL, la foto se renderiza en vez de la ilustración. La ilustración es siempre fallback.</p>
+    <div class="gallery__row" style="flex-direction: row; gap: 24px;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+        <sc-illustrated-avatar name="Juan Pérez" [size]="64" />
+        <span style="font-size: 11px; color: var(--sc-text-secondary);">Sin photo → illustration</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+        <sc-illustrated-avatar name="Juan Pérez" [photo]="samplePhoto" [size]="64" />
+        <span style="font-size: 11px; color: var(--sc-text-secondary);">Con photo → photo wins</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Hover zoom -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">5 · Hover zoom</h2>
+    <p class="gallery__hint">Pasa el ratón por encima — el SVG se escala 1.05× dentro del círculo (efecto "image fills more"). CSS transform, sin segunda imagen.</p>
+    <div class="gallery__row" style="flex-direction: row; gap: 16px;">
+      <sc-illustrated-avatar name="Carlos Ruiz" [size]="64" />
+      <sc-illustrated-avatar name="Ana Soto" [size]="64" />
+      <sc-illustrated-avatar name="Pedro Sánchez" [size]="64" />
+    </div>
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="illustrated-avatar" />
+</div>
