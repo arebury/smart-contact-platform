@@ -23,10 +23,10 @@
 | 05 | Toggle switch | ✓ | ⚪ Pure SC | `<sc-toggle-switch>` | TODO | TBD | TODO |
 | 06 | Tri-state checkbox | ✓ | 🟢 Extended | `<sc-tri-state-checkbox>` | [6738:22640](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22640) | **100%** — Session 30 audit Nivel-2 contra los 60 variants Figma. Box 17.5/14/21 por size, border slate-300 1px, icon 12.25, filled bg slate-50. Checked=navy primary (era blue-700, ahora alineado a `--sc-bg-primary`). `'some'` indeterminate = SC extension. | `docs/components/09-checkbox.md` |
 | 07 | Illustrated avatar | ✓ | ⚪ Pure SC | `<sc-illustrated-avatar>` | TODO | TBD | TODO |
-| 08 | Section card | ✓ | ⚪ Pure SC | `<sc-section-card>` | TODO | TBD | TODO |
+| 08 | Section card | ✓ | ⚪ Pure SC | `<sc-section-card>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/13-section-card.md` |
 | 09 | Bulk action bar | ✓ | ⚪ Pure SC | `<sc-bulk-action-bar>` | TODO | TBD | TODO |
 | 10 | Bulk edit menu | ✓ | ⚪ Pure SC | `<sc-bulk-edit-menu>` | TODO | TBD | TODO |
-| 11 | Empty state | ✓ | ⚪ Pure SC | `<sc-empty-state>` | TODO | TBD | TODO |
+| 11 | Empty state | ✓ | ⚪ Pure SC | `<sc-empty-state>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/12-empty-state.md` |
 | 12 | Form danger zone | ✓ | ⚪ Pure SC | `<sc-form-danger-zone>` | TODO | TBD | TODO |
 | 13 | Form section nav | ✓ | ⚪ Pure SC | `<sc-form-section-nav>` | TODO | TBD | TODO |
 | 14 | Confirm host | ✓ | ⚪ Pure SC | `<sc-confirm-host>` | TODO | TBD | TODO |
