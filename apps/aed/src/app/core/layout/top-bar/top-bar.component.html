@@ -1,5 +1,16 @@
 <header class="top-bar">
   <div class="top-bar__lead">
+    @if (backPath(); as bp) {
+      <button
+        type="button"
+        class="top-bar__back"
+        (click)="goBack()"
+        [attr.aria-label]="'topbar.back_to' | translate: { name: backLabel() }"
+        [attr.title]="'topbar.back_to' | translate: { name: backLabel() }"
+      >
+        <lucide-icon [img]="backIcon" [size]="14" aria-hidden="true" />
+      </button>
+    }
     <button
       type="button"
       class="top-bar__home"
@@ -11,17 +22,6 @@
     </button>
     @if (trail().length > 0) {
       <span class="top-bar__lead-divider" aria-hidden="true"></span>
-    }
-    @if (backPath(); as bp) {
-      <button
-        type="button"
-        class="top-bar__back"
-        (click)="goBack()"
-        [attr.aria-label]="'topbar.back_to' | translate: { name: backLabel() }"
-        [attr.title]="'topbar.back_to' | translate: { name: backLabel() }"
-      >
-        <lucide-icon [img]="backIcon" [size]="14" aria-hidden="true" />
-      </button>
     }
     <ol class="top-bar__crumbs" aria-label="breadcrumb">
       @for (crumb of trail(); track $index) {
