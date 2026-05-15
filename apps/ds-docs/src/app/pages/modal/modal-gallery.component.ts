@@ -4,11 +4,12 @@ import { ButtonModule } from 'primeng/button';
 import { LucideAngularModule, Trash2, AlertTriangle, Pencil, Info } from 'lucide-angular';
 import { ModalComponent } from '@sc/design-system/components/modal/modal.component';
 import { InputComponent } from '@sc/design-system/components/input/input.component';
+import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
   selector: 'sc-ds-docs-modal-gallery',
   standalone: true,
-  imports: [ModalComponent, InputComponent, ButtonModule, LucideAngularModule, FormsModule],
+  imports: [ModalComponent, InputComponent, ButtonModule, LucideAngularModule, FormsModule, GalleryFooterComponent],
   templateUrl: './modal-gallery.component.html',
   styleUrl: './modal-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatepickerComponent } from '@sc/design-system/components/datepicker/datepicker.component';
+import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
   selector: 'sc-ds-docs-datepicker-gallery',
   standalone: true,
-  imports: [DatepickerComponent, FormsModule, ReactiveFormsModule],
+  imports: [DatepickerComponent, FormsModule, ReactiveFormsModule, GalleryFooterComponent],
   templateUrl: './datepicker-gallery.component.html',
   styleUrl: './datepicker-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

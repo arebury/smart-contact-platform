@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 import {
   TriStateCheckboxComponent,
   type TriState,
@@ -7,7 +8,7 @@ import {
 @Component({
   selector: 'sc-ds-docs-checkbox-gallery',
   standalone: true,
-  imports: [TriStateCheckboxComponent],
+  imports: [TriStateCheckboxComponent, GalleryFooterComponent],
   templateUrl: './checkbox-gallery.component.html',
   styleUrl: './checkbox-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

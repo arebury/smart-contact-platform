@@ -1,11 +1,42 @@
 /* ════════════════════════════════════════════════════════════════════
  * Hero — Editorial, Swiss Modernism: oversized display title, single
- * mono-eyebrow, restrained lede width.
+ * mono-eyebrow, restrained lede width, geometric dot-grid mark + stats.
  * ════════════════════════════════════════════════════════════════════ */
 .hero {
+  position: relative;
   padding: 8px 0 56px;
   border-bottom: 1px solid var(--sc-border-default);
   margin-bottom: 56px;
+}
+
+/* ─── Geometric mark — 6×6 dot grid, top-right corner ─── */
+.hero__mark {
+  position: absolute;
+  top: 4px;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 6px);
+  grid-template-rows: repeat(6, 6px);
+  gap: 8px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+.hero__mark-dot {
+  width: 2.5px;
+  height: 2.5px;
+  background: var(--sc-color-gray-400);
+  border-radius: 50%;
+}
+/* Highlight a few intentional dots in accent — corner sigil */
+.hero__mark-dot:nth-child(1),
+.hero__mark-dot:nth-child(8),
+.hero__mark-dot:nth-child(15) {
+  background: var(--dsd-accent);
+  width: 3.5px;
+  height: 3.5px;
+}
+@media (max-width: 720px) {
+  .hero__mark { display: none; }
 }
 
 .hero__eyebrow {
@@ -50,6 +81,70 @@
   line-height: 1.6;
   color: var(--sc-text-secondary);
   max-width: 60ch;
+}
+
+/* ─── Stats strip — 4 mono items separados por dividers verticales ─── */
+.hero__stats {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  margin: 32px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--sc-border-default);
+  gap: 0;
+}
+
+.hero__stat {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 28px 4px 0;
+  margin-right: 28px;
+  border-right: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+
+  &:last-child {
+    border-right: 0;
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  dt {
+    font-family: var(--dsd-font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--sc-text-subtle);
+    margin: 0;
+  }
+
+  dd {
+    font-family: var(--dsd-font-display);
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--sc-text-primary);
+    margin: 0;
+    line-height: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero__stats {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .hero__stat {
+    padding: 0;
+    margin: 0;
+    border-right: 0;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 12px;
+    dt { order: 2; }
+    dd { order: 1; }
+  }
 }
 
 /* ------------------------------------------------------------------ *

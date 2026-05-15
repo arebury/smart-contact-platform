@@ -1,6 +1,7 @@
 import { TitleCasePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
+import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 /**
  * Live gallery of the PrimeNG button component as themed by AED's
@@ -16,7 +17,7 @@ import { ButtonModule } from 'primeng/button';
  */
 @Component({
   selector: 'sc-buttons-gallery',
-  imports: [ButtonModule, TitleCasePipe],
+  imports: [ButtonModule, TitleCasePipe, GalleryFooterComponent],
   templateUrl: './buttons-gallery.component.html',
   styleUrl: './buttons-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

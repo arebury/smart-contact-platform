@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { TabsModule } from 'primeng/tabs';
+import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
   selector: 'sc-ds-docs-tabs-gallery',
   standalone: true,
-  imports: [TabsModule],
+  imports: [TabsModule, GalleryFooterComponent],
   templateUrl: './tabs-gallery.component.html',
   styleUrl: './tabs-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -3,11 +3,12 @@ import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { LucideAngularModule, X, CircleCheck, CircleAlert, CircleX, Info, FileText } from 'lucide-angular';
+import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
   selector: 'sc-ds-docs-toast-gallery',
   standalone: true,
-  imports: [ButtonModule, ToastModule, LucideAngularModule],
+  imports: [ButtonModule, ToastModule, LucideAngularModule, GalleryFooterComponent],
   templateUrl: './toast-gallery.component.html',
   styleUrl: './toast-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

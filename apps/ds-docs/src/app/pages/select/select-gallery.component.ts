@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SelectComponent } from '@sc/design-system/components/select/select.component';
+import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 interface CityOption {
   readonly label: string;
@@ -11,7 +12,7 @@ interface CityOption {
 @Component({
   selector: 'sc-ds-docs-select-gallery',
   standalone: true,
-  imports: [SelectComponent, FormsModule, ReactiveFormsModule],
+  imports: [SelectComponent, FormsModule, ReactiveFormsModule, GalleryFooterComponent],
   templateUrl: './select-gallery.component.html',
   styleUrl: './select-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

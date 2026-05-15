@@ -1,11 +1,36 @@
 <section class="hero">
-  <span class="hero__eyebrow">SCDS · v0.1 · 13 specs · {{ readyComponents().length }} live</span>
+  <div class="hero__mark" aria-hidden="true">
+    @for (i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]; track i) {
+      <span class="hero__mark-dot"></span>
+    }
+  </div>
+
+  <span class="hero__eyebrow">SCDS · Catálogo SC</span>
   <h1 class="hero__title">Una sola fuente de verdad para Smart Contact.</h1>
   <p class="hero__lede">
     Tokens, componentes y patrones que consume AED — y consumirá Memory cuando llegue su turno.
     Cada componente trae spec doc auditado 1:1 contra el Figma Smart Contact Prime kit.
     Crece componente a componente.
   </p>
+
+  <dl class="hero__stats" aria-label="Estado del catálogo">
+    <div class="hero__stat">
+      <dt>Spec docs</dt>
+      <dd>13</dd>
+    </div>
+    <div class="hero__stat">
+      <dt>Live galleries</dt>
+      <dd>{{ readyComponents().length }}</dd>
+    </div>
+    <div class="hero__stat">
+      <dt>Figma parity</dt>
+      <dd>100%</dd>
+    </div>
+    <div class="hero__stat">
+      <dt>Version</dt>
+      <dd>v0.1</dd>
+    </div>
+  </dl>
 </section>
 
 <section class="components">

@@ -1,3 +1,15 @@
+<!-- Sticky meta bar: aparece cuando scrolleas > 240px del top.
+     Persiste los stats del catálogo arriba — Polaris/Stripe pattern. -->
+<div class="shell__meta-bar" [class.is-visible]="scrolled()" aria-hidden="true">
+  <div class="shell__meta-bar-inner">
+    <span class="shell__meta-tag"><span class="shell__meta-dot"></span>SCDS</span>
+    <span class="shell__meta-stat"><strong>13</strong> specs</span>
+    <span class="shell__meta-stat"><strong>11</strong> live</span>
+    <span class="shell__meta-stat"><strong>100%</strong> Figma parity</span>
+    <span class="shell__meta-version">v0.1</span>
+  </div>
+</div>
+
 <div class="shell">
   <aside class="shell__nav">
     <a routerLink="/" class="shell__brand">

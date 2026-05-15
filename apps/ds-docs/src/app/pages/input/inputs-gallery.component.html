@@ -9,6 +9,24 @@
     </p>
   </header>
 
+  <!-- 0. Code block snippet — quick-copy usage example -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">0 · Snippet de uso</h2>
+    <p class="gallery__hint">Copia este snippet para arrancar con <code>&lt;sc-input&gt;</code> en tu form.</p>
+    <pre class="code-block">
+      <header class="code-block__head">
+        <span class="code-block__label">html · Angular standalone</span>
+        <button
+          type="button"
+          class="code-block__copy"
+          (click)="copySnippet($event)"
+          [attr.data-snippet]="snippet"
+        >Copy</button>
+      </header>
+      <code class="code-block__body">{{ snippet }}</code>
+    </pre>
+  </section>
+
   <!-- 1. Basic — placeholder only. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Basic</h2>
@@ -175,4 +193,6 @@
       </p-floatlabel>
     </div>
   </section>
+
+<sc-ds-docs-gallery-footer slug="input" />
 </div>

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MultiSelectComponent } from '@sc/design-system/components/multi-select/multi-select.component';
+import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 interface ChannelOption {
   readonly label: string;
@@ -10,7 +11,7 @@ interface ChannelOption {
 @Component({
   selector: 'sc-ds-docs-multi-select-gallery',
   standalone: true,
-  imports: [MultiSelectComponent, FormsModule, ReactiveFormsModule],
+  imports: [MultiSelectComponent, FormsModule, ReactiveFormsModule, GalleryFooterComponent],
   templateUrl: './multi-select-gallery.component.html',
   styleUrl: './multi-select-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
