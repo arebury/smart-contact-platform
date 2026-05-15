@@ -28,7 +28,24 @@
   [attr.aria-describedby]="footerText() ? resolvedId() + '-msg' : null"
   [attr.aria-required]="required() ? true : null"
   [attr.aria-invalid]="isInvalid() ? true : null"
-/>
+>
+  <!--
+    Re-proyección de templates: el consumer escribe
+    `<ng-template pTemplate="item" let-option>` dentro de `<sc-select>`
+    (sintaxis idéntica a `<p-select>` nativo). El sc-select los captura
+    via `@ContentChildren(PrimeTemplate)` y los re-emite aquí con
+    `[pTemplate]` y `ngTemplateOutlet`, porque el ContentChildren del
+    p-select NO ve los templates a través de doble content projection
+    (limitación de Angular query origin).
+  -->
+  @for (entry of projectedTemplates(); track entry.name) {
+    <ng-template [pTemplate]="entry.name ?? ''" let-data>
+      <ng-container
+        *ngTemplateOutlet="entry.template; context: { $implicit: data }"
+      />
+    </ng-template>
+  }
+</p-select>
 
 @if (footerText()) {
   <span

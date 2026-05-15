@@ -99,6 +99,48 @@ cityCode = signal<string | undefined>('MAD');
 
 `cityObj` es `{ label, code } | undefined`. Útil si necesitas más que el id.
 
+### d) Templates custom — `pTemplate` (sintaxis nativa PrimeNG)
+
+Para labels que no se resuelven con un campo simple (e.g. lookup i18n
+sobre primitives, label compuesto, badge dentro del item) puedes pasar
+templates con la sintaxis nativa de PrimeNG:
+
+```html
+<sc-select [options]="agentTypes" [(value)]="form.agentType">
+  <ng-template pTemplate="item" let-t>
+    {{ typeLabelKeys[t] | translate }}
+  </ng-template>
+  <ng-template pTemplate="selectedItem" let-t>
+    {{ typeLabelKeys[t] | translate }}
+  </ng-template>
+</sc-select>
+```
+
+Mecanismo: el sc-select captura los `<ng-template pTemplate="...">` via
+`@ContentChildren(PrimeTemplate)` y los re-proyecta al `<p-select>`
+interno (Angular no permite que el query del p-select los vea via doble
+content projection). El consumer escribe sintaxis idéntica a PrimeNG —
+handoff a Smart Contact Prime: cambia `<sc-select>` por `<p-select>` y
+el resto queda igual.
+
+**Requiere**: el componente del consumer debe importar `PrimeTemplate`
+de `primeng/api` para que `pTemplate` se reconozca como directive.
+
+**Templates soportados** (los que p-select expone): `item`, `selectedItem`,
+`group`, `header`, `footer`, `emptyfilter`, `empty`, `dropdownicon`,
+`loadingicon`, `clearicon`, `filtericon`, `cancelicon`.
+
+**Cuándo usarlo**:
+- Options `string[]` o `T[]` primitivos pero el label visible es i18n
+  derivado (`typeLabelKeys[t] | translate`).
+- Label compuesto: `{{ext.number}} ({{'agents.ext.' + ext.type | translate}})`.
+- Items con icon + texto o badge.
+
+**Cuándo NO usarlo** (usa shape `[{label, value}]` directo):
+- Options hardcoded de 2-4 items con labels i18n: array literal con
+  pipes en el template es más simple (ver `apps/aed/.../agent-form-page`
+  pickup type).
+
 ## Estados visuales (de Figma)
 
 | Estado | Trigger | Visual |

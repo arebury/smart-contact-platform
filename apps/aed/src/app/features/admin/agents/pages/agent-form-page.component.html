@@ -131,45 +131,41 @@
                   {{ 'agents.form.fields.extension' | translate }}
                   <span class="field__required" aria-hidden="true">*</span>
                 </label>
-                <select
-                  id="agent-ext"
-                  class="field__input"
-                  [class.field__input--error]="!!errors()['extension']"
-                  [attr.aria-describedby]="errors()['extension'] ? 'agent-ext-error' : null"
-                  [attr.aria-invalid]="!!errors()['extension']"
+                <sc-select
+                  inputId="agent-ext"
+                  optionValue="number"
+                  [options]="availableExtensions"
+                  [placeholder]="'agents.form.fields.extension_placeholder' | translate"
                   [value]="form().extension"
-                  (change)="onExtensionChange($event)"
+                  [error]="errors()['extension'] ? (errors()['extension'] | translate) : undefined"
+                  (valueChange)="onExtensionValueChange($event)"
                 >
-                  <option value="">
-                    {{ 'agents.form.fields.extension_placeholder' | translate }}
-                  </option>
-                  @for (ext of availableExtensions; track ext.number) {
-                    <option [value]="ext.number">
-                      {{ ext.number }} ({{ 'agents.ext.' + ext.type | translate }})
-                    </option>
-                  }
-                </select>
-                <span id="agent-ext-error" class="field__error" aria-live="polite">
-                  @if (errors()['extension']; as err) {
-                    {{ err | translate }}
-                  }
-                </span>
+                  <ng-template pTemplate="item" let-ext>
+                    {{ ext.number }} ({{ 'agents.ext.' + ext.type | translate }})
+                  </ng-template>
+                  <ng-template pTemplate="selectedItem" let-ext>
+                    {{ ext.number }} ({{ 'agents.ext.' + ext.type | translate }})
+                  </ng-template>
+                </sc-select>
               </div>
 
               <div class="field">
                 <label class="field__label" for="agent-type">
                   {{ 'agents.form.fields.type' | translate }}
                 </label>
-                <select
-                  id="agent-type"
-                  class="field__input"
+                <sc-select
+                  inputId="agent-type"
+                  [options]="agentTypes"
                   [value]="form().agentType"
-                  (change)="onAgentTypeChange($event)"
+                  (valueChange)="onAgentTypeValueChange($event)"
                 >
-                  @for (t of agentTypes; track t) {
-                    <option [value]="t">{{ typeLabelKeys[t] | translate }}</option>
-                  }
-                </select>
+                  <ng-template pTemplate="item" let-t>
+                    {{ typeLabelKeys[t] | translate }}
+                  </ng-template>
+                  <ng-template pTemplate="selectedItem" let-t>
+                    {{ typeLabelKeys[t] | translate }}
+                  </ng-template>
+                </sc-select>
               </div>
             </div>
 
@@ -199,16 +195,19 @@
               <label class="field__label" for="agent-presence">
                 {{ 'agents.form.fields.presence' | translate }}
               </label>
-              <select
-                id="agent-presence"
-                class="field__input"
+              <sc-select
+                inputId="agent-presence"
+                [options]="presenceStates"
                 [value]="form().presenceStatus"
-                (change)="onPresenceChange($event)"
+                (valueChange)="onPresenceValueChange($event)"
               >
-                @for (p of presenceStates; track p) {
-                  <option [value]="p">{{ presenceKeys[p] | translate }}</option>
-                }
-              </select>
+                <ng-template pTemplate="item" let-p>
+                  {{ presenceKeys[p] | translate }}
+                </ng-template>
+                <ng-template pTemplate="selectedItem" let-p>
+                  {{ presenceKeys[p] | translate }}
+                </ng-template>
+              </sc-select>
             </div>
 
             <!-- Recording toggle -->

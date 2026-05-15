@@ -1,7 +1,9 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  contentChildren,
   forwardRef,
   inject,
   Injector,
@@ -10,6 +12,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormsModule, ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
+import { PrimeTemplate } from 'primeng/api';
 import { SelectModule } from 'primeng/select';
 
 export type ScSelectSize = 'sm' | 'md' | 'lg';
@@ -33,7 +36,7 @@ let scSelectIdCounter = 0;
 @Component({
   selector: 'sc-select',
   standalone: true,
-  imports: [SelectModule, FormsModule],
+  imports: [SelectModule, FormsModule, PrimeTemplate, NgTemplateOutlet],
   templateUrl: './select.component.html',
   styleUrl: './select.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -88,6 +91,34 @@ export class SelectComponent implements ControlValueAccessor {
 
   // ─── Two-way value binding ─────────────────────────────────────────
   readonly value = model<unknown>(undefined);
+
+  // ─── Content-projected pTemplate slots ─────────────────────────────
+  /**
+   * Captura los `<ng-template pTemplate="...">` que el consumer escribe
+   * dentro de `<sc-select>` (sintaxis idéntica a `<p-select>` nativo).
+   * El HTML del componente itera estos y los re-proyecta hacia el p-select
+   * interno via `[pTemplate]` + `ngTemplateOutlet`, porque el ContentChildren
+   * del p-select NO ve los templates a través de doble content projection
+   * (limitación conocida de Angular query origin).
+   *
+   * Uso típico (consumer):
+   * ```html
+   * <sc-select [options]="agentTypes" [value]="form().type">
+   *   <ng-template pTemplate="item" let-t>{{ keys[t] | translate }}</ng-template>
+   *   <ng-template pTemplate="selectedItem" let-t>{{ keys[t] | translate }}</ng-template>
+   * </sc-select>
+   * ```
+   */
+  protected readonly projectedTemplates = contentChildren(PrimeTemplate);
+
+  /** Map por nombre de pTemplate ('item', 'selectedItem', etc.) para el HTML. */
+  protected readonly templatesByName = computed(() => {
+    const map: Record<string, PrimeTemplate> = {};
+    for (const t of this.projectedTemplates()) {
+      if (t.name) map[t.name] = t;
+    }
+    return map;
+  });
 
   // ─── Derived ───────────────────────────────────────────────────────
   protected readonly resolvedId = computed(

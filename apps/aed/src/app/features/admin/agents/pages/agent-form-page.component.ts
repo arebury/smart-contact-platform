@@ -34,7 +34,7 @@ import {
   Users as UsersIcon,
   X,
 } from 'lucide-angular';
-import { MessageService } from 'primeng/api';
+import { MessageService, PrimeTemplate } from 'primeng/api';
 
 import { DirtyAware } from '@core/guards';
 import { ConfirmHostService, CrossTabLockService } from '@core/services';
@@ -139,6 +139,7 @@ interface FormState {
     LabelChipComponent,
     LucideAngularModule,
     PhotoUploadComponent,
+    PrimeTemplate,
     SectionCardComponent,
     SelectComponent,
     StickyFormHeaderComponent,
@@ -228,8 +229,15 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   /** Choices for the "Chats simultáneos" select inside Comportamiento. */
   protected readonly maxChatsOptions: readonly number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   protected readonly agentTypes = AGENT_TYPES;
-  protected readonly typeLabelKeys = AGENT_TYPE_LABEL_KEYS;
-  protected readonly presenceKeys = PRESENCE_LABEL_KEYS;
+  /* Widening intencional a `Record<string, string>` para que los templates
+   * que reciben `let-t` desde `pTemplate` (tipo `any` por design de PrimeNG)
+   * puedan indexar sin error TS7053. El lookup sigue siendo seguro: las
+   * keys vienen siempre de `agentTypes` (AgentType union). */
+  protected readonly typeLabelKeys: Readonly<Record<string, string>> = AGENT_TYPE_LABEL_KEYS;
+  /* Widening intencional — ver typeLabelKeys arriba. Mismo razonamiento:
+   * el `let-p` del pTemplate viene como `any` y necesitamos indexar con
+   * cualquier string. Seguro: las keys vienen de presenceStates. */
+  protected readonly presenceKeys: Readonly<Record<string, string>> = PRESENCE_LABEL_KEYS;
   protected readonly availableExtensions = AVAILABLE_EXTENSIONS;
   protected readonly availableLanguages = AVAILABLE_LANGUAGES;
   protected readonly availableLabels = this.labelsStore.labels;
@@ -545,12 +553,30 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.updateField(key, (event.target as HTMLInputElement).value);
   }
 
+  /**
+   * Adapter para `<sc-select>` con primitive `AgentType[]` options + label
+   * via `pTemplate` (content projection a `<p-select>` nativo PrimeNG).
+   * Valida que el value emitido sea un AgentType conocido antes de actualizar.
+   */
+  protected onAgentTypeValueChange(value: unknown): void {
+    if (typeof value === 'string' && (AGENT_TYPES as readonly string[]).includes(value)) {
+      this.updateField('agentType', value as AgentType);
+    }
+  }
+
   protected onAgentTypeChange(event: Event): void {
     this.updateField('agentType', (event.target as HTMLSelectElement).value as AgentType);
   }
 
   protected onPresenceChange(event: Event): void {
     this.updateField('presenceStatus', (event.target as HTMLSelectElement).value as PresenceStatus);
+  }
+
+  /** Adapter para `<sc-select>` con whitelist de PresenceStatus. */
+  protected onPresenceValueChange(value: unknown): void {
+    if (typeof value === 'string' && this.presenceStates.includes(value as PresenceStatus)) {
+      this.updateField('presenceStatus', value as PresenceStatus);
+    }
   }
 
   /**
@@ -609,6 +635,19 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected onExtensionChange(event: Event): void {
     this.updateField('extension', (event.target as HTMLSelectElement).value);
+  }
+
+  /**
+   * Adapter para `<sc-select>` con `optionValue="number"` (objetos
+   * `ExtensionOption`). Permite valor vacío `''` para el caso "deseleccionar"
+   * (showClear). El value emitido es la string `number` de la extension.
+   */
+  protected onExtensionValueChange(value: unknown): void {
+    if (value === undefined || value === null) {
+      this.updateField('extension', '');
+      return;
+    }
+    if (typeof value === 'string') this.updateField('extension', value);
   }
 
   protected getExtensionType(extension: string): ExtensionType | null {
