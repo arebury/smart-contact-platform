@@ -553,12 +553,18 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.updateField('presenceStatus', (event.target as HTMLSelectElement).value as PresenceStatus);
   }
 
-  protected onPickupChange(event: Event): void {
-    this.updateField('pickupType', (event.target as HTMLSelectElement).value as PickupType);
-  }
-
-  protected onPickupChatChange(event: Event): void {
-    this.updateField('pickupTypeChat', (event.target as HTMLSelectElement).value as PickupType);
+  /**
+   * Adapter para `<sc-select>` (pickup call + chat). Las options se pasan
+   * como array literal `[{label: 'auto' | translate, value: 'auto'}, ...]`
+   * desde el template, así el pipe traduce reactivo al cambio de idioma.
+   */
+  protected onPickupValueChange<K extends 'pickupType' | 'pickupTypeChat'>(
+    key: K,
+    value: unknown,
+  ): void {
+    if (value === 'auto' || value === 'manual') {
+      this.updateField(key, value);
+    }
   }
 
   protected onLoginExtOverrideChange(checked: boolean): void {

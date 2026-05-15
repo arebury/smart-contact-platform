@@ -765,38 +765,34 @@
                     <label class="field__label" for="agent-pickup">
                       {{ 'agents.form.advanced.comportamiento.pickup_call' | translate }}
                     </label>
-                    <select
-                      id="agent-pickup"
-                      class="field__input"
+                    <sc-select
+                      inputId="agent-pickup"
+                      optionLabel="label"
+                      optionValue="value"
+                      [options]="[
+                        { label: 'agents.form.fields.pickup_auto' | translate, value: 'auto' },
+                        { label: 'agents.form.fields.pickup_manual' | translate, value: 'manual' }
+                      ]"
                       [value]="form().pickupType"
-                      (change)="onPickupChange($event)"
-                    >
-                      <option value="auto">
-                        {{ 'agents.form.fields.pickup_auto' | translate }}
-                      </option>
-                      <option value="manual">
-                        {{ 'agents.form.fields.pickup_manual' | translate }}
-                      </option>
-                    </select>
+                      (valueChange)="onPickupValueChange('pickupType', $event)"
+                    />
                   </div>
 
                   <div class="field">
                     <label class="field__label" for="agent-pickup-chat">
                       {{ 'agents.form.advanced.comportamiento.pickup_chat' | translate }}
                     </label>
-                    <select
-                      id="agent-pickup-chat"
-                      class="field__input"
+                    <sc-select
+                      inputId="agent-pickup-chat"
+                      optionLabel="label"
+                      optionValue="value"
+                      [options]="[
+                        { label: 'agents.form.fields.pickup_auto' | translate, value: 'auto' },
+                        { label: 'agents.form.fields.pickup_manual' | translate, value: 'manual' }
+                      ]"
                       [value]="form().pickupTypeChat"
-                      (change)="onPickupChatChange($event)"
-                    >
-                      <option value="auto">
-                        {{ 'agents.form.fields.pickup_auto' | translate }}
-                      </option>
-                      <option value="manual">
-                        {{ 'agents.form.fields.pickup_manual' | translate }}
-                      </option>
-                    </select>
+                      (valueChange)="onPickupValueChange('pickupTypeChat', $event)"
+                    />
                   </div>
                 </div>
 
