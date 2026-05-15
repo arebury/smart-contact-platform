@@ -179,17 +179,13 @@
                     {{ 'groups.form.fields.capacity' | translate }}
                     <span class="field__hint">({{ 'common.optional' | translate }})</span>
                   </label>
-                  <input
-                    id="group-capacity"
-                    type="number"
-                    min="0"
-                    class="field__input"
+                  <sc-input-number
+                    inputId="group-capacity"
+                    [min]="0"
                     [value]="form().capacityValue"
-                    (input)="onTextInput('capacityValue', $event)"
+                    (valueChange)="onCapacityValueChange($event)"
+                    [helperText]="'groups.form.fields.capacity_hint' | translate"
                   />
-                  <span class="field__help">{{
-                    'groups.form.fields.capacity_hint' | translate
-                  }}</span>
                 </div>
               }
             </div>

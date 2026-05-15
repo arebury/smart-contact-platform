@@ -43,7 +43,7 @@ export interface Group {
   readonly strategy: string;
   readonly chatStrategy?: string;
   readonly capacityType?: CapacityType;
-  readonly capacityValue?: string;
+  readonly capacityValue?: number;
   readonly labels?: readonly number[];
   readonly templates?: readonly number[];
   /** Tiered fallback (Niveles strategy). Each row is one level. */
@@ -67,7 +67,7 @@ export const GROUPS_SEED: readonly Group[] = [
     channels: ['phone'],
     strategy: 'Balanceada',
     capacityType: 'fixed',
-    capacityValue: '5',
+    capacityValue: 5,
     labels: [1, 5],
     templates: [1, 3, 6],
     services: ['Atención general', 'Soporte técnico'],
@@ -83,7 +83,7 @@ export const GROUPS_SEED: readonly Group[] = [
     channels: ['phone', 'email'],
     strategy: 'Balanceada',
     capacityType: 'fixed',
-    capacityValue: '10',
+    capacityValue: 10,
     services: ['Atención general'],
   },
   {
@@ -96,7 +96,7 @@ export const GROUPS_SEED: readonly Group[] = [
     channels: ['phone'],
     strategy: 'Balanceada',
     capacityType: 'variable',
-    capacityValue: '3',
+    capacityValue: 3,
     services: ['Campañas salientes'],
     schedules: [1],
   },

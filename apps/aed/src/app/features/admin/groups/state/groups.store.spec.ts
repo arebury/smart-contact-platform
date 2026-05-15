@@ -17,7 +17,7 @@ describe('GroupsStore', () => {
       channels: ['phone' as const],
       strategy: 'aleatoria',
       chatStrategy: 'aleatoria',
-      capacityValue: '0',
+      capacityValue: 0,
       assignedAgents: [],
     };
   }

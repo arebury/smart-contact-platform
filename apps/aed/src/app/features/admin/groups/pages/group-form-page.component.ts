@@ -28,6 +28,7 @@ import {
   FormSectionNavComponent,
   type FormNavSection,
   IllustratedAvatarComponent,
+  InputNumberComponent,
   ModalComponent,
   SectionCardComponent,
   StickyFormHeaderComponent,
@@ -63,7 +64,7 @@ interface FormState {
   channels: ReadonlySet<GroupChannel>;
   strategy: string;
   chatStrategy: string;
-  capacityValue: string;
+  capacityValue: number | null;
   links: readonly GroupAgentLink[];
 }
 
@@ -75,6 +76,7 @@ interface FormState {
     FormDangerZoneComponent,
     FormSectionNavComponent,
     IllustratedAvatarComponent,
+    InputNumberComponent,
     LucideAngularModule,
     ModalComponent,
     SectionCardComponent,
@@ -216,7 +218,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         channels: new Set(group.channels),
         strategy: group.strategy,
         chatStrategy: group.chatStrategy ?? CHAT_STRATEGIES[0]!,
-        capacityValue: group.capacityValue ?? '',
+        capacityValue: group.capacityValue ?? null,
         links: seedLinks,
       });
       this.initialChannels.set(new Set(group.channels));
@@ -251,8 +253,22 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
-  protected onTextInput<K extends 'name' | 'phone' | 'capacityValue'>(key: K, event: Event): void {
+  protected onTextInput<K extends 'name' | 'phone'>(key: K, event: Event): void {
     this.updateField(key, (event.target as HTMLInputElement).value);
+  }
+
+  /**
+   * Adapter para `<sc-input-number>` (capacityValue). Emite `number | null`;
+   * un null → campo vacío, mantenemos el null en el form para que serialize
+   * lo traduzca a `undefined`. Filtra valores negativos (defensa por si el
+   * usuario teclea un signo: el min="0" del input ya lo bloquea normalmente).
+   */
+  protected onCapacityValueChange(value: number | null): void {
+    if (value === null) {
+      this.updateField('capacityValue', null);
+      return;
+    }
+    if (Number.isFinite(value) && value >= 0) this.updateField('capacityValue', value);
   }
 
   protected onPriorityChange(event: Event): void {
@@ -333,9 +349,10 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         channels: Array.from(f.channels),
         strategy: f.strategy,
         chatStrategy: f.channels.has('chat') ? f.chatStrategy : undefined,
-        capacityValue: f.channels.has('phone') ? f.capacityValue.trim() || undefined : undefined,
+        capacityValue:
+          f.channels.has('phone') && f.capacityValue !== null ? f.capacityValue : undefined,
         capacityType:
-          f.channels.has('phone') && f.capacityValue.trim() ? ('fixed' as const) : undefined,
+          f.channels.has('phone') && f.capacityValue !== null ? ('fixed' as const) : undefined,
       };
 
       const editingId = this.editingId();
@@ -415,7 +432,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       channels: new Set<GroupChannel>(['phone']),
       strategy: PHONE_STRATEGIES[0]!,
       chatStrategy: CHAT_STRATEGIES[0]!,
-      capacityValue: '',
+      capacityValue: null,
       links: [],
     };
   }
