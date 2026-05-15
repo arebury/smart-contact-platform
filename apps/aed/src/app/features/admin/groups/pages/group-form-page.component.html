@@ -54,12 +54,12 @@
                 <label class="field__label" for="group-phone">
                   {{ 'groups.form.fields.phone' | translate }}
                 </label>
-                <input
-                  id="group-phone"
-                  type="text"
-                  class="field__input"
+                <sc-input
+                  inputId="group-phone"
+                  type="tel"
+                  autocomplete="tel"
                   [value]="form().phone"
-                  (input)="onTextInput('phone', $event)"
+                  (valueChange)="onPhoneValueChange($event)"
                 />
               </div>
 
@@ -67,16 +67,19 @@
                 <label class="field__label" for="group-priority">
                   {{ 'groups.form.fields.priority' | translate }}
                 </label>
-                <select
-                  id="group-priority"
-                  class="field__input"
+                <sc-select
+                  inputId="group-priority"
+                  [options]="priorities"
                   [value]="form().priority"
-                  (change)="onPriorityChange($event)"
+                  (valueChange)="onPriorityValueChange($event)"
                 >
-                  @for (p of priorities; track p) {
-                    <option [value]="p">{{ priorityKeys[p] | translate }}</option>
-                  }
-                </select>
+                  <ng-template pTemplate="item" let-p>
+                    {{ priorityKeys[p] | translate }}
+                  </ng-template>
+                  <ng-template pTemplate="selectedItem" let-p>
+                    {{ priorityKeys[p] | translate }}
+                  </ng-template>
+                </sc-select>
               </div>
 
               <div class="field field--inline">
@@ -143,16 +146,12 @@
                 <label class="field__label" for="group-strategy">
                   {{ 'groups.form.fields.phone_strategy' | translate }}
                 </label>
-                <select
-                  id="group-strategy"
-                  class="field__input"
+                <sc-select
+                  inputId="group-strategy"
+                  [options]="phoneStrategies"
                   [value]="form().strategy"
-                  (change)="onStrategyChange($event)"
-                >
-                  @for (s of phoneStrategies; track s) {
-                    <option [value]="s">{{ s }}</option>
-                  }
-                </select>
+                  (valueChange)="onStrategyValueChange($event)"
+                />
               </div>
 
               @if (hasChat()) {
@@ -160,16 +159,12 @@
                   <label class="field__label" for="group-chat-strategy">
                     {{ 'groups.form.fields.chat_strategy' | translate }}
                   </label>
-                  <select
-                    id="group-chat-strategy"
-                    class="field__input"
+                  <sc-select
+                    inputId="group-chat-strategy"
+                    [options]="chatStrategies"
                     [value]="form().chatStrategy"
-                    (change)="onChatStrategyChange($event)"
-                  >
-                    @for (s of chatStrategies; track s) {
-                      <option [value]="s">{{ s }}</option>
-                    }
-                  </select>
+                    (valueChange)="onChatStrategyValueChange($event)"
+                  />
                 </div>
               }
 

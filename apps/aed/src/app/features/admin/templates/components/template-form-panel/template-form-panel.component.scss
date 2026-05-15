@@ -28,7 +28,6 @@
     color: var(--sc-text-secondary);
   }
 
-  &__input,
   &__textarea {
     width: 100%;
     padding: var(--sc-spacing-100) var(--sc-spacing-100);
@@ -39,6 +38,8 @@
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-100);
     outline: none;
+    resize: vertical;
+    min-height: 72px;
     transition: border-color var(--sc-transition-fast) var(--sc-easing-default);
 
     &::placeholder {
@@ -52,15 +53,6 @@
     &:focus {
       border-color: var(--sc-color-blue-500);
     }
-
-    &--error {
-      border-color: var(--sc-border-error);
-    }
-  }
-
-  &__textarea {
-    resize: vertical;
-    min-height: 72px;
   }
 
   &__hint {

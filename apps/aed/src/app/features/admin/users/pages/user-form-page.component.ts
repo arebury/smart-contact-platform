@@ -24,9 +24,11 @@ import {
   InputComponent,
   PhotoUploadComponent,
   SectionCardComponent,
+  SelectComponent,
   StickyFormHeaderComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
+import { PrimeTemplate } from 'primeng/api';
 import { AVAILABLE_GROUPS_REF } from '@shared/data/groups-ref';
 import {
   AVAILABLE_SERVICES,
@@ -65,7 +67,9 @@ interface FormState {
     InputComponent,
     LucideAngularModule,
     PhotoUploadComponent,
+    PrimeTemplate,
     SectionCardComponent,
+    SelectComponent,
     StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
@@ -83,7 +87,11 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly crossTab = inject(CrossTabLockService);
 
   protected readonly userTypes = USER_TYPES;
-  protected readonly typeLabelKeys = USER_TYPE_LABEL_KEYS;
+  /* Widening intencional a `Record<string, string>` para que el `let-t`
+   * que llega desde `pTemplate` (tipo `any` por design de PrimeNG) pueda
+   * indexar sin TS7053. Seguro: las keys vienen siempre de `userTypes`
+   * (UserType union). Mismo patrón que agent-form-page. */
+  protected readonly typeLabelKeys: Readonly<Record<string, string>> = USER_TYPE_LABEL_KEYS;
   protected readonly mailIcon = Mail;
   protected readonly sectionDefs = SECTION_DEFS;
   protected readonly permissionDefs = PERMISSION_DEFS;
@@ -211,17 +219,12 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
-  protected onTextInput<K extends 'name' | 'email' | 'identifier'>(key: K, event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.updateField(key, value);
-  }
-
   protected onTextValue<K extends 'name' | 'email' | 'identifier'>(key: K, value: string): void {
     this.updateField(key, value);
   }
 
-  protected onTypeChange(event: Event): void {
-    this.updateField('type', (event.target as HTMLSelectElement).value as UserType);
+  protected onTypeValueChange(value: unknown): void {
+    if (typeof value === 'string') this.updateField('type', value as UserType);
   }
 
   protected onStatusChange(checked: boolean): void {

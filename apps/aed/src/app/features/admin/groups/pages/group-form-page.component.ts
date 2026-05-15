@@ -28,12 +28,15 @@ import {
   FormSectionNavComponent,
   type FormNavSection,
   IllustratedAvatarComponent,
+  InputComponent,
   InputNumberComponent,
   ModalComponent,
   SectionCardComponent,
+  SelectComponent,
   StickyFormHeaderComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
+import { PrimeTemplate } from 'primeng/api';
 import {
   CHANNEL_LABEL_KEYS,
   CHAT_STRATEGIES,
@@ -76,10 +79,13 @@ interface FormState {
     FormDangerZoneComponent,
     FormSectionNavComponent,
     IllustratedAvatarComponent,
+    InputComponent,
     InputNumberComponent,
     LucideAngularModule,
     ModalComponent,
+    PrimeTemplate,
     SectionCardComponent,
+    SelectComponent,
     StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
@@ -99,7 +105,11 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly crossTab = inject(CrossTabLockService);
 
   protected readonly priorities = GROUP_PRIORITIES;
-  protected readonly priorityKeys = PRIORITY_LABEL_KEYS;
+  /* Widening intencional a `Record<string, string>` para que el `let-p`
+   * que llega desde `pTemplate` (tipo `any` por design de PrimeNG) pueda
+   * indexar sin TS7053. Seguro: las keys vienen siempre de `priorities`
+   * (GroupPriority union). Mismo patrón que agent-form-page. */
+  protected readonly priorityKeys: Readonly<Record<string, string>> = PRIORITY_LABEL_KEYS;
   protected readonly channels = GROUP_CHANNELS;
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;
   protected readonly phoneStrategies = PHONE_STRATEGIES;
@@ -253,8 +263,8 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
-  protected onTextInput<K extends 'name' | 'phone'>(key: K, event: Event): void {
-    this.updateField(key, (event.target as HTMLInputElement).value);
+  protected onPhoneValueChange(value: string): void {
+    this.updateField('phone', value);
   }
 
   /**
@@ -271,16 +281,16 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     if (Number.isFinite(value) && value >= 0) this.updateField('capacityValue', value);
   }
 
-  protected onPriorityChange(event: Event): void {
-    this.updateField('priority', (event.target as HTMLSelectElement).value as GroupPriority);
+  protected onPriorityValueChange(value: unknown): void {
+    if (typeof value === 'string') this.updateField('priority', value as GroupPriority);
   }
 
-  protected onStrategyChange(event: Event): void {
-    this.updateField('strategy', (event.target as HTMLSelectElement).value);
+  protected onStrategyValueChange(value: unknown): void {
+    if (typeof value === 'string') this.updateField('strategy', value);
   }
 
-  protected onChatStrategyChange(event: Event): void {
-    this.updateField('chatStrategy', (event.target as HTMLSelectElement).value);
+  protected onChatStrategyValueChange(value: unknown): void {
+    if (typeof value === 'string') this.updateField('chatStrategy', value);
   }
 
   protected onTypificationChange(checked: boolean): void {

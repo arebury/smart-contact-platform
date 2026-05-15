@@ -15,6 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LucideAngularModule, AlertTriangle } from 'lucide-angular';
 
+import { InputComponent } from '@shared/components';
 import {
   ColorDotOption,
   ColorDotPickerComponent,
@@ -36,7 +37,13 @@ export interface LabelFormSubmission {
  */
 @Component({
   selector: 'sc-label-form-panel',
-  imports: [ColorDotPickerComponent, FormsModule, LucideAngularModule, TranslateModule],
+  imports: [
+    ColorDotPickerComponent,
+    FormsModule,
+    InputComponent,
+    LucideAngularModule,
+    TranslateModule,
+  ],
   templateUrl: './label-form-panel.component.html',
   styleUrl: './label-form-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,7 +72,8 @@ export class LabelFormPanelComponent implements OnInit, AfterViewInit {
   protected readonly description = signal('');
   protected readonly error = signal('');
 
-  @ViewChild('nameInput') private readonly nameInput?: ElementRef<HTMLInputElement>;
+  @ViewChild('nameInput', { read: ElementRef })
+  private readonly nameInput?: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
     const seed = this.initial();
@@ -77,7 +85,9 @@ export class LabelFormPanelComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    queueMicrotask(() => this.nameInput?.nativeElement.focus());
+    queueMicrotask(() =>
+      this.nameInput?.nativeElement.querySelector('input')?.focus(),
+    );
   }
 
   protected onNameInput(value: string): void {

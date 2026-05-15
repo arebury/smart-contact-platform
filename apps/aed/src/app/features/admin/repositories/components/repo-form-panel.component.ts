@@ -13,7 +13,9 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertTriangle, LucideAngularModule } from 'lucide-angular';
+import { PrimeTemplate } from 'primeng/api';
 
+import { InputComponent, SelectComponent } from '@shared/components';
 import { RepoEntity, RepoFieldDef } from './repo-types';
 
 export type RepoFormSubmission = Readonly<Record<string, string>>;
@@ -26,7 +28,14 @@ export type RepoFormSubmission = Readonly<Record<string, string>>;
  */
 @Component({
   selector: 'sc-repo-form-panel',
-  imports: [FormsModule, LucideAngularModule, TranslateModule],
+  imports: [
+    FormsModule,
+    InputComponent,
+    LucideAngularModule,
+    PrimeTemplate,
+    SelectComponent,
+    TranslateModule,
+  ],
   templateUrl: './repo-form-panel.component.html',
   styleUrl: './repo-form-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,7 +55,8 @@ export class RepoFormPanelComponent<T extends RepoEntity> implements OnInit, Aft
   protected readonly values = signal<Record<string, string>>({});
   protected readonly error = signal('');
 
-  @ViewChild('firstInput') private readonly firstInput?: ElementRef<HTMLInputElement>;
+  @ViewChild('firstInput', { read: ElementRef })
+  private readonly firstInput?: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
     const seed = this.initial();
@@ -65,12 +75,18 @@ export class RepoFormPanelComponent<T extends RepoEntity> implements OnInit, Aft
   }
 
   ngAfterViewInit(): void {
-    queueMicrotask(() => this.firstInput?.nativeElement.focus());
+    queueMicrotask(() =>
+      this.firstInput?.nativeElement.querySelector('input')?.focus(),
+    );
   }
 
   protected onChange(key: string, value: string): void {
     this.values.update((current) => ({ ...current, [key]: value }));
     if (this.error()) this.error.set('');
+  }
+
+  protected onSelectValueChange(key: string, value: unknown): void {
+    if (typeof value === 'string') this.onChange(key, value);
   }
 
   protected onKey(event: KeyboardEvent, allowEnterSave = true): void {

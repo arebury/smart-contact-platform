@@ -85,16 +85,19 @@
                 <label class="field__label" for="user-type">
                   {{ 'users.form.fields.type' | translate }}
                 </label>
-                <select
-                  id="user-type"
-                  class="field__input"
+                <sc-select
+                  inputId="user-type"
+                  [options]="userTypes"
                   [value]="form().type"
-                  (change)="onTypeChange($event)"
+                  (valueChange)="onTypeValueChange($event)"
                 >
-                  @for (type of userTypes; track type) {
-                    <option [value]="type">{{ typeLabelKeys[type] | translate }}</option>
-                  }
-                </select>
+                  <ng-template pTemplate="item" let-t>
+                    {{ typeLabelKeys[t] | translate }}
+                  </ng-template>
+                  <ng-template pTemplate="selectedItem" let-t>
+                    {{ typeLabelKeys[t] | translate }}
+                  </ng-template>
+                </sc-select>
               </div>
             </div>
 

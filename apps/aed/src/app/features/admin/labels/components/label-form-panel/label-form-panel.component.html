@@ -10,16 +10,14 @@
   </h3>
 
   <div class="panel__field">
-    <label class="panel__label" for="label-name">{{ 'labels.form.name' | translate }}</label>
-    <input
-      id="label-name"
+    <sc-input
       #nameInput
+      inputId="label-name"
       type="text"
-      class="panel__input"
-      [class.panel__input--error]="!!error()"
+      [label]="'labels.form.name' | translate"
       [value]="name()"
       [placeholder]="'labels.form.name_placeholder' | translate"
-      (input)="onNameInput($any($event.target).value)"
+      (valueChange)="onNameInput($event)"
       (keydown)="onKey($event)"
     />
     <div class="panel__error-slot">
@@ -42,13 +40,12 @@
       {{ 'labels.form.description' | translate }}
       <span class="panel__hint">({{ 'common.optional' | translate }})</span>
     </label>
-    <input
-      id="label-desc"
+    <sc-input
+      inputId="label-desc"
       type="text"
-      class="panel__input"
       [value]="description()"
       [placeholder]="'labels.form.description_placeholder' | translate"
-      (input)="description.set($any($event.target).value)"
+      (valueChange)="description.set($event)"
       (keydown)="onKey($event)"
     />
   </div>

@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AlertTriangle, LucideAngularModule, Mail, MessageSquare } from 'lucide-angular';
 
+import { InputComponent } from '@shared/components';
 import { Template, TemplateType } from '../../data/templates-data';
 
 export interface TemplateFormSubmission {
@@ -31,7 +32,7 @@ export interface TemplateFormSubmission {
  */
 @Component({
   selector: 'sc-template-form-panel',
-  imports: [FormsModule, LucideAngularModule, TranslateModule],
+  imports: [FormsModule, InputComponent, LucideAngularModule, TranslateModule],
   templateUrl: './template-form-panel.component.html',
   styleUrl: './template-form-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -57,7 +58,8 @@ export class TemplateFormPanelComponent implements OnInit, AfterViewInit {
   protected readonly body = signal('');
   protected readonly error = signal('');
 
-  @ViewChild('titleInput') private readonly titleInput?: ElementRef<HTMLInputElement>;
+  @ViewChild('titleInput', { read: ElementRef })
+  private readonly titleInput?: ElementRef<HTMLElement>;
 
   ngOnInit(): void {
     const seed = this.initial();
@@ -71,7 +73,9 @@ export class TemplateFormPanelComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    queueMicrotask(() => this.titleInput?.nativeElement.focus());
+    queueMicrotask(() =>
+      this.titleInput?.nativeElement.querySelector('input')?.focus(),
+    );
   }
 
   protected setType(type: TemplateType): void {

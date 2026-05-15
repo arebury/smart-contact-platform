@@ -35,28 +35,30 @@
           ></textarea>
         }
         @case ('select') {
-          <select
-            [id]="'repo-field-' + field.key"
-            class="panel__select"
+          <sc-select
+            [inputId]="'repo-field-' + field.key"
+            optionValue="value"
+            [options]="field.options ?? []"
             [value]="values()[field.key]"
-            (change)="onChange(field.key, $any($event.target).value)"
+            (valueChange)="onSelectValueChange(field.key, $event)"
             (keydown)="onKey($event)"
           >
-            @for (option of field.options; track option.value) {
-              <option [value]="option.value">{{ option.labelKey | translate }}</option>
-            }
-          </select>
+            <ng-template pTemplate="item" let-opt>
+              {{ opt.labelKey | translate }}
+            </ng-template>
+            <ng-template pTemplate="selectedItem" let-opt>
+              {{ opt.labelKey | translate }}
+            </ng-template>
+          </sc-select>
         }
         @default {
-          <input
+          <sc-input
             #firstInput
-            [id]="'repo-field-' + field.key"
+            [inputId]="'repo-field-' + field.key"
             type="text"
-            class="panel__input"
-            [class.panel__input--error]="!!error() && field.key === 'name'"
             [value]="values()[field.key]"
             [placeholder]="field.placeholderKey ? (field.placeholderKey | translate) : ''"
-            (input)="onChange(field.key, $any($event.target).value)"
+            (valueChange)="onChange(field.key, $event)"
             (keydown)="onKey($event)"
           />
         }

@@ -10,18 +10,14 @@
   </h3>
 
   <div class="panel__field">
-    <label class="panel__label" for="template-title">
-      {{ 'templates.form.title' | translate }}
-    </label>
-    <input
-      id="template-title"
+    <sc-input
       #titleInput
+      inputId="template-title"
       type="text"
-      class="panel__input"
-      [class.panel__input--error]="!!error()"
+      [label]="'templates.form.title' | translate"
       [value]="title()"
       [placeholder]="'templates.form.title_placeholder' | translate"
-      (input)="onTitleInput($any($event.target).value)"
+      (valueChange)="onTitleInput($event)"
       (keydown)="onKey($event)"
     />
   </div>
