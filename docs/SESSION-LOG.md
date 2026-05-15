@@ -10,12 +10,14 @@
 
 ---
 
-## 2026-05-15 · Session 30 — Paleta gray → Aura slate + Figma 1:1 audits + 5 componentes cocinados
+## 2026-05-15 · Session 30 — Día completo: paleta, 4 cocinados, 5 audits, Netlify desbloqueado, ds-docs polished
 
-> Sesión larga ("todo el día"). Cerramos Fase 1 (paleta) con editorial-redesign del audit HTML,
-> cocinamos 3 componentes nuevos (input-number, select, datepicker), retro-auditamos los 2 viejos
-> (button, input) ahora que el usuario pidió rigor Figma 1:1 token-by-token, y añadimos tabs +
-> tooltip como Custom-preset / Full PrimeNG. 11 commits a main.
+> Sesión maratón. Empezó con la paleta gray → Aura slate, escaló al audit retroactivo Nivel-2
+> de TODOS los componentes con Figma reference (Button, Input, Select, Checkbox, Tabs,
+> Tooltip, Toast, Modal), cocinamos 4 nuevos wrappers (Input number, Select, Multi-select,
+> Datepicker), desbloqueamos Netlify (plugin angular-runtime removido), aplicamos el polish
+> editorial completo a ds-docs con `/ui-ux-pro-max` + `/impeccable` (sidebar reescrito, hero,
+> 11 gallery pages, gallery rows con framing). 24+ commits a main, sin push rejections.
 
 ### Worked on
 
@@ -61,6 +63,46 @@
 - **pTooltip como Full PrimeNG** (canvas 6738:50212). Overrides `components.tooltip.root` con
   bg slate-700, padding 10.5/7, max-width 175. Página `/components/tooltip` (basic, posiciones,
   icon-only, texto largo). Spec doc 07-tooltip.md.
+- **sc-multi-select cocinado** (canvas 6738:22651, 257 variants). Wrapper sobre `<p-multiselect>`,
+  display 'comma'/'chip', selectionLimit, maxSelectedLabels, filter. Tokens `multiselect/*`
+  verificados idénticos a `select/*`. Página `/components/multi-select` (7 secciones). Spec doc
+  08-multi-select.md.
+- **Audit retroactivo sc-tri-state-checkbox** (canvas 6738:22640, 60 variants). Fix box
+  17.5×17.5 (era 18), border slate-300 (era slate-400 strong), border-width 1px (era 1.5),
+  icon 12.25 (era 10 hardcoded), checked color `--sc-bg-primary` (era blue-700 más oscuro;
+  decisión usuario para alineación con button/tabs/select primary). Nuevos props `[size]`
+  (sm 14 / md 17.5 / lg 21) y `[filled]` (slate-50). `'some'` indeterminate documentado
+  como SC extension. Spec doc 09-checkbox.md.
+- **Audit retroactivo Toast** (`<p-toast>` + custom template, canvas 6738:53165). Cambios
+  geométricos masivos: width 400→350, radius 12→6, padding 16→10.5, icon 24→15.75, close
+  button 24×24→24.5 circular. Bordes severity-500/600→severity-200 (tinted Figma look).
+  Backdrop blur 1.5px (frosted glass). SC extensions documentadas: action button (undo),
+  icon-square chrome, severity='secondary'→violet overload. Spec doc 10-toast.md.
+- **Audit retroactivo Modal** (canvas 6738:50207 ConfirmDialog). Border blue-100→slate-200
+  (fix legado), padding 24/20→17.5 uniforme con scheme top:0 (evita doble padding en costuras),
+  header/footer gap 12/32→7, removed divider lines (Figma no las tiene), title 17.5/600 raw,
+  double-layer shadow. **Body slot ahora con stacking automático** (`display: flex; gap: 16px`)
+  per request del usuario. Spec doc 11-modal.md con anatomía + recipes.
+- **Spec docs Pure SC** sin Figma audit: Empty State (12-empty-state.md) y Section Card
+  (13-section-card.md). Patrones in-house de SC, documentados con API/slots/tokens/decisiones
+  de diseño. Inventory marcado como n/a Figma reference.
+- **Netlify ds-smartcontact desbloqueado** (con Perplexity). Diagnóstico: `@netlify/angular-runtime`
+  plugin leía `angular.json` y exigía publish dir = `dist/aed/browser`, ignorando la env
+  override `ANGULAR_PROJECT=ds-docs`. Solución: plugin REMOVIDO del site (Site config →
+  Build & deploy → Configure → Remove). Build manual + publish dir manual ya cubren todo.
+  Verificado live: bundle hash distinto + audit URL devuelve text/html del HTML real.
+- **ds-docs polish editorial (Swiss Modernism + ui-ux-pro-max)**. Globals: 3 fuentes
+  (Inter / Space Grotesk / JetBrains Mono), focus rings consistentes, smooth scroll,
+  prefers-reduced-motion. App shell: sidebar REESCRITO listando las 11 rutas agrupadas
+  por categoría (Inputs / Pickers / Actions / Selection / Navigation / Overlays / References)
+  con accent rail en active state + brand block. Hero home: title display + eyebrow mono con
+  dot accent pulsante. 8 gallery pages: titles display + h2 display + inline code editorial.
+- **3 galleries adicionales (Toast / Modal / Checkbox)** — los TODO Session 31 que dejaron
+  los spec docs. Interactive demos: toast pulsa botones y dispara MessageService.add() por
+  severity + undo + sticky + long content; modal con 5 escenarios (info/confirm/discard/
+  form/scrolling); checkbox con 5 secciones incluyendo tri-state header+children demo.
+- **Polish `.gallery__row`** en las 11 galleries: bg elevated + border + radius + "demo"
+  mono label top-right (Polaris-style framing). Mismo SCSS aplicado vía python regex loop.
 
 ### Decisiones clave
 
@@ -78,48 +120,82 @@
 
 ### Lo que NO se cerró
 
-- **Netlify ds-smartcontact no redeploya** desde commit `8fb3d49` de la sesión 29 (mañana). La
-  build live sigue siendo `main-I4GZGIIL.js` — anterior a todos los commits de hoy. Causa
-  desconocida (auto-deploys off, build silently failing, queue stuck). El URL público del audit
-  `https://ds-smartcontact.netlify.app/audits/2026-05-15-palette-slate/diff.html` redirige al
-  SPA. **Workaround entregado**: ZIP en `~/Downloads/sc-palette-audit-2026-05-15.zip` (5.3 MB)
-  para compartir vía Slack/Drive. Diagnóstico vía Netlify dashboard requerido por el usuario.
-- **Polish visual de ds-docs con /ui-ux-pro-max + /impeccable**: pedido como mejora futura.
-  Sin urgencia. Recomendado activar cuando lleguemos a 8-10 componentes documentados (ahora
-  vamos por 7 cocinados + 24 migrados sin spec).
 - **POC migración sc-input-number en AED**: diferida porque toca contrato del store
   (`capacityValue: string` → `number | null` afectaría 5 sitios). Recipe en spec doc 03.
 - **POC migración 20+ `<select>` nativos en AED** con `<sc-select>`: por feature al tocarse.
+- **Extract `_sc-toast.scss` a `packages/design-system/styles/`** para que AED + ds-docs lo
+  importen — hoy las styles están copiadas en ambos (puede driftar). TODO Session 31.
+- **Customs catalog** (`customs-catalog.md`): las 3-4 brand divergences están documentadas
+  individualmente en cada spec doc; pendiente extraer a un único catálogo cuando ≥5.
+- **Fase 4 Memory consume tokens SCDS**: los 4 gates están ✅ cumplidos (paleta cerrada,
+  layer 2 estable, 13 specs cocinados, customs documentados parcial). Cuando el usuario quiera
+  activar, plan completo en NEXT-SESSION-PLAN Fase 4.
 
 ### Fricciones que costaron tiempo (anotar para evitar)
 
 - **Asunción de specs sin verificar variantes** (sc-datepicker primera versión): saqué tokens
   solo del Focus panel default. El usuario corrigió, ahora todas las audits Figma son
-  exhaustivas por variant. Memoria guardada.
+  exhaustivas por variant. Memoria guardada (`feedback_figma_specs_thorough.md`).
 - **PrimeNG token shape ≠ flat**: tooltip esperaba `root: {}` wrapper. Build falla con
   TS2353. Para futuras Custom-preset additions, comprobar el `.d.ts` de
   `@primeuix/themes/types/<component>` antes de escribir.
 - **MCP get_metadata 500KB+ outputs**: button canvas devolvió 501k chars que no caben en
   context. Solución: persisted file + parse con python regex (axes + canonical lookup).
+- **Netlify plugin angular-runtime hostile**: el plugin lee `angular.json` y exige que la
+  publish dir matchee el primer proyecto, ignorando env override. Solución: REMOVER el
+  plugin del site cuando hay multi-project workspace + build command manual cubre todo.
+  Documentado en `netlify.toml` para futuros sites.
+- **Charset encoding al pegar Spanish en Edit/Write**: ocurrió al pegar el bloque "Fase 3
+  Memory" con muchas tildes — salió en CJK chars. Solución: copy-paste atómicos pequeños
+  o regenerar el bloque entero con Edit `replace_all` después del primer escape.
 
-### Commits pusheados a main (11)
+### Commits pusheados a main (24)
 
-- `07bf868` docs(close): session 29 log + plan refresh post-icloud-migration
-- `869ae37` docs(plan): mark Netlify Fase 1 as done (Netlify verification)
-- `0d818f9` docs(plan): add Fase 3 future — Memory consumes SCDS tokens (Camino B)
-- `39acb17` feat(tokens): align --sc-color-gray-* ramp to Aura slate
-- `035ef08` chore(ds-docs): wire public/ assets glob + publish palette audit
-- `04dd6b1` chore(audit): editorial redesign of palette diff page + nav improvements
-- `2782ecb` feat(input-number): cook sc-input-number + ds-docs page + spec doc
-- `40607be` feat(select): cook sc-select wrapping p-select + ds-docs + spec doc
-- `2318c2f` feat(datepicker): cook sc-datepicker 1:1 with Figma + full variant token table
-- `629eb6b` fix(input,preset): retroactive Figma 1:1 audit + filled variant
-- `1cfed2d` docs(button): Nivel-2 Figma audit + spec doc 01-button.md
-- `bd3995c` fix(select): retroactive Figma 1:1 audit + filled variant + sm/lg fixes
-- `8b9e080` feat(tabs,tooltip): Custom-preset overrides 1:1 with Figma + sc-tabs gallery
-- `a03cd20` feat(tooltip): document [pTooltip] 1:1 with Figma + ds-docs gallery
+```
+07bf868 docs(close): session 29 log + plan refresh post-icloud-migration
+869ae37 docs(plan): mark Netlify Fase 1 as done (verification)
+0d818f9 docs(plan): add Fase 3 future — Memory consumes SCDS tokens (Camino B)
+39acb17 feat(tokens): align --sc-color-gray-* ramp to Aura slate
+035ef08 chore(ds-docs): wire public/ assets glob + publish palette audit
+04dd6b1 chore(audit): editorial redesign of palette diff page + nav improvements
+2782ecb feat(input-number): cook sc-input-number + ds-docs page + spec doc
+40607be feat(select): cook sc-select wrapping p-select + ds-docs + spec doc
+2318c2f feat(datepicker): cook sc-datepicker 1:1 with Figma + full variant tokens
+629eb6b fix(input,preset): retroactive Figma 1:1 audit + filled variant + preset paddingX/Y
+1cfed2d docs(button): Nivel-2 Figma audit + spec doc 01-button.md
+bd3995c fix(select): retroactive Figma 1:1 audit + filled variant + sm/lg fixes
+8b9e080 feat(tabs,tooltip): Custom-preset overrides 1:1 with Figma + sc-tabs gallery
+a03cd20 feat(tooltip): document [pTooltip] 1:1 with Figma + ds-docs gallery
+9d9379d docs(close): session 30 log + plan refresh (first pass)
+680b197 chore: trigger netlify redeploy (post env-var fix)
+38c68b2 feat(multi-select): cook sc-multi-select 1:1 Figma + display chip/comma
+a2a3cee fix(checkbox): retroactive Figma 1:1 audit + sizes + filled + spec doc
+734a223 fix(toast): retroactive Figma 1:1 audit + frosted-glass refresh
+2193328 fix(modal): retroactive Figma 1:1 audit + stacking body slot + spec doc
+bd9d483 docs(empty-state,section-card): spec docs for Pure SC components
+e73df1d feat(ds-docs): editorial polish — Swiss Modernism + display typography + nav
+e9e809c feat(ds-docs): galleries for toast/modal/checkbox + editorial row polish
+```
 
-(14 en total — algunos fueron doc-only, etiquetados feat/fix/docs/chore según corresponda.)
+### Estado del catálogo al cerrar
+
+13 componentes con spec doc completo (sobre 32 inventoried):
+
+- 🟣 Custom-preset: Button, Tabs, Toast
+- 🟢 Extended (wrappers cooked): Input, Input number, Select, Multi-select, Datepicker,
+  Modal, Checkbox (tri-state)
+- 🟦 Full PrimeNG (passthrough): Tooltip
+- ⚪ Pure SC: Empty state, Section card
+
+11 con gallery interactiva en ds-docs (todas las anteriores excepto Empty state y Section
+card, deferidas a Session 31).
+
+URLs públicas live (Netlify ds-smartcontact desbloqueado):
+
+- https://ds-smartcontact.netlify.app/ — home con tracker
+- https://ds-smartcontact.netlify.app/components/button | input | input-number | select |
+  multi-select | datepicker | tabs | tooltip | toast | modal | checkbox
+- https://ds-smartcontact.netlify.app/audits/2026-05-15-palette-slate/diff.html — audit page
 
 ---
 
