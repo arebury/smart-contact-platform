@@ -39,19 +39,24 @@
   --sc-color-soft-blue-900: #1a4d57;
   --sc-color-soft-blue-950: #0d262b;
 
-  /* ---------- Color · Gray (neutrals) ---------- */
+  /* ---------- Color · Gray (neutrals) ----------
+   * Mirrors Aura `slate` 1:1 (Tailwind slate). Previously the ramp was
+   * a custom blue-tinted gray that ran ~10% lighter than Figma's Aura
+   * reference; aligning here closes that gap globally for all
+   * borders, text, surfaces and dark-mode chrome.
+   * `gray-0` stays at pure white (used as inverted surface). */
   --sc-color-gray-0: #ffffff;
-  --sc-color-gray-50: #f7f8fa;
-  --sc-color-gray-100: #eceff3;
-  --sc-color-gray-200: #dadfe6;
-  --sc-color-gray-300: #c6ccd6;
-  --sc-color-gray-400: #aeb6c2;
-  --sc-color-gray-500: #8f97a3;
-  --sc-color-gray-600: #6f7784;
-  --sc-color-gray-700: #4f5663;
-  --sc-color-gray-800: #2f3642;
-  --sc-color-gray-900: #181d26;
-  --sc-color-gray-950: #0b0f14;
+  --sc-color-gray-50: #f8fafc;
+  --sc-color-gray-100: #f1f5f9;
+  --sc-color-gray-200: #e2e8f0;
+  --sc-color-gray-300: #cbd5e1;
+  --sc-color-gray-400: #94a3b8;
+  --sc-color-gray-500: #64748b;
+  --sc-color-gray-600: #475569;
+  --sc-color-gray-700: #334155;
+  --sc-color-gray-800: #1e293b;
+  --sc-color-gray-900: #0f172a;
+  --sc-color-gray-950: #020617;
 
   /* ---------- Color · Green (success) ---------- */
   --sc-color-green-50: #f0fdf4;
