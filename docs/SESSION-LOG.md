@@ -149,7 +149,32 @@
   Memory" con muchas tildes — salió en CJK chars. Solución: copy-paste atómicos pequeños
   o regenerar el bloque entero con Edit `replace_all` después del primer escape.
 
-### Commits pusheados a main (24)
+### Extras de Session 30 tras el primer "cierre" (5 commits más, 29 total)
+
+Tras cerrar la sesión inicial (commit `3c7094b`), el usuario continuó:
+
+- **ds-docs polish 2ª pasada `/impeccable`** (commit `cf2b5a6`): 8 upgrades sin tocar
+  componentes — status strip home, code block component, page transitions stagger,
+  sidebar number rotate animation, hero asymmetric mark (dot grid), sticky meta bar
+  on scroll, gallery footer prev/next + edit-on-github, asymmetric Swiss padding.
+  `.impeccable.md` design context guardado con regla explícita "polish NO toca
+  componentes" (componentes son interpretaciones 1:1 sacred). +cero touches confirmado
+  via git stat.
+- **POC migrations en AED** (commit `3b429ac`): `<sc-input-number>` x3 + `<sc-select>`
+  x1 reemplazando native fields en `aed-grupos-page`. Adapters `onNumberValueChange<K>`
+  y `onSelectValueChange<K>` añadidos al consumer para bridge entre `number|null` /
+  `unknown` y los tipos del store. Cero cambios en los componentes DS.
+- **`_sc-toast.scss` partial extracted** (commit `8ca90ab`): ~200 líneas SCSS de
+  `.sc-toast` movidas a `packages/design-system/styles/_sc-toast.scss`. AED
+  `app.component.scss` y ds-docs `toast-gallery.component.scss` ambos hacen `@use` del
+  partial. Strips `:host ::ng-deep .p-toast …` se quedan locales (necesitan view
+  encapsulation). Cierra TODO Session 31 que dejé marcado.
+- **`docs/customs-catalog.md`** (commit `3bc4f5f`): consolida las 11 brand divergences
+  SC vs Figma de Session 30 en un catálogo único por categoría (brand colors x3,
+  component extensions x5, component overloads x1, sizes off-Figma x2). Cierra Fase 3
+  del NEXT-SESSION-PLAN.
+
+### Commits pusheados a main (29)
 
 ```
 07bf868 docs(close): session 29 log + plan refresh post-icloud-migration
@@ -175,6 +200,11 @@ a2a3cee fix(checkbox): retroactive Figma 1:1 audit + sizes + filled + spec doc
 bd9d483 docs(empty-state,section-card): spec docs for Pure SC components
 e73df1d feat(ds-docs): editorial polish — Swiss Modernism + display typography + nav
 e9e809c feat(ds-docs): galleries for toast/modal/checkbox + editorial row polish
+3c7094b docs(close): session 30 final log + plan refresh (first close)
+cf2b5a6 feat(ds-docs): /impeccable second-pass polish (8 upgrades)
+3b429ac feat(aed): POC migrations sc-input-number + sc-select in aed-grupos-page
+8ca90ab refactor(toast): extract _sc-toast.scss partial — single source of truth
+3bc4f5f docs(customs-catalog): consolidate SC brand divergences from session 30 audits
 ```
 
 ### Estado del catálogo al cerrar

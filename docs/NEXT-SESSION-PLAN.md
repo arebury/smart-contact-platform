@@ -11,146 +11,112 @@
 
 ## Estado al cerrar (Session 30, 2026-05-15)
 
-**Hitos clave del día**:
+**Hitos clave del día (29 commits)**:
 
-- ✅ Fase 1 — paleta `--sc-color-gray-*` → Aura slate cerrada. Audit HTML editorial publicado
-  live (`/audits/2026-05-15-palette-slate/diff.html`) + ZIP local en `~/Downloads/`.
-- ✅ **Netlify ds-smartcontact desbloqueado** vía Perplexity (plugin `@netlify/angular-runtime`
-  removido). Deploy live confirmado, bundle hash actualizado, audit URL devuelve HTML correcto.
-- ✅ **13 componentes con spec doc completo** (`packages/design-system/docs/components/01-13`):
-  Button, Modal, Toast, Photo upload (?), Toggle, Checkbox, Input, Section card, Bulk action
-  bar, Bulk edit menu, Empty state, Form danger zone, Form section nav, etc.
-  *(Específicamente cocinados o auditados en Session 30: Input, Input number, Select,
-  Multi-select, Datepicker, Tabs, Tooltip, Button, Checkbox, Toast, Modal, Empty state,
-  Section card)*.
-- ✅ **11 componentes con gallery interactiva en ds-docs**: button, input, input-number,
-  select, multi-select, datepicker, tabs, tooltip, toast, modal, checkbox.
-- ✅ **Polish ds-docs editorial** (`/ui-ux-pro-max` Swiss Modernism): sidebar reescrito con
-  las 11 rutas agrupadas + accent rail; Space Grotesk display + Inter body + JetBrains Mono
-  technical; gallery rows con framing "demo" mono label; hero editorial.
-- ✅ **Preset cambio global**: `formField.paddingX/Y` ahora `10.5px / 7px` raw (Figma 1:1).
-  Afecta input/select/datepicker/multiselect/cualquier formField PrimeNG.
+- ✅ Fase 1 — paleta `--sc-color-gray-*` → Aura slate cerrada.
+- ✅ Fase 1 (NEXT-SESSION-PLAN previo) — **POC migrations en AED hechas**:
+  `<sc-input-number>` x3 + `<sc-select>` x1 en `aed-grupos-page`.
+- ✅ Fase 2 — **`_sc-toast.scss` partial extracted** a
+  `packages/design-system/styles/`. AED y ds-docs ambos consumen via `@use`.
+- ✅ Fase 3 — **`customs-catalog.md` creado** consolidando las 11 brand divergences SC
+  vs Figma documentadas durante Session 30 (3 brand colors + 5 component extensions + 1
+  overload + 2 sizes off-Figma).
+- ✅ **Netlify ds-smartcontact desbloqueado** + 13 specs + 11 galleries live + ds-docs
+  polish 2-pass (ui-ux-pro-max baseline + impeccable second pass: status strip, code
+  block component, page transitions, sidebar number rotate, hero asymmetric mark,
+  sticky meta bar, gallery footer prev/next, asymmetric Swiss padding).
+- ✅ `.impeccable.md` design context con regla CRITICAL: polish requests **NUNCA**
+  tocan componentes ni tokens — solo el chrome de ds-docs / app shells.
 
-Last commit en main: `e9e809c` (galleries toast/modal/checkbox + row polish).
+Last commit en main: `3bc4f5f` (customs-catalog).
 
----
-
-## Fase 1 (activa) — POC migrations en AED
-
-Los componentes cocinados quieren ver uso real en AED para validar el contrato. Tres
-candidatos prioritarios:
-
-1. **`<sc-input-number>`** → migrar `aed-grupos-page` (3 inputs con `min="1"` numéricos),
-   `aed-servicio-page` (2 fields de segundos), o `group-form-page` capacityValue. El
-   primero es el más limpio (3 inputs juntos, contrato form ya numérico). Recipe en
-   `docs/components/03-input-number.md`.
-2. **`<sc-select>`** → migrar 1-2 `<select>` nativos en AED como POC. Hay 20+ candidatos en
-   agent-form-page, group-form-page, config pages. El más simple: `aed-grupos-page` línea
-   145 (canal del agente). Recipe en spec doc.
-3. **`<sc-multi-select>`** + **`<sc-datepicker>`**: AED aún no tiene usos nativos. Defer
-   hasta que aparezca caso real (futura migración de canales del agente, fecha de alta).
-
-**Tiempo estimado por POC**: 30-45 min cada uno (depende del refactor del form contract).
+**4 fases del plan anterior — todas completadas en una sola sesión.**
 
 ---
 
-## Fase 2 — Extract `_sc-toast.scss` partial compartido
+## Fase 1 (activa) — POC migrations en AED, segunda tanda
 
-**Problema**: las styles de `.sc-toast` están duplicadas — viven en
-`apps/aed/src/app/app.component.scss` Y en
-`apps/ds-docs/src/app/pages/toast/toast-gallery.component.scss`. Si una se actualiza y la
-otra no, drift.
+`<sc-input-number>` y `<sc-select>` ya validados en `aed-grupos-page`. Próxima ronda:
 
-**Solución**: crear `packages/design-system/styles/_sc-toast.scss` con el bloque común
-(sin `:host ::ng-deep` — eso queda en cada wrapper). Ambos consumers lo `@import`.
+1. **`<sc-input-number>`** → `aed-servicio-page` (3 fields de pausas en segundos),
+   `group-form-page` (capacityValue), `aed-grupos-page` resto si queda.
+2. **`<sc-select>`** → `aed-grupos-page` restantes (prioridad, estrategia), `agent-form-page`
+   (10+ candidatos), `group-form-page`, `user-form-page`.
+3. **`<sc-input>`** → migrar los 26 inputs `<sc-input>` restantes en AED (POC ya hecho
+   en Session 28 user-form-page; falta agent-form-page, group-form-page, 3 config pages).
+4. **`<sc-multi-select>`** → primer caso real en AED — canales del agente
+   (`agent-form-page` channel assignment). Hoy es un patrón a mano con checkboxes.
 
-**Reto**: el `:host ::ng-deep` selector solo funciona dentro de componentes Angular con
-view encapsulation. Hay que dejar esos selectores fuera del partial y mantenerlos en cada
-consumer.
-
-**Pasos**:
-
-1. Crear `_sc-toast.scss` con todo el `.sc-toast` block (sin selectores `:host`).
-2. Refactor AED `app.component.scss` → `@import` el partial + mantener solo `:host ::ng-deep` strips.
-3. Refactor ds-docs `toast-gallery.component.scss` igual.
-4. Build ambos + verificar visual idéntico.
-
-**Tiempo estimado**: 20-30 min.
+**Tiempo estimado por componente migrado**: 15-30 min según complejidad del form.
 
 ---
 
-## Fase 3 — Customs catalog consolidation
+## Fase 2 — Extract más partials compartidos
 
-Las brand divergences SC están documentadas individualmente en cada spec doc. Cuando
-llegues a 5+, extraer a `packages/design-system/docs/customs-catalog.md`:
+Mismo patrón que `_sc-toast.scss`. Candidates:
 
-| Divergencia | Componente | Figma | SC | Razón |
-|-------------|-----------|-------|-----|-------|
-| Primary color | Button, Modal, Tabs, Select focus, Checkbox checked | azure #3b82f6 | navy `--sc-color-blue-500` | Brand identity SC |
-| Info color | Button[severity=info] | sky #0ea5e9 | electric-blue #1464fe | Coherencia con Message/Toast |
-| Warn color | Button[severity=warn] | orange #f97316 | amber #f59e0b | Coherencia con Message/Toast |
-| Toast secondary | Toast[severity=secondary] | slate (Figma) | violet (SC) | "Neutral notice" pattern |
-| Toast action button | Toast | (no slot) | botón "Deshacer" inyectado via data.undoEntryId | Undo pattern |
-| Toast icon-square | Toast | glyph desnudo | glyph dentro cuadrado coloreado | Peso visual |
-| Modal slot stacking | Modal body | (free) | `display:flex column gap:16` por defecto | Form ergonomics |
-| Checkbox 'some' (indeterminate) | Checkbox | (no variant) | mismo bg checked + barra horizontal | Bulk select pattern |
+- **`_sticky-form-header.scss`** — vive en `apps/aed/src/app/shared/components/...`
+  pero podría compartirse con ds-docs si añadimos una gallery.
+- **`_page-header.scss`** — idem.
+- **`_command-palette.scss`** — chrome del Cmd+K que tiene tanto AED como ds-docs
+  podría necesitar.
 
-**Tiempo estimado**: 30 min.
+**Cuándo activar**: cuando aparezca un segundo consumer de cada partial. Hoy solo
+AED los usa; el partial sería sobre-engineered. Diferir hasta caso real.
 
 ---
 
-## Fase 4 (futura, gates ✅ CUMPLIDOS) — Memory consume tokens SCDS ("Camino B")
+## Fase 3 — Memory consume tokens SCDS ("Camino B")
 
-Los 4 gates están cumplidos:
+Los **4 gates ya están ✅ cumplidos** (paleta cerrada, layer 2 estable, 13 specs, customs
+catalog creado). Listo para activar cuando el usuario lo pida.
 
-- [x] Paleta gray reconciliada (Session 30 Fase 1)
-- [x] Layer 2 semantic estable (no renames pendientes)
-- [x] ≥5-7 componentes con spec doc → **13 specs entregados**
-- [x] Brand divergences documentadas (parcialmente en cada spec doc; pendiente
-      consolidar a customs-catalog.md — Fase 3 arriba, no bloquea esto)
+**Plan concreto** (sin cambios desde sesiones anteriores):
 
-**Listo para activar cuando el usuario lo pida.** Plan concreto:
+1. Decidir mecanismo: **Camino C (script de copia)** para empezar — 1 tarde.
+2. Setup en Memory: crear `src/styles/sc-tokens/` con las 7 capas copiadas + importar
+   `01-primitive.css` + `02-semantic.css` desde el entry CSS.
+3. Borrar de Memory cualquier `--*` que duplique un `--sc-*`.
+4. Verificar build verde + pantallas no rompen.
+5. (Opcional) Mapping Tailwind → `--sc-*` en `tailwind.config.ts` de Memory.
+6. Documentar en SCDS `docs/consumers.md` que Memory es consumer.
 
-1. **Mecanismo de distribución**. Recomendado para empezar: **Camino C (script de copia)**
-   — 1 tarde. Migrar a A (git submodule) o B (npm package) si las copias manuales se
-   vuelven dolor.
-2. **Setup en Memory** (`~/dev/memory/`):
-   - Crear `src/styles/sc-tokens/` con las 7 capas copiadas.
-   - Importar `01-primitive.css` + `02-semantic.css` desde el entry CSS de Memory.
-   - Borrar de Memory cualquier `--*` que duplique un `--sc-*`.
-   - Verificar build verde + pantallas no rompen.
-3. **Mapping Tailwind → `--sc-*`** (opcional, second pass): extender `tailwind.config.ts`
-   de Memory con theme override apuntando colores a `--sc-color-*`.
-4. **Documentar en SCDS** que Memory es consumidor en `docs/consumers.md`.
+**Tiempo estimado**: 2-4h.
 
-**Tiempo estimado**: 2-4h (Camino C). 6-8h si va por submodule/npm con release pipeline.
+**Importante**: las brand divergences del catálogo NO se transmiten automáticamente.
+Memory hereda los tokens vía CSS variables, pero su capa de componentes (React + Radix)
+decide conscientemente cuál usar. Ver final de `customs-catalog.md` para guía.
 
 ---
 
-## Fase 5 — Componentes restantes (por prioridad)
+## Fase 4 — Más componentes nuevos
 
-Cuando estés ready para más componentes nuevos:
+Cuando se quiera seguir el catálogo:
 
-1. **MessageService → SectionCard demo** en ds-docs (`/components/section-card` + `/components/empty-state` galleries — TODOs Session 31 de sus spec docs).
-2. **Autocomplete** (`<sc-autocomplete>`) — defer hasta que AED lo necesite (hoy no lo usa).
-3. **TimePicker / DateRange** — extensiones del Datepicker (tokens ya documentados en su
-   spec doc; trabajo mecánico).
-4. **Componentes Pure SC restantes sin spec doc** — son ~12 (illustrated avatar, bulk
-   action bar, bulk edit menu, form danger zone, etc.). Por prioridad de uso en AED.
+1. **Más migrations en AED** (Fase 1 expandida).
+2. **Galleries para Pure SC** sin gallery: empty-state, section-card (TODOs spec doc).
+3. **Componentes Pure SC sin spec doc** (~12): illustrated avatar, bulk action bar,
+   bulk edit menu, form danger zone, etc. Por prioridad de uso en AED.
+4. **Componentes nuevos cuando aparezca caso real**:
+   - Autocomplete (cuando AED lo necesite)
+   - TimePicker / DateRange (extensiones de Datepicker, tokens documentados)
+   - SegmentedControl
+   - Pagination
 
 ---
 
 ## Reglas operativas (no cambian)
 
-1. **Verificación obligatoria post-claim**: cuando un agente reporte "hecho", pedir 1
-   verificación reproducible (curl, screenshot, hash).
+1. **Polish requests NUNCA tocan componentes ni tokens** (regla CRITICAL en
+   `.impeccable.md`). Solo ds-docs vehicle + app shells. Los componentes son
+   interpretaciones 1:1 sacred de los tokens Figma.
 
 2. **Figma 1:1 cuando hay MCP**: ver `feedback_figma_specs_thorough.md` en memoria.
-   Extraer variables de TODAS las variantes (estados, sizes, booleanos) antes de codear.
-   Documentar divergencias en el spec doc del componente.
+   Extraer variables de TODAS las variantes antes de codear. Documentar divergencias
+   en spec doc del componente Y en `customs-catalog.md`.
 
-3. **Decisiones documentadas**: brand divergence anotada en `customs-catalog.md` (TBD,
-   creará cuando rebase las 5 divergencias documentadas individualmente).
+3. **Verificación obligatoria post-claim**: cuando un agente reporte "hecho", pedir 1
+   verificación reproducible (curl, screenshot, hash).
 
 4. **CLAUDE.md de cada proyecto se mantiene <10 KB**. Detalle al `docs/`.
 
@@ -162,6 +128,12 @@ Cuando estés ready para más componentes nuevos:
 7. **Nunca clavar un repo en `~/Desktop/`, `~/Documents/` o cualquier ruta con icono ☁️**.
    Usar `~/dev/`. Ver `.notes/journal/2026-05-15-icloud-migration.md`.
 
-8. **Spec doc nuevo cada vez que cocines un componente**. Sigue el patrón de los 13
-   actuales: TL;DR / Cuándo / API / Tokens por variant (si Figma) / Divergencias / Migración
-   AED / Página demo / Figma reference.
+8. **Spec doc nuevo cada vez que cocines un componente**. Patrón establecido:
+   TL;DR / Cuándo / API / Tokens por variant / Divergencias / Migración AED /
+   Página demo / Figma reference. 13 ejemplos en `docs/components/01-13`.
+
+9. **Brand divergence nueva** → entry en `customs-catalog.md` + mention en el spec
+   doc del componente afectado. Catalog es la fuente única.
+
+10. **ds-docs vehicle** = polish ok. **packages/design-system/components/** + tokens
+    + sc-preset.ts = sacred. Ver `.impeccable.md` para detalle.
