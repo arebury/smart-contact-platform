@@ -180,12 +180,35 @@ Tiempo: 2-4h. Requiere acceso al repo Memory (no está en monorepo).
 
 ## Sugerencias arranque próxima sesión
 
-Por orden de ROI:
+Items resueltos al cierre extendido S32: #9, #17, #18, #19, #20, #21 (6 items P0-P3). Refactors consistency aplicados (toggle-switch + bulk-edit-menu). Memory Camino B preparado (script + docs). 5 galleries top-usage ds-docs creadas.
 
-1. **Item #17 backlog (NG8008 ds-docs build)**: P1, bloquea build production. Fix → 15-30 min.
-2. **Item #9 backlog (sticky-form-header `::ng-deep`)**: deuda real desde S30. Refactor a usar `[size]` prop → 30-45 min.
-3. **Items #12-#13 (auditorías Figma sc-modal + sc-select Filled/Invalid)**: cuando Rafa tenga ganas de pasada de Figma. 1-2h.
-4. **Galleries ds-docs faltantes**: los 19 nuevos spec docs (15-33) tienen "Página demo: pendiente". Crear las galleries en `apps/ds-docs/src/app/pages/` para que la audiencia diseño tenga vista interactiva. Variable según componente.
-5. **Memory Camino B activation** (Fase 4): si Rafa decide arrancar consumer #2 del DS, ~2-4h.
+**Pendiente en backlog post-S32**:
 
-**Recomendación**: arrancar con #1 (fix ds-docs build) + #2 (sticky-form-header) en bloque corto. Ambos cierran deuda histórica P1/P2 con ROI claro.
+| # | Item | Severidad | Trigger |
+|---|---|---|---|
+| 5 | `<sc-input-group>` gap | P2 | Primer caso real input+icono/botón (1 caso pendiente: tag-input aed-servicio) |
+| 6 | `<sc-select-button>` gap | P3 | Primer filtro segmented real |
+| 7 | `<sc-tag>` gap | P3 | Primer caso severity-fill |
+| 8 | `<sc-toggle-button>` gap | P3 | Primer caso button pressed state |
+| 10 | Bundle size AED budget | P3 | Cuándo Rafa decida optimizar |
+| 11 | `_buttons.scss` migrate a SCDS | P3 | Cuándo aparezca 2nd consumer (ds-docs hoy no usa `.btn`) |
+| 12 | Audit Figma `sc-modal` 1:1 | P3 | Próxima pasada Figma |
+| 13 | Audit Figma `sc-select` Filled/Invalid nodes | P3 | Próxima pasada Figma |
+| 14 | Refinement Figma Search (icon X clear) | P3 | Marta decision |
+| 15 | Variants formales Figma Search | P3 | Marta decision |
+| 16 | Galleries ds-docs restantes (14 pure-sc) | P3 | Visible para audiencia diseño |
+
+**Por orden de ROI próxima sesión**:
+
+1. **Item #5 (`<sc-input-group>`)**: hay 1 caso real pendiente (tag-input aed-servicio). Crear el wrapper Extended + migrar el caso. ~1-2h. Cierra el último input nativo no migrable.
+
+2. **Galleries ds-docs restantes (#16)**: 14 pure-sc sin gallery (bulk-action-bar, bulk-edit-menu, etc.). El patrón está consolidado en S32 — replicarlo. ~2-3h.
+
+3. **Memory Camino B activation** (Fase 4): si Rafa tiene acceso al repo Memory, ejecutar `scripts/copy-scds-tokens.sh <path>`. 1-2h validación.
+
+4. **Auditorías Figma adicionales (#12-#13)**: pasada de los modal + select Filled/Invalid contra Figma cuando Rafa tenga ganas.
+
+**Sin urgencia**:
+- Gaps componentes (#6, #7, #8): esperar trigger real.
+- Bundle size: optimización a discusión.
+- Figma Search refinement: Marta dependent.

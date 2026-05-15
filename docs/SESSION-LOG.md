@@ -88,6 +88,46 @@
 
 Last commit en main: `1c52d58` (docs scds spec docs + refactors S32).
 
+### Continuación del sprint (post-Perplexity audit + 7 fases adicionales)
+
+Tras el cierre formal de S32, Rafa pasa la salida del DS por **Perplexity Pro**
+para audit externo. Tras filtrar señal vs ruido, 4 hallazgos accionables. Rafa
+da carta blanca total: *"adelante, todas las fases, una a una, no me preguntes
+más durante esta sesión"*. Ejecutadas 7 fases en cadena:
+
+- **`77eb8ea`** — Stats home ds-docs dinámicos. Hardcoded `<dd>13</dd>` → `specDocsCount=33` + `galleriesCount` computed (filter pageRoute). Backlog #18 resuelto. + entries #19-#23.
+
+- **`76796c8`** — Fases 1-6 sprint:
+  1. **Fix NG8008 ds-docs build** (#17): `search-gallery.component.html` usaba `prev="..." next="..."` sintaxis incorrecta — solo acepta `[slug]`. Fix + extensión del COMPONENTS array de gallery-footer con search.
+  2. **sticky-form-header doc cleanup** (#9): verificado que la deuda histórica (8 `::ng-deep`) ya estaba resuelta en sesión previa — solo doc cleanup en spec 22 + 29.
+  3. **writeValue + untracked defensive** (#19): 6 wrappers CVA (input, select, multi-select, datepicker, input-number, search) envueltos con `untracked()` + comment explicativo. Defensa Angular docs CVA + signals.
+  4. **Figma verification log** (#20): nueva sección en MIGRATION-INVENTORY con fecha de último audit por componente (13 entries) + verificación global variables Figma SC.
+  5. **Lifecycle / Maturity section** (#21): nueva sección en MIGRATION-INVENTORY con clasificación pattern GitHub Primer — `stable` (21) / `low-usage` (9) / `internal` (3) / `experimental` (0). Centralizado vs frontmatter en 33 archivos.
+  6. **Memory Camino B preparación**: script `scripts/copy-scds-tokens.sh` con SYNC.md auto-generado + `docs/consumers.md` documentando AED, ds-docs, Memory (futuro) + reglas para consumers.
+
+- **`1d34506`** — Fase 7: 5 galleries interactivas ds-docs para top-usage pure-sc:
+  - `/components/toggle-switch` (21 AED uses): basic / disabled / status form-row pattern / permission-row con info / theme toggle.
+  - `/components/section-card` (12): basic / con hint / con icon / collapsible / closed default / anchor scroll-spy.
+  - `/components/page-header` (8): mínimo / completo / con actions CTA / config / compact.
+  - `/components/illustrated-avatar` (7): 8 names pool illustrated / 5 groups pool abstract / sizes 32-80 / con photo / hover zoom.
+  - `/components/delete-entity-dialog` (8): single typing confirmation / bulk chip pruning / bulk grande con footer.
+  - Wiring: routes lazy + home tracker pageRoute + gallery-footer COMPONENTS/SPEC_DOC_NAMES.
+  - `app.config.ts` extendido con `TranslateModule.forRoot(TranslateFakeLoader)` para componentes con `| translate` interno.
+
+**Backlog cerrado durante continuación**: #9, #17, #18, #19, #20, #21 (6 items P0-P3 resueltos).
+
+Last commit en main: `1d34506` (feat ds-docs 5 galleries interactivas).
+
+### Métricas finales S32
+
+- **Commits S32 total**: 6 (`9aa472b`, `1c52d58`, `4640137`, `77eb8ea`, `76796c8`, `1d34506`).
+- **Docs nuevos**: 23 (19 spec + migration-safety + inconsistencies-backlog + consumers + Lifecycle section + Figma verification log).
+- **Galleries ds-docs**: 12 → 17 (5 nuevas top-usage).
+- **Refactors aplicados**: 3 (bulk-edit-menu, toggle-switch, untracked × 6 wrappers).
+- **Refactors declined justified**: 2 (inline-rename-cell, label-chip).
+- **Memorias nuevas**: 5 (migration-safety, minimal-customization, track-inconsistencies, figma-link-workflow + memory continuation patterns).
+- **Backlog items resueltos**: 11 (incluyendo verifications NG no aplicables).
+
 ---
 
 ## 2026-05-15 · Session 31 — Migraciones AED + ds-docs tracker re-encuadrado + auditoría Figma SC + cleanup Extended
