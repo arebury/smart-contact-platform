@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/api';
 
 import { PageHeaderService } from '@core/services';
 import {
+  InputComponent,
   ToggleSwitchComponent,
   TriStateCheckboxComponent,
   type TriState,
@@ -66,7 +67,13 @@ const DEFAULT_FORM: FormState = {
  */
 @Component({
   selector: 'sc-aed-agentes-page',
-  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule, TriStateCheckboxComponent],
+  imports: [
+    InputComponent,
+    LucideAngularModule,
+    ToggleSwitchComponent,
+    TranslateModule,
+    TriStateCheckboxComponent,
+  ],
   templateUrl: './aed-agentes-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-agentes-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -140,10 +147,6 @@ export class AedAgentesPageComponent {
   ): void {
     this.form.update((f) => ({ ...f, [key]: value }));
     this.dirty.set(true);
-  }
-
-  protected onTextInput<K extends 'iframeUrl' | 'iframeTitulo'>(key: K, event: Event): void {
-    this.update(key, (event.target as HTMLInputElement).value);
   }
 
   protected discard(): void {

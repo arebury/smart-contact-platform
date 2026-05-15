@@ -74,6 +74,9 @@ export class InputComponent implements ControlValueAccessor {
   readonly name = input<string>();
   readonly autocomplete = input<string>();
   readonly maxlength = input<number>();
+  /** Hint al teclado virtual mobile (`numeric`, `tel`, `email`, `decimal`, etc.).
+   * No fuerza validación — solo cambia el layout del teclado en iOS/Android. */
+  readonly inputmode = input<string>();
   /** Background "filled" variant (Figma node 1729:42481): bg slate-50. */
   readonly filled = input<boolean>(false);
 

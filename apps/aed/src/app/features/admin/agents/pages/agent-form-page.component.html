@@ -86,25 +86,15 @@
             <!-- Email + Phone -->
             <div class="grid grid--2">
               <div class="field">
-                <label class="field__label" for="agent-email">
-                  {{ 'agents.form.fields.email' | translate }}
-                </label>
-                <input
-                  id="agent-email"
+                <sc-input
+                  inputId="agent-email"
                   type="email"
-                  class="field__input"
-                  [class.field__input--error]="!!errors()['email']"
-                  [attr.aria-describedby]="errors()['email'] ? 'agent-email-error' : null"
-                  [attr.aria-invalid]="!!errors()['email']"
-                  [value]="form().email"
-                  (input)="onTextInput('email', $event)"
                   autocomplete="email"
+                  [label]="'agents.form.fields.email' | translate"
+                  [value]="form().email"
+                  [error]="errors()['email'] ? (errors()['email'] | translate) : undefined"
+                  (valueChange)="updateField('email', $event)"
                 />
-                <span id="agent-email-error" class="field__error" aria-live="polite">
-                  @if (errors()['email']; as err) {
-                    {{ err | translate }}
-                  }
-                </span>
               </div>
 
               <div class="field">
@@ -112,13 +102,12 @@
                   {{ 'agents.form.fields.phone' | translate }}
                   <span class="field__hint">({{ 'common.optional' | translate }})</span>
                 </label>
-                <input
-                  id="agent-phone"
+                <sc-input
+                  inputId="agent-phone"
                   type="tel"
-                  class="field__input"
-                  [value]="form().phone"
-                  (input)="onTextInput('phone', $event)"
                   autocomplete="tel"
+                  [value]="form().phone"
+                  (valueChange)="updateField('phone', $event)"
                 />
               </div>
             </div>
@@ -235,29 +224,17 @@
                 {{ 'agents.form.fields.pin' | translate }}
                 <span class="field__hint">({{ 'common.optional' | translate }})</span>
               </label>
-              <input
-                id="agent-pin"
+              <sc-input
+                inputId="agent-pin"
                 type="text"
-                class="field__input"
-                [class.field__input--error]="!!errors()['pin']"
-                [attr.aria-describedby]="
-                  errors()['pin'] ? 'agent-pin-error agent-pin-hint' : 'agent-pin-hint'
-                "
-                [attr.aria-invalid]="!!errors()['pin']"
                 inputmode="numeric"
-                maxlength="6"
-                [value]="form().pin"
-                (input)="onTextInput('pin', $event)"
                 autocomplete="off"
+                [maxlength]="6"
+                [value]="form().pin"
+                [helperText]="'agents.form.fields.pin_hint' | translate"
+                [error]="errors()['pin'] ? (errors()['pin'] | translate) : undefined"
+                (valueChange)="updateField('pin', $event)"
               />
-              <span id="agent-pin-hint" class="field__help">
-                {{ 'agents.form.fields.pin_hint' | translate }}
-              </span>
-              <span id="agent-pin-error" class="field__error" aria-live="polite">
-                @if (errors()['pin']; as err) {
-                  {{ err | translate }}
-                }
-              </span>
             </div>
           </sc-section-card>
 
@@ -847,14 +824,13 @@
                   <label class="field__label" for="agent-iframe-url">
                     {{ 'agents.form.advanced.integracion.url_iframe' | translate }}
                   </label>
-                  <input
-                    id="agent-iframe-url"
+                  <sc-input
+                    inputId="agent-iframe-url"
                     type="url"
-                    class="field__input"
-                    [value]="form().iframeUrl"
-                    (input)="onIframeUrlInput($event)"
-                    placeholder="https://ejemplo.com/panel"
                     autocomplete="url"
+                    placeholder="https://ejemplo.com/panel"
+                    [value]="form().iframeUrl"
+                    (valueChange)="updateField('iframeUrl', $event)"
                   />
                 </div>
 

@@ -44,6 +44,7 @@ import {
   FormDangerZoneComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  InputComponent,
   LabelChipComponent,
   PhotoUploadComponent,
   SectionCardComponent,
@@ -136,6 +137,7 @@ interface FormState {
     FormDangerZoneComponent,
     FormSectionNavComponent,
     GroupAssignmentTableComponent,
+    InputComponent,
     LabelChipComponent,
     LucideAngularModule,
     PhotoUploadComponent,
@@ -565,10 +567,6 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
-  protected onTextInput<K extends 'name' | 'phone' | 'email' | 'pin'>(key: K, event: Event): void {
-    this.updateField(key, (event.target as HTMLInputElement).value);
-  }
-
   /**
    * Adapter para `<sc-select>` con primitive `AgentType[]` options + label
    * via `pTemplate` (content projection a `<p-select>` nativo PrimeNG).
@@ -643,10 +641,6 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     if (typeof value === 'number' && Number.isFinite(value)) {
       this.updateField('maxChats', value);
     }
-  }
-
-  protected onIframeUrlInput(event: Event): void {
-    this.updateField('iframeUrl', (event.target as HTMLInputElement).value);
   }
 
   protected onExtensionChange(event: Event): void {

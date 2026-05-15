@@ -227,28 +227,26 @@
                 <label class="field__label" for="agentes-iframe-url">
                   {{ 'config.aed.subpages.agentes.iframe.url_label' | translate }}
                 </label>
-                <input
-                  id="agentes-iframe-url"
+                <sc-input
+                  inputId="agentes-iframe-url"
                   type="url"
-                  class="field__input"
-                  [value]="form().iframeUrl"
-                  (input)="onTextInput('iframeUrl', $event)"
                   [placeholder]="'config.aed.subpages.agentes.iframe.url_placeholder' | translate"
+                  [value]="form().iframeUrl"
+                  (valueChange)="update('iframeUrl', $event)"
                 />
               </div>
               <div class="field">
                 <label class="field__label" for="agentes-iframe-titulo">
                   {{ 'config.aed.subpages.agentes.iframe.titulo_label' | translate }}
                 </label>
-                <input
-                  id="agentes-iframe-titulo"
+                <sc-input
+                  inputId="agentes-iframe-titulo"
                   type="text"
-                  class="field__input"
-                  [value]="form().iframeTitulo"
-                  (input)="onTextInput('iframeTitulo', $event)"
                   [placeholder]="
                     'config.aed.subpages.agentes.iframe.titulo_placeholder' | translate
                   "
+                  [value]="form().iframeTitulo"
+                  (valueChange)="update('iframeTitulo', $event)"
                 />
               </div>
             </div>

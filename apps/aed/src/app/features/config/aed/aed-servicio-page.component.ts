@@ -4,7 +4,7 @@ import { CirclePlus, Info, LucideAngularModule, Phone, X } from 'lucide-angular'
 import { MessageService } from 'primeng/api';
 
 import { PageHeaderService } from '@core/services';
-import { InputNumberComponent, ToggleSwitchComponent } from '@shared/components';
+import { InputComponent, InputNumberComponent, ToggleSwitchComponent } from '@shared/components';
 
 interface VisibilidadEstados {
   postConversando: boolean;
@@ -97,7 +97,13 @@ const EVENTOS_LABELS: readonly (keyof EventosNotificacion)[] = [
  */
 @Component({
   selector: 'sc-aed-servicio-page',
-  imports: [InputNumberComponent, LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+  imports: [
+    InputComponent,
+    InputNumberComponent,
+    LucideAngularModule,
+    ToggleSwitchComponent,
+    TranslateModule,
+  ],
   templateUrl: './aed-servicio-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-servicio-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -242,11 +248,9 @@ export class AedServicioPageComponent {
     this.conversacionesDirty.set(true);
   }
 
-  protected onCallblendingUrl(event: Event): void {
-    this.form.update((f) => ({
-      ...f,
-      callblendingUrl: (event.target as HTMLInputElement).value,
-    }));
+  /** Adapter para `<sc-input>` (emite `string`). */
+  protected onCallblendingUrlValue(value: string): void {
+    this.form.update((f) => ({ ...f, callblendingUrl: value }));
     this.conversacionesDirty.set(true);
   }
 

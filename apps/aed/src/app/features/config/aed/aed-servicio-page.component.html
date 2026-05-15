@@ -300,13 +300,12 @@
               <label class="field__label" for="servicio-callblending-url">
                 {{ 'config.aed.subpages.servicio.conv.url_label' | translate }}
               </label>
-              <input
-                id="servicio-callblending-url"
+              <sc-input
+                inputId="servicio-callblending-url"
                 type="url"
-                class="field__input"
-                [value]="form().callblendingUrl"
-                (input)="onCallblendingUrl($event)"
                 [placeholder]="'config.aed.subpages.servicio.conv.url_placeholder' | translate"
+                [value]="form().callblendingUrl"
+                (valueChange)="onCallblendingUrlValue($event)"
               />
             </div>
 
