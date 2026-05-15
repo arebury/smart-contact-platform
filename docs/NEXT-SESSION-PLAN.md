@@ -177,3 +177,4 @@ Angular en React. NO publicar componentes Angular como npm.
 
 7. **Nunca clavar un repo en `~/Desktop/`, `~/Documents/` o cualquier ruta con icono ☁️**.
    Usar `~/dev/`. Ver `.notes/journal/2026-05-15-icloud-migration.md`.
+
