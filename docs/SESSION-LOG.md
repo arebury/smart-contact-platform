@@ -10,6 +10,82 @@
 
 ---
 
+## 2026-05-15 · Session 31 — Migraciones AED + ds-docs tracker re-encuadrado + auditoría Figma SC + cleanup Extended
+
+> Sesión larga continuación de Session 30. 3 bloques:
+> (1) Migrar 13 inputs/selects nativos de AED a sc-* (8 selects de agent-form-page + 1 capacity + 3 pausas servicio + 2 prioridad/estrategia grupos).
+> (2) Re-encuadrar el tracker de ds-docs: ya no es "validado en producción AED" sino "hecho en Figma" para el equipo de diseño; añadir AED usage count + glosario llano + filter chips (search + tipo + estado + uso).
+> (3) Auditoría Figma SC sobre los 7 Extended con la regla nueva "pedir link Figma + extraer specs exhaustivas antes de tocar". Arregla 3 bugs CSS silenciosos análogos (select / multi-select / datepicker), elimina prop huérfana `leftIcon`/`rightIcon` de sc-input (mezclaba 2 componentes Figma), formaliza checklist anti-divergencia + gaps en customs-catalog. 18 commits a main, todos pusheados.
+
+### Worked on
+
+**Bloque 1 — Migraciones AED (8 commits)**:
+- `aed-servicio-page` → 3 `<sc-input-number>` (pausaStandard, pausaNavegador, callblendingTimeout). Fix estructural en el componente: `--sc-input-number-suffix-pad` computed del length del suffix (Inter ≈ 0.6em/char) — resuelve solapamiento con suffixes largos como "alertings" (9 chars). Commit `5796e58`.
+- `group-form-page` → `<sc-input-number>` para capacityValue. Refactor del modelo `Group.capacityValue` de string ("5", "10", "3") a `number` — 4 archivos tocados, blast radius cero fuera del form. Commit `f7ce301`.
+- `aed-grupos-page` → 2 `<sc-select>` (prioridad, estrategia) + 2 bug fixes del componente: (a) cuando options son `string[]` primitives, el `optionLabel="label"` default rompía PrimeNG → fix con `hasPrimitiveOptions()` + `resolvedOptionLabel/Value` undefined; (b) `display: block` en `.sc-select__control` rompía el flex interno → label colapsaba a 21px mostrando solo la primera letra. Ambos bugs afectaban también al `tipoVoz` desde Session 30 sin que se notara. Commit `8cd5ed4`.
+- `agent-form-page` → 7 selects nativos migrados (1ª tanda: max-chats `a50bdba`, pickup call+chat `086a05f`; 2ª tanda B refinada: type + presence + ext `4bfbd19`; 3ª tanda action-add: label + language `030ea09`). agent-form-page ahora 100% sin selects nativos.
+
+**Bloque 2 — ds-docs tracker (3 commits)**:
+- Search + filter chips: input full-text con shortcut `/`, chips por tipo (Pure SC 21 / Extended 7 / Custom 3 / Full PrimeNG 1) y por validación. Empty state con CTA. Sin layout shift. Commit `6975de0`.
+- Re-encuadre del tracker (audiencia DISEÑO, no devs): copy cambiado de "validados" a "hechos en Figma" (significado real: "ya plasmado en pantallas Figma con el nuevo DS SC"), hint reescrito, chip ajustado. Commit `0ecb5db`.
+- **AED usage count + glosario para audiencia diseño** (commit `b4f3247`): cada catalog entry trae `aedUses: N`, badge "● AED N×" o "○ sin uso" en cada item, tercer grupo de filter chips ("En uso 28" / "Sin uso 4"), `<details>` collapsible con explicación llana de cada etiqueta (Full PrimeNG / Custom preset / Extended / Pure SC / Hechos en Figma / Pendientes / AED N× / sin uso). Ruta de conversación con devs.
+
+**Bloque 3 — Auditoría Figma SC + cleanup Extended (7 commits)**:
+- Content projection `pTemplate` en sc-select (commit `4bfbd19`) — patrón nativo PrimeNG. El consumer escribe `<ng-template pTemplate="item" let-t>{{ keys[t] | translate }}</ng-template>` igual que en `<p-select>` nativo. El sc-select captura via `@ContentChildren(PrimeTemplate)` y re-proyecta con `ngTemplateOutlet`.
+- `fix(aed)` topbar back button → izquierda del home icon (`6b6cc13`). Verificado contra Figma `❖ Breadcrumb` (node 6738:52933): el Kit NO incluye botón atrás — es icon button compuesto fuera, no divergencia del DS.
+- `fix(ds-docs)` reclasificar tri-state-checkbox extended → pure-sc (`3a54db6`). No importa primeng/*, usa `<input type="checkbox">` nativo.
+- `refactor(sc-input)` eliminar `leftIcon`/`rightIcon` (`c986012`). Mezclaba 2 componentes Figma distintos: `❖ InputText` (240 variants) vs `❖ InputGroup` (8 variants, equivalente `<p-inputgroup>`). Cero consumers en AED. Spec doc + gallery actualizados.
+- `docs(customs-catalog)` checklist anti-divergencia + sección 5 gaps conocidos (`b7cf53f`). 4 preguntas a responder ANTES de tocar/crear un componente SCDS. Entries de gap: sc-input-group, sc-select-button, sc-tag (distinto de sc-label-chip que cumple Chip).
+- `chore(sc-input,sc-select)` cleanup post-audit (`c219bb0`): dead import `signal`, dead computed `templatesByName`, docstrings outdated, **bug silencioso del SCSS selector dead** `.sc-select__control .p-select` (descendant cuando ambas clases viven en el mismo elemento — fix con comentario explicativo).
+- `chore(extended)` cleanup análogo en sc-input-number + sc-multi-select + sc-datepicker (`4754fbf`). Mismo bug del selector dead replicado en 3 componentes idénticamente. Arreglados los 3 + pasada superficial pure-sc (0 dead imports, 0 console.* huérfanos).
+
+### Memorias añadidas/actualizadas
+
+- `feedback_figma_link_before_component.md` — pedir link Figma SC antes de tocar/crear componente. Si no existe en el Kit → entry obligatoria en customs-catalog.
+- `feedback_figma_links_full_pages.md` — los URLs Figma que Rafa pasa son root canvas (con Examples + Components + Parts + Variants), no nodes puntuales. Extraer del mismo JSON, no pedir más.
+- `feedback_ds_docs_validados_audience.md` — el chip "Validados" del tracker es para equipo de diseño SC, no devs. "Hecho en Figma" ≠ "validado en producción".
+
+### Decisiones de marca / catálogo
+
+- **Reglas anti-divergencia formalizadas** (customs-catalog §0): 1) ¿PrimeNG ya lo expone? Si sí → exponer 1:1. 2) ¿Token PrimeNG cubre? Si sí → vía sc-preset. 3) ¿Brand-required? Si sí → entry catálogo. 4) ¿Handoff Smart Contact Prime = "import + linkar CSS"? Si no → revisar.
+- **3 gaps conocidos** sin wrapper SCDS hoy (decisión consciente: crear solo cuando aparezca caso real):
+  - `sc-input-group` (Figma node 6738:22644) — addons left/right del input.
+  - `sc-select-button` (Figma node 6738:46433) — chips toggle segmented.
+  - `sc-tag` (Figma node 6738:55116) — distinto de `sc-label-chip` que cubre el Chip Figma (6738:55109).
+- **Composición Figma**: el `❖ SelectButton` del Kit NO referencia `❖ Button` como sub-component. Son nodes independientes. Implicación: cambios en el Button del Kit NO se propagan automáticamente al SelectButton. Para el equipo de diseño cuando llegue el momento.
+
+### Estado al cerrar la sesión
+
+- **AED selects nativos restantes en config/admin pages**: aed-agentes-page (TBD inventoriar), config/admin restantes (~? selects). Próxima tanda.
+- **AED inputs `<sc-input>` migrados**: 9 usos. Inputs nativos restantes en AED: ~26 (agent-form-page principal target restante).
+- **Catálogo de tipos consolidado**: 21 pure-sc (incluye tri-state-checkbox reclasificado), 7 extended, 3 custom-preset, 1 full-primeng = 32 entries en tracker.
+- **AED usage actualizado en tracker** (snapshot 2026-05-15): button 38, toggle-switch 21, section-card 12, select 11, input 9, page-header 8, delete-entity-dialog 8, input-number 7, illustrated-avatar 7, tri-state-checkbox 6, bulk-action-bar 6, label-chip 3, modal 2, photo-upload 2, toast 1, command-palette 1, keyboard-shortcuts 1, etc. **0 usos**: datepicker, multi-select, tabs, tooltip.
+- **Memory**: cero integración. Camino B sigue con los 4 gates ✅.
+- **Bugs silenciosos del SCSS arreglados**: select/multi-select/datepicker (variants filled + invalid hover/focus ya funcionales). sc-select label truncation arreglado.
+
+### Commits Session 31 (18 total)
+
+```
+4754fbf chore(extended): cleanup post-audit — fix CSS dead selectors en multi-select + datepicker
+c219bb0 chore(sc-input,sc-select): cleanup post-audit — dead code + SCSS selector bug
+b7cf53f docs(customs-catalog): añadir checklist anti-divergencia + sección 5 gaps conocidos
+c986012 refactor(sc-input): remove leftIcon/rightIcon (no equivalente en Figma SC InputText)
+3a54db6 fix(ds-docs): reclassify tri-state-checkbox extended → pure-sc
+b4f3247 feat(ds-docs): AED usage tracker + glosario para audiencia diseño
+030ea09 feat(aed): migrate agent-form action-add selects (labels, languages) to sc-select
+4bfbd19 feat(sc-select): pTemplate content projection + migrate agent-form 3 derived selects
+6b6cc13 fix(aed): move topbar back button to the left of home icon
+0ecb5db docs(ds-docs): re-encuadrar tracker — audiencia diseño SC, copy "hechos en Figma"
+6975de0 feat(ds-docs): search + filter chips en el tracker del home
+086a05f feat(aed): migrate agent-form pickup selects (call+chat) to sc-select
+a50bdba feat(aed): migrate agent-form max-chats select to sc-select
+8cd5ed4 feat(aed): migrate aed-grupos prioridad+estrategia to sc-select + fix 2 sc-select bugs
+f7ce301 feat(aed): migrate group-form capacityValue to sc-input-number
+5796e58 feat(aed): migrate aed-servicio number inputs to sc-input-number
+```
+
+---
+
 ## 2026-05-15 · Session 30 — Día completo: paleta, 4 cocinados, 5 audits, Netlify desbloqueado, ds-docs polished
 
 > Sesión maratón. Empezó con la paleta gray → Aura slate, escaló al audit retroactivo Nivel-2
