@@ -2,16 +2,36 @@
  * Smart Contact Design System — docs site global styles.
  * Consumes the same SCDS token layers AED uses, so screenshots and
  * component playgrounds render in the exact production palette.
+ *
+ * Editorial polish (Session 30): Space Grotesk para display, Inter para
+ * body, JetBrains Mono para tokens/code. Smooth scroll, prefers-reduced-
+ * motion respected, focus rings consistentes.
  */
 
 @import '../../../../packages/design-system/tokens/index.css';
 @import 'primeicons/primeicons.css';
 
+:root {
+  --dsd-font-display: 'Space Grotesk', 'Inter', -apple-system, system-ui, sans-serif;
+  --dsd-font-sans: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  --dsd-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Local accent — single electric-blue, no multi-color noise. */
+  --dsd-accent: var(--sc-color-electric-blue-500);
+  --dsd-accent-soft: rgba(20, 100, 254, 0.12);
+  --dsd-accent-hover: var(--sc-color-electric-blue-600);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
 html,
 body {
   height: 100%;
   margin: 0;
-  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  font-family: var(--dsd-font-sans);
   background: var(--sc-bg-default);
   color: var(--sc-text-primary);
 }
@@ -19,4 +39,58 @@ body {
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv11', 'ss01';
+}
+
+::selection {
+  background: var(--dsd-accent-soft);
+  color: var(--sc-text-primary);
+}
+
+/* Global focus-visible — accent ring 2px / offset 2 (same as preset focusRing). */
+:focus-visible {
+  outline: 2px solid var(--dsd-accent);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Reduced motion — respect user preference globally. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Anchor headings — when navigating to #anchor in long pages, clear the
+ * sticky header. Set per-component when needed; safe global default. */
+:target {
+  scroll-margin-top: calc(var(--sc-spacing-700) + var(--sc-spacing-500));
+}
+
+/* Sleek scrollbars (WebKit). */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--sc-color-gray-300);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: padding-box;
+}
+.sc-dark ::-webkit-scrollbar-thumb,
+:root[data-theme='dark'] ::-webkit-scrollbar-thumb {
+  background: var(--sc-color-gray-700);
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--sc-color-gray-400);
+  background-clip: padding-box;
 }

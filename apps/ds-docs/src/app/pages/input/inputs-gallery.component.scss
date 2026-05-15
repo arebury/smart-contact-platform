@@ -14,22 +14,34 @@
 }
 
 .gallery__eyebrow {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: var(--sc-bg-secondary-hover);
-  color: var(--sc-text-secondary);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--dsd-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sc-text-subtle);
   align-self: flex-start;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--dsd-accent);
+    box-shadow: 0 0 8px var(--dsd-accent-soft);
+  }
 }
 
 .gallery__title {
+  font-family: var(--dsd-font-display);
   margin: 0;
-  font-size: 40px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 600;
   color: var(--sc-text-primary);
 }
 
@@ -40,10 +52,12 @@
   color: var(--sc-text-secondary);
 
   code {
-    background: var(--sc-bg-secondary-hover);
+    font-family: var(--dsd-font-mono);
+    background: var(--sc-bg-elevated);
+    border: 1px solid var(--sc-border-default);
     padding: 1px 6px;
-    border-radius: 4px;
-    font-size: 13px;
+    border-radius: 3px;
+    font-size: 12px;
   }
 }
 
@@ -54,9 +68,12 @@
 }
 
 .gallery__h2 {
+  font-family: var(--dsd-font-display);
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 500;
   color: var(--sc-text-primary);
 }
 
@@ -67,10 +84,12 @@
   color: var(--sc-text-secondary);
 
   code {
-    background: var(--sc-bg-secondary-hover);
-    padding: 1px 5px;
+    font-family: var(--dsd-font-mono);
+    background: var(--sc-bg-elevated);
+    border: 1px solid var(--sc-border-default);
+    padding: 1px 6px;
     border-radius: 3px;
-    font-size: 12.5px;
+    font-size: 12px;
   }
 }
 

@@ -1,38 +1,55 @@
-/* ------------------------------------------------------------------ *
- * Hero
- * ------------------------------------------------------------------ */
+/* ════════════════════════════════════════════════════════════════════
+ * Hero — Editorial, Swiss Modernism: oversized display title, single
+ * mono-eyebrow, restrained lede width.
+ * ════════════════════════════════════════════════════════════════════ */
 .hero {
-  padding: var(--sc-spacing-700) 0 var(--sc-spacing-800);
+  padding: 8px 0 56px;
   border-bottom: 1px solid var(--sc-border-default);
-  margin-bottom: var(--sc-spacing-700);
+  margin-bottom: 56px;
 }
 
 .hero__eyebrow {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 999px;
-  background: var(--sc-bg-secondary-hover);
-  color: var(--sc-text-secondary);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  margin-bottom: var(--sc-spacing-400);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--dsd-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sc-text-subtle);
+  margin-bottom: 24px;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+
+  &::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--dsd-accent);
+    box-shadow: 0 0 8px var(--dsd-accent-soft);
+  }
 }
 
 .hero__title {
-  margin: 0 0 var(--sc-spacing-300);
-  font-size: 40px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-family: var(--dsd-font-display);
+  margin: 0 0 18px;
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 600;
   color: var(--sc-text-primary);
+  max-width: 18ch;
 }
 
 .hero__lede {
   margin: 0;
   font-size: 16px;
-  line-height: 1.55;
+  line-height: 1.6;
   color: var(--sc-text-secondary);
-  max-width: 560px;
+  max-width: 60ch;
 }
 
 /* ------------------------------------------------------------------ *
@@ -43,11 +60,12 @@
 }
 
 .components__title {
+  font-family: var(--dsd-font-mono);
   margin: 0 0 var(--sc-spacing-200);
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
   color: var(--sc-text-subtle);
 }
 
@@ -107,9 +125,11 @@
 }
 
 .component-card__name {
+  font-family: var(--dsd-font-display);
   margin: 0;
   font-size: 18px;
   font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .component-card__summary {
@@ -136,21 +156,25 @@
 }
 
 .tracking__title {
+  font-family: var(--dsd-font-mono);
   margin: 0;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.14em;
   color: var(--sc-text-subtle);
 }
 
 .tracking__count {
-  font-size: 12px;
-  font-weight: 600;
+  font-family: var(--dsd-font-mono);
+  font-size: 11px;
+  font-weight: 500;
   color: var(--sc-text-secondary);
-  background: var(--sc-bg-secondary-hover);
+  background: var(--sc-bg-elevated);
+  border: 1px solid var(--sc-border-default);
   padding: 3px 10px;
-  border-radius: 999px;
+  border-radius: 3px;
+  letter-spacing: 0.06em;
 }
 
 .tracking__hint {

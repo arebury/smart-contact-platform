@@ -3,85 +3,243 @@
   min-height: 100vh;
 }
 
+/* ════════════════════════════════════════════════════════════════════
+ * Shell — Swiss Modernism docs editorial layout (Session 30 polish).
+ * Two-column: sticky nav 264px / fluid main. Editorial spacing rhythm.
+ * ════════════════════════════════════════════════════════════════════ */
 .shell {
   display: grid;
-  grid-template-columns: 240px 1fr;
+  grid-template-columns: 264px 1fr;
   min-height: 100vh;
 }
 
+/* ─── Sidebar ─────────────────────────────────────────────────────── */
 .shell__nav {
   background: var(--sc-bg-elevated);
   border-right: 1px solid var(--sc-border-default);
-  padding: var(--sc-spacing-500) var(--sc-spacing-400);
+  padding: 0;
   position: sticky;
   top: 0;
   height: 100vh;
   overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--dsd-font-sans);
 }
 
+/* Brand block — sentinel, ALWAYS visible at top */
 .shell__brand {
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-200);
+  gap: 10px;
   text-decoration: none;
   color: var(--sc-text-primary);
-  margin-bottom: var(--sc-spacing-700);
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid var(--sc-border-default);
+  margin-bottom: 0;
 
   .shell__brand-mark {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     width: 32px;
     height: 32px;
-    border-radius: var(--sc-radius-100);
-    background: var(--sc-bg-primary);
-    color: var(--sc-text-on-primary);
+    border-radius: var(--sc-radius-200);
+    background: var(--dsd-accent);
+    color: #ffffff;
+    font-family: var(--dsd-font-display);
     font-weight: 700;
     font-size: 12px;
     letter-spacing: 0.04em;
   }
 
+  .shell__brand-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.15;
+  }
+
   .shell__brand-name {
+    font-family: var(--dsd-font-display);
     font-weight: 600;
+    font-size: 14px;
+    letter-spacing: -0.01em;
+  }
+
+  .shell__brand-sub {
+    font-family: var(--dsd-font-mono);
+    font-size: 10px;
+    color: var(--sc-text-subtle);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 2px;
+  }
+
+  &:hover .shell__brand-mark {
+    background: var(--dsd-accent-hover);
   }
 }
 
+/* Menu — list of items + group labels */
 .shell__menu {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-100);
+  gap: 1px;
+  padding: 14px 12px 24px;
+  flex: 1 1 auto;
 
   a {
-    padding: var(--sc-spacing-200) var(--sc-spacing-300);
-    border-radius: var(--sc-radius-100);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 4px;
     color: var(--sc-text-secondary);
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    transition: background 120ms ease, color 120ms ease;
+    position: relative;
 
     &:hover {
       background: var(--sc-bg-secondary-hover);
       color: var(--sc-text-primary);
     }
 
-    &.is-active {
-      background: var(--sc-bg-primary);
-      color: var(--sc-text-on-primary);
-      font-weight: 500;
+    &:hover .shell__num {
+      color: var(--sc-text-subtle);
     }
+
+    &.is-active {
+      background: var(--dsd-accent-soft);
+      color: var(--dsd-accent);
+      font-weight: 600;
+    }
+
+    &.is-active .shell__num {
+      color: var(--dsd-accent);
+    }
+
+    &.is-active::before {
+      content: '';
+      position: absolute;
+      left: -12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 18px;
+      background: var(--dsd-accent);
+      border-radius: 0 2px 2px 0;
+    }
+  }
+
+  .shell__num {
+    font-family: var(--dsd-font-mono);
+    font-size: 10px;
+    color: var(--sc-color-gray-400);
+    font-weight: 500;
+    min-width: 18px;
+    transition: color 120ms ease;
   }
 }
 
 .shell__group {
-  margin-top: var(--sc-spacing-400);
-  padding: 0 var(--sc-spacing-300);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--sc-text-subtle);
-  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 14px 10px 4px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+
+  &:first-child { margin-top: 0; }
+
+  .shell__group-label {
+    font-family: var(--dsd-font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sc-text-subtle);
+    font-weight: 600;
+  }
+  .shell__group-count {
+    font-family: var(--dsd-font-mono);
+    font-size: 10px;
+    color: var(--sc-color-gray-400);
+    font-weight: 500;
+  }
 }
 
+/* External links — render con arrow icon, sutil */
+.shell__external {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--sc-text-subtle) !important;
+
+  .shell__external-icon {
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity 120ms ease, transform 120ms ease;
+  }
+
+  &:hover {
+    color: var(--sc-text-primary) !important;
+  }
+  &:hover .shell__external-icon {
+    opacity: 1;
+    transform: translate(1px, -1px);
+  }
+}
+
+/* Sidebar footer */
+.shell__nav-foot {
+  padding: 12px 20px 16px;
+  border-top: 1px solid var(--sc-border-default);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--dsd-font-mono);
+  font-size: 10px;
+  color: var(--sc-text-subtle);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+
+  .shell__meta {
+    white-space: nowrap;
+  }
+}
+
+/* ─── Main content ─────────────────────────────────────────────────── */
 .shell__main {
-  padding: var(--sc-spacing-700);
-  max-width: 1200px;
+  padding: 56px 64px 96px;
+  max-width: 1080px;
+  min-width: 0;
+}
+
+@media (max-width: 1024px) {
+  .shell {
+    grid-template-columns: 240px 1fr;
+  }
+  .shell__main {
+    padding: 40px 40px 80px;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+  .shell__nav {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--sc-border-default);
+  }
+  .shell__main {
+    padding: 32px 20px 64px;
+  }
 }

@@ -1,18 +1,102 @@
 <div class="shell">
   <aside class="shell__nav">
     <a routerLink="/" class="shell__brand">
-      <span class="shell__brand-mark">SC</span>
-      <span class="shell__brand-name">Design System</span>
+      <span class="shell__brand-mark" aria-hidden="true">SC</span>
+      <div class="shell__brand-text">
+        <span class="shell__brand-name">Smart Contact</span>
+        <span class="shell__brand-sub">Design System</span>
+      </div>
     </a>
 
-    <nav class="shell__menu">
+    <nav class="shell__menu" aria-label="Main navigation">
       <a routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="shell__num" aria-hidden="true">00</span>
         Home
       </a>
-      <span class="shell__group">Components</span>
-      <a routerLink="/components/button" routerLinkActive="is-active">Button</a>
-      <a routerLink="/components/input" routerLinkActive="is-active">Input</a>
+
+      <div class="shell__group">
+        <span class="shell__group-label">Inputs</span>
+        <span class="shell__group-count" aria-hidden="true">4</span>
+      </div>
+      <a routerLink="/components/input" routerLinkActive="is-active">
+        <span class="shell__num" aria-hidden="true">02</span>
+        Input
+      </a>
+      <a routerLink="/components/input-number" routerLinkActive="is-active">
+        <span class="shell__num" aria-hidden="true">03</span>
+        Input number
+      </a>
+      <a routerLink="/components/select" routerLinkActive="is-active">
+        <span class="shell__num" aria-hidden="true">04</span>
+        Select
+      </a>
+      <a routerLink="/components/multi-select" routerLinkActive="is-active">
+        <span class="shell__num" aria-hidden="true">08</span>
+        MultiSelect
+      </a>
+
+      <div class="shell__group">
+        <span class="shell__group-label">Pickers</span>
+        <span class="shell__group-count" aria-hidden="true">1</span>
+      </div>
+      <a routerLink="/components/datepicker" routerLinkActive="is-active">
+        <span class="shell__num" aria-hidden="true">05</span>
+        Datepicker
+      </a>
+
+      <div class="shell__group">
+        <span class="shell__group-label">Actions</span>
+        <span class="shell__group-count" aria-hidden="true">1</span>
+      </div>
+      <a routerLink="/components/button" routerLinkActive="is-active">
+        <span class="shell__num" aria-hidden="true">01</span>
+        Button
+      </a>
+
+      <div class="shell__group">
+        <span class="shell__group-label">Navigation</span>
+        <span class="shell__group-count" aria-hidden="true">2</span>
+      </div>
+      <a routerLink="/components/tabs" routerLinkActive="is-active">
+        <span class="shell__num" aria-hidden="true">06</span>
+        Tabs
+      </a>
+      <a routerLink="/components/tooltip" routerLinkActive="is-active">
+        <span class="shell__num" aria-hidden="true">07</span>
+        Tooltip
+      </a>
+
+      <div class="shell__group">
+        <span class="shell__group-label">References</span>
+      </div>
+      <a
+        href="https://github.com/arebury/smart-contact-platform/tree/main/packages/design-system/docs/components"
+        target="_blank"
+        rel="noopener"
+        class="shell__external"
+      >
+        Spec docs
+        <svg class="shell__external-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H8M17 7v9"/>
+        </svg>
+      </a>
+      <a
+        href="https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime"
+        target="_blank"
+        rel="noopener"
+        class="shell__external"
+      >
+        Figma kit
+        <svg class="shell__external-icon" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M7 17L17 7M17 7H8M17 7v9"/>
+        </svg>
+      </a>
     </nav>
+
+    <footer class="shell__nav-foot">
+      <span class="shell__meta">v0.1 · cooked</span>
+      <span class="shell__meta">2026-05-15</span>
+    </footer>
   </aside>
 
   <main class="shell__main">
