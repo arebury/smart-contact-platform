@@ -27,17 +27,32 @@
 
 ## Estado al cerrar (Session 31, 2026-05-15)
 
-**Hitos clave de Session 31 (18 commits)**:
+**Hitos clave de Session 31 (24 commits totales)**:
 
 - ✅ **agent-form-page 100% sin selects nativos**: 8 selects migrados a `<sc-select>`
   (max-chats, pickup call/chat, type, presence, ext, label, language). Patrones
   cubiertos: primitives (number[]), array literal con `| translate` pipe, content
   projection `pTemplate` (B refinada), action-add con signal externo + reset.
+- ✅ **agent-form-page 4 inputs text/email/url migrados a `<sc-input>`**: email,
+  phone, pin, iframe-url. Componente sc-input enriquecido con prop `inputmode`
+  (hint al teclado virtual mobile).
 - ✅ **aed-servicio + group-form**: 3 `<sc-input-number>` + 1 `<sc-input-number>` con
   refactor del modelo (string → number). Mejora estructural del componente:
   `--sc-input-number-suffix-pad` calculado del length del suffix.
 - ✅ **aed-grupos 100% migrado**: 2 `<sc-select>` (prioridad, estrategia) + 2 bugs del
   componente arreglados (primitives + display block).
+- ✅ **aed-servicio + aed-agentes**: 3 inputs text/url adicionales migrados a
+  `<sc-input>` (callblending-url, iframe-url, iframe-titulo).
+- ✅ **NUEVO componente `sc-search`** (Extended): composición p-iconfield +
+  p-inputicon + pInputText + clear button auto + opcional kbd hint (⌘K/). 8
+  consumers AED migrados (6 list-pages toolbars + 2 picker-search agent-form).
+  Cleanup de ~200 líneas dead CSS distribuido en 6 SCSS local-by-page +
+  main.scss + agent-form. Spec doc 14-search.md + gallery `/components/search`.
+- ✅ **Figma SC `❖ Search` (node 11861:55210)** compuesto via `claude_ai_Figma__use_figma`:
+  Page Header + Examples frame con Mode Light + Mode Dark cards (5 variants cada
+  uno) + Components frame con Main Component "search" preset del InputText.
+  Aprendizaje: sc-search en Figma es **preset del InputText**, no component set
+  propio — el InputText del Kit ya expone los slots necesarios.
 - ✅ **ds-docs tracker** re-encuadrado: audiencia DISEÑO (no devs). "Hecho en Figma"
   ≠ "validado en producción". Glosario llano + AED usage count + 3 grupos de filter
   chips + search con shortcut `/`.
@@ -48,42 +63,61 @@
 - ✅ **Cleanup post-audit Extended**: 3 bugs CSS silenciosos análogos arreglados
   (sc-select / sc-multi-select / sc-datepicker — el selector `.sc-X__control .p-X`
   era dead porque ambas clases viven en el mismo elemento). Dead imports eliminados.
+- ✅ **Auditoría profunda pure-sc** (22 componentes): cero issues (0 console.*,
+  0 NgClass single-use, 0 SCSS selector bug, 0 dead imports). Catálogo en muy
+  buen estado.
 - ✅ **customs-catalog formalizado**: checklist anti-divergencia (4 preguntas
-  obligatorias) + sección 5 con 3 gaps conocidos + reclasificación tri-state-checkbox.
+  obligatorias) + sección 5 con gaps conocidos (sc-input-group, sc-select-button,
+  sc-tag) + sc-search documentado (gap → cubierto) + reclasificación
+  tri-state-checkbox.
 
-Last commit en main: `4754fbf` (chore extended cleanup).
+Last commit en main: `6a58810` (docs close Figma Search canvas).
 
 ### Estado factual del catálogo al cerrar
 
-- **32 entries en tracker ds-docs** (button + 13 spec docs + 18 pure-sc + reclasificaciones).
-  - **21 pure-sc**, **7 extended**, **3 custom-preset**, **1 full-primeng**.
-  - **28 con uso real en AED**, **4 sin uso** (datepicker, multi-select, tabs, tooltip).
-- **AED usage por componente** (snapshot 2026-05-15 post-migraciones):
-  - button 38, toggle-switch 21, section-card 12, **select 11**, **input 9**,
-    page-header 8, delete-entity-dialog 8, **input-number 7**, illustrated-avatar 7,
-    tri-state-checkbox 6, bulk-action-bar 6, label-chip 3, modal 2, ... etc.
-- **13 spec docs** + **11 galleries live** en `https://ds-smartcontact.netlify.app/components/*`.
+- **33 entries en tracker ds-docs** (button + 14 spec docs + 18 pure-sc + reclasificaciones).
+  - **21 pure-sc**, **8 extended** (incluye sc-search nuevo), **3 custom-preset**, **1 full-primeng**.
+  - Post sc-search migraciones: el conteo AED usage de search subirá a 7 cuando
+    snapshot manual se actualice (TODO próxima sesión recount).
+- **AED usage por componente** (snapshot pre sc-search migrations):
+  - button 38, toggle-switch 21, section-card 12, **select 11**, **input 14**
+    (post-S31), page-header 8, delete-entity-dialog 8, **input-number 7**,
+    illustrated-avatar 7, **search 7** (post-S31), tri-state-checkbox 6,
+    bulk-action-bar 6, label-chip 3, modal 2, ... etc. **Sin uso aún**:
+    datepicker, multi-select, tabs, tooltip.
+- **14 spec docs** + **11 galleries live** + gallery search nueva pendiente de
+  deploy.
+- **Figma SC `❖ Search`**: composición completa Light + Dark + Components + Main
+  Component. Pendiente refinement minor (Right Icon swap a X clear cuando Marta
+  trabaje pantallas reales).
 - **Memory**: cero integración. Camino B con 4 gates ✅ cumplidos, esperando activación.
-- **Customs catalog**: ahora con checklist anti-divergencia + 5 secciones (brand colors,
-  extensions, overloads, sizes, gaps).
+- **Customs catalog**: checklist anti-divergencia + 5 secciones (brand colors,
+  extensions, overloads, sizes, gaps). sc-search documentado en §5.5.
 
 ---
 
-## Fase 1 (activa) — Migraciones AED restantes
+## Fase 1 (activa) — Migraciones AED restantes (mucho menos pendiente post-S31)
 
-### Inputs/selects nativos pendientes por migrar a SCDS
+### Inputs/selects nativos restantes (inventario al cierre S31)
 
-1. **`<sc-input>`** → 26 inputs nativos restantes en AED:
-   - `agent-form-page` (resto que no fue parte de los selects de Session 31).
-   - `group-form-page` (resto que no es capacity).
-   - 3 config pages (`aed-servicio`, etc. — sólo migramos los pausa fields en S31).
-2. **`<sc-select>`** → selects nativos restantes:
-   - `group-form-page` (resto si queda).
-   - `user-form-page`.
-   - `aed-agentes-page`, otras config pages.
-3. **`<sc-input-number>`** → casos restantes por inventoriar.
+- **`<sc-input>` / `<sc-input-number>` / `<sc-select>`** en formularios: la mayoría
+  migrados. Pendientes residuales sin tocar todavía:
+  - **`group-form-page`** restantes (post-capacityValue): inputs name + phone
+    (verificar inventario), select chatStrategy.
+  - **`user-form-page`**: 2 inputs (email + nombre) sin migrar — son los del
+    "create user", relativamente bajos en uso.
+  - **`label-form-panel`** / **`template-form-panel`** / **`repo-form-panel`**:
+    inputs internos sin migrar — fuera del scope crítico.
+  - **`agent-form-page`**: ya 100% migrado salvo 2 picker-search (ya migrados a
+    `<sc-search>` en S31).
+- **NO migrables a sc-input directo (gap conocido en customs-catalog)**:
+  - `tag-input` en aed-servicio estados — necesita `sc-input-group` con addon
+    button (1 caso real, low priority).
+  - `confirm__input` + `search__input` en sistema-page regen — chrome custom
+    (1 sitio).
 
-**Tiempo estimado por componente migrado**: 15-30 min según complejidad del form.
+**Tiempo estimado**: ~30-60 min para terminar la migración completa de inputs
+texto en formularios principales. Sin urgencia.
 
 **Recordar**: aplicar el patrón establecido (adapter `onXValueChange(value: unknown)`,
 content projection `pTemplate` cuando label requiera i18n derivada, signals
@@ -140,11 +174,25 @@ auditoría profunda componente por componente:
 - **sc-modal**: auditoría 1:1 contra Figma `❖ Dialog` del Kit (no fetch en S31).
 - **sc-button** SCSS: mover `apps/aed/src/styles/_buttons.scss` →
   `packages/design-system/styles/_buttons.scss` siguiendo patrón `_sc-toast.scss`.
+  **Condición**: cuando aparezca segundo consumer (ds-docs hoy no usa `.btn`).
 
 ### C — Componentes pure-sc sin spec doc (~12)
 
 bulk-action-bar, bulk-edit-menu, photo-upload, illustrated-avatar, form-danger-zone,
 form-section-nav, etc. Spec doc + entry en `MIGRATION-INVENTORY.md`.
+
+### D — Refinement Figma SC `❖ Search` (heredado S31)
+
+- Right Icon en variant "With value + clear icon": defaultea a search; cambiar a X
+  clear cuando se importe icon X al Kit (decisión Marta).
+- Variants formales del Main Component "search" (Size sm/md/lg × Filled × Disabled)
+  como component set propio si Marta quiere — hoy es 1 main component sin variants.
+
+### E — Mapeo Memory components + usage count (cuando se active Camino B)
+
+Réplicar el patrón `aedUses: N` del tracker para `memoryUses: N`. Permite ver
+prioridad combinada de cada componente del DS (cuántas veces se usa en AED + Memory).
+Útil para conversación con devs de Memory.
 
 ---
 
