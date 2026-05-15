@@ -127,9 +127,19 @@ dedicada futura — componente por componente.
 - Examples frame con _Section Header instanciado.
 - Mode: Light card con 5 variants iniciales del Search instanciados desde `inputtext` COMPONENT_SET (23:835) del Kit — el `inputtext` ya expone `Show Left Icon` con default `search` (6751:110784), por lo que NO necesitamos crear un component set propio: sc-search es un **preset del InputText** con icon search configurado. Variants: Basic empty, With value + clear, Filled, Size = Small, Disabled.
 
-Pendiente refinement: Mode Dark + Main Component "Search" como preset del inputtext + slot placeholder real (el `floatLabel` no renderiza como placeholder visible en empty state — el Kit usa otro slot que hay que investigar). TBD próxima sesión o cuando Rafa decida.
+**Refinements completados** (sesión avanzada):
+- **Mode: Dark card** añadido con los mismos 5 variants. `setExplicitVariableModeForCollection(Dark)` aplicado a las 2 collections Light/Dark (Component Color Scheme + Semantic Color Scheme) — los inputtext children adoptan automáticamente los tokens dark.
+- **Components frame** creado a la derecha del Examples con Main Component "search" como preset del InputText (icon search left + placeholder "Buscar…" + sin label/helper). Description text explicativo debajo.
+- **Placeholder visible**: descubrí que el slot real del texto interno NO es el component property `Float Label#4275:152` (que solo aplica con variant Float Label=True). El text node visible se llama "Placeholder" y se edita directamente vía `text.characters = "Buscar…"`. Aplicado a los 10 variants Light + Dark + Main Component preset → 11 placeholders actualizados.
+- **Naming layers**: cada instance del inputtext renombrada a `search` (vs el default heredado "inputtext") — 11 instances renombradas. Panel layers ahora lee claro en contexto Search.
 
-Aprendizaje arquitectónico: `sc-search` en código es Extended (composición p-iconfield + pInputText + chrome funcional), pero en el Kit Figma SC podría ser representado simplemente como un **preset variant** del `❖ InputText` existente (con icon search default + behaviors). Decisión queda para diseño.
+**Decisión Pairs vs Variants explícitos** (conversación Rafa): los pairs `Show X (BOOLEAN) + X (INSTANCE_SWAP / TEXT)` que usa el Kit PrimeOne son estándar de industria (Material UI, Polaris, Carbon, etc.) — flexibilidad sin combinatorial explosion. Confirmado mantener.
+
+**Decisión decimales raw px** (10.5/7, 12.25, 15.75): vienen del PrimeOne UI Kit Pro original, NO los inventamos. Documentados en customs-catalog §4.2 como decisión consciente — el handoff 1:1 con Prime es más valioso que un scale de tokens enteros. Si Rafa decide divergir en el futuro, entry obligatoria en catalog.
+
+Aprendizaje arquitectónico: `sc-search` en código es Extended (composición p-iconfield + pInputText + chrome funcional), pero en el Kit Figma SC es representado como **preset del `❖ InputText`** existente (con icon search default + placeholder "Buscar…"). NO necesita component set propio del 0 — el InputText del Kit ya expone los 8 booleans/slots necesarios (Show Left Icon, Left Icon swap, Show Text, etc.). Documentado en SESSION-LOG + 14-search.md.
+
+Refinement minor pendiente (TBD próxima sesión): el variant "With value + clear icon" muestra search icon en ambos slots (left + right) porque el Right Icon default del Kit es `search`. En AED el clear es un X (Lucide X) — Marta puede swap manual el right icon a un X cuando lo trabaje en pantallas reales.
 
 ### Commits Session 31 (21 total)
 
