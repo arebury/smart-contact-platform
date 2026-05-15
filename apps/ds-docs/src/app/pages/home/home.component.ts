@@ -96,6 +96,16 @@ export class HomeComponent {
       whereToSee: 'AED → Configuración → AED → Servicio → "Pausa standard" (segundos). También en "Crear grupo" → capacidad.',
     },
     {
+      slug: 'select',
+      name: 'Select / dropdown',
+      type: 'extended',
+      status: 'ready',
+      pageRoute: '/components/select',
+      whatItDoes: 'Desplegable para elegir UNA opción entre varias. Reemplaza los menús nativos del navegador para que se vean igual en Chrome, Safari y Firefox y combinen con el resto de campos.',
+      whereToSee: 'AED → Administración → Agentes → "Crear agente" → cualquier desplegable (grupo, idioma, canal). También en Configuración → AED.',
+      figmaParity: 100,
+    },
+    {
       slug: 'modal',
       name: 'Modal',
       type: 'extended',

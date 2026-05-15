@@ -1,0 +1,123 @@
+.gallery {
+  max-width: 840px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-700);
+}
+
+.gallery__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-200);
+  padding-bottom: var(--sc-spacing-500);
+  border-bottom: 1px solid var(--sc-border-default);
+}
+
+.gallery__eyebrow {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--sc-bg-secondary-hover);
+  color: var(--sc-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  align-self: flex-start;
+}
+
+.gallery__title {
+  margin: 0;
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--sc-text-primary);
+}
+
+.gallery__lede {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--sc-text-secondary);
+
+  code {
+    background: var(--sc-bg-secondary-hover);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+}
+
+.gallery__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-300);
+}
+
+.gallery__h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--sc-text-primary);
+}
+
+.gallery__hint {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--sc-text-secondary);
+
+  code {
+    background: var(--sc-bg-secondary-hover);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 12.5px;
+  }
+}
+
+.gallery__row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-400);
+  padding: var(--sc-spacing-500);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-300);
+  background: var(--sc-bg-surface);
+}
+
+.gallery__row--grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--sc-spacing-400);
+}
+
+.gallery__output {
+  margin: 0;
+  font-size: 13px;
+  color: var(--sc-text-subtle);
+
+  code {
+    background: var(--sc-bg-secondary-hover);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    color: var(--sc-text-primary);
+  }
+}
+
+.gallery__btn {
+  align-self: flex-start;
+  padding: 8px 14px;
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+  background: var(--sc-bg-surface);
+  color: var(--sc-text-primary);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease;
+
+  &:hover {
+    border-color: var(--sc-border-strong);
+    background: var(--sc-bg-secondary-hover);
+  }
+}

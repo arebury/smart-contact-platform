@@ -24,6 +24,11 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: 'components/select',
+    loadComponent: () =>
+      import('./pages/select/select-gallery.component').then((m) => m.SelectGalleryComponent),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

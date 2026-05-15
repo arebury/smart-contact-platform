@@ -1,0 +1,157 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Select</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-select&gt;</code> envuelve PrimeNG <code>&lt;p-select&gt;</code> con el patrón SCDS
+      (label + required + helper + error). Acepta opciones planas (<code>string[]</code>) o de objeto.
+      Soporta <code>[(value)]</code>, <code>[(ngModel)]</code> y Reactive Forms.
+    </p>
+  </header>
+
+  <!-- 1. Basic — string[] options. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Basic (string[])</h2>
+    <p class="gallery__hint">El caso más simple: opciones como array de strings. El valor seleccionado es un string.</p>
+    <div class="gallery__row">
+      <sc-select
+        label="Fruta preferida"
+        placeholder="Elige una fruta…"
+        [options]="fruits"
+        [(value)]="fruitValue"
+      />
+    </div>
+    <p class="gallery__output">Valor: <code>{{ fruitValue() ?? '(sin seleccionar)' }}</code></p>
+  </section>
+
+  <!-- 2. Object options + optionValue. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Opciones de objeto + <code>optionValue</code></h2>
+    <p class="gallery__hint">
+      Cuando las opciones son objetos, <code>[optionLabel]</code> indica qué propiedad mostrar (default <code>'label'</code>)
+      y <code>[optionValue]</code> qué propiedad bindear. Aquí guardamos solo el código de ciudad.
+    </p>
+    <div class="gallery__row">
+      <sc-select
+        label="Ciudad"
+        placeholder="Elige ciudad"
+        [options]="cities"
+        optionLabel="label"
+        optionValue="code"
+        helperText="Solo se guarda el código (MAD, BCN, …)."
+        [(value)]="cityCode"
+      />
+    </div>
+    <p class="gallery__output">Código: <code>{{ cityCode() ?? '(ninguno)' }}</code></p>
+  </section>
+
+  <!-- 3. Object options without optionValue (bind whole object). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Bindear objeto completo</h2>
+    <p class="gallery__hint">
+      Si omites <code>optionValue</code>, el binding guarda el objeto entero. Útil si necesitas la región / metadata además del valor.
+    </p>
+    <div class="gallery__row">
+      <sc-select
+        label="Ciudad (objeto completo)"
+        placeholder="Elige ciudad"
+        [options]="cities"
+        optionLabel="label"
+        [(value)]="cityFull"
+      />
+    </div>
+    <p class="gallery__output">
+      Objeto: <code>{{ cityFull() ? (cityFull()!.label + ' (' + cityFull()!.region + ')') : '(ninguno)' }}</code>
+    </p>
+  </section>
+
+  <!-- 4. Sizes. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Tamaños (sm / md / lg)</h2>
+    <p class="gallery__hint">Mismas alturas que <code>&lt;sc-input&gt;</code>. <code>md</code> es el default.</p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-select label="Small" size="sm" placeholder="Elige…" [options]="fruits" />
+      <sc-select label="Medium (default)" placeholder="Elige…" [options]="fruits" />
+      <sc-select label="Large" size="lg" placeholder="Elige…" [options]="fruits" />
+    </div>
+  </section>
+
+  <!-- 5. States: disabled, clearable, filter. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">5 · Estados / extras</h2>
+    <p class="gallery__hint">Disabled, "×" para limpiar, y filtro de búsqueda dentro del dropdown.</p>
+    <div class="gallery__row gallery__row--grid">
+      <sc-select
+        label="Disabled"
+        [options]="fruits"
+        [disabled]="true"
+        [(value)]="disabledValue"
+      />
+      <sc-select
+        label="Con clear (×)"
+        [options]="fruits"
+        [showClear]="true"
+        [(value)]="clearableValue"
+      />
+      <sc-select
+        label="Con filtro / búsqueda"
+        placeholder="Buscar ciudad"
+        [options]="cities"
+        optionLabel="label"
+        optionValue="code"
+        [filter]="true"
+        filterBy="label,region"
+      />
+    </div>
+  </section>
+
+  <!-- 6. Error state. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">6 · Error</h2>
+    <p class="gallery__hint">El error sobreescribe al helper y pinta el borde rojo.</p>
+    <div class="gallery__row">
+      <sc-select
+        label="Ciudad"
+        placeholder="Elige ciudad"
+        [options]="cities"
+        optionLabel="label"
+        optionValue="code"
+        error="Tienes que elegir una ciudad."
+        helperText="Lo usaremos para asignar agentes."
+      />
+    </div>
+  </section>
+
+  <!-- 7. ngModel binding. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">7 · [(ngModel)] binding</h2>
+    <p class="gallery__hint">Compatible con FormsModule.</p>
+    <div class="gallery__row">
+      <sc-select
+        label="Vía ngModel"
+        placeholder="Elige fruta"
+        [options]="fruits"
+        [(ngModel)]="ngModelValue"
+      />
+    </div>
+    <p class="gallery__output">Valor: <code>{{ ngModelValue() ?? '(ninguno)' }}</code></p>
+  </section>
+
+  <!-- 8. Reactive Forms with validation. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">8 · Reactive Forms + validación</h2>
+    <p class="gallery__hint">El select se pinta como inválido cuando el FormControl tiene errores Y ha sido touched.</p>
+    <div class="gallery__row">
+      <sc-select
+        label="Ciudad (Reactive Form)"
+        placeholder="Requerido"
+        [options]="cities"
+        optionLabel="label"
+        optionValue="code"
+        [formControl]="reactiveCity"
+        [error]="reactiveCity.touched && reactiveCity.invalid ? 'Campo requerido.' : undefined"
+      />
+      <button class="gallery__btn" (click)="touchReactive()">Marcar touched</button>
+    </div>
+  </section>
+</div>

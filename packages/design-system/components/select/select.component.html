@@ -1,0 +1,41 @@
+@if (label()) {
+  <label class="sc-select__label" [attr.for]="resolvedId()">
+    {{ label() }}
+    @if (required()) {
+      <span class="sc-select__required" aria-hidden="true">*</span>
+    }
+  </label>
+}
+
+<p-select
+  class="sc-select__control"
+  [inputId]="resolvedId()"
+  [options]="optionsMutable()"
+  [optionLabel]="optionLabel()"
+  [optionValue]="optionValue()"
+  [placeholder]="placeholder()"
+  [disabled]="disabled()"
+  [showClear]="showClear()"
+  [filter]="filter()"
+  [filterBy]="filterBy() ?? optionLabel()"
+  [emptyFilterMessage]="emptyFilterMessage()"
+  [emptyMessage]="emptyMessage()"
+  [size]="pSize()"
+  [ngModel]="value()"
+  (ngModelChange)="onModelChange($event)"
+  (onBlur)="onBlur()"
+  [attr.name]="name() ?? null"
+  [attr.aria-describedby]="footerText() ? resolvedId() + '-msg' : null"
+  [attr.aria-required]="required() ? true : null"
+  [attr.aria-invalid]="isInvalid() ? true : null"
+/>
+
+@if (footerText()) {
+  <span
+    class="sc-select__msg"
+    [class.sc-select__msg--error]="!!error()"
+    [id]="resolvedId() + '-msg'"
+  >
+    {{ footerText() }}
+  </span>
+}
