@@ -76,10 +76,10 @@
 }
 
 .sc-input-number__field--has-suffix .sc-input-number__control {
-  /* Leave room for up to ~3 char suffix ("min", "s/m", "%"); for
-   * longer units the consumer can override via ::part or a custom
-   * class on the host. */
-  padding-right: calc(var(--sc-spacing-200) + 32px);
+  /* El host setea --sc-input-number-suffix-pad calculado del length del
+   * suffix (ver suffixPad() en el TS). Fallback 32px ≈ 3 chars para
+   * cubrir casos sin el binding aplicado. */
+  padding-right: calc(var(--sc-spacing-200) + var(--sc-input-number-suffix-pad, 32px));
 }
 
 /* ────────────────────────────────────────────────────────────────────

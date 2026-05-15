@@ -166,17 +166,13 @@
               <p class="field__caption">
                 {{ 'config.aed.subpages.servicio.estados.standard_hint' | translate }}
               </p>
-              <div class="field__row">
-                <input
-                  id="servicio-pausa-standard"
-                  type="number"
-                  min="0"
-                  class="field__input field__input--num"
-                  [value]="form().pausaStandard"
-                  (input)="onPausaInput('pausaStandard', $event)"
-                />
-                <span class="field__suffix">{{ 'common.units.seconds' | translate }}</span>
-              </div>
+              <sc-input-number
+                inputId="servicio-pausa-standard"
+                [min]="0"
+                [suffix]="'common.units.seconds' | translate"
+                [value]="form().pausaStandard"
+                (valueChange)="onPausaValueChange('pausaStandard', $event)"
+              />
             </div>
             <div class="field">
               <label class="field__label" for="servicio-pausa-navegador">
@@ -188,19 +184,13 @@
               <p class="field__caption">
                 {{ 'config.aed.subpages.servicio.estados.navegador_hint' | translate }}
               </p>
-              <div class="field__row">
-                <input
-                  id="servicio-pausa-navegador"
-                  type="number"
-                  min="0"
-                  class="field__input field__input--num"
-                  [value]="form().pausaNavegador"
-                  (input)="onPausaInput('pausaNavegador', $event)"
-                />
-                <span class="field__suffix">
-                  {{ 'config.aed.subpages.servicio.estados.alertings' | translate }}
-                </span>
-              </div>
+              <sc-input-number
+                inputId="servicio-pausa-navegador"
+                [min]="0"
+                [suffix]="'config.aed.subpages.servicio.estados.alertings' | translate"
+                [value]="form().pausaNavegador"
+                (valueChange)="onPausaValueChange('pausaNavegador', $event)"
+              />
             </div>
           </div>
         </section>
@@ -325,17 +315,13 @@
                 <span>{{ 'config.aed.subpages.servicio.conv.timeout_label' | translate }}</span>
                 <lucide-icon [img]="infoIcon" [size]="12" class="field__info" aria-hidden="true" />
               </label>
-              <div class="field__row">
-                <input
-                  id="servicio-timeout"
-                  type="number"
-                  min="0"
-                  class="field__input field__input--num"
-                  [value]="form().callblendingTimeout"
-                  (input)="onCallblendingTimeout($event)"
-                />
-                <span class="field__suffix">{{ 'common.units.seconds' | translate }}</span>
-              </div>
+              <sc-input-number
+                inputId="servicio-timeout"
+                [min]="0"
+                [suffix]="'common.units.seconds' | translate"
+                [value]="form().callblendingTimeout"
+                (valueChange)="onCallblendingTimeoutValueChange($event)"
+              />
             </div>
           </div>
 

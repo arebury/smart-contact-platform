@@ -125,6 +125,7 @@ Específicos del componente:
 - **Texto right-aligned por defecto**. Convención numérica (alineas decimales, columnas). Si necesitas left-align para un caso concreto (p.ej. ID/código), override con CSS local. NO añadir prop `[align]` hasta que tengamos 2+ casos reales.
 - **Spinners nativos ocultos**. Los browser defaults (`::-webkit-inner-spin-button`) son inconsistentes y feos. AED no los usa. Reactivar requiere refactor.
 - **No locale formatting**. `1234` se muestra como `1234`, no `1.234`. PrimeNG `p-inputNumber` lo hace; deliberadamente fuera de scope aquí. Si llega un caso real, escalar a `p-inputNumber` Custom-preset.
+- **Padding-right del suffix se calcula automáticamente** según `suffix().length` (Inter ≈ 0.6em por carácter + 0.5em safety, mínimo 2.3em para preservar suffixes cortos). Se expone como CSS custom property `--sc-input-number-suffix-pad` en el host. Si el cálculo falla por una fuente custom, override la variable en el consumer.
 
 ## Comparativa con `<sc-input>`
 

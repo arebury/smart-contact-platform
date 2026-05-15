@@ -55,6 +55,7 @@ let scInputNumberIdCounter = 0;
     '[class.sc-input-number--invalid]': 'isInvalid()',
     '[class.sc-input-number--disabled]': 'disabled()',
     '[class.sc-input-number--has-suffix]': 'hasSuffix()',
+    '[style.--sc-input-number-suffix-pad]': 'suffixPad()',
   },
 })
 export class InputNumberComponent implements ControlValueAccessor {
@@ -87,6 +88,19 @@ export class InputNumberComponent implements ControlValueAccessor {
   );
 
   protected readonly hasSuffix = computed(() => !!this.suffix());
+
+  /**
+   * Padding-right del control para reservar espacio del suffix. Se calcula
+   * a partir del length del texto (Inter ≈ 0.6em por carácter + 0.5em safety,
+   * mínimo 2.3em para preservar el comportamiento previo de suffixes cortos).
+   * Cuando no hay suffix devuelve null y el SCSS aplica su fallback.
+   */
+  protected readonly suffixPad = computed<string | null>(() => {
+    const len = (this.suffix() ?? '').trim().length;
+    if (!len) return null;
+    const em = Math.max(len * 0.6 + 0.5, 2.3);
+    return `${em.toFixed(2)}em`;
+  });
 
   protected readonly isInvalid = computed(() => {
     if (this.error()) return true;

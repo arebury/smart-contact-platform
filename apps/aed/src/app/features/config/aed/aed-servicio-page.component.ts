@@ -4,7 +4,7 @@ import { CirclePlus, Info, LucideAngularModule, Phone, X } from 'lucide-angular'
 import { MessageService } from 'primeng/api';
 
 import { PageHeaderService } from '@core/services';
-import { ToggleSwitchComponent } from '@shared/components';
+import { InputNumberComponent, ToggleSwitchComponent } from '@shared/components';
 
 interface VisibilidadEstados {
   postConversando: boolean;
@@ -97,7 +97,7 @@ const EVENTOS_LABELS: readonly (keyof EventosNotificacion)[] = [
  */
 @Component({
   selector: 'sc-aed-servicio-page',
-  imports: [LucideAngularModule, ToggleSwitchComponent, TranslateModule],
+  imports: [InputNumberComponent, LucideAngularModule, ToggleSwitchComponent, TranslateModule],
   templateUrl: './aed-servicio-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-servicio-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -189,10 +189,12 @@ export class AedServicioPageComponent {
     this.estadosDirty.set(true);
   }
 
-  protected onPausaInput<K extends 'pausaStandard' | 'pausaNavegador'>(key: K, event: Event): void {
-    const parsed = Number((event.target as HTMLInputElement).value);
-    if (Number.isFinite(parsed) && parsed >= 0) {
-      this.form.update((f) => ({ ...f, [key]: parsed }));
+  protected onPausaValueChange<K extends 'pausaStandard' | 'pausaNavegador'>(
+    key: K,
+    value: number | null,
+  ): void {
+    if (value !== null && Number.isFinite(value) && value >= 0) {
+      this.form.update((f) => ({ ...f, [key]: value }));
       this.estadosDirty.set(true);
     }
   }
@@ -248,10 +250,9 @@ export class AedServicioPageComponent {
     this.conversacionesDirty.set(true);
   }
 
-  protected onCallblendingTimeout(event: Event): void {
-    const parsed = Number((event.target as HTMLInputElement).value);
-    if (Number.isFinite(parsed) && parsed >= 0) {
-      this.form.update((f) => ({ ...f, callblendingTimeout: parsed }));
+  protected onCallblendingTimeoutValueChange(value: number | null): void {
+    if (value !== null && Number.isFinite(value) && value >= 0) {
+      this.form.update((f) => ({ ...f, callblendingTimeout: value }));
       this.conversacionesDirty.set(true);
     }
   }
