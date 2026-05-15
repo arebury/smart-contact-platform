@@ -18,7 +18,7 @@
 |----|------|--------|------|----------|-------|--------------|-----|
 | 01 | Button | ✓ | 🟣 Custom-preset | `<p-button>` | [6738:49717](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-49717) | **100%** — Session 30 audit Nivel-2 contra los 1965 variants Figma. Padding 10.5/7 ✓ matchea preset. Brand divergences (Primary navy, Info electric-blue, Warn amber) documentadas. | `docs/components/01-button.md` |
 | 02 | Modal | ✓ | 🟢 Extended | `<sc-modal>` | TODO | TBD | TODO |
-| 03 | Toast | ✓ | 🟢 Extended | `<sc-toast>` | TODO | TBD | TODO |
+| 03 | Toast | ✓ | 🟣 Custom-preset + template | `<p-toast>` + pTemplate override en `app.component.html` | [6738:53165](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-53165) | **100%** — Session 30 audit. Width 350, radius 6, padding 10.5, icon 15.75, borders severity-200 tinted, backdrop blur 1.5, close 24.5 circular. SC extensions: action button (undo), icon-square chrome, severity=secondary→violet. | `docs/components/10-toast.md` |
 | 04 | Photo upload | ✓ | ⚪ Pure SC | `<sc-photo-upload>` | TODO | TBD | TODO |
 | 05 | Toggle switch | ✓ | ⚪ Pure SC | `<sc-toggle-switch>` | TODO | TBD | TODO |
 | 06 | Tri-state checkbox | ✓ | 🟢 Extended | `<sc-tri-state-checkbox>` | [6738:22640](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22640) | **100%** — Session 30 audit Nivel-2 contra los 60 variants Figma. Box 17.5/14/21 por size, border slate-300 1px, icon 12.25, filled bg slate-50. Checked=navy primary (era blue-700, ahora alineado a `--sc-bg-primary`). `'some'` indeterminate = SC extension. | `docs/components/09-checkbox.md` |

@@ -4,12 +4,28 @@
 }
 
 /*
- * Toast — Smart Contact design system (Figma node 1050:354).
+ * Toast — Smart Contact design system.
  *
- * Light variant: tinted background + saturated border + dark text. The
- * severity glyph sits inside a small colored square. Layout is horizontal
- * (icon · body · optional action · close X) so a single line of summary +
- * the "Deshacer" button fits in one row at top-right.
+ * Auditado 1:1 con Figma `Smart Contact Prime → ❖ Toast` (canvas
+ * 6738:53165) en Session 30. Cambios visuales clave vs versión previa:
+ *   - width 400 → 350px (Figma `toast/width`)
+ *   - radius 12 → 6px (Figma `toast/border/radius`)
+ *   - padding 16 → 10.5px (Figma `toast/content/padding` raw)
+ *   - icon 24 → 15.75px (Figma `toast/icon/size`)
+ *   - borders pasan de severity-500/600 (saturated) a severity-200
+ *     (tinted) — match Figma frosted-notification look
+ *   - backdrop-filter blur 1.5px (Figma `toast/blur`)
+ *   - close button 24px → 24.5px circular (radius 12.25)
+ *
+ * Layout: icon · body · optional action button · close X (single row).
+ *
+ * SC extensions sobre PrimeNG Toast:
+ *   - Severity 'secondary' overloaded → violet tone (NOT slate como
+ *     Figma) para "neutral notices" tipo "borrador creado".
+ *   - Action button slot (data-undoId en el message) — Figma NO modela
+ *     botón de acción, es undo-pattern SC.
+ *   - Icon-square chrome (background colored behind the glyph) — Figma
+ *     no lo modela, es SC extension.
  *
  * All colors flow through `--sc-toast-*` tokens (layer 4 — component).
  */
@@ -22,6 +38,9 @@
   border: 1px solid var(--sc-toast-info-border);
   border-radius: var(--sc-toast-radius);
   background: var(--sc-toast-info-bg);
+  /* Backdrop blur — frosted-glass effect per Figma `toast/blur: 1.5`. */
+  backdrop-filter: blur(var(--sc-toast-backdrop-blur));
+  -webkit-backdrop-filter: blur(var(--sc-toast-backdrop-blur));
   color: var(--sc-toast-title);
 
   &[data-severity='success'] {
@@ -88,17 +107,19 @@
   }
 
   &__title {
+    /* Figma `toast/summary/font/size: 14`, `toast/summary/font/weight: 500`. */
     font-family: var(--sc-font-family-primary);
-    font-weight: var(--sc-font-weight-semibold);
-    font-size: var(--sc-font-size-200);
+    font-weight: var(--sc-toast-summary-font-weight);
+    font-size: var(--sc-toast-summary-font-size);
     line-height: var(--sc-line-height-220);
     color: var(--sc-toast-title);
   }
 
   &__message {
+    /* Figma `toast/detail/font/size: 12.25` raw, `toast/detail/font/weight: 500`. */
     font-family: var(--sc-font-family-primary);
-    font-weight: var(--sc-font-weight-regular);
-    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-toast-detail-font-weight);
+    font-size: var(--sc-toast-detail-font-size);
     line-height: var(--sc-line-height-100);
     color: var(--sc-toast-message);
   }
@@ -159,11 +180,13 @@
   }
 
   &__close {
+    /* Figma `toast/close/button/width|height: 24.5`,
+     * `toast/close/button/border/radius: 12.25` (= circular). */
     flex: 0 0 auto;
     align-self: flex-start;
     margin-left: 4px;
-    width: 24px;
-    height: 24px;
+    width: var(--sc-toast-close-button-width);
+    height: var(--sc-toast-close-button-height);
     padding: 0;
     border: 0;
     background: transparent;
@@ -172,10 +195,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
+    border-radius: var(--sc-toast-close-button-radius);
 
     &:hover {
-      background: rgb(0 0 0 / 0.04);
+      background: rgb(0 0 0 / 0.06);
     }
 
     &:focus-visible {
@@ -192,11 +215,11 @@
 :host ::ng-deep .p-toast .p-toast-message {
   background: transparent;
   border: 0;
-  /* Toast-specific shadow geometry (8px / 24px). Doesn't match the
-   * dropdown / popover scale — kept raw to preserve visual identity.
-   * Migrate to a `--sc-shadow-toast` token if the value gains a second
-   * consumer. */
-  box-shadow: 0 8px 24px rgb(var(--sc-shadow-color-rgb) / 0.08);
+  /* Figma `toast/<severity>/shadow: drop-shadow #0X0X0X0A offset(0,4) r8 spread:0`
+   * — translated to a single drop-shadow with 4% opacity. Tinted black
+   * per severity in Figma; here usamos un negro neutro plano y dejamos
+   * que el tint salga del backdrop-blur del .sc-toast. */
+  box-shadow: var(--sc-toast-shadow);
   margin-bottom: var(--sc-spacing-200);
 }
 
