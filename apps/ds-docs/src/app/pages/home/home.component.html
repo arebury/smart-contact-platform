@@ -59,8 +59,94 @@
     en AED. Se guarda en este navegador (localStorage), no se sincroniza con nadie.
   </p>
 
+  <div class="tracker-toolbar" role="search">
+    <div class="tracker-search">
+      <svg class="tracker-search__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        #searchInput
+        type="search"
+        class="tracker-search__input"
+        placeholder="Buscar componente, descripción o ubicación…"
+        [value]="searchQuery()"
+        (input)="onSearchInput($event)"
+        aria-label="Buscar componente"
+      />
+      <kbd class="tracker-search__kbd" aria-hidden="true">/</kbd>
+      @if (searchQuery()) {
+        <button
+          type="button"
+          class="tracker-search__clear"
+          (click)="clearSearch()"
+          aria-label="Limpiar búsqueda"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      }
+    </div>
+
+    <div class="tracker-filters">
+      <div class="tracker-filters__group" role="group" aria-label="Filtrar por tipo">
+        <span class="tracker-filters__label">Tipo</span>
+        <button type="button" class="filter-chip" [class.is-active]="typeFilter() === 'all'" (click)="setTypeFilter('all')">
+          Todos <span class="filter-chip__count">{{ typeCounts().all }}</span>
+        </button>
+        <button type="button" class="filter-chip type-pure-sc" [class.is-active]="typeFilter() === 'pure-sc'" (click)="setTypeFilter('pure-sc')">
+          Pure SC <span class="filter-chip__count">{{ typeCounts()['pure-sc'] }}</span>
+        </button>
+        <button type="button" class="filter-chip type-extended" [class.is-active]="typeFilter() === 'extended'" (click)="setTypeFilter('extended')">
+          Extended <span class="filter-chip__count">{{ typeCounts().extended }}</span>
+        </button>
+        <button type="button" class="filter-chip type-custom-preset" [class.is-active]="typeFilter() === 'custom-preset'" (click)="setTypeFilter('custom-preset')">
+          Custom (preset) <span class="filter-chip__count">{{ typeCounts()['custom-preset'] }}</span>
+        </button>
+        <button type="button" class="filter-chip type-full-primeng" [class.is-active]="typeFilter() === 'full-primeng'" (click)="setTypeFilter('full-primeng')">
+          Full PrimeNG <span class="filter-chip__count">{{ typeCounts()['full-primeng'] }}</span>
+        </button>
+      </div>
+
+      <div class="tracker-filters__group" role="group" aria-label="Filtrar por validación">
+        <span class="tracker-filters__label">Estado</span>
+        <button type="button" class="filter-chip" [class.is-active]="validationFilter() === 'all'" (click)="setValidationFilter('all')">
+          Todos
+        </button>
+        <button type="button" class="filter-chip is-validated-chip" [class.is-active]="validationFilter() === 'validated'" (click)="setValidationFilter('validated')">
+          ✓ Validados <span class="filter-chip__count">{{ validatedCount() }}</span>
+        </button>
+        <button type="button" class="filter-chip" [class.is-active]="validationFilter() === 'pending'" (click)="setValidationFilter('pending')">
+          Pendientes <span class="filter-chip__count">{{ pendingCount() }}</span>
+        </button>
+      </div>
+    </div>
+
+    <p class="tracker-toolbar__result" aria-live="polite">
+      {{ filtered().length }}
+      @if (filtered().length === 1) { resultado } @else { resultados }
+      @if (filtered().length !== tracked().length) {
+        de {{ tracked().length }} ·
+        <button type="button" class="tracker-toolbar__reset" (click)="clearAllFilters()">
+          Limpiar filtros
+        </button>
+      }
+    </p>
+  </div>
+
+  @if (filtered().length === 0) {
+    <div class="tracker-empty">
+      <p class="tracker-empty__title">Sin resultados</p>
+      <p class="tracker-empty__hint">Prueba con otra búsqueda o limpia los filtros activos.</p>
+      <button type="button" class="filter-chip is-active" (click)="clearAllFilters()">
+        Limpiar filtros
+      </button>
+    </div>
+  } @else {
   <ul class="tracker-list">
-    @for (item of tracked(); track item.slug) {
+    @for (item of filtered(); track item.slug) {
       <li class="tracker-item" [class.is-validated]="item.isValidated">
         <label class="tracker-item__check">
           <input
@@ -95,4 +181,5 @@
       </li>
     }
   </ul>
+  }
 </section>

@@ -2,7 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  ElementRef,
+  HostListener,
   signal,
+  viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
@@ -348,6 +351,14 @@ export class HomeComponent {
   /** Componentes marcados como "yo, Rafa, lo he validado en AED". Persistido en localStorage. */
   private readonly validated = signal<Set<string>>(readValidated());
 
+  // ─── Filter state ────────────────────────────────────────────────────
+  protected readonly searchQuery = signal('');
+  protected readonly typeFilter = signal<ComponentType | 'all'>('all');
+  protected readonly validationFilter = signal<'all' | 'validated' | 'pending'>('all');
+
+  /** Ref al input de búsqueda para autofocus con "/" (shortcut tipo GitHub). */
+  private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+
   protected readonly tracked = computed(() =>
     this.catalog.map((entry) => ({
       ...entry,
@@ -360,6 +371,43 @@ export class HomeComponent {
   protected readonly readyComponents = computed(() =>
     this.catalog.filter((c) => c.status === 'ready'),
   );
+
+  /**
+   * Conteos por tipo (sobre TODO el catálogo, no sobre el resultado filtrado).
+   * Sirve para que los chips muestren cuántos hay en total, independiente del
+   * search activo — patrón típico de barras de filtro (GitHub Issues, Linear).
+   */
+  protected readonly typeCounts = computed(() => {
+    const counts: Record<ComponentType | 'all', number> = {
+      all: this.catalog.length,
+      'full-primeng': 0,
+      'custom-preset': 0,
+      extended: 0,
+      'pure-sc': 0,
+    };
+    for (const c of this.catalog) counts[c.type]++;
+    return counts;
+  });
+
+  protected readonly pendingCount = computed(() => this.catalog.length - this.validated().size);
+
+  /**
+   * Lista filtrada por search + tipo + validación.
+   * Search matchea name + whatItDoes + whereToSee (case-insensitive).
+   */
+  protected readonly filtered = computed(() => {
+    const q = this.searchQuery().trim().toLowerCase();
+    const type = this.typeFilter();
+    const validation = this.validationFilter();
+    return this.tracked().filter((item) => {
+      if (type !== 'all' && item.type !== type) return false;
+      if (validation === 'validated' && !item.isValidated) return false;
+      if (validation === 'pending' && item.isValidated) return false;
+      if (!q) return true;
+      const haystack = `${item.name} ${item.whatItDoes} ${item.whereToSee}`.toLowerCase();
+      return haystack.includes(q);
+    });
+  });
 
   protected toggleValidated(slug: string): void {
     this.validated.update((set) => {
@@ -378,5 +426,42 @@ export class HomeComponent {
       'extended': 'Extended',
       'pure-sc': 'Pure SC',
     }[type];
+  }
+
+  protected setTypeFilter(type: ComponentType | 'all'): void {
+    this.typeFilter.set(type);
+  }
+
+  protected setValidationFilter(v: 'all' | 'validated' | 'pending'): void {
+    this.validationFilter.set(v);
+  }
+
+  protected onSearchInput(event: Event): void {
+    this.searchQuery.set((event.target as HTMLInputElement).value);
+  }
+
+  protected clearSearch(): void {
+    this.searchQuery.set('');
+    this.searchInput()?.nativeElement.focus();
+  }
+
+  protected clearAllFilters(): void {
+    this.searchQuery.set('');
+    this.typeFilter.set('all');
+    this.validationFilter.set('all');
+  }
+
+  /**
+   * Shortcut "/" foca el search (mismo patrón que GitHub / Linear / Slack).
+   * Ignorado cuando el usuario ya está tecleando en otro input o textarea.
+   */
+  @HostListener('document:keydown', ['$event'])
+  protected onKeydown(event: KeyboardEvent): void {
+    if (event.key !== '/') return;
+    const target = event.target as HTMLElement | null;
+    const tag = target?.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || target?.isContentEditable) return;
+    event.preventDefault();
+    this.searchInput()?.nativeElement.focus();
   }
 }
