@@ -4,6 +4,7 @@
   "description": "Smart Contact Design System (SCDS) — tokens + components consumed by AED, ds-docs, and (future) Memory apps.",
   "private": true,
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": "./components/index.ts",
     "./components": "./components/index.ts",
