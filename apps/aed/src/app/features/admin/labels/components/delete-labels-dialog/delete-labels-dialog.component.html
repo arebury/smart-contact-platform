@@ -27,11 +27,11 @@
   }
 
   <div modal-actions>
-    <button type="button" class="btn btn--secondary" (click)="cancelled.emit()">
-      {{ 'common.cancel' | translate }}
-    </button>
-    <button type="button" class="btn btn--danger" (click)="confirm.emit()">
-      {{ 'common.delete' | translate }}
-    </button>
+    <p-button type="button" severity="secondary" (onClick)="cancelled.emit()">
+      <span>{{ 'common.cancel' | translate }}</span>
+    </p-button>
+    <p-button type="button" severity="danger" (onClick)="confirm.emit()">
+      <span>{{ 'common.delete' | translate }}</span>
+    </p-button>
   </div>
 </sc-modal>

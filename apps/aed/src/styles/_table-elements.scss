@@ -236,21 +236,6 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Page header primary action — width-stable across pages.
- *
- * Different list pages have different create-button labels ("Nuevo
- * agente" / "Nuevo usuario" / "Nuevo grupo"). Without a min-width the
- * button visibly resizes when the user navigates between list pages,
- * which reads as the chrome shifting under them. A 144 px floor and
- * centred content keep the geometry stable while still letting longer
- * locales grow.
- * ------------------------------------------------------------------ */
-.page__actions > .btn--primary {
-  min-width: 144px;
-  justify-content: center;
-}
-
-/* ------------------------------------------------------------------ *
  * sc-table-zebra — alternating row tint instead of per-row 1px border.
  *
  * The full-width 1px border line per row is the most generic "data

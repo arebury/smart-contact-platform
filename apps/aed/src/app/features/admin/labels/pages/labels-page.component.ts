@@ -13,6 +13,7 @@ import {
   X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { XlsxExportService } from '@core/services';
@@ -43,6 +44,7 @@ interface ContextMenuPos {
   selector: 'sc-labels-page',
   imports: [
     BulkActionBarComponent,
+    ButtonModule,
     ClickOutsideDirective,
     DeleteLabelsDialogComponent,
     FormsModule,

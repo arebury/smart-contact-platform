@@ -28,6 +28,7 @@ import {
   X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { ConfirmHostService, ThemeService, type ThemeMode } from '@core/services';
 import { PageHeaderService } from '@core/services';
@@ -77,6 +78,7 @@ const APP_DATA_PREFIX = 'smartcontact_';
 @Component({
   selector: 'sc-sistema-page',
   imports: [
+    ButtonModule,
     LucideAngularModule,
     NumeracionEspecialSectionComponent,
     ToggleSwitchComponent,

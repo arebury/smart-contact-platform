@@ -353,6 +353,24 @@ export const ScPreset = definePreset(Aura, {
    * ────────────────────────────────────────────────────────────────────
    */
   components: {
+    /* Button — canvas 6738:49717.
+     * Figma tokens (verificados via MCP en node 10:124):
+     *   button/padding/x = 10.5, button/padding/y = 7,
+     *   button/border/radius = 6, button/gap = 7.
+     * Aura default es 1rem/0.5rem (16/8) → diverge. Override explícito
+     * para no depender de cascade button→formField (Aura puede romperlo
+     * entre versiones). Aplica a todas las severities (primary, secondary,
+     * danger, info, warn, help, contrast) y a todos los flags (outlined,
+     * text, link). Brand divergences de COLOR ya cubiertas arriba via
+     * primitive.sky / orange y semantic.primary. */
+    button: {
+      root: {
+        paddingX: '10.5px',
+        paddingY: '7px',
+        borderRadius: '6px',
+        gap: '7px',
+      },
+    },
     tabs: {
       /* Figma tab padding 14/15.75 (raw decimals from `tabs/tab/padding/x,y`,
        * node 3358:29419). Aura default 1rem/1.125rem (16/18) → diverge. */

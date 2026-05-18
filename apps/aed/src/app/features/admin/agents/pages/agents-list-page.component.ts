@@ -17,6 +17,7 @@ import {
   X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { ClickOutsideDirective, SortableHeaderDirective } from '@core/directives';
 import { UndoStackService, XlsxExportService } from '@core/services';
@@ -86,6 +87,7 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
   imports: [
     BulkActionBarComponent,
     BulkEditMenuComponent,
+    ButtonModule,
     ClickOutsideDirective,
     ColumnSelectorComponent,
     DeleteEntityDialogComponent,

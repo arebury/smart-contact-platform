@@ -62,10 +62,10 @@
               {{ 'config.sistema.data.reset_hint' | translate }}
             </p>
           </div>
-          <button type="button" class="btn btn--danger" (click)="resetData()">
+          <p-button type="button" severity="danger" (onClick)="resetData()">
             <lucide-icon [img]="resetIcon" [size]="14" aria-hidden="true" />
             <span>{{ 'config.sistema.data.reset_button' | translate }}</span>
-          </button>
+          </p-button>
         </div>
       </div>
     </section>
@@ -279,11 +279,11 @@
                   autocomplete="off"
                   spellcheck="false"
                 />
-                <button
+                <p-button
                   type="button"
-                  class="btn btn--danger"
+                  severity="danger"
                   [disabled]="!canExecute()"
-                  (click)="regenerate()"
+                  (onClick)="regenerate()"
                 >
                   @if (processing()) {
                     <lucide-icon
@@ -297,7 +297,7 @@
                     <lucide-icon [img]="keyIcon" [size]="14" aria-hidden="true" />
                     <span>{{ 'config.seguridad.regen.execute' | translate }}</span>
                   }
-                </button>
+                </p-button>
               </div>
             </div>
           }
@@ -318,10 +318,10 @@
                   <p class="result__ts">{{ r.timestamp }}</p>
                 </div>
               </div>
-              <button type="button" class="btn btn--ghost" (click)="downloadCsv()">
+              <p-button type="button" severity="secondary" (onClick)="downloadCsv()">
                 <lucide-icon [img]="downloadIcon" [size]="14" aria-hidden="true" />
                 <span>{{ 'config.seguridad.regen.download_csv' | translate }}</span>
-              </button>
+              </p-button>
             </div>
           }
         </div>

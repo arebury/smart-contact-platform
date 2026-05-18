@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ChevronDown, ChevronUp, LucideAngularModule, UserRound } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { PageHeaderService } from '@core/services';
 import {
@@ -68,6 +69,7 @@ const DEFAULT_FORM: FormState = {
 @Component({
   selector: 'sc-aed-agentes-page',
   imports: [
+    ButtonModule,
     InputComponent,
     LucideAngularModule,
     ToggleSwitchComponent,

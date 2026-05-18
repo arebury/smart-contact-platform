@@ -62,13 +62,6 @@
       pointer-events: none;
     }
 
-    /* Every direct child sits on the same 36 px row so the bar reads
-     * as one row of equally-tall controls (Cols icon · Search · Export). */
-    > .btn {
-      height: 36px;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
   }
 
   /* `.page__search` queda como wrapper de sizing del `<sc-search>` (el

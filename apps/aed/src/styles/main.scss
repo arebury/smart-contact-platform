@@ -5,7 +5,6 @@
 
 /* Sass `@use` rules must precede any `@import`. */
 @use 'reset';
-@use 'buttons';
 @use 'forms';
 @use 'table-elements';
 
@@ -99,12 +98,13 @@ table.table {
  * transition — the user's click should produce an instant tactile
  * response, not a fade-out of the prior hover state.
  *
- * Applies to every `.btn`, `.btn--*`, the empty-state CTA, the toast
- * action button, and the inline-rename commit/cancel buttons. Component
- * scoped overrides can opt out by setting `transition-duration: 0` on
- * `:active`, but should keep the press transform for consistency.
+ * Applies to every `.p-button` (canonical PrimeNG button), the
+ * empty-state CTA, the toast action button, and the inline-rename
+ * commit/cancel buttons. Component-scoped overrides can opt out by
+ * setting `transition-duration: 0` on `:active`, but should keep the
+ * press transform for consistency.
  */
-.btn,
+.p-button,
 .empty-state__cta,
 .sc-toast__action,
 .rename__btn,
@@ -137,7 +137,7 @@ table.table {
  * users with motion sensitivity get a calm interface.
  */
 @media (prefers-reduced-motion: reduce) {
-  .btn,
+  .p-button,
   .empty-state__cta,
   .sc-toast__action,
   .rename__btn,

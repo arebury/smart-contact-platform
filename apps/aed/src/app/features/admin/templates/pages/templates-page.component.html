@@ -5,10 +5,10 @@
     (aedClickOutside)="closeCreatePanel()"
     [aedClickOutsideEnabled]="creating()"
   >
-    <button type="button" class="btn btn--primary" (click)="onCreateClick()">
+    <p-button type="button" (onClick)="onCreateClick()">
       <lucide-icon [img]="plusIcon" [size]="15" aria-hidden="true" />
       <span>{{ 'templates.create_button' | translate }}</span>
-    </button>
+    </p-button>
 
     @if (creating()) {
       <div class="page__panel-anchor">
@@ -71,10 +71,10 @@
         </div>
         <h2 class="empty__title">{{ 'templates.empty.title' | translate }}</h2>
         <p class="empty__text">{{ 'templates.empty.text' | translate }}</p>
-        <button type="button" class="btn btn--primary" (click)="creating.set(true)">
+        <p-button type="button" (onClick)="creating.set(true)">
           <lucide-icon [img]="plusIcon" [size]="16" aria-hidden="true" />
           <span>{{ 'templates.empty.cta' | translate }}</span>
-        </button>
+        </p-button>
       </div>
     } @else {
       <div class="table-card">
@@ -242,7 +242,7 @@
 />
 
 <sc-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
-  <button type="button" class="btn btn--bulk-danger" (click)="requestDeleteSelection()">
-    {{ 'common.delete' | translate }}
-  </button>
+  <p-button type="button" severity="danger" (onClick)="requestDeleteSelection()">
+    <span>{{ 'common.delete' | translate }}</span>
+  </p-button>
 </sc-bulk-action-bar>

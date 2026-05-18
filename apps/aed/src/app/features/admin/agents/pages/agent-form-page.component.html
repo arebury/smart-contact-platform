@@ -914,14 +914,14 @@
                           {{ 'agents.form.advanced.sesion.expire_pwd_hint' | translate }}
                         </p>
                       </div>
-                      <button
+                      <p-button
                         type="button"
-                        class="btn btn--ghost"
-                        (click)="requestExpirePassword()"
+                        severity="secondary"
+                        (onClick)="requestExpirePassword()"
                       >
                         <lucide-icon [img]="keyIcon" [size]="14" aria-hidden="true" />
-                        {{ 'agents.form.advanced.sesion.expire_pwd' | translate }}
-                      </button>
+                        <span>{{ 'agents.form.advanced.sesion.expire_pwd' | translate }}</span>
+                      </p-button>
                     </div>
                   </div>
                 }

@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { clampToViewport } from '@core/utils/viewport';
@@ -40,6 +41,7 @@ interface ContextMenuPos {
   selector: 'sc-templates-page',
   imports: [
     BulkActionBarComponent,
+    ButtonModule,
     ClickOutsideDirective,
     DeleteEntityDialogComponent,
     LucideAngularModule,

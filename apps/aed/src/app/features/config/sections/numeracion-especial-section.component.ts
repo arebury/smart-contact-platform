@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Hash, Info, LucideAngularModule, Save, Search, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { COUNTRY_PREFIXES, type CountryPrefix } from '../data/country-prefixes';
 
@@ -19,7 +20,7 @@ import { COUNTRY_PREFIXES, type CountryPrefix } from '../data/country-prefixes';
  */
 @Component({
   selector: 'sc-numeracion-especial-section',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [ButtonModule, LucideAngularModule, TranslateModule],
   templateUrl: './numeracion-especial-section.component.html',
   styleUrl: './numeracion-especial-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

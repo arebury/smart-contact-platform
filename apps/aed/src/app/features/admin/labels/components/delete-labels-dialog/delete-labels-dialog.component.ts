@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Trash2 } from 'lucide-angular';
+import { ButtonModule } from 'primeng/button';
 
 import { LabelChipComponent } from '@shared/components/label-chip/label-chip.component';
 import { ModalComponent } from '@shared/components/modal/modal.component';
@@ -16,7 +17,7 @@ import { Label } from '../../data/labels-data';
  */
 @Component({
   selector: 'sc-delete-labels-dialog',
-  imports: [LabelChipComponent, ModalComponent, TranslateModule],
+  imports: [ButtonModule, LabelChipComponent, ModalComponent, TranslateModule],
   templateUrl: './delete-labels-dialog.component.html',
   styleUrl: './delete-labels-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

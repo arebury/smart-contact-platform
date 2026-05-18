@@ -260,13 +260,13 @@
         </a>
         <div class="settings-card__actions">
           @if (dirty()) {
-            <button type="button" class="btn btn--ghost" (click)="discard()">
-              {{ 'common.discard' | translate }}
-            </button>
+            <p-button type="button" severity="secondary" (onClick)="discard()">
+              <span>{{ 'common.discard' | translate }}</span>
+            </p-button>
           }
-          <button type="button" class="btn btn--primary" [disabled]="!canSave()" (click)="save()">
-            {{ (saving() ? 'common.saving' : 'common.save') | translate }}
-          </button>
+          <p-button type="button" [disabled]="!canSave()" (onClick)="save()">
+            <span>{{ (saving() ? 'common.saving' : 'common.save') | translate }}</span>
+          </p-button>
         </div>
       </div>
     </section>

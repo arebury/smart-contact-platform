@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Check, Headphones, LucideAngularModule, Plus, Search, Trash2, X } from 'lucide-angular';
+import { ButtonModule } from 'primeng/button';
 
 import {
   IllustratedAvatarComponent,
@@ -50,6 +51,7 @@ interface VisibleRow {
   selector: 'sc-agent-channel-table',
   standalone: true,
   imports: [
+    ButtonModule,
     IllustratedAvatarComponent,
     LucideAngularModule,
     ToggleSwitchComponent,

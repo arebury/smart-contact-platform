@@ -233,12 +233,12 @@
     (cancelled)="cancelCascade()"
   >
     <div modal-actions>
-      <button type="button" class="btn btn--secondary" (click)="cancelCascade()">
-        {{ 'common.cancel' | translate }}
-      </button>
-      <button type="button" class="btn btn--danger" (click)="confirmCascade()">
-        {{ 'groups.form.cascade.confirm' | translate }}
-      </button>
+      <p-button type="button" severity="secondary" (onClick)="cancelCascade()">
+        <span>{{ 'common.cancel' | translate }}</span>
+      </p-button>
+      <p-button type="button" severity="danger" (onClick)="confirmCascade()">
+        <span>{{ 'groups.form.cascade.confirm' | translate }}</span>
+      </p-button>
     </div>
   </sc-modal>
 }

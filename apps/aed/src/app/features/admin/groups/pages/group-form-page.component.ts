@@ -19,6 +19,7 @@ import {
   Users as UsersIcon,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { DirtyAware } from '@core/guards';
 import { CrossTabLockService } from '@core/services';
@@ -75,6 +76,7 @@ interface FormState {
   selector: 'sc-group-form-page',
   imports: [
     AgentChannelTableComponent,
+    ButtonModule,
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
     FormSectionNavComponent,

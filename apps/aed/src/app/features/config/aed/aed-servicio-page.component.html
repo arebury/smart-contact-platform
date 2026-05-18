@@ -203,18 +203,17 @@
         </a>
         <div class="settings-card__actions">
           @if (estadosDirty()) {
-            <button type="button" class="btn btn--ghost" (click)="discardEstados()">
-              {{ 'common.discard' | translate }}
-            </button>
+            <p-button type="button" severity="secondary" (onClick)="discardEstados()">
+              <span>{{ 'common.discard' | translate }}</span>
+            </p-button>
           }
-          <button
+          <p-button
             type="button"
-            class="btn btn--primary"
             [disabled]="!canSaveEstados()"
-            (click)="saveEstados()"
+            (onClick)="saveEstados()"
           >
-            {{ (estadosSaving() ? 'common.saving' : 'common.save') | translate }}
-          </button>
+            <span>{{ (estadosSaving() ? 'common.saving' : 'common.save') | translate }}</span>
+          </p-button>
         </div>
       </div>
     </section>
@@ -355,18 +354,17 @@
         </a>
         <div class="settings-card__actions">
           @if (conversacionesDirty()) {
-            <button type="button" class="btn btn--ghost" (click)="discardConversaciones()">
-              {{ 'common.discard' | translate }}
-            </button>
+            <p-button type="button" severity="secondary" (onClick)="discardConversaciones()">
+              <span>{{ 'common.discard' | translate }}</span>
+            </p-button>
           }
-          <button
+          <p-button
             type="button"
-            class="btn btn--primary"
             [disabled]="!canSaveConversaciones()"
-            (click)="saveConversaciones()"
+            (onClick)="saveConversaciones()"
           >
-            {{ (conversacionesSaving() ? 'common.saving' : 'common.save') | translate }}
-          </button>
+            <span>{{ (conversacionesSaving() ? 'common.saving' : 'common.save') | translate }}</span>
+          </p-button>
         </div>
       </div>
     </section>

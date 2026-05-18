@@ -1,10 +1,12 @@
 # 01 · Button (`<p-button>`)
 
-> **Type**: Custom-preset · **AED uses**: 38 · **Figma parity**: 1:1 con Figma
+> **Type**: Custom-preset · **AED uses**: 39 · **Figma parity**: 1:1 con Figma
 
 > Botón de acción. SCDS NO envuelve PrimeNG aquí — usa `<p-button>` directo con overrides en `sc-preset.ts`. Categoría 🟣 **Custom-preset**.
 >
 > **Auditado 1:1 con Figma `Smart Contact Prime → ❖ Button` (canvas `6738:49717`) — Session 30.** 1965 variants en Figma (9 ejes: Severity / State / Disabled / Icon Only / Raised / Rounded / Text / Outlined / Link). Tokens extraídos vía MCP en nodos canónicos por severity y por variant flag.
+>
+> **Session 34 (2026-05-18) — Migración `.btn` global → `<p-button>` completada.** AED se construyó originalmente con una clase utility `.btn` en `apps/aed/src/styles/_buttons.scss` (38 usos) cuando no existía el Figma SC PrimeUI Kit Pro como referencia 1:1. Una vez disponible el Kit Pro, los 38 usos `.btn` migraron a `<p-button>` con severities (primary/secondary/danger), `_buttons.scss` se eliminó y los tokens `--sc-btn-*` quedaron sin uso (también borrados de `04-component.css` + `07-dark.css`). El override `components.button.root` en `sc-preset.ts` sincroniza `paddingX: 10.5px / paddingY: 7px / borderRadius: 6px / gap: 7px` con los tokens Figma (height efectiva ≈ 36px; antes `.btn` era 40px arbitrario sin Figma).
 
 ## TL;DR
 

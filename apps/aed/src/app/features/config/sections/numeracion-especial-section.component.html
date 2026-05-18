@@ -99,15 +99,15 @@
 
   @if (dirty()) {
     <div class="card__foot">
-      <button type="button" class="btn btn--ghost" (click)="discard()">
-        {{ 'config.aed.discard' | translate }}
-      </button>
-      <button type="button" class="btn btn--primary" [disabled]="saving()" (click)="save()">
+      <p-button type="button" severity="secondary" (onClick)="discard()">
+        <span>{{ 'config.aed.discard' | translate }}</span>
+      </p-button>
+      <p-button type="button" [disabled]="saving()" (onClick)="save()">
         <lucide-icon [img]="saveIcon" [size]="14" aria-hidden="true" />
         <span>
           {{ (saving() ? 'config.aed.saving' : 'config.aed.save') | translate }}
         </span>
-      </button>
+      </p-button>
     </div>
   }
 </section>

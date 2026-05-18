@@ -528,43 +528,6 @@ input[type='checkbox'] {
   max-width: 200px;
 }
 
-/* `.btn` styling for action buttons projected inside a sub-section.
- * The base `.btn` lives in shared/components/sticky-form-header but
- * isn't a global primitive yet; we re-declare a slim version here for
- * the Sesión > Expirar contraseña secondary action. */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sc-spacing-100);
-  padding: var(--sc-spacing-100) var(--sc-spacing-300);
-  font-size: var(--sc-font-size-100);
-  font-weight: var(--sc-font-weight-medium);
-  border-radius: var(--sc-radius-100);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background var(--sc-transition-fast) var(--sc-easing-default);
-
-  &--ghost {
-    color: var(--sc-text-secondary);
-    background: var(--sc-bg-surface);
-    border-color: var(--sc-border-default);
-
-    &:hover {
-      background: var(--sc-bg-secondary-hover);
-    }
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--sc-color-soft-blue-500);
-    outline-offset: 2px;
-  }
-
-  /* Tactile press — impeccable.md principle 3. */
-  &:active {
-    transform: scale(0.98);
-  }
-}
-
 /*
  * `picker-*` primitives — small, opinionated controls used inside
  * "Configuración avanzada" sub-sections (Agendas list + Plantillas

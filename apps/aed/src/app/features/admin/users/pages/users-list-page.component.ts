@@ -14,6 +14,7 @@ import {
   X,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { ClickOutsideDirective, SortableHeaderDirective } from '@core/directives';
 import { UndoStackService, XlsxExportService } from '@core/services';
@@ -46,6 +47,7 @@ interface ContextMenuPos {
   selector: 'sc-users-list-page',
   imports: [
     BulkActionBarComponent,
+    ButtonModule,
     ClickOutsideDirective,
     ColumnSelectorComponent,
     DeleteEntityDialogComponent,

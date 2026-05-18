@@ -35,6 +35,7 @@ import {
   X,
 } from 'lucide-angular';
 import { MessageService, PrimeTemplate } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { DirtyAware } from '@core/guards';
 import { ConfirmHostService, CrossTabLockService } from '@core/services';
@@ -134,6 +135,7 @@ interface FormState {
 @Component({
   selector: 'sc-agent-form-page',
   imports: [
+    ButtonModule,
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
     FormSectionNavComponent,

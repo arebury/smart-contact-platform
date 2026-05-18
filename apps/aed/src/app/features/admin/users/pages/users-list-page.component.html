@@ -1,8 +1,8 @@
 <sc-page-header titleKey="users.page_title" [icon]="pageIcon">
-  <button page-header-actions type="button" class="btn btn--primary" (click)="onCreateClick()">
+  <p-button page-header-actions type="button" (onClick)="onCreateClick()">
     <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
     <span>{{ 'users.create_button' | translate }}</span>
-  </button>
+  </p-button>
 </sc-page-header>
 
 <div class="page">
@@ -253,7 +253,7 @@
 />
 
 <sc-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
-  <button type="button" class="btn btn--bulk-danger" (click)="requestDeleteSelection()">
-    {{ 'common.delete' | translate }}
-  </button>
+  <p-button type="button" severity="danger" (onClick)="requestDeleteSelection()">
+    <span>{{ 'common.delete' | translate }}</span>
+  </p-button>
 </sc-bulk-action-bar>
