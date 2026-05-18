@@ -204,19 +204,19 @@
   }
 }
 
-.component-card__status {
+/* Chip de paridad Figma↔código en la card. Es un span generico; las
+ * variantes color/contraste vienen de las clases `parity-*` compartidas
+ * con el tracker (ver más abajo). */
+.component-card__parity {
   align-self: flex-start;
-  padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
   border-radius: 999px;
   font-size: 11px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-
-  &.is-ready {
-    background: var(--sc-color-green-100);
-    color: var(--sc-color-green-800);
-  }
+  letter-spacing: 0.02em;
 }
 
 .component-card__name {
@@ -321,10 +321,45 @@
   }
 }
 
+/* Intro que aparece al expandir — fija la frase de "tipo vs estado" */
+.tracker-glossary__intro {
+  margin: 0;
+  padding: var(--sc-spacing-300) var(--sc-spacing-400);
+  border-top: 1px solid var(--sc-border-default);
+  background: var(--sc-bg-surface);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--sc-text-secondary);
+
+  strong {
+    color: var(--sc-text-primary);
+    font-weight: 600;
+  }
+}
+
+/* Subtítulo de cada bloque del glosario (Tipo / Estado / Otras) */
+.tracker-glossary__group {
+  margin: 0;
+  padding: var(--sc-spacing-300) var(--sc-spacing-400) var(--sc-spacing-100);
+  background: var(--sc-bg-surface);
+  font-family: var(--dsd-font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--sc-text-subtle);
+  border-top: 1px solid var(--sc-border-default);
+
+  /* El primer group viene justo después del intro (mismo bg) — sin
+   * border-top duplicado. */
+  .tracker-glossary__intro + & {
+    border-top: 0;
+  }
+}
+
 .tracker-glossary__list {
   margin: 0;
-  padding: var(--sc-spacing-300) var(--sc-spacing-400) var(--sc-spacing-400);
-  border-top: 1px solid var(--sc-border-default);
+  padding: 0 var(--sc-spacing-400) var(--sc-spacing-300);
   background: var(--sc-bg-surface);
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -796,31 +831,6 @@
   }
 }
 
-/* Status badges */
-.tracker-item__status {
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 2px 8px;
-  border-radius: 999px;
-
-  &.status-ready {
-    background: var(--sc-color-green-100);
-    color: var(--sc-color-green-800);
-  }
-
-  &.status-in-progress {
-    background: var(--sc-color-amber-100);
-    color: var(--sc-color-amber-800);
-  }
-
-  &.status-pending {
-    background: var(--sc-bg-secondary-hover);
-    color: var(--sc-text-subtle);
-  }
-}
-
 /* AED usage badge — el más relevante para el equipo de diseño: indica
  * qué piezas el equipo de devs ya tiene interiorizadas (en uso) vs las
  * que están listas pero aún no se han adoptado. Ruta de conversación
@@ -845,17 +855,40 @@
   }
 }
 
-/* Figma parity pill — only shown when known */
+/* ------------------------------------------------------------------ *
+ * Chip de paridad Figma↔código — usado en 3 sitios:
+ *  - component-card (`.component-card__parity`)
+ *  - tracker list (`.tracker-item__parity`)
+ *  - glosario explicativo
+ *
+ * El glyph (● ◐ ○) refuerza el color para a11y — el color por sí solo
+ * no debe ser el único canal de información.
+ * ------------------------------------------------------------------ */
 .tracker-item__parity {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-size: 11px;
-  font-weight: 500;
-  color: var(--sc-text-secondary);
-  background: var(--sc-bg-secondary-hover);
-  padding: 2px 8px;
+  font-weight: 600;
+  padding: 2px 9px;
   border-radius: 999px;
+  letter-spacing: 0.02em;
+}
 
-  &.is-100 {
-    background: var(--sc-color-green-100);
-    color: var(--sc-color-green-800);
-  }
+.parity-audited-full {
+  background: color-mix(in srgb, var(--sc-color-green-600) 14%, transparent);
+  color: var(--sc-color-green-800);
+}
+
+.parity-audited-partial {
+  background: color-mix(in srgb, var(--sc-color-amber-500) 18%, transparent);
+  color: var(--sc-color-amber-800);
+}
+
+.parity-no-figma-equivalent {
+  background: var(--sc-bg-secondary-hover);
+  color: var(--sc-text-subtle);
+  border: 1px dashed var(--sc-border-default);
+  /* Compensa el border para mantener altura visual con los demás chips. */
+  padding: 1px 8px;
 }

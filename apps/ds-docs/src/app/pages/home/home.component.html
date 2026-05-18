@@ -37,14 +37,15 @@
   <h2 class="components__title">Componentes con documentación viva</h2>
   <p class="components__hint">Componentes con página interactiva en este sitio. El resto está implementado y disponible vía <code>@sc/design-system</code>, pero su page aún no está documentada aquí.</p>
   <div class="components__grid">
-    @for (c of readyComponents(); track c.slug) {
-      @if (c.pageRoute) {
-        <a class="component-card" [routerLink]="c.pageRoute">
-          <span class="component-card__status is-ready">{{ c.status }}</span>
-          <h3 class="component-card__name">{{ c.name }}</h3>
-          <p class="component-card__summary">{{ c.whatItDoes }}</p>
-        </a>
-      }
+    @for (c of documentedComponents(); track c.slug) {
+      <a class="component-card" [routerLink]="c.pageRoute">
+        <span class="component-card__parity" [class]="'parity-' + c.parity">
+          <span aria-hidden="true">{{ parityGlyph(c.parity) }}</span>
+          {{ parityLabel(c.parity) }}
+        </span>
+        <h3 class="component-card__name">{{ c.name }}</h3>
+        <p class="component-card__summary">{{ c.whatItDoes }}</p>
+      </a>
     }
   </div>
 </section>
@@ -64,6 +65,16 @@
 
   <details class="tracker-glossary">
     <summary>Qué significa cada etiqueta (clic para abrir)</summary>
+
+    <p class="tracker-glossary__intro">
+      Cada componente lleva dos etiquetas diferentes:
+      <strong>las de tipo te dicen cuánto se ha customizado el componente
+      respecto a PrimeNG</strong>, y
+      <strong>las de estado te dicen cuánto puedes fiarte de la paridad
+      Figma–código</strong>.
+    </p>
+
+    <h3 class="tracker-glossary__group">Tipo — cuánto custom sobre PrimeNG</h3>
     <dl class="tracker-glossary__list">
       <dt><span class="tracker-item__badge type-full-primeng">Full PrimeNG</span></dt>
       <dd>Es el componente de PrimeNG tal cual, sin tocarle nada — funciona como viene de fábrica.</dd>
@@ -76,16 +87,43 @@
 
       <dt><span class="tracker-item__badge type-pure-sc">Pure SC</span></dt>
       <dd>Componente 100% Smart Contact, sin PrimeNG por dentro. Lo dibujamos a mano porque PrimeNG no tiene equivalente (ej. la avatar ilustrada, la barra de acciones bulk).</dd>
+    </dl>
 
+    <h3 class="tracker-glossary__group">Estado — paridad Figma ↔ código</h3>
+    <dl class="tracker-glossary__list">
+      <dt>
+        <span class="tracker-item__parity parity-audited-full">
+          <span aria-hidden="true">●</span> 1:1 con Figma
+        </span>
+      </dt>
+      <dd>Hay variante en el kit Smart Contact Prime de Figma y el código está auditado contra ella. Podéis usar el componente en una pantalla sabiendo que se va a ver igual que en el archivo.</dd>
+
+      <dt>
+        <span class="tracker-item__parity parity-audited-partial">
+          <span aria-hidden="true">◐</span> Auditoría parcial
+        </span>
+      </dt>
+      <dd>Hay variante en Figma y el código se parece bastante, pero quedan detalles menores documentados como deuda. Si lo usáis, mejor confirmar con el dev qué variante/estado todavía no está al 100%.</dd>
+
+      <dt>
+        <span class="tracker-item__parity parity-no-figma-equivalent">
+          <span aria-hidden="true">○</span> Sin Figma equivalente
+        </span>
+      </dt>
+      <dd>Es un patrón inventado por Smart Contact: PrimeNG no lo tiene, ni el kit Prime de Figma tampoco. Si vais a usarlo en una pantalla, hay que dibujarlo en Figma desde cero coordinando con el dev.</dd>
+    </dl>
+
+    <h3 class="tracker-glossary__group">Otras etiquetas en la lista</h3>
+    <dl class="tracker-glossary__list">
       <dt>
         <span class="tracker-item__badge" style="background: color-mix(in srgb, var(--sc-color-green-600) 18%, transparent); color: var(--sc-color-green-800);">✓ Hechos en Figma</span>
       </dt>
-      <dd>Ya está plasmado en el archivo Figma del DS — podéis usarlo en pantallas sabiendo que el código existe y se parece 1:1.</dd>
+      <dd>Marca personal: vosotras lo habéis dibujado ya en alguna pantalla del prototipo Figma. Se guarda en este navegador, nadie más lo ve.</dd>
 
       <dt>
         <span class="tracker-item__badge" style="background: var(--sc-bg-secondary-hover); color: var(--sc-text-subtle);">Pendientes</span>
       </dt>
-      <dd>Existe en código pero todavía no lo habéis dibujado en Figma — si lo usáis en una pantalla, hay que confirmar que coincide visualmente.</dd>
+      <dd>Todavía no lo habéis usado en ninguna pantalla del prototipo Figma.</dd>
 
       <dt>
         <span class="tracker-item__usage is-in-use">● AED N×</span>
@@ -216,14 +254,10 @@
             <span class="tracker-item__badge" [class]="'type-' + item.type">
               {{ typeLabel(item.type) }}
             </span>
-            <span class="tracker-item__status" [class]="'status-' + item.status">
-              {{ item.status }}
+            <span class="tracker-item__parity" [class]="'parity-' + item.parity">
+              <span aria-hidden="true">{{ parityGlyph(item.parity) }}</span>
+              {{ parityLabel(item.parity) }}
             </span>
-            @if (item.figmaParity !== undefined) {
-              <span class="tracker-item__parity" [class.is-100]="item.figmaParity === 100">
-                Figma {{ item.figmaParity }}%
-              </span>
-            }
             @if (item.aedUses > 0) {
               <span class="tracker-item__usage is-in-use" [attr.title]="item.aedUses + ' usos en templates AED'">
                 ● AED {{ item.aedUses }}×

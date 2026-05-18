@@ -10,13 +10,26 @@ import {
 import { RouterLink } from '@angular/router';
 
 type ComponentType = 'full-primeng' | 'custom-preset' | 'extended' | 'pure-sc';
-type ComponentStatus = 'ready' | 'in-progress' | 'pending';
+
+/**
+ * Estado de paridad Figma SC ↔ código. Mide "cuánto puedes fiarte de que el
+ * código y el Figma del DS están alineados". Distinto de `type` (que mide
+ * cuánto se ha customizado respecto a PrimeNG).
+ *
+ * Buckets:
+ * - `audited-full` — auditado 1:1 contra Figma SC kit, sin gaps activos.
+ * - `audited-partial` — hay Figma SC y se ha auditado, pero queda algún
+ *   gap menor documentado en backlog (ej. variant faltante).
+ * - `no-figma-equivalent` — patrón in-house de SC sin equivalente Figma
+ *   PrimeOne (ej. bulk-action-bar, command-palette). La paridad no aplica.
+ */
+type FigmaParity = 'audited-full' | 'audited-partial' | 'no-figma-equivalent';
 
 interface ComponentEntry {
   slug: string;
   name: string;
   type: ComponentType;
-  status: ComponentStatus;
+  parity: FigmaParity;
   pageRoute?: string;
   /** Qué hace el componente en lenguaje no técnico. */
   whatItDoes: string;
@@ -25,7 +38,6 @@ interface ComponentEntry {
    * Si está vacío: el componente está hecho pero no usado todavía.
    */
   whereToSee: string;
-  figmaParity?: number;
   /**
    * Veces que aparece en AED templates (snapshot manual de
    * `grep -rh "<sc-X" apps/aed/src --include="*.html" | wc -l`).
@@ -81,29 +93,27 @@ export class HomeComponent {
       slug: 'button',
       name: 'Button',
       type: 'custom-preset',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 38,
       pageRoute: '/components/button',
       whatItDoes: 'Botón de acción (primario azul, secundario gris, peligro rojo, etc.).',
       whereToSee: 'En cualquier pantalla. Ej: AED → Administración → Agentes → botón "Crear agente" arriba a la derecha.',
-      figmaParity: 100,
     },
     {
       slug: 'input',
       name: 'Input',
       type: 'extended',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 21,
       pageRoute: '/components/input',
       whatItDoes: 'Campo de texto para formularios: nombre, email, contraseña, teléfono… Incluye label, texto de ayuda y mensaje de error.',
       whereToSee: 'AED → Administración → Agentes/Usuarios/Grupos/Plantillas/Etiquetas/Repositorios → "Crear/Editar" → cualquier campo de texto. Migración completada en Sesiones 31 + 32 (21 instancias).',
-      figmaParity: 100,
     },
     {
       slug: 'input-number',
       name: 'Input number',
       type: 'extended',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 7,
       pageRoute: '/components/input-number',
       whatItDoes: 'Campo numérico para formularios: capacidades, contadores, segundos, porcentajes. Mismo aspecto que el campo de texto pero con la unidad ("s", "%", "agentes") a la derecha y el número alineado a la derecha también.',
@@ -113,95 +123,87 @@ export class HomeComponent {
       slug: 'select',
       name: 'Select / dropdown',
       type: 'extended',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 16,
       pageRoute: '/components/select',
       whatItDoes: 'Desplegable para elegir UNA opción entre varias. Reemplaza los menús nativos del navegador para que se vean igual en Chrome, Safari y Firefox y combinen con el resto de campos.',
       whereToSee: 'AED → Administración → Agentes/Usuarios/Grupos/Repositorios → "Crear/Editar" → cualquier desplegable. Migración completada en Sesiones 31 + 32 (16 instancias). También usado internamente por sc-bulk-edit-menu (refactor S32).',
-      figmaParity: 100,
     },
     {
       slug: 'datepicker',
       name: 'Datepicker',
       type: 'extended',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 0,
       pageRoute: '/components/datepicker',
       whatItDoes: 'Selector de fecha. Abre un calendario al hacer click. Soporta selección día/mes/año, rangos min-max ("solo próximos 30 días"), y modo inline (calendario siempre visible).',
       whereToSee: 'Aún no hay datepickers visibles en AED — primer caso planeado es "fecha de alta del agente". Demo en ds-docs hasta entonces.',
-      figmaParity: 100,
     },
     {
       slug: 'tabs',
       name: 'Tabs',
       type: 'custom-preset',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 0,
       pageRoute: '/components/tabs',
       whatItDoes: 'Navegación por pestañas dentro de UNA pantalla. Por ejemplo: "Activos / Archivados / Todos" en una lista, o secciones de un formulario largo. El tab activo se marca con un underline en color de marca.',
       whereToSee: 'Aún no hay tabs nativos en AED — primer caso planeado es la pantalla de configuración avanzada. Demo en ds-docs hasta entonces.',
-      figmaParity: 100,
     },
     {
       slug: 'tooltip',
       name: 'Tooltip',
       type: 'full-primeng',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 0,
       pageRoute: '/components/tooltip',
       whatItDoes: 'Cajita oscura con texto que aparece al pasar el ratón por encima de un botón o icono. Sirve para explicar botones que solo tienen icono (sin texto) o para añadir contexto a un campo.',
       whereToSee: 'AED tiene tooltips en los botones icon-only de las tablas (ej: el botón "borrar" papelera). En ds-docs tienes ejemplos interactivos.',
-      figmaParity: 100,
     },
     {
       slug: 'multi-select',
       name: 'MultiSelect',
       type: 'extended',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 0,
       pageRoute: '/components/multi-select',
       whatItDoes: 'Desplegable para elegir VARIAS opciones a la vez (al contrario que select, que es solo una). Los seleccionados aparecen como texto separado por comas O como pills removibles (X cada uno) según prefieras.',
       whereToSee: 'AED aún no lo usa nativamente, pero próximo caso: asignación de canales a un agente (Email + WhatsApp + Teléfono…). Demo en ds-docs hasta entonces.',
-      figmaParity: 100,
     },
     {
       slug: 'search',
       name: 'Search',
       type: 'extended',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 8,
       pageRoute: '/components/search',
       whatItDoes: 'Campo de búsqueda con icono lupa a la izquierda + botón × para vaciar + opcional pista de atajo (⌘K, /) que se ve cuando el campo está vacío. Lo típico de un buscador de tabla o de un picker.',
       whereToSee: 'AED → Administración → cualquier list page (Agentes/Usuarios/Grupos/Etiquetas/Plantillas/Repositorios) → buscador del toolbar arriba. También en agent-form picker-search (agendas/plantillas). 8 instancias en producción. Figma SC `❖ Search` canvas compuesto en S31.',
-      figmaParity: 100,
     },
     {
       slug: 'modal',
       name: 'Modal',
       type: 'extended',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 2,
       pageRoute: '/components/modal',
       whatItDoes: 'Ventana emergente con título, body (acepta cualquier contenido apilado) y botones de acción. Se abre centrada sobre la pantalla con un velo gris detrás.',
       whereToSee: 'AED → Administración → Etiquetas → click en una etiqueta para editarla (se abre encima). Demo interactiva en ds-docs con 5 escenarios.',
-      figmaParity: 100,
     },
     {
       slug: 'toast',
       name: 'Toast',
       type: 'custom-preset',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 1,
       pageRoute: '/components/toast',
       whatItDoes: 'Notificación pequeña que aparece y desaparece sola en una esquina (típicamente abajo a la derecha). Soporta success / info / warn / error / "neutral notice" violeta + botón "deshacer" opcional.',
       whereToSee: 'AED → guarda cualquier cambio (ej: edita una etiqueta y dale a "Guardar") → ves el "Guardado correctamente". Demo interactiva en ds-docs.',
-      figmaParity: 100,
     },
     {
       slug: 'photo-upload',
       name: 'Photo upload',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 2,
       whatItDoes: 'Sube una foto arrastrándola o haciendo click; permite recortarla y previsualizarla.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → bloque "Foto del agente".',
@@ -210,12 +212,11 @@ export class HomeComponent {
       slug: 'toggle-switch',
       name: 'Toggle switch',
       type: 'extended',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 21,
       pageRoute: '/components/toggle-switch',
       whatItDoes: 'Interruptor on/off estilo iOS (la bolita que se desliza de izquierda a derecha).',
       whereToSee: 'AED → Configuración → AED → Servicio → opciones tipo "Activo / Inactivo". Refactor S32: ahora wrapper de PrimeNG `<p-toggleswitch>` (era CSS custom). Figma SC node 6738:22645.',
-      figmaParity: 100,
     },
     {
       slug: 'checkbox',
@@ -224,18 +225,17 @@ export class HomeComponent {
       // el componente NO importa nada de PrimeNG, usa `<input type="checkbox">`
       // nativo con CSS custom para los 3 estados. Es pure-sc por definición.
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 6,
       pageRoute: '/components/checkbox',
       whatItDoes: 'Checkbox con 3 estados: vacío, marcado a medias (cuando hay selección parcial) y marcado del todo. Tres tamaños sm/md/lg + variant filled (slate-50). Patrón típico: "seleccionar todo" del header de tabla.',
       whereToSee: 'AED → Administración → Etiquetas → checkbox de cabecera de la tabla (cuando marcas algunas filas pero no todas se pone a medias). Demo interactiva en ds-docs.',
-      figmaParity: 100,
     },
     {
       slug: 'illustrated-avatar',
       name: 'Illustrated avatar',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 7,
       pageRoute: '/components/illustrated-avatar',
       whatItDoes: 'Avatar dibujado que se asigna automáticamente a usuarios o agentes que no tienen foto subida.',
@@ -245,7 +245,7 @@ export class HomeComponent {
       slug: 'section-card',
       name: 'Section card',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 12,
       pageRoute: '/components/section-card',
       whatItDoes: 'Tarjeta blanca con título que agrupa campos relacionados dentro de un formulario largo.',
@@ -255,7 +255,7 @@ export class HomeComponent {
       slug: 'bulk-action-bar',
       name: 'Bulk action bar',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 6,
       whatItDoes: 'Barra que aparece flotando abajo cuando seleccionas varios elementos de una tabla, con acciones masivas (borrar varios, editar varios…).',
       whereToSee: 'AED → Administración → Etiquetas → marca 2 o más etiquetas con los checkboxes → aparece la barra flotante abajo.',
@@ -264,7 +264,7 @@ export class HomeComponent {
       slug: 'bulk-edit-menu',
       name: 'Bulk edit menu',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 2,
       whatItDoes: 'Menú desplegable de "edición masiva" que sale de la barra anterior para cambiar un campo a varios elementos a la vez.',
       whereToSee: 'AED → Administración → Etiquetas → marca varias → en la barra de abajo dale a "Editar" → sale este menú.',
@@ -273,7 +273,7 @@ export class HomeComponent {
       slug: 'empty-state',
       name: 'Empty state',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 3,
       whatItDoes: 'Mensaje grande con ilustración que aparece cuando una lista o pantalla está vacía ("No hay nada todavía").',
       whereToSee: 'AED → cualquier sección vacía (ej: una pantalla recién creada sin datos aún).',
@@ -282,7 +282,7 @@ export class HomeComponent {
       slug: 'form-danger-zone',
       name: 'Form danger zone',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 3,
       whatItDoes: 'Bloque rojo al final de los formularios de edición con acciones destructivas (borrar la entidad entera).',
       whereToSee: 'AED → edita un agente o etiqueta ya existente → baja al final del formulario.',
@@ -291,7 +291,7 @@ export class HomeComponent {
       slug: 'form-section-nav',
       name: 'Form section nav',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 3,
       whatItDoes: 'Navegación lateral del formulario: muestra las secciones y resalta en cuál estás según vas haciendo scroll.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → barra lateral izquierda con el índice de secciones.',
@@ -300,7 +300,7 @@ export class HomeComponent {
       slug: 'confirm-host',
       name: 'Confirm host',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 1,
       whatItDoes: 'Pop-up de "¿Estás seguro?" que aparece antes de acciones importantes (borrar, archivar…).',
       whereToSee: 'AED → intenta borrar cualquier cosa → sale el "¿Estás seguro?".',
@@ -309,7 +309,7 @@ export class HomeComponent {
       slug: 'label-chip',
       name: 'Label chip',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'audited-full',
       aedUses: 3,
       whatItDoes: 'Etiqueta de color con texto (las pastillitas redondeadas con el color de la categoría).',
       whereToSee: 'AED → Administración → Etiquetas → cada etiqueta de la tabla se muestra como un chip.',
@@ -318,7 +318,7 @@ export class HomeComponent {
       slug: 'color-dot-picker',
       name: 'Color dot picker',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 1,
       whatItDoes: 'Selector de color: muestra varios círculos de colores y eliges uno haciendo click.',
       whereToSee: 'AED → Administración → Etiquetas → crear o editar etiqueta → fila de círculos de colores.',
@@ -327,7 +327,7 @@ export class HomeComponent {
       slug: 'inline-rename-cell',
       name: 'Inline rename cell',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 3,
       whatItDoes: 'Editar el nombre de algo directamente en la tabla, sin abrir formulario (típicamente con doble-click).',
       whereToSee: 'AED → Administración → Etiquetas → doble-click sobre el nombre de una etiqueta → se vuelve editable in-situ.',
@@ -336,7 +336,7 @@ export class HomeComponent {
       slug: 'group-popover',
       name: 'Group popover',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 1,
       whatItDoes: 'Tarjeta flotante que aparece al pasar el ratón sobre un grupo, mostrando sus miembros y acciones rápidas.',
       whereToSee: 'AED → Administración → Grupos → pasa el ratón sobre la fila de un grupo.',
@@ -345,7 +345,7 @@ export class HomeComponent {
       slug: 'column-selector',
       name: 'Column selector',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 3,
       whatItDoes: 'Menú para mostrar u ocultar columnas en tablas que tienen muchas.',
       whereToSee: 'AED → Administración → Agentes (o cualquier tabla con muchas columnas) → icono de engranaje/columnas arriba a la derecha de la tabla.',
@@ -354,7 +354,7 @@ export class HomeComponent {
       slug: 'command-palette',
       name: 'Command palette',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 1,
       whatItDoes: 'Buscador rápido global que se abre con ⌘K (Cmd+K en Mac, Ctrl+K en Windows) y permite saltar a cualquier sección.',
       whereToSee: 'AED → en cualquier pantalla pulsa Cmd+K (o Ctrl+K).',
@@ -363,7 +363,7 @@ export class HomeComponent {
       slug: 'keyboard-shortcuts',
       name: 'Keyboard shortcuts',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 1,
       whatItDoes: 'Pantalla de ayuda que lista todos los atajos de teclado disponibles.',
       whereToSee: 'AED → pulsa "?" en cualquier pantalla (o el icono de ayuda en la barra superior).',
@@ -372,7 +372,7 @@ export class HomeComponent {
       slug: 'delete-entity-dialog',
       name: 'Delete entity dialog',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 8,
       pageRoute: '/components/delete-entity-dialog',
       whatItDoes: 'Ventana específica para confirmar que quieres borrar algo (más explícita que un "¿seguro?" normal).',
@@ -382,7 +382,7 @@ export class HomeComponent {
       slug: 'impact-preview-dialog',
       name: 'Impact preview dialog',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 2,
       whatItDoes: 'Ventana que aparece antes de un cambio importante avisando de a cuántas cosas va a afectar ("Esto afectará a X agentes…").',
       whereToSee: 'AED → Administración → Grupos → borra o cambia un grupo con miembros → diálogo de impacto.',
@@ -391,7 +391,7 @@ export class HomeComponent {
       slug: 'page-header',
       name: 'Page header',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 8,
       pageRoute: '/components/page-header',
       whatItDoes: 'Cabecera grande de página: título, descripción opcional y botones de acción a la derecha.',
@@ -401,7 +401,7 @@ export class HomeComponent {
       slug: 'sticky-form-header',
       name: 'Sticky form header',
       type: 'pure-sc',
-      status: 'ready',
+      parity: 'no-figma-equivalent',
       aedUses: 3,
       whatItDoes: 'Cabecera del formulario que se queda pegada arriba cuando haces scroll, para que siempre veas el título y los botones Guardar/Cancelar.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → empieza a hacer scroll hacia abajo y verás que la cabecera se queda fija.',
@@ -429,8 +429,9 @@ export class HomeComponent {
 
   protected readonly validatedCount = computed(() => this.validated().size);
 
-  protected readonly readyComponents = computed(() =>
-    this.catalog.filter((c) => c.status === 'ready'),
+  /** Componentes con gallery interactiva publicada (los que tienen pageRoute). */
+  protected readonly documentedComponents = computed(() =>
+    this.catalog.filter((c) => !!c.pageRoute),
   );
 
   /**
@@ -507,6 +508,28 @@ export class HomeComponent {
       'extended': 'Extended',
       'pure-sc': 'Pure SC',
     }[type];
+  }
+
+  /**
+   * Copy corto para el chip de paridad. El label debe ser legible para Marta
+   * (diseño), sin jargon técnico. La distinción es: ¿se parece el código a lo
+   * que hay en Figma SC?
+   */
+  protected parityLabel(p: FigmaParity): string {
+    return {
+      'audited-full': '1:1 con Figma',
+      'audited-partial': 'Auditoría parcial',
+      'no-figma-equivalent': 'Sin Figma equivalente',
+    }[p];
+  }
+
+  /** Marcador visual (● ◐ ○) que refuerza la semántica del color — a11y. */
+  protected parityGlyph(p: FigmaParity): string {
+    return {
+      'audited-full': '●',
+      'audited-partial': '◐',
+      'no-figma-equivalent': '○',
+    }[p];
   }
 
   protected setTypeFilter(type: ComponentType | 'all'): void {
