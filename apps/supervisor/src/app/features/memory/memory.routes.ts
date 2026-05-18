@@ -43,4 +43,11 @@ export const memoryRoutes: Routes = [
         (m) => m.RuleBuilderPageComponent,
       ),
   },
+  {
+    path: 'entidades',
+    loadComponent: () =>
+      import('./pages/entities/entities-page.component').then(
+        (m) => m.EntitiesPageComponent,
+      ),
+  },
 ];

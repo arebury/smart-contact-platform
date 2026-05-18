@@ -294,6 +294,50 @@
         "discarded_toast": "Copia descartada"
       }
     },
+    "entities": {
+      "page_title": "Entidades",
+      "new_entity": "Nueva entidad",
+      "user_title": "Tus entidades",
+      "user_desc": "Datos personalizados que la IA extrae del texto de las conversaciones.",
+      "system_title": "Entidades del sistema",
+      "system_desc": "Variables y entidades estándar que vienen incluidas. Inmutables.",
+      "empty_user": "Aún no has creado ninguna entidad. Crea una para que la IA empiece a extraerla del texto.",
+      "coming_soon_toast": "Modal de creación llega en iter 10b",
+      "cols": {
+        "name": "Nombre",
+        "type": "Tipo",
+        "description": "Descripción",
+        "format": "Formato",
+        "more": "Más acciones"
+      },
+      "types": {
+        "text": "Texto",
+        "number": "Número",
+        "date": "Fecha",
+        "email": "Email",
+        "phone": "Teléfono",
+        "list": "Lista",
+        "name": "Nombre propio",
+        "age": "Edad",
+        "url": "URL",
+        "ordinal": "Ordinal",
+        "currency": "Moneda",
+        "datetime": "Fecha + Hora",
+        "dimension": "Dimensión",
+        "geography": "Geografía",
+        "key_phrase": "Frase clave",
+        "percentage": "Porcentaje",
+        "phone_number": "Teléfono",
+        "temperature": "Temperatura"
+      },
+      "menu": {
+        "edit": "Editar",
+        "delete": "Eliminar"
+      },
+      "delete_title": "Eliminar entidad",
+      "delete_body": "Vas a eliminar la entidad «{{name}}». Las reglas que la referencian dejarán de extraerla.",
+      "deleted_toast": "Entidad «{{name}}» eliminada"
+    },
     "category_filter": {
       "label": "Categorías IA",
       "aria": "Filtros por categoría IA",

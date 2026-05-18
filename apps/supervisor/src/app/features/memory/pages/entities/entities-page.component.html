@@ -1,0 +1,126 @@
+<sc-page-header
+  titleKey="memory.entities.page_title"
+  [icon]="databaseIcon"
+>
+  <ng-container page-header-actions>
+    <p-button type="button" severity="primary" (onClick)="onNewEntity()">
+      <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+      <span>{{ 'memory.entities.new_entity' | translate }}</span>
+    </p-button>
+  </ng-container>
+</sc-page-header>
+
+<div class="page">
+  <div class="page__inner">
+    <!-- User entities -->
+    <section class="entities-section">
+      <header class="entities-section__head">
+        <h2>{{ 'memory.entities.user_title' | translate }}</h2>
+        <p>{{ 'memory.entities.user_desc' | translate }}</p>
+      </header>
+
+      @if (!hasUserEntities()) {
+        <div class="entities-empty">
+          <lucide-icon [img]="databaseIcon" [size]="20" aria-hidden="true" />
+          <p>{{ 'memory.entities.empty_user' | translate }}</p>
+        </div>
+      } @else {
+        <table class="entities-table">
+          <thead>
+            <tr>
+              <th scope="col">{{ 'memory.entities.cols.name' | translate }}</th>
+              <th class="entities-table__th-type" scope="col">
+                {{ 'memory.entities.cols.type' | translate }}
+              </th>
+              <th scope="col">{{ 'memory.entities.cols.description' | translate }}</th>
+              <th class="entities-table__th-format" scope="col">
+                {{ 'memory.entities.cols.format' | translate }}
+              </th>
+              <th class="entities-table__th-kebab" scope="col" aria-label="Acciones"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (entity of userEntities(); track entity.id) {
+              <tr>
+                <td class="entities-table__td-name">
+                  <code>{{ entity.name }}</code>
+                </td>
+                <td class="entities-table__td-type">
+                  <span class="entity-type-chip">
+                    {{ ('memory.entities.types.' + entity.type) | translate }}
+                  </span>
+                </td>
+                <td class="entities-table__td-desc">{{ entity.description }}</td>
+                <td class="entities-table__td-format">
+                  {{ entity.format ?? '—' }}
+                </td>
+                <td class="entities-table__td-kebab">
+                  <button
+                    type="button"
+                    class="rules-kebab-btn"
+                    [attr.aria-label]="'memory.entities.cols.more' | translate"
+                    (click)="kebabMenu.toggle($event)"
+                  >
+                    <lucide-icon [img]="kebabIcon" [size]="14" aria-hidden="true" />
+                  </button>
+                  <p-menu
+                    #kebabMenu
+                    [model]="buildMenuItems(entity)"
+                    [popup]="true"
+                    appendTo="body"
+                  />
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </section>
+
+    <hr class="entities-divider" aria-hidden="true" />
+
+    <!-- System entities (read-only) -->
+    <section class="entities-section entities-section--system">
+      <header class="entities-section__head">
+        <h2>
+          <lucide-icon [img]="lockIcon" [size]="13" aria-hidden="true" />
+          {{ 'memory.entities.system_title' | translate }}
+        </h2>
+        <p>{{ 'memory.entities.system_desc' | translate }}</p>
+      </header>
+
+      <table class="entities-table entities-table--readonly">
+        <thead>
+          <tr>
+            <th scope="col">{{ 'memory.entities.cols.name' | translate }}</th>
+            <th class="entities-table__th-type" scope="col">
+              {{ 'memory.entities.cols.type' | translate }}
+            </th>
+            <th scope="col">{{ 'memory.entities.cols.description' | translate }}</th>
+            <th class="entities-table__th-format" scope="col">
+              {{ 'memory.entities.cols.format' | translate }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entity of systemEntities(); track entity.id) {
+            <tr>
+              <td class="entities-table__td-name">
+                <code>{{ entity.name }}</code>
+              </td>
+              <td class="entities-table__td-type">
+                <span class="entity-type-chip entity-type-chip--system">
+                  {{ ('memory.entities.types.' + entity.type) | translate }}
+                </span>
+              </td>
+              <td class="entities-table__td-desc">{{ entity.description }}</td>
+              <td class="entities-table__td-format">
+                {{ entity.format ?? '—' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+  </div>
+</div>
