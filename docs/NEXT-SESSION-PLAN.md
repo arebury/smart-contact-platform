@@ -3,10 +3,13 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
-> 2. Lee la entry **Session 33** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
->    sc-input-group + tracker refactor + galleries 34/34 + type decoupling +
->    perf win bundle AED (-200 KB) + memoria critical-sparring-partner.
-> 3. Lee también la entry Session 32 para contexto previo.
+> 2. Lee la entry **Session 34** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    `.btn` global eliminado (38 botones migrados a `<p-button>`, `_buttons.scss`
+>    borrado, tokens `--sc-btn-*` removidos) + 2 refactors Figma 1:1 (confirm-host
+>    → `<p-confirmdialog>`, group-popover → `<p-popover>`) + regla pragmática
+>    refactor SCDS consolidada en backlog.
+> 3. Lee también la entry Session 33 para contexto previo (sc-input-group +
+>    bundle perf -200 KB).
 > 4. Lee [`packages/design-system/docs/migration-safety.md`](../packages/design-system/docs/migration-safety.md)
 >    — **filosofía SCDS** + reglas blindaje + matriz qué tocar/qué no + pro tips
 >    devs futuros. **Documento clave** post-S32, captura la política Rafa.
@@ -26,6 +29,31 @@
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
+
+---
+
+## Estado al cerrar (Session 34, 2026-05-18)
+
+**Hitos clave de Session 34** (5 commits a main):
+
+- ✅ **Dual-system `.btn` vs `<p-button>` eliminado**. 38 botones AED + 3 SCDS internals (`sticky-form-header`, `bulk-edit-menu`) migrados a `<p-button>`. `_buttons.scss` borrado (177 líneas). Tokens `--sc-btn-*` removidos en `04-component.css` + `07-dark.css` (~70 tokens). Override `components.button.root` añadido en `sc-preset.ts` (paddingX 10.5 / paddingY 7 / borderRadius 6 / gap 7 — Figma 1:1 con Kit Pro verificado via MCP node `10:124`).
+- ✅ **Min-width estable** 144px en `.page-header__actions p-button > .p-button` (main.scss unscoped — `::ng-deep` no alcanza el inner DOM PrimeNG). Cierra shift visible entre list-pages (134-153px medido S34 → 144 floor).
+- ✅ **Refactors Figma 1:1 P1**: `sc-confirm-host` → `<p-confirmdialog>` (API Promise pública intacta, internamente wrappea `ConfirmationService`) + `sc-group-popover` → `<p-popover>` (chrome via `overlay.popover` tokens). Ambos reclasificados ⚪ Pure SC → 🟢 Extended en MIGRATION-INVENTORY.
+- ✅ **Audit Figma kit recap (node 829:36548)** cross-ref vs MIGRATION-INVENTORY → 3 candidatos P2 evaluados: **2 declined** (inline-rename-cell ≠ Inplace, illustrated-avatar ≠ Avatar — conceptos distintos pese a nombre) + **1 deferred** (section-card → Panel: Panel vive en library externa, no auditable desde Figma SC MCP). **Regla pragmática consolidada en backlog**: refactor SCDS → PrimeNG solo si (1) mismo concepto, (2) reduce código sin forzar UX, (3) tokens auditados.
+- ✅ **Backlog items cerrados**: #11 (dual-system), #17 (build error ds-docs verificado verde — item obsoleto), input-number Figma TODO (hereda de sc-input).
+- ✅ **Bug pre-existente arreglado de paso**: HTML comment dentro de `<input>` opening tag en `search.component.html` bloqueaba build (Angular template parser).
+- ✅ **Memoria nueva** `feedback_case_study_notes.md`: anotar momentos pedagógicos del proyecto progresivamente para presentación case study.
+
+Last commit en main: pendiente (commit final de cierre tras este NEXT-SESSION-PLAN entry).
+
+### Estado factual del catálogo al cerrar S34
+
+- **34 spec docs** (sin cambios estructurales vs S33; entries 14 confirm-host + 18 group-popover ahora marcadas 🟢 Extended).
+- **34 galleries ds-docs** (cobertura 100%). Build production ds-docs **verde**.
+- **Bundle AED prod**: 1.41 → 1.40 MB initial. agent-form-page.scss 13.59 → 12.96 kB. Visual verificado en 12 pantallas (light + dark) via Playwright.
+- **Tokens removidos**: `--sc-btn-*` series completa (light + dark).
+- **`_buttons.scss`** eliminado. Botones AED ahora 100% `<p-button>`.
+- **inconsistencies-backlog**: 30 entries · 4 resueltas adicionales en S34 (#11, #17, P1 refactors, input-number TODO). Total resueltas: 14/30.
 
 ---
 
@@ -209,33 +237,47 @@ Tiempo: 2-4h. Requiere acceso al repo Memory (no está en monorepo).
 
 ## Sugerencias arranque próxima sesión
 
-**Pendiente en backlog post-S33** (todo P3, todo espera trigger externo):
+**Pendiente en backlog post-S34** (todo P3, todo espera trigger externo o decisión Marta):
 
 | # | Item | Severidad | Trigger |
 |---|---|---|---|
 | 6 | `<sc-select-button>` gap | P3 | Primer filtro segmented real |
 | 7 | `<sc-tag>` gap | P3 | Primer caso severity-fill |
 | 8 | `<sc-toggle-button>` gap | P3 | Primer caso button pressed state |
-| 11 | `_buttons.scss` migrate a SCDS | P3 | 2nd consumer (Memory) |
 | 14 | Refinement Figma Search (icon X clear) | P3 | Marta decision |
 | 15 | Variants formales Figma Search | P3 | Marta decision |
 | 27 | Branch deploys Netlify production-only | P3 | Equipo crezca |
 | 28 | Memory CI workflow (post-activation) | P3 | Memory active + threshold |
+| — | `sc-section-card` → `<p-panel>` | P2 deferred S34 | Audit `❖ Panel` SC (Marta) |
 
 **Por orden de ROI próxima sesión** (todas opcionales — esperan algo externo):
 
-1. **Memory Camino B activation** (Fase 4): si Rafa tiene acceso al repo Memory, ejecutar `scripts/copy-scds-tokens.sh <path>`. 1-2h validación. Es lo más cercano a "siguiente fase del proyecto".
+1. **Memory Camino B activation** (Fase 4): si Rafa tiene acceso al repo Memory, ejecutar `scripts/copy-scds-tokens.sh <path>`. 1-2h validación. Es lo más cercano a "siguiente fase del proyecto" — y ahora particularmente atractivo, porque Memory consumirá DS sin `.btn` legacy (post-S34) y se beneficia automáticamente del refactor Figma 1:1 (button + confirm-host + group-popover).
 
-2. **Refactor SCSS gordo `agent-form-page.component.scss`**: 808 líneas / 13.59 KB excede budget 12 KB (warning). Splittear por secciones del form. ~30-60 min. Deuda concreta sin tocar lógica.
+2. **Refinement Figma Search (#14, #15)** si Marta decide: cambiar el right icon a `X clear` cuando se importe + cocinar variants formales del Main Component. Marta dependent.
 
-3. **Refinement Figma Search (#14, #15)** si Marta decide: cambiar el right icon a `X clear` cuando se importe + cocinar variants formales del Main Component. Marta dependent.
+3. **`sc-section-card` → `<p-panel>`** SI Marta audita `❖ Panel` en SC primero. 24 consumers AED → refactor mediano-grande, no ejecutar sin tokens auditados.
 
 **Sin urgencia**:
 - Gaps componentes (#6, #7, #8): esperar trigger real (memoria `minimal-customization`).
-- `_buttons.scss` migrate: hasta que llegue Memory como 2nd consumer.
 - Netlify PR previews / Memory CI: thresholds externos.
+- Refactors a Figma 1:1 P2 declined (inline-rename-cell, illustrated-avatar): conceptos distintos, NO retomar (decisión documentada en backlog).
 
 **NO atacar sin requerimiento explícito**:
 - Crear componentes pure-sc "por si acaso" — memoria `minimal-customization`.
 - Tocar Figma SC sin que Marta lo pida.
 - Refactors estructurales (memoria `reference_structural_refactor_plan` — plan dormido por diseño).
+
+## Reglas operativas (actualizadas Session 34)
+
+**🆕 Nueva regla S34** (memoria `case-study-notes` + regla pragmática refactor):
+
+21. **Anotar momentos pedagógicos progresivamente** (memoria `case-study-notes`): cuando surja algo interesante (refactor con historia, sparring que cambió decisión, gotcha técnica, premisa equivocada) anotarlo para presentación case study. Filtrar señal vs morralla, no urgente, archivo dedicado (no en backlog).
+
+22. **Regla pragmática refactor SCDS → wrapper PrimeNG** (consolidada en `inconsistencies-backlog.md` cierre S34): solo refactor si los 3 criterios se cumplen — (a) mismo concepto, (b) reduce código sin forzar UX changes en consumers, (c) tokens Figma auditados. Conceptos distintos con nombre parecido (Inplace ≠ inline-rename-cell, Avatar ≠ illustrated-avatar) NO se refactorizan. Patterns in-house sin equivalente Figma (empty-state, danger-zone, sticky-form-header, command-palette, page-header) NO se refactorizan.
+
+23. **Verificación visual obligatoria post-migración mecánica** (lección S34): el grep no es la realidad. Tras cualquier rename/eliminate masivo, validar con Playwright al menos 5-7 pantallas (light + dark) para detectar deuda escondida (e.g. componentes SCDS internals que el grep `apps/aed/src` no toca).
+
+24. **`<p-confirmdialog>` es el patrón canonical para confirmation dialogs SC** (S34): NO crear nuevos sc-modal manuales para confirmaciones — usar `ConfirmHostService.request(req): Promise<boolean>` que internamente wrappea PrimeNG `ConfirmationService`. Para dialogs no-confirmation (delete-entity, impact-preview), seguir usando `<sc-modal>` directamente.
+
+25. **`<p-popover>` para overlays anchored a un trigger** (S34): si necesitas un panel float anchor-positioned, usar `<p-popover>` directamente o vía wrapper SC (como `sc-group-popover`). Beneficio: tokens `overlay.popover` 1:1 Figma + posicionamiento PrimeNG + render en `<body>` (escapa clips).

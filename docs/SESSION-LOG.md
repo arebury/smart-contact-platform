@@ -10,6 +10,83 @@
 
 ---
 
+## 2026-05-18 · Session 34 — `.btn` global eliminado + 2 refactors Figma 1:1 + regla pragmática consolidada
+
+> Sesión larga continuada (Opus 4.7 1M context). 5 commits a main. Cerramos
+> el dual-system de botones que arrastraba AED desde antes del Kit Pro y
+> conectamos 2 componentes pure-sc al Kit Figma como wrappers PrimeNG.
+>
+> **Highlights:**
+> - **Dual-system `.btn` vs `<p-button>` eliminado**: 38 botones AED + 3 SCDS internals migrados, `_buttons.scss` borrado, tokens `--sc-btn-*` removidos, override `components.button.root` en sc-preset (Figma 1:1).
+> - **Refactors Figma 1:1 P1**: `sc-confirm-host` → `<p-confirmdialog>` + `sc-group-popover` → `<p-popover>`, ambos conectando tokens del Kit Pro directamente.
+> - **Regla pragmática refactor SCDS** consolidada en backlog: solo refactor si (1) mismo concepto, (2) reduce código sin forzar UX en consumers, (3) tokens auditados.
+> - **3 candidatos P2 evaluados**: 2 declined (concepto distinto), 1 deferred (audit Figma Panel pendiente).
+> - **Memoria nueva** `case-study-notes`: anotar momentos pedagógicos progresivamente.
+
+### Worked on
+
+- **Migración `.btn` global → `<p-button>` (commit `130087a`)**:
+  - 38 botones HTML en 15 archivos AED migrados con severity mapping (`--primary` → default, `--ghost`/`--secondary` → `severity="secondary"`, `--danger`/`--bulk-danger` → `severity="danger"`, `--sm` → `size="small"`).
+  - 13 components TS con `ButtonModule` import añadido.
+  - 5 selectores positional `> .btn { height: 36px }` eliminados (dead hacks para forzar `.btn` 40px → 36px en toolbars; `<p-button>` ya 36px nativo vía preset).
+  - 2 redeclaraciones locales `.btn` borradas (agent-form-page + aed-defaults-page).
+  - `main.scss` tactile rule `.btn` → `.p-button` (DD#21 preservada).
+  - `_buttons.scss` eliminado (177 líneas).
+  - Tokens `--sc-btn-*` removidos de `04-component.css` (44 tokens light) + `07-dark.css` (26 tokens dark).
+  - Override `components.button.root` en `sc-preset.ts`: `paddingX: 10.5px / paddingY: 7px / borderRadius: 6px / gap: 7px` — Figma 1:1 verificado via MCP `get_variable_defs` en node `10:124`.
+  - Cambio visual confirmado: 40 → 36px en todos los botones, padding más apretado.
+  - Bundle AED initial: 1.41 → 1.40 MB.
+  - Bug pre-existente arreglado de paso: HTML comment dentro del `<input>` opening tag en `search.component.html` bloqueaba build.
+  - Cierra backlog #11.
+
+- **SCDS internals + min-width estable (commit `d8a8346`)**:
+  - Verificación visual Playwright reveló 2 componentes DENTRO de `packages/design-system/components/` que el grep `apps/aed/src` pasó por alto:
+    - `sticky-form-header`: 2 botones (Cancelar + Guardar) con `.btn` hardcoded + `.btn { ... }` redeclarado en SCSS local. Migrados a `<p-button>`, bloque local borrado, keyframe spinner renombrado a `.sticky-header__spin`.
+    - `bulk-edit-menu`: botón "Aplicar" con `class="btn btn--secondary"` → unstyled tras eliminar `_buttons.scss`. Migrado a `<p-button severity="secondary" size="small">`.
+  - Min-width 144px aplicado a `.page-header__actions p-button > .p-button` en `main.scss` (unscoped — `::ng-deep` falló por encapsulation con PrimeNG inner DOM). Cierra shift visible: agentes 149 · usuarios 153 · grupos 142 → 144 · labels 134 → 144 (medido con Playwright).
+
+- **Refactors Figma 1:1 P1 (commit `735047b`)**:
+  - **`sc-confirm-host` → `<p-confirmdialog>`**: `ConfirmHostService.request(req): Promise<boolean>` mantiene API pública (3 consumers intactos), pero internamente wrappea `ConfirmationService` de PrimeNG. Mapping `tone × emphasis` → `acceptButtonProps + rejectButtonProps`. Template colapsa a `<p-confirmdialog />`. `ConfirmationService` registrado en `app.config.ts`. Visual verificado: header + icon + body + footer 1:1 Figma `❖ ConfirmDialog`.
+  - **`sc-group-popover` → `<p-popover>`**: trigger button conserva mecánica hover-or-focus open + ESC close + leave-delay, pero ahora driving `pop.show($event)` / `hide()`. Panel rendered en `<body>` via `appendTo="body"`. Chrome del panel via `overlay.popover` tokens (Figma `❖ Popover`). SCSS reducido de 84 → ~50 líneas (solo `__list`, `__item`, `__more` — slots SC-específicos).
+
+- **Audit Figma kit recap (node 829:36548)**:
+  - Cross-ref ~80 componentes Figma vs catálogo SCDS 34 componentes.
+  - 3 candidatos P2 evaluados:
+    - `sc-inline-rename-cell` → `<p-inplace>`: **DECLINE**. `<p-inplace>` es toggle display↔edit; `sc-inline-rename-cell` es always-edit (parent controla). Conceptos opuestos. Confirma decline S32.
+    - `sc-section-card` → `<p-panel>`: **DEFER**. Concepto match (header collapsible + body, 24 consumers). Pero `❖ Panel` vive en library externa PrimeOne — no auditable desde Figma SC actual via MCP (solo top-level "Getting Started" accesible). Migrar sin audit = riesgo visual.
+    - `sc-illustrated-avatar` → `<p-avatar>`: **DECLINE**. `<p-avatar>` es 32-64px foto/icon/texto; `sc-illustrated-avatar` es SVG illustration grande custom.
+  - **Regla pragmática consolidada** en backlog: refactor SCDS → wrapper PrimeNG solo si (1) mismo concepto, (2) reduce código sin forzar UX changes, (3) tokens Figma auditados.
+
+- **Cierres backlog adicionales (commit `6b9cab2`)**:
+  - `<sc-confirm-host>` y `<sc-group-popover>` reclasificados de ⚪ Pure SC → 🟢 Extended en MIGRATION-INVENTORY.
+  - `sc-input-number` TODO Figma cerrado: hereda chrome 1:1 de `sc-input` (auditado S30); extensiones SC (suffix unit + right-align) NO modeladas en kit (decisión explícita).
+  - Build error ds-docs #17 verificado verde (item obsoleto desde algún punto entre S33-S34).
+
+- **Memoria nueva** `feedback_case_study_notes.md`: anotar progresivamente momentos pedagógicos del proyecto (refactors con historia, sparring que cambió decisión, gotchas técnicas, premisas equivocadas). Filtrar señal vs morralla, no urgente. Material identificado de S34 (8 momentos): dual-system .btn, premisa equivocada budget anyComponentStyle, comment rotting, deuda escondida post-grep, dead code con intención viva, ViewEncapsulation gotcha, "P1 claros" no tan claros tras inspección, regla pragmática "¿es el mismo concepto?".
+
+### Métricas finales S34
+
+- **Commits**: 5 (`130087a`, `d8a8346`, `735047b`, `6b9cab2` + commit final de cierre).
+- **Backlog items resueltos**: 4 (#11 dual-system .btn, #17 build error ds-docs, P1 refactors confirm-host + group-popover, input-number Figma TODO).
+- **Componentes reclasificados**: 2 (confirm-host + group-popover: ⚪ Pure SC → 🟢 Extended).
+- **Tokens removidos**: ~70 (`--sc-btn-*` light + dark).
+- **Archivos borrados**: 1 (`_buttons.scss`, 177 líneas).
+- **Bundle AED prod**: 1.41 → 1.40 MB (-10 KB neto; -635 B en agent-form-page.scss).
+- **Memorias nuevas**: 1 (`case-study-notes`).
+
+### Decisiones clave S34
+
+1. **Dual-system de botones era historia**: AED se construyó pre-Kit Pro con la doc PrimeNG como referencia (posible alucinación). Ahora con Kit, se invierte la dirección — `<p-button>` canonical, `.btn` global muere.
+2. **`_buttons.scss` (capa intermedia, 10+ files reemplazados en su día) cumplió su rol histórico** — pero post-Kit es deuda que duplica `--p-button-*` consumidos por sc-preset. Borrado completo.
+3. **Verificación visual obligatoria post-migración mecánica**: el grep `apps/aed/src` reveló 38 usos, pero el visual Playwright reveló 3 más DENTRO de `packages/design-system/components/`. El grep no es la realidad.
+4. **Dead code puede tener intención válida**. El selector `.page__actions > .btn--primary { min-width: 144px }` era huérfano (clase no existía en HTML), pero su comment documentaba un problema real (shift inter-pages 134-153px). Borrar el código no borra el problema — rescaté la intención al selector real.
+5. **Refactor a Figma 1:1 NO es decisión por defecto** — pregunta "¿es el mismo concepto?" caso por caso. Inplace ≠ inline-rename-cell. Avatar ≠ illustrated-avatar. Forzar el match con nombre parecido cambia UX sin ganar paridad.
+6. **Cuando refactor SÍ aplica** (confirm-host + group-popover): single source of truth Figma → tokens → PrimeNG → SC consume directamente. Marta puede tocar Figma sin pedir cambios al dev.
+
+Last commit en main: pendiente (commit final de cierre tras este SESSION-LOG entry).
+
+---
+
 ## 2026-05-18 · Session 33 — sc-input-group + tracker refactor + galleries pure-sc + type decoupling + perf win bundle AED
 
 > Sesión larga (Opus 4.7 1M context). 9 commits a main. 8 items del backlog
