@@ -55,6 +55,22 @@
 
 - ✅ Migración `.btn` → `<p-button>` completa (#11). 38 botones AED migrados, 13 archivos TS con ButtonModule import añadido, 5 selectores `> .btn` positional huérfanos borrados, 2 redeclaraciones locales `.btn` eliminadas, `_buttons.scss` borrado, tokens `--sc-btn-*` removidos en `04-component.css` + `07-dark.css`, override `components.button.root` en sc-preset (Figma 1:1 tokens). Initial bundle 1.41 MB → 1.40 MB. agent-form-page.component.scss 13.59 kB → 12.96 kB. Visual verificado via Playwright en 7 pantallas × 2 themes.
 - ✅ Bug pre-existente en `search.component.html` arreglado: HTML comment `<!-- eslint-disable -->` dentro del opening tag `<input>` bloqueaba build (Angular template parser).
+- ✅ SCDS internals `sticky-form-header` (2 botones) + `bulk-edit-menu` (1 botón) migrados a `<p-button>` — escondidos del grep inicial `apps/aed/src` porque viven dentro de `packages/design-system/components/`. Descubiertos via verificación visual Playwright post-migración (botón "Aplicar" unstyled visible).
+- ✅ Min-width 144px en `.page-header__actions p-button > .p-button` (main.scss unscoped) — rescata intención del selector dead-code `.page__actions > .btn--primary` que borré, ahora aplicado al selector correcto. Cierra shift visible 134-153px medido al navegar entre list-pages.
+- ✅ Refactors Figma 1:1 P1: `sc-confirm-host` → `<p-confirmdialog>` (ConfirmHostService wrappea ConfirmationService de PrimeNG, API Promise pública intacta) + `sc-group-popover` → `<p-popover>` (chrome del panel via `overlay.popover` tokens, hover-or-focus mechanics preservadas en el wrapper). Commit 735047b.
+- 🕐 Audit Figma kit recap (node 829:36548) cross-ref vs MIGRATION-INVENTORY → 3 candidatos P2 evaluados, **0 migrados**, regla pragmática aplicada:
+  - `sc-inline-rename-cell` → `<p-inplace>`: **DECLINE**. `<p-inplace>` es toggle display↔edit (click texto → edit form). `sc-inline-rename-cell` es always-edit (parent controla cuándo aparece). Conceptos opuestos. Confirma decline S32 con razón ampliada.
+  - `sc-section-card` → `<p-panel>`: **DEFER**. Concepto match (header collapsible + body slot, 24 consumers). Pero `❖ Panel` del Kit Figma SC NO auditado (vive en library externa PrimeOne, no en este file). Migrar sin tokens auditados = riesgo visual silencioso en 24 lugares. Re-evaluar cuando Marta audite Panel en SC.
+  - `sc-illustrated-avatar` → `<p-avatar>`: **DECLINE**. `<p-avatar>` es avatar pequeño (32-64px) foto/icon/texto. `sc-illustrated-avatar` es SVG illustration grande custom. Concepto distinto pese a nombre parecido.
+
+**Regla pragmática consolidada S34** (para futuras decisiones de refactor a Figma 1:1):
+
+> Refactorar SCDS a wrapper PrimeNG **solo cuando**:
+> 1. El componente Figma cubre **el mismo concepto** (no solo nombre/categoría parecida).
+> 2. El refactor **reduce código sin perder funcionalidad** (no fuerza UX changes en consumers para forzar el match).
+> 3. Hay **tokens Figma auditados** que el refactor empieza a consumir (no migrar a defaults Aura "a ver qué pasa").
+>
+> Patterns in-house sin equivalente Figma (empty-state, danger-zone, sticky-form-header, command-palette, page-header) NO se refactorizan — no hay token que sincronizar. Componentes con nombre parecido pero concepto distinto (inline-rename-cell vs Inplace, illustrated-avatar vs Avatar) NO se refactorizan — fuerzan UX changes sin paridad real.
 
 ### Session 32 (al cierre)
 

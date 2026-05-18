@@ -29,11 +29,11 @@
 | 11 | Empty state | ✓ | ⚪ Pure SC | `<sc-empty-state>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/12-empty-state.md` |
 | 12 | Form danger zone | ✓ | ⚪ Pure SC | `<sc-form-danger-zone>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/21-form-danger-zone.md` |
 | 13 | Form section nav | ✓ | ⚪ Pure SC | `<sc-form-section-nav>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/20-form-section-nav.md` |
-| 14 | Confirm host | ✓ | ⚪ Pure SC | `<sc-confirm-host>` | n/a (composición sobre sc-modal, hereda) | n/a | `docs/components/33-confirm-host.md` |
+| 14 | Confirm host | ✓ | 🟢 Extended | `<sc-confirm-host>` | [6738:50207](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50207) ConfirmDialog | **100%** — S34 refactor: wrapper de `<p-confirmdialog>` (era composición sobre sc-modal). API pública del service `ConfirmHostService.request(req): Promise<boolean>` intacta. | `docs/components/33-confirm-host.md` |
 | 15 | Label chip | ✓ | ⚪ Pure SC | `<sc-label-chip>` | [6738:55109](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-55109) Chip | TBD — semántica `LabelColor` propia, no se wrappea `<p-tag>` (decisión S32) | `docs/components/17-label-chip.md` |
 | 16 | Color dot picker | ✓ | ⚪ Pure SC | `<sc-color-dot-picker>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/18-color-dot-picker.md` |
 | 17 | Inline rename cell | ✓ | ⚪ Pure SC | `<sc-inline-rename-cell>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/28-inline-rename-cell.md` |
-| 18 | Group popover | ✓ | ⚪ Pure SC | `<sc-group-popover>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/30-group-popover.md` |
+| 18 | Group popover | ✓ | 🟢 Extended | `<sc-group-popover>` | `❖ Popover` (Figma SC kit recap) | **100%** — S34 refactor: wrapper de `<p-popover>` (era panel CSS custom). Chrome via `overlay.popover` tokens. Hover-or-focus mechanics preservadas en el wrapper. | `docs/components/30-group-popover.md` |
 | 19 | Column selector | ✓ | ⚪ Pure SC | `<sc-column-selector>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/27-column-selector.md` |
 | 20 | Command palette | ✓ | ⚪ Pure SC | `<sc-command-palette>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/31-command-palette.md` |
 | 21 | Keyboard shortcuts | ✓ | ⚪ Pure SC | `<sc-keyboard-shortcuts>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/32-keyboard-shortcuts.md` |
