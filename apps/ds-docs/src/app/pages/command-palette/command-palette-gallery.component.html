@@ -1,0 +1,95 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component · Shell-only</span>
+    <h1 class="gallery__title">Command palette</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-command-palette&gt;</code> es el overlay tipo <kbd>⌘K</kbd> / <kbd>Ctrl+K</kbd>
+      con búsqueda fuzzy y comandos categorizados (Páginas, Acciones). Se monta UNA VEZ en el
+      shell de la app y escucha el shortcut globalmente. Es el componente más cercano a un
+      "component of context" — no tiene sentido fuera del app shell, por eso esta página es
+      documental (sin demo interactivo).
+    </p>
+  </header>
+
+  <!-- Cómo se ve. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Cómo se ve</h2>
+    <p class="gallery__hint">
+      Ábrelo directamente en AED: pulsa <kbd>⌘K</kbd> (Mac) o <kbd>Ctrl+K</kbd> (Win/Linux)
+      desde cualquier pantalla de AED. Aparece centrado, con el input de búsqueda autofocado.
+    </p>
+    <div class="gallery__row gallery__row--inline">
+      <a class="btn btn--secondary" href="https://aed.smartcontact.netlify.app" target="_blank" rel="noopener">
+        Abrir AED en pestaña nueva →
+      </a>
+    </div>
+  </section>
+
+  <!-- Atajos. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Atajos de teclado</h2>
+    <p class="gallery__hint">
+      Una vez abierto, el modelo de teclado es el estándar de paletas de comandos (GitHub,
+      Linear, VS Code).
+    </p>
+    <table class="gallery__table">
+      <thead>
+        <tr>
+          <th>Tecla</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><kbd>⌘ K</kbd> / <kbd>Ctrl K</kbd></td><td>Toggle (abre / cierra)</td></tr>
+        <tr><td><kbd>Esc</kbd></td><td>Cierra</td></tr>
+        <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Mueve el cursor entre comandos</td></tr>
+        <tr><td><kbd>↵</kbd></td><td>Ejecuta el comando seleccionado</td></tr>
+        <tr><td>Click en backdrop</td><td>Cierra</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Cómo se monta. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Cómo se monta en el shell</h2>
+    <p class="gallery__hint">
+      Se monta una sola vez en el <code>app.component.html</code> (o en el shell-level
+      template). NO hay que instanciarlo por ruta. La visibilidad la dispara el
+      <code>CommandPaletteService</code>.
+    </p>
+    <pre class="gallery__code"><code>// app.component.ts
+import &#123; CommandPaletteComponent &#125; from '&#64;shared/components';
+
+&#64;Component(&#123;
+  selector: 'sc-app',
+  imports: [RouterOutlet, CommandPaletteComponent /* … */],
+  template: `
+    &lt;router-outlet /&gt;
+    &lt;sc-command-palette /&gt;
+  `,
+&#125;)
+export class AppComponent &#123;&#125;</code></pre>
+  </section>
+
+  <!-- Cómo se alimentan los comandos. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · De dónde salen los comandos</h2>
+    <p class="gallery__hint">
+      <code>CommandPaletteService.commands</code> es un <code>computed</code> derivado de las
+      <code>NAV_SECTIONS</code> del sidebar — cada item navegable de la app se vuelve
+      automáticamente un comando "Páginas". Los comandos "Acciones" (crear agente, abrir
+      atajos, etc.) se inyectan aparte en el service. Cuando añades una ruta nueva al sidebar,
+      aparece sola en la paleta — no hay que tocar nada más.
+    </p>
+    <pre class="gallery__code"><code>export interface PaletteCommand &#123;
+  readonly id: string;
+  readonly label: string;
+  readonly category: 'Páginas' | 'Acciones';
+  readonly icon?: NavIconKey;
+  readonly keywords?: readonly string[];
+  readonly action: () =&gt; void;
+&#125;</code></pre>
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="command-palette" />
+</div>

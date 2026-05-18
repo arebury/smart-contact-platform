@@ -1,0 +1,106 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Sticky form header</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-sticky-form-header&gt;</code> es la barra superior de las pantallas
+      Create/Edit (Users, Groups, Agents…). Muestra el título de la entidad, opcionalmente el
+      nombre editable inline, y las acciones Save / Cancel / Delete. El botón Save lleva spinner
+      cuando <code>[saving]="true"</code> y se deshabilita con <code>[canSave]="false"</code>.
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Modo <code>create</code></h2>
+    <p class="gallery__hint">
+      Título proviene del <code>entityKey</code> i18n. Aparece input para nombre arriba; Save
+      queda deshabilitado mientras esté vacío.
+    </p>
+    <div class="gallery__row">
+      <sc-sticky-form-header
+        mode="create"
+        entityKey="Nueva agente"
+        [name]="newName()"
+        [canSave]="newName().trim().length > 0"
+        (nameChange)="newName.set($event); onRename($event)"
+        (save)="onSave('create')"
+        (cancelled)="onCancel('create')"
+      />
+    </div>
+    <p class="gallery__output">
+      Valor: <code>"{{ newName() }}"</code>
+    </p>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Modo <code>edit</code> con rename inline</h2>
+    <p class="gallery__hint">
+      El título muestra el nombre actual. Click en el lapicito (✎) → input inline editable;
+      <kbd>Enter</kbd> confirma, <kbd>Esc</kbd> cancela. El componente emite
+      <code>(nameChange)</code> al confirmar.
+    </p>
+    <div class="gallery__row">
+      <sc-sticky-form-header
+        mode="edit"
+        entityKey="Agente"
+        [name]="savedName()"
+        (nameChange)="onRename($event)"
+        (save)="onSave('edit')"
+        (cancelled)="onCancel('edit')"
+      />
+    </div>
+    <p class="gallery__output">
+      Nombre guardado: <code>"{{ savedName() }}"</code>
+    </p>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Estado <code>saving</code> (spinner)</h2>
+    <p class="gallery__hint">
+      Mientras <code>[saving]="true"</code>, el botón Save se reemplaza por el spinner Loader2
+      de Lucide. El usuario sabe que el guardado está en curso sin perder el contexto.
+    </p>
+    <div class="gallery__row gallery__row--stack">
+      <sc-sticky-form-header
+        mode="edit"
+        entityKey="Agente"
+        [name]="savedName()"
+        [saving]="saving()"
+        (save)="toggleSaving(); onSave('edit-saving')"
+        (cancelled)="onCancel('edit-saving')"
+      />
+      <button type="button" class="btn btn--secondary" (click)="toggleSaving()">
+        Forzar spinner 1.5s
+      </button>
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Con botón <code>Atrás</code></h2>
+    <p class="gallery__hint">
+      <code>[showBack]="true"</code> añade un botón "Atrás" en el cluster de acciones. Default
+      es <code>false</code> porque el breadcrumb de la página ya da una salida — solo activarlo
+      en modales profundos o pantallas sin breadcrumb visible.
+    </p>
+    <div class="gallery__row">
+      <sc-sticky-form-header
+        mode="edit"
+        entityKey="Agente"
+        [name]="savedName()"
+        [showBack]="true"
+        (save)="onSave('with-back')"
+        (cancelled)="onCancel('with-back')"
+      />
+    </div>
+  </section>
+
+  @if (lastAction()) {
+    <section class="gallery__section">
+      <p class="gallery__output">
+        Última acción: <code>{{ lastAction() }}</code>
+      </p>
+    </section>
+  }
+
+  <sc-ds-docs-gallery-footer slug="sticky-form-header" />
+</div>

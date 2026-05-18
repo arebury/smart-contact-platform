@@ -150,6 +150,34 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: 'components/sticky-form-header',
+    loadComponent: () =>
+      import('./pages/sticky-form-header/sticky-form-header-gallery.component').then(
+        (m) => m.StickyFormHeaderGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/command-palette',
+    loadComponent: () =>
+      import('./pages/command-palette/command-palette-gallery.component').then(
+        (m) => m.CommandPaletteGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/keyboard-shortcuts',
+    loadComponent: () =>
+      import('./pages/keyboard-shortcuts/keyboard-shortcuts-gallery.component').then(
+        (m) => m.KeyboardShortcutsGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/confirm-host',
+    loadComponent: () =>
+      import('./pages/confirm-host/confirm-host-gallery.component').then(
+        (m) => m.ConfirmHostGalleryComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },
