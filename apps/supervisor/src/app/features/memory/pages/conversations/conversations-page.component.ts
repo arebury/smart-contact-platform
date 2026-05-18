@@ -1,24 +1,33 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { MessageSquare } from 'lucide-angular';
+import { MessagesSquare } from 'lucide-angular';
 
-import { EmptyStateComponent } from '@shared/components/empty-state/empty-state.component';
+import { PageHeaderComponent } from '@shared/components';
+
+import { ConversationTableComponent } from '../../components/conversation-table/conversation-table.component';
+import { ConversationsStore } from '../../state/conversations.store';
 
 /**
  * Pantalla principal del módulo Memory (`/conversaciones`).
  *
- * Hoy es placeholder mientras se migra el prototipo React. La vista
- * funcional será la tabla densa de conversaciones con filtros, selección
- * múltiple y reproductor modal. Ver `ConversationsView.tsx` en
- * `arebury/Memory/legacy-react/src/app/components/`.
+ * Primera iteración (S36): page-header + tabla densa de conversaciones
+ * con mock data (15 entries). Sin filtros, sin selección múltiple, sin
+ * player modal — vienen en iteraciones siguientes (ver
+ * `docs/memory-migration-inventory.md`).
+ *
+ * Referencia visual y funcional: `ConversationsView.tsx` +
+ * `ConversationTable.tsx` en `arebury/Memory/legacy-react/`.
  */
 @Component({
   selector: 'sc-memory-conversations-page',
-  imports: [TranslateModule, EmptyStateComponent],
+  imports: [TranslateModule, PageHeaderComponent, ConversationTableComponent],
   templateUrl: './conversations-page.component.html',
   styleUrl: './conversations-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConversationsPageComponent {
-  protected readonly conversationsIcon = MessageSquare;
+  private readonly conversationsStore = inject(ConversationsStore);
+
+  protected readonly conversations = this.conversationsStore.conversations;
+  protected readonly pageIcon = MessagesSquare;
 }

@@ -1,0 +1,36 @@
+<div class="table-card">
+  <table class="table sc-table-zebra memory-conversations-table">
+    <thead>
+      <tr>
+        <th scope="col">{{ 'memory.conversations.table.hour' | translate }}</th>
+        <th scope="col">{{ 'memory.conversations.table.date' | translate }}</th>
+        <th scope="col">{{ 'memory.conversations.table.service' | translate }}</th>
+        <th scope="col">{{ 'memory.conversations.table.origin' | translate }}</th>
+        <th scope="col">{{ 'memory.conversations.table.group' | translate }}</th>
+        <th scope="col">{{ 'memory.conversations.table.destination' | translate }}</th>
+        <th class="table__th-num" scope="col">
+          {{ 'memory.conversations.table.duration' | translate }}
+        </th>
+        <th class="table__th-num" scope="col">
+          {{ 'memory.conversations.table.waiting' | translate }}
+        </th>
+        <th scope="col">{{ 'memory.conversations.table.id' | translate }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (conv of conversations(); track conv.id) {
+        <tr [class.is-deleted]="conv.deleted">
+          <td>{{ conv.hour }}</td>
+          <td>{{ conv.date }}</td>
+          <td>{{ conv.service }}</td>
+          <td>{{ conv.origin }}</td>
+          <td>{{ conv.group }}</td>
+          <td>{{ conv.destination }}</td>
+          <td class="table__td-num">{{ conv.duration }}</td>
+          <td class="table__td-num">{{ conv.waiting }}</td>
+          <td class="memory-conversations-table__id">{{ conv.id }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

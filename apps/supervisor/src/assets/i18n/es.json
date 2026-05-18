@@ -11,6 +11,20 @@
     "placeholder": {
       "title": "Memory en migración",
       "body": "El módulo Memory (revisión de conversaciones, transcripción IA, reglas y entidades) se está migrando desde el prototipo React. La primera vista funcional aterriza en las próximas sesiones."
+    },
+    "conversations": {
+      "page_title": "Conversaciones",
+      "table": {
+        "hour": "Hora",
+        "date": "Fecha",
+        "service": "Servicio",
+        "origin": "Origen",
+        "group": "Grupo",
+        "destination": "Destino",
+        "duration": "T. Conv.",
+        "waiting": "T. Espera",
+        "id": "ID"
+      }
     }
   },
   "common": {
