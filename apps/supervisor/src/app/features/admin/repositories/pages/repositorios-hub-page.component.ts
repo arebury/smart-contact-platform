@@ -126,24 +126,25 @@ export class RepositoriosHubPageComponent {
       titleKey: 'repositories.hub.categories.ai',
       items: [
         {
+          // S38 decisión B fusión hubs: redirigir a vistas Memory reales.
           labelKey: 'repositories.reglas_ia.title',
           descriptionKey: 'repositories.hub.descriptions.reglas_ia',
           icon: Sparkles,
-          path: '/admin/reglas-ia',
+          path: '/conversaciones/reglas',
           ready: true,
         },
         {
           labelKey: 'repositories.entidades_ia.title',
           descriptionKey: 'repositories.hub.descriptions.entidades_ia',
           icon: Box,
-          path: '/admin/entidades-ia',
+          path: '/conversaciones/entidades',
           ready: true,
         },
         {
           labelKey: 'repositories.clasificacion_ia.title',
           descriptionKey: 'repositories.hub.descriptions.clasificacion_ia',
           icon: Tags,
-          path: '/admin/clasificacion-ia',
+          path: '/conversaciones/categorias',
           ready: true,
         },
       ],

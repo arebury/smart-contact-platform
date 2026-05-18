@@ -7,7 +7,7 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   AlertTriangle,
@@ -64,6 +64,7 @@ import { RulesStore } from '../../state/rules.store';
     InputComponent,
     LucideAngularModule,
     MultiSelectComponent,
+    RouterLink,
     SelectModule,
     ToggleSwitchModule,
     TranslateModule,
