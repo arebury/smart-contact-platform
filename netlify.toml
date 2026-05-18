@@ -3,14 +3,14 @@
 # IMPORTANTE: este archivo NO declara `[build].command` ni
 # `[build].publish` porque Netlify les da prioridad sobre los settings
 # de la UI de cada site, y en este monorepo CADA site necesita su
-# propio command/publish (uno builda AED, otro builda ds-docs).
-# Configurar build settings PER-SITE en Netlify UI:
+# propio command/publish (uno builda el shell Supervisor, otro builda
+# ds-docs). Configurar build settings PER-SITE en Netlify UI:
 #
-# Site `aedmigration`:
-#   Build command:     npm install --no-audit --no-fund && npm run build:aed
-#   Publish directory: dist/aed/browser
+# Site `aedmigration` (shell Supervisor: AED + Memory features):
+#   Build command:     npm install --no-audit --no-fund && npm run build:supervisor
+#   Publish directory: dist/supervisor/browser
 #   Base directory:    (vacío)
-#   Env vars override: (ninguna — usa default ANGULAR_PROJECT=aed de abajo)
+#   Env vars override: (ninguna — usa default ANGULAR_PROJECT=supervisor de abajo)
 #
 # Site `ds-smartcontact`:
 #   Build command:     npm install --no-audit --no-fund && npm run build:ds-docs
@@ -19,21 +19,26 @@
 #   Env vars override: ANGULAR_PROJECT = ds-docs
 #
 # ¿Por qué ANGULAR_PROJECT? `@netlify/angular-runtime` lee angular.json y,
-# si hay varios `projects`, agarra el primero (= aed) y exige que la
-# publish dir matchee `dist/aed/browser`. Para ds-docs hay que decirle
-# explícitamente con la env var. Fuente:
+# si hay varios `projects`, agarra el primero (= supervisor) y exige que
+# la publish dir matchee `dist/supervisor/browser`. Para ds-docs hay que
+# decírselo explícitamente con la env var. Fuente:
 # https://github.com/netlify/angular-runtime/blob/main/src/helpers/setUpEdgeFunction.js
 #
 # Lo que queda en este archivo (env, redirects, headers) aplica a TODOS
-# los sites que builden desde este repo — son consistentes entre AED y
-# ds-docs (Angular SPA, mismo Node version, mismo cache policy). El
-# ANGULAR_PROJECT default es "aed" porque es el caso más común; el site
-# ds-smartcontact lo sobreescribe en la UI.
+# los sites que builden desde este repo — son consistentes entre el
+# Supervisor y ds-docs (Angular SPA, mismo Node version, mismo cache
+# policy). El ANGULAR_PROJECT default es "supervisor" porque es el caso
+# más común; el site ds-smartcontact lo sobreescribe en la UI.
+#
+# Histórico: el sitio `aedmigration` heredó su nombre cuando este
+# directorio se llamaba `apps/aed/`. Rename a `apps/supervisor/` en
+# Session 35 (2026-05-18). Nombre del site Netlify se mantiene por
+# ahora; se puede renombrar en cualquier momento desde la UI.
 
 [build.environment]
   NODE_VERSION = "20"
   NPM_VERSION = "10"
-  ANGULAR_PROJECT = "aed"
+  ANGULAR_PROJECT = "supervisor"
 
 # SPA fallback: every unknown URL must hit index.html so the Angular Router
 # can take over (otherwise refreshing /admin/labels returns a 404).
