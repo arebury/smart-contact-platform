@@ -5,6 +5,23 @@
 > Aura distintos de la identidad SC) y **redundancias** (overrides
 > en el preset que ya no existen en v21). El núcleo de la pregunta:
 > ¿qué `--p-*` se escapan del bridge y producen drift visual?
+>
+> **🎯 S34 sweep update (2026-05-18)**: Verificado §4 (huecos críticos)
+> + §7.1 (acciones recomendadas) contra el código actual.
+> **TODOS los huecos identificados en Fase 3 ya están cubiertos**
+> (la alineación se hizo progresivamente entre S30 y S34, el doc
+> nunca se actualizó). Estado real:
+>
+> - §4.1 invalid form-field: ✅ `invalidBorderColor` + `invalidPlaceholderColor` en `sc-preset.ts:243-244` + `:324-325` (light + dark).
+> - §4.2 shadow popover: ✅ Aura `<p-popover>` consume `{overlay.popover.shadow}` (verificado en source PrimeUix dist), que SC override a `var(--sc-shadow-popover)`.
+> - §4.3 toast raw: ✅ N/A — `<p-toast>` usa custom `pTemplate="message"` en `app.component.html` con tokens `--sc-toast-*` propios, el chrome Aura nunca se evalúa.
+> - §4.4 disabled.opacity: ⚖️ "Cuestionable" en el doc original — no accionable, decisión consciente de mantener colores explícitos en wrappers SC.
+> - §4.5/§4.6: ✅/🟡 menores sin uso real AED.
+> - §7.1.1 `invalidPlaceholderColor`: ✅ aplicado.
+> - §7.1.2 `--sc-border-error` red-400: ✅ alineado en `02-semantic.css:125`.
+> - §7.2 acciones discrecionales: pendientes solo si aparece visibilidad concreta.
+>
+> Sin deudas accionables residuales tras este sweep.
 
 ---
 
