@@ -99,33 +99,33 @@ el segundo color de marca. Coherente. ✅ Justificado.
 
 ### 1.3. Gray scale (neutrals)
 
-AED `gray` está entre Aura `gray` y Aura `slate` — cooler que gray
-puro, más cálido que slate. Cercano a slate en estructura pero con
-valores distintos en cada paso.
+> **🎯 S34 update — DEUDA YA CERRADA**: la tabla original (12 pasos 🟡
+> "cercano accidental" vs Aura slate) fue resuelta en una fase posterior
+> (probable Fase 4 cleanup S30): `01-primitive.css` líneas 48-59 hoy
+> matcheaN 1:1 con Aura slate, con comment explícito `Mirrors Aura
+> 'slate' 1:1 (Tailwind slate). Previously the ramp was...`. Este
+> doc Fase 2 quedó histórico sin reflejar la alineación.
+>
+> Verificación S34 (snapshot post-alineación):
 
-| Step | AED `--sc-color-gray-*` | Aura `slate.*` (closer match) | Status |
+| Step | AED `--sc-color-gray-*` actual | Aura `slate.*` | Status |
 |---|---|---|---|
-| 0 | `#ffffff` | (no step 0) | ⚪ AED-only |
-| 50 | `#f7f8fa` | `#f8fafc` | 🟡 |
-| 100 | `#eceff3` | `#f1f5f9` | 🟡 |
-| 200 | `#dadfe6` | `#e2e8f0` | 🟡 |
-| 300 | `#c6ccd6` | `#cbd5e1` | 🟡 |
-| 400 | `#aeb6c2` | `#94a3b8` | 🟡 |
-| 500 | `#8f97a3` | `#64748b` | 🟡 |
-| 600 | `#6f7784` | `#475569` | 🟡 |
-| 700 | `#4f5663` | `#334155` | 🟡 |
-| 800 | `#2f3642` | `#1e293b` | 🟡 |
-| 900 | `#181d26` | `#0f172a` | 🟡 |
-| 950 | `#0b0f14` | `#020617` | 🟡 |
+| 0 | `#ffffff` | (no step 0) | ⚪ AED-only (white) |
+| 50 | `#f8fafc` | `#f8fafc` | ✅ |
+| 100 | `#f1f5f9` | `#f1f5f9` | ✅ |
+| 200 | `#e2e8f0` | `#e2e8f0` | ✅ |
+| 300 | `#cbd5e1` | `#cbd5e1` | ✅ |
+| 400 | `#94a3b8` | `#94a3b8` | ✅ |
+| 500 | `#64748b` | `#64748b` | ✅ |
+| 600 | `#475569` | `#475569` | ✅ |
+| 700 | `#334155` | `#334155` | ✅ |
+| 800 | `#1e293b` | `#1e293b` | ✅ |
+| 900 | `#0f172a` | `#0f172a` | ✅ |
+| 950 | `#020617` | `#020617` | ✅ |
 
-**Observación**: 12 pasos consistentemente más claros que Aura slate.
-Patrón claramente intencional (escala paralela, no drift accidental).
-Pero **no encuentro DD ni mención en GUIA** que documente "AED's
-gray is intentionally lighter than Aura slate". 
-
-**Decisión pendiente**: ¿es intentional (entonces upgrade a 🟠 +
-añadir nota a GUIA) o accidental (alinear con slate)? Material
-para Fase 3 / 4.
+**Resultado**: 12/12 ✅ alineados con Aura slate. Cero divergence. La
+nomenclatura `--sc-color-gray-*` se conserva por compat con consumers,
+pero los valores son slate canonical. Sin deuda residual.
 
 ### 1.4. Green scale (success)
 
