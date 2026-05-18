@@ -2,9 +2,16 @@ import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@a
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CirclePlus, Info, LucideAngularModule, Phone, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { InputTextModule } from 'primeng/inputtext';
 
 import { PageHeaderService } from '@core/services';
-import { InputComponent, InputNumberComponent, ToggleSwitchComponent } from '@shared/components';
+import {
+  InputComponent,
+  InputGroupComponent,
+  InputNumberComponent,
+  ToggleSwitchComponent,
+} from '@shared/components';
 
 interface VisibilidadEstados {
   postConversando: boolean;
@@ -98,8 +105,11 @@ const EVENTOS_LABELS: readonly (keyof EventosNotificacion)[] = [
 @Component({
   selector: 'sc-aed-servicio-page',
   imports: [
+    ButtonModule,
     InputComponent,
+    InputGroupComponent,
     InputNumberComponent,
+    InputTextModule,
     LucideAngularModule,
     ToggleSwitchComponent,
     TranslateModule,

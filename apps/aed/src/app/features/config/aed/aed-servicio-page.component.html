@@ -23,26 +23,27 @@
             </p>
           </header>
 
-          <div class="tag-input">
+          <sc-input-group class="tag-input">
             <input
+              pInputText
               id="servicio-tag"
               type="text"
-              class="field__input tag-input__field"
               [value]="tagInput()"
               (input)="tagInput.set($any($event.target).value)"
               (keydown)="onTagKeydown($event)"
               [placeholder]="'config.aed.subpages.servicio.estados.tag_placeholder' | translate"
             />
-            <button
+            <p-button
               type="button"
-              class="btn btn--ghost"
+              severity="secondary"
+              [outlined]="true"
               [disabled]="!tagInput().trim()"
-              (click)="addTag()"
+              (onClick)="addTag()"
             >
               <lucide-icon [img]="addIcon" [size]="14" aria-hidden="true" />
               <span>{{ 'config.aed.subpages.servicio.estados.add' | translate }}</span>
-            </button>
-          </div>
+            </p-button>
+          </sc-input-group>
 
           @if (form().estadosNoDisponibles.length > 0) {
             <ul class="chips" aria-label="Estados de no disponibilidad personalizados">

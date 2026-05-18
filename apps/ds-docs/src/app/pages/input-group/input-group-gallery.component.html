@@ -1,0 +1,142 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Input group</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-input-group&gt;</code> envuelve <code>&lt;p-inputgroup&gt;</code> para componer
+      un input con addons left/right: texto, icono, botón, checkbox o radio. PrimeNG hace el
+      <em>border-merge</em> entre el input y los addons (los addons absorben el borde compartido);
+      el wrapper SCDS solo añade <code>size</code> y <code>fluid</code> para combinar con el resto
+      del DS. Distinto de <code>sc-search</code>, que es para icon overlay decorativo sin borde
+      merge.
+    </p>
+  </header>
+
+  <!-- 1. Addon de texto (left + right). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Addon de texto</h2>
+    <p class="gallery__hint">
+      El caso clásico: prefijo o sufijo de unidad sobre un input numérico o un input de URL. Los
+      addons absorben el borde compartido — el resultado lee como una pieza única.
+    </p>
+    <div class="gallery__row gallery__row--stack">
+      <sc-input-group>
+        <p-inputgroup-addon>$</p-inputgroup-addon>
+        <input pInputText placeholder="0.00" [value]="price()" (input)="price.set($any($event.target).value)" />
+        <p-inputgroup-addon>.00</p-inputgroup-addon>
+      </sc-input-group>
+
+      <sc-input-group>
+        <p-inputgroup-addon>www.</p-inputgroup-addon>
+        <input pInputText placeholder="smartcontact.io" [value]="website()" (input)="website.set($any($event.target).value)" />
+      </sc-input-group>
+    </div>
+  </section>
+
+  <!-- 2. Addon de icono. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Addon con icono</h2>
+    <p class="gallery__hint">
+      Útil cuando el icono comunica el tipo de dato esperado (usuario, búsqueda, calendario). Si el
+      icono es decorativo y NO necesita merge de borde, usa <code>&lt;sc-search&gt;</code> con
+      <code>p-iconfield</code> en lugar de este componente.
+    </p>
+    <div class="gallery__row">
+      <sc-input-group>
+        <p-inputgroup-addon>
+          <i class="pi pi-user" aria-hidden="true"></i>
+        </p-inputgroup-addon>
+        <input pInputText placeholder="Usuario" [value]="username()" (input)="username.set($any($event.target).value)" />
+      </sc-input-group>
+    </div>
+  </section>
+
+  <!-- 3. Addons múltiples (left + left + input + right + right). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Addons múltiples</h2>
+    <p class="gallery__hint">
+      Hasta 2 addons por lado. Refleja la variante "Multiple" del kit Figma Smart Contact Prime.
+    </p>
+    <div class="gallery__row">
+      <sc-input-group>
+        <p-inputgroup-addon>
+          <i class="pi pi-clock" aria-hidden="true"></i>
+        </p-inputgroup-addon>
+        <p-inputgroup-addon>
+          <i class="pi pi-star" aria-hidden="true"></i>
+        </p-inputgroup-addon>
+        <input pInputText placeholder="Etiquetas + valor" [value]="multi()" (input)="multi.set($any($event.target).value)" />
+        <p-inputgroup-addon>$</p-inputgroup-addon>
+        <p-inputgroup-addon>.00</p-inputgroup-addon>
+      </sc-input-group>
+    </div>
+  </section>
+
+  <!-- 4. Addon de botón (caso real AED: tag-input). -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Addon de botón (caso real AED)</h2>
+    <p class="gallery__hint">
+      Patrón <em>tag input</em>: campo de texto + botón "Añadir" pegado a la derecha. Es la
+      migración real del bloque <code>.tag-input</code> de
+      <code>aed-servicio</code> → estados de no disponibilidad. <kbd>Enter</kbd> también añade.
+    </p>
+    <div class="gallery__row gallery__row--stack">
+      <sc-input-group>
+        <input
+          pInputText
+          placeholder="Nuevo estado (ej. Reunión)"
+          [value]="tag()"
+          (input)="tag.set($any($event.target).value)"
+          (keydown)="onTagKeydown($event)"
+        />
+        <p-button
+          type="button"
+          icon="pi pi-plus"
+          label="Añadir"
+          severity="secondary"
+          [outlined]="true"
+          [disabled]="!tag().trim()"
+          (onClick)="addTag()"
+        />
+      </sc-input-group>
+
+      @if (tags().length > 0) {
+        <ul class="gallery__chips" aria-label="Estados añadidos">
+          @for (t of tags(); track t) {
+            <li class="gallery__chip">
+              <span>{{ t }}</span>
+              <button type="button" (click)="removeTag(t)" [attr.aria-label]="'Quitar ' + t">×</button>
+            </li>
+          }
+        </ul>
+      }
+    </div>
+  </section>
+
+  <!-- 5. Sizes. -->
+  <section class="gallery__section">
+    <h2 class="gallery__h2">5 · Sizes <code>sm</code> / <code>md</code> / <code>lg</code></h2>
+    <p class="gallery__hint">
+      Los tamaños matchean <code>sc-input</code> para que un input-group pueda convivir en la misma
+      fila que campos sueltos sin desnivel visual.
+    </p>
+    <div class="gallery__row gallery__row--stack">
+      <sc-input-group size="sm">
+        <p-inputgroup-addon>@</p-inputgroup-addon>
+        <input pInputText placeholder="usuario" />
+      </sc-input-group>
+
+      <sc-input-group>
+        <p-inputgroup-addon>@</p-inputgroup-addon>
+        <input pInputText placeholder="usuario (md, default)" />
+      </sc-input-group>
+
+      <sc-input-group size="lg">
+        <p-inputgroup-addon>@</p-inputgroup-addon>
+        <input pInputText placeholder="usuario (lg)" />
+      </sc-input-group>
+    </div>
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="input-group" />
+</div>

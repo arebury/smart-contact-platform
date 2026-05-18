@@ -108,6 +108,13 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: 'components/input-group',
+    loadComponent: () =>
+      import('./pages/input-group/input-group-gallery.component').then(
+        (m) => m.InputGroupGalleryComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

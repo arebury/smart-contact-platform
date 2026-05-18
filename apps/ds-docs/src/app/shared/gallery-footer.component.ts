@@ -25,6 +25,7 @@ const COMPONENTS: readonly NavLink[] = [
   { slug: 'illustrated-avatar', name: 'Illustrated avatar', num: '16' },
   { slug: 'page-header', name: 'Page header', num: '19' },
   { slug: 'delete-entity-dialog', name: 'Delete entity dialog', num: '26' },
+  { slug: 'input-group', name: 'Input group', num: '34' },
 ];
 
 const SPEC_DOC_NAMES: Record<string, string> = {
@@ -45,6 +46,7 @@ const SPEC_DOC_NAMES: Record<string, string> = {
   'illustrated-avatar': '16-illustrated-avatar.md',
   'page-header': '19-page-header.md',
   'delete-entity-dialog': '26-delete-entity-dialog.md',
+  'input-group': '34-input-group.md',
 };
 
 /**

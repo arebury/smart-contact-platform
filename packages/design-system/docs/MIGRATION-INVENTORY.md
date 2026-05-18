@@ -49,6 +49,7 @@
 | 31 | Tooltip | ✓ | 🟦 Full PrimeNG | `[pTooltip]` | [6738:50212](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50212) | **100%** — Session 30 audit. bg slate-700, padding 10.5/7, radius 6, max-width 175. Overrides en `components.tooltip.root`. Shadow heredado de overlay.popover. | `docs/components/07-tooltip.md` |
 | 32 | MultiSelect | ✓ | 🟢 Extended | `<sc-multi-select>` | [6738:22651](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22651) | **100%** — Session 30. Tokens `multiselect/*` idénticos a `select/*` (mismo chrome). Display `comma` o `chip`, selectionLimit, filter. | `docs/components/08-multi-select.md` |
 | 33 | Search | ✓ | 🟢 Extended | `<sc-search>` | [11861:55210](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=11861-55210) | **100%** — S31 cocinado. Composición `<p-iconfield>` + `<p-inputicon>` + `pInputText` + clear button auto + opcional kbd hint `⌘K`/`/`. Figma canvas compuesto (Light + Dark + Components frame). | `docs/components/14-search.md` |
+| 34 | Input group | ✓ | 🟢 Extended | `<sc-input-group>` | [6738:22644](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22644) | **100%** — S33 cocinado. Wrapper minimal de `<p-inputgroup>` + `<p-inputgroup-addon>` (PrimeNG nativo). `size` matchea `sc-input`. Trigger real: tag-input aed-servicio. Tokens fluyen via `formField.*` sin overrides propios. | `docs/components/34-input-group.md` |
 
 ## Tokens
 

@@ -120,6 +120,16 @@ export class HomeComponent {
       whereToSee: 'AED → Configuración → AED → Grupos → Capacidad ("Límite de cola") + 2 tiempos en segundos (transferencia, max espera). 3 fields migrados como POC. Resto pendiente de migración por feature.',
     },
     {
+      slug: 'input-group',
+      name: 'Input group',
+      type: 'extended',
+      parity: 'audited-full',
+      aedUses: 1,
+      pageRoute: '/components/input-group',
+      whatItDoes: 'Agrupa un input con addons pegados a izquierda o derecha (prefijo $, sufijo .00, icono usuario, botón "Añadir"…). PrimeNG funde los bordes para que el conjunto se lea como una pieza única.',
+      whereToSee: 'AED → Configuración → AED → Servicio → bloque "Estados de no disponibilidad" (input + botón "Añadir"). Demo con 5 escenarios en ds-docs (texto, icono, múltiples, botón con caso real tag-input, sizes).',
+    },
+    {
       slug: 'select',
       name: 'Select / dropdown',
       type: 'extended',
@@ -463,7 +473,7 @@ export class HomeComponent {
    * un spec doc nuevo. Mantener hardcoded (vs dynamic import) para no
    * acoplar al filesystem desde el cliente.
    */
-  protected readonly specDocsCount = 33;
+  protected readonly specDocsCount = 34;
 
   /** Componentes con gallery interactiva en este sitio (entries con pageRoute). */
   protected readonly galleriesCount = computed(

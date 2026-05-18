@@ -1,0 +1,60 @@
+/*
+ * sc-input-group — wrapper Extended sobre <p-inputgroup>.
+ *
+ * PrimeNG se encarga del border-merge entre input y addons (los addons
+ * absorben el borde compartido). Lo único que añadimos aquí son:
+ *   - size variants que matchean sc-input (sm/md/lg) ajustando padding
+ *     vertical del addon y la altura percibida.
+ *   - layout block del host para que el grupo se comporte como bloque
+ *     en formularios.
+ *
+ * Tokens consumidos (via formField.* en sc-preset → --p-inputgroup-*):
+ *   --p-inputgroup-addon-background    → form.field.background    → --sc-bg-surface
+ *   --p-inputgroup-addon-border-color  → form.field.border.color  → --sc-border-default
+ *   --p-inputgroup-addon-color         → form.field.icon.color    → --sc-text-subtle
+ *   --p-inputgroup-addon-border-radius → form.field.border.radius → --sc-radius-200
+ *   --p-inputgroup-addon-padding       → 0.5rem (heredado Aura)
+ *   --p-inputgroup-addon-min-width     → 2.5rem (heredado Aura)
+ */
+
+.sc-input-group {
+  display: block;
+  min-width: 0;
+}
+
+.sc-input-group__inner--fluid {
+  width: 100%;
+  display: flex;
+}
+
+/* ───── Size variants — alinear con sc-input padding decimal (10.5/7) ───── */
+
+.sc-input-group--sm .sc-input-group__inner {
+  /* sc-input sm: padding 8.75/5.25, font-size 12.25 — replicamos en addon. */
+  .p-inputgroup-addon {
+    padding: 5.25px 8.75px;
+    font-size: 12.25px;
+  }
+
+  .p-inputtext,
+  input[pInputText] {
+    padding-top: 5.25px;
+    padding-bottom: 5.25px;
+    font-size: 12.25px;
+  }
+}
+
+.sc-input-group--lg .sc-input-group__inner {
+  /* sc-input lg: padding 12.25/8.75, font-size 15.75. */
+  .p-inputgroup-addon {
+    padding: 8.75px 12.25px;
+    font-size: 15.75px;
+  }
+
+  .p-inputtext,
+  input[pInputText] {
+    padding-top: 8.75px;
+    padding-bottom: 8.75px;
+    font-size: 15.75px;
+  }
+}

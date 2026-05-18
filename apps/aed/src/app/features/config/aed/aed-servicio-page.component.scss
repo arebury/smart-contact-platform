@@ -4,15 +4,11 @@
  * aed-defaults-page.component.scss (loaded alongside via styleUrls).
  */
 
-.tag-input {
-  display: flex;
-  align-items: center;
-  gap: var(--sc-spacing-200);
-
-  &__field {
-    flex: 1;
-    max-width: 380px;
-  }
+/* Limita el ancho del input-group de estados — el wrapper es block fluid
+ * por defecto, lo que en formularios de configuración queda demasiado ancho. */
+sc-input-group.tag-input {
+  display: block;
+  max-width: 420px;
 }
 
 .chips {
