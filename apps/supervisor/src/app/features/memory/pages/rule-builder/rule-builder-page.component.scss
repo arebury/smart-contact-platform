@@ -1,0 +1,334 @@
+/* RuleBuilderPage · iter 9c-1
+ * Constructor de reglas según spec `Memory/docs/specs/rule-constructor-update.md`.
+ * Single-column scroll vertical con bloques apilados (Metadatos · Alcance
+ * · Grabación). Iter 9c-2 añade Transcripción + Análisis IA.
+ */
+
+:host {
+  display: block;
+}
+
+.rule-builder {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: var(--sc-color-gray-50);
+
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sc-spacing-300);
+    padding: var(--sc-spacing-400) var(--sc-spacing-500);
+    background: var(--sc-bg-surface);
+    border-bottom: 1px solid var(--sc-border-default);
+  }
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: var(--sc-radius-200);
+    background: transparent;
+    color: var(--sc-text-secondary);
+    cursor: pointer;
+    transition: background-color 200ms ease-out;
+
+    &:hover {
+      background: var(--sc-bg-elevated);
+      color: var(--sc-text-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
+  &__head-text {
+    flex: 1;
+
+    h1 {
+      margin: 0;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--sc-text-primary);
+    }
+
+    p {
+      margin: 4px 0 0 0;
+      font-size: 0.8125rem;
+      color: var(--sc-text-secondary);
+    }
+  }
+
+  &__type {
+    color: var(--sc-text-secondary);
+    font-weight: 400;
+    text-transform: capitalize;
+  }
+
+  &__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--sc-spacing-500);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-500);
+    max-width: 760px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  &__foot {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--sc-spacing-200);
+    padding: var(--sc-spacing-400) var(--sc-spacing-500);
+    background: var(--sc-bg-surface);
+    border-top: 1px solid var(--sc-border-default);
+  }
+
+  &__textarea-label,
+  &__field-label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--sc-text-primary);
+    margin-bottom: 6px;
+  }
+
+  &__optional {
+    color: var(--sc-text-secondary);
+    font-weight: 400;
+    font-size: 0.6875rem;
+  }
+
+  &__textarea {
+    width: 100%;
+    min-height: 72px;
+    padding: var(--sc-spacing-200);
+    border: 1px solid var(--sc-border-default);
+    border-radius: var(--sc-radius-300);
+    background: var(--sc-bg-surface);
+    color: var(--sc-text-primary);
+    font-size: 0.875rem;
+    line-height: 1.45;
+    resize: vertical;
+    font-family: inherit;
+    transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+
+    &:focus {
+      outline: none;
+      border-color: var(--sc-bg-primary);
+      box-shadow: 0 0 0 3px rgb(var(--sc-shadow-color-rgb) / 0.08);
+    }
+
+    &::placeholder {
+      color: var(--sc-text-secondary);
+    }
+  }
+
+  &__select {
+    width: 100%;
+  }
+
+  &__checkbox-row {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: var(--sc-text-primary);
+
+    input[type='checkbox'] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--sc-bg-primary);
+      cursor: pointer;
+    }
+  }
+
+  &__schedule-inputs {
+    display: flex;
+    gap: var(--sc-spacing-300);
+    margin-top: var(--sc-spacing-200);
+    margin-left: 24px;
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sc-spacing-100);
+      font-size: 0.8125rem;
+      color: var(--sc-text-secondary);
+    }
+
+    input[type='time'] {
+      padding: 6px 8px;
+      border: 1px solid var(--sc-border-default);
+      border-radius: var(--sc-radius-200);
+      background: var(--sc-bg-surface);
+      color: var(--sc-text-primary);
+      font-size: 0.8125rem;
+    }
+  }
+}
+
+.rule-block {
+  background: var(--sc-bg-surface);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-300);
+  padding: var(--sc-spacing-400);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-300);
+
+  &__head {
+    h2 {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sc-spacing-200);
+      margin: 0;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--sc-text-primary);
+
+      lucide-icon {
+        color: var(--sc-text-secondary);
+      }
+    }
+  }
+
+  &__desc {
+    margin: 4px 0 0 0;
+    font-size: 0.8125rem;
+    color: var(--sc-text-secondary);
+  }
+
+  &__active-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+    font-size: 0.8125rem;
+    color: var(--sc-text-secondary);
+    margin-left: auto;
+
+    label {
+      cursor: pointer;
+    }
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-100);
+  }
+}
+
+.rule-block__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sc-spacing-300);
+}
+
+/* ─── Bloque Alcance (3 dimensiones AND con conector "Y") ─── */
+
+.scope-dim {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-200);
+  padding: var(--sc-spacing-300);
+  background: var(--sc-color-gray-50);
+  border-radius: var(--sc-radius-200);
+  border: 1px solid var(--sc-border-default);
+
+  &__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--sc-spacing-200);
+
+    h3 {
+      margin: 0;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--sc-text-primary);
+    }
+  }
+
+  &__source {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin: 2px 0 0 0;
+    font-size: 0.6875rem;
+    color: var(--sc-text-secondary);
+
+    lucide-icon {
+      color: var(--sc-text-secondary);
+    }
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.6875rem;
+    color: var(--sc-text-link);
+    text-decoration: none;
+    transition: color 200ms ease-out;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.scope-and-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: var(--sc-spacing-100) 0;
+
+  span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--sc-bg-primary);
+    color: var(--sc-text-on-primary);
+    font-size: 0.75rem;
+    font-weight: 700;
+    z-index: 1;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--sc-border-default);
+    transform: translateX(-50%);
+  }
+}
+
+.scope-summary {
+  /* Guidelines.md banea `border-left: 3px+ solid color` como accent
+   * stripe. El background tint + radius son suficientes para destacar
+   * que es un resumen derivado (no contenido editable). */
+  padding: var(--sc-spacing-300);
+  background: var(--sc-bg-primary-subtle);
+  border: 1px solid var(--sc-bg-primary);
+  border-radius: var(--sc-radius-200);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--sc-text-primary);
+}

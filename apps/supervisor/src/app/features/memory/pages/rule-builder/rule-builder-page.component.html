@@ -1,0 +1,265 @@
+<div class="rule-builder">
+  <header class="rule-builder__head">
+    <button
+      type="button"
+      class="rule-builder__back"
+      [attr.aria-label]="'memory.rules.builder.back' | translate"
+      (click)="onCancel()"
+    >
+      <lucide-icon [img]="backIcon" [size]="16" aria-hidden="true" />
+    </button>
+    <div class="rule-builder__head-text">
+      <h1>
+        @if (isEditMode()) {
+          {{ 'memory.rules.builder.title_edit' | translate }}
+        } @else {
+          {{ 'memory.rules.builder.title_new' | translate }}
+        }
+        ·
+        <span class="rule-builder__type">{{
+          ('memory.rules.builder.type.' + ruleType()) | translate
+        }}</span>
+      </h1>
+      <p>{{ 'memory.rules.builder.subtitle' | translate }}</p>
+    </div>
+  </header>
+
+  <div class="rule-builder__body">
+    <!-- Bloque 1: Metadatos -->
+    <section class="rule-block">
+      <header class="rule-block__head">
+        <h2>{{ 'memory.rules.builder.metadata' | translate }}</h2>
+        <div class="rule-block__active-toggle">
+          <p-toggleswitch
+            inputId="active-toggle"
+            [(ngModel)]="active"
+          />
+          <label for="active-toggle">
+            {{
+              (active()
+                ? 'memory.rules.builder.active_label'
+                : 'memory.rules.builder.inactive_label'
+              ) | translate
+            }}
+          </label>
+        </div>
+      </header>
+
+      <div class="rule-block__row">
+        <sc-input
+          [label]="'memory.rules.builder.name_label' | translate"
+          [placeholder]="'memory.rules.builder.name_placeholder' | translate"
+          [required]="true"
+          [value]="name()"
+          (valueChange)="setName($event)"
+          [error]="
+            nameInvalid() && name().length > 0
+              ? ('memory.rules.builder.name_error' | translate)
+              : ''
+          "
+        />
+      </div>
+
+      <div class="rule-block__row">
+        <label for="rule-description" class="rule-builder__textarea-label">
+          {{ 'memory.rules.builder.description_label' | translate }}
+          <span class="rule-builder__optional">
+            ({{ 'common.optional' | translate }})
+          </span>
+        </label>
+        <textarea
+          id="rule-description"
+          class="rule-builder__textarea"
+          rows="3"
+          [placeholder]="'memory.rules.builder.description_placeholder' | translate"
+          [value]="description()"
+          (input)="setDescription($any($event.target).value)"
+        ></textarea>
+      </div>
+    </section>
+
+    <!-- Bloque 2: Alcance (3 dimensiones AND) -->
+    <section class="rule-block">
+      <header class="rule-block__head">
+        <h2>{{ 'memory.rules.builder.scope' | translate }}</h2>
+        <p class="rule-block__desc">{{ 'memory.rules.builder.scope_desc' | translate }}</p>
+      </header>
+
+      <div class="scope-dim">
+        <header class="scope-dim__head">
+          <div>
+            <h3>{{ 'memory.rules.builder.scope_dim.servicios.title' | translate }}</h3>
+            <p class="scope-dim__source">
+              <lucide-icon [img]="databaseIcon" [size]="11" aria-hidden="true" />
+              {{ 'memory.rules.builder.scope_dim.servicios.source' | translate }}
+            </p>
+          </div>
+          <a class="scope-dim__link" href="javascript:void(0)">
+            <lucide-icon [img]="externalIcon" [size]="11" aria-hidden="true" />
+            {{ 'memory.rules.builder.see_repository' | translate }}
+          </a>
+        </header>
+        <sc-multi-select
+          [options]="serviceOptions"
+          optionLabel="label"
+          optionValue="value"
+          [placeholder]="'memory.rules.builder.scope_dim.servicios.placeholder' | translate"
+          [filter]="true"
+          [value]="[...servicios()]"
+          (valueChange)="setServicios($event)"
+        />
+      </div>
+
+      <div class="scope-and-connector" aria-hidden="true">
+        <span>Y</span>
+      </div>
+
+      <div class="scope-dim">
+        <header class="scope-dim__head">
+          <div>
+            <h3>{{ 'memory.rules.builder.scope_dim.grupos.title' | translate }}</h3>
+            <p class="scope-dim__source">
+              <lucide-icon [img]="databaseIcon" [size]="11" aria-hidden="true" />
+              {{ 'memory.rules.builder.scope_dim.grupos.source' | translate }}
+            </p>
+          </div>
+          <a class="scope-dim__link" href="javascript:void(0)">
+            <lucide-icon [img]="externalIcon" [size]="11" aria-hidden="true" />
+            {{ 'memory.rules.builder.see_repository' | translate }}
+          </a>
+        </header>
+        <sc-multi-select
+          [options]="groupOptions"
+          optionLabel="label"
+          optionValue="value"
+          [placeholder]="'memory.rules.builder.scope_dim.grupos.placeholder' | translate"
+          [filter]="true"
+          [value]="[...grupos()]"
+          (valueChange)="setGrupos($event)"
+        />
+      </div>
+
+      <div class="scope-and-connector" aria-hidden="true">
+        <span>Y</span>
+      </div>
+
+      <div class="scope-dim">
+        <header class="scope-dim__head">
+          <div>
+            <h3>{{ 'memory.rules.builder.scope_dim.agentes.title' | translate }}</h3>
+            <p class="scope-dim__source">
+              <lucide-icon [img]="databaseIcon" [size]="11" aria-hidden="true" />
+              {{ 'memory.rules.builder.scope_dim.agentes.source' | translate }}
+            </p>
+          </div>
+          <a class="scope-dim__link" href="javascript:void(0)">
+            <lucide-icon [img]="externalIcon" [size]="11" aria-hidden="true" />
+            {{ 'memory.rules.builder.see_repository' | translate }}
+          </a>
+        </header>
+        <sc-multi-select
+          [options]="agentOptions"
+          optionLabel="label"
+          optionValue="value"
+          [placeholder]="'memory.rules.builder.scope_dim.agentes.placeholder' | translate"
+          [filter]="true"
+          [value]="[...agentes()]"
+          (valueChange)="setAgentes($event)"
+        />
+      </div>
+
+      <div class="scope-summary">
+        {{ scopeSummary() }}
+      </div>
+    </section>
+
+    <!-- Bloque 3: Grabación (solo Recording type por ahora — iter 9c-1) -->
+    @if (ruleType() === 'recording') {
+      <section class="rule-block">
+        <header class="rule-block__head">
+          <h2>
+            <lucide-icon [img]="micIcon" [size]="14" aria-hidden="true" />
+            {{ 'memory.rules.builder.recording' | translate }}
+          </h2>
+          <p class="rule-block__desc">{{ 'memory.rules.builder.recording_desc' | translate }}</p>
+        </header>
+
+        <div class="rule-block__row">
+          <label for="rule-direction" class="rule-builder__field-label">
+            {{ 'memory.rules.builder.direction_label' | translate }}
+          </label>
+          <p-select
+            inputId="rule-direction"
+            [options]="directionOptions"
+            [(ngModel)]="direction"
+            optionLabel="labelKey"
+            optionValue="value"
+            styleClass="rule-builder__select"
+          >
+            <ng-template let-opt pTemplate="selectedItem">
+              {{ opt.labelKey | translate }}
+            </ng-template>
+            <ng-template let-opt pTemplate="item">
+              {{ opt.labelKey | translate }}
+            </ng-template>
+          </p-select>
+        </div>
+
+        <div class="rule-block__row">
+          <label class="rule-builder__checkbox-row">
+            <input
+              type="checkbox"
+              [checked]="filterBySchedule()"
+              (change)="filterBySchedule.set($any($event.target).checked)"
+            />
+            <span>{{ 'memory.rules.builder.schedule_label' | translate }}</span>
+          </label>
+          @if (filterBySchedule()) {
+            <div class="rule-builder__schedule-inputs">
+              <label>
+                {{ 'memory.rules.builder.schedule_from' | translate }}
+                <input
+                  type="time"
+                  [value]="scheduleFrom()"
+                  (input)="scheduleFrom.set($any($event.target).value)"
+                />
+              </label>
+              <label>
+                {{ 'memory.rules.builder.schedule_to' | translate }}
+                <input
+                  type="time"
+                  [value]="scheduleTo()"
+                  (input)="scheduleTo.set($any($event.target).value)"
+                />
+              </label>
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </div>
+
+  <footer class="rule-builder__foot">
+    <p-button
+      type="button"
+      severity="secondary"
+      (onClick)="onCancel()"
+    >
+      <span>{{ 'common.cancel' | translate }}</span>
+    </p-button>
+    <p-button
+      type="button"
+      severity="primary"
+      [disabled]="!canSave()"
+      (onClick)="onSave()"
+    >
+      <span>
+        @if (isEditMode()) {
+          {{ 'memory.rules.builder.save_changes' | translate }}
+        } @else {
+          {{ 'memory.rules.builder.create_rule' | translate }}
+        }
+      </span>
+    </p-button>
+  </footer>
+</div>

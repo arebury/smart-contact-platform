@@ -2,7 +2,7 @@
   titleKey="memory.rules.page_title"
   [icon]="settingsIcon"
 >
-  <p-button type="button" severity="primary" (onClick)="undefined">
+  <p-button type="button" severity="primary" (onClick)="onNewRule()">
     <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
     <span>{{ 'memory.rules.new_rule' | translate }}</span>
   </p-button>
@@ -14,7 +14,7 @@
       <div class="rules-empty">
         <h2>{{ 'memory.rules.empty_title' | translate }}</h2>
         <p>{{ 'memory.rules.empty_desc' | translate }}</p>
-        <p-button type="button" severity="primary" (onClick)="undefined">
+        <p-button type="button" severity="primary" (onClick)="onNewRule()">
           <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
           <span>{{ 'memory.rules.empty_cta' | translate }}</span>
         </p-button>

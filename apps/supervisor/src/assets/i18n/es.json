@@ -210,7 +210,61 @@
       "order_updated": "Orden actualizado",
       "delete_title": "Eliminar regla",
       "delete_body": "Vas a eliminar «{{name}}». Esta acción no se puede deshacer.",
-      "deleted_toast": "Regla «{{name}}» eliminada"
+      "deleted_toast": "Regla «{{name}}» eliminada",
+      "builder": {
+        "back": "Volver al listado",
+        "title_new": "Nueva regla",
+        "title_edit": "Editar regla",
+        "subtitle": "Define cómo procesar las conversaciones que entren a partir de ahora. Aplica a futuro, no a las existentes.",
+        "type": {
+          "recording": "Grabación",
+          "transcription": "Transcripción",
+          "classification": "Clasificación con IA"
+        },
+        "metadata": "Información básica",
+        "active_label": "Regla activa",
+        "inactive_label": "Regla inactiva",
+        "name_label": "Nombre",
+        "name_placeholder": "ej. Grabar Soporte Técnico entrante",
+        "name_error": "El nombre debe tener al menos 3 caracteres.",
+        "description_label": "Descripción",
+        "description_placeholder": "Documenta el propósito de esta regla para tu equipo…",
+        "scope": "Alcance",
+        "scope_desc": "A qué conversaciones aplica la regla. Una dimensión vacía significa «cualquiera».",
+        "see_repository": "Ver repositorio",
+        "scope_dim": {
+          "servicios": {
+            "title": "Servicios",
+            "source": "Desde repositorio de Servicios",
+            "placeholder": "Cualquier servicio"
+          },
+          "grupos": {
+            "title": "Grupos ACD",
+            "source": "Desde repositorio de Grupos",
+            "placeholder": "Cualquier grupo"
+          },
+          "agentes": {
+            "title": "Agentes",
+            "source": "Desde repositorio de Agentes",
+            "placeholder": "Cualquier agente"
+          }
+        },
+        "recording": "Criterios de grabación",
+        "recording_desc": "Filtra qué llamadas del alcance se graban.",
+        "direction_label": "Dirección",
+        "direction": {
+          "all": "Todas",
+          "inbound": "Entrantes",
+          "outbound": "Salientes"
+        },
+        "schedule_label": "Filtrar por horario",
+        "schedule_from": "Desde",
+        "schedule_to": "Hasta",
+        "save_changes": "Guardar cambios",
+        "create_rule": "Crear regla",
+        "created_toast": "Regla creada",
+        "updated_toast": "Regla actualizada"
+      }
     },
     "category_filter": {
       "label": "Categorías IA",

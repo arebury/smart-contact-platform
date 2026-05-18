@@ -5,6 +5,7 @@ import {
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   AlertOctagon,
@@ -56,6 +57,7 @@ export class RulesPageComponent {
   private readonly confirm = inject(ConfirmHostService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly router = inject(Router);
 
   protected readonly activeRules = this.rulesStore.activeRules;
   protected readonly inactiveOrDraftRules = this.rulesStore.inactiveOrDraftRules;
@@ -70,6 +72,12 @@ export class RulesPageComponent {
   protected readonly sparklesIcon = Sparkles;
   protected readonly alertIcon = AlertOctagon;
   protected readonly kebabIcon = MoreVertical;
+
+  protected onNewRule(): void {
+    this.router.navigate(['/conversaciones/reglas/nueva'], {
+      queryParams: { type: 'recording' },
+    });
+  }
 
   protected scopeSummary(rule: Rule): string {
     const parts: string[] = [];
@@ -129,7 +137,7 @@ export class RulesPageComponent {
       {
         label: this.translate.instant('memory.rules.menu.edit'),
         icon: 'pi pi-pencil',
-        disabled: true, // iter 9c
+        command: () => this.router.navigate(['/conversaciones/reglas', rule.id]),
       },
       {
         label: this.translate.instant('memory.rules.menu.duplicate'),

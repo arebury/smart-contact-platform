@@ -29,4 +29,18 @@ export const memoryRoutes: Routes = [
     loadComponent: () =>
       import('./pages/rules/rules-page.component').then((m) => m.RulesPageComponent),
   },
+  {
+    path: 'reglas/nueva',
+    loadComponent: () =>
+      import('./pages/rule-builder/rule-builder-page.component').then(
+        (m) => m.RuleBuilderPageComponent,
+      ),
+  },
+  {
+    path: 'reglas/:id',
+    loadComponent: () =>
+      import('./pages/rule-builder/rule-builder-page.component').then(
+        (m) => m.RuleBuilderPageComponent,
+      ),
+  },
 ];

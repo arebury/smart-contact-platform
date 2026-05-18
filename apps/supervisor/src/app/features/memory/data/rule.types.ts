@@ -15,18 +15,35 @@
 export type RuleType = 'recording' | 'transcription' | 'classification';
 export type RuleStatus = 'active' | 'inactive' | 'draft' | 'conflict';
 
+export type Direction = 'all' | 'inbound' | 'outbound';
+
+export interface Schedule {
+  readonly enabled: boolean;
+  readonly from: string; // 'HH:MM'
+  readonly to: string;
+}
+
 export interface Rule {
   readonly id: number;
   readonly type: RuleType;
   readonly name: string;
   readonly description?: string;
+  // Alcance (3 dimensiones AND, OR dentro de cada — spec `rule-constructor-update.md`)
   readonly servicios: readonly string[];
   readonly grupos: readonly string[];
   readonly agentes: readonly string[];
+  // Flags qué hace la regla
   readonly recording: boolean;
   readonly transcripcion: boolean;
   readonly clasificacion: boolean;
   readonly active: boolean;
+  // Criterios específicos (iter 9c-1 cubre Recording; iter 9c-2 añade resto)
+  readonly direction?: Direction;
+  readonly schedule?: Schedule;
+  readonly durationMin?: number; // segundos
+  readonly attendedBy?: readonly string[]; // agentes o grupos
+  readonly aiAnalysis?: boolean;
+  // Estado
   /** Borrador sin editar — copia recién creada que aún no se ha modificado. */
   readonly isDraft?: boolean;
   /** Id de la regla origen si fue duplicada. */
