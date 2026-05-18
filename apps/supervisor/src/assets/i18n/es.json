@@ -7,6 +7,12 @@
     "title": "Sección en construcción",
     "subtitle": "Esta página aún no está disponible"
   },
+  "memory": {
+    "placeholder": {
+      "title": "Memory en migración",
+      "body": "El módulo Memory (revisión de conversaciones, transcripción IA, reglas y entidades) se está migrando desde el prototipo React. La primera vista funcional aterriza en las próximas sesiones."
+    }
+  },
   "common": {
     "skip_to_content": "Saltar al contenido principal",
     "back": "Atrás",

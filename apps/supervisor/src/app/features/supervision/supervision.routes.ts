@@ -16,7 +16,10 @@ export const supervisionRoutes: Routes = [
   { path: 'servicios', loadComponent: placeholder },
   { path: 'nodo-ia', loadComponent: placeholder },
   { path: 'campanas', loadComponent: placeholder },
-  { path: 'conversaciones', loadComponent: placeholder },
+  {
+    path: 'conversaciones',
+    loadChildren: () => import('../memory/memory.routes').then((m) => m.memoryRoutes),
+  },
   { path: 'informes', loadComponent: placeholder },
   { path: 'analizador', loadComponent: placeholder },
   { path: 'scc', loadComponent: placeholder },
