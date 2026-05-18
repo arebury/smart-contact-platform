@@ -338,6 +338,35 @@
       "delete_body": "Vas a eliminar la entidad «{{name}}». Las reglas que la referencian dejarán de extraerla.",
       "deleted_toast": "Entidad «{{name}}» eliminada"
     },
+    "categories": {
+      "page_title": "Categorías IA",
+      "new_category": "Nueva categoría",
+      "empty_title": "Aún no hay categorías",
+      "empty_desc": "Las categorías son los temas y motivos de contacto que la IA etiqueta sobre las conversaciones. Crea una para que el análisis las detecte automáticamente.",
+      "coming_soon_toast": "Modal de creación llega en iter 11b",
+      "cols": {
+        "name": "Nombre",
+        "description": "Descripción",
+        "used_in": "Usada en",
+        "classified": "Llamadas",
+        "status": "Estado",
+        "created": "Creada",
+        "more": "Más acciones"
+      },
+      "status": {
+        "active": "Activa",
+        "inactive": "Inactiva"
+      },
+      "menu": {
+        "edit": "Editar",
+        "duplicate": "Duplicar",
+        "delete": "Eliminar"
+      },
+      "delete_title": "Eliminar categoría",
+      "delete_body": "Vas a eliminar la categoría «{{name}}». Las reglas que la referencian quedarán sin esta etiqueta.",
+      "deleted_toast": "Categoría «{{name}}» eliminada",
+      "duplicated_toast": "Categoría duplicada como «{{name}}»"
+    },
     "category_filter": {
       "label": "Categorías IA",
       "aria": "Filtros por categoría IA",

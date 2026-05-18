@@ -1,0 +1,98 @@
+<sc-page-header
+  titleKey="memory.categories.page_title"
+  [icon]="tagsIcon"
+>
+  <ng-container page-header-actions>
+    <p-button type="button" severity="primary" (onClick)="onNewCategory()">
+      <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+      <span>{{ 'memory.categories.new_category' | translate }}</span>
+    </p-button>
+  </ng-container>
+</sc-page-header>
+
+<div class="page">
+  <div class="page__inner">
+    @if (isEmpty()) {
+      <div class="categories-empty">
+        <lucide-icon [img]="tagsIcon" [size]="24" aria-hidden="true" />
+        <h2>{{ 'memory.categories.empty_title' | translate }}</h2>
+        <p>{{ 'memory.categories.empty_desc' | translate }}</p>
+      </div>
+    } @else {
+      <table class="categories-table">
+        <thead>
+          <tr>
+            <th scope="col">{{ 'memory.categories.cols.name' | translate }}</th>
+            <th scope="col">{{ 'memory.categories.cols.description' | translate }}</th>
+            <th class="categories-table__th-num" scope="col">
+              {{ 'memory.categories.cols.used_in' | translate }}
+            </th>
+            <th class="categories-table__th-num" scope="col">
+              {{ 'memory.categories.cols.classified' | translate }}
+            </th>
+            <th class="categories-table__th-status" scope="col">
+              {{ 'memory.categories.cols.status' | translate }}
+            </th>
+            <th class="categories-table__th-date" scope="col">
+              {{ 'memory.categories.cols.created' | translate }}
+            </th>
+            <th class="categories-table__th-kebab" scope="col" aria-label="Acciones"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (cat of categories(); track cat.id) {
+            <tr [class.categories-row--inactive]="!cat.isActive">
+              <td class="categories-table__td-name">
+                <strong>{{ cat.name }}</strong>
+                @if (cat.group) {
+                  <span class="categories-table__group">· {{ cat.group }}</span>
+                }
+              </td>
+              <td class="categories-table__td-desc" [attr.title]="cat.description">
+                {{ cat.description }}
+              </td>
+              <td class="categories-table__td-num">
+                @if (cat.usedInRules > 0) {
+                  <span class="categories-num">{{ cat.usedInRules }}</span>
+                } @else {
+                  <span class="categories-num categories-num--empty">—</span>
+                }
+              </td>
+              <td class="categories-table__td-num">
+                <span class="categories-num">{{ cat.classifiedCalls }}</span>
+              </td>
+              <td class="categories-table__td-status">
+                @if (cat.isActive) {
+                  <span class="rules-status rules-status--active">
+                    {{ 'memory.categories.status.active' | translate }}
+                  </span>
+                } @else {
+                  <span class="rules-status rules-status--inactive">
+                    {{ 'memory.categories.status.inactive' | translate }}
+                  </span>
+                }
+              </td>
+              <td class="categories-table__td-date">{{ formatDate(cat.createdAt) }}</td>
+              <td class="categories-table__td-kebab">
+                <button
+                  type="button"
+                  class="rules-kebab-btn"
+                  [attr.aria-label]="'memory.categories.cols.more' | translate"
+                  (click)="kebabMenu.toggle($event)"
+                >
+                  <lucide-icon [img]="kebabIcon" [size]="14" aria-hidden="true" />
+                </button>
+                <p-menu
+                  #kebabMenu
+                  [model]="buildMenuItems(cat)"
+                  [popup]="true"
+                  appendTo="body"
+                />
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</div>

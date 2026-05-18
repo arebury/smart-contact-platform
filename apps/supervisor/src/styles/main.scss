@@ -350,6 +350,84 @@ table.table {
   }
 }
 
+/* Memory · Status pills compartidas (rules + categories).
+ * Antes vivían scoped en rules-page.component.scss; promovidas a global
+ * en iter 11a para que CategoriesPage las consuma sin duplicar.
+ */
+.rules-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+
+  &--active {
+    background: var(--sc-color-green-100, #dcfce7);
+    color: var(--sc-color-green-700, #15803d);
+  }
+
+  &--inactive {
+    background: var(--sc-color-gray-100);
+    color: var(--sc-text-secondary);
+  }
+
+  &--draft {
+    background: var(--sc-color-amber-100);
+    color: var(--sc-color-amber-700);
+  }
+
+  &--conflict {
+    background: var(--sc-color-red-100, #fee2e2);
+    color: var(--sc-color-red-700, #b91c1c);
+  }
+
+  &--clickable {
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    transition: filter 200ms ease-out;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: 2px;
+    }
+  }
+}
+
+/* Kebab button compartido (rules + categories + entities + memoryviews
+ * futuras). Mismo origen — promovido a global en iter 11a.
+ */
+.rules-kebab-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--sc-radius-100);
+  background: transparent;
+  color: var(--sc-text-secondary);
+  cursor: pointer;
+  transition: background-color 200ms ease-out;
+
+  &:hover {
+    background: var(--sc-bg-elevated);
+    color: var(--sc-text-primary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-electric-blue-500);
+    outline-offset: 2px;
+  }
+}
+
 /* Memory · Rules conflict popover (iter 9d-2).
  * `<p-popover>` con appendTo:body monta fuera del scope component.
  */

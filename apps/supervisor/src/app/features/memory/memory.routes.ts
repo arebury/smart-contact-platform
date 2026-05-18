@@ -50,4 +50,11 @@ export const memoryRoutes: Routes = [
         (m) => m.EntitiesPageComponent,
       ),
   },
+  {
+    path: 'categorias',
+    loadComponent: () =>
+      import('./pages/categories/categories-page.component').then(
+        (m) => m.CategoriesPageComponent,
+      ),
+  },
 ];
