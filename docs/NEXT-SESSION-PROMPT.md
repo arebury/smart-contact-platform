@@ -1,7 +1,7 @@
-# Prompt de retomada — Próxima sesión (S35)
+# Prompt de retomada — Próxima sesión (S36)
 
 > **Para Rafa:** copia el texto del bloque siguiente y pégalo cuando abras
-> Claude. Eso re-activa todo el contexto S34 + mapa estratégico Memory
+> Claude. Eso re-activa todo el contexto S35 + plan Fase 5 Memory migration
 > + tono correcto.
 
 ---
@@ -9,10 +9,11 @@
 ## ✂️ Prompt para pegar en Claude:
 
 ```
-Lee docs/NEXT-SESSION-PLAN.md, después la entry "Session 34" entera de
-docs/SESSION-LOG.md, después docs/case-study-notes.md, y arranca con
-Eje 3 del mapa estratégico: Memory migración al monorepo como feature
-module Supervisor app.
+Lee docs/NEXT-SESSION-PLAN.md (cierre S35 + plan Fase 5 Memory), después
+la entry "Session 35" entera de docs/SESSION-LOG.md, después
+docs/memory-migration-inventory.md, y arranca con Fase 5 Memory
+migration: empezar por ConversationsView (la vista funcional más grande
+del prototipo React Memory).
 
 Tono y memorias activas (verifica MEMORY.md):
 - Critical sparring partner activo — cuestiona premisas, no agrees por
@@ -20,102 +21,111 @@ Tono y memorias activas (verifica MEMORY.md):
   ceremonia.
 - Español llano, sin jerga, frases cortas. Sin subheaders rellenos.
 - Rafa Y Marta editan Figma SC — no adjudicar tareas Figma solo a Marta.
-- Memory comparte shell con AED (mismo Supervisor app, sidebar único).
-  Migración Memory = feature module dentro del shell común. Probable
-  rename apps/aed/ → apps/supervisor/.
+- Memory comparte shell con AED (ahora apps/supervisor/). Memory =
+  feature module en apps/supervisor/src/app/features/memory/.
 - No deudas escondidas: verificación visual obligatoria post-migración
-  mecánica (lección S34 — el grep no es la realidad).
+  mecánica con Playwright (el grep no es la realidad).
 - Regla pragmática refactor SCDS: (1) mismo concepto (2) reduce código
   sin forzar UX changes (3) tokens Figma auditados.
 - Case-study-notes progresivo cuando aparezca momento pedagógico.
 - Comunicación pedagógica con el "para qué" para perfil no-dev.
+- Customización MÍNIMA sobre PrimeNG: antes de pure-sc, 3 preguntas
+  (¿PrimeNG lo tiene? ¿pTemplate cubre? ¿no? → pure-sc + customs-catalog).
+- Pedir link Figma SC ANTES de tocar/crear/refinar componente. Si Rafa
+  no lo tiene a mano, esperar.
 
-Plan de sesión Memory migration (4-8h dedicado):
+Plan de sesión Fase 5 ConversationsView migration:
 
-FASE 0 (15 min, cero riesgo): backup completo del prototipo React.
-  - cd ~/dev/Memory
-  - git tag v0-prototype-react-pre-scds && git push origin v0-prototype-react-pre-scds
-  - git branch prototype-react-archive && git push origin prototype-react-archive
-  - Configurar Netlify para que memoryplus3.netlify.app deploye la
-    branch prototype-react-archive (mantener URL pública viva).
+PASO 0 (5 min): Verificar estado.
+  - cd ~/dev/smart-contact-platform
+  - git status (debe estar limpio post-S35).
+  - npm install (por si lock cambió).
+  - Verificar `~/dev/Memory/legacy-react/` accesible.
 
-FASE 1 (30 min): reorganizar repo Memory.
-  - Mover código React actual a legacy-react/ dentro del propio repo.
-  - Commit "chore: archivar prototipo v0 en legacy-react/ pre-SCDS".
+PASO 1 (15-30 min): Spike visual del prototipo.
+  - cd ~/dev/Memory/legacy-react && pnpm install && pnpm dev
+  - http://localhost:5173 → navegar a vista Conversations.
+  - Screenshots de pantalla principal (lista + filtros + selección
+    múltiple + reproductor modal abierto) para tener referencia visual
+    durante implementación Angular.
+  - Cerrar dev React cuando termine spike.
 
-FASE 2 (30 min decisión): integración al monorepo.
-  Tres opciones a evaluar conmigo (yo doy pros/cons, decisión Rafa):
-  a) Mover Memory entero al smart-contact-platform monorepo como
-     apps/aed/src/app/features/memory/ (feature module del shell AED).
-     Probable rename apps/aed/ → apps/supervisor/.
-  b) apps/memory/ standalone dentro del monorepo, shell compartido vía
-     package interno.
-  c) Memory repo independiente consumiendo SCDS vía workspace/npm.
-  Mi recomendación tentativa: (a) por simplicidad y sidebar compartido,
-  pero hablamos en sesión.
+PASO 2 (30 min decisión): Diseño Angular antes de codear.
+  - Inventario subcomponentes ConversationsView: filtros, tabla,
+    reproductor, modales (ver docs/memory-migration-inventory.md §3).
+  - Decidir orden: primero esqueleto + tabla mínima, después filtros,
+    después selección múltiple, después reproductor. O lo que Rafa prefiera.
+  - Para wrappers SCDS necesarios:
+    - `<sc-datepicker>`: existe Extended 0 uses, primer uso real.
+    - `<sc-multi-select>`: existe Extended 0 uses, primer uso real.
+    - `<sc-data-table>` (gap nuevo): PEDIR a Rafa link Figma "Table" del
+      Kit Pro antes de cocinar. Si no hay equivalente Figma, decidir si
+      es Pure SC custom o esperar.
+    - `<sc-audio-player>` (gap nuevo): idem, gran probabilidad de ser
+      Pure SC custom porque PrimeNG no tiene audio player nativo.
 
-FASE 3 (30 min): scan inicial features React.
-  - Inventario top-level (NO detalle exhaustivo) de pantallas/módulos
-    del prototipo Memory.
-  - Mapear equivalencias en el sidebar AED actual.
-  - Anotar features que no tienen equivalencia → posibles wrappers SCDS
-    nuevos (data-table, stepper, etc.).
+PASO 3 (resto de sesión): Implementación iterativa.
+  - Cada subcomponente: leer React → traducir Angular → consumir SCDS →
+    verificar visualmente.
+  - Si aparece gap componente real → entry inconsistencies-backlog +
+    aplicar regla pragmática refactor SCDS.
+  - Commits pequeños por logical chunk (no un solo commit gigante).
 
-FASE 4 (1-2h): setup Angular greenfield.
-  - Si fase 2 = opción (a): rename apps/aed/ → apps/supervisor/ + crear
-    features/memory/ con shell layout existente reusado.
-  - Si fase 2 = opción (b): ng generate apps/memory/ con config idéntica
-    a apps/aed (PrimeNG + ScPreset + Lucide + lazy routes).
-  - Conectar a SCDS (import wrappers desde @shared/components).
-  - Configurar Netlify nueva URL TBD.
+Stack target Memory (idéntico AED):
+- Angular 21 (standalone, signals, @if/@for)
+- PrimeNG 21 vía @primeng/themes/aura + ScPreset
+- Lucide icons
+- @ngx-translate (i18n keys nuevas en apps/supervisor/src/assets/i18n/es.json)
+- Tests Karma/Jasmine
+- Playwright para verificación visual
 
-FASE 5: migración funcionalidad-por-funcionalidad (iterativa,
-posiblemente varias sesiones). Cada feature migrada:
-  - Compara visual con legacy-react/ durante dev.
-  - Consume SCDS (wrappers AED reutilizables + tokens --sc-*).
-  - Si encuentras feature que necesita componente nuevo (data-table,
-    stepper, etc.) → cocinar wrapper SCDS siguiendo workflow estándar.
+NO arranques migration sin que confirme el orden de PASO 2. Primero
+hablamos sobre el approach.
 
-Decisiones que faltan al arrancar:
-- ¿URL definitiva nueva para Angular Memory? Sugerencia: smart-contact.netlify.app
-  o memoryplus.netlify.app, dejando memoryplus3 para legacy.
-- ¿Memory tiene URL distinta de AED o son paths distintos del mismo
-  domain? Si mismo shell, mismo domain hace sentido.
+Acceso al repo Memory legacy:
+- Local: ~/dev/Memory/legacy-react/
+- Remote: https://github.com/arebury/Memory (branch main + prototype-react-archive)
+- Tag inmutable: v0-prototype-react-pre-scds
+- Live React (mientras no se libere memoryplus3): pnpm dev local.
 
-Acceso al repo Memory:
-- Local: ~/dev/Memory/
-- Remote: https://github.com/arebury/Memory
-- Live: https://memoryplus3.netlify.app/
-
-NO empieces a tocar Memory sin que confirme. Primero Fase 0+1 (backup
-reversible), luego me preguntas antes de Fase 2 (decisión arquitectónica).
+Última acción manual pendiente Rafa Netlify UI (si no se hizo en S35):
+- Site `aedmigration` → Build command `npm install --no-audit --no-fund
+  && npm run build:supervisor`, Publish dir `dist/supervisor/browser`.
+  Sin esto el próximo deploy Netlify falla.
 ```
 
 ---
 
 ## Notas adicionales para próxima sesión
 
-**Estado al cierre S34:**
+**Estado al cierre S35:**
 
-- 7 commits a main S34: `130087a`, `d8a8346`, `735047b`, `6b9cab2`, `89d21ea`, `609bd46`, `ffae8b3`, `153b12c`.
-- DS sin deudas de diseño accionables internamente.
-- Mapa estratégico cerrado (7 ejes), Eje 3 (Memory) es el siguiente.
-- `case-study-notes.md` arrancado con 8 momentos S34.
+- 5 commits totales en 2 repos:
+  - Memory repo: `2195989`, `ed8bb31`.
+  - Monorepo: `be25387`, `d7e764b`, `d02392e` (+ commit final de cierre).
+- Fase 0 + 1 + 2 + 2.5 + 3 + 4 del plan Memory migration completadas.
+- Memory feature module scaffolded y wireado en `/conversaciones`.
+- Rename apps/aed → apps/supervisor ejecutado limpio (236 renames + history).
+- Inventario migración disponible en `docs/memory-migration-inventory.md`.
 
 **Lo que Rafa pidió específicamente para retomada:**
 
-- Mapa estratégico tiene que arrancarse genial.
-- Memory frictionless migración.
-- Funcionalidades del prototipo preservadas (legacy-react/ + tag).
-- Conectado al DS (consumir SCDS).
-- Sidebar compartido con AED.
-- URL Netlify legacy + nueva oficial.
+- Memory frictionless migración progresiva.
+- Funcionalidades del prototipo preservadas (legacy-react/ + tag + branch).
+- Conectado al DS (consumir SCDS, primer uso real de Extended 0-use
+  wrappers).
+- Sidebar unificado con AED (Memory comparte shell Supervisor).
+- URL Netlify legacy + nueva (memoryplus3 → alias DNS cuando Memory
+  tenga features mínimas).
 
 **No prioridades para próxima sesión (no atacar sin trigger):**
 
 - Items 1, 2, 6 esperan a sesión Figma con Rafa+Marta.
-- Items 5, 7 trigger-dependent.
+- Items 5 (gap `<sc-tag>`, `<sc-select-button>`, `<sc-toggle-button>`),
+  7 trigger-dependent.
 - Item 2b (Code Connect) cuando Rafa dé luz verde explícita.
 
 **Tono recordatorio**: Rafa es no-dev. Plain Spanish. Explicar el "para
-qué" no solo el "qué". Sparring crítico activo. Sin morralla.
+qué" no solo el "qué". Sparring crítico activo. Sin morralla. Para
+features Memory grandes (ConversationsView, RulesRepository) considera
+trocear en sub-tareas TodoWrite para que Rafa siga el progreso.

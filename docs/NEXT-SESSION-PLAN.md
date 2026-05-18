@@ -3,32 +3,81 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
-> 2. Lee la entry **Session 34** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
->    `.btn` global eliminado (38 botones migrados a `<p-button>`, `_buttons.scss`
->    borrado, tokens `--sc-btn-*` removidos) + 2 refactors Figma 1:1 (confirm-host
->    → `<p-confirmdialog>`, group-popover → `<p-popover>`) + regla pragmática
->    refactor SCDS consolidada en backlog.
-> 3. Lee también la entry Session 33 para contexto previo (sc-input-group +
->    bundle perf -200 KB).
-> 4. Lee [`packages/design-system/docs/migration-safety.md`](../packages/design-system/docs/migration-safety.md)
+> 2. Lee la entry **Session 35** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    Memory migration arranca: backup React (tag + branch + legacy-react/) +
+>    rename apps/aed → apps/supervisor + scaffolding feature module Memory
+>    + inventario.
+> 3. Lee la entry Session 34 para contexto previo (.btn global eliminado +
+>    2 refactors Figma 1:1 + regla pragmática consolidada).
+> 4. Lee [`docs/memory-migration-inventory.md`](./memory-migration-inventory.md)
+>    — **inventario operativo** de Memory React → Angular. Vivo hasta migración
+>    completa. **Documento clave** para Fase 5.
+> 5. Lee [`packages/design-system/docs/migration-safety.md`](../packages/design-system/docs/migration-safety.md)
 >    — **filosofía SCDS** + reglas blindaje + matriz qué tocar/qué no + pro tips
->    devs futuros. **Documento clave** post-S32, captura la política Rafa.
-> 5. Lee [`packages/design-system/docs/inconsistencies-backlog.md`](../packages/design-system/docs/inconsistencies-backlog.md)
->    — **fuente única de deuda/gaps** del DS. Antes de proponer nada, mirar
->    aquí qué hay pendiente.
-> 6. Lee [`.impeccable.md`](../.impeccable.md) — design context + regla CRITICAL:
+>    devs futuros.
+> 6. Lee [`packages/design-system/docs/inconsistencies-backlog.md`](../packages/design-system/docs/inconsistencies-backlog.md)
+>    — **fuente única de deuda/gaps** del DS.
+> 7. Lee [`.impeccable.md`](../.impeccable.md) — design context + regla CRITICAL:
 >    polish requests NUNCA tocan componentes ni tokens.
-> 7. Memoria personal en `~/.claude/projects/-Users-rafareses-dev-smart-contact-platform/memory/MEMORY.md`
->    — feedback acumulado. Atención particular a las **4 memorias nuevas S32**:
+> 8. Memoria personal en `~/.claude/projects/-Users-rafareses-dev-smart-contact-platform/memory/MEMORY.md`
+>    — feedback acumulado. Atención particular a las memorias estructurales:
 >    - `feedback_migration_safety.md` — 3 reglas blindaje migración.
 >    - `feedback_minimal_customization.md` — política customización mínima sobre PrimeNG.
 >    - `feedback_track_inconsistencies.md` — toda inconsistencia detectada → backlog.
 >    - `feedback_figma_link_workflow.md` — links Figma SC → anotar inmediatamente en docs.
-> 8. Si vas a tocar Figma vía MCP: file key `khNq9dJKNi13pNllrqm6dx`. Los links que Rafa pasa son ROOT canvas, no nodes puntuales — extraer toda la info del mismo JSON.
-> 9. Checklist anti-divergencia formalizado en [`customs-catalog.md §0`](../packages/design-system/docs/customs-catalog.md) — 4 preguntas obligatorias antes de tocar componentes.
+>    - `project_memory_aed_shared_shell.md` — Memory y AED conviven en el mismo Supervisor app.
+> 9. Si vas a tocar Figma vía MCP: file key `khNq9dJKNi13pNllrqm6dx`. Los links que Rafa pasa son ROOT canvas, no nodes puntuales — extraer toda la info del mismo JSON.
+> 10. Checklist anti-divergencia formalizado en [`customs-catalog.md §0`](../packages/design-system/docs/customs-catalog.md) — 4 preguntas obligatorias antes de tocar componentes.
+> 11. **Acceso al prototipo React**: `~/dev/Memory/legacy-react/`. Para correr
+>    local: `cd ~/dev/Memory/legacy-react && pnpm install && pnpm dev` →
+>    http://localhost:5173. Snapshot inmutable en tag `v0-prototype-react-pre-scds`.
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
+
+---
+
+## Estado al cerrar (Session 35, 2026-05-18)
+
+**Hitos clave de Session 35** (5 commits a 2 repos):
+
+- ✅ **Backup completo del prototipo React Memory** (commits `2195989`, `ed8bb31` en Memory repo):
+  - Snapshot pre-archive con los 27 untracked files (commit explícito) + tag
+    anotado `v0-prototype-react-pre-scds` + branch `prototype-react-archive`.
+  - Reorg `git mv` masivo (123 archivos) a `legacy-react/` dentro del repo
+    Memory. History preservada. README.md reescrito como repo legacy.
+- ✅ **Rename apps/aed → apps/supervisor** (commits `be25387`, `d7e764b` en monorepo):
+  - 236 archivos renombrados + 22 mods. angular.json, package.json, tsconfig,
+    apps/supervisor configs, CLAUDE.md raíz + apps + docs SCDS + i18n keys
+    actualizados.
+  - Excepciones intencionales: `features/config/aed/` (feature, no marca),
+    i18n keys "aed" (UI), prefix eslint `["sc", "aed"]`, narrativas históricas.
+  - Build verde (1.42 MB initial), dev server 200, package-lock regenerado.
+  - **Acción manual pendiente Rafa**: Netlify UI site `aedmigration` →
+    Build command `npm install --no-audit --no-fund && npm run build:supervisor`,
+    Publish dir `dist/supervisor/browser`.
+- ✅ **Scaffolding Memory feature module** (commit `d02392e`):
+  - `apps/supervisor/src/app/features/memory/` con `memory.routes.ts` lazy +
+    1 ruta inicial (raíz → ConversationsPage placeholder con `<sc-empty-state>`).
+  - `/conversaciones` route reemplaza placeholder genérico por
+    `loadChildren: memoryRoutes`. Slot estaba vacío — cero conflicto AED.
+  - i18n keys `memory.placeholder.title` + `memory.placeholder.body`.
+- ✅ **Inventario migración** (`docs/memory-migration-inventory.md`): 5 vistas
+  top-level + 25 componentes + 3 contexts + mapeo Angular target + wrappers
+  SCDS probables. Vivo hasta migración completa.
+
+Last commit en main: pendiente (commit final de cierre tras este NEXT-SESSION-PLAN entry).
+
+### Estado factual del catálogo al cerrar S35
+
+- **34 spec docs** sin cambios estructurales vs S34.
+- **34 galleries ds-docs** sin cambios.
+- **Bundle AED prod**: 1.42 MB initial — Memory feature module es lazy, no
+  afecta initial budget.
+- **`apps/supervisor/src/app/features/`**: ahora 4 folders (admin, config,
+  supervision, **memory** NUEVO).
+- **inconsistencies-backlog**: sin cambios (S35 es greenfield, no closure
+  de deuda DS).
 
 ---
 
@@ -235,7 +284,7 @@ Tiempo: 2-4h. Requiere acceso al repo Memory (no está en monorepo).
 
 ---
 
-## 🎯 Mapa estratégico cerrado en S34 (próximas sesiones)
+## 🎯 Mapa estratégico vigente (actualizado S35)
 
 Los siguientes 7 ejes constituyen el plan vivo del proyecto. Trabajar
 sobre ellos progresivamente, no en una sola sesión.
@@ -245,48 +294,93 @@ sobre ellos progresivamente, no en una sola sesión.
 | 1 | **Bootstrap Variables Custom collection en Figma SC** capturando las 6 divergencias (navy primary, electric-blue info, amber warn, button padding 10.5/7, tabs padding 14/15.75, tooltip chrome) | Rafa + Marta, Claude audita MCP | Cuando os pongáis |
 | 2 | **Workflow pantallas Figma ↔ código**: convenciones nomenclatura frames, qué componentes son obligatorios usar (instances Kit Pro, no copias), cómo marcar variants | Rafa + Marta, Claude da guidelines técnicas | Próximas 1-2 semanas |
 | 2b | **Figma Code Connect mapping** Kit Pro ↔ SCDS components | Claude config inicial + Rafa valida | Cuando Rafa dé luz verde |
-| **3** | **Memory migración al monorepo como feature module Supervisor app** — ver plan detallado abajo | Rafa con repo Memory, Claude coordina | **Próxima sesión dedicada (4-8h)** |
+| **3** | **Memory migración funcionalidad-por-funcionalidad (Fase 5)** — ver plan detallado abajo | Rafa con prototipo legacy-react/ + Claude implementando Angular | **Próximas sesiones dedicadas, N iteraciones** |
 | 4 | Case-study-notes progresivo | Claude con visto bueno Rafa | Anotar cuando aparezca momento |
-| 5 | Cocinar wrappers gap por trigger real (`<sc-select-button>`, `<sc-tag>`, `<sc-toggle-button>`, `<sc-data-table>` si Memory lo pide) | Claude | Trigger AED/Memory real |
+| 5 | Cocinar wrappers gap por trigger real Memory (`<sc-data-table>`, `<sc-audio-player>`, primer uso real `<sc-datepicker>` y `<sc-multi-select>`) | Claude | Trigger Memory real |
 | 6 | Audit `❖ Panel` SC → desbloquea section-card refactor | Rafa o Marta + Claude MCP | Cuando os pongáis |
 | 7 | PrimeOne upgrade dry-run | Claude siguiendo migration-safety.md | PrimeNG release |
 
-### Plan detallado Memory migration (Eje 3) — próxima sesión
+### Plan detallado Memory migration Fase 5 (Eje 3) — próximas sesiones
 
-**Decisión arquitectónica cerrada S34**: Memory entra al monorepo como **feature module dentro del shell Supervisor compartido** con AED (mismo sidebar, header, auth). Probable rename `apps/aed/` → `apps/supervisor/`.
+**Cerrado en S35** (no re-abrir):
+- ✅ Backup React (tag + branch + legacy-react/).
+- ✅ Rename `apps/aed/` → `apps/supervisor/`.
+- ✅ Scaffolding `apps/supervisor/src/app/features/memory/` con
+  `ConversationsPage` placeholder activo en `/conversaciones`.
+- ✅ Inventario en `docs/memory-migration-inventory.md`.
 
-Stack target Memory: **Angular 21 + PrimeNG + SCDS** (idéntico a AED).
+**Fase 5 — Migración funcionalidad-por-funcionalidad** (iterativa, N sesiones):
 
-**Backup completo del prototipo React (Fase 0 — cero riesgo):**
+Orden sugerido (de mayor a menor superficie):
 
-```bash
-cd ~/dev/Memory
-git tag v0-prototype-react-pre-scds
-git push origin v0-prototype-react-pre-scds
-git branch prototype-react-archive
-git push origin prototype-react-archive
-```
+1. **`ConversationsView`** (la vista funcional más grande):
+   - Componente `ConversationsPageComponent` (reemplazar placeholder actual).
+   - Subcomponentes: `ConversationFilters`, `ConversationTable`,
+     `TypeFilterPanel`, `CategoryFilterPanel`, `DurationFilter`,
+     `RecordingFilter`, `TimeRangeFilter`, `DateRangePicker`,
+     `MultiSelectWithSearch`.
+   - Modales: `BulkTranscriptionModal`, `ConversationPlayerModal`,
+     `MultiRecordingPlayer`, `RetranscriptionConfirmModal`.
+   - Stores signals: comienza por mocks (data/), estado en signal stores
+     (no contexts React).
+   - **Wrappers SCDS a estrenar/cocinar**:
+     - `<sc-datepicker>` primer uso real (Extended, 0 uses AED hoy).
+     - `<sc-multi-select>` primer uso real (Extended, 0 uses AED hoy).
+     - `<sc-data-table>` (gap nuevo, pedir Figma a Marta antes de cocinar).
+     - `<sc-audio-player>` (gap nuevo).
+   - **Tiempo estimado**: 1 sesión larga (4-6h) o 2 sesiones medias.
 
-Eso preserva el prototipo React inmutable + branch independiente.
+2. **`RepositoryHub`** (landing /conversaciones/repositorio):
+   - Componente `RepositoryHubPageComponent` (hero card + 2 cards equal +
+     pill row + how-it-works ribbon first-run).
+   - `DataExportImport` componente.
+   - Wrappers usados: `<sc-section-card>` (24 uses AED), `<sc-page-header>`.
+   - **Tiempo**: ~2h.
 
-**Netlify durante transición**: `memoryplus3.netlify.app` queda apuntando a la branch `prototype-react-archive` deployed (zero downtime URL pública). Nueva URL TBD para el Angular Memory cuando arranque. Switch cuando migración completa.
+3. **`RulesRepository`** (3 builders + lista):
+   - `RulesPageComponent`, `RuleQuickViewPanel`.
+   - 3 builders distintos: `ClassificationRuleBuilder`, `RecordingRuleBuilder`,
+     `TranscriptionRuleBuilder` + shared `ActiveToggle`, `AdditionalConditions`,
+     `RuleBuilderLayout`, `SelectionCriteria`.
+   - Signal store `rules.store.ts`.
+   - **Tiempo**: 1 sesión larga (probablemente la más compleja del proyecto).
 
-**Fases de migración:**
+4. **`EntityManagement` y `CategoriesManagement`**:
+   - CRUD relativamente directo, patrón AED (lista + form panel + delete dialog).
+   - Signal stores `entities.store.ts` y `categories.store.ts`.
+   - Categorías incluye `CategoryRuleLinking` (relación con reglas).
+   - **Tiempo**: 1 sesión cada uno.
 
-| Fase | Qué | Tiempo |
-|---|---|---|
-| **0 — Backup** | Tag + branch + Netlify config | 15 min |
-| **1 — Reorganizar repo Memory** | Mover código React actual a `legacy-react/` dentro del repo | 30 min |
-| **2 — Decidir cómo integrar al monorepo** | (a) Mover el contenido al monorepo `apps/memory/` o `apps/supervisor/features/memory/` (b) Mantener Memory repo independiente consumiendo SCDS vía workspace | Decisión 30 min |
-| **3 — Scan inicial features React** | Identificar pantallas/módulos top-level (no detalle), mapear equivalencias en sidebar AED actual | 30 min |
-| **4 — Setup Angular greenfield** | `ng generate` shell base, consumir SCDS, conectar sc-preset, lazy routes | 1-2h |
-| **5 — Migración funcionalidad-por-funcionalidad** | Iterativa, comparando con `legacy-react/` durante dev | 2-N sesiones |
+**Cómo trabajar Fase 5** (per feature):
+- Abrir el componente React en `~/dev/Memory/legacy-react/src/app/components/X.tsx`.
+- Comparar visual + funcional contra Figma SC si existe (preguntar a Rafa por
+  el link Kit Pro relevante).
+- Implementar Angular con SCDS consumiendo el catálogo actual.
+- Si aparece gap componente → entry en `inconsistencies-backlog.md` +
+  decisión cocinar/declinar siguiendo regla pragmática refactor (3 criterios).
+- Verificación visual con Playwright en al menos 3-5 puntos clave de la
+  feature migrada.
+- Commit + push.
 
-**Decisiones que faltan para próxima sesión:**
+**Switch Netlify memoryplus3**: cuando ConversationsView esté funcional
+(no antes), configurar alias DNS `memoryplus3.netlify.app` → site
+`aedmigration` (o rename del site). Habilita demo única URL.
 
-1. ¿Memory entra como **feature module** dentro de `apps/aed/` (rename a `apps/supervisor/`) o como **app separada** dentro del monorepo `apps/memory/` con shell compartido vía package? Mi recomendación: feature module (más simple), pero depende de si Memory necesita URL distinta o solo paths distintos.
-2. ¿Cómo nombramos la nueva URL Netlify del Angular Memory durante transición?
-3. ¿Hay features Memory que no tengan equivalencia en AED y que necesiten cocinar wrapper nuevo en SCDS? Scan inicial responderá.
+### Acción manual pendiente Rafa (Netlify UI)
+
+Site `aedmigration` (config Build & deploy):
+- **Build command**: `npm install --no-audit --no-fund && npm run build:supervisor`
+- **Publish directory**: `dist/supervisor/browser`
+- (El env var override puede quedar vacío — usa default actualizado en `netlify.toml`.)
+
+### Estado al cerrar (Session 35, 2026-05-18) — net
+
+5 commits S35 a 2 repos:
+- Memory repo: `2195989` (snapshot pre-archive), `ed8bb31` (reorg legacy-react).
+- Monorepo: `be25387` (rename apps/aed→supervisor + 236 renames), `d7e764b` (netlify.toml), `d02392e` (Memory scaffolding).
+
+Estado salud: rename ejecutado limpio, Memory feature module wireado y
+verificado. Próxima sesión empieza con ConversationsView migration.
 
 ### Estado al cerrar (Session 34, 2026-05-18) — net
 
@@ -300,7 +394,11 @@ Estado salud DS: cero deudas de diseño accionables internamente. Todo lo pendie
 
 ## Sugerencias arranque próxima sesión
 
-**Pendiente en backlog post-S34** (todo P3, todo espera trigger externo o decisión Marta):
+**Prioridad 1 (lo más probable que Rafa pida)**: Fase 5 ConversationsView
+migration. Ver "Plan detallado Memory migration Fase 5" arriba. Es la
+continuación natural de S35.
+
+**Backlog DS sin novedades vs S34** (todo P3, todo espera trigger externo):
 
 | # | Item | Severidad | Trigger |
 |---|---|---|---|
@@ -310,21 +408,14 @@ Estado salud DS: cero deudas de diseño accionables internamente. Todo lo pendie
 | 14 | Refinement Figma Search (icon X clear) | P3 | Marta decision |
 | 15 | Variants formales Figma Search | P3 | Marta decision |
 | 27 | Branch deploys Netlify production-only | P3 | Equipo crezca |
-| 28 | Memory CI workflow (post-activation) | P3 | Memory active + threshold |
+| 28 | Memory CI workflow (post-activation) | P3 | Memory features mínimas |
 | — | `sc-section-card` → `<p-panel>` | P2 deferred S34 | Audit `❖ Panel` SC (Marta) |
 
-**Por orden de ROI próxima sesión** (todas opcionales — esperan algo externo):
-
-1. **Memory Camino B activation** (Fase 4): si Rafa tiene acceso al repo Memory, ejecutar `scripts/copy-scds-tokens.sh <path>`. 1-2h validación. Es lo más cercano a "siguiente fase del proyecto" — y ahora particularmente atractivo, porque Memory consumirá DS sin `.btn` legacy (post-S34) y se beneficia automáticamente del refactor Figma 1:1 (button + confirm-host + group-popover).
-
-2. **Refinement Figma Search (#14, #15)** si Marta decide: cambiar el right icon a `X clear` cuando se importe + cocinar variants formales del Main Component. Marta dependent.
-
-3. **`sc-section-card` → `<p-panel>`** SI Marta audita `❖ Panel` en SC primero. 24 consumers AED → refactor mediano-grande, no ejecutar sin tokens auditados.
-
-**Sin urgencia**:
-- Gaps componentes (#6, #7, #8): esperar trigger real (memoria `minimal-customization`).
-- Netlify PR previews / Memory CI: thresholds externos.
-- Refactors a Figma 1:1 P2 declined (inline-rename-cell, illustrated-avatar): conceptos distintos, NO retomar (decisión documentada en backlog).
+**Probablemente activados durante Fase 5 Memory**:
+- `<sc-datepicker>` primer uso real (Extended 0 uses hoy → +1 cuando ConversationsView).
+- `<sc-multi-select>` primer uso real (Extended 0 uses hoy → +1 cuando ConversationsView).
+- `<sc-data-table>` (gap nuevo, no documentado en backlog hoy — añadir entry cuando se confirme el gap durante implementación ConversationsView).
+- `<sc-audio-player>` (gap nuevo, idem).
 
 **NO atacar sin requerimiento explícito**:
 - Crear componentes pure-sc "por si acaso" — memoria `minimal-customization`.

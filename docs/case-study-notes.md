@@ -16,6 +16,57 @@
 
 ---
 
+## 2026-05-18 · S35 — Triple backup: defensa en profundidad antes de toda migración irreversible
+
+**Contexto**: para arrancar la migración del prototipo React Memory → Angular, había que tomar el repositorio Memory y reorganizarlo (mover el código React a `legacy-react/`, dejar el repo como archivo histórico). Una vez hecho ese cambio, recuperar el estado anterior es trabajo manual y propenso a olvidos.
+
+**Premisa equivocada (tentación)**: un solo mecanismo de recuperación (típicamente un git tag) es suficiente para "rollback".
+
+**Descubrimiento**: tres mecanismos sirven propósitos complementarios y deberían coexistir antes de cualquier rename masivo / reorg / refactor estructural:
+
+- **Tag** (`v0-prototype-react-pre-scds`): snapshot inmutable en un commit específico. Sirve para "quiero ver exactamente cómo estaba el día del corte" — `git checkout v0-prototype-react-pre-scds`. NO se mueve ni se modifica.
+- **Branch** (`prototype-react-archive`): puntero al mismo commit que el tag, pero permite hotfixes históricos (commits adicionales sobre el estado v0) sin contaminar `main`. Sirve si un mes después alguien necesita arreglar un bug en el React legacy sin migrarlo todavía.
+- **Carpeta legacy** (`legacy-react/` dentro de `main`): navegable desde el HEAD actual, accesible sin checkout. Sirve para "quiero leer el código del prototipo mientras trabajo en el Angular nuevo, sin cambiar de branch". También sirve para que `pnpm dev` desde dentro de la carpeta arranque el prototipo si hay que demostrarlo.
+
+**Lección portable**: antes de cualquier reorganización destructiva, escribe los 3 (o N) mecanismos de recuperación que vas a dejar y verifica que sirven propósitos distintos. Tag = snapshot inmutable. Branch = base para hotfixes históricos. Carpeta legacy = navegable sin checkout. Si los 3 sirven al mismo propósito, sobran 2. Si cubren propósitos distintos, los 3 son inversión, no overhead.
+
+---
+
+## 2026-05-18 · S35 — Distinguir path estructural vs narrativa histórica al hacer rename masivo
+
+**Contexto**: durante el rename `apps/aed/` → `apps/supervisor/`, 23 archivos del repo contenían referencias `apps/aed/`. La pregunta natural fue: ¿hago un `sed` masivo y replace_all en todos?
+
+**Premisa equivocada**: el rename de un directorio significa que TODAS las menciones del path antiguo en TODO el repo deben actualizarse al path nuevo.
+
+**Descubrimiento**: las referencias caen en 2 categorías muy distintas:
+
+1. **Paths estructurales vivientes**: `consumers.md` línea "AED — `apps/aed/`", spec doc del select "ver `apps/aed/.../agent-form-page`", config `outputPath: dist/aed`. Estos APUNTAN a código vivo HOY. Si el path es incorrecto, el lector navega a un sitio que no existe → confusión. **Actualizar es necesario**.
+
+2. **Narrativas históricas**: `SESSION-LOG.md` entry S34 "migré 38 botones `.btn` en apps/aed/src", `case-study-notes.md` momento "el grep `apps/aed/src` no encontró...", `inconsistencies-backlog.md` entry resolved "`apps/aed/src/styles/_buttons.scss` eliminado en S34". Estos NARRAN un evento que ocurrió cuando el path era `apps/aed/`. Reescribir el path falsifica la historia — el grep que hizo el Claude de S34 fue contra `apps/aed/src`, no contra `apps/supervisor/src` (que no existía aún).
+
+**Lección portable**: rename masivos no son `sed` ciego. Distingue: ¿este path está apuntando a algo vivo, o narrando algo que pasó? Apuntando → update. Narrando → respeta la historia. Patrón replicable: cualquier doc append-only (logs de sesiones, journals, case-study, post-mortems) tiene narrativa histórica; cualquier doc vivo (specs, READMEs, consumers, inventarios) tiene paths estructurales.
+
+---
+
+## 2026-05-18 · S35 — Excepción documentada en rename: cuando el mismo string tiene dos significados
+
+**Contexto**: el repo tiene una carpeta `apps/aed/src/app/features/config/aed/`. La primera `apps/aed/` es el path del directorio que estamos renombrando a `apps/supervisor/`. La última `/aed/` es el nombre de una feature (configuración específica de AED como sub-sección de Config). Conceptualmente son cosas distintas.
+
+**Premisa equivocada (tentación)**: replace_all `aed` → `supervisor` y arreglar lo que rompa.
+
+**Descubrimiento**: la cadena `aed` tiene al menos 3 significados distintos en el repo:
+
+1. **Path del directorio raíz de la app** (`apps/aed/`): SÍ se renombra.
+2. **Nombre de feature dentro del shell** (`features/config/aed/`): NO se renombra — `aed` ahí es identificador semántico de la sub-feature ("la config relativa al módulo AED"), no path raíz.
+3. **Texto UI / claves i18n** (`"aed": "AED"` en es.json): NO se renombra — es contenido textual que el usuario ve.
+4. **Prefix válido en eslint** (`["sc", "aed"]`): NO se renombra — permite mantener componentes prefijados `aed-` para la feature `features/config/aed/`.
+
+**Solución técnica**: replace_all con string específica `apps/aed/` (con prefix + barra final). Eso captura solo el path raíz, deja intactos los 3 usos legítimos del string `aed`.
+
+**Lección portable**: antes de cualquier rename masivo, lista los distintos significados que la cadena a renombrar puede tener en el código. Las excepciones intencionales se documentan SIEMPRE (en CLAUDE.md, en el código mismo con comment, o en commit message), porque sin documentación el siguiente colaborador asume "el rename no llegó a esta parte" y "lo arregla" — y rompe la excepción. La excepción documentada es contrato; la excepción no documentada es bomba de tiempo.
+
+---
+
 ## 2026-05-18 · S34 — Cross-ref sistemático Figma kit ↔ SCDS reveló qué refactors NO hacer
 
 **Contexto**: el Figma SC PrimeUI Kit Pro tiene ~80 componentes (Button, Input, Select, ConfirmDialog, Popover, Inplace, Avatar, Panel, etc.). El SCDS tiene 34. La tentación natural es: "para cada componente Figma, hagamos wrapper SCDS — así todo el DS es 1:1 con Figma".

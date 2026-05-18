@@ -10,6 +10,193 @@
 
 ---
 
+## 2026-05-18 · Session 35 — Memory migration arranca: backup React + rename apps/aed→supervisor + scaffolding feature module
+
+> Sesión dedicada al Eje 3 del mapa estratégico (Memory migration). 5 commits
+> a 2 repos (Memory + smart-contact-platform). Cerramos las 3 primeras fases
+> + scaffolding inicial del feature module Memory en el monorepo.
+>
+> **Highlights:**
+> - **Backup completo del prototipo React Memory**: commit snapshot pre-archive
+>   + tag `v0-prototype-react-pre-scds` + branch `prototype-react-archive`
+>   + carpeta `legacy-react/` navegable desde main. Triple defensa en
+>   profundidad antes de cualquier acción destructiva.
+> - **Rename apps/aed → apps/supervisor**: 236 renames + 22 modifies. Refleja
+>   que el shell aloja múltiples feature modules (AED + Memory + futuros), no
+>   solo AED. Build verde, dev server 200, lock regenerado.
+> - **Memory feature module scaffolding**: `apps/supervisor/features/memory/`
+>   con primera pantalla (`ConversationsPage` placeholder) lazy-loaded en
+>   `/conversaciones` (slot que estaba vacío como placeholder genérico).
+> - **Inventario migración**: `docs/memory-migration-inventory.md` documenta
+>   las 5 vistas top-level + 25 componentes + 3 contexts del prototipo +
+>   mapeo Angular target + wrappers SCDS probables.
+> - **Excepción documentada en rename**: `features/config/aed/` mantiene su
+>   nombre porque ahí "aed" es feature, no marca raíz. Patrón replicable.
+
+### Worked on
+
+- **Fase 0 — Backup repo Memory (commit `2195989` en Memory repo)**:
+  - Verificación read-only del estado de `~/dev/Memory`: 27 untracked
+    files detectados (`ConversationTable 2.tsx` duplicado macOS +
+    `DocumentationModal.tsx` nuevo en progreso + 25 shadcn/ui components
+    sin integrar).
+  - Decisión sparring con Rafa: commitear TODO como snapshot fiel al
+    estado real del día del corte (vs revisar uno por uno = roba 15-20 min
+    de Rafa, vs tag sin ellos = snapshot incompleto). Recomendación A
+    aceptada.
+  - Commit explícito tipo "chore: snapshot pre-archive (work-in-progress,
+    shadcn-ui untracked)" para que git log no engañe en 3 meses.
+  - Tag anotado `v0-prototype-react-pre-scds` + branch
+    `prototype-react-archive` ambos pusheados.
+
+- **Fase 1 — Reorganizar repo Memory (commit `ed8bb31` en Memory repo)**:
+  - `git mv` masivo de prototipo React a `legacy-react/`: src/, public/,
+    index.html, vite.config.ts, postcss.config.mjs, package.json,
+    pnpm-lock.yaml, netlify.toml, .impeccable.md. 123 archivos renombrados
+    con history preservada (verificado con `git log --follow`).
+  - Root queda con docs conceptuales independientes del stack (audit/,
+    docs/, guidelines/, memory-archive/) — referencia para la reimplementación
+    Angular.
+  - README.md reescrito como repo legacy: badges actualizados, instrucciones
+    de recuperación (legacy-react/ + tag + branch), pointer al monorepo
+    activo, sección "¿Qué era Memory?" preservada para contexto.
+  - .gitignore root sigue válido tras el move (patterns matchean a
+    cualquier nivel).
+
+- **Fase 2 — Validación decisión arquitectónica + sub-decisiones operacionales**:
+  - Sparring crítico: ¿re-abrir las 3 opciones de Fase 2 (feature module
+    vs app standalone vs repo independiente)? Decisión: NO — S34 ya cerró
+    opción (a) feature module. Re-debate = pérdida de tiempo.
+  - Sub-decisiones que SÍ faltaban presentadas a Rafa con
+    pros/cons + recomendación honesta:
+    - **Rename apps/aed → apps/supervisor**: ¿ahora, después, nunca?
+      Recomendación A3 (nunca, mantener nombre histórico). Rafa eligió
+      A1 (ahora) — argumento: arrancar limpio antes de Memory, evita N
+      sesiones leyendo `apps/aed/features/memory/`.
+    - **URL pública del shell**: mantener `aedmigration.netlify.app`
+      (Rafa: cambiarlo cuando tenga tiempo, no urgente).
+    - **memoryplus3.netlify.app**: alias DNS del shell cuando Memory
+      tenga primera pantalla viva.
+
+- **Fase 2.5 — Rename apps/aed → apps/supervisor (commits `be25387` + `d7e764b`)**:
+  - Scan exhaustivo: 23 archivos con referencias `apps/aed`. Categorizados
+    en (a) configs activos que SÍ se renombran, (b) docs SCDS con paths
+    estructurales que SÍ se actualizan, (c) narrativas históricas
+    (SESSION-LOG, case-study-notes, .notes/journal) que NO se reescriben.
+  - `git mv apps/aed apps/supervisor`: 236 renames (history preservada).
+  - Configs actualizados: angular.json (project "aed"→"supervisor" +
+    root + sourceRoot + outputPath + buildTarget + tsConfig + assets +
+    lintFilePatterns), package.json root (scripts ng serve/build/test/lint
+    + start:supervisor + build:supervisor + build:all + description),
+    apps/supervisor/package.json (name @sc/aed → @sc/supervisor),
+    tsconfig.json paths, apps/supervisor/tsconfig.app.json +
+    tsconfig.spec.json (outDir out-tsc/supervisor).
+  - apps/supervisor/CLAUDE.md reescrito reflejando shell unificado.
+  - Root CLAUDE.md + README.md + .impeccable.md: paths estructurales
+    actualizados + notas históricas explicando el rename.
+  - Docs SCDS (CLAUDE.md, consumers, inconsistencies-backlog,
+    migration-safety, 01-button, 04-select, 10-toast, 16-illustrated-avatar,
+    17-label-chip) + _sc-toast.scss + ds-docs home.component.ts:
+    paths estructurales actualizados.
+  - package-lock.json regenerado limpio (delete lock + npm install,
+    extraneous workspace `apps/aed` purgado).
+  - **Excepciones intencionales** (NO renombradas): `features/config/aed/`
+    (nombre de feature, no marca), i18n keys "aed" en es.json (texto UI),
+    `.eslintrc.json` prefix `["sc", "aed"]` (sigue válido), narrativas
+    históricas.
+  - **Verificación**: `npm run build:supervisor` → ✓ verde (1.42 MB
+    initial, mismo que pre-rename). Dev server `:4200` → HTTP 200, index
+    serving correcto, lazy chunks resolvieron.
+  - **netlify.toml actualizado** (commit `d7e764b`): ANGULAR_PROJECT
+    default "aed" → "supervisor" (env var crítica), comments del setup
+    site `aedmigration` actualizados al nuevo build command + publish dir,
+    nota histórica del rename.
+  - **Acción manual pendiente Rafa** (Netlify UI, site aedmigration):
+    Build command `npm install --no-audit --no-fund && npm run build:supervisor`,
+    Publish directory `dist/supervisor/browser`.
+
+- **Fase 3 — Scan inicial features React + inventario**:
+  - Lectura del legacy-react/src/app/: 5 vistas top-level identificadas
+    (`conversations`, `repository`, `repository-rules`, `repository-entities`,
+    `repository-categories`).
+  - ~25 componentes Memory-específicos catalogados (filtros, tabla,
+    reproductor, repository hub, 3 rule builders, entity CRUD, category CRUD).
+  - 3 context providers (`RulesContext`, `EntitiesContext`, `CategoriesContext`)
+    → equivalente Angular: signal-based stores.
+  - Mapeo al sidebar Supervisor: `/conversaciones` (placeholder hoy en
+    `supervision.routes.ts`) es el slot perfecto para Memory main view.
+    **Cero conflicto AED**.
+  - Wrappers SCDS probablemente activados por Memory: `<sc-datepicker>`
+    (0 uses AED hoy), `<sc-multi-select>` (0 uses hoy), `<sc-data-table>`
+    (gap nuevo), `<sc-audio-player>` (gap nuevo).
+  - **Doc**: `docs/memory-migration-inventory.md` (vivo hasta migración
+    completa).
+
+- **Fase 4 — Scaffolding feature module Memory (commit `d02392e`)**:
+  - `apps/supervisor/src/app/features/memory/memory.routes.ts`: lazy
+    routes Memory (1 ruta inicial, 4 sub-rutas previstas).
+  - `apps/supervisor/src/app/features/memory/pages/conversations/`:
+    primer scaffold `ConversationsPageComponent` usando `<sc-empty-state>`
+    con icono MessageSquare + mensaje contextual "Memory en migración".
+  - `supervision.routes.ts`: `/conversaciones` cambia de placeholder
+    genérico a `loadChildren: memoryRoutes`.
+  - i18n: keys `memory.placeholder.title` + `memory.placeholder.body`
+    añadidas en es.json.
+  - **Verificación**: build verde + dev server HTTP 200 en
+    `/conversaciones` + chunk Memory generado.
+
+### Métricas finales S35
+
+- **Commits totales**: 5 (2 en Memory repo: `2195989` + `ed8bb31`; 3 en
+  monorepo: `be25387` + `d7e764b` + `d02392e`).
+- **Archivos renombrados (history preservada)**: 123 en Memory repo
+  (prototipo a legacy-react/) + 236 en monorepo (apps/aed → apps/supervisor).
+- **Tag creado**: `v0-prototype-react-pre-scds` en Memory repo.
+- **Branch creado**: `prototype-react-archive` en Memory repo.
+- **Carpeta nueva**: `apps/supervisor/src/app/features/memory/`.
+- **Wrappers SCDS estrenados**: 0 hoy (la primera pantalla usa
+  `<sc-empty-state>` que ya tenía 3 uses AED).
+- **Bundle AED prod**: 1.42 MB initial (sin cambio — Memory feature
+  module es lazy, no afecta initial budget).
+- **Backlog items resueltos**: 0 (sesión es greenfield, no closure de
+  deuda DS).
+
+### Decisiones clave S35
+
+1. **Triple backup como defensa en profundidad** antes de migraciones
+   irreversibles. Tag (snapshot inmutable), branch (punto de partida
+   para hotfixes), carpeta legacy navegable (referencia sin checkout)
+   sirven propósitos complementarios. Patrón replicable.
+2. **Commit snapshot pre-archive antes del tag**, no después: el v0
+   inmutable debe reflejar el estado real de disco, no solo lo que estaba
+   limpio en main. Si hay untracked, commitearlos en un commit explícito
+   tipo "snapshot work-in-progress" antes del tag.
+3. **Rename apps/aed → apps/supervisor ahora**, no después: Rafa eligió
+   pagar el dolor una vez (45 min) en lugar de leer un nombre mentiroso
+   N sesiones. Counterpoint defendible — pero el argumento "arranca limpio"
+   ganó.
+4. **Distinguir paths estructurales vs narrativas históricas** al hacer
+   rename masivo. Paths que apuntan a código vivo (consumers.md, spec
+   docs, _sc-toast.scss, ds-docs home, .impeccable.md) → SÍ actualizar.
+   Logs de sesiones pasadas (SESSION-LOG, case-study-notes, .notes/journal,
+   apps/supervisor/docs/DECISIONS) → NO reescribir. Historia no se
+   falsifica; punteros vivos sí deben ser correctos.
+5. **Excepción documentada en el rename**: `features/config/aed/` mantiene
+   "aed" porque ahí es nombre de feature, no marca raíz. Replace_all
+   `apps/aed/` (con prefix) protegió la excepción naturalmente. CLAUDE.md
+   root + apps/supervisor/CLAUDE.md tienen el patrón documentado.
+6. **`/conversaciones` placeholder = slot perfecto para Memory**: existía
+   vacío en supervision.routes.ts, lo que permite reemplazar la entrada
+   con `loadChildren memoryRoutes` sin desplazar nada del AED actual.
+7. **Una sola entry sidebar para Memory** (no sub-items para
+   Reglas/Entidades/Categorías): Memory ya tiene Repository hub interno
+   diseñado en Figma. Duplicar nav en sidebar global = ruido.
+
+Last commit en main: `d02392e` (Memory scaffolding). + commit final de
+cierre tras este SESSION-LOG entry.
+
+---
+
 ## 2026-05-18 · Session 34 — `.btn` global eliminado + 2 refactors Figma 1:1 + regla pragmática consolidada
 
 > Sesión larga continuada (Opus 4.7 1M context). 5 commits a main. Cerramos
