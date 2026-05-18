@@ -115,6 +115,41 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: 'components/empty-state',
+    loadComponent: () =>
+      import('./pages/empty-state/empty-state-gallery.component').then(
+        (m) => m.EmptyStateGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/label-chip',
+    loadComponent: () =>
+      import('./pages/label-chip/label-chip-gallery.component').then(
+        (m) => m.LabelChipGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/color-dot-picker',
+    loadComponent: () =>
+      import('./pages/color-dot-picker/color-dot-picker-gallery.component').then(
+        (m) => m.ColorDotPickerGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/form-section-nav',
+    loadComponent: () =>
+      import('./pages/form-section-nav/form-section-nav-gallery.component').then(
+        (m) => m.FormSectionNavGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/form-danger-zone',
+    loadComponent: () =>
+      import('./pages/form-danger-zone/form-danger-zone-gallery.component').then(
+        (m) => m.FormDangerZoneGalleryComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

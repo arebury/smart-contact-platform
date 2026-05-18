@@ -1,0 +1,64 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Empty state</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-empty-state&gt;</code> es la tarjeta centrada que aparece en list pages cuando la
+      tabla está vacía (sin datos iniciales o tras filtrar a cero). Icono circular grande + título
+      + descripción + CTA primaria opcional. Reserva un <code>min-height</code> alto para evitar
+      saltos al alternar entre lista vacía y poblada.
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Lista vacía sin CTA</h2>
+    <p class="gallery__hint">Estado inicial neutro — describe qué falta sin invitar a acción.</p>
+    <div class="gallery__row">
+      <sc-empty-state
+        [icon]="inboxIcon"
+        titleKey="Sin notificaciones"
+        bodyKey="Cuando recibas algo aparecerá aquí. Por ahora todo está tranquilo."
+      />
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Con CTA primaria</h2>
+    <p class="gallery__hint">
+      El botón aparece cuando se pasa <code>ctaKey</code>. Emite <code>(cta)</code> al click — el
+      consumer decide qué acción dispara (abrir modal de creación, navegar a wizard, etc.).
+    </p>
+    <div class="gallery__row">
+      <sc-empty-state
+        [icon]="usersIcon"
+        titleKey="Aún no hay agentes en este grupo"
+        bodyKey="Crea el primero o asigna agentes existentes desde el listado general."
+        ctaKey="Crear agente"
+        (cta)="onCta('Crear agente')"
+      />
+    </div>
+    @if (lastCta()) {
+      <p class="gallery__output">
+        Último click: <code>{{ lastCta() }}</code>
+      </p>
+    }
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Search vacío</h2>
+    <p class="gallery__hint">
+      Patrón "no results" tras filtrar — icono distinto (lupa) para diferenciar del estado inicial.
+    </p>
+    <div class="gallery__row">
+      <sc-empty-state
+        [icon]="searchIcon"
+        titleKey='Sin resultados para "marta"'
+        bodyKey="Prueba con otro término o limpia los filtros activos."
+        ctaKey="Limpiar filtros"
+        (cta)="onCta('Limpiar filtros')"
+      />
+    </div>
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="empty-state" />
+</div>

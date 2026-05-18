@@ -1,0 +1,42 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Color dot picker</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-color-dot-picker&gt;</code> es la fila de círculos seleccionables para elegir
+      color. Two-way bindable via <code>[(value)]</code>. El componente es agnóstico al set —
+      acepta cualquier array de <code>ColorDotOption</code>, así que sirve tanto para la
+      <code>LabelColor</code> palette del DS como para sets ad-hoc.
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Paleta LabelColor (caso real AED)</h2>
+    <p class="gallery__hint">
+      Los 10 colores del sistema de etiquetas. Caso de uso real: <em>AED → Administración →
+      Etiquetas → crear / editar etiqueta</em>.
+    </p>
+    <div class="gallery__row">
+      <sc-color-dot-picker [options]="labelColors" [(value)]="labelValue" />
+    </div>
+    <p class="gallery__output">
+      Seleccionado: <code>{{ labelValue() }}</code>
+    </p>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Paleta corta arbitraria</h2>
+    <p class="gallery__hint">
+      Demuestra que el componente NO está acoplado a <code>LabelColor</code>: cualquier set
+      <code>&#123; value, label, color &#125;</code> funciona.
+    </p>
+    <div class="gallery__row">
+      <sc-color-dot-picker [options]="toneColors" [(value)]="toneValue" />
+    </div>
+    <p class="gallery__output">
+      Seleccionado: <code>{{ toneValue() }}</code>
+    </p>
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="color-dot-picker" />
+</div>

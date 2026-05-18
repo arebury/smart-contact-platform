@@ -1,0 +1,56 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Form danger zone</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-form-danger-zone&gt;</code> es el bloque rojo al final de los formularios de
+      edición que aloja acciones destructivas (borrar entidad, transferir ownership, archivar).
+      Vive al final del scroll para que el botón destructivo quede intencionadamente fuera del
+      camino de scaneo principal. Se compone con el dialog de confirmación / impacto (este
+      componente es solo el frame visual y el trigger).
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Patrón estándar</h2>
+    <p class="gallery__hint">
+      Descripción + botón "Eliminar" (acción default). El consumer escucha
+      <code>(action)</code> y dispara la confirmación.
+    </p>
+    <div class="gallery__row">
+      <sc-form-danger-zone
+        titleKey="Eliminar agente"
+        descriptionKey="Una vez eliminado, no podrás recuperarlo. Sus conversaciones se conservarán pero quedarán huérfanas."
+        actionKey="Eliminar agente"
+        (action)="onAction('Eliminar agente')"
+      />
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Acción deshabilitada</h2>
+    <p class="gallery__hint">
+      <code>[disabled]="true"</code> cuando hay precondiciones no cumplidas (ej. el agente tiene
+      conversaciones activas). El bloque sigue visible para comunicar "esto se puede borrar pero
+      ahora no".
+    </p>
+    <div class="gallery__row">
+      <sc-form-danger-zone
+        titleKey="Archivar grupo"
+        descriptionKey="No se puede archivar mientras tenga miembros activos. Mueve los agentes a otro grupo antes."
+        actionKey="Archivar"
+        [disabled]="true"
+      />
+    </div>
+  </section>
+
+  @if (lastAction()) {
+    <section class="gallery__section">
+      <p class="gallery__output">
+        Última acción: <code>{{ lastAction() }}</code>
+      </p>
+    </section>
+  }
+
+  <sc-ds-docs-gallery-footer slug="form-danger-zone" />
+</div>

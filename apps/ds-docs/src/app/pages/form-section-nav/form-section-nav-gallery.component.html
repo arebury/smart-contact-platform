@@ -1,0 +1,53 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Form section nav</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-form-section-nav&gt;</code> es la navegación lateral de formularios largos: cada
+      sección es un tab y el padre maneja <code>activeId</code> (controlled component). Se usa en
+      los shells de agent-form / group-form / user-form donde cada sección es un pane switcheable
+      en vez de un bloque scrolleable.
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Navegación completa (con chrome)</h2>
+    <p class="gallery__hint">
+      Versión default: caja propia con border + background. 5 secciones con icono.
+    </p>
+    <div class="gallery__row">
+      <div style="max-width: 260px;">
+        <sc-form-section-nav
+          [sections]="fullSections"
+          [activeId]="activeFull()"
+          labelKey="Configuración del agente"
+          (activeChange)="activeFull.set($event)"
+        />
+      </div>
+    </div>
+    <p class="gallery__output">Activa: <code>{{ activeFull() }}</code></p>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Modo <code>compact</code> (sin chrome exterior)</h2>
+    <p class="gallery__hint">
+      <code>[compact]="true"</code> quita la card chrome para embeber el nav dentro de otro
+      contenedor (típicamente una <code>sc-section-card</code>). Útil cuando la página ya tiene su
+      propia caja contenedora.
+    </p>
+    <div class="gallery__row">
+      <div style="max-width: 260px;">
+        <sc-form-section-nav
+          [sections]="compactSections"
+          [activeId]="activeCompact()"
+          [compact]="true"
+          labelKey="Pasos del wizard"
+          (activeChange)="activeCompact.set($event)"
+        />
+      </div>
+    </div>
+    <p class="gallery__output">Activa: <code>{{ activeCompact() }}</code></p>
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="form-section-nav" />
+</div>

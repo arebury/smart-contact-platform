@@ -1,0 +1,62 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Label chip</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-label-chip&gt;</code> es la pastilla categórica con color por etiqueta. Usado en
+      tablas (filas de agentes / grupos) y en pickers. Soporta dos sizes (<code>xs</code>,
+      <code>sm</code>) y un botón × opcional para flujos de eliminación. El color viene del
+      <code>LabelColor</code> (10 tokens custom) — cada uno con <code>--sc-label-COLOR-(bg|text|border|dot)</code>.
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Paleta completa (10 colores)</h2>
+    <p class="gallery__hint">Las 10 entradas de la <code>LabelColor</code> palette tal y como las consume AED.</p>
+    <div class="gallery__row gallery__row--wrap">
+      @for (l of colors; track l.name) {
+        <sc-label-chip [label]="$any(l)" />
+      }
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Sizes <code>sm</code> (default) y <code>xs</code></h2>
+    <p class="gallery__hint">
+      <code>xs</code> es el size para tablas densas; <code>sm</code> para pickers, headers y
+      formularios.
+    </p>
+    <div class="gallery__row gallery__row--wrap">
+      <sc-label-chip [label]="$any(redLabel)" size="sm" />
+      <sc-label-chip [label]="$any(redLabel)" size="xs" />
+      <sc-label-chip [label]="$any(greenLabel)" size="sm" />
+      <sc-label-chip [label]="$any(greenLabel)" size="xs" />
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Removable (× emite <code>(remove)</code>)</h2>
+    <p class="gallery__hint">
+      Cuando <code>[removable]="true"</code>, aparece un botón × que emite el evento. El consumer
+      decide si filtra del array, marca como borrado, o abre confirmación.
+    </p>
+    <div class="gallery__row gallery__row--wrap">
+      @for (l of colors; track l.name) {
+        @if (!removed().includes(l.name)) {
+          <sc-label-chip
+            [label]="$any(l)"
+            [removable]="true"
+            (remove)="onRemove(l.name)"
+          />
+        }
+      }
+    </div>
+    @if (removed().length > 0) {
+      <p class="gallery__output">
+        Eliminados: <code>{{ removed().join(', ') }}</code>
+      </p>
+    }
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="label-chip" />
+</div>
