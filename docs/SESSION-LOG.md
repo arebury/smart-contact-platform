@@ -10,6 +10,118 @@
 
 ---
 
+## 2026-05-18 · Session 36 — Memory ConversationsView iteración 1 (tabla densa funcional)
+
+> Continuación directa de S35 — Rafa pidió seguir sin pausa. Sesión corta
+> centrada en el primer milestone tangible Memory: la pantalla principal
+> renderiza datos.
+>
+> **Highlights:**
+> - **ConversationsView iteración 1**: page-header + tabla densa 9 columnas
+>   con 15 conversaciones mock representativas, signal store, types
+>   migrados 1:1 desde el prototipo React.
+> - **Patrón AED reusado**: `.table.sc-table-zebra` + `<sc-page-header>` +
+>   `.page > .page__inner` layout. Cero componentes nuevos SCDS — solo
+>   composición de los existentes (memoria `minimal-customization`).
+> - **Verificación visual con Playwright**: 15 filas renderizando + 9
+>   columnas correctas + 0 errores console + screenshot comparado contra
+>   AED agents page (mismo styling AED-zebra).
+
+### Worked on
+
+- **Lectura prototipo React** (Paso 1):
+  - `ConversationsView.tsx` (989 líneas), `ConversationTable.tsx` (475),
+    `ConversationFilters.tsx` (133), `mockData.ts` (1628 líneas, 156
+    conversations), `mockSamples.ts` (355).
+  - Identificadas 11 columnas tabla original: selección, estado (icons
+    procesamiento), Hora, Fecha, Servicio, Origen, Grupo, Destino, T. Conv.,
+    T. Espera, ID.
+  - Decisión iteración 1: skip selección + estado + filtros + player.
+    Render 9 columnas básicas con mock data + page header. Iteraciones
+    siguientes añaden complejidad.
+  - **Confirmación Rafa**: filtros complejos viven dentro de la sección
+    Memory (no se extraen a SCDS shared). Aplica `minimal-customization`.
+
+- **Implementación Angular** (Pasos 3a-3d):
+  - `data/conversation.types.ts`: interfaces Conversation, Recording,
+    TranscriptionLine, ConversationType/Channel/Direction migradas 1:1
+    desde mockData del prototipo.
+  - `data/conversations-mock.ts`: 15 conversations representativas
+    (variedad estados: recording / transcription / analysis / failed /
+    multi-rec / deleted + canales llamada/chat + direcciones entrante/
+    saliente + tipos interna/externa). Subset del prototipo (156),
+    expandible según necesidad.
+  - `state/conversations.store.ts`: signal store mínimo `providedIn: root`
+    expone `conversations` como readonly signal. Sin localStorage por
+    ahora (mock-only, igual que prototipo React).
+  - `components/conversation-table/`: ConversationTableComponent con HTML
+    table nativa + clase `.table.sc-table-zebra` (patrón AED, no
+    `<p-table>` — AED no usa table de PrimeNG). 9 columnas con cells
+    densas, monospace para ID, opacity 0.6 para fila deleted.
+  - `pages/conversations/`: reemplaza placeholder S35 con layout real
+    (`<sc-page-header>` + `.page > .page__inner` + tabla).
+  - i18n: keys `memory.conversations.page_title` + `memory.conversations.table.*`
+    (9 column headers).
+
+- **Verificación** (Paso 4):
+  - `npm run build:supervisor` → ✓ verde, 1.42 MB initial (Memory chunk
+    lazy, no afecta budget).
+  - `npm start` → /conversaciones HTTP 200.
+  - Playwright smoke: 15 rows en `.memory-conversations-table tbody tr`,
+    header "Conversaciones", primera fila con 9 textContent correctos,
+    0 errores console.
+  - Screenshot comparativo Memory conversaciones vs AED agentes → mismo
+    styling AED-zebra confirmado.
+
+### Métricas finales S36
+
+- **Commits**: 1 (`b3a1b30`).
+- **Archivos creados**: 6 (types, mock, store, component table 3-archivo, page reemplaza 2-archivo).
+- **Archivos modificados**: 3 (page TS+HTML reescritos, i18n es.json).
+- **Líneas añadidas**: ~486 insertions.
+- **Wrappers SCDS estrenados**: 0 (composición pura de componentes
+  existentes — `<sc-page-header>` ya tenía 8 uses AED).
+- **Componentes nuevos Memory-specific**: 1 (ConversationTableComponent).
+- **Bundle AED prod**: 1.42 MB initial (sin cambio — Memory feature
+  module es lazy).
+
+### Decisiones clave S36
+
+1. **Cero `<p-table>` en Memory** — AED no usa PrimeNG table, usa HTML
+   table nativa con clase global `.table.sc-table-zebra`. Memory mantiene
+   consistencia: misma clase, mismo patrón. Si en el futuro queremos
+   features de table (sort, virtual scroll, etc.), evaluar `<p-table>`
+   o cocinar `<sc-data-table>` wrapper. Hoy: minimal-customization gana.
+2. **Mock subset (15) en lugar de copia completa (156)** del prototipo.
+   Razón: las 156 vienen con `recordings`/`transcription` arrays gigantes
+   que solo necesitamos cuando implementemos el player modal (iteración
+   futura). Iteración 1 solo necesita el shape básico. Expandir mock
+   cuando feature concreto lo pida.
+3. **Filtros viven dentro de Memory** (confirmación Rafa mid-sesión): los
+   filtros complejos (services, dateRange, origin, destination, groups,
+   agents, type-panel, category-panel, duration, recording, time-range)
+   son Memory-specific, NO se extraen a SCDS shared. Aplica
+   minimal-customization: componentes en `features/memory/components/`,
+   no en `packages/design-system/`.
+4. **Iteración 1 explícitamente minimal**: skip checkbox + estado + filtros
+   + player modal + sticky header + búsqueda + column selector. Cubrir
+   cada uno en iteración propia con su commit. Evita un commit
+   monolítico de 2000 líneas con bugs imposibles de bisectar.
+
+Last commit en main: `b3a1b30` (Memory ConversationsView iteration 1).
+
+### Plan iteraciones siguientes ConversationsView (próximas sesiones)
+
+| Iteración | Qué añade | Tiempo estimado |
+|---|---|---|
+| **2** | Columna estado (icons procesamiento: microphone/recording, fileText/transcription, sparkles/analysis) + columna checkbox selección + sticky header al scroll | 1-2h |
+| **3** | `ConversationFilters` top-bar component (services + dateRange + origin + destination + groups + agents pickers usando `<sc-multi-select>` + `<sc-datepicker>` — primer uso real de ambos wrappers SCDS) | 2-3h |
+| **4** | Filtros por columna (sticky filter row con RecordingFilter, TimeRangeFilter, DateRangePicker, Input service search) | 2h |
+| **5** | `ConversationPlayerModal` al click en fila (audio + transcript + summary + sentiment tabs) — primer caso del wrapper `<sc-audio-player>` (gap nuevo, posible necesidad de cocinar) | 3-4h |
+| **6** | Bulk actions (BulkTranscriptionModal + `<sc-bulk-action-bar>` + selección bulk + procesamiento progress) | 2-3h |
+
+---
+
 ## 2026-05-18 · Session 35 — Memory migration arranca: backup React + rename apps/aed→supervisor + scaffolding feature module
 
 > Sesión dedicada al Eje 3 del mapa estratégico (Memory migration). 5 commits

@@ -3,10 +3,11 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
-> 2. Lee la entry **Session 35** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
->    Memory migration arranca: backup React (tag + branch + legacy-react/) +
->    rename apps/aed → apps/supervisor + scaffolding feature module Memory
->    + inventario.
+> 2. Lee la entry **Session 36** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    ConversationsView iteración 1: tabla densa 9 columnas + 15 mock + signal
+>    store. Patrón AED reusado. Plan iteraciones 2-6 anotado.
+> 2b. Lee la entry **Session 35** entera — backup React + rename apps/aed →
+>    apps/supervisor + scaffolding Memory feature module + inventario.
 > 3. Lee la entry Session 34 para contexto previo (.btn global eliminado +
 >    2 refactors Figma 1:1 + regla pragmática consolidada).
 > 4. Lee [`docs/memory-migration-inventory.md`](./memory-migration-inventory.md)
@@ -34,6 +35,27 @@
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
+
+---
+
+## Estado al cerrar (Session 36, 2026-05-18)
+
+**Hitos clave de Session 36** (1 commit, continuación directa de S35):
+
+- ✅ **Memory ConversationsView iteración 1** (commit `b3a1b30`):
+  - `data/conversation.types.ts` + `data/conversations-mock.ts` (15 entries representativas).
+  - `state/conversations.store.ts` signal store mínimo.
+  - `components/conversation-table/`: tabla densa 9 columnas con `.table.sc-table-zebra`.
+  - `pages/conversations/`: page-header + tabla, reemplaza el placeholder S35.
+  - i18n keys `memory.conversations.*`.
+- ✅ **Decisiones consolidadas S36**:
+  - Memory mantiene HTML table nativa (no `<p-table>` PrimeNG) por consistencia con AED.
+  - Filtros complejos viven dentro de Memory, NO se extraen a SCDS shared.
+  - Iteraciones explícitamente minimales — cada feature en su commit.
+
+**Próxima sesión arranca con**: Iteración 2 (columna estado + checkbox selección + sticky header). Ver plan completo en `SESSION-LOG.md` entry S36 sección "Plan iteraciones siguientes".
+
+Last commit en main: `b3a1b30` (Memory ConversationsView iter 1). + commit final de cierre tras este NEXT-SESSION-PLAN entry.
 
 ---
 
