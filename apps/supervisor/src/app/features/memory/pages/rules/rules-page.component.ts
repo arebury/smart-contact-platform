@@ -73,11 +73,29 @@ export class RulesPageComponent {
   protected readonly alertIcon = AlertOctagon;
   protected readonly kebabIcon = MoreVertical;
 
-  protected onNewRule(): void {
+  protected onNewRule(type: 'recording' | 'transcription' | 'classification' = 'recording'): void {
     this.router.navigate(['/conversaciones/reglas/nueva'], {
-      queryParams: { type: 'recording' },
+      queryParams: { type },
     });
   }
+
+  protected readonly newRuleMenuItems: MenuItem[] = [
+    {
+      label: 'Regla de grabación',
+      icon: 'pi pi-microphone',
+      command: () => this.onNewRule('recording'),
+    },
+    {
+      label: 'Regla de transcripción',
+      icon: 'pi pi-file',
+      command: () => this.onNewRule('transcription'),
+    },
+    {
+      label: 'Regla de clasificación con IA',
+      icon: 'pi pi-sparkles',
+      command: () => this.onNewRule('classification'),
+    },
+  ];
 
   protected scopeSummary(rule: Rule): string {
     const parts: string[] = [];

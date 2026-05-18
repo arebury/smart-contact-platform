@@ -173,8 +173,9 @@
       </div>
     </section>
 
-    <!-- Bloque 3: Grabación (solo Recording type por ahora — iter 9c-1) -->
-    @if (ruleType() === 'recording') {
+    <!-- Bloque 3: Grabación (tipo Recording + Classification también lleva
+         opcional · spec §"CAMBIOS EN EL BLOQUE GRABACIÓN") -->
+    @if (ruleType() === 'recording' || ruleType() === 'classification') {
       <section class="rule-block">
         <header class="rule-block__head">
           <h2>
@@ -235,6 +236,126 @@
             </div>
           }
         </div>
+      </section>
+    }
+
+    <!-- Bloque 4: Transcripción (tipos Transcription + Classification) -->
+    @if (ruleType() === 'transcription' || ruleType() === 'classification') {
+      <section class="rule-block">
+        <header class="rule-block__head">
+          <h2>
+            <lucide-icon [img]="fileTextIcon" [size]="14" aria-hidden="true" />
+            {{ 'memory.rules.builder.transcription' | translate }}
+          </h2>
+          <p class="rule-block__desc">
+            {{ 'memory.rules.builder.transcription_desc' | translate }}
+          </p>
+        </header>
+
+        <div class="rule-block__row">
+          <label for="rule-direction-trans" class="rule-builder__field-label">
+            {{ 'memory.rules.builder.direction_label' | translate }}
+          </label>
+          <p-select
+            inputId="rule-direction-trans"
+            [options]="directionOptions"
+            [(ngModel)]="direction"
+            optionLabel="labelKey"
+            optionValue="value"
+            styleClass="rule-builder__select"
+          >
+            <ng-template let-opt pTemplate="selectedItem">
+              {{ opt.labelKey | translate }}
+            </ng-template>
+            <ng-template let-opt pTemplate="item">
+              {{ opt.labelKey | translate }}
+            </ng-template>
+          </p-select>
+        </div>
+
+        <div class="rule-block__row">
+          <label for="rule-duration" class="rule-builder__field-label">
+            {{ 'memory.rules.builder.duration_label' | translate }}
+          </label>
+          <div class="rule-builder__duration">
+            <input
+              id="rule-duration"
+              type="number"
+              min="0"
+              [value]="durationMin()"
+              (input)="durationMin.set(+$any($event.target).value || 0)"
+            />
+            <p-select
+              [options]="durationUnitOptions"
+              [(ngModel)]="durationUnit"
+              optionLabel="labelKey"
+              optionValue="value"
+            >
+              <ng-template let-opt pTemplate="selectedItem">
+                {{ opt.labelKey | translate }}
+              </ng-template>
+              <ng-template let-opt pTemplate="item">
+                {{ opt.labelKey | translate }}
+              </ng-template>
+            </p-select>
+          </div>
+          <p class="rule-builder__field-hint">
+            {{ 'memory.rules.builder.duration_hint' | translate }}
+          </p>
+        </div>
+
+        <div class="rule-block__row">
+          <sc-multi-select
+            [label]="'memory.rules.builder.attended_by_label' | translate"
+            [options]="attendedByOptions"
+            optionLabel="label"
+            optionValue="value"
+            [placeholder]="'memory.rules.builder.attended_by_placeholder' | translate"
+            [filter]="true"
+            [value]="[...attendedBy()]"
+            (valueChange)="setAttendedBy($event)"
+          />
+          <p class="rule-builder__field-hint">
+            {{ 'memory.rules.builder.attended_by_hint' | translate }}
+          </p>
+        </div>
+      </section>
+
+      <!-- Sub-bloque Análisis IA dentro de Transcripción · spec line 129-131 -->
+      <section class="rule-block rule-block--ai">
+        <header class="rule-block__head">
+          <div class="rule-builder__ai-head">
+            <span class="rule-builder__ai-badge">
+              <lucide-icon [img]="sparklesIcon" [size]="14" aria-hidden="true" />
+            </span>
+            <div>
+              <h2>{{ 'memory.rules.builder.ai_analysis' | translate }}</h2>
+              <p class="rule-block__desc">
+                {{ 'memory.rules.builder.ai_analysis_desc' | translate }}
+              </p>
+            </div>
+          </div>
+          <p-toggleswitch
+            inputId="ai-toggle"
+            [(ngModel)]="aiAnalysis"
+          />
+        </header>
+
+        @if (aiAnalysis()) {
+          <div class="rule-builder__ai-chips">
+            <span class="rule-builder__ai-chip">
+              {{ 'memory.rules.builder.ai_chip_summary' | translate }}
+            </span>
+            <span class="rule-builder__ai-chip">
+              {{ 'memory.rules.builder.ai_chip_sentiment' | translate }}
+            </span>
+            @if (ruleType() === 'classification') {
+              <span class="rule-builder__ai-chip">
+                {{ 'memory.rules.builder.ai_chip_categories' | translate }}
+              </span>
+            }
+          </div>
+        }
       </section>
     }
   </div>

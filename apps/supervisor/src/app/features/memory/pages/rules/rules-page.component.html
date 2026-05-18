@@ -2,10 +2,23 @@
   titleKey="memory.rules.page_title"
   [icon]="settingsIcon"
 >
-  <p-button type="button" severity="primary" (onClick)="onNewRule()">
-    <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
-    <span>{{ 'memory.rules.new_rule' | translate }}</span>
-  </p-button>
+  <ng-container page-header-actions>
+    <p-button
+      type="button"
+      severity="primary"
+      (onClick)="newRuleMenu.toggle($event)"
+    >
+      <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+      <span>{{ 'memory.rules.new_rule' | translate }}</span>
+    </p-button>
+    <p-menu
+      #newRuleMenu
+      [model]="newRuleMenuItems"
+      [popup]="true"
+      appendTo="body"
+      styleClass="rules-new-menu"
+    />
+  </ng-container>
 </sc-page-header>
 
 <div class="page">

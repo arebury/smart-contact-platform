@@ -13,8 +13,10 @@ import {
   ArrowLeft,
   Database,
   ExternalLink,
+  FileText,
   LucideAngularModule,
   Mic,
+  Sparkles,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -82,12 +84,29 @@ export class RuleBuilderPageComponent {
   protected readonly backIcon = ArrowLeft;
   protected readonly externalIcon = ExternalLink;
   protected readonly micIcon = Mic;
+  protected readonly fileTextIcon = FileText;
+  protected readonly sparklesIcon = Sparkles;
   protected readonly databaseIcon = Database;
+
+  /**
+   * Catálogo combinado grupos + agentes para "Atendida por" en
+   * Transcripción. Spec line 123-127: "Multi-select con agentes o
+   * grupos del repositorio".
+   */
+  protected readonly attendedByOptions = [
+    ...GROUP_OPTIONS.map((g) => ({ value: g.value, label: `Grupo · ${g.label}` })),
+    ...AGENT_OPTIONS.map((a) => ({ value: a.value, label: a.label })),
+  ];
 
   protected readonly directionOptions = [
     { value: 'all' as Direction, labelKey: 'memory.rules.builder.direction.all' },
     { value: 'inbound' as Direction, labelKey: 'memory.rules.builder.direction.inbound' },
     { value: 'outbound' as Direction, labelKey: 'memory.rules.builder.direction.outbound' },
+  ];
+
+  protected readonly durationUnitOptions = [
+    { value: 'seconds', labelKey: 'memory.rules.builder.duration_unit.seconds' },
+    { value: 'minutes', labelKey: 'memory.rules.builder.duration_unit.minutes' },
   ];
 
   protected readonly ruleId = signal<number | null>(null);
@@ -105,6 +124,11 @@ export class RuleBuilderPageComponent {
   protected readonly filterBySchedule = signal(false);
   protected readonly scheduleFrom = signal('09:00');
   protected readonly scheduleTo = signal('18:00');
+  // Transcripción (iter 9c-2)
+  protected readonly durationMin = signal(30);
+  protected readonly durationUnit = signal<'seconds' | 'minutes'>('seconds');
+  protected readonly attendedBy = signal<readonly string[]>([]);
+  protected readonly aiAnalysis = signal(false);
 
   protected readonly nameInvalid = computed(() => this.name().trim().length < 3);
   protected readonly canSave = computed(() => !this.nameInvalid());
@@ -157,6 +181,17 @@ export class RuleBuilderPageComponent {
     this.filterBySchedule.set(rule.schedule?.enabled ?? false);
     this.scheduleFrom.set(rule.schedule?.from ?? '09:00');
     this.scheduleTo.set(rule.schedule?.to ?? '18:00');
+    // Transcripción
+    const durMin = rule.durationMin ?? 30;
+    if (durMin >= 60 && durMin % 60 === 0) {
+      this.durationMin.set(durMin / 60);
+      this.durationUnit.set('minutes');
+    } else {
+      this.durationMin.set(durMin);
+      this.durationUnit.set('seconds');
+    }
+    this.attendedBy.set(rule.attendedBy ?? []);
+    this.aiAnalysis.set(rule.aiAnalysis ?? false);
   }
 
   private formatDimension(values: readonly string[], singular: string, plural: string): string {
@@ -184,6 +219,12 @@ export class RuleBuilderPageComponent {
         from: this.scheduleFrom(),
         to: this.scheduleTo(),
       },
+      durationMin:
+        this.durationUnit() === 'minutes'
+          ? this.durationMin() * 60
+          : this.durationMin(),
+      attendedBy: this.attendedBy(),
+      aiAnalysis: this.aiAnalysis(),
     };
 
     if (this.isEditMode()) {
@@ -226,5 +267,9 @@ export class RuleBuilderPageComponent {
 
   protected setAgentes(v: unknown[] | readonly string[]): void {
     this.agentes.set((v ?? []) as readonly string[]);
+  }
+
+  protected setAttendedBy(v: unknown[] | readonly string[]): void {
+    this.attendedBy.set((v ?? []) as readonly string[]);
   }
 }
