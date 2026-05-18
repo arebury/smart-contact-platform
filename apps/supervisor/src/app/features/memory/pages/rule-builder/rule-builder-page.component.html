@@ -24,6 +24,30 @@
     </div>
   </header>
 
+  <!-- Banner Borrador sin editar · spec line 122-127. Contenedor
+       siempre reservado para evitar layout shift al cargar. -->
+  <div
+    class="rule-builder__draft-banner-slot"
+    [class.rule-builder__draft-banner-slot--visible]="isDraft()"
+  >
+    @if (isDraft()) {
+      <div class="rule-builder__draft-banner">
+        <div class="rule-builder__draft-message">
+          <lucide-icon [img]="alertIcon" [size]="16" aria-hidden="true" />
+          <p>{{ 'memory.rules.builder.draft_banner' | translate }}</p>
+        </div>
+        <button
+          type="button"
+          class="rule-builder__draft-discard"
+          (click)="onDiscardDraft()"
+        >
+          <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
+          {{ 'memory.rules.builder.discard_draft' | translate }}
+        </button>
+      </div>
+    }
+  </div>
+
   <div class="rule-builder__body">
     <!-- Bloque 1: Metadatos -->
     <section class="rule-block">

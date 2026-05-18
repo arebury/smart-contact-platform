@@ -156,6 +156,36 @@ export class RulesStore {
     });
   }
 
+  /**
+   * Duplica una regla existente. Crea copia con prefijo "Copia de" en
+   * el name + `isDraft: true` + `active: false` + `duplicatedFromId`
+   * apuntando al original. Spec `rule-constructor-update-1.md` §94-108.
+   */
+  duplicateRule(id: number): Rule | null {
+    const source = this.getRule(id);
+    if (!source) return null;
+    const copy = this.addRule({
+      type: source.type,
+      name: `Copia de ${source.name}`,
+      description: source.description,
+      servicios: source.servicios,
+      grupos: source.grupos,
+      agentes: source.agentes,
+      recording: source.recording,
+      transcripcion: source.transcripcion,
+      clasificacion: source.clasificacion,
+      active: false,
+      direction: source.direction,
+      schedule: source.schedule,
+      durationMin: source.durationMin,
+      attendedBy: source.attendedBy,
+      aiAnalysis: source.aiAnalysis,
+      isDraft: true,
+      duplicatedFromId: id,
+    });
+    return copy;
+  }
+
   deleteRule(id: number): void {
     this._rules.update((rules) => {
       const filtered = rules.filter((r) => r.id !== id);

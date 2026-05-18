@@ -205,12 +205,14 @@
         "duplicate": "Duplicar",
         "activate": "Activar",
         "deactivate": "Desactivar",
-        "delete": "Eliminar"
+        "delete": "Eliminar",
+        "activate_draft_tooltip": "Edita al menos un campo para poder activar esta regla."
       },
       "order_updated": "Orden actualizado",
       "delete_title": "Eliminar regla",
       "delete_body": "Vas a eliminar «{{name}}». Esta acción no se puede deshacer.",
       "deleted_toast": "Regla «{{name}}» eliminada",
+      "duplicated_toast": "Regla duplicada. Edita al menos un campo para poder activarla.",
       "builder": {
         "back": "Volver al listado",
         "title_new": "Nueva regla",
@@ -279,7 +281,11 @@
         "save_changes": "Guardar cambios",
         "create_rule": "Crear regla",
         "created_toast": "Regla creada",
-        "updated_toast": "Regla actualizada"
+        "updated_toast": "Regla actualizada",
+        "draft_banner": "Esta regla es una copia sin modificar. Edita al menos un campo y guarda para poder activarla.",
+        "discard_draft": "Descartar copia",
+        "draft_ready_toast": "Regla lista para activar",
+        "discarded_toast": "Copia descartada"
       }
     },
     "category_filter": {

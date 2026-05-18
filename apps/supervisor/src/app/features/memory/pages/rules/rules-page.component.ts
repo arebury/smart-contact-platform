@@ -151,6 +151,9 @@ export class RulesPageComponent {
     const toggleLabel = isActive
       ? this.translate.instant('memory.rules.menu.deactivate')
       : this.translate.instant('memory.rules.menu.activate');
+    // Spec line 113-116: Borrador sin editar NO se puede activar
+    // hasta editar al menos un campo. Tooltip explica.
+    const toggleDisabled = !!rule.isDraft;
     return [
       {
         label: this.translate.instant('memory.rules.menu.edit'),
@@ -160,7 +163,7 @@ export class RulesPageComponent {
       {
         label: this.translate.instant('memory.rules.menu.duplicate'),
         icon: 'pi pi-copy',
-        disabled: true, // iter 9d
+        command: () => this.duplicateRule(rule),
       },
       {
         separator: true,
@@ -168,7 +171,13 @@ export class RulesPageComponent {
       {
         label: toggleLabel,
         icon: isActive ? 'pi pi-pause' : 'pi pi-play',
-        command: () => this.rulesStore.toggleActive(rule.id),
+        disabled: toggleDisabled,
+        tooltip: toggleDisabled
+          ? this.translate.instant('memory.rules.menu.activate_draft_tooltip')
+          : undefined,
+        command: toggleDisabled
+          ? undefined
+          : () => this.rulesStore.toggleActive(rule.id),
       },
       {
         label: this.translate.instant('memory.rules.menu.delete'),
@@ -177,6 +186,16 @@ export class RulesPageComponent {
         command: () => this.confirmDelete(rule),
       },
     ];
+  }
+
+  private duplicateRule(rule: Rule): void {
+    const copy = this.rulesStore.duplicateRule(rule.id);
+    if (!copy) return;
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('memory.rules.duplicated_toast'),
+      life: 3500,
+    });
   }
 
   private async confirmDelete(rule: Rule): Promise<void> {

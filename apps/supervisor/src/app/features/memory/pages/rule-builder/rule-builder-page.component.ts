@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
+  AlertTriangle,
   ArrowLeft,
   Database,
   ExternalLink,
@@ -17,6 +18,7 @@ import {
   LucideAngularModule,
   Mic,
   Sparkles,
+  Trash2,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -87,6 +89,8 @@ export class RuleBuilderPageComponent {
   protected readonly fileTextIcon = FileText;
   protected readonly sparklesIcon = Sparkles;
   protected readonly databaseIcon = Database;
+  protected readonly alertIcon = AlertTriangle;
+  protected readonly trashIcon = Trash2;
 
   /**
    * Catálogo combinado grupos + agentes para "Atendida por" en
@@ -112,6 +116,7 @@ export class RuleBuilderPageComponent {
   protected readonly ruleId = signal<number | null>(null);
   protected readonly ruleType = signal<RuleType>('recording');
   protected readonly isEditMode = computed(() => this.ruleId() !== null);
+  protected readonly isDraft = signal(false);
 
   // Form state
   protected readonly name = signal('');
@@ -171,6 +176,7 @@ export class RuleBuilderPageComponent {
 
   private loadFromRule(rule: Rule): void {
     this.ruleType.set(rule.type);
+    this.isDraft.set(!!rule.isDraft);
     this.name.set(rule.name);
     this.description.set(rule.description ?? '');
     this.active.set(rule.active);
@@ -228,10 +234,15 @@ export class RuleBuilderPageComponent {
     };
 
     if (this.isEditMode()) {
-      this.rulesStore.updateRule(this.ruleId()!, base);
+      // Si era borrador → guardar retira el flag (spec line 130-139).
+      const patch = this.isDraft() ? { ...base, isDraft: false } : base;
+      this.rulesStore.updateRule(this.ruleId()!, patch);
+      const summaryKey = this.isDraft()
+        ? 'memory.rules.builder.draft_ready_toast'
+        : 'memory.rules.builder.updated_toast';
       this.messages.add({
         severity: 'success',
-        summary: this.translate.instant('memory.rules.builder.updated_toast'),
+        summary: this.translate.instant(summaryKey),
         life: 2200,
       });
     } else {
@@ -242,6 +253,18 @@ export class RuleBuilderPageComponent {
         life: 2200,
       });
     }
+    this.router.navigate(['/conversaciones/reglas']);
+  }
+
+  protected onDiscardDraft(): void {
+    const id = this.ruleId();
+    if (id === null || !this.isDraft()) return;
+    this.rulesStore.deleteRule(id);
+    this.messages.add({
+      severity: 'info',
+      summary: this.translate.instant('memory.rules.builder.discarded_toast'),
+      life: 2000,
+    });
     this.router.navigate(['/conversaciones/reglas']);
   }
 
