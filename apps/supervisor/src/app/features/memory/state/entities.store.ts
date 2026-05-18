@@ -37,4 +37,46 @@ export class EntitiesStore {
     if (!target || target.isSystem) return;
     this._entities.update((list) => list.filter((e) => e.id !== id));
   }
+
+  /**
+   * Crear una entidad user nueva. Auto-genera id + createdAt/updatedAt.
+   * Las system entities NO se pueden crear via esta API (defensive).
+   */
+  addEntity(partial: Omit<Entity, 'id' | 'createdAt' | 'updatedAt' | 'isSystem'>): Entity {
+    const now = new Date().toISOString();
+    const newEntity: Entity = {
+      ...partial,
+      id: `usr_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      isSystem: false,
+      createdAt: now,
+      updatedAt: now,
+    };
+    this._entities.update((list) => [...list, newEntity]);
+    return newEntity;
+  }
+
+  /**
+   * Actualizar entidad user existente. Las system entities NO se pueden
+   * editar (defensive filter — el listado las marca read-only).
+   */
+  updateEntity(id: string, patch: Partial<Omit<Entity, 'id' | 'isSystem' | 'createdAt'>>): void {
+    this._entities.update((list) => {
+      const now = new Date().toISOString();
+      return list.map((e) =>
+        e.id === id && !e.isSystem ? { ...e, ...patch, updatedAt: now } : e,
+      );
+    });
+  }
+
+  /**
+   * Verifica si un name está ya en uso (excluyendo opcionalmente un id
+   * concreto para validar edits sin chocar consigo mismo).
+   */
+  isNameTaken(name: string, exceptId?: string): boolean {
+    const lower = name.trim().toLowerCase();
+    if (!lower) return false;
+    return this._entities().some(
+      (e) => e.id !== exceptId && e.name.toLowerCase() === lower,
+    );
+  }
 }

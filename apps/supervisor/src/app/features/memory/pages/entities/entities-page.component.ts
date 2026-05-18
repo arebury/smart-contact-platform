@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   Database,
@@ -15,6 +15,7 @@ import type { MenuItem } from 'primeng/api';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
 import { PageHeaderComponent } from '@shared/components';
 
+import { EntityFormModalComponent } from '../../components/entity-form-modal/entity-form-modal.component';
 import type { Entity } from '../../data/entity.types';
 import { EntitiesStore } from '../../state/entities.store';
 
@@ -30,6 +31,7 @@ import { EntitiesStore } from '../../state/entities.store';
   selector: 'sc-memory-entities-page',
   imports: [
     ButtonModule,
+    EntityFormModalComponent,
     LucideAngularModule,
     MenuModule,
     PageHeaderComponent,
@@ -49,6 +51,9 @@ export class EntitiesPageComponent {
   protected readonly systemEntities = this.entitiesStore.systemEntities;
   protected readonly hasUserEntities = this.entitiesStore.hasUserEntities;
 
+  protected readonly formOpen = signal(false);
+  protected readonly formEntity = signal<Entity | null>(null);
+
   protected readonly databaseIcon = Database;
   protected readonly plusIcon = Plus;
   protected readonly kebabIcon = MoreVertical;
@@ -59,7 +64,7 @@ export class EntitiesPageComponent {
       {
         label: this.translate.instant('memory.entities.menu.edit'),
         icon: 'pi pi-pencil',
-        disabled: true, // iter 10b
+        command: () => this.openEditForm(entity),
       },
       {
         separator: true,
@@ -74,9 +79,30 @@ export class EntitiesPageComponent {
   }
 
   protected onNewEntity(): void {
+    this.formEntity.set(null);
+    this.formOpen.set(true);
+  }
+
+  protected openEditForm(entity: Entity): void {
+    this.formEntity.set(entity);
+    this.formOpen.set(true);
+  }
+
+  protected onFormClose(): void {
+    this.formOpen.set(false);
+  }
+
+  protected onFormSaved(entity: Entity): void {
+    const wasEdit = this.formEntity() !== null;
+    this.formOpen.set(false);
     this.messages.add({
-      severity: 'info',
-      summary: this.translate.instant('memory.entities.coming_soon_toast'),
+      severity: 'success',
+      summary: this.translate.instant(
+        wasEdit
+          ? 'memory.entities.form.updated_toast'
+          : 'memory.entities.form.created_toast',
+        { name: entity.name },
+      ),
       life: 2200,
     });
   }

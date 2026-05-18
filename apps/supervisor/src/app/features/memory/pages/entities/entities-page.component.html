@@ -124,3 +124,10 @@
     </section>
   </div>
 </div>
+
+<sc-memory-entity-form-modal
+  [visible]="formOpen()"
+  [entity]="formEntity()"
+  (closed)="onFormClose()"
+  (saved)="onFormSaved($event)"
+/>
