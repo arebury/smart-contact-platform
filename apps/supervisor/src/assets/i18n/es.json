@@ -15,6 +15,7 @@
     "conversations": {
       "page_title": "Conversaciones",
       "table": {
+        "status": "Estado",
         "hour": "Hora",
         "date": "Fecha",
         "service": "Servicio",
@@ -24,6 +25,12 @@
         "duration": "T. Conv.",
         "waiting": "T. Espera",
         "id": "ID"
+      },
+      "status": {
+        "recording": "Con grabación",
+        "transcription": "Transcrita",
+        "analysis": "Analizada por IA",
+        "failed": "Transcripción fallida"
       }
     }
   },

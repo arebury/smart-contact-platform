@@ -2,6 +2,9 @@
   <table class="table sc-table-zebra memory-conversations-table">
     <thead>
       <tr>
+        <th class="memory-conversations-table__th-status" scope="col">
+          {{ 'memory.conversations.table.status' | translate }}
+        </th>
         <th scope="col">{{ 'memory.conversations.table.hour' | translate }}</th>
         <th scope="col">{{ 'memory.conversations.table.date' | translate }}</th>
         <th scope="col">{{ 'memory.conversations.table.service' | translate }}</th>
@@ -20,6 +23,48 @@
     <tbody>
       @for (conv of conversations(); track conv.id) {
         <tr [class.is-deleted]="conv.deleted">
+          <td class="memory-conversations-table__td-status">
+            <div class="memory-status-icons" role="group" [attr.aria-label]="'memory.conversations.table.status' | translate">
+              <lucide-icon
+                [img]="conv.channel === 'chat' ? chatIcon : phoneIcon"
+                [size]="14"
+                class="memory-status-icons__icon memory-status-icons__icon--channel"
+                [attr.aria-label]="conv.channel"
+              />
+              @if (conv.hasRecording) {
+                <lucide-icon
+                  [img]="recordingIcon"
+                  [size]="14"
+                  class="memory-status-icons__icon memory-status-icons__icon--recording"
+                  [attr.aria-label]="'memory.conversations.status.recording' | translate"
+                />
+              }
+              @if (conv.hasTranscription) {
+                <lucide-icon
+                  [img]="transcriptionIcon"
+                  [size]="14"
+                  class="memory-status-icons__icon memory-status-icons__icon--transcription"
+                  [attr.aria-label]="'memory.conversations.status.transcription' | translate"
+                />
+              }
+              @if (conv.hasAnalysis) {
+                <lucide-icon
+                  [img]="analysisIcon"
+                  [size]="14"
+                  class="memory-status-icons__icon memory-status-icons__icon--analysis"
+                  [attr.aria-label]="'memory.conversations.status.analysis' | translate"
+                />
+              }
+              @if (conv.hasFailedTranscription) {
+                <lucide-icon
+                  [img]="failedIcon"
+                  [size]="14"
+                  class="memory-status-icons__icon memory-status-icons__icon--failed"
+                  [attr.aria-label]="'memory.conversations.status.failed' | translate"
+                />
+              }
+            </div>
+          </td>
           <td>{{ conv.hour }}</td>
           <td>{{ conv.date }}</td>
           <td>{{ conv.service }}</td>

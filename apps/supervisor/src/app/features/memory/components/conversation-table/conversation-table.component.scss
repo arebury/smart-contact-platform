@@ -5,6 +5,31 @@
 .memory-conversations-table {
   width: 100%;
 
+  thead th {
+    /* Sticky header: queda fijo al scroll vertical de la tabla. El
+     * contenedor `.page` (con overflow-y: auto) es el scrollport — `top: 0`
+     * en thead th lo ancla a su borde superior. Background opaco evita
+     * que las filas se transparenten por debajo al hacer scroll. */
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--sc-bg-surface, #fff);
+    box-shadow: inset 0 -1px 0 var(--sc-border-default, #e2e8f0);
+  }
+
+  tbody tr {
+    transition: background-color 120ms ease;
+
+    &:hover:not(.is-deleted) {
+      background: var(--sc-bg-elevated, #f8fafc);
+    }
+  }
+
+  &__th-status,
+  &__td-status {
+    width: 132px;
+  }
+
   &__id {
     font-family: var(--sc-font-family-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
     font-size: 12px;
@@ -14,5 +39,41 @@
 
   tr.is-deleted {
     opacity: 0.6;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Status icons cluster — horizontal row dentro de la celda "Estado".
+ * Cada icon comunica un eje del procesamiento (canal, recording,
+ * transcription, analysis, failed). El color por tipo da legibilidad
+ * sin depender de tooltips para una lectura rápida.
+ * ------------------------------------------------------------------ */
+.memory-status-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-150, 6px);
+
+  &__icon {
+    display: inline-flex;
+
+    &--channel {
+      color: var(--sc-text-muted, #64748b);
+    }
+
+    &--recording {
+      color: var(--sc-text-default, #1e293b);
+    }
+
+    &--transcription {
+      color: var(--sc-color-info-500, #3b82f6);
+    }
+
+    &--analysis {
+      color: var(--sc-color-warning-500, #f59e0b);
+    }
+
+    &--failed {
+      color: var(--sc-color-danger-500, #ef4444);
+    }
   }
 }
