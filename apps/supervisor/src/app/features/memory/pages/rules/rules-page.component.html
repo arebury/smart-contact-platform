@@ -114,9 +114,55 @@
                     </div>
                   </td>
                   <td class="rules-table__td-status">
-                    <span class="rules-status rules-status--active">
-                      {{ 'memory.rules.status.active' | translate }}
-                    </span>
+                    @if (hasConflict(rule)) {
+                      <button
+                        type="button"
+                        class="rules-status rules-status--conflict rules-status--clickable"
+                        (click)="conflictPanel.toggle($event); openConflictPopover(rule)"
+                      >
+                        {{ 'memory.rules.status.conflict' | translate }}
+                      </button>
+                      <p-popover
+                        #conflictPanel
+                        [appendTo]="'body'"
+                        styleClass="rules-conflict-popover"
+                      >
+                        <div class="conflict-popover">
+                          <h3>{{ 'memory.rules.conflict.title' | translate }}</h3>
+                          <p class="conflict-popover__desc">
+                            {{
+                              'memory.rules.conflict.desc'
+                                | translate: { count: getConflictingRules(rule).length }
+                            }}
+                          </p>
+                          <ul class="conflict-popover__list">
+                            @for (other of getConflictingRules(rule); track other.id) {
+                              <li>
+                                <strong>{{ other.name }}</strong>
+                                <span class="conflict-popover__meta">
+                                  · prioridad {{ other.priority }}
+                                </span>
+                              </li>
+                            }
+                          </ul>
+                          <p class="conflict-popover__winner">
+                            <strong>{{ 'memory.rules.conflict.winner' | translate }}:</strong>
+                            {{
+                              winningRuleId(rule) === rule.id
+                                ? rule.name
+                                : getConflictingRules(rule).find((r) => r.id === winningRuleId(rule))?.name
+                            }}
+                          </p>
+                          <p class="conflict-popover__hint">
+                            {{ 'memory.rules.conflict.hint' | translate }}
+                          </p>
+                        </div>
+                      </p-popover>
+                    } @else {
+                      <span class="rules-status rules-status--active">
+                        {{ 'memory.rules.status.active' | translate }}
+                      </span>
+                    }
                   </td>
                   <td class="rules-table__td-modified">
                     {{ formatRelativeDate(rule.lastModified) }}

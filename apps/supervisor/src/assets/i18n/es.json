@@ -209,6 +209,12 @@
         "activate_draft_tooltip": "Edita al menos un campo para poder activar esta regla."
       },
       "order_updated": "Orden actualizado",
+      "conflict": {
+        "title": "En conflicto",
+        "desc": "Esta regla solapa su alcance con {{count}} regla(s) del mismo tipo. El supervisor puede convivir con conflictos — la UI muestra cuál gana.",
+        "winner": "Gana",
+        "hint": "Reordena arrastrando para cambiar la prioridad."
+      },
       "delete_title": "Eliminar regla",
       "delete_body": "Vas a eliminar «{{name}}». Esta acción no se puede deshacer.",
       "deleted_toast": "Regla «{{name}}» eliminada",

@@ -350,6 +350,71 @@ table.table {
   }
 }
 
+/* Memory · Rules conflict popover (iter 9d-2).
+ * `<p-popover>` con appendTo:body monta fuera del scope component.
+ */
+.rules-conflict-popover {
+  .conflict-popover {
+    max-width: 320px;
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+
+    h3 {
+      margin: 0 0 4px 0;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--sc-text-primary);
+    }
+  }
+
+  .conflict-popover__desc {
+    margin: 0 0 var(--sc-spacing-200) 0;
+    font-size: 0.75rem;
+    color: var(--sc-text-secondary);
+  }
+
+  .conflict-popover__list {
+    margin: 0 0 var(--sc-spacing-200) 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    li {
+      padding: 6px 10px;
+      background: var(--sc-bg-elevated);
+      border-radius: var(--sc-radius-100);
+      font-size: 0.75rem;
+    }
+
+    strong {
+      font-weight: 500;
+      color: var(--sc-text-primary);
+    }
+  }
+
+  .conflict-popover__meta {
+    color: var(--sc-text-secondary);
+    margin-left: 4px;
+  }
+
+  .conflict-popover__winner {
+    margin: 0 0 var(--sc-spacing-200) 0;
+    padding: 6px 10px;
+    background: var(--sc-bg-primary-subtle);
+    border-radius: var(--sc-radius-100);
+    font-size: 0.75rem;
+    color: var(--sc-text-primary);
+  }
+
+  .conflict-popover__hint {
+    margin: 0;
+    font-size: 0.6875rem;
+    color: var(--sc-text-secondary);
+    font-style: italic;
+  }
+}
+
 /*
  * Honour `prefers-reduced-motion`: drop the press transform entirely so
  * users with motion sensitivity get a calm interface.

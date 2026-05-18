@@ -20,6 +20,7 @@ import {
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
+import { PopoverModule } from 'primeng/popover';
 import type { MenuItem } from 'primeng/api';
 
 import { ConfirmHostService } from '@core/services/confirm-host.service';
@@ -46,6 +47,7 @@ import { RulesStore } from '../../state/rules.store';
     LucideAngularModule,
     MenuModule,
     PageHeaderComponent,
+    PopoverModule,
     TranslateModule,
   ],
   templateUrl: './rules-page.component.html',
@@ -62,6 +64,8 @@ export class RulesPageComponent {
   protected readonly activeRules = this.rulesStore.activeRules;
   protected readonly inactiveOrDraftRules = this.rulesStore.inactiveOrDraftRules;
   protected readonly isEmpty = this.rulesStore.isEmpty;
+  protected readonly conflictsByRuleId = this.rulesStore.conflictsByRuleId;
+  protected readonly conflictPopoverRule = signal<Rule | null>(null);
 
   protected readonly menuTargetRule = signal<Rule | null>(null);
 
@@ -96,6 +100,29 @@ export class RulesPageComponent {
       command: () => this.onNewRule('classification'),
     },
   ];
+
+  protected hasConflict(rule: Rule): boolean {
+    return this.conflictsByRuleId().has(rule.id);
+  }
+
+  protected getConflictingRules(rule: Rule): readonly Rule[] {
+    return this.rulesStore.getConflictingRules(rule.id);
+  }
+
+  protected winningRuleId(rule: Rule): number {
+    // Spec line 67-68: arriba en la lista = más prioridad. La regla
+    // ganadora es la de menor priority entre la actual + sus conflicts.
+    const conflictings = this.getConflictingRules(rule);
+    const all = [rule, ...conflictings];
+    return all.reduce((winnerId, r) => {
+      const winner = all.find((x) => x.id === winnerId)!;
+      return (r.priority ?? 999) < (winner.priority ?? 999) ? r.id : winnerId;
+    }, rule.id);
+  }
+
+  protected openConflictPopover(rule: Rule): void {
+    this.conflictPopoverRule.set(rule);
+  }
 
   protected scopeSummary(rule: Rule): string {
     const parts: string[] = [];

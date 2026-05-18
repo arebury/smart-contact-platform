@@ -242,6 +242,22 @@
     background: var(--sc-color-red-100, #fee2e2);
     color: var(--sc-color-red-700, #b91c1c);
   }
+
+  &--clickable {
+    border: 0;
+    cursor: pointer;
+    font-family: inherit;
+    transition: filter 200ms ease-out;
+
+    &:hover {
+      filter: brightness(0.95);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: 2px;
+    }
+  }
 }
 
 .rules-kebab-btn {

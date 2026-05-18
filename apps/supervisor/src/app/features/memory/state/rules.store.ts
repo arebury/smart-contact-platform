@@ -13,6 +13,26 @@ import type { Rule } from '../data/rule.types';
  * Iter 9c: + CRUD vía constructor.
  * Iter 9d: + duplicateRule, conflict detection.
  */
+function scopeOverlaps(a: Rule, b: Rule): boolean {
+  return (
+    dimensionOverlaps(a.servicios, b.servicios) &&
+    dimensionOverlaps(a.grupos, b.grupos) &&
+    dimensionOverlaps(a.agentes, b.agentes)
+  );
+}
+
+function dimensionOverlaps(a: readonly string[], b: readonly string[]): boolean {
+  // Vacío = "cualquiera" → siempre overlap con esa dimensión.
+  if (a.length === 0 || b.length === 0) return true;
+  return a.some((v) => b.includes(v));
+}
+
+function appendTo(map: Map<number, number[]>, key: number, value: number): void {
+  const curr = map.get(key);
+  if (curr) curr.push(value);
+  else map.set(key, [value]);
+}
+
 @Injectable({ providedIn: 'root' })
 export class RulesStore {
   private readonly _rules = signal<readonly Rule[]>(MOCK_RULES);
@@ -35,6 +55,41 @@ export class RulesStore {
 
   readonly hasActive = computed(() => this.activeRules().length > 0);
   readonly isEmpty = computed(() => this._rules().length === 0);
+
+  /**
+   * Mapa de conflictos · spec `rule-constructor-update-1.md §82-92`.
+   * 2 reglas activas conflictúan si comparten al menos un valor en
+   * cada una de las 3 dimensiones del alcance (o una de las
+   * dimensiones está vacía = "cualquiera") Y son del mismo `type`.
+   *
+   * Retorna: Map<ruleId, ruleIds[]> con las reglas que conflictúan
+   * con cada una.
+   */
+  readonly conflictsByRuleId = computed(() => {
+    const active = this.activeRules();
+    const map = new Map<number, number[]>();
+    for (let i = 0; i < active.length; i++) {
+      for (let j = i + 1; j < active.length; j++) {
+        const a = active[i];
+        const b = active[j];
+        if (a.type !== b.type) continue;
+        if (!scopeOverlaps(a, b)) continue;
+        appendTo(map, a.id, b.id);
+        appendTo(map, b.id, a.id);
+      }
+    }
+    return map;
+  });
+
+  isInConflict(id: number): boolean {
+    return this.conflictsByRuleId().has(id);
+  }
+
+  getConflictingRules(id: number): readonly Rule[] {
+    const ids = this.conflictsByRuleId().get(id) ?? [];
+    const all = this._rules();
+    return ids.map((cid) => all.find((r) => r.id === cid)!).filter(Boolean);
+  }
 
   /**
    * Reorderar las reglas activas según un nuevo array de ids. Recompone

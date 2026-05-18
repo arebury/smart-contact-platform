@@ -104,4 +104,23 @@ export const MOCK_RULES: readonly Rule[] = [
     priority: 4,
     lastModified: '2026-05-15T08:20:00Z',
   },
+  {
+    /* Regla intencionalmente en conflicto con #1 (Grabar Soporte Técnico):
+     * mismo type=recording + alcance solapado (servicio "Soporte Técnico"
+     * + grupo "Soporte Nivel 1"). Sirve para validar el badge "En
+     * conflicto" + popover (iter 9d-2). */
+    id: 7,
+    type: 'recording',
+    name: 'Grabar solo Soporte Nivel 1 (entrante)',
+    description: 'Regla más específica — conflictúa con la de Soporte Técnico al solapar alcance.',
+    servicios: ['Soporte Técnico'],
+    grupos: ['Soporte Nivel 1'],
+    agentes: [],
+    recording: true,
+    transcripcion: false,
+    clasificacion: false,
+    active: true,
+    priority: 5,
+    lastModified: '2026-05-15T11:00:00Z',
+  },
 ];
