@@ -10,6 +10,80 @@
 
 ---
 
+## 2026-05-18 · Session 33 — sc-input-group + tracker refactor + galleries pure-sc + type decoupling + perf win bundle AED
+
+> Sesión larga (Opus 4.7 1M context). 9 commits a main. 8 items del backlog
+> cerrados — varios eran falsos positivos detectados al revisarlos.
+>
+> **Highlights:**
+> - **sc-input-group** wrapper Extended + caso real tag-input aed-servicio migrado.
+> - **Tracker home**: chips Tipo (custom vs PrimeNG) vs Estado (paridad Figma) + agrupación por categoría (Formularios / Acciones / Layout / Navegación / Overlays / Tablas / Vacíos).
+> - **Cobertura galleries 100%**: 34/34 componentes con página individual.
+> - **Frontmatter inline** en 34 spec docs (Type · AED uses · Figma parity).
+> - **Type decoupling**: `LabelColor` y `GroupRef` movidos a SCDS, ds-docs sin `$any()` workarounds.
+> - **🎯 Bundle win**: `"sideEffects": false` en `packages/design-system/package.json` → AED initial bundle 1.61 MB → 1.41 MB (-200 KB, ya bajo budget). Smoking gun: barrel `@shared/components` arrastraba datepicker + multiselect + CDK eager al initial.
+> - **Memoria nueva** `critical-sparring-partner`: 5-step critical protocol para planes/argumentos complejos.
+
+### Worked on
+
+- **`sc-input-group` (commit `a8dc6b9`)**: wrapper Extended minimal sobre `<p-inputgroup>` con `size` matcheando `sc-input` (sm/md/lg). Addons usan `<p-inputgroup-addon>` PrimeNG directamente — sin re-empaquetar (memoria minimal-customization). Caso real: tag-input `aed-servicio` migrado (input + botón "Añadir") usando `<p-button>` outlined secondary. Spec doc `34-input-group.md` + gallery 5 escenarios. Cierra backlog #5.
+
+- **Tracker home refactor en 2 fases**:
+  - **Fase A (`062cae7`)**: borrado chip 'ready' hardcoded de las component-cards. Modelo unifica `status` + `figmaParity` en un único `parity: FigmaParity` con 3 buckets (`audited-full` ● verde, `audited-partial` ◐ amber, `no-figma-equivalent` ○ slate). Glosario reescrito con tu frase literal "las de tipo te dicen cuánto custom respecto a PrimeNG, las de estado cuánto te puedes fiar de la paridad Figma–código".
+  - **Fase B (`aafbf4e`)**: agrupación del tracker por categoría funcional. CATEGORY_BY_SLUG mapea cada slug a una de 7 categorías. La sección "Componentes documentados" arriba y la lista filtrable abajo rinden ambas agrupadas. Counterpropuesta a tu petición original de "consolidar pure-sc en mega-página" — agrupar mantiene profundidad por componente.
+
+- **Galleries pure-sc — cobertura completa**:
+  - `16c24d7`: top-5 (empty-state, label-chip, color-dot-picker, form-section-nav, form-danger-zone).
+  - `f54a1fd`: sticky-form-header interactiva + 3 documentales para shell-only (command-palette, keyboard-shortcuts, confirm-host).
+  - `aafbf4e`: 7 finales (photo-upload, bulk-action-bar, bulk-edit-menu, impact-preview-dialog, column-selector, inline-rename-cell, group-popover).
+  - Cierra backlog #16. Total: 34/34 componentes con gallery individual.
+
+- **Frontmatter spec docs (`dcbfa85`)**: 34 archivos `docs/components/*.md` con bloque `> **Type**: X · **AED uses**: N · **Figma parity**: Y` inline tras el header. Patrón Carbon/Polaris consolidado. Source of truth sigue siendo Lifecycle section de MIGRATION-INVENTORY. Cierra backlog #26.
+
+- **Type decoupling SCDS (`22eef94`)**: 
+  - `LabelColor` (8 valores: gray/red/orange/amber/green/teal/blue/purple) → `packages/design-system/components/label-chip/label-chip.types.ts`.
+  - `GroupRef` → `packages/design-system/components/group-popover/group-popover.types.ts`.
+  - AED re-importa via `@shared/components`. Componentes SCDS quedan self-contained.
+  - **Bug fix introducido en S33**: galleries label-chip / color-dot-picker usaban `violet`, `rose`, `cyan` — esos tokens NO existen, los chips se renderizaban sin fondo. Corregido a los 8 valores reales.
+  - Cierra backlog #29 + #30.
+
+- **Bundle win (`ba76974`)**: `"sideEffects": false` en `packages/design-system/package.json`. Single line, -200 KB. Diagnóstico via `source-map-explorer` sobre chunk de 1.88 MB:
+  - PrimeNG 1012 KB · SCDS 282 KB · CDK 167 KB · @angular/forms 143 KB.
+  - Causa raíz: el barrel `@shared/components` sin sideEffects flag → esbuild conservativo, arrastraba 24 componentes al initial chunk (incluyendo datepicker 213 KB + multiselect 147 KB + CDK drag-drop 109 KB que AED no usa eager).
+  - Resultado: AED prod initial 1.61 MB → 1.41 MB. CI pasa budget 1.5 MB sin tocar la config.
+  - Cierra backlog #10.
+
+- **Audits Figma cerrados como falsos positivos** (no commit propio, solo backlog updates):
+  - **#12 `sc-modal`**: el spec doc 11-modal.md ya explicaba desde S30 que el kit Figma SC NO tiene `❖ Dialog` separado, solo `❖ ConfirmDialog` que reusa el mismo dialog chrome. Tokens `--sc-modal-*` documentan referencia `Figma dialog/*`. Sin gap real.
+  - **#13 `sc-select` Filled/Invalid**: nodes 6195:7785/6195:7816 existen, valores extraídos están alineados en SCSS líneas 71-105 con comments inline desde S31. Sin gap real.
+
+- **Lint sweep (`609e1e6`)**: `@angular-eslint/component-selector` y `directive-selector` heredaban prefix "aed" del repo pre-monorepo. 71 errores en SCDS (falsos positivos — los componentes usan brand "sc"). Cambio a prefix array `["sc", "aed"]`. 2 disables justificados en `sc-search` (autofocus opt-in + keydown output que rompería 9 consumers si renombrara).
+
+- **Memoria nueva** `feedback_critical_sparring_partner.md`: protocolo 5-step para planes/opiniones/argumentos complejos. Aplicado desde la mitad de la sesión.
+
+### Métricas finales S33
+
+- **Commits**: 9 (`062cae7`, `a8dc6b9`, `16c24d7`, `dcbfa85`, `f54a1fd`, `aafbf4e`, `22eef94`, `ba76974`, `609e1e6`).
+- **Backlog items resueltos**: 8 (#5, #10, #12, #13, #16, #26, #29, #30). 2 nuevos detectados y cerrados en la misma sesión (#29 + #30).
+- **Componentes nuevos en SCDS**: 1 (`sc-input-group`, entry 34).
+- **Spec docs**: 33 → 34.
+- **Galleries ds-docs**: 17 → 34 (cobertura 100% del catálogo).
+- **Bundle AED prod**: 1.61 MB → 1.41 MB (-200 KB).
+- **Lint errors**: 71 → 0.
+- **Memorias nuevas**: 1 (`critical-sparring-partner`).
+
+### Decisiones clave
+
+1. **Tipo vs Estado en el tracker NO son el mismo concepto**. Customización-vs-PrimeNG ≠ paridad-Figma. Chip 'ready' hardcoded eliminado por no aportar señal.
+2. **Galleries agrupar por categoría > consolidar pure-sc en mega-página** (counterpropuesta al user). Razones: pérdida de profundidad, regresión vs S32, linkability rota, perf comprometida. Aplicado tras crítica explícita.
+3. **`sideEffects: false` debería ser default en cualquier package SCDS-like**. Sin él, el tree-shaking moderno (esbuild) es conservativo y arrastra todo el barrel. ROI: 1 línea = 200 KB.
+4. **Audits "pendientes" en backlog pueden ser falsos positivos** — verificar SIEMPRE el spec doc + SCSS antes de re-auditar. Ahorró trabajo redundante en #12 + #13.
+5. **`LabelColor` y `GroupRef` viven en SCDS, no en AED features** — los componentes SCDS deben ser self-contained. Si el dato es brand-tipado (atado a tokens), el tipo vive con los tokens.
+
+Last commit en main: `609e1e6` (chore lint).
+
+---
+
 ## 2026-05-15 · Session 32 — Cierre Fase 1 AED + sprint 19 spec docs pure-sc + migration-safety doc + refactors consistencia + backlog persistente
 
 > Sesión larga (Opus 4.7 1M context, tiempo + tokens ilimitados por decisión Rafa).

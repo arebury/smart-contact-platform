@@ -3,10 +3,10 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
-> 2. Lee la entry **Session 32** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
->    sprint con cierre Fase 1 + 19 spec docs + migration-safety doc + backlog
->    persistente + 4 refactors consistencia + 4 memorias estructurales nuevas.
-> 3. Lee también la entry Session 31 para contexto previo.
+> 2. Lee la entry **Session 33** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    sc-input-group + tracker refactor + galleries 34/34 + type decoupling +
+>    perf win bundle AED (-200 KB) + memoria critical-sparring-partner.
+> 3. Lee también la entry Session 32 para contexto previo.
 > 4. Lee [`packages/design-system/docs/migration-safety.md`](../packages/design-system/docs/migration-safety.md)
 >    — **filosofía SCDS** + reglas blindaje + matriz qué tocar/qué no + pro tips
 >    devs futuros. **Documento clave** post-S32, captura la política Rafa.
@@ -26,6 +26,34 @@
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
+
+---
+
+## Estado al cerrar (Session 33, 2026-05-18)
+
+**Hitos clave de Session 33** (9 commits a main):
+
+- ✅ **sc-input-group cocinado** + caso real tag-input aed-servicio migrado. SCDS llega a 34 componentes (era 33).
+- ✅ **Tracker home redesign**: chips Tipo (custom vs PrimeNG) vs Estado (paridad Figma–código) — conceptos separados. Agrupación por 7 categorías funcionales en lugar de lista plana. Counterpropuesta exitosa a la idea inicial de "mega-página única pure-sc".
+- ✅ **Cobertura galleries 100%** (34/34 componentes con página individual en ds-docs).
+- ✅ **Frontmatter inline** en 34 spec docs (Type · AED uses · Figma parity).
+- ✅ **Type decoupling**: `LabelColor` + `GroupRef` movidos a SCDS. AED re-importa via `@shared/components`. SCDS queda self-contained.
+- ✅ **Bug introducido y corregido en la misma sesión**: galleries S33 usaban colores inexistentes (`violet`/`rose`/`cyan`). Reducido a los 8 reales (gray/red/orange/amber/green/teal/blue/purple).
+- 🎯 **Perf win**: `"sideEffects": false` en `packages/design-system/package.json` → AED initial bundle 1.61 MB → 1.41 MB (-200 KB, bajo budget 1.5 MB). Diagnóstico via source-map-explorer.
+- ✅ **Audits Figma cerrados como falsos positivos** (#12 `sc-modal`, #13 `sc-select` Filled/Invalid): la auditoría ya existía desde S30/S31, solo las descripciones del backlog estaban desactualizadas.
+- ✅ **Lint sweep**: 71 errores (regla mal configurada post-monorepo) → 0. Prefix array `["sc", "aed"]` en el eslint config.
+- ✅ **Memoria nueva** `critical-sparring-partner`: 5-step protocol para planes/opiniones complejas.
+
+Last commit en main: `609e1e6` (chore lint).
+
+### Estado factual del catálogo al cerrar S33
+
+- **34 spec docs en `packages/design-system/docs/components/`** (entry 34 nueva: input-group).
+- **34 galleries ds-docs** (cobertura 100%, antes 17). 5 son documentales para shell-only components (command-palette, keyboard-shortcuts, confirm-host) — el mock del servicio no aporta valor.
+- **Tracker home agrupado por 7 categorías**: Formularios y entrada, Acciones, Layout, Navegación, Overlays, Tablas, Estados vacíos.
+- **Bundle AED prod**: 1.41 MB initial (-200 KB vs S32). Gzip ~330 KB transfer real.
+- **Customs catalog**: 13 entries (sin cambios estructurales).
+- **inconsistencies-backlog**: 30 entries · 8 resueltas en S33 (incluyendo 2 falsos positivos).
 
 ---
 
@@ -95,29 +123,22 @@ Nuevos componentes hipotéticos (NO empezar sin caso real):
 
 ## Fase 3 — Auditorías adicionales pendientes (del backlog)
 
-Ver `packages/design-system/docs/inconsistencies-backlog.md` para listing completo. Items prioritarios:
+Ver `packages/design-system/docs/inconsistencies-backlog.md` para listing completo. Items remaining tras S33:
 
-### A — Item #9 — Deuda `::ng-deep` sticky-form-header
-
-8 `::ng-deep` sobre `<sc-photo-upload>` proyectado en slot. Debería usar el prop `[size]` existente en photo-upload. Documentado en `audit/00-diagnosis.md` Fase 4. Estimación: 30 min.
-
-### B — Item #12-#13 — Auditorías Figma SC pendientes
-
-- `sc-modal` 1:1 contra Figma `❖ Dialog` del Kit (no fetched en S31).
-- `sc-select` Filled/Invalid: SCSS apunta a nodos `6195:7785` / `6195:7816` no auditados.
-
-### C — Item #14-#15 — Refinement Figma SC Search (Marta dependent)
+### A — Item #14-#15 — Refinement Figma SC Search (Marta dependent)
 
 - Right Icon en variant "With value + clear icon": defaultea a search; cambiar a X cuando se importe icon al Kit.
 - Variants formales del Main Component (Size sm/md/lg × Filled × Disabled) como component set propio.
 
-### D — Item #17 — Build error ds-docs (P1)
-
-`NG8008: GalleryFooterComponent required input 'slug' must be specified`. Pre-existente en main. Bloquea build production de ds-docs.
-
-### E — Mapeo Memory components + usage count (Camino B, Fase 4)
+### B — Mapeo Memory components + usage count (Camino B, Fase 4)
 
 Replicar el patrón `aedUses: N` para `memoryUses: N` cuando Memory consuma SCDS.
+
+### C — Item #11 — `_buttons.scss` migrate a SCDS
+
+Mover `apps/aed/src/styles/_buttons.scss` a `packages/design-system/styles/_buttons.scss` siguiendo el patrón de `_sc-toast.scss`. **Condición de trigger**: aparece segundo consumer (ds-docs hoy no usa `.btn`).
+
+> Ítems resueltos / cerrados S33: #5 (sc-input-group), #10 (bundle perf -200 KB), #12/#13 (audits Figma — falsos positivos), #16 (galleries 14/14), #26 (frontmatter), #29 (type decoupling), #30 (bug colores galleries S33).
 
 ---
 
@@ -133,6 +154,14 @@ Los **4 gates ya están ✅ cumplidos** desde S31. Plan concreto (sin cambios):
 6. Documentar en SCDS `docs/consumers.md` que Memory es consumer.
 
 Tiempo: 2-4h. Requiere acceso al repo Memory (no está en monorepo).
+
+---
+
+## Reglas operativas (actualizadas Session 33)
+
+**🆕 Nueva regla S33** (memoria `critical-sparring-partner`):
+
+20. **Crítica constructiva por defecto en planes/decisiones complejas**. 5-step protocol: assumptions, counterpoints, reasoning, alternatives, correction. NO agree por defecto. Para tareas mecánicas (rename, mover archivo, escribir componente con API clara): aplicar criterio y ejecutar sin ceremonia.
 
 ---
 
@@ -180,35 +209,33 @@ Tiempo: 2-4h. Requiere acceso al repo Memory (no está en monorepo).
 
 ## Sugerencias arranque próxima sesión
 
-Items resueltos al cierre extendido S32: #9, #17, #18, #19, #20, #21 (6 items P0-P3). Refactors consistency aplicados (toggle-switch + bulk-edit-menu). Memory Camino B preparado (script + docs). 5 galleries top-usage ds-docs creadas.
-
-**Pendiente en backlog post-S32**:
+**Pendiente en backlog post-S33** (todo P3, todo espera trigger externo):
 
 | # | Item | Severidad | Trigger |
 |---|---|---|---|
-| 5 | `<sc-input-group>` gap | P2 | Primer caso real input+icono/botón (1 caso pendiente: tag-input aed-servicio) |
 | 6 | `<sc-select-button>` gap | P3 | Primer filtro segmented real |
 | 7 | `<sc-tag>` gap | P3 | Primer caso severity-fill |
 | 8 | `<sc-toggle-button>` gap | P3 | Primer caso button pressed state |
-| 10 | Bundle size AED budget | P3 | Cuándo Rafa decida optimizar |
-| 11 | `_buttons.scss` migrate a SCDS | P3 | Cuándo aparezca 2nd consumer (ds-docs hoy no usa `.btn`) |
-| 12 | Audit Figma `sc-modal` 1:1 | P3 | Próxima pasada Figma |
-| 13 | Audit Figma `sc-select` Filled/Invalid nodes | P3 | Próxima pasada Figma |
+| 11 | `_buttons.scss` migrate a SCDS | P3 | 2nd consumer (Memory) |
 | 14 | Refinement Figma Search (icon X clear) | P3 | Marta decision |
 | 15 | Variants formales Figma Search | P3 | Marta decision |
-| 16 | Galleries ds-docs restantes (14 pure-sc) | P3 | Visible para audiencia diseño |
+| 27 | Branch deploys Netlify production-only | P3 | Equipo crezca |
+| 28 | Memory CI workflow (post-activation) | P3 | Memory active + threshold |
 
-**Por orden de ROI próxima sesión**:
+**Por orden de ROI próxima sesión** (todas opcionales — esperan algo externo):
 
-1. **Item #5 (`<sc-input-group>`)**: hay 1 caso real pendiente (tag-input aed-servicio). Crear el wrapper Extended + migrar el caso. ~1-2h. Cierra el último input nativo no migrable.
+1. **Memory Camino B activation** (Fase 4): si Rafa tiene acceso al repo Memory, ejecutar `scripts/copy-scds-tokens.sh <path>`. 1-2h validación. Es lo más cercano a "siguiente fase del proyecto".
 
-2. **Galleries ds-docs restantes (#16)**: 14 pure-sc sin gallery (bulk-action-bar, bulk-edit-menu, etc.). El patrón está consolidado en S32 — replicarlo. ~2-3h.
+2. **Refactor SCSS gordo `agent-form-page.component.scss`**: 808 líneas / 13.59 KB excede budget 12 KB (warning). Splittear por secciones del form. ~30-60 min. Deuda concreta sin tocar lógica.
 
-3. **Memory Camino B activation** (Fase 4): si Rafa tiene acceso al repo Memory, ejecutar `scripts/copy-scds-tokens.sh <path>`. 1-2h validación.
-
-4. **Auditorías Figma adicionales (#12-#13)**: pasada de los modal + select Filled/Invalid contra Figma cuando Rafa tenga ganas.
+3. **Refinement Figma Search (#14, #15)** si Marta decide: cambiar el right icon a `X clear` cuando se importe + cocinar variants formales del Main Component. Marta dependent.
 
 **Sin urgencia**:
-- Gaps componentes (#6, #7, #8): esperar trigger real.
-- Bundle size: optimización a discusión.
-- Figma Search refinement: Marta dependent.
+- Gaps componentes (#6, #7, #8): esperar trigger real (memoria `minimal-customization`).
+- `_buttons.scss` migrate: hasta que llegue Memory como 2nd consumer.
+- Netlify PR previews / Memory CI: thresholds externos.
+
+**NO atacar sin requerimiento explícito**:
+- Crear componentes pure-sc "por si acaso" — memoria `minimal-customization`.
+- Tocar Figma SC sin que Marta lo pida.
+- Refactors estructurales (memoria `reference_structural_refactor_plan` — plan dormido por diseño).
