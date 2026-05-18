@@ -1,0 +1,106 @@
+<sc-modal
+  [visible]="visible()"
+  [icon]="tagsIcon"
+  [title]="
+    (isEditMode()
+      ? 'memory.categories.form.title_edit'
+      : 'memory.categories.form.title_new'
+    ) | translate
+  "
+  [subtitle]="'memory.categories.form.subtitle' | translate"
+  width="560px"
+  (cancelled)="onCancel()"
+>
+  <div class="category-form">
+    <div class="category-form__row">
+      <sc-input
+        [label]="'memory.categories.form.name_label' | translate"
+        [placeholder]="'memory.categories.form.name_placeholder' | translate"
+        [required]="true"
+        [value]="name()"
+        (valueChange)="setName($event)"
+        [error]="nameError() ? ((nameError() ?? '') | translate) : ''"
+      />
+    </div>
+
+    <div class="category-form__row">
+      <label for="cat-description" class="category-form__label">
+        {{ 'memory.categories.form.description_label' | translate }}
+        <span class="category-form__required">*</span>
+      </label>
+      <textarea
+        id="cat-description"
+        class="category-form__textarea"
+        rows="3"
+        [placeholder]="'memory.categories.form.description_placeholder' | translate"
+        [value]="description()"
+        (input)="setDescription($any($event.target).value)"
+      ></textarea>
+      <p class="category-form__hint">
+        {{ 'memory.categories.form.description_hint' | translate }}
+      </p>
+    </div>
+
+    <div class="category-form__row category-form__row--double">
+      <sc-input
+        [label]="'memory.categories.form.group_label' | translate"
+        [placeholder]="'memory.categories.form.group_placeholder' | translate"
+        [value]="group()"
+        (valueChange)="setGroup($event)"
+      />
+
+      <div class="category-form__toggle">
+        <p-toggleswitch inputId="cat-active-toggle" [(ngModel)]="isActive" />
+        <label for="cat-active-toggle">
+          {{
+            (isActive()
+              ? 'memory.categories.form.active_label'
+              : 'memory.categories.form.inactive_label'
+            ) | translate
+          }}
+        </label>
+      </div>
+    </div>
+
+    @if (isEditMode() && linkedRules().length > 0) {
+      <div class="category-form__linked">
+        <h3>
+          {{
+            'memory.categories.form.linked_rules_title'
+              | translate: { count: linkedRules().length }
+          }}
+        </h3>
+        <ul>
+          @for (rule of linkedRules(); track rule.id) {
+            <li>
+              <a [routerLink]="['/conversaciones/reglas', rule.id]" target="_blank">
+                <lucide-icon [img]="externalIcon" [size]="11" aria-hidden="true" />
+                {{ rule.name }}
+              </a>
+            </li>
+          }
+        </ul>
+      </div>
+    }
+  </div>
+
+  <div modal-actions>
+    <p-button type="button" severity="secondary" (onClick)="onCancel()">
+      <span>{{ 'common.cancel' | translate }}</span>
+    </p-button>
+    <p-button
+      type="button"
+      severity="primary"
+      [disabled]="!canSave()"
+      (onClick)="onSave()"
+    >
+      <span>
+        @if (isEditMode()) {
+          {{ 'memory.categories.form.save_changes' | translate }}
+        } @else {
+          {{ 'memory.categories.form.create_category' | translate }}
+        }
+      </span>
+    </p-button>
+  </div>
+</sc-modal>

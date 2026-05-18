@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
   LucideAngularModule,
@@ -14,6 +14,7 @@ import type { MenuItem } from 'primeng/api';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
 import { PageHeaderComponent } from '@shared/components';
 
+import { CategoryFormModalComponent } from '../../components/category-form-modal/category-form-modal.component';
 import type { Category } from '../../data/category.types';
 import { CategoriesStore } from '../../state/categories.store';
 
@@ -31,6 +32,7 @@ import { CategoriesStore } from '../../state/categories.store';
   selector: 'sc-memory-categories-page',
   imports: [
     ButtonModule,
+    CategoryFormModalComponent,
     LucideAngularModule,
     MenuModule,
     PageHeaderComponent,
@@ -49,6 +51,9 @@ export class CategoriesPageComponent {
   protected readonly categories = this.categoriesStore.categories;
   protected readonly isEmpty = this.categoriesStore.isEmpty;
 
+  protected readonly formOpen = signal(false);
+  protected readonly formCategory = signal<Category | null>(null);
+
   protected readonly tagsIcon = Tags;
   protected readonly plusIcon = Plus;
   protected readonly kebabIcon = MoreVertical;
@@ -58,7 +63,7 @@ export class CategoriesPageComponent {
       {
         label: this.translate.instant('memory.categories.menu.edit'),
         icon: 'pi pi-pencil',
-        disabled: true, // iter 11b
+        command: () => this.openEditForm(cat),
       },
       {
         label: this.translate.instant('memory.categories.menu.duplicate'),
@@ -78,9 +83,30 @@ export class CategoriesPageComponent {
   }
 
   protected onNewCategory(): void {
+    this.formCategory.set(null);
+    this.formOpen.set(true);
+  }
+
+  protected openEditForm(cat: Category): void {
+    this.formCategory.set(cat);
+    this.formOpen.set(true);
+  }
+
+  protected onFormClose(): void {
+    this.formOpen.set(false);
+  }
+
+  protected onFormSaved(cat: Category): void {
+    const wasEdit = this.formCategory() !== null;
+    this.formOpen.set(false);
     this.messages.add({
-      severity: 'info',
-      summary: this.translate.instant('memory.categories.coming_soon_toast'),
+      severity: 'success',
+      summary: this.translate.instant(
+        wasEdit
+          ? 'memory.categories.form.updated_toast'
+          : 'memory.categories.form.created_toast',
+        { name: cat.name },
+      ),
       life: 2200,
     });
   }

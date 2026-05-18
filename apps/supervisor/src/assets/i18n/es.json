@@ -391,7 +391,28 @@
       "delete_title": "Eliminar categoría",
       "delete_body": "Vas a eliminar la categoría «{{name}}». Las reglas que la referencian quedarán sin esta etiqueta.",
       "deleted_toast": "Categoría «{{name}}» eliminada",
-      "duplicated_toast": "Categoría duplicada como «{{name}}»"
+      "duplicated_toast": "Categoría duplicada como «{{name}}»",
+      "form": {
+        "title_new": "Nueva categoría IA",
+        "title_edit": "Editar categoría",
+        "subtitle": "Define un tema o motivo de contacto que la IA debe detectar en las conversaciones.",
+        "name_label": "Nombre",
+        "name_placeholder": "ej. Queja de facturación",
+        "name_error_short": "Mínimo 3 caracteres.",
+        "name_error_duplicate": "Ya existe una categoría con ese nombre.",
+        "description_label": "Descripción",
+        "description_placeholder": "Describe cuándo se debe aplicar esta categoría. Mínimo 10 caracteres.",
+        "description_hint": "La IA usa esta descripción para decidir cuándo etiquetar una conversación con esta categoría. Sé específico.",
+        "group_label": "Grupo",
+        "group_placeholder": "ej. Atención al Cliente",
+        "active_label": "Activa",
+        "inactive_label": "Inactiva",
+        "linked_rules_title": "Usada en {{count}} regla(s)",
+        "save_changes": "Guardar cambios",
+        "create_category": "Crear categoría",
+        "created_toast": "Categoría «{{name}}» creada",
+        "updated_toast": "Categoría «{{name}}» actualizada"
+      }
     },
     "category_filter": {
       "label": "Categorías IA",

@@ -96,3 +96,10 @@
     }
   </div>
 </div>
+
+<sc-memory-category-form-modal
+  [visible]="formOpen()"
+  [category]="formCategory()"
+  (closed)="onFormClose()"
+  (saved)="onFormSaved($event)"
+/>
