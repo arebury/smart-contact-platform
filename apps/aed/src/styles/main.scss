@@ -91,6 +91,24 @@ table.table {
 }
 
 /*
+ * Width-stable primary action inside `<sc-page-header>`. Each list page
+ * has a different create-button label ("Nuevo agente" 149 · "Nuevo
+ * usuario" 153 · "Nuevo grupo" 142 · "Nueva label" 134 — measured S34).
+ * Without a floor, the button visibly resizes when the user navigates
+ * between list pages, which reads as the chrome shifting under them.
+ * A 144 px floor with centred content keeps the geometry stable while
+ * still letting longer locales grow.
+ *
+ * Lives in main.scss (unscoped) because Angular ViewEncapsulation can't
+ * reach `<button class="p-button">` — PrimeNG renders it outside the
+ * sc-page-header component's view scope.
+ */
+.page-header__actions p-button > .p-button {
+  min-width: 144px;
+  justify-content: center;
+}
+
+/*
  * Global button micro-interactions (DD#21).
  *
  * Hover/focus changes use a short transition so the state feels alive but

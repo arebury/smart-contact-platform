@@ -12,6 +12,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { ArrowLeft, Check, Loader2, LucideAngularModule, Pencil, X } from 'lucide-angular';
+import { ButtonModule } from 'primeng/button';
 
 /**
  * Sticky bar at the top of every Create/Edit page (Users, Groups, Agents…).
@@ -21,7 +22,7 @@ import { ArrowLeft, Check, Loader2, LucideAngularModule, Pencil, X } from 'lucid
  */
 @Component({
   selector: 'sc-sticky-form-header',
-  imports: [FormsModule, LucideAngularModule, TranslateModule],
+  imports: [ButtonModule, FormsModule, LucideAngularModule, TranslateModule],
   templateUrl: './sticky-form-header.component.html',
   styleUrl: './sticky-form-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

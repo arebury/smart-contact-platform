@@ -8,6 +8,8 @@ import {
   signal,
 } from '@angular/core';
 
+import { ButtonModule } from 'primeng/button';
+
 import { SelectComponent } from '../select/select.component';
 
 export interface BulkEditFieldOption {
@@ -43,7 +45,7 @@ export interface BulkEditCommit {
  */
 @Component({
   selector: 'sc-bulk-edit-menu',
-  imports: [SelectComponent],
+  imports: [ButtonModule, SelectComponent],
   templateUrl: './bulk-edit-menu.component.html',
   styleUrl: './bulk-edit-menu.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

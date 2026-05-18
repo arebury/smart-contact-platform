@@ -86,4 +86,8 @@
   &:empty {
     display: none;
   }
+
+  /* Width-stable primary action — see main.scss for the unscoped rule.
+   * Component-scoped CSS can't reach `<button class="p-button">` rendered
+   * by PrimeNG outside this component's view encapsulation. */
 }

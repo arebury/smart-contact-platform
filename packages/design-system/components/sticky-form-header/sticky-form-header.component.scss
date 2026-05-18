@@ -144,57 +144,11 @@
   }
 }
 
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sc-spacing-100);
-  padding: var(--sc-spacing-100) var(--sc-spacing-300);
-  font-size: var(--sc-font-size-100);
-  font-weight: var(--sc-font-weight-medium);
-  border-radius: var(--sc-radius-100);
-  border: 1px solid transparent;
-  cursor: pointer;
-  transition: background var(--sc-transition-fast) var(--sc-easing-default);
-
-  &:focus-visible {
-    outline: 2px solid var(--sc-color-soft-blue-500);
-    outline-offset: 2px;
-  }
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &--primary {
-    color: var(--sc-text-on-primary);
-    background: var(--sc-bg-primary);
-    border-color: var(--sc-bg-primary);
-
-    &:hover:not(:disabled) {
-      background: var(--sc-bg-primary-hover);
-      border-color: var(--sc-bg-primary-hover);
-    }
-  }
-
-  &--ghost {
-    color: var(--sc-text-secondary);
-    background: var(--sc-bg-surface);
-    border-color: var(--sc-border-default);
-
-    &:hover:not(:disabled) {
-      background: var(--sc-bg-secondary-hover);
-    }
-  }
-
-  &--back {
-    /* Icon sits left, label right; the gap comes from the .btn rule above */
-    padding-left: var(--sc-spacing-200);
-  }
-
-  &__spin {
-    animation: sticky-btn-spin 1s linear infinite;
-  }
+/* Spinner animation for the Save button's loading state. The button itself
+ * is `<p-button>` styled by sc-preset; we only own the spin keyframe and the
+ * reduced-motion opt-out. */
+.sticky-header__spin {
+  animation: sticky-btn-spin 1s linear infinite;
 }
 
 @keyframes sticky-btn-spin {
@@ -203,11 +157,8 @@
   }
 }
 
-/* Disable the spin for users with motion sensitivity. The button label
- * already reads "Cargando…" so the loading state stays communicated
- * without the rotation. */
 @media (prefers-reduced-motion: reduce) {
-  .btn__spin {
+  .sticky-header__spin {
     animation: none;
   }
 }

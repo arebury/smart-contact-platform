@@ -27,12 +27,14 @@
     />
   </span>
 
-  <button
+  <p-button
     type="button"
-    class="btn btn--secondary bulk-edit__apply"
+    severity="secondary"
+    size="small"
+    styleClass="bulk-edit__apply"
     [disabled]="!canApply()"
-    (click)="onApply()"
+    (onClick)="onApply()"
   >
-    Aplicar
-  </button>
+    <span>Aplicar</span>
+  </p-button>
 </div>
