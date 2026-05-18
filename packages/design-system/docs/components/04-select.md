@@ -140,7 +140,7 @@ de `primeng/api` para que `pTemplate` se reconozca como directive.
 
 **Cuándo NO usarlo** (usa shape `[{label, value}]` directo):
 - Options hardcoded de 2-4 items con labels i18n: array literal con
-  pipes en el template es más simple (ver `apps/aed/.../agent-form-page`
+  pipes en el template es más simple (ver `apps/supervisor/.../agent-form-page`
   pickup type).
 
 ## Estados visuales (de Figma)

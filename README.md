@@ -15,17 +15,21 @@ Monorepo de Smart Contact (SC) — apps + design system compartido.
 ```
 smart-contact-platform/
 ├── apps/
-│   ├── aed/             ← Supervisor module (Angular + PrimeNG)
+│   ├── supervisor/      ← App Supervisor (Angular + PrimeNG): shell único
+│   │                       con features AED + Memory (en migración)
 │   └── ds-docs/         ← Smart Contact Design System docs site
 └── packages/
     └── design-system/   ← SCDS: tokens + componentes compartidos
 ```
 
+> Histórico: `apps/supervisor/` se llamó `apps/aed/` hasta Session 35 (2026-05-18).
+> Renombrada para reflejar que el shell aloja múltiples feature modules.
+
 ## Apps
 
 | App | Purpose | URL |
 |-----|---------|-----|
-| `apps/aed` | Supervisor: agentes, grupos, etiquetas, repositorios, config | aedmigration.netlify.app |
+| `apps/supervisor` | Shell Supervisor: AED (agentes, grupos, etiquetas, repos, config) + Memory (conversaciones, reglas, repositorio IA — en migración desde React) | aedmigration.netlify.app |
 | `apps/ds-docs` | Docs del Smart Contact Design System | _TBD_ |
 
 ## Packages
@@ -41,8 +45,8 @@ git clone https://github.com/arebury/smart-contact-platform.git
 cd smart-contact-platform
 npm install
 
-# Arrancar AED en localhost:4200
-npm run start:aed
+# Arrancar el shell Supervisor (AED + Memory) en localhost:4200
+npm run start:supervisor
 
 # Arrancar ds-docs en localhost:4300
 npm run start:ds-docs
@@ -60,7 +64,7 @@ npm run build:all
 ## Para más detalle
 
 - [CLAUDE.md](CLAUDE.md) — orchestration cross-project (memoria persistente).
-- [apps/aed/README.md](apps/aed/README.md) — AED-specific README detallado.
+- [apps/supervisor/README.md](apps/supervisor/README.md) — Supervisor app README detallado.
 - [packages/design-system/CLAUDE.md](packages/design-system/CLAUDE.md) — SCDS conventions.
 - [packages/design-system/docs/MIGRATION-INVENTORY.md](packages/design-system/docs/MIGRATION-INVENTORY.md) — inventario de componentes.
 - [docs/SESSION-LOG.md](docs/SESSION-LOG.md) — historia cross-project.

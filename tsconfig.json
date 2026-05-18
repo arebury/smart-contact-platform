@@ -19,11 +19,11 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@core/*": ["apps/aed/src/app/core/*"],
-      "@features/*": ["apps/aed/src/app/features/*"],
-      "@env/*": ["apps/aed/src/environments/*"],
+      "@core/*": ["apps/supervisor/src/app/core/*"],
+      "@features/*": ["apps/supervisor/src/app/features/*"],
+      "@env/*": ["apps/supervisor/src/environments/*"],
       "@shared/*": [
-        "apps/aed/src/app/shared/*",
+        "apps/supervisor/src/app/shared/*",
         "packages/design-system/*"
       ],
       "@sc/design-system": ["packages/design-system/components/index.ts"],

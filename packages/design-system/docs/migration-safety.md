@@ -199,7 +199,7 @@ Cuando se refactoriza un wrapper SCDS cambiando su DOM interno (ej. `<input type
 
 **Checklist post-refactor**:
 
-1. `grep -rn ".sc-X__internal\|.toggle-switch input\|patrón viejo" apps/aed/src --include="*.scss"` — buscar selectors apuntando al DOM antiguo del wrapper.
+1. `grep -rn ".sc-X__internal\|.toggle-switch input\|patrón viejo" apps/supervisor/src --include="*.scss"` — buscar selectors apuntando al DOM antiguo del wrapper.
 2. Verificar AOT verde (cubre TS strict pero NO CSS).
 3. Si hay screenshots Playwright: comparar antes/después.
 4. Si NO hay tests visuales: revisar consumers manualmente en dev server.

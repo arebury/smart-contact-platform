@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "apps",
   "projects": {
-    "aed": {
+    "supervisor": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -18,18 +18,18 @@
           "standalone": true
         }
       },
-      "root": "apps/aed",
-      "sourceRoot": "apps/aed/src",
+      "root": "apps/supervisor",
+      "sourceRoot": "apps/supervisor/src",
       "prefix": "sc",
       "architect": {
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "dist/aed",
-            "index": "apps/aed/src/index.html",
-            "browser": "apps/aed/src/main.ts",
+            "outputPath": "dist/supervisor",
+            "index": "apps/supervisor/src/index.html",
+            "browser": "apps/supervisor/src/main.ts",
             "polyfills": ["zone.js"],
-            "tsConfig": "apps/aed/tsconfig.app.json",
+            "tsConfig": "apps/supervisor/tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -38,11 +38,11 @@
               },
               {
                 "glob": "**/*",
-                "input": "apps/aed/src/assets",
+                "input": "apps/supervisor/src/assets",
                 "output": "/assets"
               }
             ],
-            "styles": ["apps/aed/src/styles/main.scss"],
+            "styles": ["apps/supervisor/src/styles/main.scss"],
             "scripts": []
           },
           "configurations": {
@@ -73,10 +73,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "aed:build:production"
+              "buildTarget": "supervisor:build:production"
             },
             "development": {
-              "buildTarget": "aed:build:development"
+              "buildTarget": "supervisor:build:development"
             }
           },
           "defaultConfiguration": "development",
@@ -92,7 +92,7 @@
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "apps/aed/tsconfig.spec.json",
+            "tsConfig": "apps/supervisor/tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
@@ -101,11 +101,11 @@
               },
               {
                 "glob": "**/*",
-                "input": "apps/aed/src/assets",
+                "input": "apps/supervisor/src/assets",
                 "output": "/assets"
               }
             ],
-            "styles": ["apps/aed/src/styles/main.scss"],
+            "styles": ["apps/supervisor/src/styles/main.scss"],
             "scripts": []
           }
         },
@@ -113,8 +113,8 @@
           "builder": "@angular-eslint/builder:lint",
           "options": {
             "lintFilePatterns": [
-              "apps/aed/src/**/*.ts",
-              "apps/aed/src/**/*.html",
+              "apps/supervisor/src/**/*.ts",
+              "apps/supervisor/src/**/*.html",
               "packages/design-system/**/*.ts",
               "packages/design-system/**/*.html"
             ]

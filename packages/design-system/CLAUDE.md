@@ -36,7 +36,7 @@ Cuando un componente SCDS sobrescribe un token de Aura por marca:
 ## Estado actual
 
 - Tokens: 7 capas estables. Validados contra Aura (ver `docs/audit/`).
-- Componentes: 24 migrados desde `apps/aed/src/app/shared/components/` (Fase 1 Foundation).
+- Componentes: 24 migrados desde `apps/supervisor/src/app/shared/components/` (Fase 1 Foundation).
 - Preset `ScPreset` cubre primitive overrides (green/yellow/red/blue/sky/orange), semantic primary, focus ring, formField, overlays, content surface.
 - Próximo: bootstrap Input (text/email/password) — primer componente cocinado nativo SCDS.
 

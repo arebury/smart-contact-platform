@@ -37,7 +37,7 @@
 | `illustrated` (default) | 24 | `avatar-01.svg`…`avatar-24.svg` | Personas (agentes, users) |
 | `abstract` | 3 | `abstract-01.svg`…`abstract-03.svg` | Grupos, entidades funcionales — asignar "cara" a "Ventas Nacional" lee mal |
 
-Live bajo `apps/aed/src/assets/avatars/<pool>/`.
+Live bajo `apps/supervisor/src/assets/avatars/<pool>/`.
 
 ## API
 
@@ -96,4 +96,4 @@ Pendiente — gallery `/components/illustrated-avatar` con grid de los 24 ilustr
 
 ## Figma reference
 
-**No aplica** — los SVG vienen del set propio de Marta (`apps/aed/src/assets/avatars/`). Si en algún momento se publican en Figma como library, anotar URL aquí.
+**No aplica** — los SVG vienen del set propio de Marta (`apps/supervisor/src/assets/avatars/`). Si en algún momento se publican en Figma como library, anotar URL aquí.

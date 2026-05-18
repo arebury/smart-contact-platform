@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../out-tsc/spec-aed",
+    "outDir": "../../out-tsc/spec-supervisor",
     "types": ["jasmine"]
   },
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts", "../../packages/design-system/**/*.ts"]

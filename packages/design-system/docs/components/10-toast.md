@@ -21,7 +21,7 @@ this.messages.add({
 });
 ```
 
-El template del toast vive **inline** en `apps/aed/src/app/app.component.html` (no es un componente importable). Está conectado al servicio `MessageService` que cualquier componente puede inyectar y llamar `add()` para mostrar un toast.
+El template del toast vive **inline** en `apps/supervisor/src/app/app.component.html` (no es un componente importable). Está conectado al servicio `MessageService` que cualquier componente puede inyectar y llamar `add()` para mostrar un toast.
 
 ## Cuándo usarlo
 

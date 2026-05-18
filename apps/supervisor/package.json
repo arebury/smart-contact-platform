@@ -1,0 +1,11 @@
+{
+  "name": "@sc/supervisor",
+  "version": "0.1.0",
+  "description": "Supervisor — Smart Contact shell app (AED + Memory feature modules, Angular + PrimeNG)",
+  "private": true,
+  "scripts": {
+    "build": "cd ../.. && ng build supervisor",
+    "start": "cd ../.. && ng serve supervisor",
+    "test": "cd ../.. && ng test supervisor"
+  }
+}

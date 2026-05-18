@@ -7,7 +7,7 @@
 
 ## Consumers actuales
 
-### 1. AED (Angular 21 + PrimeNG 21) — `apps/aed/`
+### 1. AED (Angular 21 + PrimeNG 21) — `apps/supervisor/`
 
 **Tipo de consumo**: full SCDS — tokens + componentes + preset.
 

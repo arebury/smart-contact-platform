@@ -116,7 +116,7 @@ interface ComponentEntry {
   whereToSee: string;
   /**
    * Veces que aparece en AED templates (snapshot manual de
-   * `grep -rh "<sc-X" apps/aed/src --include="*.html" | wc -l`).
+   * `grep -rh "<sc-X" apps/supervisor/src --include="*.html" | wc -l`).
    * 0 = sin uso real todavía. Sirve como ruta de conversación con devs:
    * los componentes con `aedUses > 0` son los que el equipo de
    * desarrollo ya tiene interiorizados.

@@ -70,7 +70,7 @@ interface ScLabelChipProps {
 
 ## LabelColor disponibles
 
-Los colores de etiqueta se definen en `apps/aed/src/app/features/admin/labels/data/labels-data.ts` (`LABEL_COLORS`). Cada color tiene 4 tokens asociados:
+Los colores de etiqueta se definen en `apps/supervisor/src/app/features/admin/labels/data/labels-data.ts` (`LABEL_COLORS`). Cada color tiene 4 tokens asociados:
 
 | Token | Uso |
 |-------|-----|
