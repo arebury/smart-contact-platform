@@ -1,20 +1,3 @@
 :host {
   display: contents;
 }
-
-/*
- * Confirm-host's footer is a binary opposed choice (destructive vs safe).
- * Right-align the buttons with a tight gap — the dialog is narrow (440px),
- * the stretched 50/50 layout we used before read as "two panels" rather
- * than a clear primary/secondary choice. Aligning to the right reinforces
- * the reading order ("cancel … then confirm") and lets the typographic
- * hierarchy carry the visual weight.
- */
-:host ::ng-deep .sc-modal__foot {
-  > .confirm-host__actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--sc-spacing-200);
-    flex: 1 1 auto;
-  }
-}

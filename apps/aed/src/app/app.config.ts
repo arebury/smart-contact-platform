@@ -9,7 +9,7 @@ import {
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ScPreset } from '@sc/tokens/sc-preset';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -54,6 +54,7 @@ export const appConfig: ApplicationConfig = {
       ripple: true,
     }),
     MessageService,
+    ConfirmationService,
     importProvidersFrom(
       TranslateModule.forRoot({
         defaultLanguage: 'es',

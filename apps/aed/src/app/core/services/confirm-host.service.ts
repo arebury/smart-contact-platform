@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
 
 export interface ConfirmRequest {
   /** Resolved (translated) heading shown at the top of the dialog. */
@@ -25,48 +26,58 @@ export interface ConfirmRequest {
 /**
  * Programmatic confirmation. Backs every `confirm(): Promise<boolean>` call
  * across the app (route guards, "discard changes", future logout, etc.) by
- * flipping signals on a single host component mounted in the app shell.
+ * routing through PrimeNG's `ConfirmationService` + `<p-confirmdialog>` while
+ * keeping a thin Promise-based public surface so callers can `await` the
+ * boolean.
  *
- * Public surface stays tiny on purpose — callers never touch the host
- * directly, they just call `request()` and `await` the boolean.
+ * Plumbing is PrimeNG (since S34); the API is unchanged from the previous
+ * sc-modal-based implementation, so existing callers compile and behave
+ * identically.
  */
 @Injectable({ providedIn: 'root' })
 export class ConfirmHostService {
-  readonly visible = signal(false);
-  readonly state = signal<ConfirmRequest | null>(null);
-
-  private resolver: ((value: boolean) => void) | null = null;
+  private readonly confirmation = inject(ConfirmationService);
 
   /**
    * Show a confirmation. Resolves `true` when the user accepts, `false`
-   * when they reject (button, ESC via cancel, or another `request()` that
-   * supersedes the open one).
+   * when they reject (button, ESC, or another `request()` superseding it).
    */
   request(req: ConfirmRequest): Promise<boolean> {
-    if (this.resolver) {
-      const previous = this.resolver;
-      this.resolver = null;
-      previous(false);
-    }
     return new Promise<boolean>((resolve) => {
-      this.resolver = resolve;
-      this.state.set(req);
-      this.visible.set(true);
+      const acceptTone = req.acceptTone ?? 'primary';
+      const emphasizeReject = req.emphasis === 'reject';
+
+      // Build per-button props so each variant matches the previous
+      // sc-modal-based design exactly.
+      //
+      // emphasis=accept (default) → accept gets weight:
+      //   primary tone → accept=primary solid, reject=secondary outline
+      //   danger tone  → accept=danger solid,  reject=secondary outline
+      //
+      // emphasis=reject → reject gets weight (used by "discard changes"):
+      //   primary tone → accept=secondary outline, reject=primary solid
+      //   danger tone  → accept=danger outlined,   reject=primary solid
+      const acceptButtonProps = emphasizeReject
+        ? acceptTone === 'danger'
+          ? { severity: 'danger' as const, outlined: true, label: req.acceptLabel }
+          : { severity: 'secondary' as const, label: req.acceptLabel }
+        : acceptTone === 'danger'
+          ? { severity: 'danger' as const, label: req.acceptLabel }
+          : { label: req.acceptLabel };
+
+      const rejectButtonProps = emphasizeReject
+        ? { label: req.rejectLabel }
+        : { severity: 'secondary' as const, label: req.rejectLabel };
+
+      this.confirmation.confirm({
+        header: req.title,
+        message: req.body,
+        icon: 'pi pi-exclamation-triangle',
+        acceptButtonProps,
+        rejectButtonProps,
+        accept: () => resolve(true),
+        reject: () => resolve(false),
+      });
     });
-  }
-
-  accept(): void {
-    this.settle(true);
-  }
-
-  reject(): void {
-    this.settle(false);
-  }
-
-  private settle(value: boolean): void {
-    const r = this.resolver;
-    this.resolver = null;
-    this.visible.set(false);
-    if (r) r(value);
   }
 }
