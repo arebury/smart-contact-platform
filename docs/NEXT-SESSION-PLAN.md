@@ -235,6 +235,69 @@ Tiempo: 2-4h. Requiere acceso al repo Memory (no está en monorepo).
 
 ---
 
+## 🎯 Mapa estratégico cerrado en S34 (próximas sesiones)
+
+Los siguientes 7 ejes constituyen el plan vivo del proyecto. Trabajar
+sobre ellos progresivamente, no en una sola sesión.
+
+| # | Eje | Quién | Cuándo |
+|---|---|---|---|
+| 1 | **Bootstrap Variables Custom collection en Figma SC** capturando las 6 divergencias (navy primary, electric-blue info, amber warn, button padding 10.5/7, tabs padding 14/15.75, tooltip chrome) | Rafa + Marta, Claude audita MCP | Cuando os pongáis |
+| 2 | **Workflow pantallas Figma ↔ código**: convenciones nomenclatura frames, qué componentes son obligatorios usar (instances Kit Pro, no copias), cómo marcar variants | Rafa + Marta, Claude da guidelines técnicas | Próximas 1-2 semanas |
+| 2b | **Figma Code Connect mapping** Kit Pro ↔ SCDS components | Claude config inicial + Rafa valida | Cuando Rafa dé luz verde |
+| **3** | **Memory migración al monorepo como feature module Supervisor app** — ver plan detallado abajo | Rafa con repo Memory, Claude coordina | **Próxima sesión dedicada (4-8h)** |
+| 4 | Case-study-notes progresivo | Claude con visto bueno Rafa | Anotar cuando aparezca momento |
+| 5 | Cocinar wrappers gap por trigger real (`<sc-select-button>`, `<sc-tag>`, `<sc-toggle-button>`, `<sc-data-table>` si Memory lo pide) | Claude | Trigger AED/Memory real |
+| 6 | Audit `❖ Panel` SC → desbloquea section-card refactor | Rafa o Marta + Claude MCP | Cuando os pongáis |
+| 7 | PrimeOne upgrade dry-run | Claude siguiendo migration-safety.md | PrimeNG release |
+
+### Plan detallado Memory migration (Eje 3) — próxima sesión
+
+**Decisión arquitectónica cerrada S34**: Memory entra al monorepo como **feature module dentro del shell Supervisor compartido** con AED (mismo sidebar, header, auth). Probable rename `apps/aed/` → `apps/supervisor/`.
+
+Stack target Memory: **Angular 21 + PrimeNG + SCDS** (idéntico a AED).
+
+**Backup completo del prototipo React (Fase 0 — cero riesgo):**
+
+```bash
+cd ~/dev/Memory
+git tag v0-prototype-react-pre-scds
+git push origin v0-prototype-react-pre-scds
+git branch prototype-react-archive
+git push origin prototype-react-archive
+```
+
+Eso preserva el prototipo React inmutable + branch independiente.
+
+**Netlify durante transición**: `memoryplus3.netlify.app` queda apuntando a la branch `prototype-react-archive` deployed (zero downtime URL pública). Nueva URL TBD para el Angular Memory cuando arranque. Switch cuando migración completa.
+
+**Fases de migración:**
+
+| Fase | Qué | Tiempo |
+|---|---|---|
+| **0 — Backup** | Tag + branch + Netlify config | 15 min |
+| **1 — Reorganizar repo Memory** | Mover código React actual a `legacy-react/` dentro del repo | 30 min |
+| **2 — Decidir cómo integrar al monorepo** | (a) Mover el contenido al monorepo `apps/memory/` o `apps/supervisor/features/memory/` (b) Mantener Memory repo independiente consumiendo SCDS vía workspace | Decisión 30 min |
+| **3 — Scan inicial features React** | Identificar pantallas/módulos top-level (no detalle), mapear equivalencias en sidebar AED actual | 30 min |
+| **4 — Setup Angular greenfield** | `ng generate` shell base, consumir SCDS, conectar sc-preset, lazy routes | 1-2h |
+| **5 — Migración funcionalidad-por-funcionalidad** | Iterativa, comparando con `legacy-react/` durante dev | 2-N sesiones |
+
+**Decisiones que faltan para próxima sesión:**
+
+1. ¿Memory entra como **feature module** dentro de `apps/aed/` (rename a `apps/supervisor/`) o como **app separada** dentro del monorepo `apps/memory/` con shell compartido vía package? Mi recomendación: feature module (más simple), pero depende de si Memory necesita URL distinta o solo paths distintos.
+2. ¿Cómo nombramos la nueva URL Netlify del Angular Memory durante transición?
+3. ¿Hay features Memory que no tengan equivalencia en AED y que necesiten cocinar wrapper nuevo en SCDS? Scan inicial responderá.
+
+### Estado al cerrar (Session 34, 2026-05-18) — net
+
+[Ver entry S34 en SESSION-LOG.md para detalle completo]
+
+7 commits S34 a main: `130087a` (.btn migration), `d8a8346` (SCDS internals + page-header min-width), `735047b` (P1 refactors Figma 1:1), `6b9cab2` (backlog + MIGRATION-INVENTORY), `89d21ea` (SESSION-LOG + NEXT-SESSION-PLAN), `609bd46` (audit Fase 2 gray scale cerrada), `ffae8b3` (audit Fase 3 huecos verificados), `153b12c` (case-study-notes empezado).
+
+Estado salud DS: cero deudas de diseño accionables internamente. Todo lo pendiente requiere input externo (Rafa+Marta sesión Figma, trigger AED/Memory real, PrimeOne release).
+
+---
+
 ## Sugerencias arranque próxima sesión
 
 **Pendiente en backlog post-S34** (todo P3, todo espera trigger externo o decisión Marta):

@@ -83,6 +83,23 @@
 5. **Refactor a Figma 1:1 NO es decisión por defecto** — pregunta "¿es el mismo concepto?" caso por caso. Inplace ≠ inline-rename-cell. Avatar ≠ illustrated-avatar. Forzar el match con nombre parecido cambia UX sin ganar paridad.
 6. **Cuando refactor SÍ aplica** (confirm-host + group-popover): single source of truth Figma → tokens → PrimeNG → SC consume directamente. Marta puede tocar Figma sin pedir cambios al dev.
 
+### Decisiones de cierre S34 (post-sweep)
+
+Sweep extendido cerró la sesión con 3 commits adicionales: `609bd46` (audit Fase 2 gray scale falso positivo), `ffae8b3` (audit Fase 3 huecos críticos verificados todos cubiertos), `153b12c` (case-study-notes.md arrancado con 8 momentos pedagógicos S34).
+
+Conversación final con Rafa cerró el **mapa de actuación estratégico** del proyecto en 7 ejes + Memory:
+
+- **Eje 1 — Variables Custom collection Figma SC** ↔ `sc-preset.ts` = contrato bidireccional diseño↔código. Bootstrap pendiente cuando Rafa+Marta se pongan. Threshold ya cumplido (6 divergencias: navy primary, electric-blue info, amber warn, button padding 10.5/7, tabs padding 14/15.75, tooltip chrome).
+- **Eje 2 — Workflow pantallas Figma ↔ código**: Marta+Rafa diseñan con instances Kit Pro, devs leen Figma Dev Mode y traducen 1:1. Pendiente formalizar convenciones próximas 1-2 semanas.
+- **Eje 2b — Figma Code Connect** (añadido durante sparring): mapear cada componente Figma del Kit Pro a su counterpart en código. Permite que Dev Mode muestre snippet real. Pendiente cuando Rafa dé luz verde.
+- **Eje 3 — Memory migración al monorepo**: Rafa decidió **opción (a) Memory entra al monorepo como feature module** del shell Supervisor (no app standalone). Sidebar compartido con AED. Probable rename `apps/aed/` → `apps/supervisor/`. Stack target: Angular 21 + PrimeNG + SCDS (mismo que AED). Inventario features Memory = scan rápido inicial 15-30 min + migración incremental. Backup completo (tag `v0-prototype-react-pre-scds` + branch `prototype-react-archive` + carpeta `legacy-react/` en repo) preserva el prototipo React vivo para referencia.
+- **Eje 4 — Case-study-notes** arrancado (`docs/case-study-notes.md`) con 8 momentos S34. Patrón: progresivo, no batch, filtrar señal vs morralla.
+- **Eje 5-7 — Trigger-dependent**: gaps componente, audit Panel, PrimeOne upgrade dry-run quedan abiertos esperando triggers externos.
+
+**Decisiones Netlify** (S34): URL `memoryplus3.netlify.app` mantiene apuntando al prototipo React (branch `prototype-react-archive` deployed) durante transición. URL oficial nueva (TBD) para Angular Memory cuando arranque. Switch cuando migración completa.
+
+**Memoria nueva**: `project_memory_aed_shared_shell.md` capturando que Memory y AED conviven en el mismo Supervisor app.
+
 Last commit en main: pendiente (commit final de cierre tras este SESSION-LOG entry).
 
 ---
