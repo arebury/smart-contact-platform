@@ -1,5 +1,7 @@
 # 06 · Tabs (`<p-tabs>`)
 
+> **Type**: Custom-preset · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
+
 > Navegación tabular para organizar contenido en secciones. SCDS NO envuelve PrimeNG aquí — usa `<p-tabs>` directo con overrides en `sc-preset.ts`. Categoría 🟣 **Custom-preset** (mismo patrón que `<p-button>`).
 >
 > **Auditado 1:1 con Figma `Smart Contact Prime → ❖ Tabs` (canvas `6738:49740`) — Session 30.** Variants: tab × (Idle / Hover / Highlight) + tabpanels × (Focus False / True).

@@ -1,5 +1,7 @@
 # 16 · Illustrated Avatar (`<sc-illustrated-avatar>`)
 
+> **Type**: Pure SC · **AED uses**: 7 · **Figma parity**: Sin Figma equivalente
+
 > Avatar circular que renderiza una ilustración SVG hasheada determinísticamente del nombre de la entidad. Mismo nombre → mismo avatar siempre (en todas las páginas, recargas, dark mode). Si se pasa `[photo]`, la foto subida prevalece.
 >
 > Categoría ⚪ **Pure SC** — pattern custom, NO existe en Smart Contact Prime ni en PrimeOne. Inspiración: avatares hash-based de GitHub / Linear, pero con SVG ilustrados curados por Marta (no identicons).

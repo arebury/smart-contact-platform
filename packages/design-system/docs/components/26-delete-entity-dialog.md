@@ -1,5 +1,7 @@
 # 26 · Delete Entity Dialog (`<sc-delete-entity-dialog>`)
 
+> **Type**: Pure SC · **AED uses**: 8 · **Figma parity**: Sin Figma equivalente
+
 > Diálogo de confirmación compartido para eliminación de entidades (Users, Groups, Agents, Templates, Labels…). Dos modos: **single** (typing confirmation con copy-name shortcut), **bulk** (lista de chips removibles antes de confirmar). Mirror del React prototype (DD#163, DD#172).
 >
 > Categoría ⚪ **Pure SC** — pattern propio sobre `<sc-modal>`.

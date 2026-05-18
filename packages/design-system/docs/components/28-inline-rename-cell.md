@@ -1,5 +1,7 @@
 # 28 · Inline Rename Cell (`<sc-inline-rename-cell>`)
 
+> **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
+
 > Celda editable in-place que reemplaza el name de una row recién duplicada. Sin router round-trip ni modal — el usuario sigue en la lista y renombra el draft directo. La row mantiene su posición (no shift) y la celda mantiene su ancho (los buttons colapsan a icon-only).
 >
 > Categoría ⚪ **Pure SC** — adaptación del React prototype's `InlineDuplicateRow`.

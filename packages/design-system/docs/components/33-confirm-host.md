@@ -1,5 +1,7 @@
 # 33 · Confirm Host (`<sc-confirm-host>`)
 
+> **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
+
 > Host único que renderiza todas las confirmaciones programáticas de la app (route-guard discard, futuro logout, etc.) a través del shell canónico `<sc-modal>`. Lee state de `ConfirmHostService` y rutea clicks de buttons de vuelta al service. Mounted una vez en `app.component.html`.
 >
 > Categoría ⚪ **Pure SC** — pattern app-level. Composición sobre `<sc-modal>` (Extended).

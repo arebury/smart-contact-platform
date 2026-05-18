@@ -1,5 +1,7 @@
 # 22 · Sticky Form Header (`<sc-sticky-form-header>`)
 
+> **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
+
 > Cabecera sticky en el top de toda Create/Edit page (Users, Groups, Agents, etc.). Muestra entity eyebrow + name (display o editable inline) + slots para leading (avatar/photo) y meta (badges, info) + actions cluster (Save / Cancel / opcional Back). El "Save" muestra spinner mientras `[saving]`; disabled mientras `[canSave]` es false.
 >
 > Categoría ⚪ **Pure SC** — pattern in-house. Mirror visual de `<sc-page-header>` (mismas dimensiones de icon chip 44×44, mismo title size) — la app entera se siente como una misma familia entre list pages y entity edit pages.

@@ -1,5 +1,7 @@
 # 12 · Empty State (`<sc-empty-state>`)
 
+> **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
+
 > Componente para mostrar "vacío amable" cuando una lista no tiene rows (initial seed, sin resultados de filtro, sin datos del backend).
 >
 > Categoría ⚪ **Pure SC** — patrón app-specific de AED, NO existe en el Smart Contact Prime kit ni en PrimeOne/Aura. Diseñado in-house siguiendo convenciones de listas vacías (Linear, Stripe, Notion).

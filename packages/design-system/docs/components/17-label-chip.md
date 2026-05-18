@@ -1,5 +1,7 @@
 # 17 · Label Chip (`<sc-label-chip>`)
 
+> **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: 1:1 con Figma
+
 > Chip categórico pequeño para etiquetas removibles. Renderiza una "label de Smart Contact" (entidad del CRUD de etiquetas, con color y nombre) en table cells, agent rows, picker selections, etc. Opcionalmente removable con un `×` inline.
 >
 > Categoría ⚪ **Pure SC** — wrapper sobre el modelo de datos `Label` (no PrimeNG `<p-tag>`, que cubre `<sc-tag>` cuando se cocine). NO confundir con `<p-tag>` / futuro `<sc-tag>` — este es **específico de la entidad Label** (color + name de la entity).

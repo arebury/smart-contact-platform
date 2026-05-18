@@ -1,5 +1,7 @@
 # 13 · Section Card (`<sc-section-card>`)
 
+> **Type**: Pure SC · **AED uses**: 12 · **Figma parity**: Sin Figma equivalente
+
 > Tarjeta con borde + header opcional usada para **agrupar campos** dentro de un formulario (configuración, edición de entidad). Mirror del patrón `SectionCard` del prototipo React. Soporta modo `collapsible` para secciones "advanced" que deberían estar plegadas por defecto.
 >
 > Categoría ⚪ **Pure SC** — patrón app-specific, NO existe en el Smart Contact Prime kit ni en PrimeOne. Inspiración: form sections de Linear / Notion / Stripe.

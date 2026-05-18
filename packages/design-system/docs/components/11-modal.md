@@ -1,5 +1,7 @@
 # 11 · Modal / Dialog (`<sc-modal>`)
 
+> **Type**: Extended · **AED uses**: 2 · **Figma parity**: 1:1 con Figma
+
 > Shell modal canónico con header + body slot + footer. Envuelve `<p-dialog>` de PrimeNG con focus trap / ESC / mask / animación, pero la chrome visual es 100% SC.
 >
 > **Auditado 1:1 con Figma `Smart Contact Prime → ❖ ConfirmDialog` (canvas `6738:50207`) — Session 30.** Tokens `dialog/*` extraídos vía MCP (Dialog y ConfirmDialog comparten el mismo set de tokens — son el spec del shell, ConfirmDialog es solo un caso de uso típico).

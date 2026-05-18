@@ -1,5 +1,7 @@
 # sc-input-group
 
+> **Type**: Extended · **AED uses**: 1 · **Figma parity**: 1:1 con Figma
+
 > Wrapper Extended sobre `<p-inputgroup>`. Agrupa un input con addons left/right
 > (texto, icono, botón, checkbox o radio) fundiendo el borde compartido para que
 > el conjunto se lea como una pieza única.

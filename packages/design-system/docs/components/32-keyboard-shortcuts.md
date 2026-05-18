@@ -1,5 +1,7 @@
 # 32 · Keyboard Shortcuts (`<sc-keyboard-shortcuts>`)
 
+> **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
+
 > Cheat sheet de atajos de teclado, triggereado por `?` desde cualquier parte de la app. Modal-like overlay que lista todos los shortcuts soportados agrupados por propósito. Suprimido cuando el usuario está escribiendo en input/textarea/select — así pulsar `?` dentro de un form-field tipea el caracter en vez de abrir la ayuda.
 >
 > Categoría ⚪ **Pure SC** — pattern industria (Linear, Notion, Gmail). Owns su propio visibility signal.

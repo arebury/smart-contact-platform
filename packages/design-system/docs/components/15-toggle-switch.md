@@ -1,5 +1,7 @@
 # 15 · Toggle Switch (`<sc-toggle-switch>`)
 
+> **Type**: Extended · **AED uses**: 21 · **Figma parity**: 1:1 con Figma
+
 > Switch accesible para opciones booleanas (activo/inactivo, enabled/disabled). Construido sobre un `<input type="checkbox">` real con `role="switch"` — el track + thumb son CSS puro encima. Hereda teclado, focus management y form association nativos.
 >
 > Categoría ⚪ **Pure SC** — el switch del Kit Figma SC (basado en PrimeNG p-toggleswitch) NO se usa directamente. Esta es nuestra versión declarativa con form-pattern propio.

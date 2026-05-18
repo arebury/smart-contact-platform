@@ -1,5 +1,7 @@
 # 18 · Color Dot Picker (`<sc-color-dot-picker>`)
 
+> **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
+
 > Fila inline de "puntos de color" seleccionables. Single-choice radio-style. Usado en el form de etiquetas para que el supervisor elija qué color tendrá una Label nueva (`<sc-label-chip>` lo renderiza después). Two-way bindable.
 >
 > Categoría ⚪ **Pure SC** — pattern custom basado en el `ColorPicker` del prototipo React. NO confundir con `<p-colorpicker>` (color picker libre tipo RGB wheel) — este es un picker discreto de N opciones predefinidas.

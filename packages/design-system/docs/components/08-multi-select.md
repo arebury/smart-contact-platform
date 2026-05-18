@@ -1,5 +1,7 @@
 # 08 · MultiSelect (`<sc-multi-select>`)
 
+> **Type**: Extended · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
+
 > Dropdown multi-selección para formularios SC. Envuelve PrimeNG `<p-multiselect>` con la chrome SCDS. Hermano de `<sc-select>` — mismos tokens visuales, semántica diferente (array value).
 >
 > **Auditado 1:1 con Figma `Smart Contact Prime → ❖ MultiSelect` (canvas `6738:22651`) — Session 30.** 257 variants (ejes: Mode Basic/Chips + los mismos 8 de Select). Tokens `multiselect/*` IDÉNTICOS a `select/*`.

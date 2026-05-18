@@ -1,5 +1,7 @@
 # 01 · Button (`<p-button>`)
 
+> **Type**: Custom-preset · **AED uses**: 38 · **Figma parity**: 1:1 con Figma
+
 > Botón de acción. SCDS NO envuelve PrimeNG aquí — usa `<p-button>` directo con overrides en `sc-preset.ts`. Categoría 🟣 **Custom-preset**.
 >
 > **Auditado 1:1 con Figma `Smart Contact Prime → ❖ Button` (canvas `6738:49717`) — Session 30.** 1965 variants en Figma (9 ejes: Severity / State / Disabled / Icon Only / Raised / Rounded / Text / Outlined / Link). Tokens extraídos vía MCP en nodos canónicos por severity y por variant flag.

@@ -1,5 +1,7 @@
 # 30 · Group Popover (`<sc-group-popover>`)
 
+> **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
+
 > Celda inline que muestra el conteo de grupos asociados a un agente y revela un mini-panel flotante con la lista al hover/focus. Lista hasta 5 nombres + "+N más" en la cola si hay overflow. Floats sobre la tabla con `position: absolute` — abrir el panel NO empuja las rows (no CLS).
 >
 > Categoría ⚪ **Pure SC** — pattern in-house para list cells densas con N relaciones que no caben inline.

@@ -1,5 +1,7 @@
 # 23 · Bulk Action Bar (`<sc-bulk-action-bar>`)
 
+> **Type**: Pure SC · **AED uses**: 6 · **Figma parity**: Sin Figma equivalente
+
 > Barra inferior fija que aparece cuando hay items seleccionados en una list page. Muestra el conteo + clear button a la izquierda, y un slot de acciones proyectadas a la derecha (Eliminar, Editar bulk, Exportar...). Memoria: **overlay, no push** — no causa CLS sobre la tabla.
 >
 > Categoría ⚪ **Pure SC** — pattern industria (Gmail, Linear, Notion). Versión SC alineada con el sidebar fijo (`--sc-sidebar-width` offset).

@@ -1,5 +1,7 @@
 # 29 · Photo Upload (`<sc-photo-upload>`)
 
+> **Type**: Pure SC · **AED uses**: 2 · **Figma parity**: Sin Figma equivalente
+
 > Botón circular tipo "avatar uploader". Hover overlay con icono cámara, hidden file input, validación de tipo + tamaño locales, emite el data URL via `(photoChange)`. Fallback decoroso si la entidad no tiene foto: `<sc-illustrated-avatar>` hasheado del name.
 >
 > Categoría ⚪ **Pure SC** — pattern propio. Mirror del React prototype photo button.

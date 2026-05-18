@@ -1,5 +1,7 @@
 # 09 · Checkbox (`<sc-tri-state-checkbox>`)
 
+> **Type**: Pure SC · **AED uses**: 6 · **Figma parity**: 1:1 con Figma
+
 > Checkbox custom de SC con soporte tri-state (none / some / all). El selector es `sc-tri-state-checkbox` por razón histórica — ES el checkbox de facto en AED (6 usos), no hay otro componente checkbox.
 >
 > **Auditado 1:1 con Figma `Smart Contact Prime → ❖ Checkbox` (canvas `6738:22640`) — Session 30.** 60 variants Figma (ejes: Hover / Selected / Focus / Disabled / Filled / Size). El estado `'some'` (indeterminate) es una **extensión SC**, no existe en Figma.

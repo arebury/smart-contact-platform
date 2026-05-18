@@ -1,5 +1,7 @@
 # 14 · Search (`<sc-search>`)
 
+> **Type**: Extended · **AED uses**: 8 · **Figma parity**: 1:1 con Figma
+
 > Input de búsqueda con icon overlay decorativo a la izquierda + clear
 > button automático + opcional shortcut hint (`⌘K`, `/`). Replica el
 > patrón `.page__search` que vivía duplicado en 6 SCSS distintos de AED
