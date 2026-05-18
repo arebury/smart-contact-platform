@@ -31,6 +31,21 @@
         "transcription": "Transcrita",
         "analysis": "Analizada por IA",
         "failed": "Transcripción fallida"
+      },
+      "filters": {
+        "services_label": "Servicios",
+        "services_placeholder": "Cualquier servicio",
+        "date_label": "Fecha",
+        "date_placeholder": "Cualquier fecha",
+        "origin_label": "Origen",
+        "origin_placeholder": "Cualquier origen",
+        "destination_label": "Destino",
+        "destination_placeholder": "Cualquier destino",
+        "groups_label": "Grupos ACD",
+        "groups_placeholder": "Cualquier grupo",
+        "agents_label": "Agentes",
+        "agents_placeholder": "Cualquier agente",
+        "reset": "Limpiar filtros"
       }
     }
   },

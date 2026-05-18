@@ -1,0 +1,70 @@
+<div class="memory-conversation-filters">
+  <div class="memory-conversation-filters__grid">
+    <sc-multi-select
+      [label]="'memory.conversations.filters.services_label' | translate"
+      [options]="serviceOptions"
+      optionLabel="label"
+      optionValue="value"
+      [placeholder]="'memory.conversations.filters.services_placeholder' | translate"
+      [filter]="true"
+      [value]="[...filters().services]"
+      (valueChange)="setServices($event)"
+    />
+
+    <sc-datepicker
+      [label]="'memory.conversations.filters.date_label' | translate"
+      [placeholder]="'memory.conversations.filters.date_placeholder' | translate"
+      [value]="filters().date"
+      (valueChange)="setDate($event)"
+      [showClear]="true"
+    />
+
+    <sc-input
+      [label]="'memory.conversations.filters.origin_label' | translate"
+      [placeholder]="'memory.conversations.filters.origin_placeholder' | translate"
+      [value]="filters().origin"
+      (valueChange)="setOrigin($event)"
+    />
+
+    <sc-input
+      [label]="'memory.conversations.filters.destination_label' | translate"
+      [placeholder]="'memory.conversations.filters.destination_placeholder' | translate"
+      [value]="filters().destination"
+      (valueChange)="setDestination($event)"
+    />
+
+    <sc-multi-select
+      [label]="'memory.conversations.filters.groups_label' | translate"
+      [options]="groupOptions"
+      optionLabel="label"
+      optionValue="value"
+      [placeholder]="'memory.conversations.filters.groups_placeholder' | translate"
+      [filter]="true"
+      [value]="[...filters().groups]"
+      (valueChange)="setGroups($event)"
+    />
+
+    <sc-multi-select
+      [label]="'memory.conversations.filters.agents_label' | translate"
+      [options]="agentOptions"
+      optionLabel="label"
+      optionValue="value"
+      [placeholder]="'memory.conversations.filters.agents_placeholder' | translate"
+      [filter]="true"
+      [value]="[...filters().agents]"
+      (valueChange)="setAgents($event)"
+    />
+  </div>
+
+  <div class="memory-conversation-filters__actions">
+    <button
+      type="button"
+      class="sc-icon-btn"
+      (click)="onReset()"
+      [attr.aria-label]="'memory.conversations.filters.reset' | translate"
+      [attr.title]="'memory.conversations.filters.reset' | translate"
+    >
+      <lucide-icon [img]="resetIcon" [size]="14" aria-hidden="true" />
+    </button>
+  </div>
+</div>
