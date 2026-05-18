@@ -1,0 +1,44 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Group popover</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-group-popover&gt;</code> es la cell inline que muestra el conteo de grupos
+      de un agente y revela una lista flotante al hover o focus. Hasta 5 nombres + "+N más"
+      cuando hay overflow. Posición absolute desde el trigger — nunca empuja las filas de la
+      tabla.
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Sin grupos (count = 0)</h2>
+    <p class="gallery__hint">
+      No abre popover. Cell visible pero pasiva.
+    </p>
+    <div class="gallery__row">
+      <sc-group-popover [groups]="$any(empty)" />
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · 2 grupos (caben enteros)</h2>
+    <p class="gallery__hint">
+      Hover sobre la cell → ves los 2 nombres. Focus con teclado también abre.
+    </p>
+    <div class="gallery__row">
+      <sc-group-popover [groups]="$any(twoGroups)" />
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · 8 grupos (con overflow "+3 más")</h2>
+    <p class="gallery__hint">
+      Solo se renderizan los primeros 5; el resto va en el tail counter. Esc cierra el popover.
+    </p>
+    <div class="gallery__row">
+      <sc-group-popover [groups]="$any(manyGroups)" />
+    </div>
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="group-popover" />
+</div>

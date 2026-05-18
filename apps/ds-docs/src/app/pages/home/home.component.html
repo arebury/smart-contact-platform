@@ -35,19 +35,29 @@
 
 <section class="components">
   <h2 class="components__title">Componentes con documentación viva</h2>
-  <p class="components__hint">Componentes con página interactiva en este sitio. El resto está implementado y disponible vía <code>@sc/design-system</code>, pero su page aún no está documentada aquí.</p>
-  <div class="components__grid">
-    @for (c of documentedComponents(); track c.slug) {
-      <a class="component-card" [routerLink]="c.pageRoute">
-        <span class="component-card__parity" [class]="'parity-' + c.parity">
-          <span aria-hidden="true">{{ parityGlyph(c.parity) }}</span>
-          {{ parityLabel(c.parity) }}
-        </span>
-        <h3 class="component-card__name">{{ c.name }}</h3>
-        <p class="component-card__summary">{{ c.whatItDoes }}</p>
-      </a>
-    }
-  </div>
+  <p class="components__hint">
+    Componentes con página interactiva en este sitio, agrupados por función. El resto está
+    implementado y disponible vía <code>@sc/design-system</code>, pero su page aún no está
+    documentada aquí.
+  </p>
+
+  @for (group of documentedByCategory(); track group.meta.id) {
+    <div class="components__group">
+      <h3 class="components__group-title">{{ group.meta.label }}</h3>
+      <div class="components__grid">
+        @for (c of group.items; track c.slug) {
+          <a class="component-card" [routerLink]="c.pageRoute">
+            <span class="component-card__parity" [class]="'parity-' + c.parity">
+              <span aria-hidden="true">{{ parityGlyph(c.parity) }}</span>
+              {{ parityLabel(c.parity) }}
+            </span>
+            <h4 class="component-card__name">{{ c.name }}</h4>
+            <p class="component-card__summary">{{ c.whatItDoes }}</p>
+          </a>
+        }
+      </div>
+    </div>
+  }
 </section>
 
 <section class="tracking">
@@ -236,46 +246,54 @@
       </button>
     </div>
   } @else {
-  <ul class="tracker-list">
-    @for (item of filtered(); track item.slug) {
-      <li class="tracker-item" [class.is-validated]="item.isValidated">
-        <label class="tracker-item__check">
-          <input
-            type="checkbox"
-            [checked]="item.isValidated"
-            (change)="toggleValidated(item.slug)"
-          />
-          <span aria-hidden="true" class="tracker-item__box"></span>
-        </label>
+    @for (group of filteredByCategory(); track group.meta.id) {
+      <div class="tracker-group">
+        <h3 class="tracker-group__title">
+          {{ group.meta.label }}
+          <span class="tracker-group__count">{{ group.items.length }}</span>
+        </h3>
+        <ul class="tracker-list">
+          @for (item of group.items; track item.slug) {
+            <li class="tracker-item" [class.is-validated]="item.isValidated">
+              <label class="tracker-item__check">
+                <input
+                  type="checkbox"
+                  [checked]="item.isValidated"
+                  (change)="toggleValidated(item.slug)"
+                />
+                <span aria-hidden="true" class="tracker-item__box"></span>
+              </label>
 
-        <div class="tracker-item__body">
-          <div class="tracker-item__row">
-            <span class="tracker-item__name">{{ item.name }}</span>
-            <span class="tracker-item__badge" [class]="'type-' + item.type">
-              {{ typeLabel(item.type) }}
-            </span>
-            <span class="tracker-item__parity" [class]="'parity-' + item.parity">
-              <span aria-hidden="true">{{ parityGlyph(item.parity) }}</span>
-              {{ parityLabel(item.parity) }}
-            </span>
-            @if (item.aedUses > 0) {
-              <span class="tracker-item__usage is-in-use" [attr.title]="item.aedUses + ' usos en templates AED'">
-                ● AED {{ item.aedUses }}×
-              </span>
-            } @else {
-              <span class="tracker-item__usage" title="Aún no usado en AED">
-                ○ sin uso
-              </span>
-            }
-          </div>
-          <p class="tracker-item__summary">{{ item.whatItDoes }}</p>
-          <p class="tracker-item__where">
-            <span class="tracker-item__where-label">Dónde verlo:</span>
-            {{ item.whereToSee }}
-          </p>
-        </div>
-      </li>
+              <div class="tracker-item__body">
+                <div class="tracker-item__row">
+                  <span class="tracker-item__name">{{ item.name }}</span>
+                  <span class="tracker-item__badge" [class]="'type-' + item.type">
+                    {{ typeLabel(item.type) }}
+                  </span>
+                  <span class="tracker-item__parity" [class]="'parity-' + item.parity">
+                    <span aria-hidden="true">{{ parityGlyph(item.parity) }}</span>
+                    {{ parityLabel(item.parity) }}
+                  </span>
+                  @if (item.aedUses > 0) {
+                    <span class="tracker-item__usage is-in-use" [attr.title]="item.aedUses + ' usos en templates AED'">
+                      ● AED {{ item.aedUses }}×
+                    </span>
+                  } @else {
+                    <span class="tracker-item__usage" title="Aún no usado en AED">
+                      ○ sin uso
+                    </span>
+                  }
+                </div>
+                <p class="tracker-item__summary">{{ item.whatItDoes }}</p>
+                <p class="tracker-item__where">
+                  <span class="tracker-item__where-label">Dónde verlo:</span>
+                  {{ item.whereToSee }}
+                </p>
+              </div>
+            </li>
+          }
+        </ul>
+      </div>
     }
-  </ul>
   }
 </section>

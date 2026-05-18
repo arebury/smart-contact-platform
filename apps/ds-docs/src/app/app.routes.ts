@@ -178,6 +178,55 @@ export const appRoutes: Routes = [
       ),
   },
   {
+    path: 'components/photo-upload',
+    loadComponent: () =>
+      import('./pages/photo-upload/photo-upload-gallery.component').then(
+        (m) => m.PhotoUploadGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/bulk-action-bar',
+    loadComponent: () =>
+      import('./pages/bulk-action-bar/bulk-action-bar-gallery.component').then(
+        (m) => m.BulkActionBarGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/bulk-edit-menu',
+    loadComponent: () =>
+      import('./pages/bulk-edit-menu/bulk-edit-menu-gallery.component').then(
+        (m) => m.BulkEditMenuGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/impact-preview-dialog',
+    loadComponent: () =>
+      import('./pages/impact-preview-dialog/impact-preview-dialog-gallery.component').then(
+        (m) => m.ImpactPreviewDialogGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/column-selector',
+    loadComponent: () =>
+      import('./pages/column-selector/column-selector-gallery.component').then(
+        (m) => m.ColumnSelectorGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/inline-rename-cell',
+    loadComponent: () =>
+      import('./pages/inline-rename-cell/inline-rename-cell-gallery.component').then(
+        (m) => m.InlineRenameCellGalleryComponent,
+      ),
+  },
+  {
+    path: 'components/group-popover',
+    loadComponent: () =>
+      import('./pages/group-popover/group-popover-gallery.component').then(
+        (m) => m.GroupPopoverGalleryComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

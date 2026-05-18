@@ -25,6 +25,82 @@ type ComponentType = 'full-primeng' | 'custom-preset' | 'extended' | 'pure-sc';
  */
 type FigmaParity = 'audited-full' | 'audited-partial' | 'no-figma-equivalent';
 
+/**
+ * Agrupación visual del catálogo. Inspirado en Polaris / Carbon — los
+ * componentes viven por función, no por orden de creación. El tracker
+ * agrupa las cards y la lista filtrable por estas categorías para que
+ * Marta encuentre piezas relacionadas juntas sin scrollear toda la lista.
+ */
+type ComponentCategory =
+  | 'form'
+  | 'actions'
+  | 'layout'
+  | 'navigation'
+  | 'overlay'
+  | 'table'
+  | 'empty';
+
+interface CategoryMeta {
+  readonly id: ComponentCategory;
+  readonly label: string;
+  /** Orden de aparición — bajo = arriba. */
+  readonly order: number;
+}
+
+const CATEGORY_META: readonly CategoryMeta[] = [
+  { id: 'form', label: 'Formularios y entrada', order: 1 },
+  { id: 'actions', label: 'Acciones', order: 2 },
+  { id: 'layout', label: 'Layout y estructura', order: 3 },
+  { id: 'navigation', label: 'Navegación', order: 4 },
+  { id: 'overlay', label: 'Overlays y diálogos', order: 5 },
+  { id: 'table', label: 'Tablas y celdas', order: 6 },
+  { id: 'empty', label: 'Estados vacíos', order: 7 },
+];
+
+const CATEGORY_BY_SLUG: Record<string, ComponentCategory> = {
+  // Formularios y entrada
+  input: 'form',
+  'input-number': 'form',
+  'input-group': 'form',
+  select: 'form',
+  'multi-select': 'form',
+  datepicker: 'form',
+  checkbox: 'form',
+  'toggle-switch': 'form',
+  search: 'form',
+  'photo-upload': 'form',
+  'color-dot-picker': 'form',
+  // Acciones
+  button: 'actions',
+  'bulk-action-bar': 'actions',
+  'bulk-edit-menu': 'actions',
+  'form-danger-zone': 'actions',
+  // Layout
+  'section-card': 'layout',
+  'page-header': 'layout',
+  'sticky-form-header': 'layout',
+  // Navegación
+  tabs: 'navigation',
+  'form-section-nav': 'navigation',
+  'command-palette': 'navigation',
+  'keyboard-shortcuts': 'navigation',
+  // Overlays y diálogos
+  modal: 'overlay',
+  toast: 'overlay',
+  tooltip: 'overlay',
+  'delete-entity-dialog': 'overlay',
+  'impact-preview-dialog': 'overlay',
+  'confirm-host': 'overlay',
+  // Tablas y celdas
+  'label-chip': 'table',
+  'illustrated-avatar': 'table',
+  'inline-rename-cell': 'table',
+  'group-popover': 'table',
+  'column-selector': 'table',
+  // Estados vacíos
+  'empty-state': 'empty',
+};
+
 interface ComponentEntry {
   slug: string;
   name: string;
@@ -215,6 +291,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 2,
+      pageRoute: '/components/photo-upload',
       whatItDoes: 'Sube una foto arrastrándola o haciendo click; permite recortarla y previsualizarla.',
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → bloque "Foto del agente".',
     },
@@ -267,6 +344,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 6,
+      pageRoute: '/components/bulk-action-bar',
       whatItDoes: 'Barra que aparece flotando abajo cuando seleccionas varios elementos de una tabla, con acciones masivas (borrar varios, editar varios…).',
       whereToSee: 'AED → Administración → Etiquetas → marca 2 o más etiquetas con los checkboxes → aparece la barra flotante abajo.',
     },
@@ -276,6 +354,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 2,
+      pageRoute: '/components/bulk-edit-menu',
       whatItDoes: 'Menú desplegable de "edición masiva" que sale de la barra anterior para cambiar un campo a varios elementos a la vez.',
       whereToSee: 'AED → Administración → Etiquetas → marca varias → en la barra de abajo dale a "Editar" → sale este menú.',
     },
@@ -345,6 +424,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 3,
+      pageRoute: '/components/inline-rename-cell',
       whatItDoes: 'Editar el nombre de algo directamente en la tabla, sin abrir formulario (típicamente con doble-click).',
       whereToSee: 'AED → Administración → Etiquetas → doble-click sobre el nombre de una etiqueta → se vuelve editable in-situ.',
     },
@@ -354,6 +434,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 1,
+      pageRoute: '/components/group-popover',
       whatItDoes: 'Tarjeta flotante que aparece al pasar el ratón sobre un grupo, mostrando sus miembros y acciones rápidas.',
       whereToSee: 'AED → Administración → Grupos → pasa el ratón sobre la fila de un grupo.',
     },
@@ -363,6 +444,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 3,
+      pageRoute: '/components/column-selector',
       whatItDoes: 'Menú para mostrar u ocultar columnas en tablas que tienen muchas.',
       whereToSee: 'AED → Administración → Agentes (o cualquier tabla con muchas columnas) → icono de engranaje/columnas arriba a la derecha de la tabla.',
     },
@@ -402,6 +484,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 2,
+      pageRoute: '/components/impact-preview-dialog',
       whatItDoes: 'Ventana que aparece antes de un cambio importante avisando de a cuántas cosas va a afectar ("Esto afectará a X agentes…").',
       whereToSee: 'AED → Administración → Grupos → borra o cambia un grupo con miembros → diálogo de impacto.',
     },
@@ -443,15 +526,48 @@ export class HomeComponent {
     this.catalog.map((entry) => ({
       ...entry,
       isValidated: this.validated().has(entry.slug),
+      category: CATEGORY_BY_SLUG[entry.slug] ?? ('layout' as ComponentCategory),
     })),
   );
+
+  protected readonly categoryMeta = CATEGORY_META;
 
   protected readonly validatedCount = computed(() => this.validated().size);
 
   /** Componentes con gallery interactiva publicada (los que tienen pageRoute). */
   protected readonly documentedComponents = computed(() =>
-    this.catalog.filter((c) => !!c.pageRoute),
+    this.tracked().filter((c) => !!c.pageRoute),
   );
+
+  /**
+   * Componentes documentados agrupados por categoría — la sección "Componentes
+   * con documentación viva" del home rinde cada bucket con su título y un
+   * grid propio. Reduce la sensación de "muro de cards" que el listado plano
+   * de 17 cards generaba.
+   */
+  protected readonly documentedByCategory = computed(() => {
+    const docs = this.documentedComponents();
+    const meta = CATEGORY_META;
+    return meta
+      .map((cat) => ({
+        meta: cat,
+        items: docs.filter((c) => c.category === cat.id),
+      }))
+      .filter((g) => g.items.length > 0);
+  });
+
+  /**
+   * Lista filtrada agrupada por categoría — usada por el tracker checklist
+   * para que las piezas relacionadas aparezcan juntas en lugar de en una
+   * lista plana de 33 entries.
+   */
+  protected readonly filteredByCategory = computed(() => {
+    const list = this.filtered();
+    return CATEGORY_META.map((cat) => ({
+      meta: cat,
+      items: list.filter((c) => c.category === cat.id),
+    })).filter((g) => g.items.length > 0);
+  });
 
   /**
    * Conteos por tipo (sobre TODO el catálogo, no sobre el resultado filtrado).

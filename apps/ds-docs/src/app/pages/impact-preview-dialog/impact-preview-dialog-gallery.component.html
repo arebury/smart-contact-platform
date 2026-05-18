@@ -1,0 +1,67 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Impact preview dialog</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-impact-preview-dialog&gt;</code> previsualiza una operación bulk
+      (edit / duplicate) antes de aplicar. Cada item es un chip con × hover-revealed para
+      podarlo individualmente; el dialog se auto-cierra si se vacía completamente. Emite
+      <code>(confirm)</code> con los IDs supervivientes en su orden original.
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Modo <code>bulkEdit</code> — con badge "Estado: Activo → Pausado"</h2>
+    <p class="gallery__hint">
+      El badge superior comunica el cambio que se va a aplicar. Puedes podar items individuales
+      antes de confirmar.
+    </p>
+    <div class="gallery__row">
+      <button type="button" class="btn btn--secondary" (click)="bulkVisible.set(true)">
+        Abrir dialog
+      </button>
+    </div>
+    <sc-impact-preview-dialog
+      mode="bulkEdit"
+      [visible]="bulkVisible()"
+      title="Confirmar cambio de estado"
+      [items]="items"
+      [badge]="bulkBadge"
+      confirmLabel="Aplicar a {{ items.length }} agentes"
+      (confirm)="onConfirm('bulkEdit', $event)"
+      (cancelled)="onCancel('bulkEdit')"
+    />
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Modo <code>duplicate</code> — sin badge</h2>
+    <p class="gallery__hint">
+      Cuando NO hay <code>badge</code>, el dialog renderiza solo la lista de items. Pensado
+      para "duplicar N items" donde no hay cambio de campo que comunicar.
+    </p>
+    <div class="gallery__row">
+      <button type="button" class="btn btn--secondary" (click)="duplicateVisible.set(true)">
+        Abrir dialog
+      </button>
+    </div>
+    <sc-impact-preview-dialog
+      mode="duplicate"
+      [visible]="duplicateVisible()"
+      title="Duplicar agentes"
+      [items]="items"
+      confirmLabel="Duplicar"
+      (confirm)="onConfirm('duplicate', $event)"
+      (cancelled)="onCancel('duplicate')"
+    />
+  </section>
+
+  @if (lastResult()) {
+    <section class="gallery__section">
+      <p class="gallery__output">
+        Resultado: <code>{{ lastResult() }}</code>
+      </p>
+    </section>
+  }
+
+  <sc-ds-docs-gallery-footer slug="impact-preview-dialog" />
+</div>

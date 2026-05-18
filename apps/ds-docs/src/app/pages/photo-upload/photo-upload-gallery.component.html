@@ -1,0 +1,74 @@
+<p-toast position="bottom-right" />
+
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Photo upload</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-photo-upload&gt;</code> es el avatar circular subible (formularios Agents +
+      Users). Hover muestra overlay con cámara, file input oculto valida tipo (JPG/PNG/GIF) y
+      tamaño (≤800 KB) y emite el data URL via <code>(photoChange)</code>. Si no hay foto y se
+      pasa <code>[name]</code>, el placeholder es el <code>IllustratedAvatarComponent</code>
+      hashed desde el nombre (matchea la cell del listado).
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Sin foto, con nombre (illustrated fallback)</h2>
+    <p class="gallery__hint">
+      El placeholder es el portrait ilustrado generado por hash del nombre — el mismo que ves
+      en la cell de la tabla. Click para subir.
+    </p>
+    <div class="gallery__row">
+      <sc-photo-upload
+        name="Marta Ramírez"
+        [photo]="fresh()"
+        (photoChange)="fresh.set($event)"
+      />
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · Con foto subida</h2>
+    <p class="gallery__hint">
+      Aparece la foto + link "Eliminar foto" debajo (emite <code>photoChange = null</code>).
+    </p>
+    <div class="gallery__row">
+      <sc-photo-upload
+        name="Marta Ramírez"
+        [photo]="withPhoto()"
+        (photoChange)="withPhoto.set($event)"
+      />
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">3 · Size <code>sm</code> (sin hint ni remove)</h2>
+    <p class="gallery__hint">
+      44×44, sin row inferior. Pensado para vivir dentro del sticky-form-header (ver
+      <code>sc-sticky-form-header</code>).
+    </p>
+    <div class="gallery__row">
+      <sc-photo-upload
+        size="sm"
+        name="Lucas Vega"
+        [photo]="compact()"
+        (photoChange)="compact.set($event)"
+      />
+    </div>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">4 · Validaciones</h2>
+    <p class="gallery__hint">
+      Sube un archivo no-imagen o &gt;800 KB para ver los toasts de error.
+    </p>
+    <ul class="gallery__list">
+      <li>Tipos permitidos: <code>image/jpeg</code>, <code>image/png</code>, <code>image/gif</code>.</li>
+      <li>Tamaño máximo: 800 KB.</li>
+      <li>Errores se muestran en <code>&lt;p-toast&gt;</code> (configurado en este gallery).</li>
+    </ul>
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="photo-upload" />
+</div>

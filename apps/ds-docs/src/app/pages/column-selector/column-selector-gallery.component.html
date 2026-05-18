@@ -1,0 +1,48 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Column selector</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-column-selector&gt;</code> es el popover de gestión de columnas para tablas:
+      checkbox por columna + drag-and-drop para reordenar. El estado se persiste en
+      <code>localStorage</code> bajo la <code>storageKey</code>. Columnas bloqueadas (
+      <code>locked: true</code>) se quedan visibles y fijadas arriba — no se pueden ocultar
+      ni mover.
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · Popover interactivo</h2>
+    <p class="gallery__hint">
+      Click en el botón <em>"Columnas"</em> → se abre el popover. Drag por el grip para
+      reordenar; checkbox para mostrar/ocultar. Reset vuelve al orden + visibilidad declarados.
+      La preferencia se persiste en <code>localStorage</code> (clave del gallery:
+      <code>ds-docs-column-demo_v1</code>).
+    </p>
+    <div class="gallery__row">
+      <sc-column-selector
+        [columns]="columns"
+        storageKey="ds-docs-column-demo_v1"
+        (orderedVisibleChange)="visibleKeys.set($event)"
+      />
+    </div>
+    <p class="gallery__output">
+      Columnas visibles (en orden):
+      <code>[ {{ visibleKeys().join(', ') }} ]</code>
+    </p>
+  </section>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">2 · API resumida</h2>
+    <table class="gallery__table">
+      <thead><tr><th>Prop</th><th>Tipo</th><th>Descripción</th></tr></thead>
+      <tbody>
+        <tr><td><code>columns</code></td><td><code>ColumnDef[]</code></td><td>Declaración de las columnas (key, label, locked, defaultVisible).</td></tr>
+        <tr><td><code>storageKey</code></td><td>string</td><td>Clave <code>localStorage</code> — incluir sufijo <code>_v&lt;N&gt;</code> para invalidar prefs en bumps.</td></tr>
+        <tr><td><code>(orderedVisibleChange)</code></td><td><code>string[]</code></td><td>Lista de keys visibles EN ORDEN. Lo que el caller usa para renderizar la tabla.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <sc-ds-docs-gallery-footer slug="column-selector" />
+</div>

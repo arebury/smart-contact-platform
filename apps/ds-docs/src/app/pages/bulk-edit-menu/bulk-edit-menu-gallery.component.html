@@ -1,0 +1,38 @@
+<div class="gallery">
+  <header class="gallery__head">
+    <span class="gallery__eyebrow">Component</span>
+    <h1 class="gallery__title">Bulk edit menu</h1>
+    <p class="gallery__lede">
+      <code>&lt;sc-bulk-edit-menu&gt;</code> es el editor inline <em>"Cambiar [campo] a [valor]
+      Aplicar"</em> que vive dentro de la <code>bulk-action-bar</code>. El caller pasa los
+      campos y sus opciones; el componente orquesta los pickers y emite un único
+      <code>(commit)</code> al pulsar Aplicar. NO incluye el dialog de impacto — el caller
+      pipea el commit al <code>impact-preview-dialog</code> si quiere previsualización.
+    </p>
+  </header>
+
+  <section class="gallery__section">
+    <h2 class="gallery__h2">1 · 3 campos editables (Estado / Prioridad / Tipo)</h2>
+    <p class="gallery__hint">
+      Cambia el primer dropdown → el segundo dropdown se resetea al primer valor del nuevo
+      campo (cascada — el value previo puede no ser válido para el nuevo field).
+    </p>
+    <div class="gallery__row">
+      <sc-bulk-edit-menu [fields]="fields" (commit)="onCommit($event)" />
+    </div>
+  </section>
+
+  @if (lastCommit(); as c) {
+    <section class="gallery__section">
+      <h2 class="gallery__h2">2 · Último commit emitido</h2>
+      <pre class="gallery__code"><code>&#123;
+  fieldKey: '{{ c.fieldKey }}',
+  fieldLabel: '{{ c.fieldLabel }}',
+  value: '{{ c.value }}',
+  valueLabel: '{{ c.valueLabel }}'
+&#125;</code></pre>
+    </section>
+  }
+
+  <sc-ds-docs-gallery-footer slug="bulk-edit-menu" />
+</div>
