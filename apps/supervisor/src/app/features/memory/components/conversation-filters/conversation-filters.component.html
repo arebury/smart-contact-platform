@@ -57,6 +57,14 @@
   </div>
 
   <div class="memory-conversation-filters__actions">
+    <sc-memory-type-filter-button
+      [(filters)]="filters"
+    />
+    <sc-memory-category-filter-button
+      [available]="availableAiCategories()"
+      [selected]="filters().aiCategories"
+      (selectedChange)="onAiCategoriesChange($event)"
+    />
     <button
       type="button"
       class="sc-icon-btn"

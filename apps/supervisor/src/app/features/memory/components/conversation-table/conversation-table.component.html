@@ -2,6 +2,18 @@
   <table class="table sc-table-zebra memory-conversations-table">
     <thead>
       <tr>
+        <th class="memory-conversations-table__th-select" scope="col">
+          <label class="memory-conversations-table__checkbox-wrap">
+            <input
+              type="checkbox"
+              class="memory-conversations-table__checkbox"
+              [checked]="allSelected()"
+              [attr.aria-label]="'memory.conversations.select_all_aria' | translate"
+              (change)="onHeaderCheckboxChange($event)"
+              (click)="$event.stopPropagation()"
+            />
+          </label>
+        </th>
         <th class="memory-conversations-table__th-status" scope="col">
           {{ 'memory.conversations.table.status' | translate }}
         </th>
@@ -22,9 +34,37 @@
     </thead>
     <tbody>
       @for (conv of conversations(); track conv.id) {
-        <tr [class.is-deleted]="conv.deleted">
+        @let selected = isSelected(conv.id);
+        <tr
+          [class.is-deleted]="conv.deleted"
+          [class.is-selected]="selected"
+          class="memory-conversations-table__row"
+          tabindex="0"
+          (click)="onRowClick(conv)"
+          (keydown)="onRowKeydown($event, conv)"
+        >
+          <td class="memory-conversations-table__td-select">
+            <label class="memory-conversations-table__checkbox-wrap">
+              <input
+                type="checkbox"
+                class="memory-conversations-table__checkbox"
+                [checked]="selected"
+                [attr.aria-label]="'memory.conversations.select_row_aria' | translate: { id: conv.id }"
+                (change)="onCheckboxChange($event, conv)"
+                (click)="$event.stopPropagation()"
+                (keydown)="onCheckboxKeydown($event)"
+              />
+            </label>
+          </td>
           <td class="memory-conversations-table__td-status">
-            <div class="memory-status-icons" role="group" [attr.aria-label]="'memory.conversations.table.status' | translate">
+            <button
+              type="button"
+              class="memory-status-icons memory-status-icons--button"
+              [attr.aria-label]="'memory.conversations.open_aria' | translate: { id: conv.id }"
+              [attr.title]="'memory.conversations.open_player' | translate"
+              (click)="onStatusClick($event, conv)"
+              (keydown)="onStatusKeydown($event, conv)"
+            >
               <lucide-icon
                 [img]="conv.channel === 'chat' ? chatIcon : phoneIcon"
                 [size]="14"
@@ -63,7 +103,7 @@
                   [attr.aria-label]="'memory.conversations.status.failed' | translate"
                 />
               }
-            </div>
+            </button>
           </td>
           <td>{{ conv.hour }}</td>
           <td>{{ conv.date }}</td>

@@ -1,0 +1,278 @@
+/* BulkTranscriptionModal v11 · Memory iter 6b
+ * Réplica del spec `Memory/docs/specs/bulk-transcription-modal.md`.
+ * Hero con 3 columnas mutuamente excluyentes + toggle + footer warning.
+ * Anchura modal 560px (spec). Surface y chrome heredados del sc-modal.
+ *
+ * Color tokens: SCDS gana siempre sobre el palette del prototipo
+ * (--sc-bg-primary para CTA, --sc-color-teal-* para accent análisis,
+ * --sc-color-amber-700 para cost cue).
+ */
+
+.bulk-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-500);
+  padding-top: var(--sc-spacing-100);
+}
+
+/* ─── All processed ─────────────────────────────────────── */
+
+.bulk-allprocessed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sc-spacing-200);
+  padding: var(--sc-spacing-500) var(--sc-spacing-200);
+
+  &__icon {
+    color: var(--sc-color-green-500);
+    margin-bottom: var(--sc-spacing-100);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 1.0625rem;
+    font-weight: 600;
+    color: var(--sc-color-gray-900);
+  }
+
+  &__desc {
+    margin: 0;
+    max-width: 36ch;
+    font-size: 0.8125rem;
+    color: var(--sc-color-gray-700);
+  }
+}
+
+/* ─── Hero (3 columnas MECE) ────────────────────────────── */
+
+.bulk-hero {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sc-spacing-200);
+}
+
+.bulk-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--sc-spacing-300) var(--sc-spacing-300) var(--sc-spacing-300);
+  border-radius: 10px;
+  background: var(--sc-color-gray-50);
+  border: 1px solid var(--sc-color-gray-200);
+  transition: background-color 180ms ease, border-color 180ms ease,
+    opacity 180ms ease;
+
+  &--active {
+    border-color: var(--sc-bg-primary);
+    background: var(--sc-bg-primary-subtle);
+  }
+
+  &--muted {
+    opacity: 0.55;
+  }
+
+  &--hint {
+    border-style: dashed;
+  }
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--sc-color-gray-700);
+
+    lucide-icon {
+      color: var(--sc-color-gray-500);
+    }
+  }
+
+  &__value {
+    /* Display number per `.impeccable.md`: 88-112px en bulk hero.
+     * 88px (5.5rem) elegido como lower bound — 3 columnas conviven y un
+     * 112px se pasaría visualmente en modal 560px. Light weight 300
+     * refuerza la sensación "display, no tipográfico de cuerpo". */
+    font-size: 5.5rem;
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--sc-color-gray-900);
+    font-variant-numeric: tabular-nums;
+    transition: opacity 200ms ease-out, transform 200ms ease-out;
+  }
+
+  &__desc {
+    margin: 0;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: var(--sc-color-gray-700);
+    min-height: 32px;
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 20px;
+  }
+}
+
+.bulk-col--active .bulk-col__value {
+  color: var(--sc-bg-primary);
+}
+
+.bulk-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--sc-color-gray-100);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--sc-color-gray-700);
+
+  &--muted {
+    opacity: 0.85;
+  }
+}
+
+/* ─── Toggle "Incluir análisis IA" ──────────────────────── */
+
+.bulk-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-300);
+  border-radius: 10px;
+  background: var(--sc-color-gray-50);
+  border: 1px solid var(--sc-color-gray-200);
+
+  &--locked {
+    background: transparent;
+  }
+
+  &__switch {
+    position: relative;
+    width: 36px;
+    height: 20px;
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 999px;
+    background: var(--sc-color-gray-300);
+    cursor: pointer;
+    transition: background-color 180ms ease;
+
+    &--on {
+      background: var(--sc-bg-primary);
+    }
+
+    &--locked {
+      cursor: not-allowed;
+    }
+
+    &--shake {
+      animation: bulk-shake 320ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: 2px;
+    }
+  }
+
+  &__thumb {
+    position: absolute;
+    top: 50%;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: white;
+    transform: translateY(-50%);
+    transition: transform 180ms ease;
+    box-shadow: var(--sc-shadow-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--sc-color-gray-700);
+  }
+
+  &__switch--on &__thumb {
+    transform: translate(16px, -50%);
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  &__title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--sc-color-gray-900);
+  }
+
+  &__desc {
+    font-size: 0.75rem;
+    color: var(--sc-color-gray-700);
+  }
+}
+
+/* ─── Footer info row (warning costes) ──────────────────── */
+
+.bulk-footer-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: calc(var(--sc-spacing-400) * -1);
+  padding: var(--sc-spacing-200) 0 0;
+  font-size: 0.75rem;
+  color: var(--sc-color-amber-700);
+  opacity: 0;
+  transition: opacity 180ms ease;
+
+  &--visible {
+    opacity: 1;
+  }
+
+  lucide-icon {
+    color: var(--sc-color-amber-700);
+    flex-shrink: 0;
+  }
+
+  strong {
+    font-weight: 600;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ─── Animations ────────────────────────────────────────── */
+
+@keyframes bulk-shake {
+  10%,
+  90% {
+    transform: translateX(-1px);
+  }
+  20%,
+  80% {
+    transform: translateX(2px);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translateX(-3px);
+  }
+  40%,
+  60% {
+    transform: translateX(3px);
+  }
+}

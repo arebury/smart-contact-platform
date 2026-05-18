@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, RotateCcw, Search } from 'lucide-angular';
@@ -16,6 +16,8 @@ import {
   EMPTY_FILTERS,
   type MemoryConversationFilters,
 } from '../../data/conversation-filters.types';
+import { CategoryFilterButtonComponent } from '../category-filter-button/category-filter-button.component';
+import { TypeFilterButtonComponent } from '../type-filter-button/type-filter-button.component';
 
 /**
  * Top-bar de filtros para Memory ConversationsView.
@@ -49,6 +51,8 @@ import {
     MultiSelectComponent,
     DatepickerComponent,
     InputComponent,
+    TypeFilterButtonComponent,
+    CategoryFilterButtonComponent,
   ],
   templateUrl: './conversation-filters.component.html',
   styleUrl: './conversation-filters.component.scss',
@@ -56,6 +60,7 @@ import {
 })
 export class ConversationFiltersComponent {
   readonly filters = model.required<MemoryConversationFilters>();
+  readonly availableAiCategories = input.required<readonly string[]>();
 
   protected readonly serviceOptions = SERVICE_OPTIONS;
   protected readonly groupOptions = GROUP_OPTIONS;
@@ -86,6 +91,14 @@ export class ConversationFiltersComponent {
 
   protected setDestination(destination: string): void {
     this.filters.update((f) => ({ ...f, destination }));
+  }
+
+  protected onTypeFiltersChange(next: MemoryConversationFilters): void {
+    this.filters.set(next);
+  }
+
+  protected onAiCategoriesChange(next: readonly string[]): void {
+    this.filters.update((f) => ({ ...f, aiCategories: next }));
   }
 
   protected onReset(): void {

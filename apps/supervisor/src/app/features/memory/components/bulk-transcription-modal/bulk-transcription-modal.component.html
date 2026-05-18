@@ -1,0 +1,146 @@
+<sc-modal
+  [visible]="visible()"
+  [title]="'memory.bulk_modal.title' | translate"
+  [subtitle]="
+    ('memory.bulk_modal.subtitle' | translate: { n: nSelected() })
+    + (nFilteredOut() > 0
+        ? ' · ' + ('memory.bulk_modal.subtitle_excluded' | translate: { n: nFilteredOut() })
+        : '')
+  "
+  width="560px"
+  (cancelled)="onCancel()"
+>
+  <div class="bulk-body" data-testid="bulk-modal-body">
+    @if (isAllProcessed()) {
+      <div class="bulk-allprocessed">
+        <lucide-icon
+          class="bulk-allprocessed__icon"
+          [img]="checkIcon"
+          [size]="28"
+          aria-hidden="true"
+        />
+        <h3 class="bulk-allprocessed__title">
+          {{ 'memory.bulk_modal.allprocessed_title' | translate }}
+        </h3>
+        <p class="bulk-allprocessed__desc">
+          {{ 'memory.bulk_modal.allprocessed_desc' | translate }}
+        </p>
+      </div>
+    } @else {
+      <div class="bulk-hero">
+        <article
+          class="bulk-col"
+          [class.bulk-col--active]="destination1() > 0"
+          data-testid="bulk-col-1"
+        >
+          <header class="bulk-col__label">
+            <lucide-icon [img]="fileIcon" [size]="14" aria-hidden="true" />
+            <span>{{ destination1LabelKey() | translate }}</span>
+          </header>
+          <div class="bulk-col__value" data-testid="bulk-col-1-value">
+            {{ destination1() > 0 ? destination1() : '—' }}
+          </div>
+          <p class="bulk-col__desc">{{ col1DescKey() | translate }}</p>
+          <div class="bulk-col__chips" aria-hidden="true">
+            @for (chip of col1Chips(); track chip) {
+              <span class="bulk-chip">
+                {{ ('memory.bulk_modal.chips.' + chip) | translate }}
+              </span>
+            }
+          </div>
+        </article>
+
+        <article
+          class="bulk-col"
+          [class.bulk-col--active]="destination2() > 0"
+          [class.bulk-col--hint]="!toggleOn() && (buckets().c_ea + buckets().ch_ea) > 0"
+          data-testid="bulk-col-2"
+        >
+          <header class="bulk-col__label">
+            <lucide-icon [img]="sparkleIcon" [size]="14" aria-hidden="true" />
+            <span>{{ 'memory.bulk_modal.col2.label' | translate }}</span>
+          </header>
+          <div class="bulk-col__value" data-testid="bulk-col-2-value">
+            {{ destination2() > 0 ? destination2() : '—' }}
+          </div>
+          <p class="bulk-col__desc">{{ col2DescKey() | translate }}</p>
+          <div class="bulk-col__chips" aria-hidden="true">
+            @for (chip of col2Chips(); track chip) {
+              <span class="bulk-chip">
+                {{ ('memory.bulk_modal.chips.' + chip) | translate }}
+              </span>
+            }
+          </div>
+        </article>
+
+        <article class="bulk-col bulk-col--muted" data-testid="bulk-col-3">
+          <header class="bulk-col__label">
+            <lucide-icon [img]="skipIcon" [size]="14" aria-hidden="true" />
+            <span>{{ 'memory.bulk_modal.col3.label' | translate }}</span>
+          </header>
+          <div class="bulk-col__value" data-testid="bulk-col-3-value">
+            {{ destination3() > 0 ? destination3() : '—' }}
+          </div>
+          <p class="bulk-col__desc">{{ col3DescKey() | translate }}</p>
+          <div class="bulk-col__chips" aria-hidden="true">
+            @for (chip of col3Chips(); track chip) {
+              <span class="bulk-chip bulk-chip--muted">
+                {{ ('memory.bulk_modal.chips.' + chip) | translate }}
+              </span>
+            }
+          </div>
+        </article>
+      </div>
+
+      <div class="bulk-toggle" [class.bulk-toggle--locked]="toggleLocked()">
+        <button
+          type="button"
+          role="switch"
+          class="bulk-toggle__switch"
+          [class.bulk-toggle__switch--on]="toggleOn()"
+          [class.bulk-toggle__switch--locked]="toggleLocked()"
+          [class.bulk-toggle__switch--shake]="shakeLocked()"
+          [attr.aria-checked]="toggleOn()"
+          [attr.aria-disabled]="toggleLocked()"
+          (click)="onToggleClick()"
+        >
+          <span class="bulk-toggle__thumb">
+            @if (toggleLocked()) {
+              <lucide-icon [img]="lockIcon" [size]="10" aria-hidden="true" />
+            }
+          </span>
+        </button>
+        <div class="bulk-toggle__text">
+          <span class="bulk-toggle__title">
+            {{ 'memory.bulk_modal.toggle.title' | translate }}
+          </span>
+          <span class="bulk-toggle__desc">
+            {{ toggleDescKey() | translate: { n: buckets().c_ea + buckets().ch_ea } }}
+          </span>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="bulk-footer-info" [class.bulk-footer-info--visible]="toProcess() > 0">
+    <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+    <span>
+      <strong class="tabular-nums">{{ toProcess() }}</strong>
+      {{ 'memory.bulk_modal.footer_info' | translate }}
+    </span>
+  </div>
+
+  <div modal-actions>
+    <p-button type="button" severity="secondary" (onClick)="onCancel()">
+      <span>{{ 'memory.bulk_modal.cancel' | translate }}</span>
+    </p-button>
+    <p-button
+      type="button"
+      severity="primary"
+      [disabled]="buttonDisabled()"
+      (onClick)="onConfirm()"
+    >
+      <span>{{ 'memory.bulk_modal.confirm' | translate }}</span>
+    </p-button>
+  </div>
+</sc-modal>

@@ -5,12 +5,16 @@ import { Routes } from '@angular/router';
  * supervision.routes.ts. Migración progresiva desde el prototipo React
  * `arebury/Memory/legacy-react/`. Ver `docs/memory-migration-inventory.md`.
  *
- * Mapeo de las 5 vistas top-level del prototipo:
- *   ''                       → ConversationsPage (vista principal)
- *   'repositorio'            → RepositoryHubPage (TBD)
- *   'repositorio/reglas'     → RulesPage (TBD)
- *   'repositorio/entidades'  → EntitiesPage (TBD)
- *   'repositorio/categorias' → CategoriesPage (TBD)
+ * Decisión S38 (fusión hubs): NO existe pantalla landing `/repositorio`
+ * separada de Memory — las cards IA Memory (Reglas / Categorías /
+ * Entidades) viven en el HUB AED Repositorios global. Aquí Memory expone
+ * sus vistas hijas accesibles vía las cards del HUB AED.
+ *
+ * Mapeo actual:
+ *   ''           → ConversationsPage (vista principal)
+ *   'reglas'     → RulesPage (iter 9a — listado; 9b/c/d siguientes)
+ *   'entidades'  → EntitiesPage (iter 10)
+ *   'categorias' → CategoriesPage (iter 11)
  */
 export const memoryRoutes: Routes = [
   {
@@ -19,5 +23,10 @@ export const memoryRoutes: Routes = [
       import('./pages/conversations/conversations-page.component').then(
         (m) => m.ConversationsPageComponent,
       ),
+  },
+  {
+    path: 'reglas',
+    loadComponent: () =>
+      import('./pages/rules/rules-page.component').then((m) => m.RulesPageComponent),
   },
 ];

@@ -1,17 +1,72 @@
-import type { Conversation } from './conversation.types';
+import type { Conversation, TranscriptionLine } from './conversation.types';
 
 /**
- * Subset representativo de conversaciones mock para la primera iteración
- * de Memory ConversationsView. 15 entries cubriendo combinaciones de
- * estados (con/sin recording, transcription, analysis, failed, multi-rec)
- * + canales (llamada/chat) + direcciones (entrante/saliente) + tipos
- * (interna/externa).
+ * Subset representativo de conversaciones mock para Memory ConversationsView.
+ * 15 entries cubriendo combinaciones de estados (con/sin recording,
+ * transcription, analysis, failed, multi-rec) + canales (llamada/chat) +
+ * direcciones (entrante/saliente) + tipos (interna/externa).
+ *
+ * Iter 5 (S38): se pueblan `transcription` lines para las entries con
+ * `hasTranscription: true` — necesario para el ConversationPlayerModal.
+ * Sin las líneas, los flags mentirían y el modal mostraría siempre el
+ * estado "Transcripción vacía". 6 plantillas reutilizadas por dominio.
  *
  * El prototipo React tiene 156 conversaciones en `data/mockData.ts` con
- * mucho más detalle (recordings completos, transcription lines de varios
- * speakers). Las añadiremos según las necesite cada feature (player
- * modal, transcription view, etc.).
+ * mucho más detalle. Las añadiremos según las necesite cada feature.
  */
+const SOPORTE_AVERIA: readonly TranscriptionLine[] = [
+  { time: '00:00', speaker: 'Agente', text: 'Hola, gracias por contactar. ¿En qué puedo ayudarle?' },
+  { time: '00:05', speaker: 'Cliente', text: 'Llevo dos días sin servicio en casa. Ya he reiniciado el router varias veces y nada.' },
+  { time: '00:18', speaker: 'Agente', text: 'Lamento la incidencia. Veo en el sistema una avería de zona reportada que está afectando a su área.' },
+  { time: '00:34', speaker: 'Cliente', text: 'Esto es inadmisible. Llevo pagando puntualmente desde hace cinco años.' },
+  { time: '00:48', speaker: 'Agente', text: 'Le entiendo perfectamente. Voy a escalar la incidencia a prioridad alta y aplicar una compensación en la próxima factura.' },
+  { time: '01:12', speaker: 'Cliente', text: 'De acuerdo, ¿cuándo tendré servicio?' },
+  { time: '01:18', speaker: 'Agente', text: 'La estimación es restablecer en las próximas seis horas. Le llamamos en cuanto se confirme.' },
+];
+
+const VENTAS_PLAN: readonly TranscriptionLine[] = [
+  { time: '00:00', speaker: 'Agente', text: 'Buenos días, llamo de Smart Contact por su solicitud de información sobre el plan empresarial.' },
+  { time: '00:08', speaker: 'Cliente', text: 'Sí, gracias. Estamos valorando opciones para unos cincuenta usuarios.' },
+  { time: '00:22', speaker: 'Agente', text: 'Para ese volumen el plan Pro encaja bien. Le puedo proponer un descuento del quince por ciento si se contrata anual.' },
+  { time: '00:45', speaker: 'Cliente', text: 'Suena razonable. ¿Podríamos ver una demo?' },
+  { time: '00:52', speaker: 'Agente', text: 'Claro, se la agendo para el viernes a primera hora. Le envío invitación al correo.' },
+];
+
+const SOPORTE_TECNICO: readonly TranscriptionLine[] = [
+  { time: '00:00', speaker: 'Cliente', text: 'Mi equipo no arranca, lleva así desde anoche. Tengo una entrega urgente.' },
+  { time: '00:09', speaker: 'Agente', text: 'Vamos a probar en modo seguro. ¿Puede mantener pulsada la tecla Mayúsculas mientras enciende?' },
+  { time: '00:30', speaker: 'Cliente', text: 'Vale, ahora sí arranca. Veo el escritorio.' },
+  { time: '00:36', speaker: 'Agente', text: 'Perfecto. Voy a escalar a nivel dos para que revisen los logs y eviten que vuelva a pasar.' },
+];
+
+const FACTURACION_DISPUTA: readonly TranscriptionLine[] = [
+  { time: '00:00', speaker: 'Cliente', text: 'En la factura de este mes me han cobrado cuarenta y cinco con cincuenta de más. No lo entiendo.' },
+  { time: '00:10', speaker: 'Agente', text: 'Permítame revisarlo. Veo que ha finalizado la promoción de bienvenida en este ciclo.' },
+  { time: '00:25', speaker: 'Cliente', text: 'Nadie me avisó de eso. Me parece injusto.' },
+  { time: '00:32', speaker: 'Agente', text: 'Tiene razón en que la comunicación no fue clara. Le aplico una bonificación del veinte por ciento durante tres meses.' },
+  { time: '00:55', speaker: 'Cliente', text: 'De acuerdo, acepto.' },
+];
+
+const POSTVENTA_ELOGIO: readonly TranscriptionLine[] = [
+  { time: '00:00', speaker: 'Cliente', text: 'Quería agradecer la atención que recibí la semana pasada. El técnico fue impecable.' },
+  { time: '00:11', speaker: 'Agente', text: 'Muchas gracias por el comentario, se lo trasladaremos al equipo. ¿Hay algo más en lo que pueda ayudarle?' },
+  { time: '00:25', speaker: 'Cliente', text: 'No, solo eso. Seguid así.' },
+];
+
+const CHAT_CONSULTA: readonly TranscriptionLine[] = [
+  { time: '00:00', speaker: 'Speaker 1', text: 'Hola, ¿en qué puedo ayudarle?' },
+  { time: '00:08', speaker: 'Speaker 2', text: 'Hola, quiero saber si vuestro plan Pro tiene integración con CRM.' },
+  { time: '00:15', speaker: 'Speaker 1', text: 'Sí, integra con los principales CRM del mercado. ¿Cuál usáis?' },
+  { time: '00:22', speaker: 'Speaker 2', text: 'Salesforce. Y nos interesa también la API.' },
+  { time: '00:30', speaker: 'Speaker 1', text: 'Perfecto, ambos casos están cubiertos. Le envío documentación al correo.' },
+];
+
+const INTERNA_CONSULTA: readonly TranscriptionLine[] = [
+  { time: '00:00', speaker: 'Agente', text: 'Hola, te llamo por el ticket abierto sobre el cliente VIP.' },
+  { time: '00:07', speaker: 'Cliente', text: 'Sí, dime. ¿Has visto el último intercambio?' },
+  { time: '00:12', speaker: 'Agente', text: 'Sí, propongo que llevemos el caso a comité para acordar la compensación adecuada.' },
+];
+
 export const MOCK_CONVERSATIONS: readonly Conversation[] = [
   {
     hour: '12:50',
@@ -30,6 +85,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasTranscriptionRule: true,
     hasClassificationRule: true,
     aiCategories: ['Soporte Técnico'],
+    transcription: SOPORTE_AVERIA,
     type: 'externa',
     channel: 'llamada',
     direction: 'entrante',
@@ -47,6 +103,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasRecording: true,
     hasTranscription: true,
     hasAnalysis: false,
+    transcription: VENTAS_PLAN,
     type: 'externa',
     channel: 'llamada',
     direction: 'entrante',
@@ -81,6 +138,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasTranscription: true,
     hasAnalysis: true,
     aiCategories: ['Consulta de precio', 'Soporte Técnico'],
+    transcription: CHAT_CONSULTA,
     type: 'externa',
     channel: 'chat',
     direction: 'entrante',
@@ -100,6 +158,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasAnalysis: true,
     hasFailedTranscription: false,
     aiCategories: ['Retención'],
+    transcription: SOPORTE_TECNICO,
     type: 'externa',
     channel: 'llamada',
     direction: 'entrante',
@@ -135,6 +194,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasTranscription: true,
     hasAnalysis: true,
     aiCategories: ['Queja facturación'],
+    transcription: FACTURACION_DISPUTA,
     type: 'externa',
     channel: 'llamada',
     direction: 'entrante',
@@ -156,6 +216,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasRecording: false,
     hasTranscription: true,
     hasAnalysis: false,
+    transcription: CHAT_CONSULTA,
     type: 'externa',
     channel: 'chat',
     direction: 'entrante',
@@ -206,6 +267,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasTranscription: true,
     hasAnalysis: true,
     aiCategories: ['Elogio'],
+    transcription: POSTVENTA_ELOGIO,
     type: 'externa',
     channel: 'llamada',
     direction: 'entrante',
@@ -224,6 +286,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasTranscription: true,
     hasAnalysis: true,
     aiCategories: ['Problema técnico'],
+    transcription: CHAT_CONSULTA,
     type: 'externa',
     channel: 'chat',
     direction: 'entrante',
@@ -242,6 +305,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasTranscription: true,
     hasAnalysis: false,
     deleted: true,
+    transcription: SOPORTE_TECNICO,
     type: 'externa',
     channel: 'llamada',
     direction: 'entrante',
@@ -260,6 +324,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasTranscription: true,
     hasAnalysis: true,
     aiCategories: ['Venta'],
+    transcription: VENTAS_PLAN,
     type: 'externa',
     channel: 'llamada',
     direction: 'saliente',
@@ -281,6 +346,7 @@ export const MOCK_CONVERSATIONS: readonly Conversation[] = [
     hasTranscriptionRule: true,
     hasClassificationRule: true,
     aiCategories: ['Consulta Interna'],
+    transcription: INTERNA_CONSULTA,
     type: 'interna',
     channel: 'llamada',
     direction: 'entrante',

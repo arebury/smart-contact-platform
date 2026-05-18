@@ -14,6 +14,10 @@
     },
     "conversations": {
       "page_title": "Conversaciones",
+      "open_aria": "Abrir conversación {{id}}",
+      "open_player": "Abrir en el reproductor",
+      "select_all_aria": "Seleccionar todas las conversaciones filtradas",
+      "select_row_aria": "Seleccionar conversación {{id}}",
       "table": {
         "status": "Estado",
         "hour": "Hora",
@@ -47,6 +51,216 @@
         "agents_placeholder": "Cualquier agente",
         "reset": "Limpiar filtros"
       }
+    },
+    "type_filter": {
+      "label": "Tipo",
+      "aria_default": "Filtros de tipo y estado",
+      "aria_active": "Filtros de tipo y estado · activos",
+      "panel_title": "Filtros",
+      "reset": "Limpiar",
+      "groups": {
+        "type": "Tipo de conversación",
+        "channel": "Canal",
+        "direction": "Dirección",
+        "rules": "Procesamiento aplicado",
+        "status": "Estado",
+        "multirec": "Multi-grabación"
+      },
+      "types": {
+        "interna": "interna",
+        "externa": "externa"
+      },
+      "channels": {
+        "llamada": "llamada",
+        "chat": "chat"
+      },
+      "directions": {
+        "entrante": "entrante",
+        "saliente": "saliente"
+      },
+      "rules": {
+        "recording": "con grabación",
+        "transcription": "con transcripción",
+        "classification": "con clasificación"
+      },
+      "status": {
+        "only_failed": "solo fallidas"
+      },
+      "multirec": {
+        "only_multi": "solo con varios tramos",
+        "only_partial": "solo con tramos parcialmente transcritos"
+      }
+    },
+    "player": {
+      "label_call": "Llamada",
+      "label_chat": "Chat",
+      "close": "Cerrar",
+      "audio": {
+        "play": "Reproducir",
+        "pause": "Pausar",
+        "back10": "Retroceder 10 segundos",
+        "fwd10": "Avanzar 10 segundos",
+        "seek": "Buscar posición"
+      },
+      "tabs": {
+        "transcription": "Transcripción",
+        "analysis": "Análisis"
+      },
+      "actions": {
+        "analyze": "Análisis",
+        "analyze_no_transcript": "Requiere transcripción",
+        "analyze_done": "Análisis ya realizado",
+        "download_audio": "Descargar audio",
+        "download_chat": "Descargar conversación"
+      },
+      "download_audio_toast": "Descargando audio",
+      "download_chat_toast": "Descargando conversación",
+      "empty": {
+        "no_recording_title": "No hay grabación de esta llamada",
+        "no_recording_desc": "Sin audio no podemos transcribir. Revisa las reglas de grabación si esperabas que se hubiera guardado.",
+        "no_transcription_title": "Sin transcripción",
+        "no_transcription_desc": "Genera el texto para buscar dentro de la conversación y dejar el análisis disponible.",
+        "transcribe_btn": "Transcribir",
+        "transcribing_btn": "Solicitando…",
+        "transcribe_cost": "Genera coste · ~30 s",
+        "transcription_empty_title": "Transcripción vacía",
+        "transcription_empty_desc": "El procesado terminó sin extraer líneas. Suele pasar con audios muy cortos o con silencios largos.",
+        "ready_title": "Lista para analizar",
+        "ready_desc": "Resumen accionable y valoración de sentimiento sobre la transcripción existente.",
+        "ready_btn": "Solicitar análisis",
+        "requesting_btn": "Solicitando…",
+        "ready_cost": "Genera coste · ~10 s",
+        "deadend_title": "Pendiente de transcribir y analizar",
+        "deadend_desc": "El análisis necesita texto. Lanzamos la transcripción y, en cuanto termine, generamos resumen y sentimiento.",
+        "deadend_btn": "Transcribir y analizar",
+        "processing_btn": "Procesando…",
+        "deadend_cost": "Genera coste · transcripción + análisis"
+      },
+      "processing": {
+        "transcribing_title": "Transcribiendo",
+        "transcribing_caption": "Procesa el audio y separa los hablantes. Tarda unos segundos.",
+        "analyzing_title": "Analizando",
+        "analyzing_caption": "Genera resumen y sentimiento a partir de la transcripción."
+      },
+      "transcript": {
+        "count_one": "intervención",
+        "count_other": "intervenciones",
+        "search_placeholder": "Buscar en transcripción",
+        "search_aria": "Buscar en la transcripción",
+        "no_match": "No hay coincidencias para «{{q}}»."
+      },
+      "analysis": {
+        "summary": "Resumen",
+        "sentiment": "Sentimiento",
+        "ai_generated": "Generado por IA",
+        "ai_generated_hint": "Generado automáticamente a partir de la transcripción",
+        "no_summary": "No hay transcripción suficiente para generar un resumen."
+      },
+      "sentiment": {
+        "positive": "Positivo",
+        "positive_summary": "tono general favorable",
+        "neutral": "Neutral",
+        "neutral_summary": "sin sesgo emocional",
+        "negative": "Negativo",
+        "negative_summary": "fricción detectada"
+      }
+    },
+    "bulk": {
+      "transcribe_analyze": "Transcribir y analizar",
+      "mark_read": "Marcar como leídas",
+      "mark_read_toast": "{{n}} conversaciones marcadas como leídas",
+      "coming_soon_toast": "Modal masivo en camino (iter 6b)"
+    },
+    "rules": {
+      "page_title": "Reglas",
+      "new_rule": "Nueva regla",
+      "empty_title": "Aún no hay reglas",
+      "empty_desc": "Las reglas automatizan qué se graba, transcribe y analiza de las conversaciones que entren al sistema.",
+      "empty_cta": "Crear primera regla",
+      "active_title": "Reglas activas · orden de prioridad",
+      "no_active_hint": "Ninguna regla activa. Activa una regla para empezar a aplicarla.",
+      "inactive_title": "Inactivas y borradores",
+      "cols": {
+        "order": "#",
+        "name": "Regla",
+        "scope": "Alcance",
+        "actions": "Acciones",
+        "status": "Estado",
+        "last_modified": "Última mod.",
+        "more": "Más acciones"
+      },
+      "chip": {
+        "recording": "Graba",
+        "transcription": "Transcribe",
+        "classification": "Clasifica con IA"
+      },
+      "status": {
+        "active": "Activa",
+        "inactive": "Inactiva",
+        "draft": "Borrador sin editar",
+        "conflict": "En conflicto"
+      },
+      "menu": {
+        "edit": "Editar",
+        "duplicate": "Duplicar",
+        "activate": "Activar",
+        "deactivate": "Desactivar",
+        "delete": "Eliminar"
+      },
+      "order_updated": "Orden actualizado",
+      "delete_title": "Eliminar regla",
+      "delete_body": "Vas a eliminar «{{name}}». Esta acción no se puede deshacer.",
+      "deleted_toast": "Regla «{{name}}» eliminada"
+    },
+    "category_filter": {
+      "label": "Categorías IA",
+      "aria": "Filtros por categoría IA",
+      "panel_title": "Categorías IA",
+      "clear": "Limpiar",
+      "empty": "Sin categorías aún. Procesa conversaciones con análisis para verlas aquí.",
+      "select_all": "Seleccionar todo",
+      "deselect_all": "Deseleccionar todo"
+    },
+    "bulk_modal": {
+      "title": "Transcribir y analizar",
+      "subtitle": "{{n}} conversaciones seleccionadas",
+      "subtitle_excluded": "{{n}} excluidas (vacías o no recuperables)",
+      "allprocessed_title": "Todo al día",
+      "allprocessed_desc": "Todas las conversaciones seleccionadas ya están procesadas.",
+      "col1": {
+        "label_on": "Transcribir + analizar",
+        "label_off": "Solo transcribir",
+        "desc_has": "Llamadas sin transcribir",
+        "desc_none": "Nada que transcribir"
+      },
+      "col2": {
+        "label": "Solo analizar",
+        "desc_has": "Resumen + sentimiento",
+        "desc_none_eligible": "Nada elegible",
+        "desc_toggle_off_hint": "Activa análisis ↑"
+      },
+      "col3": {
+        "label": "Omitidas",
+        "desc_already": "Ya procesadas",
+        "desc_with_skipped_analysis": "Ya procesadas · análisis desactivado",
+        "desc_zero": "Ninguna"
+      },
+      "chips": {
+        "calls": "Llamadas",
+        "chats": "Chats"
+      },
+      "toggle": {
+        "title": "Incluir análisis IA",
+        "desc_normal": "Resumen y sentimiento",
+        "desc_locked_calls": "Todas las llamadas ya están transcritas",
+        "desc_locked_chats": "Los chats entran directos a análisis"
+      },
+      "footer_info": "conversaciones se procesarán · genera costes",
+      "cancel": "Cancelar",
+      "confirm": "Procesar",
+      "dispatched_toast": "{{n}} conversaciones {{mode}}",
+      "dispatched_with_analysis": "en transcripción + análisis",
+      "dispatched_no_analysis": "en transcripción"
     }
   },
   "common": {

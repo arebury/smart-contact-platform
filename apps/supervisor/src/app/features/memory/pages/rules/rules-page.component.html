@@ -1,0 +1,229 @@
+<sc-page-header
+  titleKey="memory.rules.page_title"
+  [icon]="settingsIcon"
+>
+  <p-button type="button" severity="primary" (onClick)="undefined">
+    <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+    <span>{{ 'memory.rules.new_rule' | translate }}</span>
+  </p-button>
+</sc-page-header>
+
+<div class="page">
+  <div class="page__inner">
+    @if (isEmpty()) {
+      <div class="rules-empty">
+        <h2>{{ 'memory.rules.empty_title' | translate }}</h2>
+        <p>{{ 'memory.rules.empty_desc' | translate }}</p>
+        <p-button type="button" severity="primary" (onClick)="undefined">
+          <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+          <span>{{ 'memory.rules.empty_cta' | translate }}</span>
+        </p-button>
+      </div>
+    } @else {
+      <section class="rules-section">
+        <header class="rules-section__head">
+          <h2>{{ 'memory.rules.active_title' | translate }}</h2>
+          @if (activeRules().length === 0) {
+            <p class="rules-section__hint">
+              {{ 'memory.rules.no_active_hint' | translate }}
+            </p>
+          }
+        </header>
+
+        @if (activeRules().length > 0) {
+          <table class="rules-table">
+            <thead>
+              <tr>
+                <th class="rules-table__th-order" scope="col">
+                  {{ 'memory.rules.cols.order' | translate }}
+                </th>
+                <th scope="col">{{ 'memory.rules.cols.name' | translate }}</th>
+                <th scope="col">{{ 'memory.rules.cols.scope' | translate }}</th>
+                <th class="rules-table__th-actions" scope="col">
+                  {{ 'memory.rules.cols.actions' | translate }}
+                </th>
+                <th class="rules-table__th-status" scope="col">
+                  {{ 'memory.rules.cols.status' | translate }}
+                </th>
+                <th class="rules-table__th-modified" scope="col">
+                  {{ 'memory.rules.cols.last_modified' | translate }}
+                </th>
+                <th class="rules-table__th-kebab" scope="col" aria-label="Acciones"></th>
+              </tr>
+            </thead>
+            <tbody
+              cdkDropList
+              (cdkDropListDropped)="onActiveReorder($event)"
+            >
+              @for (rule of activeRules(); track rule.id; let i = $index) {
+                <tr cdkDrag [cdkDragData]="rule">
+                  <td class="rules-table__td-order">
+                    <span class="rules-handle" aria-label="Reordenar" cdkDragHandle>
+                      <lucide-icon [img]="gripIcon" [size]="14" aria-hidden="true" />
+                      <span class="rules-handle__num">{{ i + 1 }}</span>
+                    </span>
+                  </td>
+                  <td class="rules-table__td-name">
+                    <a href="javascript:void(0)" class="rules-table__name">{{ rule.name }}</a>
+                  </td>
+                  <td class="rules-table__td-scope" [attr.title]="scopeSummary(rule)">
+                    {{ scopeSummary(rule) }}
+                  </td>
+                  <td class="rules-table__td-actions">
+                    <div class="rules-actions-chips">
+                      @if (rule.recording) {
+                        <span
+                          class="rules-action-chip"
+                          [attr.title]="'memory.rules.chip.recording' | translate"
+                          [attr.aria-label]="'memory.rules.chip.recording' | translate"
+                        >
+                          <lucide-icon [img]="micIcon" [size]="12" aria-hidden="true" />
+                        </span>
+                      }
+                      @if (rule.transcripcion) {
+                        <span
+                          class="rules-action-chip"
+                          [attr.title]="'memory.rules.chip.transcription' | translate"
+                          [attr.aria-label]="'memory.rules.chip.transcription' | translate"
+                        >
+                          <lucide-icon [img]="sparklesIcon" [size]="12" aria-hidden="true" />
+                        </span>
+                      }
+                      @if (rule.clasificacion) {
+                        <span
+                          class="rules-action-chip"
+                          [attr.title]="'memory.rules.chip.classification' | translate"
+                          [attr.aria-label]="'memory.rules.chip.classification' | translate"
+                        >
+                          <lucide-icon [img]="alertIcon" [size]="12" aria-hidden="true" />
+                        </span>
+                      }
+                    </div>
+                  </td>
+                  <td class="rules-table__td-status">
+                    <span class="rules-status rules-status--active">
+                      {{ 'memory.rules.status.active' | translate }}
+                    </span>
+                  </td>
+                  <td class="rules-table__td-modified">
+                    {{ formatRelativeDate(rule.lastModified) }}
+                  </td>
+                  <td class="rules-table__td-kebab">
+                    <button
+                      type="button"
+                      class="rules-kebab-btn"
+                      [attr.aria-label]="'memory.rules.cols.more' | translate"
+                      (click)="setMenuTarget(rule); kebabMenu.toggle($event)"
+                    >
+                      <lucide-icon [img]="kebabIcon" [size]="14" aria-hidden="true" />
+                    </button>
+                    <p-menu
+                      #kebabMenu
+                      [model]="buildMenuItems(rule)"
+                      [popup]="true"
+                      appendTo="body"
+                      styleClass="rules-kebab-menu"
+                    />
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </section>
+
+      @if (inactiveOrDraftRules().length > 0) {
+        <hr class="rules-divider" aria-hidden="true" />
+
+        <section class="rules-section rules-section--secondary">
+          <header class="rules-section__head">
+            <h2>{{ 'memory.rules.inactive_title' | translate }}</h2>
+          </header>
+
+          <table class="rules-table">
+            <thead>
+              <tr>
+                <th class="rules-table__th-order" scope="col" aria-hidden="true"></th>
+                <th scope="col">{{ 'memory.rules.cols.name' | translate }}</th>
+                <th scope="col">{{ 'memory.rules.cols.scope' | translate }}</th>
+                <th class="rules-table__th-actions" scope="col">
+                  {{ 'memory.rules.cols.actions' | translate }}
+                </th>
+                <th class="rules-table__th-status" scope="col">
+                  {{ 'memory.rules.cols.status' | translate }}
+                </th>
+                <th class="rules-table__th-modified" scope="col">
+                  {{ 'memory.rules.cols.last_modified' | translate }}
+                </th>
+                <th class="rules-table__th-kebab" scope="col" aria-label="Acciones"></th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (rule of inactiveOrDraftRules(); track rule.id) {
+                <tr [class.rules-row--draft]="rule.isDraft" class="rules-row-inactive">
+                  <td class="rules-table__td-order"></td>
+                  <td class="rules-table__td-name">
+                    <a href="javascript:void(0)" class="rules-table__name">{{ rule.name }}</a>
+                  </td>
+                  <td class="rules-table__td-scope" [attr.title]="scopeSummary(rule)">
+                    {{ scopeSummary(rule) }}
+                  </td>
+                  <td class="rules-table__td-actions">
+                    <div class="rules-actions-chips">
+                      @if (rule.recording) {
+                        <span class="rules-action-chip">
+                          <lucide-icon [img]="micIcon" [size]="12" aria-hidden="true" />
+                        </span>
+                      }
+                      @if (rule.transcripcion) {
+                        <span class="rules-action-chip">
+                          <lucide-icon [img]="sparklesIcon" [size]="12" aria-hidden="true" />
+                        </span>
+                      }
+                      @if (rule.clasificacion) {
+                        <span class="rules-action-chip">
+                          <lucide-icon [img]="alertIcon" [size]="12" aria-hidden="true" />
+                        </span>
+                      }
+                    </div>
+                  </td>
+                  <td class="rules-table__td-status">
+                    @if (rule.isDraft) {
+                      <span class="rules-status rules-status--draft">
+                        {{ 'memory.rules.status.draft' | translate }}
+                      </span>
+                    } @else {
+                      <span class="rules-status rules-status--inactive">
+                        {{ 'memory.rules.status.inactive' | translate }}
+                      </span>
+                    }
+                  </td>
+                  <td class="rules-table__td-modified">
+                    {{ formatRelativeDate(rule.lastModified) }}
+                  </td>
+                  <td class="rules-table__td-kebab">
+                    <button
+                      type="button"
+                      class="rules-kebab-btn"
+                      [attr.aria-label]="'memory.rules.cols.more' | translate"
+                      (click)="setMenuTarget(rule); kebabMenuInactive.toggle($event)"
+                    >
+                      <lucide-icon [img]="kebabIcon" [size]="14" aria-hidden="true" />
+                    </button>
+                    <p-menu
+                      #kebabMenuInactive
+                      [model]="buildMenuItems(rule)"
+                      [popup]="true"
+                      appendTo="body"
+                      styleClass="rules-kebab-menu"
+                    />
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </section>
+      }
+    }
+  </div>
+</div>

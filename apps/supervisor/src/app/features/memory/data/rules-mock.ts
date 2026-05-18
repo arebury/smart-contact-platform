@@ -1,0 +1,107 @@
+import type { Rule } from './rule.types';
+
+/**
+ * Mock representativo de reglas Memory · iter 9a.
+ *
+ * 6 entries cubriendo estados visuales:
+ *   - 3 reglas activas con prioridad ordenada (1/2/3).
+ *   - 1 inactiva.
+ *   - 1 borrador sin editar (Copia de regla #1, isDraft=true).
+ *   - 1 con conflict (mismo alcance y acción contradictoria con otra).
+ *
+ * Alcances variados para que el resumen "Servicio X, 2 grupos, 12 agentes"
+ * tenga texto representativo. Tipos repartidos entre recording /
+ * transcription / classification.
+ */
+export const MOCK_RULES: readonly Rule[] = [
+  {
+    id: 1,
+    type: 'recording',
+    name: 'Grabar Soporte Técnico',
+    description: 'Graba todas las llamadas entrantes del servicio de soporte.',
+    servicios: ['Soporte Técnico'],
+    grupos: ['Soporte Nivel 1', 'Soporte Nivel 2'],
+    agentes: [],
+    recording: true,
+    transcripcion: false,
+    clasificacion: false,
+    active: true,
+    priority: 1,
+    lastModified: '2026-05-17T10:30:00Z',
+  },
+  {
+    id: 2,
+    type: 'transcription',
+    name: 'Transcribir Ventas Comercial >60s',
+    description: 'Solo conversaciones de ventas con duración relevante.',
+    servicios: ['Ventas Comercial'],
+    grupos: ['ACD outbound', 'Campaigns'],
+    agentes: [],
+    recording: true,
+    transcripcion: true,
+    clasificacion: false,
+    active: true,
+    priority: 2,
+    lastModified: '2026-05-16T15:45:00Z',
+  },
+  {
+    id: 3,
+    type: 'classification',
+    name: 'Clasificar VIP con IA',
+    description: 'Análisis completo (resumen + sentimiento + categorías) para clientes VIP.',
+    servicios: ['Postventa'],
+    grupos: ['Clientes vip'],
+    agentes: ['María García', 'Luis Sánchez'],
+    recording: true,
+    transcripcion: true,
+    clasificacion: true,
+    active: true,
+    priority: 3,
+    lastModified: '2026-05-18T09:12:00Z',
+  },
+  {
+    id: 4,
+    type: 'recording',
+    name: 'Grabar Demo C2CB (pausada)',
+    description: 'Regla pausada — campaña terminó.',
+    servicios: ['DV: Smart Contact'],
+    grupos: ['ACD Demo C2CB'],
+    agentes: [],
+    recording: true,
+    transcripcion: false,
+    clasificacion: false,
+    active: false,
+    lastModified: '2026-04-29T14:00:00Z',
+  },
+  {
+    id: 5,
+    type: 'recording',
+    name: 'Copia de Grabar Soporte Técnico',
+    description: 'Graba todas las llamadas entrantes del servicio de soporte.',
+    servicios: ['Soporte Técnico'],
+    grupos: ['Soporte Nivel 1', 'Soporte Nivel 2'],
+    agentes: [],
+    recording: true,
+    transcripcion: false,
+    clasificacion: false,
+    active: false,
+    isDraft: true,
+    duplicatedFromId: 1,
+    lastModified: '2026-05-18T11:00:00Z',
+  },
+  {
+    id: 6,
+    type: 'transcription',
+    name: 'Transcribir Atención al Cliente',
+    description: 'Transcribe todo el flujo de Atención al Cliente.',
+    servicios: ['Atención al Cliente'],
+    grupos: ['Soporte Nivel 1'],
+    agentes: [],
+    recording: false,
+    transcripcion: true,
+    clasificacion: false,
+    active: true,
+    priority: 4,
+    lastModified: '2026-05-15T08:20:00Z',
+  },
+];

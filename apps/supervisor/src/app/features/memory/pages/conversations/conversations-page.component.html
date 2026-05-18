@@ -4,8 +4,44 @@
   <div class="page__inner">
     <sc-memory-conversation-filters
       [filters]="filters()"
+      [availableAiCategories]="availableAiCategories()"
       (filtersChange)="onFiltersChange($event)"
     />
-    <sc-memory-conversation-table [conversations]="conversations()" />
+    <sc-memory-conversation-table
+      [conversations]="conversations()"
+      [selectedIds]="selectedIds()"
+      [allSelected]="allFilteredSelected()"
+      (conversationOpen)="onConversationOpen($event)"
+      (selectionToggled)="onSelectionToggled($event)"
+      (allToggled)="onAllToggled()"
+    />
   </div>
 </div>
+
+<sc-bulk-action-bar
+  [count]="selectedCount()"
+  [entity]="bulkEntity"
+  (clear)="onClearSelection()"
+>
+  <p-button type="button" severity="secondary" (onClick)="onBulkMarkRead()">
+    <lucide-icon [img]="markReadIcon" [size]="14" aria-hidden="true" />
+    <span>{{ 'memory.bulk.mark_read' | translate }}</span>
+  </p-button>
+  <p-button type="button" severity="primary" (onClick)="onBulkTranscribe()">
+    <lucide-icon [img]="bulkIcon" [size]="14" aria-hidden="true" />
+    <span>{{ 'memory.bulk.transcribe_analyze' | translate }}</span>
+  </p-button>
+</sc-bulk-action-bar>
+
+<sc-memory-conversation-player-modal
+  [visible]="playerOpen()"
+  [conversation]="playerConversation()"
+  (closed)="onPlayerClose()"
+/>
+
+<sc-memory-bulk-transcription-modal
+  [visible]="bulkModalOpen()"
+  [selected]="bulkSnapshot()"
+  (closed)="onBulkModalClose()"
+  (confirmed)="onBulkModalConfirm($event)"
+/>

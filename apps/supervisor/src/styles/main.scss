@@ -151,6 +151,206 @@ table.table {
 }
 
 /*
+ * Memory · TypeFilter popover panel (iter 7).
+ * PrimeNG `<p-popover>` con `appendTo: 'body'` renderiza el contenido
+ * fuera del scope Angular del TypeFilterButtonComponent — los estilos
+ * scoped no aplican. Por eso vive aquí en main.scss (unscoped).
+ *
+ * styleClass="memory-type-filter-popover" en el <p-popover> es el hook.
+ */
+.memory-type-filter-popover {
+  .type-filter-panel {
+    width: 280px;
+  }
+
+  .type-filter-panel__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    border-bottom: 1px solid var(--sc-border-default);
+
+    h3 {
+      margin: 0;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--sc-text-primary);
+    }
+  }
+
+  .type-filter-panel__reset {
+    background: transparent;
+    border: 0;
+    padding: 4px 8px;
+    border-radius: var(--sc-radius-100);
+    color: var(--sc-text-link);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 200ms ease-out;
+
+    &:hover {
+      background: var(--sc-bg-primary-subtle);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: 1px;
+    }
+  }
+
+  .type-filter-panel__body {
+    max-height: 420px;
+    overflow-y: auto;
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+  }
+
+  .type-filter-panel__divider {
+    border: 0;
+    border-top: 1px solid var(--sc-border-default);
+    margin: var(--sc-spacing-200) 0;
+  }
+
+  .type-filter-group {
+    margin-bottom: var(--sc-spacing-300);
+
+    &--last {
+      margin-bottom: 0;
+    }
+
+    h4 {
+      margin: 0 0 var(--sc-spacing-100) 0;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--sc-text-secondary);
+    }
+  }
+
+  .type-filter-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-100);
+    padding: 4px 0;
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: var(--sc-text-primary);
+
+    input[type='checkbox'] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--sc-bg-primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    &:hover span {
+      color: var(--sc-text-primary);
+    }
+  }
+}
+
+/* Memory · CategoryFilter popover panel (iter 8). */
+.memory-category-filter-popover {
+  .category-filter-panel {
+    width: 320px;
+  }
+
+  .category-filter-panel__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    border-bottom: 1px solid var(--sc-border-default);
+
+    h3 {
+      margin: 0;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--sc-text-primary);
+    }
+  }
+
+  .category-filter-panel__clear {
+    background: transparent;
+    border: 0;
+    padding: 4px 8px;
+    border-radius: var(--sc-radius-100);
+    color: var(--sc-text-link);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 200ms ease-out;
+
+    &:hover {
+      background: var(--sc-bg-primary-subtle);
+    }
+  }
+
+  .category-filter-panel__body {
+    max-height: 240px;
+    overflow-y: auto;
+    padding: var(--sc-spacing-100) 0;
+  }
+
+  .category-filter-panel__empty {
+    margin: 0;
+    padding: var(--sc-spacing-300);
+    text-align: center;
+    font-size: 0.8125rem;
+    color: var(--sc-text-secondary);
+  }
+
+  .category-filter-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+    padding: var(--sc-spacing-100) var(--sc-spacing-300);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: var(--sc-text-primary);
+    transition: background-color 200ms ease-out;
+
+    &:hover {
+      background: var(--sc-bg-elevated);
+    }
+
+    &--selected {
+      background: var(--sc-bg-primary-subtle);
+    }
+
+    input[type='checkbox'] {
+      width: 14px;
+      height: 14px;
+      accent-color: var(--sc-bg-primary);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+  }
+
+  .category-filter-panel__foot {
+    border-top: 1px solid var(--sc-border-default);
+    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+  }
+
+  .category-filter-panel__toggle-all {
+    width: 100%;
+    padding: var(--sc-spacing-100);
+    border: 0;
+    background: transparent;
+    border-radius: var(--sc-radius-100);
+    font-size: 0.8125rem;
+    color: var(--sc-text-primary);
+    cursor: pointer;
+    transition: background-color 200ms ease-out;
+
+    &:hover {
+      background: var(--sc-bg-elevated);
+    }
+  }
+}
+
+/*
  * Honour `prefers-reduced-motion`: drop the press transform entirely so
  * users with motion sensitivity get a calm interface.
  */
