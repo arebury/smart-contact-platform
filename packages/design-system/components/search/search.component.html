@@ -12,6 +12,7 @@
     [placeholder]="placeholder()"
     [disabled]="disabled()"
     [attr.name]="name() ?? null"
+    <!-- eslint-disable-next-line @angular-eslint/template/no-autofocus -->
     [attr.autofocus]="autoFocus() ? true : null"
     [value]="value()"
     (input)="onInput($event)"

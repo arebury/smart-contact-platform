@@ -88,7 +88,13 @@ export class SearchComponent implements ControlValueAccessor {
   readonly value = model<string>('');
 
   // ─── Events ────────────────────────────────────────────────────────
-  /** Re-emite keydown del input para que el consumer maneje atajos (Esc, Enter, etc). */
+  /**
+   * Re-emite keydown del input para que el consumer maneje atajos (Esc, Enter, etc).
+   * El nombre `keydown` conflicta con el evento DOM nativo del host por diseño —
+   * el output reproduce semánticamente el evento del input interno, no del host.
+   * Renombrarlo rompería 9 consumers AED (list-pages + picker-search).
+   */
+  // eslint-disable-next-line @angular-eslint/no-output-native
   readonly keydown = output<KeyboardEvent>();
 
   // ─── Derived / internal ────────────────────────────────────────────

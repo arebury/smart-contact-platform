@@ -20,7 +20,7 @@
           "error",
           {
             "type": "attribute",
-            "prefix": "aed",
+            "prefix": ["sc", "aed"],
             "style": "camelCase"
           }
         ],
@@ -28,7 +28,7 @@
           "error",
           {
             "type": "element",
-            "prefix": "aed",
+            "prefix": ["sc", "aed"],
             "style": "kebab-case"
           }
         ],
