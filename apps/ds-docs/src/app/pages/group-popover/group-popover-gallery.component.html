@@ -16,7 +16,7 @@
       No abre popover. Cell visible pero pasiva.
     </p>
     <div class="gallery__row">
-      <sc-group-popover [groups]="$any(empty)" />
+      <sc-group-popover [groups]="empty" />
     </div>
   </section>
 
@@ -26,7 +26,7 @@
       Hover sobre la cell → ves los 2 nombres. Focus con teclado también abre.
     </p>
     <div class="gallery__row">
-      <sc-group-popover [groups]="$any(twoGroups)" />
+      <sc-group-popover [groups]="twoGroups" />
     </div>
   </section>
 
@@ -36,7 +36,7 @@
       Solo se renderizan los primeros 5; el resto va en el tail counter. Esc cierra el popover.
     </p>
     <div class="gallery__row">
-      <sc-group-popover [groups]="$any(manyGroups)" />
+      <sc-group-popover [groups]="manyGroups" />
     </div>
   </section>
 

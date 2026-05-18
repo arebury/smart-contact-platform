@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { LucideAngularModule, X } from 'lucide-angular';
 
-import type { LabelColor } from '@features/admin/labels/data/labels-data';
+import type { LabelColor } from './label-chip.types';
 
 export interface LabelChipModel {
   readonly name: string;

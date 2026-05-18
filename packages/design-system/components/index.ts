@@ -65,6 +65,10 @@ export { ModalComponent } from './modal/modal.component';
 
 export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';
+export type { LabelColor } from './label-chip/label-chip.types';
+export { LABEL_COLORS } from './label-chip/label-chip.types';
+
+export type { GroupRef } from './group-popover/group-popover.types';
 
 export { PageHeaderComponent } from './page-header/page-header.component';
 

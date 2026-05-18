@@ -15,7 +15,7 @@
     <p class="gallery__hint">Las 10 entradas de la <code>LabelColor</code> palette tal y como las consume AED.</p>
     <div class="gallery__row gallery__row--wrap">
       @for (l of colors; track l.name) {
-        <sc-label-chip [label]="$any(l)" />
+        <sc-label-chip [label]="l" />
       }
     </div>
   </section>
@@ -27,10 +27,10 @@
       formularios.
     </p>
     <div class="gallery__row gallery__row--wrap">
-      <sc-label-chip [label]="$any(redLabel)" size="sm" />
-      <sc-label-chip [label]="$any(redLabel)" size="xs" />
-      <sc-label-chip [label]="$any(greenLabel)" size="sm" />
-      <sc-label-chip [label]="$any(greenLabel)" size="xs" />
+      <sc-label-chip [label]="redLabel" size="sm" />
+      <sc-label-chip [label]="redLabel" size="xs" />
+      <sc-label-chip [label]="greenLabel" size="sm" />
+      <sc-label-chip [label]="greenLabel" size="xs" />
     </div>
   </section>
 
@@ -44,7 +44,7 @@
       @for (l of colors; track l.name) {
         @if (!removed().includes(l.name)) {
           <sc-label-chip
-            [label]="$any(l)"
+            [label]="l"
             [removable]="true"
             (remove)="onRemove(l.name)"
           />

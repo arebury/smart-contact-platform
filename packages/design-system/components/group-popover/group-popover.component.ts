@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { GroupRef } from '@shared/data/groups-ref';
+import type { GroupRef } from './group-popover.types';
 
 const VISIBLE_LIMIT = 5;
 const HOVER_LEAVE_DELAY_MS = 150;

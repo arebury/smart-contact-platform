@@ -1,23 +1,14 @@
+import { LABEL_COLORS, type LabelColor } from '@shared/components';
+
+export type { LabelColor };
+export { LABEL_COLORS };
+
 export interface Label {
   readonly id: number;
   readonly name: string;
   readonly color: LabelColor;
   readonly description?: string;
 }
-
-/** Closed set of 8 categorical colors. Maps 1:1 to `--sc-label-<color>-*` tokens. */
-export type LabelColor = 'gray' | 'red' | 'orange' | 'amber' | 'green' | 'teal' | 'blue' | 'purple';
-
-export const LABEL_COLORS: readonly LabelColor[] = [
-  'gray',
-  'red',
-  'orange',
-  'amber',
-  'green',
-  'teal',
-  'blue',
-  'purple',
-];
 
 /**
  * Picker swatches consumed by `<sc-color-dot-picker>`. Colors point at the

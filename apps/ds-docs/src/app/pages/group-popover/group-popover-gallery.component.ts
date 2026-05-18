@@ -1,13 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { GroupPopoverComponent } from '@sc/design-system/components/group-popover/group-popover.component';
+import {
+  GroupPopoverComponent,
+} from '@sc/design-system/components/group-popover/group-popover.component';
+import type { GroupRef } from '@sc/design-system/components/group-popover/group-popover.types';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
-/**
- * `GroupRef` vive en `@shared/data/groups-ref` (AED). Para evitar acople en
- * ds-docs definimos un shape local y lo casteamos via `$any()` en template.
- * La deuda de mover `GroupRef` a SCDS queda en `inconsistencies-backlog.md`.
- */
 @Component({
   selector: 'sc-ds-docs-group-popover-gallery',
   standalone: true,
@@ -16,21 +14,21 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupPopoverGalleryComponent {
-  protected readonly empty: readonly { id: string; name: string }[] = [];
+  protected readonly empty: readonly GroupRef[] = [];
 
-  protected readonly twoGroups: readonly { id: string; name: string }[] = [
-    { id: 'g1', name: 'Marketing' },
-    { id: 'g2', name: 'Soporte' },
+  protected readonly twoGroups: readonly GroupRef[] = [
+    { id: 1, name: 'Marketing', active: true },
+    { id: 2, name: 'Soporte', active: true },
   ];
 
-  protected readonly manyGroups: readonly { id: string; name: string }[] = [
-    { id: 'g1', name: 'Marketing' },
-    { id: 'g2', name: 'Soporte' },
-    { id: 'g3', name: 'Comercial' },
-    { id: 'g4', name: 'Outbound' },
-    { id: 'g5', name: 'Producto' },
-    { id: 'g6', name: 'Operaciones' },
-    { id: 'g7', name: 'Finanzas' },
-    { id: 'g8', name: 'Legal' },
+  protected readonly manyGroups: readonly GroupRef[] = [
+    { id: 1, name: 'Marketing', active: true },
+    { id: 2, name: 'Soporte', active: true },
+    { id: 3, name: 'Comercial', active: true },
+    { id: 4, name: 'Outbound', active: true },
+    { id: 5, name: 'Producto', active: true },
+    { id: 6, name: 'Operaciones', active: true },
+    { id: 7, name: 'Finanzas', active: true },
+    { id: 8, name: 'Legal', active: true },
   ];
 }

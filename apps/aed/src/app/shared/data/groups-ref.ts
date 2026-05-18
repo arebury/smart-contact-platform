@@ -1,15 +1,13 @@
 /**
  * Cross-feature roster of group references. Lives here (shared/) instead of
  * inside the Agents feature because Users (sidebar id→name resolution) and
- * Agents (group multi-select) both need the same list. The Groups feature
- * itself owns the full `Group` records in its store; this is the lightweight
- * `{ id, name, active }` shape used for join displays.
+ * Agents (group multi-select) both need the same list. El tipo `GroupRef`
+ * vive en SCDS (consume por `<sc-group-popover>`); aquí solo re-exportamos
+ * y proveemos el dataset concreto que usa AED.
  */
-export interface GroupRef {
-  readonly id: number;
-  readonly name: string;
-  readonly active: boolean;
-}
+import type { GroupRef } from '@shared/components';
+
+export type { GroupRef };
 
 export const AVAILABLE_GROUPS_REF: readonly GroupRef[] = [
   { id: 1, name: 'ACD Demo C2CB', active: true },
