@@ -10,6 +10,149 @@
 
 ---
 
+## 2026-05-18 · Session 37 — Memory ConversationsView iter 2 + iter 3 (Estado + sticky + ConversationFilters top-bar)
+
+> Continuación directa de S36 — Rafa pidió seguir sin pausa. Dos
+> iteraciones consecutivas sobre ConversationsView Memory.
+>
+> **Highlights:**
+> - **Iter 2**: columna Estado con cluster icons (channel + recording +
+>   transcription + analysis + failed, coloreados por eje), sticky header,
+>   hover row.
+> - **Iter 3**: ConversationFilters top-bar grid 6 columnas — Servicios,
+>   Fecha, Origen, Destino, Grupos ACD, Agentes. **Estrena en producción**
+>   `<sc-multi-select>` y `<sc-datepicker>` (ambos 0 uses AED hasta hoy).
+> - **Filtrado reactivo sin botón** (mientras escribes/seleccionas, tabla
+>   actualiza vía `computed filteredConversations`).
+> - **Deuda introducida**: bundle initial +200 KB tras introducir
+>   MultiSelect/DatePicker PrimeNG modules. Budget bumpeado 1.5→1.8 MB.
+>   Entry #31 en inconsistencies-backlog para investigar con
+>   source-map-explorer.
+
+### Worked on
+
+- **Iter 2 — Columna Estado + sticky header + hover row (commit `8d22148`)**:
+  - `ConversationTableComponent`: añadida columna Estado al inicio (132px
+    width) con cluster horizontal de icons Lucide por eje:
+    - `Phone`/`MessageSquare` (gris muted) según `channel`.
+    - `Mic` (text-default) si `hasRecording`.
+    - `FileText` (info-500 azul) si `hasTranscription`.
+    - `Sparkles` (warning-500 amber) si `hasAnalysis`.
+    - `AlertTriangle` (danger-500 rojo) si `hasFailedTranscription`.
+  - **Decisión: 3 icons Lucide separados** en lugar de los 6 SVG custom
+    del prototipo React (Phone/PhoneTranscription/PhoneTranscriptionAnalysis
+    × chat). Razones: consistencia con AED (Lucide canonical), modularidad
+    (cada eje boolean independiente), maintainability. Si Marta pide
+    fidelidad 1:1 visual, replicamos los SVG custom.
+  - Sticky header: `thead th { position: sticky; top: 0; z-index: 5;
+    background; box-shadow inset bottom 1px }`. Scrollport es `.page`
+    overflow-y auto del shell AED.
+  - Hover row: `tbody tr:hover:not(.is-deleted) { background:
+    var(--sc-bg-elevated) }` con transition 120ms.
+  - i18n keys nuevas: `memory.conversations.table.status` +
+    `memory.conversations.status.{recording,transcription,analysis,failed}`.
+  - Verificación Playwright: 10 headers (era 9), row 1 (llamada full)
+    con channel+recording+transcription+analysis, row 4 (chat) con
+    channel+transcription+analysis, row 6 (failed) con
+    channel+recording+failed, sticky position confirmado, 0 errores.
+
+- **Iter 3 — ConversationFilters top-bar (commit `7f83d1f`)**:
+  - `data/conversation-filters.types.ts`: `MemoryConversationFilters`
+    interface readonly + `EMPTY_FILTERS` const.
+  - `data/conversation-filter-options.ts`: `SERVICE_OPTIONS` (5),
+    `GROUP_OPTIONS` (9), `AGENT_OPTIONS` (9) extraídos del mock prototipo.
+  - `state/conversations.store.ts`: + signal `filters` +
+    `setFilters`/`resetFilters` + computed `filteredConversations` con
+    `matchesFilters` aplicando los 6 ejes (services intersection,
+    groups intersection, agents intersection sobre origin, origin
+    case-insensitive contains, destination case-insensitive contains,
+    date match por `dd/mm/yyyy` string compare componentes).
+  - `components/conversation-filters/`: ConversationFiltersComponent
+    standalone con `model.required<MemoryConversationFilters>` two-way
+    binding. Grid 6 cols → responsive 3 cols < 1280px → 2 cols < 768px.
+  - **3 multi-selects + 1 datepicker + 2 inputs + 1 botón reset**. Sin
+    botón search (filtrado reactivo). Botón reset usa `RotateCcw` Lucide.
+  - **Decisión: filter por fecha single en lugar de date range**. El
+    prototipo usaba `dateRange: string` (labels), `sc-datepicker` v1
+    solo single. Pivot pragmático — si Marta pide range, escalamos.
+  - Page integration: tabla recibe `filteredConversations` (no
+    `conversations`), filters bound al store via `(filtersChange)`.
+  - Imports SCDS directos al archivo (no barrel) en
+    ConversationFiltersComponent como intento conservador de
+    tree-shaking. **No funcionó** — bundle creció +200 KB igual
+    (los PrimeNG modules MultiSelect/DatePicker entran al initial chunk).
+  - Spread `[...filters().services]` en template para adaptar readonly
+    state a `unknown[]` mutable que esperan los componentes
+    SCDS multi-select. Semántica readonly preservada.
+  - i18n keys nuevas: `memory.conversations.filters.{services,date,origin,
+    destination,groups,agents}_{label,placeholder}` + `filters.reset`.
+  - Verificación Playwright funcional: 15 rows inicial → filter Services
+    "Soporte Técnico" → 3 rows (Ana Martínez × 2 incluyendo deleted +
+    Laura Díaz) → reset → 15 rows. 0 errores console.
+
+- **Deuda registrada (#31 inconsistencies-backlog)**:
+  - Bundle initial 1.42 MB → 1.62 MB (+200 KB) tras iter 3.
+  - Causa hipótesis: `MultiSelectModule` + `DatePickerModule` PrimeNG no
+    tree-shakeables (sideEffects en sus package.json).
+  - Mitigación inmediata: budget bumpeado 1.5 → 1.8 MB error en
+    angular.json. Warning aspiracional sigue en 750 kB.
+  - Investigación pendiente sesión futura: source-map-explorer sobre
+    el initial chunk para identificar exactamente qué módulos se
+    promovieron. Si la causa es PrimeNG side-effects, considerar
+    dynamic `import()` dentro de chunk Memory.
+
+### Métricas finales S37
+
+- **Commits**: 3 (`8d22148` iter 2, `7f83d1f` iter 3, + commit final cierre).
+- **Archivos creados**: 5 (filters component 3-archivo + 2 data files).
+- **Archivos modificados**: 8 (table component 3-archivo + page + store + i18n + angular.json budget + backlog).
+- **Líneas añadidas**: ~511 insertions netas (iter 2 + iter 3).
+- **Wrappers SCDS estrenados** (primer uso real en monorepo): 2
+  (`<sc-multi-select>`, `<sc-datepicker>`). `<sc-input>` ya tenía 21 uses
+  AED, este es uno más.
+- **Componentes nuevos Memory-specific**: 1 (ConversationFiltersComponent;
+  ConversationTableComponent ya existía de iter 1).
+- **Bundle AED prod**: 1.62 MB initial (+200 KB vs pre-S37 1.42 MB).
+- **Backlog inconsistencies**: +1 entry (#31 bundle PrimeNG eager).
+
+### Decisiones clave S37
+
+1. **3 icons Lucide separados ≠ 6 SVG custom del prototipo**. Pierde
+   fidelidad pixel-perfect pero gana modularidad, consistencia con AED
+   y mantenibilidad. Reversible si Marta pide replicar.
+2. **Filter por fecha single (no range)** en iter 3 porque
+   `sc-datepicker` v1 solo soporta single. Pragmático — escalable si
+   trigger real lo pide.
+3. **Filtrado reactivo sin botón search**. El botón Search del prototipo
+   era cosmético (onChange ya disparaba filtrado). Eliminado por
+   redundante.
+4. **Budget bumpeado vs investigar a fondo**: priorizar momentum
+   (entregar iter 3 funcional) sobre debugging perfeccionista
+   (source-map-explorer). Deuda anotada con criterios concretos para
+   resolverla cuando haya tiempo.
+5. **Checkbox selección NO va en iter 2** (plan original lo incluía):
+   sin bulk actions detrás, un checkbox confunde al usuario porque
+   parece que va a hacer algo. Lo movemos a iter 6 (junto a bulk actions
+   y BulkTranscriptionModal). Memoria `prefer_structural_over_bandaid`
+   aplicada al revés: no añadas UI sin acción real detrás.
+
+Last commit en main: `7f83d1f` (iter 3 ConversationFilters). + commit
+final de cierre tras este SESSION-LOG entry.
+
+### Plan iteraciones restantes ConversationsView
+
+| Iteración | Qué añade | Tiempo estimado |
+|---|---|---|
+| **4** | Filtros por columna (sticky filter row con RecordingFilter, TimeRangeFilter, DateRangePicker per-column, service column search) | 2-3h |
+| **5** | `ConversationPlayerModal` al click en fila (audio + transcript + summary + sentiment tabs). Gap nuevo: `<sc-audio-player>` (cocinar wrapper o HTML `<audio>` nativo — decisión Rafa). | 3-4h |
+| **6** | Bulk actions (checkbox selección + `<sc-bulk-action-bar>` overlay + BulkTranscriptionModal). | 2-3h |
+| **7** | (Opcional) Optimización bundle (resolver #31): source-map-explorer + dynamic imports si aplica. | 1-2h |
+
+Tras iter 6, ConversationsView estará funcionalmente equivalente al
+prototipo React. Después: RepositoryHub + Rules + Entities + Categories.
+
+---
+
 ## 2026-05-18 · Session 36 — Memory ConversationsView iteración 1 (tabla densa funcional)
 
 > Continuación directa de S35 — Rafa pidió seguir sin pausa. Sesión corta

@@ -3,10 +3,13 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
-> 2. Lee la entry **Session 36** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
->    ConversationsView iteración 1: tabla densa 9 columnas + 15 mock + signal
->    store. Patrón AED reusado. Plan iteraciones 2-6 anotado.
-> 2b. Lee la entry **Session 35** entera — backup React + rename apps/aed →
+> 2. Lee la entry **Session 37** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    ConversationsView iter 2 (Estado + sticky + hover) + iter 3
+>    (ConversationFilters top-bar 6 cols, estrena sc-multi-select +
+>    sc-datepicker). Deuda bundle #31 anotada.
+> 2b. Lee la entry **Session 36** entera — iter 1 ConversationsView (tabla
+>    densa 9 columnas + 15 mock + signal store, patrón AED reusado).
+> 2c. Lee la entry **Session 35** entera — backup React + rename apps/aed →
 >    apps/supervisor + scaffolding Memory feature module + inventario.
 > 3. Lee la entry Session 34 para contexto previo (.btn global eliminado +
 >    2 refactors Figma 1:1 + regla pragmática consolidada).
@@ -35,6 +38,26 @@
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
+
+---
+
+## Estado al cerrar (Session 37, 2026-05-18)
+
+**Hitos clave de Session 37** (3 commits, continuación directa de S36):
+
+- ✅ **Iter 2 ConversationsView — Columna Estado + sticky + hover** (commit `8d22148`):
+  - Cluster icons coloreados por eje (channel + recording + transcription + analysis + failed).
+  - 3 icons Lucide separados (decisión sparring vs 6 SVG custom del prototipo).
+  - Sticky header al scroll, hover row suave.
+- ✅ **Iter 3 ConversationsView — ConversationFilters top-bar** (commit `7f83d1f`):
+  - Grid 6 cols responsive: Servicios + Fecha + Origen + Destino + Grupos ACD + Agentes.
+  - **Estrena `<sc-multi-select>` y `<sc-datepicker>`** (primer uso real en monorepo, ambos 0 uses AED hasta hoy).
+  - Filtrado reactivo sin botón, store con computed `filteredConversations`.
+  - Deuda introducida: bundle initial +200 KB (PrimeNG modules eager). Budget bumpeado 1.5 → 1.8 MB. Entry #31 en inconsistencies-backlog para investigar con source-map-explorer.
+
+**Próxima sesión arranca con**: Iter 4 (filtros por columna sticky-row) o Iter 5 (ConversationPlayerModal — gap nuevo `<sc-audio-player>`). Ver plan completo en `SESSION-LOG.md` entry S37 sección "Plan iteraciones restantes".
+
+Last commit en main: `7f83d1f` (iter 3 ConversationFilters). + commit final de cierre tras este NEXT-SESSION-PLAN entry.
 
 ---
 
