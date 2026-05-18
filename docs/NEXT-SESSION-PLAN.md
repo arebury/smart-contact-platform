@@ -4,11 +4,14 @@
 >
 > 1. Lee ESTE archivo completo.
 > 2. Lee la entry **Session 38** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
->    Memory iters 5/6a/6b/7/8/9a/9b + Bloque 0 deuda + decisión B fusión hubs.
->    Sesión muy larga, cubre player modal, bulk action bar, bulk transcription
->    modal v11, filter buttons (Type + Category), Marcar como leídas, listado
->    Rules + drag-drop + kebab + delete confirm. Inventory §10 +5 entries
->    diferidos + §11 NUEVA con inconsistencias entre docs Memory.
+>    Memory migration CERRADA funcionalmente (mock). 11 commits temáticos
+>    cubriendo: Player Modal, Bulk Action Bar + Bulk Transcription Modal v11,
+>    Bloque 0 deuda visual, Type/Category filter buttons, "Marcar como leídas",
+>    Rules listado completo + drag-drop + kebab + delete + constructor 3 tipos
+>    + draft + detección conflictos, Entities listado + form Create/Edit,
+>    Categories listado + form Create/Edit, HUB AED extendido con cards IA
+>    Memory (decisión B materializada). Inventory §10 = 14 entries totales
+>    de diferidos + §11 NUEVA con inconsistencias entre docs Memory.
 > 2b. Lee la entry **Session 37** entera —
 >    ConversationsView iter 2 (Estado + sticky + hover) + iter 3
 >    (ConversationFilters top-bar 6 cols, estrena sc-multi-select +
@@ -47,33 +50,71 @@
 
 ---
 
-## Estado al cerrar (Session 38, 2026-05-18)
+## Estado al cerrar (Session 38, 2026-05-18) — Memory migration funcional CERRADA
 
-**Hitos clave de Session 38** (5-6 commits temáticos en cierre):
+**11 commits temáticos a `main`**. Todas las iter del plan ejecutadas:
 
-- ✅ **Iter 5 ConversationPlayerModal**: sc-modal + audio bar simulado
-  (back10/play/fwd10/scrub) + tabs custom + state machine 8 estados.
+### ConversationsView
+- ✅ **Iter 5 ConversationPlayerModal**: audio simulado + tabs +
+  state machine 8 estados.
 - ✅ **Iter 6a Bulk selection (Audit A5)**: row click toggle selección,
-  status icon = affordance abre modal, `<sc-bulk-action-bar>` overlay.
-- ✅ **Iter 6b BulkTranscriptionModal v11**: 3 columnas MECE + toggle
-  locked + state machine 6 escenarios C1-C6 (invariante verificada).
-- ✅ **Bloque 0 limpiar deuda iter 5/6**: hero 40→88px (impeccable), 5
-  box-shadows hardcoded → tokens, 9 transitions 120→200ms, tokens
-  inventados → reales.
-- ✅ **Iter 7 TypeFilterButton**: popover anchored, 6 grupos checkboxes,
-  dot accent en trigger cuando divergente del default.
-- ✅ **Iter 8 CategoryFilter + Marcar leídas**: badge count, Marcar
-  como leídas en bulk-bar (decisión 15.46).
-- ✅ **Iter 9a Rules listado**: tabla 7 cols + 2 secciones (Activas/
-  Inactivas+Borradores) + status badges (active/inactive/draft).
-- ✅ **Iter 9b Drag-drop + kebab + delete**: CDK DragDrop, p-menu popup,
-  ConfirmHostService danger, recompactar prioridades 1..N.
-- ✅ **Decisión B fusionar hubs**: Memory Repository → HUB AED.
-  Cuando Reglas/Categorías/Entidades estén migradas → cards al
-  `RepositoriosHubPageComponent` AED. §8 inventory.
+  status icon = affordance abre modal, `<sc-bulk-action-bar>`.
+- ✅ **Iter 6b BulkTranscriptionModal v11**: 3 columnas MECE, toggle
+  locked, state machine C1-C6 (invariante verificada).
+- ✅ **Bloque 0 deuda visual**: hero 40→88px (impeccable), 5 shadows
+  hardcoded → tokens, 9 transitions 120→200ms, tokens inventados → reales.
+- ✅ **Iter 7 TypeFilterButton**: popover 6 grupos checkboxes, dot accent.
+- ✅ **Iter 8 CategoryFilter + "Marcar como leídas"** (decisión 15.46).
 
-**Próxima sesión arranca con**: Iter 9c (constructor 3 builders) —
-sesión larga ~4-5h. Specs en `Memory/docs/specs/rule-constructor-update.md`.
+### Rules
+- ✅ **Iter 9a Listado**: tabla 7 cols + 2 secciones (Activas/Inactivas+Borradores).
+- ✅ **Iter 9b**: drag-drop CDK + p-menu kebab + delete confirm danger +
+  recompactar prioridades.
+- ✅ **Iter 9c-1 RuleBuilder Recording**: shell + bloques Metadatos +
+  Alcance (3 dim AND con conector Y) + Grabación. Resumen prosa.
+- ✅ **Iter 9c-2 Transcripción + AI + tipos Class/Trans**: 3 tipos en
+  un único componente + dropdown "Nueva regla" con 3 opciones.
+- ✅ **Iter 9d-1 Duplicación + Borrador sin editar**: kebab "Duplicar"
+  crea copia con prefijo + flag isDraft + banner ámbar + descartar.
+- ✅ **Iter 9d-2 Detección conflictos**: badge "En conflicto" rojo +
+  popover con winner por priority (arriba = más prioridad).
+
+### Entities + Categories
+- ✅ **Iter 10a EntitiesPage**: 2 secciones (User + System read-only
+  con lock) + delete confirm.
+- ✅ **Iter 10b EntityFormModal**: Create/Edit unificado, 18 tipos,
+  type=list con valores flat (synonyms granulares diferidos §10 #12).
+- ✅ **Iter 11a CategoriesPage**: listado tabla 7 cols + duplicar +
+  delete.
+- ✅ **Iter 11b CategoryFormModal**: Create/Edit con name (min 3
+  unique) + description (min 10) + group + isActive. Sección "Reglas
+  que la usan" read-only (CategoryRuleLinking interactivo diferido §10 #13).
+
+### Arquitectura
+- ✅ **Decisión B fusionar hubs**: Memory Repository → HUB AED.
+  Materializada en post-vistas: cards "Reglas IA"/"Entidades IA"/
+  "Clasificación IA" del `RepositoriosHubPageComponent` AED ahora
+  apuntan a `/conversaciones/reglas`, `/conversaciones/entidades`,
+  `/conversaciones/categorias`. RuleBuilder enlaces "Ver repositorio"
+  → `/admin/repositorios` en nueva pestaña.
+
+### Estado funcional final
+
+| Ruta | Estado |
+|---|---|
+| `/conversaciones` | ✅ Tabla + filtros + bulk + 2 modals + Marcar leídas |
+| `/conversaciones/reglas` | ✅ Listado + drag-drop + kebab CRUD + conflictos |
+| `/conversaciones/reglas/nueva?type=…` y `/:id` | ✅ Constructor 3 tipos + draft banner |
+| `/conversaciones/entidades` | ✅ Listado 2 secciones + Create/Edit modal |
+| `/conversaciones/categorias` | ✅ Listado + Create/Edit modal + linked rules read-only |
+| `/admin/repositorios` HUB AED | ✅ Cards IA → rutas Memory reales |
+
+**Verificación**: 49 cases Playwright across iter 5-11b. Type check
+verde + lint verde en cada commit.
+
+**Próxima sesión arranca con**: dispatch real backend cuando llegue
+o las iters diferidas §10 si Marta/Rafa las priorizan. Memory frontend
+mock está cerrado funcionalmente.
 
 ---
 

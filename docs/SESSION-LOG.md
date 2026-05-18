@@ -10,10 +10,12 @@
 
 ---
 
-## 2026-05-18 · Session 38 — Memory iters 5/6/7/8/9a/9b + Bloque 0 deuda + decisión B fusión hubs
+## 2026-05-18 · Session 38 — Memory migration completa (iters 5–11b + Bloque 0 + decisión B fusión hubs + post-vistas)
 
-> Sesión larga: 6 iters Memory + bloque deuda visual + decisión arquitectónica
-> sobre fusión Memory Repository ↔ HUB AED Repositorios.
+> **Sesión MUY larga: 11 commits temáticos.** Cierra toda la migración
+> funcional de Memory desde el prototipo React al monorepo Angular +
+> SCDS. Las 4 vistas top-level operativas + HUB AED extendido +
+> decisión arquitectónica B (fusión hubs) ejecutada end-to-end.
 >
 > **Highlights:**
 > - **Iter 5**: ConversationPlayerModal completo (audio simulado + tabs
@@ -40,24 +42,62 @@
 >   Repositorios. NO existe pantalla landing separada. Cuando Reglas/
 >   Categorías/Entidades estén migradas → añadir 3 cards al
 >   `RepositoriosHubPageComponent` AED. Anotado §8 inventory.
+> - **Iter 9c-1/9c-2 RuleBuilder**: constructor de reglas completo
+>   con 3 tipos (Recording/Transcription/Classification), 3 bloques
+>   condicionales (Metadatos · Alcance 3-dim con conector "Y" ·
+>   Grabación/Transcripción/AI según tipo). Resumen prosa
+>   recalculado en tiempo real. Rutas `/conversaciones/reglas/nueva`
+>   y `/:id`. Dropdown "Nueva regla" con 3 opciones.
+> - **Iter 9d-1 Duplicación + Borrador sin editar**: kebab "Duplicar"
+>   crea copia con prefijo "Copia de", `isDraft: true`, toggle
+>   activar bloqueado con tooltip. Constructor muestra banner ámbar
+>   persistente + "Descartar copia". Guardar retira flag.
+> - **Iter 9d-2 Detección conflictos**: 2 reglas activas mismo type
+>   con alcance solapado → badge "En conflicto" rojo. Click abre
+>   popover con lista de reglas conflictivas + winner por priority
+>   ("arriba en la lista = más prioridad").
+> - **Iter 10a/10b Entities**: listado 2 secciones (User editables +
+>   System inmutables read-only con lock icon) + delete confirm
+>   danger. EntityFormModal unificado Create+Edit con 18 tipos,
+>   validación nombre min 3 + unique + type list con valores flat
+>   (synonyms granulares diferidos §10 #12).
+> - **Iter 11a/11b Categories**: listado tabla 7 cols + duplicar +
+>   delete. CategoryFormModal Create+Edit con name (min 3 unique) +
+>   description (min 10 chars) + group opcional + isActive toggle.
+>   Sección "Reglas que la usan" read-only (CategoryRuleLinking
+>   interactivo diferido §10 #13).
+> - **Post-vistas**: HUB AED cards "Reglas IA"/"Entidades IA"/
+>   "Clasificación IA" repuntan a rutas `/conversaciones/*` reales
+>   (antes placeholder `/admin/*-ia`). RuleBuilder enlaces "Ver
+>   repositorio" → `/admin/repositorios` en nueva pestaña.
 
 ### Métricas finales S38
 
-- **Commits**: 5-6 temáticos en cierre (player + bulk + bloque 0 + filtros +
-  rules + docs).
-- **Archivos creados**: 4 components dirs + rule.types + rules-mock +
-  rules.store + rules-page + nuevas i18n + 2 docs entries.
-- **Archivos modificados**: 16 (conversation-table/filters/page +
-  conversations.store + i18n es.json + main.scss + memory.routes +
-  conversations-mock + inventory + NEXT-SESSION-PLAN + SESSION-LOG).
-- **Wrappers SCDS estrenados**: 0 nuevos (`<sc-modal>` ya en 2 uses,
-  `<sc-bulk-action-bar>` ya en 6 uses). `<sc-audio-player>` diferido
-  hasta segundo consumer.
+- **Commits**: **11 temáticos** a `main`:
+  - `641628f` S38 expansion (player + bulk + filtros + rules listado).
+  - `886ba6d` docs decisión B + §10/§11 + reglas 26-28.
+  - `09d656a` Iter 9c-1 RuleBuilder shell.
+  - `8b39ef3` Iter 9c-2 Transcripción + AI + Class.
+  - `7f2f9b0` Iter 9d-1 duplicación + Borrador.
+  - `233cc52` Iter 9d-2 detección conflictos.
+  - `69f6726` Iter 10a EntitiesPage listado.
+  - `63ff791` Iter 11a CategoriesPage listado.
+  - `5b93aa5` Post-vistas HUB AED.
+  - `6cba7da` Iter 10b EntityFormModal.
+  - `5ced745` Iter 11b CategoryFormModal.
+- **Archivos creados nuevos**: 30+ (4 modales + 4 components filter +
+  3 stores + 3 pages + 4 types + 3 mocks + i18n blocks).
+- **Wrappers SCDS estrenados**: 0 nuevos. `<sc-modal>` × 5 nuevos uses
+  (Player + Bulk + EntityForm + CategoryForm + ConfirmHost). `<sc-bulk-action-bar>`
+  × 1 nuevo use (Memory). `<sc-multi-select>` y `<sc-datepicker>` × 2
+  uses cada (filtros + scope dimensions).
 - **Memorias nuevas** (3): `feedback_iter_closing_summary`,
   `feedback_confirm_before_deps`, `feedback_memory_docs_complete_set`.
 - **Reglas operativas nuevas** NEXT-SESSION-PLAN: 26, 27, 28.
-- **Inventory §10** (5 nuevas): sticky toast, hint "en proceso",
-  hint multi-tramo, eyebrow ACCIÓN MASIVA, error "Ver fallidas".
+- **Inventory §10** (14 entries totales · +9 nuevas S38): sticky toast,
+  hint "en proceso", hint multi-tramo, eyebrow ACCIÓN MASIVA, error
+  "Ver fallidas", Ver repositorio (resuelto post-vistas), DataExportImport,
+  synonyms granulares, CategoryRuleLinking, templates predefinidos.
 - **Inventory §11 NUEVA**: tabla viva inconsistencias entre docs Memory.
   Entry A — filtrado items en proceso (`logica-de-conteo.md` vs
   `decisiones.md`).
@@ -85,31 +125,78 @@
 
 ### Verificación Playwright S38
 
-- Iter 5: 4 cases full state machine ✓
-- Iter 6a: 7 cases (row click no abre modal, status icon sí, bar
-  visible/cuenta, select-all, clear, CTA toast) ✓
+**Total: 49 cases pasados, 0 errores consola.**
+
+- Iter 5: 4 cases full state machine ConversationPlayer ✓
+- Iter 6a: 7 cases (row click no abre modal · status icon sí · bar
+  visible/cuenta · select-all · clear · CTA toast) ✓
 - Iter 6b: 6 cases C1-C6 invariante d1+d2+d3=procesables ✓
 - Bloque 0: hero font-size medido `getComputedStyle` = 88px exact ✓
-- Iter 7: 5 cases (popover 6 grupos, desmarcar interna deja 13 rows,
-  "solo fallidas" deja 1, reset vuelve a 15, dot accent) ✓
+- Iter 7: 5 cases (popover 6 grupos · desmarcar interna deja 13 rows ·
+  "solo fallidas" deja 1 · reset vuelve a 15 · dot accent) ✓
 - Iter 8: 7 cases (CategoryFilter + Marcar leídas) ✓
-- Iter 9a: 5 cases (2 secciones, 4+2 rows, status badges) ✓
-- Iter 9b: 3 cases (kebab abre p-menu, desactivar recompacta prios,
+- Iter 9a: 5 cases (2 secciones · 4+2 rows · status badges) ✓
+- Iter 9b: 3 cases (kebab abre p-menu · desactivar recompacta prios ·
   delete confirm danger) ✓
+- Iter 9c-1: 8 cases (shell + 3 bloques + 3 dimensiones + 2 conectores
+  Y + resumen prosa + create + edit con datos cargados) ✓
+- Iter 9c-2: 5 cases (3 tipos + bloque AI + chips + dropdown 3 opciones) ✓
+- Iter 9d-1: 5 cases (duplicar +1 · Activar disabled · banner · save
+  retira flag · descartar elimina) ✓
+- Iter 9d-2: 3 cases (badges conflict · popover winner · regla menor
+  priority gana) ✓
+- Iter 10a: 4 cases (2 secciones + 4+11 rows + system sin kebab + delete) ✓
+- Iter 10b: 6 cases (modal abre + validación + type list + crear + edit) ✓
+- Iter 11a: 3 cases (6 cats + duplicar + delete) ✓
+- Iter 11b: 5 cases (modal Nueva + validación nombre/desc + duplicate +
+  crear · edit carga datos) ✓
+- Post-vistas: 4 cases (HUB AED renderiza · Reglas IA presente · rutas
+  Memory accesibles · Ver repositorio → /admin/repositorios) ✓
 
-Last commit en main: pendiente.
+Last commit en main: `5ced745` (iter 11b). + commit final de cierre.
+
+### Estado funcional al cierre S38
+
+Memory queda **funcionalmente completo en mock**. 4 vistas top-level
+operativas con CRUD básico vía rutas Memory dentro del shell Supervisor:
+
+| Ruta | Estado |
+|---|---|
+| `/conversaciones` | ✅ Tabla + 6 filtros top-bar + 2 filter buttons (Type + Category) + bulk action bar + 2 modals (Player + Bulk Transcription v11) + "Marcar como leídas" |
+| `/conversaciones/reglas` | ✅ Listado tabla 7 cols + 2 secciones + drag-drop + kebab (Editar/Duplicar/Activar/Eliminar) + delete confirm danger + detección conflictos con popover ganador |
+| `/conversaciones/reglas/nueva?type=…` y `/:id` | ✅ Constructor 3 tipos (Recording/Transcription/Classification) + 5 bloques condicionales + 3 dimensiones alcance + resumen prosa + draft banner |
+| `/conversaciones/entidades` | ✅ Listado 2 secciones (User + System read-only con lock) + EntityFormModal Create/Edit 18 tipos + type list values |
+| `/conversaciones/categorias` | ✅ Listado tabla 7 cols + duplicar + CategoryFormModal Create/Edit + sección linked rules read-only |
+| `/admin/repositorios` (HUB AED) | ✅ Cards "Reglas IA" / "Entidades IA" / "Clasificación IA" → rutas Memory reales (decisión B materializada) |
 
 ### Plan próxima sesión
 
-1. **Iter 9c — Constructor 3 builders** (sesión larga ~4-5h).
-   Specs `Memory/docs/specs/rule-constructor-update.md` (alcance +
-   grabación + transcripción). Rutas `/conversaciones/reglas/nueva` +
-   `/:id`.
-2. **Iter 9d** — Duplicación "Borrador sin editar" + detección
-   conflictos.
-3. **Iter 10** — EntityManagement.
-4. **Iter 11** — CategoriesManagement + RuleLinking.
-5. **Post-vistas** — extender HUB AED con 3 cards IA Memory.
+**Memory frontend mock está cerrado.** Próximos hitos son:
+
+1. **Producción real / dispatch backend** (cuando el endpoint real
+   exista — § 10 inventory items #1-#9):
+   - Chains canónicos según `Guidelines.md §4` (queue + useEffect,
+     NO setTimeout con closure stale).
+   - Sticky toasts persistentes ("Generando..." `duration: Infinity`).
+   - Estado `processingIds` en stores + filtrado defensivo bulk.
+   - Hint multi-tramo en bulk modal cuando aparezcan tramos parciales.
+   - Toast error "Ver fallidas" + chip toolbar + filtro permanente.
+2. **Iter futuras Memory si trigger** (§10 inventory items #12-#14):
+   - Synonyms granulares por valor list (EntityFormModal).
+   - CategoryRuleLinking interactivo bidireccional (refactor 3-piezas).
+   - Templates predefinidos en CategoryFormModal.
+3. **Decisión Rafa+Marta** (§11 inventory):
+   - Entry A: filtrado items en proceso — `logica-de-conteo.md` dice
+     "deseleccionar antes del modal" vs `decisiones.md` dice "modal
+     muestra 'Excluye K'". Hoy seguimos logica-de-conteo.
+4. **Switch Netlify** memoryplus3 → site `aedmigration` cuando
+   Memory pase a producción (ya configurado el deploy).
+5. **Mapa estratégico vigente** (eje 1-2-2b-6-7 del plan):
+   - Bootstrap Variables Custom collection en Figma SC (6 divergencias).
+   - Workflow Figma ↔ código con Marta.
+   - Figma Code Connect Kit Pro ↔ SCDS.
+   - Audit `❖ Panel` Figma SC → desbloquea section-card refactor.
+   - PrimeOne upgrade dry-run cuando salga release.
 
 ---
 
