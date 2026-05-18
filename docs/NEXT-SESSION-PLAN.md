@@ -3,7 +3,13 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
-> 2. Lee la entry **Session 37** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+> 2. Lee la entry **Session 38** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    Memory iters 5/6a/6b/7/8/9a/9b + Bloque 0 deuda + decisión B fusión hubs.
+>    Sesión muy larga, cubre player modal, bulk action bar, bulk transcription
+>    modal v11, filter buttons (Type + Category), Marcar como leídas, listado
+>    Rules + drag-drop + kebab + delete confirm. Inventory §10 +5 entries
+>    diferidos + §11 NUEVA con inconsistencias entre docs Memory.
+> 2b. Lee la entry **Session 37** entera —
 >    ConversationsView iter 2 (Estado + sticky + hover) + iter 3
 >    (ConversationFilters top-bar 6 cols, estrena sc-multi-select +
 >    sc-datepicker). Deuda bundle #31 anotada.
@@ -38,6 +44,36 @@
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
+
+---
+
+## Estado al cerrar (Session 38, 2026-05-18)
+
+**Hitos clave de Session 38** (5-6 commits temáticos en cierre):
+
+- ✅ **Iter 5 ConversationPlayerModal**: sc-modal + audio bar simulado
+  (back10/play/fwd10/scrub) + tabs custom + state machine 8 estados.
+- ✅ **Iter 6a Bulk selection (Audit A5)**: row click toggle selección,
+  status icon = affordance abre modal, `<sc-bulk-action-bar>` overlay.
+- ✅ **Iter 6b BulkTranscriptionModal v11**: 3 columnas MECE + toggle
+  locked + state machine 6 escenarios C1-C6 (invariante verificada).
+- ✅ **Bloque 0 limpiar deuda iter 5/6**: hero 40→88px (impeccable), 5
+  box-shadows hardcoded → tokens, 9 transitions 120→200ms, tokens
+  inventados → reales.
+- ✅ **Iter 7 TypeFilterButton**: popover anchored, 6 grupos checkboxes,
+  dot accent en trigger cuando divergente del default.
+- ✅ **Iter 8 CategoryFilter + Marcar leídas**: badge count, Marcar
+  como leídas en bulk-bar (decisión 15.46).
+- ✅ **Iter 9a Rules listado**: tabla 7 cols + 2 secciones (Activas/
+  Inactivas+Borradores) + status badges (active/inactive/draft).
+- ✅ **Iter 9b Drag-drop + kebab + delete**: CDK DragDrop, p-menu popup,
+  ConfirmHostService danger, recompactar prioridades 1..N.
+- ✅ **Decisión B fusionar hubs**: Memory Repository → HUB AED.
+  Cuando Reglas/Categorías/Entidades estén migradas → cards al
+  `RepositoriosHubPageComponent` AED. §8 inventory.
+
+**Próxima sesión arranca con**: Iter 9c (constructor 3 builders) —
+sesión larga ~4-5h. Specs en `Memory/docs/specs/rule-constructor-update.md`.
 
 ---
 
@@ -284,6 +320,14 @@ Tiempo: 2-4h. Requiere acceso al repo Memory (no está en monorepo).
 **🆕 Nueva regla S33** (memoria `critical-sparring-partner`):
 
 20. **Crítica constructiva por defecto en planes/decisiones complejas**. 5-step protocol: assumptions, counterpoints, reasoning, alternatives, correction. NO agree por defecto. Para tareas mecánicas (rename, mover archivo, escribir componente con API clara): aplicar criterio y ejecutar sin ceremonia.
+
+**🆕 Nueva regla S38** (memoria `memory-roadmap-no-limbo`):
+
+26. **Memory roadmap siempre vivo — no limbo**. Toda funcionalidad del prototipo React que se descarte/postergue durante la migración (v1/v2, post-rollout, fuera de alcance iter, "lo haremos cuando") → entry inmediato en `docs/memory-migration-inventory.md §10 Diferidos post-v1 / post-rollout` con origen + versión + trigger explícito de reapertura. Sin tabla viva, los descartes se evaporan. Análogo a `feedback_track_inconsistencies` (deuda DS) pero para producto Memory.
+
+27. **Resumen estructurado al cierre de cada iter** (memoria `iter-closing-summary`): al cerrar cualquier bloque (iter, refactor, bug fix gordo) escribir 4 puntos breves — qué hice / qué verifiqué (con casuísticas) / qué herramientas usé / qué riesgo queda pendiente. Verificación proporcional al cambio: UI → Playwright, lógica → tsc + tests, typo → solo lint.
+
+28. **Confirmar antes de instalar deps nuevas** (memoria `confirm-before-deps`): cualquier `npm install <paquete>` nuevo requiere confirmación Rafa con: (a) qué problema resuelve, (b) por qué no resuelve con stack actual, (c) bundle impact. No aplica a `npx <tool>` para scripts tmp que se borran después. Reverter una dep mal elegida es costoso.
 
 ---
 

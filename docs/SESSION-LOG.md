@@ -10,6 +10,109 @@
 
 ---
 
+## 2026-05-18 · Session 38 — Memory iters 5/6/7/8/9a/9b + Bloque 0 deuda + decisión B fusión hubs
+
+> Sesión larga: 6 iters Memory + bloque deuda visual + decisión arquitectónica
+> sobre fusión Memory Repository ↔ HUB AED Repositorios.
+>
+> **Highlights:**
+> - **Iter 5**: ConversationPlayerModal completo (audio simulado + tabs
+>   Transcripción/Análisis + state machine 8 estados: Processing/Decision/
+>   Terminal/Active). Réplica spec `referencia-ui.md §2`.
+> - **Iter 6a**: selección múltiple (checkbox column + row click toggle
+>   selección · Audit A5: status icon es el affordance para abrir modal).
+>   `<sc-bulk-action-bar>` overlay.
+> - **Iter 6b**: BulkTranscriptionModal v11 — 3 columnas MECE + toggle
+>   locked + warning footer + state machine 6 escenarios C1-C6.
+> - **Bloque 0** (deuda): hero number bulk 40→88px (impeccable spec) +
+>   5 box-shadows hardcoded → tokens + 9 transitions sub-rango → 200ms +
+>   tokens inventados → tokens reales.
+> - **Iter 7**: TypeFilterButton + popover (6 grupos checkboxes: Tipo/
+>   Canal/Dirección/Procesamiento/Estado/Multi-grabación).
+> - **Iter 8**: CategoryFilterButton + popover categorías IA + acción
+>   "Marcar como leídas" en bulk-action-bar (decisión 15.46 Memory).
+> - **Iter 9a**: Listado Rules — tabla 7 cols + 2 secciones
+>   (Activas ordenables / Inactivas+Borradores) + estados visuales.
+> - **Iter 9b**: drag-drop priorización CDK + kebab p-menu (Activar/
+>   Desactivar/Eliminar) + delete confirm danger via ConfirmHostService +
+>   recompactar prioridades 1..N tras desactivar/eliminar.
+> - **Decisión B** (arquitectura): Memory Repository SE FUSIONA en HUB AED
+>   Repositorios. NO existe pantalla landing separada. Cuando Reglas/
+>   Categorías/Entidades estén migradas → añadir 3 cards al
+>   `RepositoriosHubPageComponent` AED. Anotado §8 inventory.
+
+### Métricas finales S38
+
+- **Commits**: 5-6 temáticos en cierre (player + bulk + bloque 0 + filtros +
+  rules + docs).
+- **Archivos creados**: 4 components dirs + rule.types + rules-mock +
+  rules.store + rules-page + nuevas i18n + 2 docs entries.
+- **Archivos modificados**: 16 (conversation-table/filters/page +
+  conversations.store + i18n es.json + main.scss + memory.routes +
+  conversations-mock + inventory + NEXT-SESSION-PLAN + SESSION-LOG).
+- **Wrappers SCDS estrenados**: 0 nuevos (`<sc-modal>` ya en 2 uses,
+  `<sc-bulk-action-bar>` ya en 6 uses). `<sc-audio-player>` diferido
+  hasta segundo consumer.
+- **Memorias nuevas** (3): `feedback_iter_closing_summary`,
+  `feedback_confirm_before_deps`, `feedback_memory_docs_complete_set`.
+- **Reglas operativas nuevas** NEXT-SESSION-PLAN: 26, 27, 28.
+- **Inventory §10** (5 nuevas): sticky toast, hint "en proceso",
+  hint multi-tramo, eyebrow ACCIÓN MASIVA, error "Ver fallidas".
+- **Inventory §11 NUEVA**: tabla viva inconsistencias entre docs Memory.
+  Entry A — filtrado items en proceso (`logica-de-conteo.md` vs
+  `decisiones.md`).
+
+### Decisiones clave S38
+
+1. **Audit A5 — row click toggle selección** (no abre modal). El
+   cluster de status icons es el affordance EXPLÍCITO para abrir
+   ConversationPlayerModal. Replicado del prototipo React.
+2. **Decisión B fusión hubs**: Memory Repository → HUB AED. Evita
+   2 "Repositorio(s)" en la app. Anotada §8 inventory.
+3. **Hero number bulk 88px** (lower bound del rango impeccable 88-112).
+   3 columnas conviven en modal 560px, 112 se pasaría visualmente.
+4. **Sentiment palette tokens SCDS** (no hex prototipo). Refuerza
+   `feedback_migration_safety`: SCDS gana siempre.
+5. **§11 nueva**: tabla viva de inconsistencias entre docs Memory
+   que requieren decisión Rafa+Marta. Entry A documenta interpretación
+   divergente sobre filtrado items en proceso.
+6. **Iter 9 partido en 9a-d**: alcance real 8-10h, partición
+   pragmática. 9a (listado) + 9b (drag-drop+delete) + 9c (constructor
+   3 builders) + 9d (duplicación+conflictos).
+7. **Bloque 0 antes de seguir vistas nuevas**: deuda visual de iter
+   5/6 ya replicaría en cada vista futura. Atajar deuda temprano es
+   10× más barato que tardío (lección del audit React 84 findings).
+
+### Verificación Playwright S38
+
+- Iter 5: 4 cases full state machine ✓
+- Iter 6a: 7 cases (row click no abre modal, status icon sí, bar
+  visible/cuenta, select-all, clear, CTA toast) ✓
+- Iter 6b: 6 cases C1-C6 invariante d1+d2+d3=procesables ✓
+- Bloque 0: hero font-size medido `getComputedStyle` = 88px exact ✓
+- Iter 7: 5 cases (popover 6 grupos, desmarcar interna deja 13 rows,
+  "solo fallidas" deja 1, reset vuelve a 15, dot accent) ✓
+- Iter 8: 7 cases (CategoryFilter + Marcar leídas) ✓
+- Iter 9a: 5 cases (2 secciones, 4+2 rows, status badges) ✓
+- Iter 9b: 3 cases (kebab abre p-menu, desactivar recompacta prios,
+  delete confirm danger) ✓
+
+Last commit en main: pendiente.
+
+### Plan próxima sesión
+
+1. **Iter 9c — Constructor 3 builders** (sesión larga ~4-5h).
+   Specs `Memory/docs/specs/rule-constructor-update.md` (alcance +
+   grabación + transcripción). Rutas `/conversaciones/reglas/nueva` +
+   `/:id`.
+2. **Iter 9d** — Duplicación "Borrador sin editar" + detección
+   conflictos.
+3. **Iter 10** — EntityManagement.
+4. **Iter 11** — CategoriesManagement + RuleLinking.
+5. **Post-vistas** — extender HUB AED con 3 cards IA Memory.
+
+---
+
 ## 2026-05-18 · Session 37 — Memory ConversationsView iter 2 + iter 3 (Estado + sticky + ConversationFilters top-bar)
 
 > Continuación directa de S36 — Rafa pidió seguir sin pausa. Dos
