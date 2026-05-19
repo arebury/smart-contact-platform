@@ -22,7 +22,11 @@
     "test:ci": "ng test supervisor --watch=false --browsers=ChromeHeadless --code-coverage",
     "lint": "ng lint supervisor",
     "format": "prettier --write \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",
-    "format:check": "prettier --check \"{apps,packages}/**/*.{ts,html,scss,css,json}\""
+    "format:check": "prettier --check \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "{apps,packages}/**/*.{ts,html,scss,css,json}": "prettier --write"
   },
   "dependencies": {
     "@angular/animations": "^21.2.12",
@@ -61,12 +65,14 @@
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^8.57.0",
+    "husky": "^9.1.7",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "lint-staged": "^16.4.0",
     "prettier": "^3.3.0",
     "typescript": "~5.9.3"
   },
