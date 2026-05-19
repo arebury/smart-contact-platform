@@ -3,6 +3,12 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
+> 1a. Lee la entry **Session 40** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    Sesión corta dirigida, 3 commits. Eje 1 Memory polish ejecutado:
+>    §10 #15 iconografía pictograma única canal+state (revierte sparring
+>    S37) + §10 #16 chrome AED en tabla `/conversaciones`. Backlog #32
+>    nuevo: extracción partial `.table-card`/`.table` cuando llegue 5º
+>    consumer.
 > 1b. Lee la entry **Session 39** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
 >    **Sesión maratón ~18 commits**. 6 bloques: rescate Netlify post-S35
 >    (npm ci + pin npm + husky), modal v11→v26 Memory, mock dispatch +
@@ -63,6 +69,36 @@
 
 ---
 
+## Estado al cerrar (Session 40, 2026-05-19) — Polish UX Memory
+
+**3 commits a `main`**. Eje 1 ejecutado completo:
+
+1. **#15 Iconografía Memory status icon** (`9cfcb34`): cocinado
+   `<sc-memory-status-icon>` con 6 SVG inline (paths exactos del
+   prototipo React `StatusIcons.tsx`) + `resolveStatus()` con la
+   misma lógica de precedencia. Paleta reducida gray/teal sec 15.21.
+   Animación pulse 1100ms cuando processing/analyzing. Overlays
+   failed/multi-recording preservados como badges absolutos. Revierte
+   decisión sparring S37 de 3-5 lucides separados.
+2. **#16 Chrome AED en tabla Memory** (`b695481`): adoptado el patrón
+   `.table-card` + `.table` AED localmente al componente Memory en
+   `conversation-table.component.scss`. Border + radius + overflow-
+   hidden, thead bg-default uppercase tracked, tr border-bottom
+   subtle, td spacing-200. Preservada densidad + sticky + shimmer.
+   Zebra eliminado.
+3. **Docs cierre** (pendiente al cerrar S40): §10 #15+#16 ✅ Resuelto
+   S40 + backlog #32 nuevo (extracción partial table al 5º consumer)
+   + SESSION-LOG + NEXT-SESSION-PLAN.
+
+### Estado salud al cerrar S40
+
+Sin cambios significativos vs S39 — todo verde, bundle inalterado,
+CI verde, hooks activos. La tabla Memory ahora pinta como las
+tablas AED list-pages y el cluster Estado es pictograma única teal/
+gray con badges en esquinas.
+
+---
+
 ## Estado al cerrar (Session 39, 2026-05-19) — Maratón ~18 commits
 
 **6 bloques temáticos** entrelazados:
@@ -93,7 +129,7 @@ Bloque 6 (bugfix + audit): `7525864` (hotfix NG0950), `2366993` (defensive), `ef
 
 ---
 
-## Roadmap S40+ (priorizado, actualizado S39)
+## Roadmap S41+ (priorizado, actualizado S40)
 
 ### 🎯 Eje 1 — Memory polish UX (alto valor, accionable sin Marta)
 
@@ -101,8 +137,8 @@ Items derivados del trabajo S39 que tocaron pero quedaron pendientes:
 
 | # | Item | Trigger | Tamaño |
 |---|---|---|---|
-| §10 #15 | Iconografía cluster Estado en ConversationTable — assets Memory específicos para grabación/transcripción/análisis | Rafa lo señaló S39, está en docs Memory legacy-react | ~1h |
-| §10 #16 | Estilo tabla Memory `/conversaciones` ← adoptar styling AED (agents/groups/users tablas más estilizadas) | Rafa lo señaló S39 | ~1.5h |
+| §10 #15 | ~~Iconografía cluster Estado en ConversationTable~~ ✅ Resuelto S40 (`9cfcb34`) | — | — |
+| §10 #16 | ~~Estilo tabla Memory `/conversaciones` ← adoptar styling AED~~ ✅ Resuelto S40 (`b695481`) | — | — |
 | §10 #1 | **Re-transcribir** desde ConversationPlayerModal (icono RotateCcw + RetranscriptionConfirmModal destructivo) | Producto valida flujo destructivo | ~1h |
 | §10 #2 | MultiRecordingPlayer multi-leg en player modal | Priorizar fidelidad multi-leg | ~3h |
 | §10 #3 | Cocinar `<sc-audio-player>` wrapper SCDS (cuando llegue 2º consumer) | Item #2 desbloquea esto | ~1.5h |
@@ -171,18 +207,19 @@ Próximo audit recomendado: tras 5-6 commits de feature work.
 
 ---
 
-## Sugerencias arranque S40
+## Sugerencias arranque S41
 
-**Prioridad 1**: Si Rafa señala UX polish Memory → atacar §10 #15 + #16 (iconografía + estilo tabla). 2-3h juntos.
+**Prioridad 1**: Si Rafa señala Memory feature → atacar §10 #1 (re-transcribir player, ~1h) o §10 #12 (synonyms granulares, sin estimar).
 
-**Prioridad 2**: Si Rafa señala Memory feature → atacar §10 #1 (re-transcribir player) o §10 #12 (synonyms granulares).
+**Prioridad 2**: Si Rafa señala perf / bundle → atacar #31 con modular theme PrimeNG (investigación + fix ~3-4h). Sigue siendo el siguiente reto técnico jugoso.
 
-**Prioridad 3**: Si Rafa señala perf / bundle → atacar #31 con modular theme PrimeNG (investigación + fix ~3-4h).
+**Prioridad 3**: Si Marta da luz verde → bootstrap Variables Custom collection en Figma SC capturando las 6 divergencias (eje 4 del mapa).
 
 **NO atacar sin trigger explícito**:
 - Reglas IA (`§10 #13` CategoryRuleLinking — Rafa explícito S39 "reglas al roadmap").
 - Nuevos componentes SCDS "por si acaso" (memoria `minimal-customization`).
 - Refactor estructural (memoria `reference_structural_refactor_plan` — plan dormido).
+- Extracción partial `.table-card`/`.table` (backlog #32 — trigger 5º consumer).
 
 ---
 

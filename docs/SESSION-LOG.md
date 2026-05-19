@@ -10,6 +10,93 @@
 
 ---
 
+## 2026-05-19 · Session 40 — Polish UX Memory: iconografía status + chrome AED tabla
+
+> Sesión corta y dirigida (3 commits). Eje 1 Memory polish ejecutado:
+> §10 #15 (iconografía cluster Estado) + §10 #16 (estilo tabla Memory)
+> cerrados ambos en una iteración limpia. Backlog deuda extracción
+> partial table anotada como #32.
+
+### Bloque 1 — #15 Iconografía Memory status icon
+
+- **Diagnóstico**: la decisión sparring S37 (3-5 lucides separados
+  Phone/MessageSquare + Mic + FileText + Sparkles + AlertTriangle)
+  divergía del prototipo Memory. `sistema-de-diseno.md §Iconografía`
+  dicta SVGs propios entregados por diseño (`StatusIcons.tsx`) — UNA
+  pictograma única canal+state, no cluster.
+- **Implementación**: nuevo componente `sc-memory-status-icon`
+  standalone con 6 SVG inline (paths exactos del legacy-react) +
+  `resolveStatus()` con la misma lógica de precedencia analyzing >
+  processing > hasAnalysis > hasTranscription > hasRecording. Paleta
+  reducida sec 15.21: gray `--sc-text-muted` (rest) + teal
+  `--sc-text-info` (active). Animación pulse opacity 1100ms cuando
+  processing/analyzing. Overlays failed/multi-recording reposicionados
+  como badges absolutos sobre el button trigger.
+- **i18n**: removidas 4 keys obsoletas del cluster (recording /
+  transcription / analysis / failed individuales) + añadidas 11 keys
+  nuevas (call / call_recorded / call_transcribed / call_analyzed /
+  chat / chat_transcribed / chat_analyzed / transcribing / analyzing /
+  failed / multi_recording).
+- **Verificación**: Playwright + MockSampleSwitcher con 5 escenarios
+  (default mixto, all-done, all-pending, multi-recording, chats-only)
+  light + dark. Pictogramas correctas en los 7 estados + ambos badges.
+- Commit: `9cfcb34`.
+
+### Bloque 2 — #16 Chrome AED en tabla Memory
+
+- **Diagnóstico**: `.table-card` Memory tenía clase declarada en HTML
+  pero ningún SCSS local. AED users/agents/groups list-pages declaraban
+  el chrome localmente con border + radius + overflow-hidden + thead
+  bg-default uppercase tracked + tr border-bottom subtle + td spacing-
+  200 text-secondary. Sin embargo Memory usaba `.sc-table-zebra` global
+  (zebra alternating en vez de border-bottom per row).
+- **Implementación**: aplicado el patrón chrome AED localmente al
+  componente Memory en `conversation-table.component.scss`. Preservada
+  densidad propia, sticky header (adaptado a `--sc-bg-default` para
+  coherencia), shimmer is-processing/is-analyzing intacto, selección
+  `is-selected` alineada a `--sc-color-gray-100` AED. Zebra eliminado
+  del HTML.
+- **Backlog**: entry #32 nueva en `inconsistencies-backlog.md`. El
+  patrón `.table-card` + `.table` está ahora duplicado en 4 consumers
+  (3 AED + Memory). Trigger explícito de extracción: 5º consumer.
+- **Verificación**: Playwright Memory light + dark + hover row.
+- Commit: `b695481`.
+
+### Bloque 3 — Cierre docs
+
+- `memory-migration-inventory.md` §10 #15 y #16 actualizados a
+  ✅ Resuelto S40 con resumen de la solución de cada uno.
+- `inconsistencies-backlog.md` entry #32 nueva (extracción partial
+  table compartido al 5º consumer).
+- SESSION-LOG + NEXT-SESSION-PLAN actualizados.
+- Commit: pendiente (al cerrar S40).
+
+### Estado salud al cerrar S40
+
+| Sistema | Estado | Commit |
+|---|---|---|
+| `aedmigration.netlify.app` | ✅ Live · Memory con pictograma única + chrome AED | `b695481` |
+| `ds-smartcontact.netlify.app` | ✅ Live · sin cambios S40 | — |
+| CI GitHub Actions | ✅ Verde (sin cambios) | — |
+| Pre-commit hook | ✅ Activo (sin cambios) | — |
+| Bundle initial supervisor | Sin cambios significativos (`memory-status-icon` añade ~3 KB SVG inline + remueve 5 lucide icons del cluster) | — |
+
+### Resumen iter-closing S40
+
+- **Hice**: cocinado `<sc-memory-status-icon>` (6 SVG inline + tooltip
+  dinámico + pulse) + adoptado chrome AED en `<table>` Memory + entry
+  #32 en backlog + §10 #15+#16 marcados resueltos.
+- **Verifiqué**: tsc + lint verdes en cada commit; Playwright 5
+  escenarios MockSampleSwitcher + light/dark/hover.
+- **Herramientas**: Playwright via npx (Chromium headless),
+  `tsc --noEmit -p apps/supervisor/tsconfig.app.json`, `ng lint`.
+- **Riesgo pendiente**: si Marta detecta que algún kind del SVG no
+  corresponde a la intención de diseño (ej. mezcla call_recorded vs
+  call_transcribed que comparten path IconPhone en el legacy), revisar
+  `resolveStatus()` con ella. Hoy idéntico al React 1:1.
+
+---
+
 ## 2026-05-19 · Session 39 — Sesión maratón: rescate Netlify + CI + Memory dispatch + modal v26 + templates + samples + audit
 
 > **Sesión muy larga, ~18 commits a `main`**. Empezó con "no veo
