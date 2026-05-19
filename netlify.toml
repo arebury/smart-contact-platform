@@ -7,16 +7,24 @@
 # ds-docs). Configurar build settings PER-SITE en Netlify UI:
 #
 # Site `aedmigration` (shell Supervisor: AED + Memory features):
-#   Build command:     npm install --no-audit --no-fund && npm run build:supervisor
+#   Build command:     npm ci --no-audit --no-fund && npm run build:supervisor
 #   Publish directory: dist/supervisor/browser
 #   Base directory:    (vacío)
 #   Env vars override: (ninguna — usa default ANGULAR_PROJECT=supervisor de abajo)
 #
 # Site `ds-smartcontact`:
-#   Build command:     npm install --no-audit --no-fund && npm run build:ds-docs
+#   Build command:     npm ci --no-audit --no-fund && npm run build:ds-docs
 #   Publish directory: dist/ds-docs/browser
 #   Base directory:    (vacío)
 #   Env vars override: ANGULAR_PROJECT = ds-docs
+#
+# ¿Por qué `npm ci` en vez de `npm install`? El install pre-build automático
+# de Netlify usa `npm install` y al cambiar de versión npm puede "remover"
+# packages optional como `@esbuild/linux-x64`. Un `npm install` posterior
+# dice "up to date" sin reinstalarlos. `npm ci` borra `node_modules` y
+# reinstala desde lockfile cada vez — garantiza binarios nativos presentes.
+# Fix S39 (2026-05-19). El CI de GitHub usa `npm install` porque corre tests
+# (chokidar conflict en transitive tree); Netlify no corre tests.
 #
 # ¿Por qué ANGULAR_PROJECT? `@netlify/angular-runtime` lee angular.json y,
 # si hay varios `projects`, agarra el primero (= supervisor) y exige que

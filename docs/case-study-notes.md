@@ -16,6 +16,103 @@
 
 ---
 
+## 2026-05-19 · S39 — Falsos diagnósticos en cascada: cuando 3 fixes no resuelven nada
+
+**Contexto**: Rafa nota que `aedmigration.netlify.app` no muestra el
+trabajo S38. La hipótesis inicial era "el sitio Netlify tiene los
+settings UI viejos del rename" — y era cierta. Pero solo era 1/3 del
+problema.
+
+**Premisa equivocada 1**: "Arreglar settings UI = arreglado". Apliqué
+PATCH al endpoint correcto, los settings cambiaron, disparé build. Falló.
+
+**Premisa equivocada 2**: "Es el package-lock incompatible con npm
+remoto". Pin de `NPM_VERSION=10.8.2` aplicado. Build falló en el MISMO
+sitio: `@esbuild/linux-x64` not found.
+
+**Premisa equivocada 3**: "Es que `npm install` no recoge optional
+deps en Netlify". Añadí `NPM_FLAGS="--include=optional"`. Build falló
+otra vez. Idéntico error.
+
+**Descubrimiento**: solo el log raw del build (pegado por Rafa desde
+el dashboard UI; la API REST de Netlify NO expone logs raw) reveló la
+causa real:
+
+```
+10:18:25 AM: Installing npm packages using npm version 10.8.2  ← pin ok
+10:18:29 AM: added 7 packages, removed 12 packages              ← REMOVED 12
+10:18:34 AM: $ npm install --no-audit --no-fund
+10:18:35 AM: up to date in 960ms                                ← NO reinstala
+10:18:36 AM: ✖ Building... [@esbuild/linux-x64 not found]
+```
+
+Netlify hace install pre-build automático. Al cambiar de npm 10.9.x
+(default) a 10.8.2 (pin) **removía 12 packages** incluyendo el binario
+nativo de esbuild. Mi `npm install` posterior decía "up to date"
+porque el lockfile estaba OK. Y `ng build` quería ese binario.
+
+**Solución**: `npm ci` en el build cmd. Borra `node_modules` y
+reinstala todo desde lockfile cada vez. Garantiza presencia de
+binarios nativos.
+
+**Lección portable**:
+- **Sin el log, todo diagnóstico es adivinanza**. 3 fixes razonables
+  fueron a basura por no tenerlo en mano. El segundo screenshot que
+  Rafa pegó (4 horas tarde pero con el log fresco) destrabó todo en
+  2 minutos.
+- **APIs REST de plataformas SaaS a menudo NO exponen logs detallados**.
+  Solo el dashboard UI los tiene. Si la API parece no dar info, pedirla
+  vía screenshot/copy del navegador es la vía rápida.
+- **`npm install` ≠ `npm ci`**. `install` respeta el estado actual de
+  `node_modules`; `ci` lo borra y reinstala. En entornos efímeros (CI,
+  Netlify) donde la cache puede estar "envenenada" por upgrades, `ci`
+  es más predictible.
+- **Premisas equivocadas son baratas si vienen de logs**. Las premisas
+  caras son las que vienen de inferencia ("seguro que es X porque…").
+
+---
+
+## 2026-05-19 · S39 — CI rojo durante 14 commits sin que nadie lo notase: pre-commit hook ausente
+
+**Contexto**: 11+ runs CI en main consecutivos rojos desde S35 (commit
+`be25387`, rename apps/aed → apps/supervisor, 18-may). Rafa nunca los
+vio: no tiene flujo de revisar GitHub Actions cada commit.
+
+**Premisa equivocada**: "El rename rompió algo". El primer instinto
+fue mirar paths, scripts npm, configs Angular — todo coherente.
+
+**Descubrimiento**: el step `format:check` (prettier) llevaba fallando
+con 123 archivos sin formatear. Cada commit a `main` durante S36, S37
+y los 11 temáticos S38 aportaba unos pocos archivos sin pasar prettier.
+El repo nunca tuvo `.husky/`, así que nada bloqueaba commits con código
+sin formatear.
+
+**Por qué pasó desapercibido**:
+- Rafa no es dev — no revisa Actions diariamente.
+- Todos los commits van directos a `main` (sin PR, sin Required
+  Status Checks que bloqueen merge).
+- Los hooks pre-commit nunca se configuraron en el monorepo.
+
+**Solución**: `npm run format` → 123 archivos auto-formateados (commit
+`2689c15`, 3185 +, 2070 −). + `husky` + `lint-staged` configurados
+(commit `ea3772b`) para que cada commit futuro pase prettier sobre
+los archivos staged.
+
+**Lección portable**:
+- **CI sin notificación = CI invisible**. Si el dev no mira Actions a
+  diario (porque está concentrado en construir features), los rojos
+  se acumulan. Para flujos solo-`main` sin PR, hay que invertir:
+  - Hook local pre-commit con `lint-staged`.
+  - Notificaciones GitHub Actions a Slack/email/etc.
+- **El criterio "todo a main, sin ceremony PR" funciona SOLO si los
+  hooks locales suplen el rol de los Required Status Checks**. En este
+  proyecto teníamos lo primero sin lo segundo → 11 rojos silenciosos.
+- **Format-on-commit es invisible para el desarrollador y elimina una
+  clase entera de errores CI**. lint-staged + prettier en 5 minutos
+  cierran una grieta de meses.
+
+---
+
 ## 2026-05-18 · S37 — Budget bumpeado vs investigación profunda: momentum manda en sesión larga
 
 **Contexto**: en iter 3 de ConversationsView Memory, al introducir el primer uso real de `<sc-multi-select>` y `<sc-datepicker>` en el monorepo, el initial bundle saltó de 1.42 MB a 1.62 MB (+200 KB). El error budget del Angular era 1.5 MB → build rojo.

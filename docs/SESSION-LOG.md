@@ -10,6 +10,127 @@
 
 ---
 
+## 2026-05-19 · Session 39 — Rescate Netlify post-S35 + CI rojo destapado + husky pre-commit
+
+> **Sesión de plomería**. Rafa nota que `aedmigration.netlify.app` no
+> mostraba el trabajo S38 ("no lo veo deployed"). Diagnóstico cascada:
+> 3 problemas distintos enmascarándose entre sí, todos consecuencia del
+> rename S35 (`apps/aed/` → `apps/supervisor/`).
+
+### Hitos cronológicos
+
+1. **Settings UI Netlify obsoletos**. Site `aedmigration` (id `58acd360…`)
+   tenía build cmd `npm run build:aed` + publish dir `dist/aed/browser` —
+   scripts/paths que dejaron de existir el 18-may. 5 builds consecutivos
+   habían fallado en silencio entre 13:18-19:07 S38.
+   - **Fix**: PATCH directo a `/api/v1/sites/:id` con Bearer token
+     (`netlify api updateSite` devolvía OK pero NO persistía el merge —
+     bug del CLI). Settings actualizados a `build:supervisor` +
+     `dist/supervisor/browser`.
+   - **Deploy manual** desde local con `netlify deploy --filter=@sc/supervisor --dir=dist/supervisor/browser --prod` para desbloquear la URL YA. Site live en 15s.
+
+2. **Acordeón ds-docs** (mientras Netlify se arreglaba). Rafa pidió que
+   los 7 grupos de "Componentes con documentación viva" del home
+   ds-docs fueran colapsables para saltar directo a "Mi seguimiento".
+   - `<div class="components__group">` → `<details>` con `<summary>`
+     custom (caret rotativo + count pill + tipografía mono preservada).
+   - Todos cerrados por defecto. CSS adicional: hide native marker,
+     rotate caret on `[open]`, gap on expand.
+   - Commit `a373419` + deploy directo a `ds-smartcontact.netlify.app`.
+     Verificado: chunk `chunk-UDPDYOK3.js` sirve las 4 clases nuevas en
+     producción.
+
+3. **CI GitHub Actions rojo desde S35** (11+ runs consecutivos). Rafa
+   pasa screenshot de Actions con ❌ todo seguido.
+   - **Causa real**: NO era el rename ni npm install. El step
+     `format:check` (prettier) fallaba con 123 archivos sin formatear,
+     acumulados durante S36 + S37 + 11 commits S38 (cada uno aportaba
+     unos pocos archivos sin pasar prettier).
+   - **Por qué pasó**: el repo no tenía pre-commit hook (sin `.husky/`),
+     así que nada bloqueaba commits con código sin formatear. El CI los
+     iba registrando como rojos, pero como ningún PR los lanzaba (todo
+     directo a `main`), Rafa no veía la cascada hasta hoy.
+   - **Fix**: `npm run format` → 123 archivos auto-formateados.
+     `format:check` verde, lint verde, build verde. Commit `2689c15`
+     (124 files changed, 3185 +, 2070 −). Push → **primer CI verde
+     desde S35** ✓ Format ✓ Lint ✓ Test ✓ Build.
+
+4. **Husky + lint-staged** para que el problema no vuelva.
+   - `npm install --save-dev husky lint-staged` (confirmado tras "no
+     me preguntes, ejecuta" de Rafa).
+   - `npx husky init` + hook `pre-commit` que ejecuta `npx lint-staged`.
+   - Config `lint-staged` en `package.json`: `prettier --write` sobre
+     `{apps,packages}/**/*.{ts,html,scss,css,json}` staged.
+   - Commit `ea3772b` con hook autoverificado (`lint-staged` corrió OK
+     sin trabajo pendiente porque ya estaba todo formateado).
+
+5. **Netlify build remoto sigue rojo tras todo lo anterior**. Logs
+   reales pegados por Rafa (la API REST no expone logs raw — únicamente
+   accessible vía dashboard UI). Diagnóstico final:
+
+   ```
+   10:18:25 AM: Installing npm packages using npm version 10.8.2
+   10:18:29 AM: added 7 packages, removed 12 packages, audited 1113
+   10:18:34 AM: $ npm install --no-audit --no-fund
+   10:18:35 AM: up to date in 960ms                   ← NO reinstala
+   10:18:36 AM: ✖ Building... [FAILED: @esbuild/linux-x64 not found]
+   ```
+
+   Netlify hace install pre-build automático y al pasar de npm 10.9.x
+   (default) a 10.8.2 (pin) **removía 12 packages** incluyendo el
+   binario nativo de esbuild. Mi `npm install` posterior decía
+   "up to date" sin reinstalar. Y el `ng build` quería ese binario.
+
+   **Fix en cascada aplicado**:
+   - `netlify.toml`: `NPM_VERSION = "10.8.2"` (pin exacto) +
+     `NPM_FLAGS = "--include=optional"` (commits `9e8f578` + `d781bc5`).
+   - Build cmd Netlify UI: `npm install` → **`npm ci`**. `npm ci` borra
+     `node_modules` y reinstala desde lockfile cada vez, así garantiza
+     que el binario esbuild esté presente. Coste: ~30s extra por build,
+     beneficio: nunca más sorpresas por cache stale o packages
+     "removed".
+
+### Resultado salud al cerrar (pendiente confirmar build verde npm ci)
+
+| Site | URL | Estado |
+|---|---|---|
+| Supervisor (Memory + AED) | https://aedmigration.netlify.app | ✅ Live via deploy directo local |
+| ds-docs (catálogo SCDS) | https://ds-smartcontact.netlify.app | ✅ Live con acordeón |
+| CI GitHub Actions | main branch | ✅ **Verde primera vez desde S35** |
+| Netlify auto-deploy nativo | both sites | ⏳ Pendiente verificar `npm ci` build |
+
+### Commits S39 (5 push a `main`)
+
+1. `a373419` — `feat(ds-docs): home — categorías "Componentes con documentación viva" en acordeón`
+2. `2689c15` — `chore(format): aplicar prettier a 123 archivos · destapa CI rojo desde S35`
+3. `9e8f578` — `fix(netlify): pin NPM_VERSION 10.8.2 — fixa install rojo post-S35`
+4. `d781bc5` — `fix(netlify): NPM_FLAGS=--include=optional · esbuild binary fix`
+5. `ea3772b` — `chore(tooling): husky + lint-staged · pre-commit auto-format`
+6. (pendiente) — commit doc S39 + cierre.
+
+### Lecciones (case-study material)
+
+- **Falsos diagnósticos en cascada**: las primeras 2 hipótesis fueron
+  erróneas. "Es package-lock", "es el rename" — ambas plausibles, ambas
+  falsas. Cada fix descubría el siguiente problema. La verdad sólo
+  apareció con el log raw del build (que la API REST NO expone — solo
+  el dashboard UI lo tiene). Pedirle a Rafa que copiase el log fue lo
+  que destrabó.
+- **CI rojo silencioso por falta de hook**: 123 archivos sin formatear
+  no apareciron hasta hoy porque no había barrera local. Cada commit a
+  `main` pasaba sin pre-commit check. El CI los registraba como rojos
+  pero Rafa no veía Actions diariamente. Husky cierra el ciclo.
+- **`netlify api updateSite` NO funciona como cabría esperar**:
+  devuelve el objeto pre-merge sin aplicar el cambio. Solución: PATCH
+  directo al endpoint REST con Bearer token. Documentar para futuros
+  scripts.
+- **Trabajo en paralelo**: durante todo el rescate Netlify hubo
+  background tasks (`npm install`, `build` local, `gh run watch`)
+  corriendo en paralelo con investigación. Sin eso, la sesión hubiera
+  sido 3× más larga.
+
+---
+
 ## 2026-05-18 · Session 38 — Memory migration completa (iters 5–11b + Bloque 0 + decisión B fusión hubs + post-vistas)
 
 > **Sesión MUY larga: 11 commits temáticos.** Cierra toda la migración

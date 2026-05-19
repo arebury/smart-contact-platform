@@ -3,6 +3,12 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
+> 1b. Lee la entry **Session 39** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    Sesión de plomería: Netlify auto-deploy roto desde rename S35,
+>    CI rojo desde S35 (123 archivos sin formatear, no era el rename),
+>    `npm ci` como fix definitivo de `@esbuild/linux-x64` missing,
+>    husky+lint-staged añadido como pre-commit. Estado al cerrar: ambos
+>    sites verde, CI verde, auto-deploy nativo funcionando.
 > 2. Lee la entry **Session 38** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
 >    Memory migration CERRADA funcionalmente (mock). 11 commits temáticos
 >    cubriendo: Player Modal, Bulk Action Bar + Bulk Transcription Modal v11,
@@ -47,6 +53,65 @@
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
+
+---
+
+## Estado al cerrar (Session 39, 2026-05-19) — Rescate Netlify + CI rojo destapado + husky
+
+**Sesión de plomería, 0 features**. Arregla la infraestructura que
+estaba rota en silencio desde S35 (rename `apps/aed/` → `apps/supervisor/`).
+
+### Lo arreglado (5 commits a `main`)
+
+1. `a373419` — **Acordeón ds-docs home**. Las 7 categorías de
+   "Componentes con documentación viva" pasan a `<details>` colapsable
+   para no obligar a scrollear hasta "Mi seguimiento". Caret rotativo
+   + count pill. Verificado live en `ds-smartcontact.netlify.app`.
+2. `2689c15` — **123 archivos auto-formateados con prettier**. Destapa
+   el CI rojo que llevaba acumulándose desde S35-S38 silenciosamente.
+   `format:check` ahora verde. **Primer CI verde desde S35**.
+3. `9e8f578` — **Pin `NPM_VERSION=10.8.2`** en `netlify.toml`. Netlify
+   por defecto upgradeaba a 10.9.x que rompía optional deps de
+   `@esbuild/linux-x64`.
+4. `d781bc5` — **`NPM_FLAGS=--include=optional`** en `netlify.toml`.
+   Belt-and-suspenders para forzar instalación de binarios nativos.
+5. `ea3772b` — **husky + lint-staged**. Pre-commit hook que pasa
+   prettier sobre `{apps,packages}/**/*.{ts,html,scss,css,json}`
+   staged. Evita que el problema del punto 2 vuelva a pasar.
+
+### Pendiente de commit final S39
+
+- `netlify.toml` doc updated: build cmd ambos sites cambia a
+  **`npm ci --no-audit --no-fund && npm run build:*`** (en Netlify UI ya
+  aplicado vía API PATCH; el comentario del toml refleja la realidad).
+- `docs/SESSION-LOG.md` con entry S39.
+- `docs/NEXT-SESSION-PLAN.md` (este archivo) actualizado.
+
+### Estado salud al cerrar S39
+
+| Site | URL | Auto-deploy | Último deploy |
+|---|---|---|---|
+| Supervisor | https://aedmigration.netlify.app | ✅ Verde con `npm ci` | sha `ea3772b` |
+| ds-docs | https://ds-smartcontact.netlify.app | ✅ Verde con `npm ci` | sha `ea3772b` |
+| CI GitHub Actions | main branch | ✅ Verde | sha `2689c15` (primer verde post-S35) |
+
+### Lecciones del rescate (case-study material — puntos a anotar)
+
+- **Falsos diagnósticos en cascada**: las 2 primeras hipótesis
+  ("package-lock", "el rename rompió paths") fueron erróneas. Solo el
+  log raw del build (pegado por Rafa desde el dashboard UI, ya que la
+  API REST NO expone logs raw) destrabó la situación.
+- **CI rojo silencioso por falta de pre-commit hook**: 123 archivos
+  sin formatear acumulados entre S35-S38. Cada commit a `main` pasaba
+  sin barrera local. Hoy con husky+lint-staged eso queda cerrado.
+- **`netlify api updateSite` del CLI NO aplica el merge**: devuelve el
+  objeto pre-update. Solución: PATCH directo al endpoint REST con
+  Bearer token. Documentar para futuros scripts.
+- **`npm ci` vs `npm install` en Netlify**: el install pre-build
+  automático puede "remover" optional deps al cambiar de versión npm.
+  Un `npm install` posterior dice "up to date" sin reinstalar. `npm ci`
+  borra `node_modules` y reinstala desde lockfile, garantizando que
+  binarios nativos estén presentes. Coste +30s/build.
 
 ---
 
