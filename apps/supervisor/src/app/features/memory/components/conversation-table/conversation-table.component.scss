@@ -2,33 +2,74 @@
   display: block;
 }
 
+/* ------------------------------------------------------------------ *
+ * Estilo tabla Memory `/conversaciones` ← adoptado de AED list-pages
+ * (S40 #16). Memory hereda el chrome AED: wrapper con border + radius
+ * + overflow-hidden, thead con bg-default + border-bottom, th uppercase
+ * tracked, filas con border-bottom subtle (sin zebra). Preserva la
+ * densidad propia Memory + sticky header + shimmer is-processing /
+ * is-analyzing.
+ *
+ * NOTA: este patrón está duplicado en AED users/agents/groups list-pages
+ * + Memory. Cuando aparezca un 5º consumer, extraer a partial compartido
+ * (entry en `inconsistencies-backlog.md`).
+ * ------------------------------------------------------------------ */
+.table-card {
+  background: var(--sc-bg-surface);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+  overflow: hidden;
+}
+
 .memory-conversations-table {
   width: 100%;
+  border-collapse: collapse;
+
+  thead tr {
+    background: var(--sc-bg-default);
+    border-bottom: 1px solid var(--sc-border-default);
+  }
 
   thead th {
     /* Sticky header: queda fijo al scroll vertical de la tabla. El
      * contenedor `.page` (con overflow-y: auto) es el scrollport — `top: 0`
      * en thead th lo ancla a su borde superior. Background opaco evita
-     * que las filas se transparenten por debajo al hacer scroll. */
+     * que las filas se transparenten por debajo. Override del background
+     * de `thead tr` porque el sticky positioning lo necesita en el th. */
     position: sticky;
     top: 0;
     z-index: 5;
-    background: var(--sc-bg-surface);
+    background: var(--sc-bg-default);
+    padding: var(--sc-spacing-200);
+    text-align: left;
+    font-size: var(--sc-font-size-50);
+    font-weight: var(--sc-font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--sc-text-secondary);
     box-shadow: inset 0 -1px 0 var(--sc-border-default);
   }
 
   tbody tr {
-    transition: background-color 200ms ease-out;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    transition: background var(--sc-transition-fast) var(--sc-easing-default);
     cursor: pointer;
 
     &:hover:not(.is-deleted) {
-      background: var(--sc-bg-elevated);
+      background: var(--sc-bg-default);
     }
 
     &:focus-visible {
       outline: 2px solid var(--sc-color-electric-blue-500);
       outline-offset: -2px;
     }
+  }
+
+  tbody td {
+    padding: var(--sc-spacing-200);
+    font-size: var(--sc-font-size-200);
+    color: var(--sc-text-secondary);
+    vertical-align: middle;
   }
 
   &__th-status,
@@ -66,7 +107,7 @@
 
   &__id {
     font-family: var(--sc-font-family-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
-    font-size: 12px;
+    font-size: var(--sc-font-size-100);
     color: var(--sc-text-muted);
     letter-spacing: 0.02em;
   }
@@ -76,7 +117,7 @@
   }
 
   tr.is-selected:not(.is-deleted) {
-    background: var(--sc-bg-primary-subtle);
+    background: var(--sc-color-gray-100);
   }
 
   /* Estado de procesamiento (mock dispatch). Amber para transcribing,
@@ -146,54 +187,66 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Status icons cluster — horizontal row dentro de la celda "Estado".
- * Cada icon comunica un eje del procesamiento (canal, recording,
- * transcription, analysis, failed). El color por tipo da legibilidad
- * sin depender de tooltips para una lectura rápida.
+ * Status button — wrapper de `<sc-memory-status-icon>` con overlays
+ * en esquinas (failed bottom-right + multi-recording count top-right).
+ * Es el affordance EXPLÍCITO que abre el player modal (Audit A5).
+ *
+ * S40 (#15): reemplaza el cluster de 3-5 lucide icons separados por
+ * una pictograma única canal+processing-state. La forma del SVG carga
+ * el estado (sec 15.21 audit prototipo Memory).
  * ------------------------------------------------------------------ */
-.memory-status-icons {
+.memory-status-button {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
+  justify-content: center;
+  padding: 4px 6px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 200ms ease-out;
 
-  &--button {
-    border: 0;
-    background: transparent;
-    padding: 4px 6px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 200ms ease-out;
-
-    &:hover {
-      background: var(--sc-bg-elevated);
-    }
-    &:focus-visible {
-      outline: 2px solid var(--sc-color-electric-blue-500);
-      outline-offset: 2px;
-    }
+  &:hover {
+    background: var(--sc-bg-elevated);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-electric-blue-500);
+    outline-offset: 2px;
   }
 
-  &__icon {
+  &__failed {
+    pointer-events: none;
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--sc-bg-surface);
+    color: var(--sc-text-danger);
+  }
 
-    &--channel {
-      color: var(--sc-text-secondary);
-    }
-
-    &--recording {
-      color: var(--sc-text-primary);
-    }
-
-    &--transcription {
-      color: var(--sc-text-info);
-    }
-
-    &--analysis {
-      color: var(--sc-text-warning);
-    }
-
-    &--failed {
-      color: var(--sc-text-danger);
-    }
+  &__multi {
+    pointer-events: none;
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    border-radius: 999px;
+    background: var(--sc-text-info);
+    color: var(--sc-color-gray-0);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
 }
