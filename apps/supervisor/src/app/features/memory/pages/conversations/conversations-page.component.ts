@@ -14,6 +14,7 @@ import { BulkTranscriptionModalComponent } from '../../components/bulk-transcrip
 import { ConversationFiltersComponent } from '../../components/conversation-filters/conversation-filters.component';
 import { ConversationPlayerModalComponent } from '../../components/conversation-player-modal/conversation-player-modal.component';
 import { ConversationTableComponent } from '../../components/conversation-table/conversation-table.component';
+import { MockSampleSwitcherComponent } from '../../components/mock-sample-switcher/mock-sample-switcher.component';
 import type { Conversation } from '../../data/conversation.types';
 import { ConversationsStore } from '../../state/conversations.store';
 
@@ -47,6 +48,7 @@ import { ConversationsStore } from '../../state/conversations.store';
     ConversationFiltersComponent,
     ConversationTableComponent,
     ConversationPlayerModalComponent,
+    MockSampleSwitcherComponent,
   ],
   templateUrl: './conversations-page.component.html',
   styleUrl: './conversations-page.component.scss',

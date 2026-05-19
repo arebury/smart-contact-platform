@@ -1,8 +1,8 @@
 import { computed, Injectable, signal } from '@angular/core';
 
-import { MOCK_CONVERSATIONS } from '../data/conversations-mock';
 import type { Conversation } from '../data/conversation.types';
 import { EMPTY_FILTERS, type MemoryConversationFilters } from '../data/conversation-filters.types';
+import { DEFAULT_SAMPLE_ID, getSample, MOCK_SAMPLES } from '../data/mock-samples';
 
 /**
  * Signal store de conversaciones Memory.
@@ -12,19 +12,26 @@ import { EMPTY_FILTERS, type MemoryConversationFilters } from '../data/conversat
  * Iter 6a (S38): + selección múltiple (`selectedIds` + helpers). Toggle por
  *                row click ó checkbox. Select-all aplica sobre el subset
  *                filtrado (no sobre la lista completa).
+ * S39: + `currentSampleId` + `setSample()` para el MockSampleSwitcher
+ *      (demo-only, ver `data/mock-samples.ts` para purga pre-deploy).
  *
  * Sin localStorage por ahora — la selección no persiste entre reloads
  * (paridad con el prototipo React, donde tampoco).
  */
 @Injectable({ providedIn: 'root' })
 export class ConversationsStore {
-  private readonly _conversations = signal<readonly Conversation[]>(MOCK_CONVERSATIONS);
+  private readonly _currentSampleId = signal<string>(DEFAULT_SAMPLE_ID);
+  private readonly _conversations = signal<readonly Conversation[]>(
+    getSample(DEFAULT_SAMPLE_ID).build(),
+  );
   private readonly _filters = signal<MemoryConversationFilters>(EMPTY_FILTERS);
   private readonly _selectedIds = signal<ReadonlySet<string>>(new Set());
 
   readonly conversations = this._conversations.asReadonly();
   readonly filters = this._filters.asReadonly();
   readonly selectedIds = this._selectedIds.asReadonly();
+  readonly currentSampleId = this._currentSampleId.asReadonly();
+  readonly samples = MOCK_SAMPLES;
 
   readonly filteredConversations = computed(() => {
     const all = this._conversations();
@@ -66,6 +73,19 @@ export class ConversationsStore {
   }
 
   resetFilters(): void {
+    this._filters.set(EMPTY_FILTERS);
+  }
+
+  /**
+   * Cambia el sample mock activo (S39, demo-only). Re-genera la lista,
+   * limpia la selección y los filtros — un nuevo escenario no debe
+   * heredar checks ni filtros del anterior.
+   */
+  setSample(sampleId: string): void {
+    const sample = getSample(sampleId);
+    this._currentSampleId.set(sample.id);
+    this._conversations.set(sample.build());
+    this._selectedIds.set(new Set());
     this._filters.set(EMPTY_FILTERS);
   }
 

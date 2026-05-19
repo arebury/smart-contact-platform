@@ -1,0 +1,46 @@
+<button
+  type="button"
+  class="mock-sample-switcher__trigger"
+  (click)="op.toggle($event)"
+  title="Cambiar conjunto de datos de demo (solo en prototipo)"
+  aria-label="Cambiar conjunto de datos de demo"
+>
+  <span class="mock-sample-switcher__chip">Demo</span>
+  <lucide-icon
+    class="mock-sample-switcher__icon"
+    [img]="databaseIcon"
+    [size]="13"
+    aria-hidden="true"
+  />
+  <span class="mock-sample-switcher__label-prefix">Datos:</span>
+  <span class="mock-sample-switcher__current">{{ currentSample().label }}</span>
+</button>
+
+<p-popover #op styleClass="mock-sample-switcher__popover">
+  <div class="mock-sample-switcher__list" role="menu">
+    <span class="mock-sample-switcher__list-label">Conjuntos de prueba</span>
+    @for (s of samples; track s.id) {
+      <button
+        type="button"
+        class="mock-sample-switcher__item"
+        [class.is-active]="s.id === currentId()"
+        role="menuitemradio"
+        [attr.aria-checked]="s.id === currentId()"
+        (click)="selectSample(s.id); op.hide()"
+      >
+        <div class="mock-sample-switcher__item-head">
+          <span class="mock-sample-switcher__item-title">{{ s.label }}</span>
+          @if (s.id === currentId()) {
+            <lucide-icon
+              class="mock-sample-switcher__item-check"
+              [img]="checkIcon"
+              [size]="13"
+              aria-hidden="true"
+            />
+          }
+        </div>
+        <p class="mock-sample-switcher__item-desc">{{ s.description }}</p>
+      </button>
+    }
+  </div>
+</p-popover>
