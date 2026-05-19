@@ -10,6 +10,97 @@
 
 ---
 
+## 2026-05-19 · Session 42 — Audit visual consistencia Memory ↔ AED + mock samples completados
+
+> Bloque acotado (~30 min de ejecución). Audit visual smoke-test side-by-side
+> (12 pares AED vs Memory · low-res 640×400 para evitar el límite móvil
+> de imágenes que cortó la S42-bis previa). Detectados 2 deltas accionables
+> y la lista de mocks faltantes; ambas cerradas en sesión.
+
+### Qué se hizo
+
+**Audit visual smoke-test (Playwright):**
+
+- 12 rutas capturadas: 4 AED list-pages (agentes/usuarios/grupos/labels) + 4
+  Memory list-pages (conversaciones/reglas/entidades/categorías) + 3 AED
+  forms + 1 Memory rule-builder + 4 modales (entity-form, category-form,
+  bulk-transcription, conversation-player).
+- Resolución baja 640×400 + `deviceScaleFactor: 0.5` para que cada PNG quede
+  bajo el límite de dimensiones móvil (~28-48 KB cada uno, leíbles 4 a la
+  vez).
+- Cero errores runtime en las 12 rutas.
+
+**Deltas detectados → 1 fix in-session + 2 entries backlog:**
+
+1. ✅ **Paddings Memory list-pages** (fix in-session, commit `8c780a7`).
+   Las 4 pages Memory (conversations/rules/entities/categories) usaban
+   `<div class="page"><div class="page__inner">` en el HTML pero sin
+   estilos: la tabla recorría el full-width del main-content en vez de
+   centrarse dentro de `max-width 1600 + padding spacing-500/600` como
+   AED list-pages. Fix duplicado scoped en las 4 (en vez de promover a
+   global) para no chocar con la regla `.page` que AED ya tiene scoped —
+   choque de especificidad. Conversations añade además el
+   `padding-bottom` que reserva espacio para el bulk-action-bar overlay
+   (no layout shift).
+2. 📝 **Backlog #33** — duplicación `.page` chrome cross-app. 8 copias
+   scoped del mismo patrón (4 Memory + 4 AED). Promover a partial
+   `_sc-page-chrome.scss` cuando aparezca 9º consumer o cierre Memory.
+   Mismo principio que #32 (`.table-card + .table` chrome).
+3. 📝 **Backlog #34** — `.btn--danger` huérfano. AED delete-user-modal
+   muestra botón Eliminar GRIS (template usa `class="btn btn--danger"`
+   pero el sweep S34 `.btn → <p-button>` no migró este HTML); AED
+   delete-label-modal (componente propio) sí muestra Eliminar ROJO con
+   `<p-button severity="danger">`. Migración pendiente próxima sesión.
+
+**Mocks Memory completados (commit `4932b24`):**
+
+`mock-sample-switcher` pasa de 7 → 11 escenarios. 4 nuevos basados en COA
+(`/Users/rafareses/dev/memory/docs/coa-transcripcion-masiva.md`):
+
+- `only-failed` — todas las llamadas con grabación marcadas como
+  `hasFailedTranscription: true`. Demuestra estado terminal rojo + chip
+  filter "Solo fallidas (N)" + acción "Marcar como leídas".
+- `gdpr-expired` — primeras 6 con `deleted: true`. Filas atenuadas,
+  tooltip, excluidas del bulk en silencio. Caveat operacional crítico
+  (COA §"Custodia GDPR").
+- `multi-tramo-parcial` — multi-recording con primer tramo transcrito y
+  el resto pendientes. Agregado `hasTranscription = false`. Permite
+  demostrar el hint del modal "M con tramos ya iniciados" y el filtro
+  "Solo con tramos parcialmente transcritos".
+- `no-recording` — llamadas con `hasRecording: false`. Estado #2 de
+  pestaña Transcripción del reproductor, sin acción posible.
+
+**Estados que NO se pueden simular vía mock-sample** (runtime state, no
+data) y se documentan en el código:
+- `processingIds` / `analyzingIds` (spinner en columna Estado).
+- "Recientemente cambiada" amarilla.
+- Para demostrarlos en demo: usar el botón "Procesar" del flujo bulk.
+
+### Aprendizajes / patrones consolidados
+
+- **Capturas low-res como deftools cuando el móvil corta**: la S42-bis
+  inicial murió por límite 2000px de dimensiones acumuladas en imágenes
+  leídas. Reducir a 640×400 con `deviceScaleFactor: 0.5` y leer 4 al
+  tiempo es la salida limpia. Patrón replicable para audits futuros.
+- **Duplicación scoped vs global**: cuando una regla CSS (ej. `.page`) ya
+  vive scoped en N componentes con encapsulation, promoverla a global
+  pierde la batalla de especificidad. Duplicar en las N+M restantes
+  (mismo team, mismo patrón) es menos overhead que el refactor de N
+  preexistentes. Trigger para refactor: ≥9 consumers o feature complete.
+- **Audit chat-only** (memoria `no-audit-docs`): findings se vuelcan en
+  chat + entries backlog. No se generan markdown auxiliares de
+  "auditoría de la sesión". Aplicado en S42.
+
+### Riesgos / pendientes
+
+- Backlog #34 (btn-danger huérfano) es P2 visible. Próxima sesión
+  empieza por ahí — 5 minutos de migración HTML.
+- 4 nuevos mock samples no añaden tests (eran 7 sin test tampoco).
+  Cuando se purgue mock-samples pre-deploy, el component switcher
+  desaparece entero.
+
+---
+
 ## 2026-05-19 · Session 41 — Audit periódico + fixes P1 + Figma render con Variables + bootstrap Code Connect mapping
 
 > Sesión multi-bloque (~2 commits + render Figma vivo + 3 docs nuevos /
