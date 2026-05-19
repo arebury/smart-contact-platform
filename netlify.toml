@@ -37,7 +37,12 @@
 
 [build.environment]
   NODE_VERSION = "20"
-  NPM_VERSION = "10"
+  # Pin npm a la versión exacta que usa el local + GitHub Actions CI.
+  # Netlify por defecto intenta upgradear a la última 10.x (p.ej. 10.9.8),
+  # que tiene un bug con npm workspaces + optionalDependencies que rompe
+  # el install de @esbuild/linux-x64 (S39 2026-05-19 dependency_installation
+  # exit code 1). Pin exacto evita la sorpresa.
+  NPM_VERSION = "10.8.2"
   ANGULAR_PROJECT = "supervisor"
 
 # SPA fallback: every unknown URL must hit index.html so the Angular Router
