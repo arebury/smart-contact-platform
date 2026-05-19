@@ -1,5 +1,6 @@
 <sc-modal
   [visible]="visible()"
+  [icon]="headerIcon"
   title="Procesar conversaciones"
   [subtitle]="subtitle()"
   width="720px"
@@ -99,19 +100,18 @@
     </div>
   }
 
-  <ng-container modalFooter>
+  <div modal-actions>
+    <p-button type="button" severity="secondary" [disabled]="isLoading()" (onClick)="onCancel()">
+      <span>Cerrar</span>
+    </p-button>
     <p-button
-      label="Cerrar"
-      severity="secondary"
-      text="true"
-      [disabled]="isLoading()"
-      (onClick)="onCancel()"
-    />
-    <p-button
-      label="Procesar"
+      type="button"
+      severity="primary"
       [loading]="isLoading()"
       [disabled]="!canSubmit()"
       (onClick)="onConfirm()"
-    />
-  </ng-container>
+    >
+      <span>Procesar</span>
+    </p-button>
+  </div>
 </sc-modal>

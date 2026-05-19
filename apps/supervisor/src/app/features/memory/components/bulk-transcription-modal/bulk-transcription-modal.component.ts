@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { AlertCircle, AlignLeft, Loader2, LucideAngularModule } from 'lucide-angular';
+import { AlertCircle, AlignLeft, ListChecks, Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
@@ -177,6 +177,7 @@ export class BulkTranscriptionModalComponent {
   protected readonly alignLeftIcon = AlignLeft;
   protected readonly loaderIcon = Loader2;
   protected readonly alertIcon = AlertCircle;
+  protected readonly headerIcon = ListChecks;
 
   constructor() {
     // Reset toggle to natural default al abrir o al cambiar selección.
