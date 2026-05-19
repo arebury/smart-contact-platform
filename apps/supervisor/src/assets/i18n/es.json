@@ -11,6 +11,7 @@
     "conversations": {
       "page_title": "Conversaciones",
       "open_aria": "Abrir conversación {{id}}",
+      "open_aria_with_state": "Abrir conversación {{id}} — Estado: {{state}}",
       "open_player": "Abrir en el reproductor",
       "select_all_aria": "Seleccionar todas las conversaciones filtradas",
       "select_row_aria": "Seleccionar conversación {{id}}",

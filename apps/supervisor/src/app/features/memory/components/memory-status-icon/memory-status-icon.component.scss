@@ -8,7 +8,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--sc-text-muted);
+  color: var(--sc-text-subtle);
   transition: color 200ms ease-out;
 
   &.is-active {

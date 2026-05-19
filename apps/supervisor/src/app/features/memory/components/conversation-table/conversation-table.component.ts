@@ -2,7 +2,10 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { TranslateModule } from '@ngx-translate/core';
 
 import type { Conversation } from '../../data/conversation.types';
-import { MemoryStatusIconComponent } from '../memory-status-icon/memory-status-icon.component';
+import {
+  MemoryStatusIconComponent,
+  resolveStatusLabelKey,
+} from '../memory-status-icon/memory-status-icon.component';
 
 /**
  * Tabla densa de conversaciones Memory.
@@ -94,5 +97,16 @@ export class ConversationTableComponent {
 
   protected recordingsCount(conv: Conversation): number {
     return conv.recordings?.length ?? 0;
+  }
+
+  /**
+   * Devuelve la i18n key del estado resuelto para que la plantilla la
+   * combine con `open_aria_with_state` en el `aria-label` del button.
+   * Fix S41 a11y: el screen reader debe oír el estado además del
+   * "Abrir conversación X". Antes el estado quedaba mudo en el span
+   * hijo (no era el focus target).
+   */
+  protected statusLabelKey(conv: Conversation): string {
+    return resolveStatusLabelKey(conv, this.isProcessing(conv.id), this.isAnalyzing(conv.id));
   }
 }

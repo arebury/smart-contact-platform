@@ -11,10 +11,10 @@ import type { Conversation } from '../../data/conversation.types';
  * por diseño + regla "una sola señal por estado".
  *
  * Paleta reducida (sec 15.21 audit del prototipo): solo dos tintes
- * activos — gray `--sc-text-muted` para rest y teal
- * `--sc-color-teal-strong` para in-flight/completed. La forma del icono
- * carga la distinción transcrita-vs-analizada (líneas vs sparkle), y la
- * animación pulse comunica actividad.
+ * activos — gray `--sc-text-subtle` para rest y teal `--sc-text-info`
+ * para in-flight/completed. La forma del icono carga la distinción
+ * transcrita-vs-analizada (líneas vs sparkle), y la animación pulse
+ * comunica actividad.
  *
  * Inputs:
  * - `conversation` — fila a representar (canal + estado).
@@ -66,6 +66,20 @@ export class MemoryStatusIconComponent {
   });
 
   constructor(private readonly translate: TranslateService) {}
+}
+
+/**
+ * Helper público: devuelve solo el labelKey i18n del estado resuelto
+ * para que el caller (ConversationTable) lo combine con su `aria-label`
+ * del button trigger. Evita la regresión a11y del cluster — el screen
+ * reader necesita oír el estado además del "Abrir conversación X".
+ */
+export function resolveStatusLabelKey(
+  conv: Conversation,
+  processing: boolean,
+  analyzing: boolean,
+): string {
+  return resolveStatus(conv, processing, analyzing).labelKey;
 }
 
 function resolveStatus(

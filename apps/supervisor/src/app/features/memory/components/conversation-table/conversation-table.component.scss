@@ -65,7 +65,13 @@
     }
   }
 
-  tbody td {
+  /* `:where()` rebaja la specificity a (0,0,0) para que los overrides
+   * por clase BEM (`&__id`, `&__td-status`, etc.) ganen sin tener que
+   * inflar su propia especificidad — Angular emulated encapsulation
+   * suma 1 attribute selector por cada element/class, y `tbody td`
+   * acababa siendo (0,2,2) > (0,1,1) de `.__id` en el cascade real.
+   */
+  :where(tbody td) {
     padding: var(--sc-spacing-200);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
@@ -108,7 +114,7 @@
   &__id {
     font-family: var(--sc-font-family-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
     font-size: var(--sc-font-size-100);
-    color: var(--sc-text-muted);
+    color: var(--sc-text-subtle);
     letter-spacing: 0.02em;
   }
 

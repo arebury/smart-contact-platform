@@ -66,7 +66,14 @@
             <button
               type="button"
               class="memory-status-button"
-              [attr.aria-label]="'memory.conversations.open_aria' | translate: { id: conv.id }"
+              [attr.aria-label]="
+                'memory.conversations.open_aria_with_state'
+                  | translate
+                    : {
+                        id: conv.id,
+                        state: statusLabelKey(conv) | translate,
+                      }
+              "
               [attr.title]="'memory.conversations.open_player' | translate"
               (click)="onStatusClick($event, conv)"
               (keydown)="onStatusKeydown($event, conv)"
