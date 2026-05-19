@@ -199,23 +199,28 @@
 }
 
 /* ------------------------------------------------------------------ *
- * Numeric columns get an explicit narrow width.
+ * Numeric columns get an explicit narrow width + right alignment.
  *
  * `table.table` runs with `table-layout: fixed` (set globally in
  * main.scss) so sort indicators don't reshuffle widths when they
  * appear. A side effect of fixed layout: columns without an explicit
- * width split the remaining space evenly. The "Agentes" column on
- * groups + agents only ever holds a 2- or 3-digit number, but it
- * was claiming the same ~16% of the table as Estrategia or Teléfono.
- * The right-aligned number then sat at the right edge of a wide,
- * mostly-empty column — the gap the user reported.
+ * width split the remaining space evenly.
  *
- * Floor numeric columns at 96 px and let the freed space flow back
- * into the content-heavy columns (Nombre, Estrategia, Email).
+ * Floor numeric columns at 96 px and right-align with tabular-nums
+ * for visual rhythm (digits aligned regardless of glyph width).
+ *
+ * Selector convention: dos formas conviven en el codebase por inercia
+ * histórica — AED groups usa `.table__td--num` (BEM modifier doble) y
+ * Memory + AED agents usan `.table__th-num` / `.table__td-num` (dash
+ * único). Cubrir ambas mantiene consistencia visual sin refactor BEM.
  * ------------------------------------------------------------------ */
 .table__th-num,
+.table__th--num,
+.table__td-num,
 .table__td--num {
   width: 96px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ------------------------------------------------------------------ *

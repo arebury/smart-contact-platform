@@ -35,7 +35,11 @@
      * contenedor `.page` (con overflow-y: auto) es el scrollport — `top: 0`
      * en thead th lo ancla a su borde superior. Background opaco evita
      * que las filas se transparenten por debajo. Override del background
-     * de `thead tr` porque el sticky positioning lo necesita en el th. */
+     * de `thead tr` porque el sticky positioning lo necesita en el th.
+     *
+     * `white-space: nowrap` alinea con el patrón AED list-pages (S41 #16
+     * follow-up): evita que los labels uppercase se partan en dos líneas
+     * en columnas estrechas como T. CONV. o T. ESPERA. */
     position: sticky;
     top: 0;
     z-index: 5;
@@ -47,6 +51,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--sc-text-secondary);
+    white-space: nowrap;
     box-shadow: inset 0 -1px 0 var(--sc-border-default);
   }
 
@@ -85,7 +90,7 @@
 
   &__th-select,
   &__td-select {
-    width: 44px;
+    width: 40px;
     padding-right: 0;
   }
 
