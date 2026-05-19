@@ -115,6 +115,12 @@ interface ComponentEntry {
    */
   whereToSee: string;
   /**
+   * Dónde verlo en Memory (feature module hermano de AED). Solo se rellena
+   * cuando el componente tiene `memoryUses > 0`. Permite al equipo de
+   * diseño localizarlo en el flujo Memory sin tener que cazar el archivo.
+   */
+  whereToSeeMemory?: string;
+  /**
    * Veces que aparece en templates AED (admin + config + supervision + shared + core).
    * Snapshot manual via `grep -rh "<sc-X" apps/supervisor/src/app/features/{admin,config,supervision}`.
    * 0 = sin uso real todavía. Los componentes con uso > 0 son los que el equipo
@@ -183,6 +189,8 @@ export class HomeComponent {
       whatItDoes: 'Botón de acción (primario azul, secundario gris, peligro rojo, etc.).',
       whereToSee:
         'En cualquier pantalla. Ej: AED → Administración → Agentes → botón "Crear agente" arriba a la derecha.',
+      whereToSeeMemory:
+        'Memory → /conversaciones → bulk action bar (Marcar leídas / Transcribir) + en cada modal del módulo (Player, Categorías, Entidades, Reglas).',
     },
     {
       slug: 'input',
@@ -196,6 +204,8 @@ export class HomeComponent {
         'Campo de texto para formularios: nombre, email, contraseña, teléfono… Incluye label, texto de ayuda y mensaje de error.',
       whereToSee:
         'AED → Administración → Agentes/Usuarios/Grupos/Plantillas/Etiquetas/Repositorios → "Crear/Editar" → cualquier campo de texto. Migración completada en Sesiones 31 + 32 (21 instancias).',
+      whereToSeeMemory:
+        "Memory → /conversaciones/categorías o /entidades → 'Crear/Editar' → campos nombre y descripción. También en filtros de búsqueda.",
     },
     {
       slug: 'input-number',
@@ -248,6 +258,7 @@ export class HomeComponent {
         'Selector de fecha. Abre un calendario al hacer click. Soporta selección día/mes/año, rangos min-max ("solo próximos 30 días"), y modo inline (calendario siempre visible).',
       whereToSee:
         'Aún no hay datepickers visibles en AED — primer caso planeado es "fecha de alta del agente". Demo en ds-docs hasta entonces.',
+      whereToSeeMemory: "Memory → /conversaciones → top-bar → filtro 'Fecha'.",
     },
     {
       slug: 'tabs',
@@ -287,6 +298,8 @@ export class HomeComponent {
         'Desplegable para elegir VARIAS opciones a la vez (al contrario que select, que es solo una). Los seleccionados aparecen como texto separado por comas O como pills removibles (X cada uno) según prefieras.',
       whereToSee:
         'AED aún no lo usa nativamente, pero próximo caso: asignación de canales a un agente (Email + WhatsApp + Teléfono…). Demo en ds-docs hasta entonces.',
+      whereToSeeMemory:
+        'Memory → /conversaciones → top-bar → Servicios / Grupos ACD / Agentes (filtros multi-valor).',
     },
     {
       slug: 'search',
@@ -313,6 +326,8 @@ export class HomeComponent {
         'Ventana emergente con título, body (acepta cualquier contenido apilado) y botones de acción. Se abre centrada sobre la pantalla con un velo gris detrás.',
       whereToSee:
         'AED → Administración → Etiquetas → click en una etiqueta para editarla (se abre encima). Demo interactiva en ds-docs con 5 escenarios.',
+      whereToSeeMemory:
+        'Memory → click en una fila de la tabla → ConversationPlayerModal. Y los modales CategoryForm, EntityForm, BulkTranscription se montan también con <sc-modal>.',
     },
     {
       slug: 'toast',
@@ -406,6 +421,8 @@ export class HomeComponent {
         'Barra que aparece flotando abajo cuando seleccionas varios elementos de una tabla, con acciones masivas (borrar varios, editar varios…).',
       whereToSee:
         'AED → Administración → Etiquetas → marca 2 o más etiquetas con los checkboxes → aparece la barra flotante abajo.',
+      whereToSeeMemory:
+        "Memory → /conversaciones → marca dos o más filas con los checkboxes → aparece la barra abajo con 'Marcar leídas' + 'Transcribir y analizar'.",
     },
     {
       slug: 'bulk-edit-menu',
@@ -594,6 +611,8 @@ export class HomeComponent {
         'Cabecera grande de página: título, descripción opcional y botones de acción a la derecha.',
       whereToSee:
         'AED → Administración → Agentes → la zona de arriba con el título "Agentes" y el botón "Crear agente".',
+      whereToSeeMemory:
+        'Memory → cabecera de /conversaciones, /conversaciones/reglas, /conversaciones/entidades y /conversaciones/categorías.',
     },
     {
       slug: 'sticky-form-header',

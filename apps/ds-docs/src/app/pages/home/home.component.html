@@ -446,10 +446,18 @@
                   }
                 </div>
                 <p class="tracker-item__summary">{{ item.whatItDoes }}</p>
-                <p class="tracker-item__where">
-                  <span class="tracker-item__where-label">Dónde verlo:</span>
+                <p class="tracker-item__where tracker-item__where--aed">
+                  <span class="tracker-item__where-label">AED:</span>
                   {{ item.whereToSee }}
                 </p>
+                @if (item.whereToSeeMemory; as memWhere) {
+                  <p class="tracker-item__where tracker-item__where--memory">
+                    <span class="tracker-item__where-label tracker-item__where-label--memory">
+                      Memory:
+                    </span>
+                    {{ memWhere }}
+                  </p>
+                }
               </div>
             </li>
           }
