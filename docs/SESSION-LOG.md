@@ -10,6 +10,94 @@
 
 ---
 
+## 2026-05-19 · Session 43-45 — Bloque consistencia visual: 6 commits cierran 1 backlog completo + 3 fixes UX
+
+> Sesión continua multi-bloque (6 commits push directo a `main`). Audit
+> visual side-by-side modal por modal + form por form, fixes incrementales
+> con verificación Playwright tras cada bloque. Cierra completo el
+> backlog #34 (.btn--* huérfano post-S34) y abre 3 entries nuevas
+> (#33 .page chrome partial, #34 ya resuelto, #35 UX row-click delta).
+
+### Qué se hizo
+
+**Audit visual sistémico (5 ejes cubiertos):**
+
+| Eje | Findings | Acción |
+|---|---|---|
+| Modales Memory (entity / category / bulk-transcription / player) | 1 delta crítico: bulk-transcription footer slot `<ng-container modalFooter>` no matcheaba selector canónico — contenido caía al body slot perdiendo chrome del `<footer class="sc-modal__foot">` | ✅ Fix `a263553` — slot `<div modal-actions>` + `<p-button severity>` con span + icon header `ListChecks` |
+| `.btn` huérfanos SCDS runtime | 3 componentes con `class="btn btn--*"` post-S34 sin styles | ✅ Fix `0b4e25b` — `delete-entity-dialog` / `impact-preview-dialog` / `form-danger-zone` migrados a `<p-button>` + tests `data-testid` selectors |
+| Galleries ds-docs | 8 archivos doc-only con `class="btn btn--*"` huérfano | ✅ Fix `a487fb4` — sweep 13 botones, anchors AED externos → `window.open()` |
+| Rule-builder save | Wizard lineal con 4-5 secciones, save al final requería scroll-to-end | ✅ Fix `5c8f8f6` — `position: sticky; bottom: 0` al `.rule-builder__foot` con soft shadow upward |
+| Danger-zone btn enano | Post-S34 `<p-button severity=danger outlined>` cae a defaults (~32px) vs legacy `.btn--danger-subtle` que heredaba 40px del `.btn` base | ✅ Fix `9dfc68e` — `size="large"` al `<p-button>` (3 consumers AED heredan) |
+
+**Sidebar push Figma (descartado in-session):**
+
+Intento de push del sidebar AED al Kit Pro como component-set con 4
+variants (collapsed/expanded × light/dark). Resultado: esqueleto con
+rect placeholders por iconos, no productizable. Rafa lo rechazó:
+*"no está creando main components, ni propiedades, ni variantes, ni
+nada. Solo un esqueleto"*. Feedback guardado en memoria
+`feedback-figma-push-componentized` para futuras tareas Figma —
+componentes reales con properties/variants + iconos del Kit + bind
+variables; sparring honest antes de gastar tokens en bocetos.
+
+**Detectado y registrado en backlog (NO arreglado en sesión):**
+
+- **Backlog #33** — `.page` + `.page__inner` chrome duplicado en 4
+  pages Memory + 4 AED list-pages (8 copias del mismo patrón). Extraer
+  a partial `_sc-page-chrome.scss` cuando aparezca 9º consumer.
+- **Backlog #35** — UX delta `<sc-memory-conversation-table>`: click
+  en row dispara `selectionToggled.emit()` (marca checkbox); solo
+  click en `<sc-memory-status-icon>` abre el player. AED list-pages
+  click-en-row → form-edit. Decisión pendiente Rafa: select-first
+  (flow dominante Memory), edit-first (alinear AED), o doble-click split.
+- **Bug `<sc-memory-mock-sample-switcher>` popover** (inventory §10 #21):
+  post-S42 con 11 entries: (a) se corta abajo sin scroll interno;
+  (b) al re-scrollear arriba queda detrás del `sc-topbar` (z-index).
+  Probable fix: `max-height: 70vh` + `overflow-y: auto` + revisar
+  `--sc-z-popover` vs topbar. Prototype-only, baja urgencia comercial.
+
+### Aprendizajes / patrones consolidados
+
+- **Audit visual smoke-test low-res** como herramienta repetible:
+  Playwright 1280×800 con `deviceScaleFactor: 0.5` → PNGs 640×400 de
+  28-48 KB. Lectura cómoda 4 al tiempo sin chocar con límite móvil
+  2000px. Patrón ya usado en S42, validado en S43-S45.
+- **Slot selector typos en `<sc-modal>`** son silent failures: el
+  `<ng-content select="[modal-actions]">` simplemente ignora contenido
+  con otros selectores (cae al default slot). El bulk-transcription
+  estuvo meses con `<ng-container modalFooter>` que perdía el chrome
+  canon. Lección: verificar slot selector vs `<ng-content select>` del
+  wrapper SCDS al revisar cualquier consumer.
+- **Tests con `data-testid` en lugar de `class` CSS** sobreviven mejor
+  a renames de clases internas (PrimeNG bumps, refactors style). El
+  patrón aplicado en `delete-entity-dialog.spec.ts` queda como
+  referencia.
+- **PrimeNG `size="large"` para legacy match**: el legacy `.btn`
+  AED tenía height 40px por design (Figma 195:283). Post-S34, el
+  `<p-button>` default cae a ~32-34px. Para casos donde la presencia
+  visual importa (danger-zone, sticky save), `size="large"` recupera
+  el 40px sin re-bind tokens.
+
+### Memory: nueva feedback rule
+
+`feedback-figma-push-componentized.md` (slug auto). Trigger: cuando
+push de código al Kit Pro vía `use_figma`, no entregar esqueleto.
+
+### Riesgos / pendientes para próxima sesión
+
+- **Bug switcher popover** Rafa lo pidió "para después" — atacar como
+  primer task próxima ronda (no afecta producción pero distorsiona la
+  demo).
+- **Ronda audit visual nueva** quedó cortada por límite móvil 2000px
+  en imágenes acumuladas. Las capturas ya están en
+  `/tmp/sc-screenshots/s45-round/` (formularios focus + empty states
+  + toast cross-app) — leer en sesión nueva con cache limpia.
+- **Decisión Rafa pendiente** sobre backlog #35 (UX row-click
+  Memory): 3 opciones documentadas.
+
+---
+
 ## 2026-05-19 · Session 42 — Audit visual consistencia Memory ↔ AED + mock samples completados
 
 > Bloque acotado (~30 min de ejecución). Audit visual smoke-test side-by-side
