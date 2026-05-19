@@ -178,9 +178,11 @@
   }
 }
 
-/* Cada categoría es un bloque vertical con su título mono + grid propio. */
+/* Cada categoría es un <details> plegable — todas cerradas por defecto para
+ * que el home no obligue a scrollear las 7 categorías antes de "Mi
+ * seguimiento". Rafa lo pidió en S39. */
 .components__group {
-  margin-bottom: var(--sc-spacing-600);
+  margin-bottom: var(--sc-spacing-300);
 
   &:last-child {
     margin-bottom: 0;
@@ -189,14 +191,62 @@
 
 .components__group-title {
   font-family: var(--dsd-font-mono);
-  margin: 0 0 var(--sc-spacing-300);
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-200);
+  margin: 0;
   font-size: 10.5px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: var(--sc-text-subtle);
-  padding-bottom: var(--sc-spacing-100);
+  padding: var(--sc-spacing-200) 0;
   border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+  transition: color 120ms ease;
+
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &:hover {
+    color: var(--sc-text-primary);
+  }
+}
+
+.components__group-caret {
+  display: inline-block;
+  font-size: 10px;
+  color: var(--sc-text-subtle);
+  transition: transform 200ms ease;
+  width: 10px;
+  text-align: center;
+}
+
+.components__group[open] .components__group-caret {
+  transform: rotate(90deg);
+}
+
+.components__group-label {
+  flex: 1;
+}
+
+.components__group-count {
+  font-family: var(--dsd-font-mono);
+  font-size: 10px;
+  color: var(--sc-text-subtle);
+  background: var(--sc-bg-secondary-hover);
+  padding: 2px 7px;
+  border-radius: 999px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.components__group[open] .components__grid {
+  margin-top: var(--sc-spacing-300);
+  margin-bottom: var(--sc-spacing-300);
 }
 
 .components__grid {

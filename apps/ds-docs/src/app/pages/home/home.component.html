@@ -42,8 +42,12 @@
   </p>
 
   @for (group of documentedByCategory(); track group.meta.id) {
-    <div class="components__group">
-      <h3 class="components__group-title">{{ group.meta.label }}</h3>
+    <details class="components__group">
+      <summary class="components__group-title">
+        <span class="components__group-caret" aria-hidden="true">▸</span>
+        <span class="components__group-label">{{ group.meta.label }}</span>
+        <span class="components__group-count">{{ group.items.length }}</span>
+      </summary>
       <div class="components__grid">
         @for (c of group.items; track c.slug) {
           <a class="component-card" [routerLink]="c.pageRoute">
@@ -56,7 +60,7 @@
           </a>
         }
       </div>
-    </div>
+    </details>
   }
 </section>
 
