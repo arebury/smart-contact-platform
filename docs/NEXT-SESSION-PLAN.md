@@ -4,11 +4,13 @@
 >
 > 1. Lee ESTE archivo completo.
 > 1b. Lee la entry **Session 39** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
->    Sesión de plomería: Netlify auto-deploy roto desde rename S35,
->    CI rojo desde S35 (123 archivos sin formatear, no era el rename),
->    `npm ci` como fix definitivo de `@esbuild/linux-x64` missing,
->    husky+lint-staged añadido como pre-commit. Estado al cerrar: ambos
->    sites verde, CI verde, auto-deploy nativo funcionando.
+>    **Sesión maratón ~18 commits**. 6 bloques: rescate Netlify post-S35
+>    (npm ci + pin npm + husky), modal v11→v26 Memory, mock dispatch +
+>    sticky toast + filas shimmer, MockSampleSwitcher 7 escenarios,
+>    Templates predefinidos categorías, ds-docs tracker con memoryUses +
+>    whereToSeeMemory, bug NG0950 cazado y arreglado (página blanca
+>    Memory), audit 6-ejes plataforma. Estado al cerrar: todo verde
+>    end-to-end, Memory `/conversaciones` con dispatch mock funcional.
 > 2. Lee la entry **Session 38** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
 >    Memory migration CERRADA funcionalmente (mock). 11 commits temáticos
 >    cubriendo: Player Modal, Bulk Action Bar + Bulk Transcription Modal v11,
@@ -45,6 +47,11 @@
 >    - `feedback_track_inconsistencies.md` — toda inconsistencia detectada → backlog.
 >    - `feedback_figma_link_workflow.md` — links Figma SC → anotar inmediatamente en docs.
 >    - `project_memory_aed_shared_shell.md` — Memory y AED conviven en el mismo Supervisor app.
+>    - **NUEVA S39** `feedback_verify_react_version_before_touch.md` — verificar versión React prototipo antes de polish Memory.
+>    - **NUEVA S39** `feedback_ng0950_transitive_pitfall.md` — nunca `let x = this.signal()` fuera de effect/computed en constructor.
+>    - **NUEVA S39** `reference_netlify_auto_deploy_setup.md` — operativa completa Netlify SC (site IDs, npm ci, NPM_VERSION pin, trampas CLI).
+>    - **NUEVA S39** `feedback_pre_commit_hook_critical.md` — husky+lint-staged es OBLIGATORIO en monorepo sin PR.
+>    - **NUEVA S39** `feedback_pedir_logs_no_adivinar.md` — sin log raw todo fix es adivinanza; pedir log dashboard cuando API no expone.
 > 9. Si vas a tocar Figma vía MCP: file key `khNq9dJKNi13pNllrqm6dx`. Los links que Rafa pasa son ROOT canvas, no nodes puntuales — extraer toda la info del mismo JSON.
 > 10. Checklist anti-divergencia formalizado en [`customs-catalog.md §0`](../packages/design-system/docs/customs-catalog.md) — 4 preguntas obligatorias antes de tocar componentes.
 > 11. **Acceso al prototipo React**: `~/dev/Memory/legacy-react/`. Para correr
@@ -56,62 +63,126 @@
 
 ---
 
-## Estado al cerrar (Session 39, 2026-05-19) — Rescate Netlify + CI rojo destapado + husky
+## Estado al cerrar (Session 39, 2026-05-19) — Maratón ~18 commits
 
-**Sesión de plomería, 0 features**. Arregla la infraestructura que
-estaba rota en silencio desde S35 (rename `apps/aed/` → `apps/supervisor/`).
+**6 bloques temáticos** entrelazados:
+1. **Rescate Netlify post-S35**: settings UI viejos, npm 10.9.x rompía esbuild → pin 10.8.2 + `npm ci`, husky+lint-staged. Resultado: 3 builds verdes (CI primera vez desde S35, ambos sites Netlify).
+2. **Memory modal v11 → v26**: refactor entero al detectar desfase con prototipo React (Figma 297:2559 "compact body"). 2 celdas hero+decision, animaciones pulse/shake, multi-rec leg-aware.
+3. **Mock dispatch + sticky toast + shimmer**: store con `processingIds`/`analyzingIds` + `dispatchTranscription` async 5s+5s, sticky toast updateable, filas en proceso amber/cyan animadas. Chip "Solo fallidas" en toolbar.
+4. **Memory adiciones**: Templates predefinidos en CategoryFormModal (4 plantillas) + MockSampleSwitcher (7 escenarios demo, chip amber dashed top-right) + integración processingIds en bulk modal.
+5. **ds-docs tracker**: campo `memoryUses` + chip "★ En ambas apps" (cross-consumer detecta 5 piezas) + `whereToSeeMemory` análogo a AED con purple side.
+6. **Bug crítico NG0950 + audit 6-ejes**: página blanca cazada (read-fuera-de-effect en constructor), 3 modals reforzados defensivamente, audit completo (anti-patrones, dead code -37 i18n, tokens, a11y, bundle, i18n consistency).
 
-### Lo arreglado (5 commits a `main`)
+### Commits S39 (~18)
 
-1. `a373419` — **Acordeón ds-docs home**. Las 7 categorías de
-   "Componentes con documentación viva" pasan a `<details>` colapsable
-   para no obligar a scrollear hasta "Mi seguimiento". Caret rotativo
-   + count pill. Verificado live en `ds-smartcontact.netlify.app`.
-2. `2689c15` — **123 archivos auto-formateados con prettier**. Destapa
-   el CI rojo que llevaba acumulándose desde S35-S38 silenciosamente.
-   `format:check` ahora verde. **Primer CI verde desde S35**.
-3. `9e8f578` — **Pin `NPM_VERSION=10.8.2`** en `netlify.toml`. Netlify
-   por defecto upgradeaba a 10.9.x que rompía optional deps de
-   `@esbuild/linux-x64`.
-4. `d781bc5` — **`NPM_FLAGS=--include=optional`** en `netlify.toml`.
-   Belt-and-suspenders para forzar instalación de binarios nativos.
-5. `ea3772b` — **husky + lint-staged**. Pre-commit hook que pasa
-   prettier sobre `{apps,packages}/**/*.{ts,html,scss,css,json}`
-   staged. Evita que el problema del punto 2 vuelva a pasar.
+Bloque 1 (rescate Netlify): `a373419`, `2689c15`, `9e8f578`, `d781bc5`, `ea3772b`, `7e85246`, `2f406bc`, `cc1f678`.
 
-### Pendiente de commit final S39
+Bloque 2-5 (Memory + ds-docs): `fcafbb7`, `ad08a02`, `e670652`, `e3dc6b0`, `7a92b9d`, `da23b2d`, `43b4e0b`, `4ce2d37`.
 
-- `netlify.toml` doc updated: build cmd ambos sites cambia a
-  **`npm ci --no-audit --no-fund && npm run build:*`** (en Netlify UI ya
-  aplicado vía API PATCH; el comentario del toml refleja la realidad).
-- `docs/SESSION-LOG.md` con entry S39.
-- `docs/NEXT-SESSION-PLAN.md` (este archivo) actualizado.
+Bloque 6 (bugfix + audit): `7525864` (hotfix NG0950), `2366993` (defensive), `ef0327b` (inventory §10 #15+#16), `e27ccc5` (dead code), + final docs.
 
 ### Estado salud al cerrar S39
 
-| Site | URL | Auto-deploy | Último deploy |
+| Sistema | Estado | Commit |
+|---|---|---|
+| aedmigration.netlify.app | ✅ Live · Memory funcional con dispatch mock | `2366993`+ |
+| ds-smartcontact.netlify.app | ✅ Live · tracker con memoryUses + cross-app | `e27ccc5` |
+| CI GitHub Actions | ✅ Verde (actions/checkout+setup-node v6) | — |
+| Pre-commit hook | ✅ Activo (husky+lint-staged) | — |
+| Bundle initial supervisor | 1.65 MB (budget 1.8 MB) — diagnóstico real S39 | — |
+
+---
+
+## Roadmap S40+ (priorizado, actualizado S39)
+
+### 🎯 Eje 1 — Memory polish UX (alto valor, accionable sin Marta)
+
+Items derivados del trabajo S39 que tocaron pero quedaron pendientes:
+
+| # | Item | Trigger | Tamaño |
 |---|---|---|---|
-| Supervisor | https://aedmigration.netlify.app | ✅ Verde con `npm ci` | sha `ea3772b` |
-| ds-docs | https://ds-smartcontact.netlify.app | ✅ Verde con `npm ci` | sha `ea3772b` |
-| CI GitHub Actions | main branch | ✅ Verde | sha `2689c15` (primer verde post-S35) |
+| §10 #15 | Iconografía cluster Estado en ConversationTable — assets Memory específicos para grabación/transcripción/análisis | Rafa lo señaló S39, está en docs Memory legacy-react | ~1h |
+| §10 #16 | Estilo tabla Memory `/conversaciones` ← adoptar styling AED (agents/groups/users tablas más estilizadas) | Rafa lo señaló S39 | ~1.5h |
+| §10 #1 | **Re-transcribir** desde ConversationPlayerModal (icono RotateCcw + RetranscriptionConfirmModal destructivo) | Producto valida flujo destructivo | ~1h |
+| §10 #2 | MultiRecordingPlayer multi-leg en player modal | Priorizar fidelidad multi-leg | ~3h |
+| §10 #3 | Cocinar `<sc-audio-player>` wrapper SCDS (cuando llegue 2º consumer) | Item #2 desbloquea esto | ~1.5h |
 
-### Lecciones del rescate (case-study material — puntos a anotar)
+### 🎯 Eje 2 — Memory roadmap (decisiones bloqueadas)
 
-- **Falsos diagnósticos en cascada**: las 2 primeras hipótesis
-  ("package-lock", "el rename rompió paths") fueron erróneas. Solo el
-  log raw del build (pegado por Rafa desde el dashboard UI, ya que la
-  API REST NO expone logs raw) destrabó la situación.
-- **CI rojo silencioso por falta de pre-commit hook**: 123 archivos
-  sin formatear acumulados entre S35-S38. Cada commit a `main` pasaba
-  sin barrera local. Hoy con husky+lint-staged eso queda cerrado.
-- **`netlify api updateSite` del CLI NO aplica el merge**: devuelve el
-  objeto pre-update. Solución: PATCH directo al endpoint REST con
-  Bearer token. Documentar para futuros scripts.
-- **`npm ci` vs `npm install` en Netlify**: el install pre-build
-  automático puede "remover" optional deps al cambiar de versión npm.
-  Un `npm install` posterior dice "up to date" sin reinstalar. `npm ci`
-  borra `node_modules` y reinstala desde lockfile, garantizando que
-  binarios nativos estén presentes. Coste +30s/build.
+Items §10 que dependen de decisión Rafa/Marta o trigger producto:
+
+| # | Item | Bloqueado por |
+|---|---|---|
+| §10 #4 | Modal Download heredado SC (checkboxes + aviso GDPR) | Producción real con endpoint backend |
+| §10 #5 | Sticky toast progress upgrade in-place (mock simple actual) | ✅ **Resuelto S39** (Fases 1-3 dispatch) |
+| §10 #6 | Hint "Excluye K en proceso" en bulk modal subtitle | ✅ **Cableado S39** (processingIds en bulk modal) |
+| §10 #7 | Hint multi-tramo subtitle bulk | Dispatcher backend real |
+| §10 #8 | Eyebrow "ACCIÓN MASIVA" en bulk modal | Refactor sc-modal añadir slot eyebrow (≥2 consumers) |
+| §10 #9 | Toast error "Ver fallidas" + chip toolbar + filtro permanente | ✅ **Chip + filtro S39**; toast: dispatch real backend |
+| §10 #11 | DataExportImport JSON config Memory | Producción real |
+| §10 #12 | Synonyms granulares per-value en EntityFormModal | Marta/Rafa priorizan |
+| §10 #13 | CategoryRuleLinking interactivo bidireccional | Refactor 3-piezas (extender Rule + selector RuleBuilder + UI) |
+
+### 🎯 Eje 3 — SCDS backlog persistente (sin trigger, dormidos)
+
+Ver [`packages/design-system/docs/inconsistencies-backlog.md`](../packages/design-system/docs/inconsistencies-backlog.md):
+
+| # | Item | Estado |
+|---|---|---|
+| #6 | `<sc-select-button>` gap | Primer filtro segmented real |
+| #7 | `<sc-tag>` gap | Primer caso severity-fill |
+| #8 | `<sc-toggle-button>` gap | Primer caso button pressed state |
+| #14 #15 | Refinements Figma SC Search (icon X + variants formales) | Marta dependent |
+| #27 | Branch deploys Netlify preview por PR | Cuando equipo crezca |
+| #28 | Memory CI workflow (script tokens → action) | Memory active + threshold |
+| #31 | **Bundle initial inflado por theme PrimeNG** (no es MultiSelect Component sino theme tokens) | Modular theme PrimeNG — ~3-4h S40+ |
+
+### 🎯 Eje 4 — Figma ↔ código (input externo Rafa+Marta)
+
+| # | Item | Quién | Cuándo |
+|---|---|---|---|
+| 1 | Bootstrap Variables Custom collection en Figma SC capturando las 6 divergencias (navy primary, electric-blue info, amber warn, button padding 10.5/7, tabs padding, tooltip chrome) | Rafa + Marta, Claude audita MCP | Cuando os pongáis |
+| 2 | Workflow pantallas Figma ↔ código (convenciones nomenclatura, instances obligatorias) | Rafa + Marta, Claude da guidelines | Próximas 1-2 semanas |
+| 2b | Figma Code Connect mapping Kit Pro ↔ SCDS | Claude config + Rafa valida | Cuando Rafa dé luz verde |
+| 6 | Audit `❖ Panel` SC → desbloquea section-card refactor (P2 deferred S34) | Rafa o Marta + Claude MCP | Cuando os pongáis |
+
+### 🎯 Eje 5 — PrimeOne upgrade vigilance (defensivo)
+
+| # | Item | Cuándo |
+|---|---|---|
+| 1 | Vigilar nuevos minors PrimeNG (estamos 21.1.7, último 21.1.8 patch trivial verificado S39) | Cada 2-3 sesiones |
+| 2 | Dry-run próximo major PrimeNG (22.x cuando salga estable) | Trigger upstream release |
+
+### 🎯 Eje 6 — Case-study notes progresivo
+
+Ver [`docs/case-study-notes.md`](./case-study-notes.md). S39 añadió 2 entries (falsos diagnósticos en cascada + CI rojo invisible). Próximos momentos pedagógicos a anotar: bug NG0950 transitivo, dispatch mock con setTimeout vs polling real, refactor v11→v26 con tokens canonical SCDS (no nuevos).
+
+### 🎯 Eje 7 — Audit periódico
+
+Ejes hechos S39 (sin findings nuevos accionables):
+- ✅ Anti-patrones Angular (NG0950 transitivo documentado en memoria)
+- ✅ Dead code (-37 i18n keys + 1 import)
+- ✅ Tokens hardcoded (0 — todos eran fallbacks)
+- ✅ A11y básico (0 issues)
+- ⏸ Bundle (diagnóstico real S39, fix S40+ con modular theme PrimeNG)
+- ✅ i18n consistency (118 duplicados todos contextuales)
+
+Próximo audit recomendado: tras 5-6 commits de feature work.
+
+---
+
+## Sugerencias arranque S40
+
+**Prioridad 1**: Si Rafa señala UX polish Memory → atacar §10 #15 + #16 (iconografía + estilo tabla). 2-3h juntos.
+
+**Prioridad 2**: Si Rafa señala Memory feature → atacar §10 #1 (re-transcribir player) o §10 #12 (synonyms granulares).
+
+**Prioridad 3**: Si Rafa señala perf / bundle → atacar #31 con modular theme PrimeNG (investigación + fix ~3-4h).
+
+**NO atacar sin trigger explícito**:
+- Reglas IA (`§10 #13` CategoryRuleLinking — Rafa explícito S39 "reglas al roadmap").
+- Nuevos componentes SCDS "por si acaso" (memoria `minimal-customization`).
+- Refactor estructural (memoria `reference_structural_refactor_plan` — plan dormido).
 
 ---
 

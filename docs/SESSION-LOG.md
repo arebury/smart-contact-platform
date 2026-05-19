@@ -10,12 +10,17 @@
 
 ---
 
-## 2026-05-19 · Session 39 — Rescate Netlify post-S35 + CI rojo destapado + husky pre-commit
+## 2026-05-19 · Session 39 — Sesión maratón: rescate Netlify + CI + Memory dispatch + modal v26 + templates + samples + audit
 
-> **Sesión de plomería**. Rafa nota que `aedmigration.netlify.app` no
-> mostraba el trabajo S38 ("no lo veo deployed"). Diagnóstico cascada:
-> 3 problemas distintos enmascarándose entre sí, todos consecuencia del
-> rename S35 (`apps/aed/` → `apps/supervisor/`).
+> **Sesión muy larga, ~18 commits a `main`**. Empezó con "no veo
+> deployed" (rescate Netlify post-S35) y derivó en bloque tras bloque:
+> CI rojo silencioso destapado, modal v11 → v26 refactor entero,
+> mock dispatch + sticky toast + filas shimmer, MockSampleSwitcher
+> portado, templates predefinidos CategoryFormModal, ds-docs tracker
+> con `memoryUses` + `whereToSeeMemory`, audit 6-ejes de la plataforma,
+> y bug crítico de página blanca (NG0950) cazado y arreglado al vuelo.
+
+### Bloque 1 — Rescate Netlify (3 problemas en cascada)
 
 ### Hitos cronológicos
 
@@ -99,14 +104,88 @@
 | CI GitHub Actions | main branch | ✅ **Verde primera vez desde S35** |
 | Netlify auto-deploy nativo | both sites | ⏳ Pendiente verificar `npm ci` build |
 
-### Commits S39 (5 push a `main`)
+### Commits Bloque 1 (5 push a `main`)
 
 1. `a373419` — `feat(ds-docs): home — categorías "Componentes con documentación viva" en acordeón`
 2. `2689c15` — `chore(format): aplicar prettier a 123 archivos · destapa CI rojo desde S35`
 3. `9e8f578` — `fix(netlify): pin NPM_VERSION 10.8.2 — fixa install rojo post-S35`
 4. `d781bc5` — `fix(netlify): NPM_FLAGS=--include=optional · esbuild binary fix`
 5. `ea3772b` — `chore(tooling): husky + lint-staged · pre-commit auto-format`
-6. (pendiente) — commit doc S39 + cierre.
+
+### Bloque 2 — Cambio cmd a `npm ci` + cierre Netlify (4 commits)
+
+Build remoto Netlify seguía rojo tras pin npm. Log raw del build (pegado
+por Rafa desde dashboard UI — la API REST NO expone logs) reveló: el
+install pre-build automático de Netlify removía 12 packages al
+downgradear de npm 10.9.x → 10.8.2; entre ellos `@esbuild/linux-x64`.
+El `npm install` posterior decía "up to date" sin reinstalar binarios.
+
+**Fix**: cambiar build cmd UI a `npm ci --no-audit --no-fund && npm run
+build:supervisor`. `npm ci` borra `node_modules` y reinstala desde
+lockfile cada vez. Verificado verde en ambos sites.
+
+- `7e85246` — `docs(close): S39 final — Netlify auto-deploy restaurado con npm ci`
+- `2f406bc` — `chore(ci): bump checkout + setup-node a v6 · cierra Node 20 deprecation`
+- `cc1f678` — `docs(backlog): #31 findings S39 — bundle initial 1.65MB analizado` (primer análisis)
+
+### Bloque 3 — Memory: BulkTranscriptionModal v11 → v26 + Templates + MockSampleSwitcher (4 commits)
+
+Rafa señala que el modal Memory React evolucionó a v26 (Figma 297:2559
+"compact body") mientras Angular estaba en v11. Refactor mayor.
+
+- `fcafbb7` — `feat(memory): plantillas predefinidas en CategoryFormModal (iter 11c)` — 4 plantillas Queja/Churn/Competitor/Incident, dialog secundario.
+- `ad08a02` — `feat(memory): BulkTranscriptionModal v11 → v26 (Figma 297:2559 compact body)` — 3 columnas MECE → 2 celdas hero+decision con 88px number + cost cue + delta hint + animaciones pulse/shake.
+- `e670652` — `refactor(memory): modal v26 sin tokens --sc-bulk-* propios · consistencia DS` — Rafa señala "no deuda de diseño", quité los 7 tokens `--sc-bulk-*` y usé canonical SCDS.
+- `e3dc6b0` — `feat(ds-docs): tracker añade memoryUses + chip "En ambas apps" (cross-consumer)` — 5 cross-consumers detectados (button, input, page-header, bulk-action-bar, modal).
+- `7a92b9d` — `feat(memory): MockSampleSwitcher · 7 escenarios de demo en /conversaciones` — chip amber dashed + popover 7 samples (default, all-pending, all-done, calls-only, chats-only, small, multi-rec).
+
+### Bloque 4 — Memory: mock dispatch + sticky toast + filas shimmer (Fases 1-3) (3 commits)
+
+Sistema de transcripciones masivas/unitarias completo con simulación
+backend via `setTimeout` 5s+5s, sticky toast updateable, filas con
+shimmer amber/cyan en proceso, filtro "Solo fallidas" cuando hay
+errores, integración con bulk modal v26.
+
+- `da23b2d` — `feat(memory): mock dispatch + sticky toast transcripciones (Fase 1)` — store extendido con `processingIds`/`analyzingIds` + `dispatchTranscription` async + tabla con shimmer.
+- `43b4e0b` — `feat(ds-docs): tracker añade 'Dónde verlo: Memory' análogo a AED` — 7 componentes Memory con descripción contextual (purple side vs blue AED).
+- `4ce2d37` — `feat(memory): Solo fallidas chip + processingIds en bulk modal (Fases 2+3)` — chip rojo en toolbar visible si hay errores + processingIds cableado al modal v26 (excluye filas mid-dispatch).
+
+### Bloque 5 — Bug crítico NG0950 + audit 6-ejes (3 commits)
+
+Rafa pega screenshot: `/conversaciones` en producción **NO renderiza**
+(página blanca con solo icono shell + avatar). Error NG0950 en
+DevTools: `input.required` accedido transitivamente antes del binding.
+
+- `7525864` — `fix(memory): BulkTranscriptionModal NG0950 — inputs required con default` — hotfix: `visible` y `selected` con default `false`/`[]`.
+
+Audit 6-ejes post-fix (anti-patrones, dead code, tokens, a11y, bundle,
+i18n consistency). Resultado: codebase saludable, 2 ítems accionables.
+
+- `2366993` — `refactor(memory): visible inputs con default en 3 modals · prevención NG0950` — paranoia defensive en los otros 3 modals Memory (category-form, entity-form, conversation-player).
+- `ef0327b` — `docs(inventory): §10 + 2 entries · iconografía estado + estilo tabla` — anota 2 cosas para próxima sesión polish UX.
+- `e27ccc5` — `chore(audit): eje 2 dead code · -37 i18n keys + 1 unused import` — limpieza tras bulk modal v26 (28 keys del v11 obsoleto).
+
+### Bloque 6 — Riesgos pendientes documentados (este cierre)
+
+- Memoria personal nueva `ng0950-transitive-pitfall` con regla
+  preventiva: nunca `let x = this.signal()` fuera de effect/computed
+  en constructor.
+- Backlog #31 ampliado con diagnóstico real: el initial chunk inflado
+  NO es por MultiSelect Component (verificado con `@defer` experimental
+  que no movió bundle) sino por **theme strings PrimeNG**. `ScPreset`
+  registra theme tokens de TODOS los componentes globalmente. Fix
+  futuro requiere modular theme PrimeNG (3-4h S40+).
+
+### Estado salud al cerrar S39
+
+| Sistema | Estado | Commit live |
+|---|---|---|
+| aedmigration.netlify.app | ✅ Live | `2366993` |
+| ds-smartcontact.netlify.app | ✅ Live | `e27ccc5` |
+| CI GitHub Actions main | ✅ Verde | `e27ccc5` |
+| Netlify auto-deploy nativo | ✅ Verde con `npm ci` | — |
+| Pre-commit hook | ✅ Activo (husky+lint-staged) | — |
+| Memory `/conversaciones` | ✅ Funcional con dispatch mock + sticky toast | — |
 
 ### Lecciones (case-study material)
 
