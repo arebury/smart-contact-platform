@@ -49,7 +49,9 @@
         "groups_placeholder": "Cualquier grupo",
         "agents_label": "Agentes",
         "agents_placeholder": "Cualquier agente",
-        "reset": "Limpiar filtros"
+        "reset": "Limpiar filtros",
+        "only_failed": "Solo fallidas",
+        "only_failed_hint": "Mostrar solo conversaciones con transcripción fallida"
       }
     },
     "type_filter": {

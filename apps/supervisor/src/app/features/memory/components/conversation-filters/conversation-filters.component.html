@@ -63,6 +63,20 @@
       [selected]="filters().aiCategories"
       (selectedChange)="onAiCategoriesChange($event)"
     />
+    @if (failedCount() > 0) {
+      <button
+        type="button"
+        class="memory-failed-chip"
+        [class.is-active]="filters().status.onlyFailed"
+        (click)="toggleOnlyFailed()"
+        [attr.aria-pressed]="filters().status.onlyFailed"
+        [attr.title]="'memory.conversations.filters.only_failed_hint' | translate"
+      >
+        <lucide-icon [img]="alertIcon" [size]="13" aria-hidden="true" />
+        <span>{{ 'memory.conversations.filters.only_failed' | translate }}</span>
+        <span class="memory-failed-chip__count">{{ failedCount() }}</span>
+      </button>
+    }
     <button
       type="button"
       class="sc-icon-btn"

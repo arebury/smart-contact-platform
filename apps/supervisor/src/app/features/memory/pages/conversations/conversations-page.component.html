@@ -9,6 +9,7 @@
     <sc-memory-conversation-filters
       [filters]="filters()"
       [availableAiCategories]="availableAiCategories()"
+      [failedCount]="failedCount()"
       (filtersChange)="onFiltersChange($event)"
     />
     <sc-memory-conversation-table
@@ -44,6 +45,8 @@
 <sc-memory-bulk-transcription-modal
   [visible]="bulkModalOpen()"
   [selected]="bulkSnapshot()"
+  [processingIds]="processingIdsArray()"
+  [analyzingIds]="analyzingIdsArray()"
   (closed)="onBulkModalClose()"
   (confirmed)="onBulkModalConfirm($event)"
 />

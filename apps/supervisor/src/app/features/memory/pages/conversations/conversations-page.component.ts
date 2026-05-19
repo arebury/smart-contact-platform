@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CheckCheck, LucideAngularModule, MessagesSquare, Sparkles } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
@@ -67,6 +67,10 @@ export class ConversationsPageComponent {
   protected readonly availableAiCategories = this.conversationsStore.availableAiCategories;
   protected readonly processingIds = this.conversationsStore.processingIds;
   protected readonly analyzingIds = this.conversationsStore.analyzingIds;
+  protected readonly failedCount = this.conversationsStore.failedCount;
+  /** Versión `readonly string[]` para los modals que esperan array, no Set. */
+  protected readonly processingIdsArray = computed(() => [...this.processingIds()]);
+  protected readonly analyzingIdsArray = computed(() => [...this.analyzingIds()]);
   protected readonly pageIcon = MessagesSquare;
   protected readonly bulkIcon = Sparkles;
   protected readonly markReadIcon = CheckCheck;

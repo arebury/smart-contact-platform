@@ -45,3 +45,63 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* Chip "Solo fallidas" — aparece solo cuando hay errores en el set. */
+.memory-failed-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 11px;
+  border: 1px solid var(--sc-color-red-300);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--sc-color-red-100) 50%, transparent);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sc-color-red-800);
+  cursor: pointer;
+  transition:
+    border-color 140ms ease,
+    background 140ms ease,
+    transform 100ms ease;
+
+  &:hover {
+    border-color: var(--sc-color-red-500);
+    background: color-mix(in srgb, var(--sc-color-red-200) 60%, transparent);
+  }
+
+  &.is-active {
+    background: var(--sc-color-red-500);
+    border-color: var(--sc-color-red-600);
+    color: white;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-red-500);
+    outline-offset: 2px;
+  }
+}
+
+.memory-failed-chip__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  padding: 0 6px;
+  height: 18px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--sc-color-red-200) 80%, transparent);
+  font-family: var(--sc-font-family-mono, ui-monospace, SFMono-Regular, monospace);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sc-color-red-900);
+
+  .is-active & {
+    background: color-mix(in srgb, white 25%, transparent);
+    color: white;
+  }
+}

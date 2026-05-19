@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, RotateCcw, Search } from 'lucide-angular';
+import { AlertCircle, LucideAngularModule, RotateCcw, Search } from 'lucide-angular';
 
 import { DatepickerComponent } from '@shared/components/datepicker/datepicker.component';
 import { InputComponent } from '@shared/components/input/input.component';
@@ -61,6 +61,9 @@ import { TypeFilterButtonComponent } from '../type-filter-button/type-filter-but
 export class ConversationFiltersComponent {
   readonly filters = model.required<MemoryConversationFilters>();
   readonly availableAiCategories = input.required<readonly string[]>();
+  /** Count de conversaciones con `hasFailedTranscription: true` en el set
+   *  actual. Si es 0 el chip "Solo fallidas" se oculta automáticamente. */
+  readonly failedCount = input<number>(0);
 
   protected readonly serviceOptions = SERVICE_OPTIONS;
   protected readonly groupOptions = GROUP_OPTIONS;
@@ -68,6 +71,7 @@ export class ConversationFiltersComponent {
 
   protected readonly searchIcon = Search;
   protected readonly resetIcon = RotateCcw;
+  protected readonly alertIcon = AlertCircle;
 
   protected setServices(services: readonly string[] | unknown[]): void {
     this.filters.update((f) => ({ ...f, services: (services ?? []) as readonly string[] }));
@@ -99,6 +103,13 @@ export class ConversationFiltersComponent {
 
   protected onAiCategoriesChange(next: readonly string[]): void {
     this.filters.update((f) => ({ ...f, aiCategories: next }));
+  }
+
+  protected toggleOnlyFailed(): void {
+    this.filters.update((f) => ({
+      ...f,
+      status: { ...f.status, onlyFailed: !f.status.onlyFailed },
+    }));
   }
 
   protected onReset(): void {
