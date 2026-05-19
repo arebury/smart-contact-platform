@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LucideAngularModule, AlertTriangle, Check, Copy, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { ClipboardService } from '@core/services/clipboard.service';
 import { ModalComponent } from '../modal/modal.component';
@@ -34,7 +35,7 @@ export interface DeletableEntity {
  */
 @Component({
   selector: 'sc-delete-entity-dialog',
-  imports: [FormsModule, LucideAngularModule, ModalComponent, TranslateModule],
+  imports: [ButtonModule, FormsModule, LucideAngularModule, ModalComponent, TranslateModule],
   templateUrl: './delete-entity-dialog.component.html',
   styleUrl: './delete-entity-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -89,7 +89,9 @@ describe('DeleteEntityDialogComponent', () => {
     });
 
     it('disables confirm until the typed text matches the entity name', () => {
-      const confirmBtn = findInside<HTMLButtonElement>('.btn--danger');
+      const confirmBtn = findInside<HTMLButtonElement>(
+        'p-button[data-testid="delete-confirm-btn"] button',
+      );
       expect(confirmBtn.disabled).toBe(true);
 
       const input = findInside<HTMLInputElement>('#delete-confirm-input');
@@ -110,13 +112,13 @@ describe('DeleteEntityDialogComponent', () => {
       input.dispatchEvent(new Event('input'));
       fixture.detectChanges();
 
-      findInside<HTMLButtonElement>('.btn--danger').click();
+      findInside<HTMLButtonElement>('p-button[data-testid="delete-confirm-btn"] button').click();
       fixture.detectChanges();
       expect(host.confirmed).toBeNull();
     });
 
     it('emits cancelled when Cancel is clicked', () => {
-      findInside<HTMLButtonElement>('.btn--secondary').click();
+      findInside<HTMLButtonElement>('p-button[data-testid="delete-cancel-btn"] button').click();
       fixture.detectChanges();
       expect(host.cancelCount).toBe(1);
     });
@@ -140,7 +142,9 @@ describe('DeleteEntityDialogComponent', () => {
       host.items = [{ id: 99, name: 'Marta Recio' }];
       fixture.detectChanges();
 
-      const confirmBtn = findInside<HTMLButtonElement>('.btn--danger');
+      const confirmBtn = findInside<HTMLButtonElement>(
+        'p-button[data-testid="delete-confirm-btn"] button',
+      );
       expect(confirmBtn.disabled).toBe(true);
     });
   });
@@ -159,11 +163,13 @@ describe('DeleteEntityDialogComponent', () => {
     it('renders one chip per item and confirm enabled by default', () => {
       const chips = document.querySelectorAll('.delete-entity__chip');
       expect(chips.length).toBe(3);
-      expect(findInside<HTMLButtonElement>('.btn--danger').disabled).toBe(false);
+      expect(
+        findInside<HTMLButtonElement>('p-button[data-testid="delete-confirm-btn"] button').disabled,
+      ).toBe(false);
     });
 
     it('emits confirm with every surviving id when nothing is pruned', () => {
-      findInside<HTMLButtonElement>('.btn--danger').click();
+      findInside<HTMLButtonElement>('p-button[data-testid="delete-confirm-btn"] button').click();
       fixture.detectChanges();
       expect(host.confirmed).toBeTruthy();
       const ids = [...(host.confirmed ?? [])].sort();
@@ -179,7 +185,7 @@ describe('DeleteEntityDialogComponent', () => {
       fixture.detectChanges();
       expect(document.querySelectorAll('.delete-entity__chip').length).toBe(2);
 
-      findInside<HTMLButtonElement>('.btn--danger').click();
+      findInside<HTMLButtonElement>('p-button[data-testid="delete-confirm-btn"] button').click();
       fixture.detectChanges();
       const ids = [...(host.confirmed ?? [])].sort();
       expect(ids).toEqual([2, 3]);
@@ -192,7 +198,9 @@ describe('DeleteEntityDialogComponent', () => {
       removeBtns.forEach((btn) => btn.click());
       fixture.detectChanges();
       expect(document.querySelectorAll('.delete-entity__chip').length).toBe(0);
-      expect(findInside<HTMLButtonElement>('.btn--danger').disabled).toBe(true);
+      expect(
+        findInside<HTMLButtonElement>('p-button[data-testid="delete-confirm-btn"] button').disabled,
+      ).toBe(true);
     });
 
     it('resets every chip when the items list changes (caller re-staging a delete)', () => {

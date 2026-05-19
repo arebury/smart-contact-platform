@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Trash2 } from 'lucide-angular';
+import { ButtonModule } from 'primeng/button';
 
 /**
  * End-of-form section that hosts irreversible / sensitive actions
@@ -12,7 +13,7 @@ import { LucideAngularModule, Trash2 } from 'lucide-angular';
  */
 @Component({
   selector: 'sc-form-danger-zone',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [ButtonModule, LucideAngularModule, TranslateModule],
   templateUrl: './form-danger-zone.component.html',
   styleUrl: './form-danger-zone.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

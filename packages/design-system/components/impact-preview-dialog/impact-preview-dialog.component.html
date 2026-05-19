@@ -42,11 +42,11 @@
   </ul>
 
   <div modal-actions>
-    <button type="button" class="btn btn--secondary" (click)="cancelled.emit()">
-      {{ cancelLabel() }}
-    </button>
-    <button type="button" class="btn btn--primary" (click)="onConfirm()" [disabled]="!canConfirm()">
-      {{ confirmLabel() }}
-    </button>
+    <p-button type="button" severity="secondary" (onClick)="cancelled.emit()">
+      <span>{{ cancelLabel() }}</span>
+    </p-button>
+    <p-button type="button" severity="primary" [disabled]="!canConfirm()" (onClick)="onConfirm()">
+      <span>{{ confirmLabel() }}</span>
+    </p-button>
   </div>
 </sc-modal>

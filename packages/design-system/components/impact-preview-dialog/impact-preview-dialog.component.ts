@@ -8,6 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { LucideAngularModule, ArrowRight, Copy, X } from 'lucide-angular';
+import { ButtonModule } from 'primeng/button';
 
 import { ModalComponent } from '../modal/modal.component';
 
@@ -33,7 +34,7 @@ export interface ImpactBadge {
  */
 @Component({
   selector: 'sc-impact-preview-dialog',
-  imports: [LucideAngularModule, ModalComponent],
+  imports: [ButtonModule, LucideAngularModule, ModalComponent],
   templateUrl: './impact-preview-dialog.component.html',
   styleUrl: './impact-preview-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

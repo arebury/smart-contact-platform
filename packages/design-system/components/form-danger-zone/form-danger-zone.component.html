@@ -5,13 +5,15 @@
     </h2>
     <p class="danger-zone__description">{{ descriptionKey() | translate }}</p>
   </div>
-  <button
+  <p-button
     type="button"
-    class="btn btn--danger-subtle danger-zone__action"
+    severity="danger"
+    [outlined]="true"
+    styleClass="danger-zone__action"
     [disabled]="disabled()"
-    (click)="action.emit()"
+    (onClick)="action.emit()"
   >
     <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
     <span>{{ actionKey() | translate }}</span>
-  </button>
+  </p-button>
 </section>

@@ -52,9 +52,15 @@
     @if (visibleItems().length === 0) {
       <div class="delete-entity__empty" role="status">
         <p>{{ 'common.delete_dialog.empty_pruned' | translate }}</p>
-        <button type="button" class="btn btn--secondary btn--sm" (click)="resetChips()">
-          {{ 'common.delete_dialog.reset' | translate }}
-        </button>
+        <p-button
+          type="button"
+          severity="secondary"
+          size="small"
+          data-testid="delete-reset-btn"
+          (onClick)="resetChips()"
+        >
+          <span>{{ 'common.delete_dialog.reset' | translate }}</span>
+        </p-button>
       </div>
     } @else {
       <div class="delete-entity__chips">
@@ -79,11 +85,22 @@
   }
 
   <div modal-actions>
-    <button type="button" class="btn btn--secondary" (click)="cancelled.emit()">
-      {{ 'common.cancel' | translate }}
-    </button>
-    <button type="button" class="btn btn--danger" [disabled]="!canConfirm()" (click)="onConfirm()">
-      {{ 'common.delete' | translate }}
-    </button>
+    <p-button
+      type="button"
+      severity="secondary"
+      data-testid="delete-cancel-btn"
+      (onClick)="cancelled.emit()"
+    >
+      <span>{{ 'common.cancel' | translate }}</span>
+    </p-button>
+    <p-button
+      type="button"
+      severity="danger"
+      [disabled]="!canConfirm()"
+      data-testid="delete-confirm-btn"
+      (onClick)="onConfirm()"
+    >
+      <span>{{ 'common.delete' | translate }}</span>
+    </p-button>
   </div>
 </sc-modal>
