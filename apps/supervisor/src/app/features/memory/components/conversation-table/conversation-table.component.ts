@@ -1,34 +1,28 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  AlertTriangle,
-  FileText,
-  LucideAngularModule,
-  MessageSquare,
-  Mic,
-  Phone,
-  Sparkles,
-} from 'lucide-angular';
 
 import type { Conversation } from '../../data/conversation.types';
+import { MemoryStatusIconComponent } from '../memory-status-icon/memory-status-icon.component';
 
 /**
  * Tabla densa de conversaciones Memory.
  *
  * Iter 1 (S36): 9 columnas básicas + chrome `.table sc-table-zebra` AED.
- * Iter 2 (S37): + columna Estado (icons procesamiento: channel + recording
- *               + transcription + analysis + failed) + sticky header + hover.
+ * Iter 2 (S37): + columna Estado (cluster 3-5 lucide icons separados) +
+ *               sticky header + hover.
  * Iter 5 (S38): + abre player modal (originalmente desde row click).
  * Iter 6a (S38): + columna checkbox de selección al inicio. Row click pasa
  *                a togglear selección (replicando Audit A5 del prototipo
- *                Memory React). El cluster de status icons en columna Estado
- *                es el affordance EXPLÍCITO que abre el player modal.
- *
- * Filtros por columna llegan en iter futura.
+ *                Memory React).
+ * Iter S40 (#15): cluster lucide cambiado por `<sc-memory-status-icon>` —
+ *                pictograma única canal+processing-state (SVGs custom de
+ *                diseño Memory) + overlays failed (bottom-right) y
+ *                multi-recording count (top-right). Sigue `sistema-de-
+ *                diseno.md §Iconografía` (sec 15.21 audit prototipo).
  */
 @Component({
   selector: 'sc-memory-conversation-table',
-  imports: [TranslateModule, LucideAngularModule],
+  imports: [TranslateModule, MemoryStatusIconComponent],
   templateUrl: './conversation-table.component.html',
   styleUrl: './conversation-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -98,10 +92,7 @@ export class ConversationTableComponent {
     this.allToggled.emit();
   }
 
-  protected readonly phoneIcon = Phone;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly recordingIcon = Mic;
-  protected readonly transcriptionIcon = FileText;
-  protected readonly analysisIcon = Sparkles;
-  protected readonly failedIcon = AlertTriangle;
+  protected recordingsCount(conv: Conversation): number {
+    return conv.recordings?.length ?? 0;
+  }
 }

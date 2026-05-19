@@ -27,10 +27,17 @@
         "id": "ID"
       },
       "status": {
-        "recording": "Con grabación",
-        "transcription": "Transcrita",
-        "analysis": "Analizada por IA",
-        "failed": "Transcripción fallida"
+        "call": "Llamada",
+        "call_recorded": "Llamada · grabada",
+        "call_transcribed": "Llamada · grabada y transcrita",
+        "call_analyzed": "Llamada · grabada, transcrita y analizada",
+        "chat": "Chat",
+        "chat_transcribed": "Chat · transcrito",
+        "chat_analyzed": "Chat · analizado",
+        "transcribing": "Transcribiendo…",
+        "analyzing": "Analizando…",
+        "failed": "Transcripción fallida",
+        "multi_recording": "{{count}} grabaciones"
       },
       "filters": {
         "services_label": "Servicios",

@@ -1,5 +1,5 @@
 <div class="table-card">
-  <table class="table sc-table-zebra memory-conversations-table">
+  <table class="table memory-conversations-table">
     <thead>
       <tr>
         <th class="memory-conversations-table__th-select" scope="col">
@@ -65,49 +65,54 @@
           <td class="memory-conversations-table__td-status">
             <button
               type="button"
-              class="memory-status-icons memory-status-icons--button"
+              class="memory-status-button"
               [attr.aria-label]="'memory.conversations.open_aria' | translate: { id: conv.id }"
               [attr.title]="'memory.conversations.open_player' | translate"
               (click)="onStatusClick($event, conv)"
               (keydown)="onStatusKeydown($event, conv)"
             >
-              <lucide-icon
-                [img]="conv.channel === 'chat' ? chatIcon : phoneIcon"
-                [size]="14"
-                class="memory-status-icons__icon memory-status-icons__icon--channel"
-                [attr.aria-label]="conv.channel"
+              <sc-memory-status-icon
+                [conversation]="conv"
+                [isProcessing]="processing"
+                [isAnalyzing]="analyzing"
               />
-              @if (conv.hasRecording) {
-                <lucide-icon
-                  [img]="recordingIcon"
-                  [size]="14"
-                  class="memory-status-icons__icon memory-status-icons__icon--recording"
-                  [attr.aria-label]="'memory.conversations.status.recording' | translate"
-                />
-              }
-              @if (conv.hasTranscription) {
-                <lucide-icon
-                  [img]="transcriptionIcon"
-                  [size]="14"
-                  class="memory-status-icons__icon memory-status-icons__icon--transcription"
-                  [attr.aria-label]="'memory.conversations.status.transcription' | translate"
-                />
-              }
-              @if (conv.hasAnalysis) {
-                <lucide-icon
-                  [img]="analysisIcon"
-                  [size]="14"
-                  class="memory-status-icons__icon memory-status-icons__icon--analysis"
-                  [attr.aria-label]="'memory.conversations.status.analysis' | translate"
-                />
-              }
               @if (conv.hasFailedTranscription) {
-                <lucide-icon
-                  [img]="failedIcon"
-                  [size]="14"
-                  class="memory-status-icons__icon memory-status-icons__icon--failed"
+                <span
+                  class="memory-status-button__failed"
                   [attr.aria-label]="'memory.conversations.status.failed' | translate"
-                />
+                  [attr.title]="'memory.conversations.status.failed' | translate"
+                >
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                  </svg>
+                </span>
+              }
+              @if (recordingsCount(conv) > 1) {
+                <span
+                  class="memory-status-button__multi"
+                  [attr.aria-label]="
+                    'memory.conversations.status.multi_recording'
+                      | translate: { count: recordingsCount(conv) }
+                  "
+                  [attr.title]="
+                    'memory.conversations.status.multi_recording'
+                      | translate: { count: recordingsCount(conv) }
+                  "
+                >
+                  {{ recordingsCount(conv) }}
+                </span>
               }
             </button>
           </td>
