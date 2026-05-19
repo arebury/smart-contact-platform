@@ -18,6 +18,20 @@ import { DEFAULT_SAMPLE_ID, getSample, MOCK_SAMPLES } from '../data/mock-samples
  * Sin localStorage por ahora — la selección no persiste entre reloads
  * (paridad con el prototipo React, donde tampoco).
  */
+/**
+ * Tiempo de simulación de dispatch (mock-only). Cuando exista backend
+ * real este valor se reemplaza por el polling del estado real. Lo dejo
+ * exportado para que tests + storybook puedan acelerarlo.
+ */
+export const MOCK_DISPATCH_DELAY_MS = 5000;
+
+/** Output del dispatch — los IDs que efectivamente se procesaron y los que
+ *  el mock simuló como fallidos. Útil para el toast de cierre. */
+export interface DispatchResult {
+  readonly successIds: readonly string[];
+  readonly failedIds: readonly string[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class ConversationsStore {
   private readonly _currentSampleId = signal<string>(DEFAULT_SAMPLE_ID);
@@ -26,12 +40,27 @@ export class ConversationsStore {
   );
   private readonly _filters = signal<MemoryConversationFilters>(EMPTY_FILTERS);
   private readonly _selectedIds = signal<ReadonlySet<string>>(new Set());
+  /** IDs en proceso de transcripción (mock dispatch). */
+  private readonly _processingIds = signal<ReadonlySet<string>>(new Set());
+  /** IDs en proceso de análisis IA (mock dispatch). */
+  private readonly _analyzingIds = signal<ReadonlySet<string>>(new Set());
 
   readonly conversations = this._conversations.asReadonly();
   readonly filters = this._filters.asReadonly();
   readonly selectedIds = this._selectedIds.asReadonly();
+  readonly processingIds = this._processingIds.asReadonly();
+  readonly analyzingIds = this._analyzingIds.asReadonly();
   readonly currentSampleId = this._currentSampleId.asReadonly();
   readonly samples = MOCK_SAMPLES;
+
+  /** Cuántas conversaciones tienen `hasFailedTranscription: true`. Alimenta
+   *  el chip "Solo fallidas" del toolbar y el filtro `f.status.onlyFailed`. */
+  readonly failedCount = computed(
+    () => this._conversations().filter((c) => c.hasFailedTranscription).length,
+  );
+
+  readonly processingCount = computed(() => this._processingIds().size);
+  readonly analyzingCount = computed(() => this._analyzingIds().size);
 
   readonly filteredConversations = computed(() => {
     const all = this._conversations();
@@ -105,6 +134,105 @@ export class ConversationsStore {
 
   clearSelection(): void {
     this._selectedIds.set(new Set());
+  }
+
+  /**
+   * Mock dispatch de transcripción (bulk o unitario).
+   *
+   * Simula el ciclo backend con `setTimeout`. Fases:
+   *  1. Añade los IDs a `processingIds` → tabla pinta filas en estado proceso.
+   *  2. Tras `MOCK_DISPATCH_DELAY_MS` (5s): marca `hasTranscription: true` en
+   *     las conversaciones (salvo las que el mock simule fallidas).
+   *  3. Si `includeAnalysis: true`: traspasa los IDs exitosos a
+   *     `analyzingIds`, espera otros `MOCK_DISPATCH_DELAY_MS`, marca
+   *     `hasAnalysis: true`.
+   *  4. Resuelve la promesa con `{ successIds, failedIds }` para que el
+   *     caller actualice su toast.
+   *
+   * Para simular fallos: una conversación con `id` que empieza por "FAIL-"
+   * se marca como fallida. En production esto vendría del backend.
+   *
+   * No reentrante por ID: si un ID ya está en `processingIds` se ignora
+   * silenciosamente (paridad con `referencia-ui.md` decisión 15.45).
+   */
+  dispatchTranscription(
+    ids: readonly string[],
+    options: { readonly includeAnalysis: boolean },
+  ): Promise<DispatchResult> {
+    return new Promise((resolve) => {
+      const eligible = ids.filter((id) => !this._processingIds().has(id));
+      if (eligible.length === 0) {
+        resolve({ successIds: [], failedIds: [] });
+        return;
+      }
+
+      // Fase 1: entrar en proceso de transcripción.
+      this._processingIds.update((curr) => new Set([...curr, ...eligible]));
+
+      setTimeout(() => {
+        // Fase 2: separar success vs failure (mock).
+        const successIds: string[] = [];
+        const failedIds: string[] = [];
+        for (const id of eligible) {
+          if (this.mockShouldFail(id)) failedIds.push(id);
+          else successIds.push(id);
+        }
+
+        // Mutar conversaciones: marcar success como transcribed, failure
+        // como hasFailedTranscription.
+        this._conversations.update((all) =>
+          all.map((c) => {
+            if (successIds.includes(c.id)) {
+              return { ...c, hasTranscription: true, hasFailedTranscription: false };
+            }
+            if (failedIds.includes(c.id)) {
+              return { ...c, hasFailedTranscription: true };
+            }
+            return c;
+          }),
+        );
+
+        // Salir de processingIds.
+        this._processingIds.update((curr) => {
+          const next = new Set(curr);
+          for (const id of eligible) next.delete(id);
+          return next;
+        });
+
+        // Si no se pide análisis, resolver ya.
+        if (!options.includeAnalysis || successIds.length === 0) {
+          resolve({ successIds, failedIds });
+          return;
+        }
+
+        // Fase 3: análisis IA solo sobre successIds.
+        this._analyzingIds.update((curr) => new Set([...curr, ...successIds]));
+
+        setTimeout(() => {
+          this._conversations.update((all) =>
+            all.map((c) => (successIds.includes(c.id) ? { ...c, hasAnalysis: true } : c)),
+          );
+          this._analyzingIds.update((curr) => {
+            const next = new Set(curr);
+            for (const id of successIds) next.delete(id);
+            return next;
+          });
+          resolve({ successIds, failedIds });
+        }, MOCK_DISPATCH_DELAY_MS);
+      }, MOCK_DISPATCH_DELAY_MS);
+    });
+  }
+
+  /**
+   * Heurística mock para simular fallos. Hoy: si el ID contiene "FAIL"
+   * o si la conversación ya estaba marcada como `hasFailedTranscription`
+   * (re-intento que vuelve a fallar — caso edge para demostrar el filtro
+   * "Solo fallidas"). En backend real lo decidirá el pipeline.
+   */
+  private mockShouldFail(id: string): boolean {
+    if (id.includes('FAIL')) return true;
+    const c = this._conversations().find((x) => x.id === id);
+    return c?.hasFailedTranscription === true;
   }
 }
 

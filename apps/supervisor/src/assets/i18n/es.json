@@ -469,6 +469,13 @@
       "dispatched_toast": "{{n}} conversaciones {{mode}}",
       "dispatched_with_analysis": "en transcripción + análisis",
       "dispatched_no_analysis": "en transcripción"
+    },
+    "dispatch": {
+      "transcribing": "Generando transcripción de {{n}} conversaciones…",
+      "analyzing": "Generando análisis IA de {{n}} conversaciones…",
+      "success": "{{n}} conversaciones procesadas correctamente",
+      "all_failed": "{{n}} transcripciones fallaron. Revisa 'Solo fallidas' para reintentarlas.",
+      "partial": "{{ok}} procesadas · {{ko}} fallaron. Revisa 'Solo fallidas' para reintentarlas."
     }
   },
   "common": {

@@ -35,9 +35,13 @@
     <tbody>
       @for (conv of conversations(); track conv.id) {
         @let selected = isSelected(conv.id);
+        @let processing = isProcessing(conv.id);
+        @let analyzing = isAnalyzing(conv.id);
         <tr
           [class.is-deleted]="conv.deleted"
           [class.is-selected]="selected"
+          [class.is-processing]="processing"
+          [class.is-analyzing]="analyzing"
           class="memory-conversations-table__row"
           tabindex="0"
           (click)="onRowClick(conv)"

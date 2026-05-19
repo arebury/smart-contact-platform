@@ -65,6 +65,8 @@ export class ConversationsPageComponent {
   protected readonly selectedCount = this.conversationsStore.selectedCount;
   protected readonly allFilteredSelected = this.conversationsStore.allFilteredSelected;
   protected readonly availableAiCategories = this.conversationsStore.availableAiCategories;
+  protected readonly processingIds = this.conversationsStore.processingIds;
+  protected readonly analyzingIds = this.conversationsStore.analyzingIds;
   protected readonly pageIcon = MessagesSquare;
   protected readonly bulkIcon = Sparkles;
   protected readonly markReadIcon = CheckCheck;
@@ -129,21 +131,87 @@ export class ConversationsPageComponent {
     this.bulkModalOpen.set(false);
   }
 
-  protected onBulkModalConfirm(event: {
+  protected async onBulkModalConfirm(event: {
     includeAnalysis: boolean;
     eligibleIds: readonly string[];
-  }): void {
+  }): Promise<void> {
     this.bulkModalOpen.set(false);
     this.conversationsStore.clearSelection();
-    // Sticky toast post-confirmación (iter futura). Hoy un toast simple
-    // confirma el dispatch fire-and-forget. Ver memory-migration-inventory §10.
-    const summary = this.translate.instant('memory.bulk_modal.dispatched_toast', {
-      n: event.eligibleIds.length,
-      mode: event.includeAnalysis
-        ? this.translate.instant('memory.bulk_modal.dispatched_with_analysis')
-        : this.translate.instant('memory.bulk_modal.dispatched_no_analysis'),
+    await this.dispatchWithStickyToast(event.eligibleIds, event.includeAnalysis);
+  }
+
+  /**
+   * Pipeline visual del dispatch (bulk o unitario). Sticky toast con
+   * `life: 0` + key fijo `dispatch-progress` que se actualiza in-place
+   * mientras el store procesa. Cierre por success o por failure final.
+   *
+   * Réplica del prototipo React `referencia-ui.md §"sticky toast durante
+   * el batch"`: el toast persiste hasta que el batch acaba, no se cierra
+   * solo. El × manual permite descartarlo sin esperar.
+   */
+  private async dispatchWithStickyToast(
+    ids: readonly string[],
+    includeAnalysis: boolean,
+  ): Promise<void> {
+    if (ids.length === 0) return;
+    const progressKey = 'dispatch-progress';
+
+    // Fase 1: sticky "Generando transcripción de N…"
+    this.messages.clear(progressKey);
+    this.messages.add({
+      key: progressKey,
+      severity: 'info',
+      summary: this.translate.instant('memory.dispatch.transcribing', { n: ids.length }),
+      sticky: true,
+      closable: true,
     });
-    this.messages.add({ severity: 'info', summary, life: 3000 });
+
+    const result = await this.conversationsStore.dispatchTranscription(ids, { includeAnalysis });
+
+    // Si pedimos análisis, actualizamos el toast tras la transcripción.
+    if (includeAnalysis && result.successIds.length > 0) {
+      this.messages.clear(progressKey);
+      this.messages.add({
+        key: progressKey,
+        severity: 'info',
+        summary: this.translate.instant('memory.dispatch.analyzing', {
+          n: result.successIds.length,
+        }),
+        sticky: true,
+        closable: true,
+      });
+      // El store ya está esperando el segundo timeout antes de resolver,
+      // así que cuando la promise resuelve aquí el análisis está hecho.
+    }
+
+    // Toast final: success / con-fallos / todo-fallido.
+    this.messages.clear(progressKey);
+    if (result.failedIds.length === 0) {
+      this.messages.add({
+        severity: 'success',
+        summary: this.translate.instant('memory.dispatch.success', {
+          n: result.successIds.length,
+        }),
+        life: 3500,
+      });
+    } else if (result.successIds.length === 0) {
+      this.messages.add({
+        severity: 'error',
+        summary: this.translate.instant('memory.dispatch.all_failed', {
+          n: result.failedIds.length,
+        }),
+        life: 6000,
+      });
+    } else {
+      this.messages.add({
+        severity: 'warn',
+        summary: this.translate.instant('memory.dispatch.partial', {
+          ok: result.successIds.length,
+          ko: result.failedIds.length,
+        }),
+        life: 6000,
+      });
+    }
   }
 
   protected onConversationOpen(conv: Conversation): void {

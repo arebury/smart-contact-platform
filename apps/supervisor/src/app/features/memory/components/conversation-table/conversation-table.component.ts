@@ -37,6 +37,10 @@ export class ConversationTableComponent {
   readonly conversations = input.required<readonly Conversation[]>();
   readonly selectedIds = input.required<ReadonlySet<string>>();
   readonly allSelected = input.required<boolean>();
+  /** IDs en proceso de transcripción (mock dispatch). Pintan fila amber. */
+  readonly processingIds = input<ReadonlySet<string>>(new Set());
+  /** IDs en proceso de análisis IA. Pintan fila cyan. */
+  readonly analyzingIds = input<ReadonlySet<string>>(new Set());
 
   readonly conversationOpen = output<Conversation>();
   readonly selectionToggled = output<string>();
@@ -44,6 +48,14 @@ export class ConversationTableComponent {
 
   protected isSelected(id: string): boolean {
     return this.selectedIds().has(id);
+  }
+
+  protected isProcessing(id: string): boolean {
+    return this.processingIds().has(id);
+  }
+
+  protected isAnalyzing(id: string): boolean {
+    return this.analyzingIds().has(id);
   }
 
   protected onRowClick(conv: Conversation): void {

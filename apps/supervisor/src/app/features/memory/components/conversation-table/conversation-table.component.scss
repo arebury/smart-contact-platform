@@ -78,6 +78,71 @@
   tr.is-selected:not(.is-deleted) {
     background: var(--sc-bg-primary-subtle);
   }
+
+  /* Estado de procesamiento (mock dispatch). Amber para transcribing,
+   * cyan/blue para analyzing. Sin opacidad fuerte para que la fila
+   * siga siendo legible. El barrido animado tipo "shimmer" comunica
+   * actividad sin spinner por fila. */
+  tr.is-processing:not(.is-deleted) {
+    background: color-mix(
+      in srgb,
+      var(--sc-color-amber-100, var(--sc-color-orange-100)) 50%,
+      transparent
+    );
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        color-mix(in srgb, var(--sc-color-amber-300, var(--sc-color-orange-300)) 40%, transparent)
+          50%,
+        transparent 100%
+      );
+      animation: row-shimmer 2200ms ease-in-out infinite;
+      pointer-events: none;
+    }
+  }
+
+  tr.is-analyzing:not(.is-deleted) {
+    background: color-mix(in srgb, var(--sc-color-blue-100) 50%, transparent);
+    position: relative;
+    overflow: hidden;
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        color-mix(in srgb, var(--sc-color-blue-300) 40%, transparent) 50%,
+        transparent 100%
+      );
+      animation: row-shimmer 2200ms ease-in-out infinite;
+      pointer-events: none;
+    }
+  }
+}
+
+@keyframes row-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .memory-conversations-table tr.is-processing::after,
+  .memory-conversations-table tr.is-analyzing::after {
+    animation: none;
+  }
 }
 
 /* ------------------------------------------------------------------ *
