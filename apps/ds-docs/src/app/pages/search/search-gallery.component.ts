@@ -1,12 +1,19 @@
 import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 import { SearchComponent } from '@sc/design-system/components/search/search.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
   selector: 'sc-ds-docs-search-gallery',
   standalone: true,
-  imports: [SearchComponent, FormsModule, ReactiveFormsModule, GalleryFooterComponent],
+  imports: [
+    SearchComponent,
+    ButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    GalleryFooterComponent,
+  ],
   templateUrl: './search-gallery.component.html',
   styleUrl: './search-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

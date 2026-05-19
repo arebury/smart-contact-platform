@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 
 import {
   BulkActionBarComponent,
@@ -9,7 +10,7 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 @Component({
   selector: 'sc-ds-docs-bulk-action-bar-gallery',
   standalone: true,
-  imports: [BulkActionBarComponent, GalleryFooterComponent],
+  imports: [BulkActionBarComponent, ButtonModule, GalleryFooterComponent],
   templateUrl: './bulk-action-bar-gallery.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

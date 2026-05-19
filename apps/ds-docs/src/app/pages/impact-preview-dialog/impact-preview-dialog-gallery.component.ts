@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 
 import {
   ImpactPreviewDialogComponent,
@@ -10,7 +11,7 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 @Component({
   selector: 'sc-ds-docs-impact-preview-dialog-gallery',
   standalone: true,
-  imports: [ImpactPreviewDialogComponent, GalleryFooterComponent],
+  imports: [ImpactPreviewDialogComponent, ButtonModule, GalleryFooterComponent],
   templateUrl: './impact-preview-dialog-gallery.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

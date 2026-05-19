@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 
 import { InlineRenameCellComponent } from '@sc/design-system/components/inline-rename-cell/inline-rename-cell.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
@@ -6,7 +7,7 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 @Component({
   selector: 'sc-ds-docs-inline-rename-cell-gallery',
   standalone: true,
-  imports: [InlineRenameCellComponent, GalleryFooterComponent],
+  imports: [InlineRenameCellComponent, ButtonModule, GalleryFooterComponent],
   templateUrl: './inline-rename-cell-gallery.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

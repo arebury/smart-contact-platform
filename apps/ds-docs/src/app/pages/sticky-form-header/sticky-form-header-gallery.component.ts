@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 
 import { StickyFormHeaderComponent } from '@sc/design-system/components/sticky-form-header/sticky-form-header.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
@@ -6,7 +7,7 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 @Component({
   selector: 'sc-ds-docs-sticky-form-header-gallery',
   standalone: true,
-  imports: [StickyFormHeaderComponent, GalleryFooterComponent],
+  imports: [StickyFormHeaderComponent, ButtonModule, GalleryFooterComponent],
   templateUrl: './sticky-form-header-gallery.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

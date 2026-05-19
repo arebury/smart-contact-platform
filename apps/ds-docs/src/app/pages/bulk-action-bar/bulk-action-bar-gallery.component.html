@@ -40,8 +40,8 @@
       default. La barra emite <code>(clear)</code> al click en × → vaciar la selección.
     </p>
     <sc-bulk-action-bar [count]="count()" [entity]="agentEntity" (clear)="clear()">
-      <button type="button" class="btn btn--secondary">Editar</button>
-      <button type="button" class="btn btn--danger">Eliminar</button>
+      <p-button type="button" severity="secondary"><span>Editar</span></p-button>
+      <p-button type="button" severity="danger"><span>Eliminar</span></p-button>
     </sc-bulk-action-bar>
   </section>
 
@@ -52,8 +52,8 @@
       <em>"N etiquetas seleccionadas"</em>.
     </p>
     <sc-bulk-action-bar [count]="count()" [entity]="femaleEntity" (clear)="clear()">
-      <button type="button" class="btn btn--secondary">Duplicar</button>
-      <button type="button" class="btn btn--secondary">Archivar</button>
+      <p-button type="button" severity="secondary"><span>Duplicar</span></p-button>
+      <p-button type="button" severity="secondary"><span>Archivar</span></p-button>
     </sc-bulk-action-bar>
   </section>
 

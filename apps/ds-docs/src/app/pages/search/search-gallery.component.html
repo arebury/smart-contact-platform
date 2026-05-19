@@ -100,7 +100,9 @@
     </p>
     <div class="gallery__row gallery__row--inline">
       <sc-search #demoSearch placeholder="Foca este input con el botón →" shortcutHint="⌘K" />
-      <button type="button" class="btn btn--secondary" (click)="focusDemoSearch()">focus()</button>
+      <p-button type="button" severity="secondary" (onClick)="focusDemoSearch()">
+        <span>focus()</span>
+      </p-button>
     </div>
   </section>
 

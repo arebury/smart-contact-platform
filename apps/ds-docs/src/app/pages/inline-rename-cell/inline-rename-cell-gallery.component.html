@@ -28,9 +28,9 @@
         <p class="gallery__output">
           Estado actual: <code>"{{ name() }}"</code>
         </p>
-        <button type="button" class="btn btn--secondary" (click)="restart()">
-          Reiniciar (volver a editar)
-        </button>
+        <p-button type="button" severity="secondary" (onClick)="restart()">
+          <span>Reiniciar (volver a editar)</span>
+        </p-button>
       }
 
       @if (lastEvent()) {

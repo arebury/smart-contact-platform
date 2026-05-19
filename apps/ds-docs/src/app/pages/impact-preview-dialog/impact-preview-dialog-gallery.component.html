@@ -19,9 +19,9 @@
       antes de confirmar.
     </p>
     <div class="gallery__row">
-      <button type="button" class="btn btn--secondary" (click)="bulkVisible.set(true)">
-        Abrir dialog
-      </button>
+      <p-button type="button" severity="secondary" (onClick)="bulkVisible.set(true)">
+        <span>Abrir dialog</span>
+      </p-button>
     </div>
     <sc-impact-preview-dialog
       mode="bulkEdit"
@@ -42,9 +42,9 @@
       "duplicar N items" donde no hay cambio de campo que comunicar.
     </p>
     <div class="gallery__row">
-      <button type="button" class="btn btn--secondary" (click)="duplicateVisible.set(true)">
-        Abrir dialog
-      </button>
+      <p-button type="button" severity="secondary" (onClick)="duplicateVisible.set(true)">
+        <span>Abrir dialog</span>
+      </p-button>
     </div>
     <sc-impact-preview-dialog
       mode="duplicate"
