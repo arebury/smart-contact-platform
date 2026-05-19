@@ -126,6 +126,80 @@ export const MOCK_SAMPLES: readonly MockSample[] = [
       'Conversaciones que pasaron por IVR con transferencia entre grupos — cada tramo es una grabación distinta.',
     build: () => cloneAll().filter((c) => c.recordings && c.recordings.length > 1),
   },
+  {
+    id: 'only-failed',
+    label: 'Solo fallidas',
+    description:
+      'Conversaciones con transcripción fallida. Demuestra el estado terminal rojo + filtro "Solo fallidas" + acción "Marcar como leídas".',
+    build: () =>
+      cloneAll()
+        .filter((c) => c.channel === 'llamada' && c.hasRecording && !c.deleted)
+        .map((c) => ({
+          ...c,
+          hasTranscription: false,
+          hasAnalysis: false,
+          hasFailedTranscription: true,
+          transcription: undefined,
+        })),
+  },
+  {
+    id: 'gdpr-expired',
+    label: 'Custodia GDPR vencida',
+    description:
+      'Conversaciones con custodia GDPR vencida — fila atenuada, tooltip explicativo, excluidas del bulk en silencio (COA §"Custodia GDPR").',
+    build: () =>
+      cloneAll()
+        .slice(0, 6)
+        .map((c) => ({
+          ...c,
+          deleted: true,
+          hasRecording: c.channel === 'llamada' ? false : c.hasRecording,
+          hasTranscription: false,
+          hasAnalysis: false,
+        })),
+  },
+  {
+    id: 'multi-tramo-parcial',
+    label: 'Multi-tramo parcial',
+    description:
+      'Llamadas multi-grabación donde unos tramos están transcritos y otros no — caveat documentado en COA §"Multi-tramo parcial".',
+    build: () =>
+      cloneAll()
+        .filter((c) => c.recordings && c.recordings.length > 1)
+        .map((c) => {
+          if (!c.recordings) return c;
+          // Primer tramo transcrito, resto no — estado "parcialmente transcrito".
+          const recordings = c.recordings.map((r, idx) => ({
+            ...r,
+            hasTranscription: idx === 0,
+          }));
+          return {
+            ...c,
+            hasTranscription: false, // agregado: solo si TODOS los tramos lo están
+            hasAnalysis: false,
+            recordings,
+          };
+        }),
+  },
+  {
+    id: 'no-recording',
+    label: 'Llamadas sin grabación',
+    description:
+      'Llamadas que entraron pero no quedaron grabadas — estado "Sin grabación" en el reproductor (COA §"Estados de la pestaña Transcripción" #2).',
+    build: () =>
+      cloneAll()
+        .filter((c) => c.channel === 'llamada')
+        .slice(0, 8)
+        .map((c) => ({
+          ...c,
+          hasRecording: false,
+          hasTranscription: false,
+          hasAnalysis: false,
+          hasFailedTranscription: false,
+          transcription: undefined,
+          recordings: undefined,
+        })),
+  },
 ];
 
 export const DEFAULT_SAMPLE_ID = 'default';
