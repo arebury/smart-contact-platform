@@ -115,13 +115,20 @@ interface ComponentEntry {
    */
   whereToSee: string;
   /**
-   * Veces que aparece en AED templates (snapshot manual de
-   * `grep -rh "<sc-X" apps/supervisor/src --include="*.html" | wc -l`).
-   * 0 = sin uso real todavía. Sirve como ruta de conversación con devs:
-   * los componentes con `aedUses > 0` son los que el equipo de
-   * desarrollo ya tiene interiorizados.
+   * Veces que aparece en templates AED (admin + config + supervision + shared + core).
+   * Snapshot manual via `grep -rh "<sc-X" apps/supervisor/src/app/features/{admin,config,supervision}`.
+   * 0 = sin uso real todavía. Los componentes con uso > 0 son los que el equipo
+   * de desarrollo ya tiene interiorizados.
    */
   aedUses: number;
+  /**
+   * Veces que aparece en templates Memory (`features/memory/`).
+   * Equivalente a aedUses pero acotado al feature module Memory (en migración
+   * desde el prototipo React). Cuando un componente tiene `aedUses > 0` **y**
+   * `memoryUses > 0`, es cross-consumer (★) — son los componentes con más
+   * ROI a la hora de cuidarlos y los primeros candidatos a refactor.
+   */
+  memoryUses: number;
 }
 
 const STORAGE_KEY = 'sc-ds-validated';
@@ -170,7 +177,8 @@ export class HomeComponent {
       name: 'Button',
       type: 'custom-preset',
       parity: 'audited-full',
-      aedUses: 38,
+      aedUses: 37,
+      memoryUses: 15,
       pageRoute: '/components/button',
       whatItDoes: 'Botón de acción (primario azul, secundario gris, peligro rojo, etc.).',
       whereToSee:
@@ -181,7 +189,8 @@ export class HomeComponent {
       name: 'Input',
       type: 'extended',
       parity: 'audited-full',
-      aedUses: 21,
+      aedUses: 22,
+      memoryUses: 7,
       pageRoute: '/components/input',
       whatItDoes:
         'Campo de texto para formularios: nombre, email, contraseña, teléfono… Incluye label, texto de ayuda y mensaje de error.',
@@ -194,6 +203,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 7,
+      memoryUses: 0,
       pageRoute: '/components/input-number',
       whatItDoes:
         'Campo numérico para formularios: capacidades, contadores, segundos, porcentajes. Mismo aspecto que el campo de texto pero con la unidad ("s", "%", "agentes") a la derecha y el número alineado a la derecha también.',
@@ -206,6 +216,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 1,
+      memoryUses: 0,
       pageRoute: '/components/input-group',
       whatItDoes:
         'Agrupa un input con addons pegados a izquierda o derecha (prefijo $, sufijo .00, icono usuario, botón "Añadir"…). PrimeNG funde los bordes para que el conjunto se lea como una pieza única.',
@@ -218,6 +229,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 16,
+      memoryUses: 0,
       pageRoute: '/components/select',
       whatItDoes:
         'Desplegable para elegir UNA opción entre varias. Reemplaza los menús nativos del navegador para que se vean igual en Chrome, Safari y Firefox y combinen con el resto de campos.',
@@ -230,6 +242,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 0,
+      memoryUses: 1,
       pageRoute: '/components/datepicker',
       whatItDoes:
         'Selector de fecha. Abre un calendario al hacer click. Soporta selección día/mes/año, rangos min-max ("solo próximos 30 días"), y modo inline (calendario siempre visible).',
@@ -242,6 +255,7 @@ export class HomeComponent {
       type: 'custom-preset',
       parity: 'audited-full',
       aedUses: 0,
+      memoryUses: 0,
       pageRoute: '/components/tabs',
       whatItDoes:
         'Navegación por pestañas dentro de UNA pantalla. Por ejemplo: "Activos / Archivados / Todos" en una lista, o secciones de un formulario largo. El tab activo se marca con un underline en color de marca.',
@@ -254,6 +268,7 @@ export class HomeComponent {
       type: 'full-primeng',
       parity: 'audited-full',
       aedUses: 0,
+      memoryUses: 0,
       pageRoute: '/components/tooltip',
       whatItDoes:
         'Cajita oscura con texto que aparece al pasar el ratón por encima de un botón o icono. Sirve para explicar botones que solo tienen icono (sin texto) o para añadir contexto a un campo.',
@@ -266,6 +281,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 0,
+      memoryUses: 7,
       pageRoute: '/components/multi-select',
       whatItDoes:
         'Desplegable para elegir VARIAS opciones a la vez (al contrario que select, que es solo una). Los seleccionados aparecen como texto separado por comas O como pills removibles (X cada uno) según prefieras.',
@@ -278,6 +294,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 8,
+      memoryUses: 0,
       pageRoute: '/components/search',
       whatItDoes:
         'Campo de búsqueda con icono lupa a la izquierda + botón × para vaciar + opcional pista de atajo (⌘K, /) que se ve cuando el campo está vacío. Lo típico de un buscador de tabla o de un picker.',
@@ -290,6 +307,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 2,
+      memoryUses: 4,
       pageRoute: '/components/modal',
       whatItDoes:
         'Ventana emergente con título, body (acepta cualquier contenido apilado) y botones de acción. Se abre centrada sobre la pantalla con un velo gris detrás.',
@@ -302,6 +320,7 @@ export class HomeComponent {
       type: 'custom-preset',
       parity: 'audited-full',
       aedUses: 1,
+      memoryUses: 0,
       pageRoute: '/components/toast',
       whatItDoes:
         'Notificación pequeña que aparece y desaparece sola en una esquina (típicamente abajo a la derecha). Soporta success / info / warn / error / "neutral notice" violeta + botón "deshacer" opcional.',
@@ -314,6 +333,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 2,
+      memoryUses: 0,
       pageRoute: '/components/photo-upload',
       whatItDoes:
         'Sube una foto arrastrándola o haciendo click; permite recortarla y previsualizarla.',
@@ -325,6 +345,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 21,
+      memoryUses: 0,
       pageRoute: '/components/toggle-switch',
       whatItDoes:
         'Interruptor on/off estilo iOS (la bolita que se desliza de izquierda a derecha).',
@@ -340,6 +361,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'audited-full',
       aedUses: 6,
+      memoryUses: 0,
       pageRoute: '/components/checkbox',
       whatItDoes:
         'Checkbox con 3 estados: vacío, marcado a medias (cuando hay selección parcial) y marcado del todo. Tres tamaños sm/md/lg + variant filled (slate-50). Patrón típico: "seleccionar todo" del header de tabla.',
@@ -352,6 +374,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 7,
+      memoryUses: 0,
       pageRoute: '/components/illustrated-avatar',
       whatItDoes:
         'Avatar dibujado que se asigna automáticamente a usuarios o agentes que no tienen foto subida.',
@@ -364,6 +387,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 12,
+      memoryUses: 0,
       pageRoute: '/components/section-card',
       whatItDoes:
         'Tarjeta blanca con título que agrupa campos relacionados dentro de un formulario largo.',
@@ -376,6 +400,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 6,
+      memoryUses: 1,
       pageRoute: '/components/bulk-action-bar',
       whatItDoes:
         'Barra que aparece flotando abajo cuando seleccionas varios elementos de una tabla, con acciones masivas (borrar varios, editar varios…).',
@@ -388,6 +413,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 2,
+      memoryUses: 0,
       pageRoute: '/components/bulk-edit-menu',
       whatItDoes:
         'Menú desplegable de "edición masiva" que sale de la barra anterior para cambiar un campo a varios elementos a la vez.',
@@ -400,6 +426,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 3,
+      memoryUses: 0,
       pageRoute: '/components/empty-state',
       whatItDoes:
         'Mensaje grande con ilustración que aparece cuando una lista o pantalla está vacía ("No hay nada todavía").',
@@ -411,6 +438,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 3,
+      memoryUses: 0,
       pageRoute: '/components/form-danger-zone',
       whatItDoes:
         'Bloque rojo al final de los formularios de edición con acciones destructivas (borrar la entidad entera).',
@@ -422,6 +450,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 3,
+      memoryUses: 0,
       pageRoute: '/components/form-section-nav',
       whatItDoes:
         'Navegación lateral del formulario: muestra las secciones y resalta en cuál estás según vas haciendo scroll.',
@@ -434,6 +463,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 1,
+      memoryUses: 0,
       pageRoute: '/components/confirm-host',
       whatItDoes:
         'Pop-up de "¿Estás seguro?" que aparece antes de acciones importantes (borrar, archivar…).',
@@ -445,6 +475,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'audited-full',
       aedUses: 3,
+      memoryUses: 0,
       pageRoute: '/components/label-chip',
       whatItDoes:
         'Etiqueta de color con texto (las pastillitas redondeadas con el color de la categoría).',
@@ -457,6 +488,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 1,
+      memoryUses: 0,
       pageRoute: '/components/color-dot-picker',
       whatItDoes:
         'Selector de color: muestra varios círculos de colores y eliges uno haciendo click.',
@@ -469,6 +501,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 3,
+      memoryUses: 0,
       pageRoute: '/components/inline-rename-cell',
       whatItDoes:
         'Editar el nombre de algo directamente en la tabla, sin abrir formulario (típicamente con doble-click).',
@@ -481,6 +514,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 1,
+      memoryUses: 0,
       pageRoute: '/components/group-popover',
       whatItDoes:
         'Tarjeta flotante que aparece al pasar el ratón sobre un grupo, mostrando sus miembros y acciones rápidas.',
@@ -492,6 +526,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 3,
+      memoryUses: 0,
       pageRoute: '/components/column-selector',
       whatItDoes: 'Menú para mostrar u ocultar columnas en tablas que tienen muchas.',
       whereToSee:
@@ -503,6 +538,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 1,
+      memoryUses: 0,
       pageRoute: '/components/command-palette',
       whatItDoes:
         'Buscador rápido global que se abre con ⌘K (Cmd+K en Mac, Ctrl+K en Windows) y permite saltar a cualquier sección.',
@@ -514,6 +550,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 1,
+      memoryUses: 0,
       pageRoute: '/components/keyboard-shortcuts',
       whatItDoes: 'Pantalla de ayuda que lista todos los atajos de teclado disponibles.',
       whereToSee:
@@ -525,6 +562,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 8,
+      memoryUses: 0,
       pageRoute: '/components/delete-entity-dialog',
       whatItDoes:
         'Ventana específica para confirmar que quieres borrar algo (más explícita que un "¿seguro?" normal).',
@@ -537,6 +575,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 2,
+      memoryUses: 0,
       pageRoute: '/components/impact-preview-dialog',
       whatItDoes:
         'Ventana que aparece antes de un cambio importante avisando de a cuántas cosas va a afectar ("Esto afectará a X agentes…").',
@@ -549,6 +588,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 8,
+      memoryUses: 4,
       pageRoute: '/components/page-header',
       whatItDoes:
         'Cabecera grande de página: título, descripción opcional y botones de acción a la derecha.',
@@ -561,6 +601,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 3,
+      memoryUses: 0,
       pageRoute: '/components/sticky-form-header',
       whatItDoes:
         'Cabecera del formulario que se queda pegada arriba cuando haces scroll, para que siempre veas el título y los botones Guardar/Cancelar.',
@@ -576,7 +617,7 @@ export class HomeComponent {
   protected readonly searchQuery = signal('');
   protected readonly typeFilter = signal<ComponentType | 'all'>('all');
   protected readonly validationFilter = signal<'all' | 'validated' | 'pending'>('all');
-  protected readonly usageFilter = signal<'all' | 'in-use' | 'unused'>('all');
+  protected readonly usageFilter = signal<'all' | 'cross' | 'in-use' | 'unused'>('all');
 
   /** Ref al input de búsqueda para autofocus con "/" (shortcut tipo GitHub). */
   private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
@@ -647,10 +688,20 @@ export class HomeComponent {
 
   protected readonly pendingCount = computed(() => this.catalog.length - this.validated().size);
 
-  /** Cuántos componentes están ya en uso real en AED (aedUses > 0). */
-  protected readonly inUseCount = computed(() => this.catalog.filter((c) => c.aedUses > 0).length);
+  /** Cuántos componentes están en uso real (AED + Memory sumados). */
+  protected readonly inUseCount = computed(
+    () => this.catalog.filter((c) => c.aedUses + c.memoryUses > 0).length,
+  );
   protected readonly unusedCount = computed(
-    () => this.catalog.filter((c) => c.aedUses === 0).length,
+    () => this.catalog.filter((c) => c.aedUses + c.memoryUses === 0).length,
+  );
+  /**
+   * Cross-consumers: componentes con `aedUses > 0` y `memoryUses > 0`.
+   * Son los que validan el SCDS multi-app y los primeros candidatos a
+   * cuidar (alta superficie de impacto si rompen).
+   */
+  protected readonly crossCount = computed(
+    () => this.catalog.filter((c) => c.aedUses > 0 && c.memoryUses > 0).length,
   );
 
   /**
@@ -679,8 +730,9 @@ export class HomeComponent {
       if (type !== 'all' && item.type !== type) return false;
       if (validation === 'validated' && !item.isValidated) return false;
       if (validation === 'pending' && item.isValidated) return false;
-      if (usage === 'in-use' && item.aedUses === 0) return false;
-      if (usage === 'unused' && item.aedUses > 0) return false;
+      if (usage === 'cross' && !(item.aedUses > 0 && item.memoryUses > 0)) return false;
+      if (usage === 'in-use' && item.aedUses + item.memoryUses === 0) return false;
+      if (usage === 'unused' && item.aedUses + item.memoryUses > 0) return false;
       if (!q) return true;
       const haystack = `${item.name} ${item.whatItDoes} ${item.whereToSee}`.toLowerCase();
       return haystack.includes(q);
@@ -736,7 +788,7 @@ export class HomeComponent {
     this.validationFilter.set(v);
   }
 
-  protected setUsageFilter(v: 'all' | 'in-use' | 'unused'): void {
+  protected setUsageFilter(v: 'all' | 'cross' | 'in-use' | 'unused'): void {
     this.usageFilter.set(v);
   }
 

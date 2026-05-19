@@ -679,6 +679,17 @@
       var(--sc-border-default)
     );
   }
+
+  /* Cross-app chip: usados en AED y Memory simultáneamente. Visualmente
+   * más fuerte que is-in-use porque señala alta superficie de impacto. */
+  &.is-cross-chip:not(.is-active) {
+    color: var(--sc-color-amber-800, var(--sc-color-orange-800));
+    border-color: color-mix(
+      in srgb,
+      var(--sc-color-amber-500, var(--sc-color-orange-500)) 40%,
+      var(--sc-border-default)
+    );
+  }
 }
 
 .filter-chip__count {
@@ -982,6 +993,17 @@
       transparent
     );
     color: var(--sc-color-electric-blue-800, var(--sc-color-blue-800));
+    font-weight: 600;
+  }
+
+  /* Cross-app: en AED Y Memory — señal de alta superficie de impacto. */
+  &.is-cross {
+    background: color-mix(
+      in srgb,
+      var(--sc-color-amber-100, var(--sc-color-orange-100)) 70%,
+      transparent
+    );
+    color: var(--sc-color-amber-900, var(--sc-color-orange-900));
     font-weight: 600;
   }
 }

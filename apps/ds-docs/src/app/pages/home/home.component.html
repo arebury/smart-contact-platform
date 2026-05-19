@@ -324,7 +324,7 @@
         </button>
       </div>
 
-      <div class="tracker-filters__group" role="group" aria-label="Filtrar por uso en AED">
+      <div class="tracker-filters__group" role="group" aria-label="Filtrar por uso en AED y Memory">
         <span class="tracker-filters__label">Uso</span>
         <button
           type="button"
@@ -336,11 +336,20 @@
         </button>
         <button
           type="button"
+          class="filter-chip is-cross-chip"
+          [class.is-active]="usageFilter() === 'cross'"
+          (click)="setUsageFilter('cross')"
+          title="Usados en AED y Memory — alto ROI"
+        >
+          ★ En ambas apps <span class="filter-chip__count">{{ crossCount() }}</span>
+        </button>
+        <button
+          type="button"
           class="filter-chip is-in-use-chip"
           [class.is-active]="usageFilter() === 'in-use'"
           (click)="setUsageFilter('in-use')"
         >
-          ● En uso en AED <span class="filter-chip__count">{{ inUseCount() }}</span>
+          ● En uso <span class="filter-chip__count">{{ inUseCount() }}</span>
         </button>
         <button
           type="button"
@@ -406,15 +415,34 @@
                     <span aria-hidden="true">{{ parityGlyph(item.parity) }}</span>
                     {{ parityLabel(item.parity) }}
                   </span>
-                  @if (item.aedUses > 0) {
+                  @if (item.aedUses > 0 && item.memoryUses > 0) {
+                    <span
+                      class="tracker-item__usage is-cross"
+                      [attr.title]="
+                        item.aedUses +
+                        ' usos AED · ' +
+                        item.memoryUses +
+                        ' usos Memory · cross-consumer'
+                      "
+                    >
+                      ★ AED {{ item.aedUses }}× · MEM {{ item.memoryUses }}×
+                    </span>
+                  } @else if (item.aedUses > 0) {
                     <span
                       class="tracker-item__usage is-in-use"
                       [attr.title]="item.aedUses + ' usos en templates AED'"
                     >
                       ● AED {{ item.aedUses }}×
                     </span>
+                  } @else if (item.memoryUses > 0) {
+                    <span
+                      class="tracker-item__usage is-in-use"
+                      [attr.title]="item.memoryUses + ' usos en templates Memory'"
+                    >
+                      ● MEM {{ item.memoryUses }}×
+                    </span>
                   } @else {
-                    <span class="tracker-item__usage" title="Aún no usado en AED"> ○ sin uso </span>
+                    <span class="tracker-item__usage" title="Aún no usado">○ sin uso</span>
                   }
                 </div>
                 <p class="tracker-item__summary">{{ item.whatItDoes }}</p>
