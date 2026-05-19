@@ -43,6 +43,11 @@
   # el install de @esbuild/linux-x64 (S39 2026-05-19 dependency_installation
   # exit code 1). Pin exacto evita la sorpresa.
   NPM_VERSION = "10.8.2"
+  # Forzar instalación de optionalDependencies — esbuild distribuye sus
+  # binarios nativos como optional deps (`@esbuild/linux-x64` para Netlify).
+  # Sin este flag, npm a veces los salta y el build falla con "package
+  # @esbuild/linux-x64 could not be found". Fix S39.
+  NPM_FLAGS = "--include=optional"
   ANGULAR_PROJECT = "supervisor"
 
 # SPA fallback: every unknown URL must hit index.html so the Angular Router
