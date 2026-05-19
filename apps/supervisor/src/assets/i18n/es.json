@@ -411,7 +411,13 @@
         "save_changes": "Guardar cambios",
         "create_category": "Crear categoría",
         "created_toast": "Categoría «{{name}}» creada",
-        "updated_toast": "Categoría «{{name}}» actualizada"
+        "updated_toast": "Categoría «{{name}}» actualizada",
+        "templates_open": "Empezar desde una plantilla",
+        "templates_hint": "Prellena título y descripción con un caso típico."
+      },
+      "templates": {
+        "title": "Plantillas predefinidas",
+        "subtitle": "Elige un caso típico para arrancar. Podrás ajustar los textos antes de guardar."
       }
     },
     "category_filter": {

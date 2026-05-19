@@ -11,7 +11,16 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
-import { ExternalLink, LucideAngularModule, Tags } from 'lucide-angular';
+import {
+  AlertCircle,
+  AlertTriangle,
+  Building2,
+  ExternalLink,
+  LayoutTemplate,
+  LucideAngularModule,
+  Tags,
+  Wrench,
+} from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
@@ -24,16 +33,21 @@ import { CategoriesStore } from '../../state/categories.store';
 import { RulesStore } from '../../state/rules.store';
 
 /**
- * CategoryFormModal · Crear + Editar categorías IA · iter 11b.
+ * CategoryFormModal · Crear + Editar categorías IA · iter 11b + 11c.
  *
- * Unifica `CreateCategoryPanel` (488 líneas) + `EditCategoryPanel`
- * (581 líneas) del prototipo React en modal SCDS.
+ * Unifica `CreateCategoryPanel` + `EditCategoryPanel` del prototipo
+ * React en modal SCDS.
+ *
+ * Features:
+ *  - **Templates predefinidos** (S39, iter 11c): 4 plantillas (Queja,
+ *    Intención de baja, Competencia, Incidencia) seleccionables vía
+ *    dialog secundario que prellena name + description. Réplica del
+ *    React `CreateCategoryPanel.templates` + `TEMPLATE_DATA`.
  *
  * Simplificaciones pragmáticas (anotadas §10 si surge trigger):
- *  - SIN templates predefinidos (Create Panel del React tiene 6 plantillas).
  *  - Sección "Reglas que la usan" **read-only**: lista con enlaces a
  *    editar reglas. CategoryRuleLinking interactivo (que permite
- *    linkar/unlinkar desde la categoría) → iter 11c.
+ *    linkar/unlinkar desde la categoría) → iter 11d.
  *
  * Campos:
  *  - Name (required, min 3 chars, unique).
@@ -41,6 +55,61 @@ import { RulesStore } from '../../state/rules.store';
  *  - Group (opcional, free text — ej. "Atención al Cliente", "Ventas").
  *  - isActive toggle.
  */
+
+/** ID de las 4 plantillas predefinidas. Mapean al `TEMPLATE_DATA` del
+ *  prototipo React `CreateCategoryPanel.tsx` línea 46-63. */
+type CategoryTemplateId = 'complaint' | 'churn' | 'competitor' | 'incident';
+
+interface CategoryTemplate {
+  readonly id: CategoryTemplateId;
+  readonly icon: typeof AlertCircle;
+  readonly title: string;
+  /** Hint corto en la card del dialog. */
+  readonly hint: string;
+  /** Lo que se prellena en el campo `name` al seleccionar. */
+  readonly name: string;
+  /** Lo que se prellena en el campo `description` al seleccionar. */
+  readonly description: string;
+}
+
+const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
+  {
+    id: 'complaint',
+    icon: AlertCircle,
+    title: 'Queja',
+    hint: 'Cliente expresa insatisfacción',
+    name: 'Queja',
+    description:
+      'Llamadas donde los clientes expresan insatisfacción, frustración o presentan quejas sobre el servicio, productos o experiencias vividas. Incluye reclamaciones formales y expresiones de descontento.',
+  },
+  {
+    id: 'churn',
+    icon: AlertTriangle,
+    title: 'Intención de baja',
+    hint: 'Cliente quiere cancelar servicio',
+    name: 'Intención de baja',
+    description:
+      'Llamadas donde el cliente manifiesta su deseo de cancelar el servicio, darse de baja o terminar la relación comercial. Incluye amenazas de baja y solicitudes formales de cancelación.',
+  },
+  {
+    id: 'competitor',
+    icon: Building2,
+    title: 'Competencia',
+    hint: 'Menciona otras empresas',
+    name: 'Competencia',
+    description:
+      'Llamadas donde se mencionan empresas competidoras, comparaciones de precios o servicios, ofertas de la competencia o intención de cambiar de proveedor por una alternativa del mercado.',
+  },
+  {
+    id: 'incident',
+    icon: Wrench,
+    title: 'Incidencia',
+    hint: 'Reporta problemas técnicos',
+    name: 'Incidencia',
+    description:
+      'Llamadas reportando problemas técnicos, fallos en el servicio, averías, errores en sistemas o cualquier situación que requiera intervención técnica o resolución de incidentes.',
+  },
+];
 @Component({
   selector: 'sc-memory-category-form-modal',
   imports: [
@@ -69,6 +138,7 @@ export class CategoryFormModalComponent {
 
   protected readonly tagsIcon = Tags;
   protected readonly externalIcon = ExternalLink;
+  protected readonly layoutTemplateIcon = LayoutTemplate;
 
   protected readonly name = signal('');
   protected readonly description = signal('');
@@ -76,6 +146,12 @@ export class CategoryFormModalComponent {
   protected readonly isActive = signal(true);
 
   protected readonly isEditMode = computed(() => this.category() !== null);
+
+  /** Estado del dialog secundario "Plantillas predefinidas". Solo visible
+   *  en modo Create — al editar una categoría existente no tiene sentido
+   *  sobrescribir sus campos con un template. */
+  protected readonly templatesDialogVisible = signal(false);
+  protected readonly templates: readonly CategoryTemplate[] = CATEGORY_TEMPLATES;
 
   protected readonly nameError = computed<string | null>(() => {
     const trimmed = this.name().trim();
@@ -144,6 +220,20 @@ export class CategoryFormModalComponent {
 
   protected onCancel(): void {
     this.closed.emit();
+  }
+
+  protected openTemplatesDialog(): void {
+    this.templatesDialogVisible.set(true);
+  }
+
+  protected closeTemplatesDialog(): void {
+    this.templatesDialogVisible.set(false);
+  }
+
+  protected selectTemplate(t: CategoryTemplate): void {
+    this.name.set(t.name);
+    this.description.set(t.description);
+    this.templatesDialogVisible.set(false);
   }
 
   protected onSave(): void {

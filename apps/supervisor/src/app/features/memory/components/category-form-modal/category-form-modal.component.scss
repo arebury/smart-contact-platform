@@ -119,3 +119,118 @@
     }
   }
 }
+
+/* ─── Templates CTA + dialog secundario (iter 11c) ─────────────── */
+
+.category-form__templates-cta {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-300);
+  flex-wrap: wrap;
+  margin-bottom: var(--sc-spacing-100);
+}
+
+.category-form__templates-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px dashed var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+  background: var(--sc-bg-surface);
+  font-size: 0.8125rem;
+  color: var(--sc-text-secondary);
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background 160ms ease;
+
+  &:hover {
+    border-color: var(--sc-color-blue-500);
+    color: var(--sc-color-blue-700);
+    background: color-mix(in srgb, var(--sc-color-blue-100) 50%, transparent);
+  }
+
+  lucide-icon {
+    color: var(--sc-text-subtle);
+  }
+}
+
+.category-form__templates-hint {
+  font-size: 0.75rem;
+  color: var(--sc-text-subtle);
+}
+
+.category-templates {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-100) 0;
+}
+
+.category-templates__card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-400);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+  background: var(--sc-bg-surface);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 120ms ease;
+
+  &:hover {
+    border-color: var(--sc-color-blue-500);
+    background: color-mix(in srgb, var(--sc-color-blue-100) 40%, transparent);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-blue-500);
+    outline-offset: 2px;
+  }
+}
+
+.category-templates__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--sc-radius-100);
+  background: color-mix(in srgb, var(--sc-color-blue-100) 60%, transparent);
+  color: var(--sc-color-blue-700);
+  flex-shrink: 0;
+}
+
+.category-templates__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.category-templates__title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--sc-text-primary);
+}
+
+.category-templates__hint {
+  font-size: 0.8125rem;
+  color: var(--sc-text-subtle);
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .category-templates {
+    grid-template-columns: 1fr;
+  }
+}

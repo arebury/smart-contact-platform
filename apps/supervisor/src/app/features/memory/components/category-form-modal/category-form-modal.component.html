@@ -10,6 +10,20 @@
   (cancelled)="onCancel()"
 >
   <div class="category-form">
+    @if (!isEditMode()) {
+      <!-- Botón "Plantillas" solo en modo Create — al editar no tiene
+           sentido sobrescribir campos existentes con un template. -->
+      <div class="category-form__templates-cta">
+        <button type="button" class="category-form__templates-btn" (click)="openTemplatesDialog()">
+          <lucide-icon [img]="layoutTemplateIcon" [size]="14" aria-hidden="true" />
+          {{ 'memory.categories.form.templates_open' | translate }}
+        </button>
+        <span class="category-form__templates-hint">
+          {{ 'memory.categories.form.templates_hint' | translate }}
+        </span>
+      </div>
+    }
+
     <div class="category-form__row">
       <sc-input
         [label]="'memory.categories.form.name_label' | translate"
@@ -93,6 +107,39 @@
           {{ 'memory.categories.form.create_category' | translate }}
         }
       </span>
+    </p-button>
+  </div>
+</sc-modal>
+
+<!-- Dialog secundario: plantillas predefinidas. Modal nested sobre el
+     CategoryFormModal; al seleccionar una card prellena name+description
+     y se cierra a sí mismo. El modal principal queda abierto para que
+     el usuario revise/edite antes de Guardar. -->
+<sc-modal
+  [visible]="templatesDialogVisible()"
+  [icon]="layoutTemplateIcon"
+  [title]="'memory.categories.templates.title' | translate"
+  [subtitle]="'memory.categories.templates.subtitle' | translate"
+  width="640px"
+  (cancelled)="closeTemplatesDialog()"
+>
+  <div class="category-templates">
+    @for (t of templates; track t.id) {
+      <button type="button" class="category-templates__card" (click)="selectTemplate(t)">
+        <span class="category-templates__icon" aria-hidden="true">
+          <lucide-icon [img]="t.icon" [size]="18" />
+        </span>
+        <span class="category-templates__body">
+          <span class="category-templates__title">{{ t.title }}</span>
+          <span class="category-templates__hint">{{ t.hint }}</span>
+        </span>
+      </button>
+    }
+  </div>
+
+  <div modal-actions>
+    <p-button type="button" severity="secondary" (onClick)="closeTemplatesDialog()">
+      <span>{{ 'common.cancel' | translate }}</span>
     </p-button>
   </div>
 </sc-modal>
