@@ -1,146 +1,117 @@
 <sc-modal
   [visible]="visible()"
-  [title]="'memory.bulk_modal.title' | translate"
-  [subtitle]="
-    ('memory.bulk_modal.subtitle' | translate: { n: nSelected() }) +
-    (nFilteredOut() > 0
-      ? ' · ' + ('memory.bulk_modal.subtitle_excluded' | translate: { n: nFilteredOut() })
-      : '')
-  "
-  width="560px"
+  title="Procesar conversaciones"
+  [subtitle]="subtitle()"
+  width="720px"
   (cancelled)="onCancel()"
 >
-  <div class="bulk-body" data-testid="bulk-modal-body">
-    @if (isAllProcessed()) {
-      <div class="bulk-allprocessed">
-        <lucide-icon
-          class="bulk-allprocessed__icon"
-          [img]="checkIcon"
-          [size]="28"
-          aria-hidden="true"
-        />
-        <h3 class="bulk-allprocessed__title">
-          {{ 'memory.bulk_modal.allprocessed_title' | translate }}
-        </h3>
-        <p class="bulk-allprocessed__desc">
-          {{ 'memory.bulk_modal.allprocessed_desc' | translate }}
-        </p>
-      </div>
-    } @else {
-      <div class="bulk-hero">
-        <article
-          class="bulk-col"
-          [class.bulk-col--active]="destination1() > 0"
-          data-testid="bulk-col-1"
-        >
-          <header class="bulk-col__label">
-            <lucide-icon [img]="fileIcon" [size]="14" aria-hidden="true" />
-            <span>{{ destination1LabelKey() | translate }}</span>
-          </header>
-          <div class="bulk-col__value" data-testid="bulk-col-1-value">
-            {{ destination1() > 0 ? destination1() : '—' }}
-          </div>
-          <p class="bulk-col__desc">{{ col1DescKey() | translate }}</p>
-          <div class="bulk-col__chips" aria-hidden="true">
-            @for (chip of col1Chips(); track chip) {
-              <span class="bulk-chip">
-                {{ 'memory.bulk_modal.chips.' + chip | translate }}
-              </span>
-            }
-          </div>
-        </article>
-
-        <article
-          class="bulk-col"
-          [class.bulk-col--active]="destination2() > 0"
-          [class.bulk-col--hint]="!toggleOn() && buckets().c_ea + buckets().ch_ea > 0"
-          data-testid="bulk-col-2"
-        >
-          <header class="bulk-col__label">
-            <lucide-icon [img]="sparkleIcon" [size]="14" aria-hidden="true" />
-            <span>{{ 'memory.bulk_modal.col2.label' | translate }}</span>
-          </header>
-          <div class="bulk-col__value" data-testid="bulk-col-2-value">
-            {{ destination2() > 0 ? destination2() : '—' }}
-          </div>
-          <p class="bulk-col__desc">{{ col2DescKey() | translate }}</p>
-          <div class="bulk-col__chips" aria-hidden="true">
-            @for (chip of col2Chips(); track chip) {
-              <span class="bulk-chip">
-                {{ 'memory.bulk_modal.chips.' + chip | translate }}
-              </span>
-            }
-          </div>
-        </article>
-
-        <article class="bulk-col bulk-col--muted" data-testid="bulk-col-3">
-          <header class="bulk-col__label">
-            <lucide-icon [img]="skipIcon" [size]="14" aria-hidden="true" />
-            <span>{{ 'memory.bulk_modal.col3.label' | translate }}</span>
-          </header>
-          <div class="bulk-col__value" data-testid="bulk-col-3-value">
-            {{ destination3() > 0 ? destination3() : '—' }}
-          </div>
-          <p class="bulk-col__desc">{{ col3DescKey() | translate }}</p>
-          <div class="bulk-col__chips" aria-hidden="true">
-            @for (chip of col3Chips(); track chip) {
-              <span class="bulk-chip bulk-chip--muted">
-                {{ 'memory.bulk_modal.chips.' + chip | translate }}
-              </span>
-            }
-          </div>
-        </article>
-      </div>
-
-      <div class="bulk-toggle" [class.bulk-toggle--locked]="toggleLocked()">
-        <button
-          type="button"
-          role="switch"
-          class="bulk-toggle__switch"
-          [class.bulk-toggle__switch--on]="toggleOn()"
-          [class.bulk-toggle__switch--locked]="toggleLocked()"
-          [class.bulk-toggle__switch--shake]="shakeLocked()"
-          [attr.aria-checked]="toggleOn()"
-          [attr.aria-disabled]="toggleLocked()"
-          (click)="onToggleClick()"
-        >
-          <span class="bulk-toggle__thumb">
-            @if (toggleLocked()) {
-              <lucide-icon [img]="lockIcon" [size]="10" aria-hidden="true" />
-            }
+  <!-- Body 720×200, dos celdas equal divididas por hairline vertical.
+       Layout v26 (Figma 297:2559). El header del sc-modal y la acción
+       del footer permanecen idénticos al patrón canonical SC. -->
+  <div class="bulkv26" data-testid="bulk-modal-body">
+    <!-- ── Hero cell · Total a procesar ── -->
+    <section class="bulkv26__cell bulkv26__cell--hero">
+      <span class="bulkv26__label">Total a procesar</span>
+      <div class="bulkv26__hero-stack">
+        <div class="bulkv26__hero-row">
+          <span
+            class="bulkv26__hero-number"
+            [class.is-bumping]="bumpKey() > 0"
+            [attr.key]="bumpKey()"
+            aria-live="polite"
+          >
+            {{ heroCount() }}
           </span>
-        </button>
-        <div class="bulk-toggle__text">
-          <span class="bulk-toggle__title">
-            {{ 'memory.bulk_modal.toggle.title' | translate }}
-          </span>
-          <span class="bulk-toggle__desc">
-            {{ toggleDescKey() | translate: { n: buckets().c_ea + buckets().ch_ea } }}
+          <!-- "genera coste" cue. Slot reservado siempre para que C1
+               (isAllProcessed) no haga reflow al esconderlo. -->
+          <span
+            class="bulkv26__cost-cue"
+            [class.is-hidden]="isAllProcessed()"
+            [attr.aria-hidden]="isAllProcessed() ? 'true' : null"
+          >
+            genera coste
           </span>
         </div>
+        <!-- Delta hint slot — min-height reservado, evita CLS al cambiar
+             multi-rec / in-progress mid-modal. -->
+        <span class="bulkv26__hero-hint" aria-live="polite">
+          {{ heroDeltaHint() ?? ' ' }}
+        </span>
       </div>
-    }
-  </div>
+    </section>
 
-  <div class="bulk-footer-info" [class.bulk-footer-info--visible]="toProcess() > 0">
-    <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
-    <span>
-      <strong class="tabular-nums">{{ toProcess() }}</strong>
-      {{ 'memory.bulk_modal.footer_info' | translate }}
-    </span>
-  </div>
-
-  <div modal-actions>
-    <p-button type="button" severity="secondary" (onClick)="onCancel()">
-      <span>{{ 'memory.bulk_modal.cancel' | translate }}</span>
-    </p-button>
-    <p-button
-      type="button"
-      severity="primary"
-      [disabled]="buttonDisabled()"
-      (onClick)="onConfirm()"
+    <!-- ── Decision cell · Análisis ── -->
+    <section
+      class="bulkv26__cell bulkv26__cell--decision"
+      [class.is-shaking]="shakeKey() > 0"
+      [attr.key-shake]="shakeKey()"
     >
-      <span>{{ 'memory.bulk_modal.confirm' | translate }}</span>
-    </p-button>
+      <span class="bulkv26__label">Análisis</span>
+      <div class="bulkv26__decision-stack">
+        <div class="bulkv26__decision-row">
+          <span
+            class="bulkv26__decision-title"
+            [class.is-on]="toggleOn()"
+            [class.is-off]="!toggleOn()"
+          >
+            Incluir análisis
+          </span>
+          <p-toggleswitch
+            [ngModel]="toggleOn()"
+            (ngModelChange)="onToggleChange($event)"
+            [disabled]="toggleDisabled()"
+            aria-label="Incluir análisis"
+          />
+        </div>
+
+        <!-- Caption: "todo procesado" en C1; "N admiten análisis" resto. -->
+        <div class="bulkv26__caption">
+          @if (toggleDisabled()) {
+            <span class="bulkv26__caption-muted">todo procesado</span>
+          } @else {
+            <span
+              class="bulkv26__caption-num"
+              [class.is-on]="toggleOn()"
+              [class.is-pulsing]="pulseKey() > 0"
+              [attr.key-pulse]="pulseKey()"
+            >
+              {{ nTrans() + nAnBase() }}
+            </span>
+            <span
+              class="bulkv26__caption-pred"
+              [class.is-on]="toggleOn()"
+              [class.is-pulsing]="pulseKey() > 0"
+            >
+              {{ captionLabel() }}
+            </span>
+          }
+        </div>
+      </div>
+    </section>
   </div>
+
+  <!-- Audit A6 — error inline strip recuperable. Mantiene layout sin
+       reflow al aparecer/desaparecer. -->
+  @if (error(); as e) {
+    <div class="bulkv26__error" role="alert">
+      <lucide-icon [img]="alertIcon" [size]="14" class="bulkv26__error-icon" aria-hidden="true" />
+      <p class="bulkv26__error-text">{{ e }}</p>
+    </div>
+  }
+
+  <ng-container modalFooter>
+    <p-button
+      label="Cerrar"
+      severity="secondary"
+      text="true"
+      [disabled]="isLoading()"
+      (onClick)="onCancel()"
+    />
+    <p-button
+      label="Procesar"
+      [loading]="isLoading()"
+      [disabled]="!canSubmit()"
+      (onClick)="onConfirm()"
+    />
+  </ng-container>
 </sc-modal>

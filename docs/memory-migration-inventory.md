@@ -32,6 +32,19 @@ Patrón AED: `state/<name>.store.ts` con signals. Reusar.
 
 ## 3. Componentes Memory-específicos a portar (~25)
 
+> **Protocolo anti-desfase de versionado** (regla S39, memoria
+> `verify-react-version-before-touch`): el prototipo React es vivo —
+> Rafa y Marta lo iteran. Antes de tocar/polish un componente ya
+> portado, **verificar la versión actual** en el header del archivo
+> React (`~/dev/Memory/legacy-react/src/app/components/<Name>.tsx`)
+> y compararla con el header del componente Angular. Si hay desfase,
+> reportar el delta a Rafa antes de proceder. S39 descubrió desfase
+> `BulkTranscriptionModal` Angular v11 vs React v26 (refactor mayor).
+>
+> En cada commit que migre o actualice un componente Memory, anotar
+> la versión que implementa en el header `Component@` del archivo
+> Angular y, opcionalmente, en la tabla §3 si se vuelve recurrente.
+
 Filtros / pickers:
 - `ConversationFilters`, `TypeFilterButton`/`Panel`, `CategoryFilterButton`/`Panel`, `DurationFilter`, `RecordingFilter`, `TimeRangeFilter`, `DateRangePicker`, `MultiSelectWithSearch`
 

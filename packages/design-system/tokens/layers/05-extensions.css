@@ -27,6 +27,25 @@
   --sc-topbar-height: 56px;
   --sc-bulk-action-bar-height: 56px;
 
+  /* ---------- BulkTranscriptionModal v26 (Memory) ---------- *
+   * Layout 720×200, dos celdas equal divididas por hairline vertical.
+   * Hero (Total a procesar) + Decision (Análisis). Tokens cocinados
+   * en S39 al portar el modal v11 → v26 del prototipo React.
+   * Mantener consistentes con `--sc-spacing-*` para que sigan el rhythm
+   * del DS aunque su uso está concentrado en este modal. */
+  --sc-bulk-cell-height: 200px;
+  --sc-bulk-cell-padding-top: var(--sc-spacing-500); /* 24px */
+  --sc-bulk-cell-padding-bottom: var(--sc-spacing-500);
+  --sc-bulk-cell-padding-x: var(--sc-spacing-600); /* 32px */
+  --sc-bulk-divider-color: var(--sc-border-default);
+  --sc-bulk-decision-caption-gap: var(--sc-spacing-300); /* 12px */
+  /* "genera coste" cue lateral del hero — warning amber suave, no urgente. */
+  --sc-bulk-cost-warn: var(--sc-color-amber-700, var(--sc-color-orange-700));
+  /* Display typography para el hero number 88px. Solo en este modal por
+   * ahora; promover a primitive si surge un segundo consumer. */
+  --sc-bulk-hero-font-size: 88px;
+  --sc-bulk-hero-line-height: 1.05;
+
   /* ---------- Shadows ---------- */
   /*
    * Single deep-slate base color (15 23 42 in sRGB) drives every

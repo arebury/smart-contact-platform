@@ -9,53 +9,56 @@ import {
   signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  CheckCircle2,
-  FileText,
-  Info,
-  Lock,
-  LucideAngularModule,
-  SkipForward,
-  Sparkles,
-} from 'lucide-angular';
+import { AlertCircle, AlignLeft, Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { FormsModule } from '@angular/forms';
 
 import { ModalComponent } from '@shared/components/modal/modal.component';
 
 import type { Conversation } from '../../data/conversation.types';
 
 /**
- * Bulk transcription modal · Memory iter 6b.
+ * Bulk transcription modal · Memory iter 6b v26.
  *
- * Réplica del spec v11 (`Memory/docs/specs/bulk-transcription-modal.md`):
- * 3 columnas hero **mutuamente excluyentes** sobre la selección. Cada
- * conversación entra en exactamente un destino. Invariante:
- * `destination1 + destination2 + destination3 === procesables`.
+ * Reemplaza la taxonomía v11 (3 destinos MECE) por un layout compact
+ * de 2 celdas tipo "Hero + Decision". Réplica del prototipo React
+ * `BulkTranscriptionModal.tsx · v26 (Figma 297:2559)`.
  *
- * Columnas:
- *   1. **Primera acción pendiente** (etiqueta dinámica): "Transcribir +
- *      analizar" si toggle ON, "Solo transcribir" si OFF. Valor: `c.t`.
- *   2. **Solo analizar**: `c.ea + ch.ea` si toggle ON, 0 si OFF.
- *   3. **Omitidas**: `c.aa + ch.aa` (+ `c.ea + ch.ea` si toggle OFF).
+ * Body 720×200, dos celdas equal separadas por hairline vertical:
  *
- * Toggle "Incluir análisis IA" se bloquea (ON forzado, candado, shake al
- * click) cuando `analysisOnlyMode === true` (no hay nada que transcribir
- * pero sí elegibles para análisis).
+ *   ┌─────────────────────────┬─────────────────────────┐
+ *   │ TOTAL A PROCESAR        │ ANÁLISIS                │
+ *   │ 12  genera coste        │ Incluir análisis   ◯─●  │
+ *   │ Incluye 3 multi-rec.    │ 8 admiten análisis      │
+ *   └─────────────────────────┴─────────────────────────┘
  *
- * Filtrado defensivo aplicado a la selección:
- *   - `deleted: true` (retención vencida) → excluido silenciosamente.
- *   - llamada sin recording → excluido silenciosamente.
+ * Counters derivados:
+ *   nTrans   = audios de llamadas pendientes (multi-rec leg-aware)
+ *   nAnBase  = call_ea + chat_ea (elegibles para análisis)
+ *   heroCount = toggleOn ? (nTrans + nAnBase) : nTrans
  *
- * Diferidos a iter futura (anotado en `docs/memory-migration-inventory.md §10`):
- *   - Sticky toast post-confirmación ("Generando transcripción…" infinity).
- *   - Caption "Excluye K en proceso" (mock no tiene estado `processingIds`).
- *   - Hint "Incluye N llamadas con varios tramos" / "M con tramos ya iniciados".
- *   - Eyebrow `ACCIÓN MASIVA` (sc-modal canonical no soporta eyebrow slot;
- *     anotado en SCDS inconsistencies-backlog para refactor futuro).
+ * 6 casos según contadores no-cero (C1-C6 documentados en spec React).
+ * naturalDefault: toggle ON solo cuando nTrans=0 && nAnBase>0 (C2/C5).
+ *
+ * Multi-rec rule (sec 13.13): una llamada multi-grabación con 3 legs
+ * sin transcribir cuenta como 3 audios en el hero, no 1 conversación.
+ * El delta hint explica "Incluye N llamadas con varios tramos".
+ *
+ * Inputs nuevos vs v11: `processingIds` + `analyzingIds` (opcional,
+ * default []) — excluyen filas mid-dispatch para evitar doble coste.
+ * Hoy el mock no usa esos arrays; se documenta en §10 inventory.
  */
 @Component({
   selector: 'sc-memory-bulk-transcription-modal',
-  imports: [ButtonModule, LucideAngularModule, ModalComponent, TranslateModule],
+  imports: [
+    ButtonModule,
+    FormsModule,
+    LucideAngularModule,
+    ModalComponent,
+    ToggleSwitchModule,
+    TranslateModule,
+  ],
   templateUrl: './bulk-transcription-modal.component.html',
   styleUrl: './bulk-transcription-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -65,6 +68,8 @@ export class BulkTranscriptionModalComponent {
 
   readonly visible = input.required<boolean>();
   readonly selected = input.required<readonly Conversation[]>();
+  readonly processingIds = input<readonly string[]>([]);
+  readonly analyzingIds = input<readonly string[]>([]);
 
   readonly closed = output<void>();
   readonly confirmed = output<{
@@ -72,185 +77,223 @@ export class BulkTranscriptionModalComponent {
     readonly eligibleIds: readonly string[];
   }>();
 
+  /** Estado del toggle controlado por el usuario. El estado efectivo `toggleOn`
+   *  aplica el natural-default + el lock cuando no se puede transcribir. */
   protected readonly userToggleOn = signal(false);
-  protected readonly shakeLocked = signal(false);
+  protected readonly shakeKey = signal(0);
+  protected readonly pulseKey = signal(0);
+  protected readonly bumpKey = signal(0);
+  protected readonly isLoading = signal(false);
+  protected readonly error = signal<string | null>(null);
 
-  protected readonly buckets = computed(() => computeBuckets(this.selected()));
-
-  protected readonly nSelected = computed(() => this.selected().length);
-
-  protected readonly nProcessable = computed(() => {
-    const b = this.buckets();
-    return b.c_t + b.c_ea + b.c_aa + b.ch_ea + b.ch_aa;
-  });
-
-  protected readonly nFilteredOut = computed(() => this.nSelected() - this.nProcessable());
-
-  protected readonly analysisOnlyMode = computed(() => {
-    const b = this.buckets();
-    return b.c_t === 0 && b.c_ea + b.ch_ea > 0;
-  });
-
-  protected readonly toggleLocked = computed(() => this.analysisOnlyMode());
-
-  protected readonly toggleOn = computed(() => (this.toggleLocked() ? true : this.userToggleOn()));
-
-  protected readonly destination1 = computed(() => this.buckets().c_t);
-
-  protected readonly destination2 = computed(() => {
-    const b = this.buckets();
-    return this.toggleOn() ? b.c_ea + b.ch_ea : 0;
-  });
-
-  protected readonly destination3 = computed(() => {
-    const b = this.buckets();
-    return b.c_aa + b.ch_aa + (this.toggleOn() ? 0 : b.c_ea + b.ch_ea);
-  });
-
-  protected readonly toProcess = computed(() => this.destination1() + this.destination2());
-
-  protected readonly buttonDisabled = computed(() => this.toProcess() === 0);
-
-  protected readonly isAllProcessed = computed(() => {
-    const d3 = this.destination3();
-    const proc = this.nProcessable();
-    return proc > 0 && this.toProcess() === 0 && d3 === proc;
-  });
-
-  protected readonly destination1LabelKey = computed(() =>
-    this.toggleOn() ? 'memory.bulk_modal.col1.label_on' : 'memory.bulk_modal.col1.label_off',
+  /** Análisis derivado de la selección. Excluye `deleted: true` y filas
+   *  en proceso de transcripción/análisis (evita doble dispatch). */
+  protected readonly analysis = computed(() =>
+    analyze(this.selected(), this.processingIds(), this.analyzingIds()),
   );
 
-  protected readonly col1DescKey = computed(() =>
-    this.destination1() > 0
-      ? 'memory.bulk_modal.col1.desc_has'
-      : 'memory.bulk_modal.col1.desc_none',
+  protected readonly nTrans = computed(() => this.analysis().nTrans);
+  protected readonly nAnBase = computed(() => this.analysis().nAnBase);
+  protected readonly nInProgress = computed(() => this.analysis().nInProgress);
+  protected readonly nMultiRec = computed(() => this.analysis().nMultiRec);
+  protected readonly nPartialMultiRec = computed(() => this.analysis().nPartialMultiRec);
+  protected readonly nSel = computed(() => this.selected().length);
+
+  /** Solo es false en C1 (nada que hacer) — el toggle queda disabled. */
+  protected readonly canAnalyze = computed(() => this.nTrans() + this.nAnBase() > 0);
+  protected readonly toggleDisabled = computed(() => !this.canAnalyze());
+  protected readonly isAllProcessed = computed(() => !this.canAnalyze());
+
+  /** Natural default: ON solo cuando nada que transcribir pero sí analizar
+   *  (C2/C5). Se aplica al abrir el modal y al cambiar la selección. */
+  protected readonly toggleOn = computed(() =>
+    this.toggleDisabled() ? false : this.userToggleOn(),
   );
 
-  protected readonly col2DescKey = computed(() => {
-    if (this.destination2() > 0) return 'memory.bulk_modal.col2.desc_has';
-    if (this.buckets().c_ea + this.buckets().ch_ea === 0) {
-      return 'memory.bulk_modal.col2.desc_none_eligible';
+  protected readonly heroCount = computed(() =>
+    this.toggleOn() ? this.nTrans() + this.nAnBase() : this.nTrans(),
+  );
+
+  protected readonly canSubmit = computed(() => this.heroCount() > 0 && !this.isLoading());
+
+  /**
+   * Subtitle dinámico para el header del modal: contexto de selección.
+   * Muestra desglose "X llamadas, Y chats" solo cuando hay mix (evita
+   * redundancia "5 conversaciones · 5 llamadas").
+   */
+  protected readonly subtitle = computed(() => {
+    const sel = this.selected();
+    if (sel.length === 0) return 'Sin selección';
+    const nCalls = sel.filter((c) => c.channel === 'llamada').length;
+    const nChats = sel.length - nCalls;
+    const head =
+      sel.length === 1
+        ? '1 conversación seleccionada'
+        : `${sel.length} conversaciones seleccionadas`;
+    if (nCalls > 0 && nChats > 0) {
+      const bits: string[] = [];
+      bits.push(`${nCalls} ${nCalls === 1 ? 'llamada' : 'llamadas'}`);
+      bits.push(`${nChats} ${nChats === 1 ? 'chat' : 'chats'}`);
+      return `${head} · ${bits.join(', ')}`;
     }
-    return 'memory.bulk_modal.col2.desc_toggle_off_hint';
+    return head;
   });
 
-  protected readonly col3DescKey = computed(() => {
-    const d3 = this.destination3();
-    if (d3 === 0) return 'memory.bulk_modal.col3.desc_zero';
-    const includesEa = !this.toggleOn() && this.buckets().c_ea + this.buckets().ch_ea > 0;
-    return includesEa
-      ? 'memory.bulk_modal.col3.desc_with_skipped_analysis'
-      : 'memory.bulk_modal.col3.desc_already';
+  /**
+   * Hint debajo del hero. Solo aparece cuando aporta info NUEVA respecto
+   * al subtitle (regla 15.41 anti señales-duplicadas). Casos típicos:
+   *  - "Incluye N llamadas con varios tramos" (multi-rec, footgun 15.44).
+   *  - "Excluye N en proceso" (cuando processingIds tiene filas selecc).
+   */
+  protected readonly heroDeltaHint = computed<string | null>(() => {
+    if (this.isAllProcessed()) return null;
+    const includes: string[] = [];
+    const excludes: string[] = [];
+    const nMR = this.nMultiRec();
+    const nPMR = this.nPartialMultiRec();
+    const nIP = this.nInProgress();
+    if (nMR > 0 && !this.toggleOn()) {
+      includes.push(`${nMR} ${nMR === 1 ? 'llamada' : 'llamadas'} con varios tramos`);
+    }
+    if (nPMR > 0) {
+      if (includes.length > 0) {
+        includes.push(`${nPMR} con tramos ya iniciados`);
+      } else {
+        includes.push(`${nPMR} ${nPMR === 1 ? 'llamada' : 'llamadas'} con tramos ya iniciados`);
+      }
+    }
+    if (nIP > 0) excludes.push(`${nIP} en proceso`);
+    const parts: string[] = [];
+    if (includes.length > 0) parts.push(`Incluye ${includes.join(' · ')}`);
+    if (excludes.length > 0) parts.push(`Excluye ${excludes.join(' · ')}`);
+    return parts.length > 0 ? parts.join('. ') + '.' : null;
   });
 
-  protected readonly toggleDescKey = computed(() => {
-    if (!this.toggleLocked()) return 'memory.bulk_modal.toggle.desc_normal';
-    const b = this.buckets();
-    const onlyChats = b.c_ea === 0 && b.ch_ea > 0;
-    return onlyChats
-      ? 'memory.bulk_modal.toggle.desc_locked_chats'
-      : 'memory.bulk_modal.toggle.desc_locked_calls';
+  protected readonly captionLabel = computed(() => {
+    const n = this.nTrans() + this.nAnBase();
+    return n === 1 ? 'admite análisis' : 'admiten análisis';
   });
 
-  // Chips de canal por columna
-  protected readonly col1Chips = computed(() => {
-    return this.destination1() > 0 ? (['calls'] as const) : ([] as const);
-  });
-
-  protected readonly col2Chips = computed(() => {
-    if (!this.toggleOn()) return [] as const;
-    const out: ('calls' | 'chats')[] = [];
-    if (this.buckets().c_ea > 0) out.push('calls');
-    if (this.buckets().ch_ea > 0) out.push('chats');
-    return out;
-  });
-
-  protected readonly col3Chips = computed(() => {
-    const b = this.buckets();
-    const includesEa = !this.toggleOn();
-    const out: ('calls' | 'chats')[] = [];
-    if (b.c_aa > 0 || (includesEa && b.c_ea > 0)) out.push('calls');
-    if (b.ch_aa > 0 || (includesEa && b.ch_ea > 0)) out.push('chats');
-    return out;
-  });
-
-  protected readonly fileIcon = FileText;
-  protected readonly sparkleIcon = Sparkles;
-  protected readonly skipIcon = SkipForward;
-  protected readonly infoIcon = Info;
-  protected readonly checkIcon = CheckCircle2;
-  protected readonly lockIcon = Lock;
+  protected readonly alignLeftIcon = AlignLeft;
+  protected readonly loaderIcon = Loader2;
+  protected readonly alertIcon = AlertCircle;
 
   constructor() {
+    // Reset toggle to natural default al abrir o al cambiar selección.
     effect(() => {
-      if (this.visible()) {
-        this.userToggleOn.set(false);
-        this.shakeLocked.set(false);
+      if (!this.visible()) return;
+      // Tocar selected() para que el effect se dispare con cualquier cambio.
+      this.selected();
+      const naturalOn = this.nTrans() === 0 && this.nAnBase() > 0;
+      this.userToggleOn.set(naturalOn);
+      this.isLoading.set(false);
+      this.error.set(null);
+    });
+
+    // Pulse hero al cambiar heroCount (solo mientras visible).
+    let prevHero = this.heroCount();
+    effect(() => {
+      const h = this.heroCount();
+      if (this.visible() && h !== prevHero) {
+        this.bumpKey.update((k) => k + 1);
       }
+      prevHero = h;
     });
   }
 
-  protected onToggleClick(): void {
-    if (this.toggleLocked()) {
-      this.shakeLocked.set(true);
-      setTimeout(() => this.shakeLocked.set(false), 320);
+  protected onToggleChange(next: boolean): void {
+    if (this.toggleDisabled()) {
+      // C1 nudge: shake la cell decisión.
+      this.shakeKey.update((k) => k + 1);
       return;
     }
-    this.userToggleOn.update((v) => !v);
+    this.pulseKey.update((k) => k + 1);
+    this.userToggleOn.set(next);
   }
 
   protected onCancel(): void {
+    if (this.isLoading()) return;
     this.closed.emit();
   }
 
   protected onConfirm(): void {
-    if (this.buttonDisabled()) return;
+    if (!this.canSubmit()) return;
     const includeAnalysis = this.toggleOn();
-    const eligible: string[] = [];
-    for (const conv of this.selected()) {
-      if (!isEligibleForBulk(conv)) continue;
-      if (conv.channel === 'llamada') {
-        if (!conv.hasTranscription) eligible.push(conv.id);
-        else if (includeAnalysis && !conv.hasAnalysis) eligible.push(conv.id);
-      } else {
-        if (includeAnalysis && !conv.hasAnalysis) eligible.push(conv.id);
-      }
+    const a = this.analysis();
+    const eligibleIds: string[] = [];
+    for (const c of a.readyToTranscribe) eligibleIds.push(c.id);
+    if (includeAnalysis) {
+      for (const c of a.callEa) eligibleIds.push(c.id);
+      for (const c of a.chatEa) eligibleIds.push(c.id);
     }
-    this.confirmed.emit({ includeAnalysis, eligibleIds: eligible });
+    this.isLoading.set(true);
+    this.error.set(null);
+    // Mock: emite inmediatamente. En real, el caller manejaría loading/error
+    // y devolvería una promise. Aquí simulamos resolución síncrona.
+    this.confirmed.emit({ includeAnalysis, eligibleIds });
+    this.isLoading.set(false);
   }
 }
 
-interface Buckets {
-  readonly c_t: number;
-  readonly c_ea: number;
-  readonly c_aa: number;
-  readonly ch_ea: number;
-  readonly ch_aa: number;
+interface AnalysisResult {
+  readonly readyToTranscribe: readonly Conversation[];
+  readonly callEa: readonly Conversation[];
+  readonly chatEa: readonly Conversation[];
+  readonly nTrans: number;
+  readonly nConvTrans: number;
+  readonly nMultiRec: number;
+  readonly nPartialMultiRec: number;
+  readonly nInProgress: number;
+  readonly nAnBase: number;
 }
 
-function isEligibleForBulk(c: Conversation): boolean {
-  if (c.deleted) return false;
-  if (c.channel === 'llamada' && !c.hasRecording) return false;
-  return true;
-}
+/**
+ * Calcula los contadores derivados de la selección, aplicando los
+ * filtros silenciosos (deleted + in-progress) y la regla multi-rec
+ * (audios, no conversaciones).
+ */
+function analyze(
+  selected: readonly Conversation[],
+  processingIds: readonly string[],
+  analyzingIds: readonly string[],
+): AnalysisResult {
+  const inProgress = new Set<string>([...processingIds, ...analyzingIds]);
+  const eligible = selected.filter((c) => !c.deleted && !inProgress.has(c.id));
+  const calls = eligible.filter((c) => c.channel === 'llamada');
+  const chats = eligible.filter((c) => c.channel === 'chat');
+  const nInProgress = selected.filter((c) => inProgress.has(c.id)).length;
 
-function computeBuckets(selected: readonly Conversation[]): Buckets {
-  let c_t = 0;
-  let c_ea = 0;
-  let c_aa = 0;
-  let ch_ea = 0;
-  let ch_aa = 0;
-  for (const conv of selected) {
-    if (!isEligibleForBulk(conv)) continue;
-    if (conv.channel === 'llamada') {
-      if (!conv.hasTranscription) c_t++;
-      else if (!conv.hasAnalysis) c_ea++;
-      else c_aa++;
+  const readyToTranscribe = calls.filter((c) => c.hasRecording && !c.hasTranscription);
+
+  // Multi-rec: una llamada con N tramos sin transcribir cuenta N audios.
+  let nTramos = 0;
+  let nMultiRec = 0;
+  let nPartialMultiRec = 0;
+  for (const c of readyToTranscribe) {
+    const recs = c.recordings;
+    if (recs && recs.length > 1) {
+      nMultiRec++;
+      const untranscribed = recs.filter((r) => !r.hasTranscription).length;
+      nTramos += untranscribed;
+      if (recs.some((r) => r.hasTranscription)) nPartialMultiRec++;
     } else {
-      if (!conv.hasAnalysis) ch_ea++;
-      else ch_aa++;
+      nTramos += 1;
     }
   }
-  return { c_t, c_ea, c_aa, ch_ea, ch_aa };
+
+  const callsTranscribed = calls.filter((c) => c.hasTranscription);
+  const callEa = callsTranscribed.filter((c) => !c.hasAnalysis);
+  const chatEa = chats.filter((c) => !c.hasAnalysis);
+
+  return {
+    readyToTranscribe,
+    callEa,
+    chatEa,
+    nTrans: nTramos,
+    nConvTrans: readyToTranscribe.length,
+    nMultiRec,
+    nPartialMultiRec,
+    nInProgress,
+    nAnBase: callEa.length + chatEa.length,
+  };
 }
