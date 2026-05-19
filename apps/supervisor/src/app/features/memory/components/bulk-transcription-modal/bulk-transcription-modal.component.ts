@@ -3,12 +3,11 @@ import {
   Component,
   computed,
   effect,
-  inject,
   input,
   output,
   signal,
 } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { AlertCircle, AlignLeft, Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
@@ -64,8 +63,6 @@ import type { Conversation } from '../../data/conversation.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BulkTranscriptionModalComponent {
-  private readonly translate = inject(TranslateService);
-
   /** Inputs con default — necesario para que el effect del constructor
    *  no casque con NG0950 antes del primer binding. Comportamiento OK
    *  con valores default: modal invisible + selección vacía → heroCount=0. */

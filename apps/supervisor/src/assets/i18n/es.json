@@ -8,10 +8,6 @@
     "subtitle": "Esta página aún no está disponible"
   },
   "memory": {
-    "placeholder": {
-      "title": "Memory en migración",
-      "body": "El módulo Memory (revisión de conversaciones, transcripción IA, reglas y entidades) se está migrando desde el prototipo React. La primera vista funcional aterriza en las próximas sesiones."
-    },
     "conversations": {
       "page_title": "Conversaciones",
       "open_aria": "Abrir conversación {{id}}",
@@ -431,47 +427,6 @@
       "select_all": "Seleccionar todo",
       "deselect_all": "Deseleccionar todo"
     },
-    "bulk_modal": {
-      "title": "Transcribir y analizar",
-      "subtitle": "{{n}} conversaciones seleccionadas",
-      "subtitle_excluded": "{{n}} excluidas (vacías o no recuperables)",
-      "allprocessed_title": "Todo al día",
-      "allprocessed_desc": "Todas las conversaciones seleccionadas ya están procesadas.",
-      "col1": {
-        "label_on": "Transcribir + analizar",
-        "label_off": "Solo transcribir",
-        "desc_has": "Llamadas sin transcribir",
-        "desc_none": "Nada que transcribir"
-      },
-      "col2": {
-        "label": "Solo analizar",
-        "desc_has": "Resumen + sentimiento",
-        "desc_none_eligible": "Nada elegible",
-        "desc_toggle_off_hint": "Activa análisis ↑"
-      },
-      "col3": {
-        "label": "Omitidas",
-        "desc_already": "Ya procesadas",
-        "desc_with_skipped_analysis": "Ya procesadas · análisis desactivado",
-        "desc_zero": "Ninguna"
-      },
-      "chips": {
-        "calls": "Llamadas",
-        "chats": "Chats"
-      },
-      "toggle": {
-        "title": "Incluir análisis IA",
-        "desc_normal": "Resumen y sentimiento",
-        "desc_locked_calls": "Todas las llamadas ya están transcritas",
-        "desc_locked_chats": "Los chats entran directos a análisis"
-      },
-      "footer_info": "conversaciones se procesarán · genera costes",
-      "cancel": "Cancelar",
-      "confirm": "Procesar",
-      "dispatched_toast": "{{n}} conversaciones {{mode}}",
-      "dispatched_with_analysis": "en transcripción + análisis",
-      "dispatched_no_analysis": "en transcripción"
-    },
     "dispatch": {
       "transcribing": "Generando transcripción de {{n}} conversaciones…",
       "analyzing": "Generando análisis IA de {{n}} conversaciones…",
@@ -544,10 +499,6 @@
     "groups_count": "{{count}} grupos",
     "groups_count_short": "{{count}}",
     "groups_more": "+{{count}} más",
-    "result_counter": {
-      "found": "{{count}} {{entity}} encontrados",
-      "none": "Sin resultados"
-    },
     "delete_dialog": {
       "title_single": "¿Eliminar {{entity}}?",
       "title_bulk": "¿Eliminar {{count}} {{entity}}?",
@@ -943,12 +894,6 @@
         "permissions_hint": "Acciones avanzadas",
         "services": "Servicios asignados",
         "services_hint": "Servicios VUI bajo supervisión"
-      },
-      "summary": {
-        "tab_groups": "Grupos",
-        "tab_services": "Servicios",
-        "no_groups": "No hay grupos seleccionados",
-        "no_services": "No hay servicios seleccionados"
       },
       "fields": {
         "name": "Nombre completo",
