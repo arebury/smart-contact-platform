@@ -66,8 +66,11 @@ import type { Conversation } from '../../data/conversation.types';
 export class BulkTranscriptionModalComponent {
   private readonly translate = inject(TranslateService);
 
-  readonly visible = input.required<boolean>();
-  readonly selected = input.required<readonly Conversation[]>();
+  /** Inputs con default — necesario para que el effect del constructor
+   *  no casque con NG0950 antes del primer binding. Comportamiento OK
+   *  con valores default: modal invisible + selección vacía → heroCount=0. */
+  readonly visible = input<boolean>(false);
+  readonly selected = input<readonly Conversation[]>([]);
   readonly processingIds = input<readonly string[]>([]);
   readonly analyzingIds = input<readonly string[]>([]);
 
