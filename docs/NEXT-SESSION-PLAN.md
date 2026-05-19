@@ -3,13 +3,23 @@
 > **Para Claude en la próxima sesión** (importante para contexto completo):
 >
 > 1. Lee ESTE archivo completo.
-> 1a. Lee la entry **Session 40** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+> 1a. Lee la entry **Session 41** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+>    Eje 7 (audit periódico 6-ejes) + Eje 6 (case-study 4 entries) +
+>    bootstrap Eje 4 punto 2b (Code Connect mapping doc nuevo). 1 commit
+>    `dc7f063` con 3 fixes P1: `--sc-text-muted` no existía (cay a inherit
+>    secondary) + a11y aria-label combinaba estado al focus target +
+>    `:where()` para fix specificity Angular emulated encapsulation.
+>    Figma render `/admin/agentes/crear` vivo en file `khNq9dJKNi13pNllrqm6dx`
+>    node 130:6404 con 6 instances Kit Pro + 24 Variables bindings.
+> 1aa. Lee también [`packages/design-system/docs/code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md)
+>    nuevo S41 — Angular↔Figma mapping operativo con 6 components + Variables semánticas.
+> 1b. Lee la entry **Session 40** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
 >    Sesión corta dirigida, 3 commits. Eje 1 Memory polish ejecutado:
 >    §10 #15 iconografía pictograma única canal+state (revierte sparring
 >    S37) + §10 #16 chrome AED en tabla `/conversaciones`. Backlog #32
 >    nuevo: extracción partial `.table-card`/`.table` cuando llegue 5º
 >    consumer.
-> 1b. Lee la entry **Session 39** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
+> 1c. Lee la entry **Session 39** entera en [`SESSION-LOG.md`](./SESSION-LOG.md) —
 >    **Sesión maratón ~18 commits**. 6 bloques: rescate Netlify post-S35
 >    (npm ci + pin npm + husky), modal v11→v26 Memory, mock dispatch +
 >    sticky toast + filas shimmer, MockSampleSwitcher 7 escenarios,
@@ -66,6 +76,33 @@
 >
 > **Para Rafa**: cuando abras Claude di literalmente: *"lee
 > `docs/NEXT-SESSION-PLAN.md` y arranca"*. Toma desde aquí.
+
+---
+
+## Estado al cerrar (Session 41, 2026-05-19) — Audit + Figma render + bootstrap Code Connect
+
+**1 commit a `main` + render Figma vivo + 3 docs**. Eje 7 (audit) +
+Eje 6 (case-study) + bootstrap Eje 4 punto 2b ejecutados:
+
+1. **Audit 6-ejes** post S39+S40 — findings en chat (memoria no-audit-docs).
+   3 P1 corregidos en `dc7f063`: token roto `--sc-text-muted` → `subtle`,
+   a11y aria-label estado + button, `:where()` para specificity Angular.
+2. **Figma render `/admin/agentes/crear`** en file Kit Pro node 130:6404
+   con 6 instances reales (button × 2, inputtext × 2, select × 2) + 24
+   Variables bindings (`setBoundVariableForPaint`) en frames custom
+   (sticky-header, sidebar, section card). Patrón reproducible
+   documentado en `code-connect-mapping.md`.
+3. **Docs nuevos / ampliados**:
+   - `docs/case-study-notes.md` + 4 entries S41 (getComputedStyle,
+     emulated encapsulation, a11y focus target, Figma bindings).
+   - `packages/design-system/docs/code-connect-mapping.md` NUEVO —
+     Angular↔Figma mapping operativo con 6 components + Variables SC
+     semánticas + playbook "Cómo añadir nuevo componente / Variable".
+
+### Estado salud al cerrar S41
+
+Bundle 1.64 MB estable. CI verde. Push verde. Figma render vivo en
+Playground node 130:6404. Backlog SCDS sin entries P1 abiertas hoy.
 
 ---
 

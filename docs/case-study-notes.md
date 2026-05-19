@@ -16,6 +16,171 @@
 
 ---
 
+## 2026-05-19 · S41 — `getComputedStyle` revela que el "gris" del icono no es lo que parecía
+
+**Contexto**: durante el audit periódico S41, encontré 2 archivos
+SCSS usando `color: var(--sc-text-muted)` — uno introducido por mí
+en S40 (memory-status-icon), otro pre-S40 (columna ID de la tabla
+Memory). Los iconos REST de la tabla se veían grises en las
+screenshots; asumí que el token funcionaba.
+
+**Premisa equivocada**: "se ve gris, el token está bien". Si una
+variable CSS no resuelve a un valor visible obviamente roto, parece
+ok.
+
+**Descubrimiento**: `--sc-text-muted` **no existe en ninguna de las
+7 capas SCDS**. Solo hay `--sc-text-secondary`, `--sc-text-subtle`,
+`--sc-text-primary`. El CSS caía a `inherit` para la propiedad
+`color` (comportamiento de `unset` en propiedades heredables) y
+**heredaba del padre `tbody td { color: var(--sc-text-secondary) }`**.
+El "gris" visible era secondary heredado, no la intención muted
+documentada en el spec doc del prototipo Memory.
+
+`getComputedStyle(el).color` en Playwright lo destapó:
+- Rest icon: `rgb(72, 184, 201)` → era el primer match `.is-active`, no rest
+- ID column: `rgb(71, 85, 105)` = gray-600 = secondary, **no** subtle
+
+**Lección portable**: validar tokens críticos con
+`getComputedStyle`, no con vista visual. CSS variables undefined sin
+fallback caen a `inherit` para color/font, lo que crea ilusión de
+"funciona". Si un token "se ve igual al de al lado", suele estar
+roto silenciosamente.
+
+---
+
+## 2026-05-19 · S41 — Angular emulated encapsulation rompe la regla "class wins over element"
+
+**Contexto**: tras arreglar `--sc-text-muted` → `--sc-text-subtle`
+en la ID column de la tabla Memory, el computed seguía devolviendo
+gray-600 (secondary), no gray-400 (subtle). El SCSS estaba bien:
+`tbody td { color: --sc-text-secondary }` global + `&__id { color:
+--sc-text-subtle }` override. Class debería ganar.
+
+**Premisa equivocada**: "specificity de CSS es universal: (0,1,0)
+class > (0,0,2) elements".
+
+**Descubrimiento**: Angular emulated encapsulation reescribe AMBOS
+selectores añadiendo un attribute selector (`[_ngcontent-xxx]`) por
+cada compound. Resultado real en el navegador:
+
+- `tbody[_ngcontent] td[_ngcontent]` → (0,2,2)
+- `.memory-conversations-table__id[_ngcontent]` → (0,1,1)
+
+(0,2,2) > (0,1,1) → element selector wins. La regla universal vale
+para CSS plano, no para Angular emulated.
+
+**Fix aplicado**: envolver el selector general en `:where()` —
+forza specificity a (0,0,0) sin cambiar el selector lógicamente:
+
+```scss
+:where(tbody td) {
+  color: var(--sc-text-secondary);  /* default */
+}
+&__id { color: var(--sc-text-subtle); }  /* now wins */
+```
+
+**Lección portable**: en Angular con `ViewEncapsulation.Emulated`
+(el default), nunca asumas que `.class` gana al `element`. Verifica
+con DevTools real (el side panel computed muestra la cascade
+resuelta) o usa `:where()` para selectores generales que esperas
+sean fácilmente overrideables. Equivalente Vue scoped + scoped CSS
+Modules tienen el mismo pitfall.
+
+---
+
+## 2026-05-19 · S41 — Regresión a11y por unificar cluster en un solo icono
+
+**Contexto**: S40 reemplacé el cluster de 3-5 lucides separados
+(decisión sparring S37) por una pictograma única
+`<sc-memory-status-icon>` que sigue el doc canon Memory. Cada
+lucide tenía su `aria-label` propio (recording / transcription /
+analysis / failed). Al unificar, puse el `aria-label` en el `<span>`
+hijo del componente con el estado resuelto dinámicamente.
+
+**Premisa equivocada**: "el aria-label vive en el componente que
+muestra el estado, así el screen reader lo anuncia".
+
+**Descubrimiento**: el screen reader anuncia el **focus target**, no
+los hijos no-interactivos. El focus target era el `<button>` del
+table (que abre el player modal) con `aria-label="Abrir conversación
+X"`. El `<sc-memory-status-icon>` hijo con su `aria-label` quedaba
+mudo. La regresión: antes del unifico, el cluster de iconos vivía
+DENTRO del button como hijos, y la concatenación de `aria-label`
+no cambiaba el comportamiento porque los hijos solo eran decorativos.
+Pero el estado SÍ se anunciaba antes porque el cluster era visible
+y el screen reader lo leía como contenido del button.
+
+Después del unifico: hijo único con aria-label propio + button
+parent con `aria-label="Abrir conversación X"` (que el browser
+prefiere sobre el text content del child cuando hay aria-label
+explícito).
+
+**Fix aplicado**: exportar `resolveStatusLabelKey()` desde el
+componente icon + helper en table component + i18n key
+`open_aria_with_state` combinada:
+
+```
+"Abrir conversación FED1027FEB — Estado: Llamada · grabada,
+transcrita y analizada"
+```
+
+**Lección portable**: cuando refactorizas un cluster de elementos
+interactivos/semánticos a uno solo, audita el focus target y dónde
+acaba viviendo el `aria-label`. El "lo mismo pero más limpio" puede
+romper a11y silenciosamente. Test rápido: en Playwright
+`button.getAttribute('aria-label')` o en Chromium DevTools
+Accessibility tree, ¿el estado aparece junto al focus target?
+
+---
+
+## 2026-05-19 · S41 — Render Figma desde código: hex literals NO ATTACHEAN Variables
+
+**Contexto**: Rafa pidió portar la pantalla `/admin/agentes/crear`
+a Figma con "componentes y tokens lincados" (no como screenshot).
+Construí frames custom con `figma.createFrame()` + fills con hex
+literal (`{ r: 1, g: 1, b: 1 }` para white, `{ r: 0.886, g: 0.910,
+b: 0.941 }` para border-default). Visualmente: idéntico al render
+real. En Figma panel: "no veo variables attached, nada".
+
+**Premisa equivocada**: "si el color es el mismo hex que el
+Variable resuelve, Figma lo trata igual". Falso. Figma distingue
+entre "color directo" y "color via Variable alias". El primero NO
+permite mode switch (light/dark) ni aparece en el inspector como
+"linked to library".
+
+**Descubrimiento**: para que un fill/stroke esté ATTACHED a una
+Variable Figma:
+
+```js
+const variable = await figma.variables.getVariableByIdAsync(
+  "VariableID:9114:24113"
+);
+const boundFill = figma.variables.setBoundVariableForPaint(
+  { type: "SOLID", color: { r: 1, g: 1, b: 1 } }, // fallback color
+  "color",
+  variable
+);
+node.fills = [boundFill];
+```
+
+Sin `setBoundVariableForPaint`, el fill es SOLID con color directo.
+Con él, el fill carga `boundVariables.color = { type:
+"VARIABLE_ALIAS", id: "..." }` y Figma lo trata como "linked".
+
+Pre-fetch ASÍNCRONO de variables (la API plugin moderna obliga
+`getVariableByIdAsync`, no sync) y mapeo previo `surface/0`,
+`surface/50`, `surface/200`, etc. a sus IDs.
+
+**Lección portable**: al programar contra Figma plugin API, los
+fills/strokes NO heredan binding automáticamente del valor — hay
+que bindear explícitamente con `setBoundVariableForPaint`. Si no,
+el output visualmente parece correcto pero está "detached" del
+design system, lo que rompe el caso de uso principal de un Kit:
+mode switch, library updates, audit. Usa esto como checklist cuando
+un agente genere designs desde código.
+
+---
+
 ## 2026-05-19 · S39 — Falsos diagnósticos en cascada: cuando 3 fixes no resuelven nada
 
 **Contexto**: Rafa nota que `aedmigration.netlify.app` no muestra el

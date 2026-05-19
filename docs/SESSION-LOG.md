@@ -10,6 +10,119 @@
 
 ---
 
+## 2026-05-19 · Session 41 — Audit periódico + fixes P1 + Figma render con Variables + bootstrap Code Connect mapping
+
+> Sesión multi-bloque (~2 commits + render Figma vivo + 3 docs nuevos /
+> actualizados). Cierre del Eje 7 (audit periódico) + Eje 6 (case-study
+> notes) + bootstrap del Eje 4 punto 2b (Code Connect mapping). Trabajo
+> accionable sin trigger externo, capitalizando S40.
+
+### Bloque 1 — Audit periódico 6 ejes (post-S39+S40)
+
+6 ejes auditados, findings entregados en chat según memoria
+`feedback_no_audit_docs`:
+
+| Eje | Findings | Severidad |
+|---|---|---|
+| A11y cluster Estado nuevo (S40 #15) | 1 regresión — aria-label estado mudo en focus target | P1 |
+| Regresión visual tabla Memory (S40 #16) | 0 críticos · 1 cosmético (sticky double bg) | P3 |
+| Dead i18n keys S40 | 0 — 11 nuevas todas usadas, 4 obsoletas removidas sin huérfanos | — |
+| Bundle delta S40 | -10 KB initial (1.65 → 1.64 MB). SVG inline compensa lucides removidos | ✅ |
+| Anti-patrones Angular | 0 — OnPush ✓, NG0950 lazy via computed, reduced-motion ✓ | — |
+| Tokens hardcoded | 1 token roto + 2 px hardcoded sin token | P1 + P3 |
+
+### Bloque 2 — 3 findings P1 corregidos (`dc7f063`)
+
+- **F1 — `--sc-text-muted` no existe en SCDS**. Reemplazado por
+  `--sc-text-subtle` en 2 sitios (`memory-status-icon.scss` S40 +
+  `conversation-table.scss &__id` pre-S40). El CSS caía a `inherit`
+  desde `tbody td { color: --sc-text-secondary }` por coincidencia;
+  el "gris" visible era secondary heredado, no la intención muted.
+- **F2 — Regresión a11y aria-label**. Export
+  `resolveStatusLabelKey()` desde `memory-status-icon` + helper en
+  table component + key i18n `open_aria_with_state` que combina id
+  + estado traducido: `"Abrir conversación X — Estado: Llamada ·
+  grabada y transcrita"`.
+- **F-extra — Specificity Angular emulated encapsulation**. Al
+  añadir S40 el `tbody td { color: --sc-text-secondary }` general,
+  los overrides BEM por celda caían en la cascade real: Angular
+  reescribe ambos selectores con un attribute selector adicional,
+  resultando (0,2,2) > (0,1,1). Fix: envolver el general en
+  `:where(tbody td)` para bajar specificity a (0,0,0).
+
+Validación: `getComputedStyle` Playwright verifica REST icon
+`rgb(148,163,184)` = subtle ✓, ACTIVE `rgb(72,184,201)` = info ✓, ID
+column `rgb(148,163,184)` = subtle ✓, general td
+`rgb(71,85,105)` = secondary ✓.
+
+### Bloque 3 — Figma render `/admin/agentes/crear` en Playground (eje 4 punto 2b bootstrap)
+
+Rafa pidió la pantalla de creación agentes en Figma node `130-6404`
+con **componentes y tokens lincados** (no screenshot). Resultado:
+
+- **6 instances reales del Kit Pro**: button × 2 (Cancelar Secondary
+  Outlined + Guardar Primary), inputtext × 2 (Email + Teléfono),
+  select × 2 (Extensión + Tipo). Cada una con variant default
+  correcto + property overrides + placeholders editados via
+  direct text node manipulation (`↳ Float Label` property NO está
+  conectado al placeholder real cuando `🏷️ Float Label=False` —
+  gotcha documentada en `code-connect-mapping.md`).
+- **Frames custom con Variables binding**: sticky-form-header,
+  sidebar nav, section card "Identificación", grid 2x2 con field
+  rows. 24 bindings `setBoundVariableForPaint` aplicadas (root bg
+  → `surface/50`, card bg → `content/background`, borders →
+  `surface/200` / `content/border/color`, labels → `content/color`,
+  hints → `surface/400`, etc.).
+- **Iteración inicial mala**: primera versión usó hex literals en
+  los frames custom. Rafa señaló "no veo variables attached, nada"
+  — segunda pasada bound TODAS las custom fills/strokes a sus
+  Variables SC. Lección capturada en case-study-notes.
+
+### Bloque 4 — Docs (eje 6 + eje 4 punto 2b operativos)
+
+- **`docs/case-study-notes.md`** — 4 entries S41 nuevas:
+  - `getComputedStyle` revela que el "gris" no es lo que parecía.
+  - Angular emulated encapsulation rompe "class wins over element".
+  - Regresión a11y por unificar cluster en un solo icono.
+  - Render Figma desde código: hex literals NO attachean Variables.
+- **`packages/design-system/docs/code-connect-mapping.md`** —
+  documento nuevo. Bootstrap Angular↔Figma mapping con los 6
+  components verificados hoy + tabla Variables semánticas SC
+  mapeadas + gotchas (placeholder direct edit, async var fetch,
+  bindFill pattern) + sección "Cómo añadir nuevo componente / nueva
+  Variable" como playbook reproducible.
+
+### Estado salud al cerrar S41
+
+| Sistema | Estado | Commit |
+|---|---|---|
+| `aedmigration.netlify.app` | ✅ Live · Memory + tabla cluster pictograma única + a11y fixes | `dc7f063` |
+| `ds-smartcontact.netlify.app` | ✅ Live · sin cambios S41 | — |
+| CI GitHub Actions | ✅ Verde | — |
+| Pre-commit hook | ✅ Activo | — |
+| Bundle initial supervisor | 1.64 MB (estable post-S40) | — |
+| Figma `khNq9dJKNi13pNllrqm6dx` node 130:6404 | ✅ Render vivo con Variables attached | (en Figma) |
+
+### Resumen iter-closing S41
+
+- **Hice**: audit 6-ejes · 3 fixes P1 (token roto + a11y aria-label +
+  specificity Angular) · render Figma con 6 instances Kit Pro + 24
+  Variables bindings · 4 entries case-study + doc Code Connect
+  mapping inicial.
+- **Verifiqué**: `tsc --noEmit` + `ng lint` verdes · Playwright
+  `getComputedStyle` para 4 tokens · `boundVariables.color` en
+  cada frame Figma custom · `getMainComponentAsync` en cada
+  instance Kit Pro.
+- **Herramientas**: Playwright via npx (Chromium retina), Figma
+  Desktop Bridge MCP, claude-code-guide subagent para investigación
+  remote-control móvil.
+- **Riesgo pendiente**: el icono teal del card-head sigue hex
+  literal (`#48B8C9`) hasta que el bootstrap Custom collection SC
+  (eje 4 punto 1) tenga una Variable propia para "teal info SC".
+  No bloqueante.
+
+---
+
 ## 2026-05-19 · Session 40 — Polish UX Memory: iconografía status + chrome AED tabla
 
 > Sesión corta y dirigida (3 commits). Eje 1 Memory polish ejecutado:
