@@ -63,7 +63,9 @@ interface EntityTypeOption {
 export class EntityFormModalComponent {
   private readonly entitiesStore = inject(EntitiesStore);
 
-  readonly visible = input.required<boolean>();
+  // input con default false: previene NG0950 cuando el effect del
+  // constructor lee `this.visible()` antes del primer binding.
+  readonly visible = input<boolean>(false);
   /** Si se pasa, el modal entra en edit mode. Si null/undefined → create. */
   readonly entity = input<Entity | null>(null);
 

@@ -130,7 +130,10 @@ export class CategoryFormModalComponent {
   private readonly categoriesStore = inject(CategoriesStore);
   private readonly rulesStore = inject(RulesStore);
 
-  readonly visible = input.required<boolean>();
+  // input con default false: el effect del constructor lee `this.visible()`
+  // antes del primer binding y `input.required` cascaría con NG0950
+  // (mismo bug que arregló 7525864 en BulkTranscriptionModal).
+  readonly visible = input<boolean>(false);
   readonly category = input<Category | null>(null);
 
   readonly closed = output<void>();

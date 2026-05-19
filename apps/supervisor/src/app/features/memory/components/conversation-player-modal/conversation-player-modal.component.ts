@@ -66,7 +66,9 @@ export class ConversationPlayerModalComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
 
-  readonly visible = input.required<boolean>();
+  // input con default false: previene NG0950 cuando el effect del
+  // constructor lee `this.visible()` antes del primer binding.
+  readonly visible = input<boolean>(false);
   readonly conversation = input<Conversation | null>(null);
   readonly isTranscribing = input(false);
   readonly isAnalyzing = input(false);
