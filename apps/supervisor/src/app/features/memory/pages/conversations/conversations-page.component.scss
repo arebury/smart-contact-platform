@@ -1,4 +1,24 @@
+/* Page chrome alineado con AED list-pages (S41 consistency fix):
+ * max-width 1600 + padding spacing-500/600 evita que el contenido
+ * recorra el full-width del main-content. `padding-bottom` reserva
+ * espacio para el bulk-action-bar overlay sin causar layout shift. */
 :host {
   display: block;
   height: 100%;
+  background: var(--sc-bg-surface);
+}
+
+.page {
+  flex: 1;
+  background: var(--sc-bg-surface);
+  padding-bottom: calc(var(--sc-bulk-action-bar-height) + var(--sc-spacing-300));
+
+  &__inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: var(--sc-spacing-500) var(--sc-spacing-600);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sc-spacing-400);
+  }
 }
