@@ -1,7 +1,13 @@
 /* ════════════════════════════════════════════════════════════════════
  * BulkTranscriptionModal v26 — Figma 297:2559
  * Hero (Total a procesar) + Decision (Análisis), divididas por hairline
- * vertical. 720×200 body. Tokens en --sc-bulk-* (extensions layer).
+ * vertical. Body 720×200.
+ *
+ * Política tokens (S39): consume tokens canonical SCDS existentes
+ * (--sc-spacing-*, --sc-border-default, --sc-text-*, --sc-color-amber-*).
+ * NO se cocinan tokens `--sc-bulk-*` específicos para este modal — el
+ * uso es local, no justifica layer de indirección. Valores fijos como
+ * height 200px o hero 88px van inline aquí.
  * ════════════════════════════════════════════════════════════════════ */
 
 :host {
@@ -11,19 +17,19 @@
 .bulkv26 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: var(--sc-bulk-cell-height);
+  height: 200px;
   width: 100%;
 }
 
 .bulkv26__cell {
   display: flex;
   flex-direction: column;
-  padding: var(--sc-bulk-cell-padding-top) var(--sc-bulk-cell-padding-x)
-    var(--sc-bulk-cell-padding-bottom);
+  /* 24px vertical / 32px horizontal — alineado con padding canonical del DS. */
+  padding: var(--sc-spacing-500) var(--sc-spacing-600);
 
   &--hero {
     align-items: flex-start;
-    border-right: 1px solid var(--sc-bulk-divider-color);
+    border-right: 1px solid var(--sc-border-default);
   }
 
   &--decision {
@@ -60,8 +66,10 @@
 
 .bulkv26__hero-number {
   display: inline-block;
-  font-size: var(--sc-bulk-hero-font-size);
-  line-height: var(--sc-bulk-hero-line-height);
+  /* Display typography — 88px específico del Figma v26. No promover a
+   * token compartido hasta que aparezca un segundo consumer. */
+  font-size: 88px;
+  line-height: 1.05;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
   color: var(--sc-text-primary);
@@ -77,7 +85,8 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1.4;
-  color: var(--sc-bulk-cost-warn);
+  /* "genera coste" cue — warning amber del DS, no urgente. */
+  color: var(--sc-color-amber-700, var(--sc-color-orange-700));
   min-height: calc(1.4 * 14px); /* reserva altura para evitar CLS al ocultar */
   transition: opacity 200ms ease;
 
@@ -102,7 +111,7 @@
   width: 100%;
   flex-direction: column;
   justify-content: center;
-  gap: var(--sc-bulk-decision-caption-gap);
+  gap: var(--sc-spacing-300);
 }
 
 .bulkv26__decision-row {
@@ -176,7 +185,7 @@
   gap: var(--sc-spacing-200);
   border-top: 1px solid var(--sc-color-red-300);
   background: color-mix(in srgb, var(--sc-color-red-100) 60%, transparent);
-  padding: var(--sc-spacing-300) var(--sc-bulk-cell-padding-x);
+  padding: var(--sc-spacing-300) var(--sc-spacing-600);
 }
 
 .bulkv26__error-icon {
@@ -245,6 +254,6 @@
 
   .bulkv26__cell--hero {
     border-right: 0;
-    border-bottom: 1px solid var(--sc-bulk-divider-color);
+    border-bottom: 1px solid var(--sc-border-default);
   }
 }
