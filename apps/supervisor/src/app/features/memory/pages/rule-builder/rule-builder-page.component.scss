@@ -144,12 +144,27 @@
   }
 
   &__foot {
+    /* Sticky bottom (S44): el rule-builder es un wizard lineal con 4-5
+     * secciones stackeadas verticalmente. Sin sticky-bottom, el save
+     * solo aparece tras scroll-to-end de un body largo. AED forms
+     * usan `sc-sticky-form-header` (sticky TOP con eyebrow+name+save)
+     * porque tienen tabs sidebar para saltar entre secciones; el
+     * rule-builder es lineal AND wizard, por eso sticky BOTTOM
+     * encaja mejor con el flujo "termina y guarda" sin imponer el
+     * pattern AED. Patrón consistente con `sc-bulk-action-bar` overlay
+     * (también sticky bottom) del conversations-page.
+     */
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
     display: flex;
     justify-content: flex-end;
     gap: var(--sc-spacing-200);
     padding: var(--sc-spacing-400) var(--sc-spacing-500);
     background: var(--sc-bg-surface);
     border-top: 1px solid var(--sc-border-default);
+    /* Soft shadow upward to hint the content scrolls beneath the foot. */
+    box-shadow: 0 -4px 12px rgb(0 0 0 / 0.04);
   }
 
   &__textarea-label,
