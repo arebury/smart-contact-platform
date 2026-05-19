@@ -66,32 +66,39 @@
   }
 }
 
+/* Chrome alineado con AED list-pages (S41 consistency): radius-200,
+ * thead bg-default, font-size-50 + letter-spacing 0.05em, border-bottom
+ * subtle por fila, td secondary + font-size-200. `__td-name` mantiene
+ * el primary medium como en AED. `white-space: nowrap` en th evita
+ * que labels uppercase se partan. */
 .rules-table {
   width: 100%;
   border-collapse: collapse;
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
-  border-radius: var(--sc-radius-300);
+  border-radius: var(--sc-radius-200);
   overflow: hidden;
   table-layout: fixed;
 
   thead th {
     text-align: left;
-    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    padding: var(--sc-spacing-200);
     border-bottom: 1px solid var(--sc-border-default);
-    background: var(--sc-color-gray-50);
-    font-size: 0.6875rem;
-    font-weight: 600;
+    background: var(--sc-bg-default);
+    font-size: var(--sc-font-size-50);
+    font-weight: var(--sc-font-weight-semibold);
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     color: var(--sc-text-secondary);
+    white-space: nowrap;
   }
 
   tbody tr {
-    transition: background-color 200ms ease-out;
+    border-bottom: 1px solid var(--sc-border-subtle);
+    transition: background var(--sc-transition-fast) var(--sc-easing-default);
 
     &:hover {
-      background: var(--sc-bg-elevated);
+      background: var(--sc-bg-default);
     }
 
     &.rules-row--draft {
@@ -100,14 +107,13 @@
   }
 
   tbody td {
-    padding: var(--sc-spacing-200) var(--sc-spacing-300);
-    font-size: 0.8125rem;
-    color: var(--sc-text-primary);
-    border-bottom: 1px solid var(--sc-border-default);
+    padding: var(--sc-spacing-200);
+    font-size: var(--sc-font-size-200);
+    color: var(--sc-text-secondary);
     vertical-align: middle;
   }
 
-  tbody tr:last-child td {
+  tbody tr:last-child {
     border-bottom: 0;
   }
 
