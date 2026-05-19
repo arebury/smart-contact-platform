@@ -46,15 +46,11 @@ export const memoryRoutes: Routes = [
   {
     path: 'entidades',
     loadComponent: () =>
-      import('./pages/entities/entities-page.component').then(
-        (m) => m.EntitiesPageComponent,
-      ),
+      import('./pages/entities/entities-page.component').then((m) => m.EntitiesPageComponent),
   },
   {
     path: 'categorias',
     loadComponent: () =>
-      import('./pages/categories/categories-page.component').then(
-        (m) => m.CategoriesPageComponent,
-      ),
+      import('./pages/categories/categories-page.component').then((m) => m.CategoriesPageComponent),
   },
 ];

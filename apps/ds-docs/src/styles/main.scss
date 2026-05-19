@@ -56,8 +56,12 @@ body {
 
 /* Reduced motion — respect user preference globally. */
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -149,7 +153,10 @@ body {
     padding: 3px 8px;
     border-radius: 3px;
     cursor: pointer;
-    transition: color 120ms ease, background 120ms ease, border-color 120ms ease;
+    transition:
+      color 120ms ease,
+      background 120ms ease,
+      border-color 120ms ease;
 
     &:hover {
       color: var(--sc-text-primary);
@@ -175,8 +182,13 @@ body {
   }
 
   /* Allow inline scrollbar styling for body */
-  &__body::-webkit-scrollbar { height: 8px; }
-  &__body::-webkit-scrollbar-thumb { background: var(--sc-color-gray-300); border-radius: 8px; }
+  &__body::-webkit-scrollbar {
+    height: 8px;
+  }
+  &__body::-webkit-scrollbar-thumb {
+    background: var(--sc-color-gray-300);
+    border-radius: 8px;
+  }
 }
 
 /* Sleek scrollbars (WebKit). */

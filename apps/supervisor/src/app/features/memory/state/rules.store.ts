@@ -124,9 +124,7 @@ export class RulesStore {
       if (target.active) {
         // active → inactive: quitar priority + recompactar resto
         const updated = rules.map((r) =>
-          r.id === id
-            ? { ...r, active: false, priority: undefined, lastModified: now }
-            : r,
+          r.id === id ? { ...r, active: false, priority: undefined, lastModified: now } : r,
         );
         // Recompactar prioridades de las activas restantes (1..N)
         const remainingActive = updated
@@ -204,9 +202,7 @@ export class RulesStore {
         nextPriority = undefined;
       }
       return rules.map((r) =>
-        r.id === id
-          ? { ...r, ...patch, priority: nextPriority, lastModified: now }
-          : r,
+        r.id === id ? { ...r, ...patch, priority: nextPriority, lastModified: now } : r,
       );
     });
   }

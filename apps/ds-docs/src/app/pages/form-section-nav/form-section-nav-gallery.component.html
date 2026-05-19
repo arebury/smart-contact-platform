@@ -5,8 +5,8 @@
     <p class="gallery__lede">
       <code>&lt;sc-form-section-nav&gt;</code> es la navegación lateral de formularios largos: cada
       sección es un tab y el padre maneja <code>activeId</code> (controlled component). Se usa en
-      los shells de agent-form / group-form / user-form donde cada sección es un pane switcheable
-      en vez de un bloque scrolleable.
+      los shells de agent-form / group-form / user-form donde cada sección es un pane switcheable en
+      vez de un bloque scrolleable.
     </p>
   </header>
 
@@ -16,7 +16,7 @@
       Versión default: caja propia con border + background. 5 secciones con icono.
     </p>
     <div class="gallery__row">
-      <div style="max-width: 260px;">
+      <div style="max-width: 260px">
         <sc-form-section-nav
           [sections]="fullSections"
           [activeId]="activeFull()"
@@ -25,7 +25,9 @@
         />
       </div>
     </div>
-    <p class="gallery__output">Activa: <code>{{ activeFull() }}</code></p>
+    <p class="gallery__output">
+      Activa: <code>{{ activeFull() }}</code>
+    </p>
   </section>
 
   <section class="gallery__section">
@@ -36,7 +38,7 @@
       propia caja contenedora.
     </p>
     <div class="gallery__row">
-      <div style="max-width: 260px;">
+      <div style="max-width: 260px">
         <sc-form-section-nav
           [sections]="compactSections"
           [activeId]="activeCompact()"
@@ -46,7 +48,9 @@
         />
       </div>
     </div>
-    <p class="gallery__output">Activa: <code>{{ activeCompact() }}</code></p>
+    <p class="gallery__output">
+      Activa: <code>{{ activeCompact() }}</code>
+    </p>
   </section>
 
   <sc-ds-docs-gallery-footer slug="form-section-nav" />

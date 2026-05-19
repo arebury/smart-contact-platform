@@ -116,12 +116,25 @@ const SPEC_DOC_NAMES: Record<string, string> = {
         @if (specDoc(); as sd) {
           <a
             class="gfoot__edit"
-            [href]="'https://github.com/arebury/smart-contact-platform/blob/main/packages/design-system/docs/components/' + sd"
+            [href]="
+              'https://github.com/arebury/smart-contact-platform/blob/main/packages/design-system/docs/components/' +
+              sd
+            "
             target="_blank"
             rel="noopener"
           >
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M7 17L17 7M17 7H8M17 7v9"/>
+            <svg
+              width="11"
+              height="11"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.25"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M7 17L17 7M17 7H8M17 7v9" />
             </svg>
             Edit spec doc
             <code class="gfoot__edit-name">{{ sd }}</code>
@@ -131,108 +144,122 @@ const SPEC_DOC_NAMES: Record<string, string> = {
       </div>
     </footer>
   `,
-  styles: [`
-    .gfoot {
-      margin-top: 64px;
-      padding-top: 32px;
-      border-top: 1px solid var(--sc-border-default);
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-    .gfoot__nav {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .gfoot__placeholder { display: block; }
-    .gfoot__link {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      padding: 14px 18px;
-      border: 1px solid var(--sc-border-default);
-      border-radius: 6px;
-      text-decoration: none;
-      color: var(--sc-text-primary);
-      transition: border-color 140ms ease, transform 140ms cubic-bezier(0.22,1,0.36,1), background 140ms ease;
-      &:hover {
-        border-color: var(--dsd-accent);
+  styles: [
+    `
+      .gfoot {
+        margin-top: 64px;
+        padding-top: 32px;
+        border-top: 1px solid var(--sc-border-default);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .gfoot__nav {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .gfoot__placeholder {
+        display: block;
+      }
+      .gfoot__link {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 14px 18px;
+        border: 1px solid var(--sc-border-default);
+        border-radius: 6px;
+        text-decoration: none;
+        color: var(--sc-text-primary);
+        transition:
+          border-color 140ms ease,
+          transform 140ms cubic-bezier(0.22, 1, 0.36, 1),
+          background 140ms ease;
+        &:hover {
+          border-color: var(--dsd-accent);
+          background: var(--sc-bg-elevated);
+          transform: translateY(-1px);
+        }
+      }
+      .gfoot__link--next {
+        align-items: flex-end;
+        text-align: right;
+      }
+      .gfoot__dir {
+        font-family: var(--dsd-font-mono);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        color: var(--sc-text-subtle);
+      }
+      .gfoot__num {
+        font-family: var(--dsd-font-mono);
+        font-size: 10px;
+        color: var(--dsd-accent);
+        font-weight: 500;
+      }
+      .gfoot__name {
+        font-family: var(--dsd-font-display);
+        font-size: 16px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      .gfoot__meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding-top: 4px;
+        font-family: var(--dsd-font-mono);
+        font-size: 11px;
+        color: var(--sc-text-subtle);
+      }
+      .gfoot__edit {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--sc-text-secondary);
+        text-decoration: none;
+        transition: color 120ms ease;
+        svg {
+          opacity: 0.7;
+          transition:
+            opacity 120ms ease,
+            transform 120ms ease;
+        }
+        &:hover {
+          color: var(--sc-text-primary);
+        }
+        &:hover svg {
+          opacity: 1;
+          transform: translate(1px, -1px);
+        }
+      }
+      .gfoot__edit-name {
+        font-family: var(--dsd-font-mono);
+        font-size: 11px;
         background: var(--sc-bg-elevated);
-        transform: translateY(-1px);
-      }
-    }
-    .gfoot__link--next {
-      align-items: flex-end;
-      text-align: right;
-    }
-    .gfoot__dir {
-      font-family: var(--dsd-font-mono);
-      font-size: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--sc-text-subtle);
-    }
-    .gfoot__num {
-      font-family: var(--dsd-font-mono);
-      font-size: 10px;
-      color: var(--dsd-accent);
-      font-weight: 500;
-    }
-    .gfoot__name {
-      font-family: var(--dsd-font-display);
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: -0.01em;
-    }
-    .gfoot__meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      padding-top: 4px;
-      font-family: var(--dsd-font-mono);
-      font-size: 11px;
-      color: var(--sc-text-subtle);
-    }
-    .gfoot__edit {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--sc-text-secondary);
-      text-decoration: none;
-      transition: color 120ms ease;
-      svg {
-        opacity: 0.7;
-        transition: opacity 120ms ease, transform 120ms ease;
-      }
-      &:hover {
+        border: 1px solid var(--sc-border-default);
+        padding: 1px 6px;
+        border-radius: 3px;
         color: var(--sc-text-primary);
       }
-      &:hover svg {
-        opacity: 1;
-        transform: translate(1px, -1px);
+      .gfoot__mark {
+        letter-spacing: 0.1em;
+        color: var(--sc-color-gray-400);
       }
-    }
-    .gfoot__edit-name {
-      font-family: var(--dsd-font-mono);
-      font-size: 11px;
-      background: var(--sc-bg-elevated);
-      border: 1px solid var(--sc-border-default);
-      padding: 1px 6px;
-      border-radius: 3px;
-      color: var(--sc-text-primary);
-    }
-    .gfoot__mark {
-      letter-spacing: 0.1em;
-      color: var(--sc-color-gray-400);
-    }
-    @media (max-width: 720px) {
-      .gfoot__nav { grid-template-columns: 1fr; }
-      .gfoot__link--next { align-items: flex-start; text-align: left; }
-    }
-  `],
+      @media (max-width: 720px) {
+        .gfoot__nav {
+          grid-template-columns: 1fr;
+        }
+        .gfoot__link--next {
+          align-items: flex-start;
+          text-align: left;
+        }
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GalleryFooterComponent {

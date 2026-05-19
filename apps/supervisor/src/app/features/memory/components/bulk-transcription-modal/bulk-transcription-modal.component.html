@@ -2,10 +2,10 @@
   [visible]="visible()"
   [title]="'memory.bulk_modal.title' | translate"
   [subtitle]="
-    ('memory.bulk_modal.subtitle' | translate: { n: nSelected() })
-    + (nFilteredOut() > 0
-        ? ' · ' + ('memory.bulk_modal.subtitle_excluded' | translate: { n: nFilteredOut() })
-        : '')
+    ('memory.bulk_modal.subtitle' | translate: { n: nSelected() }) +
+    (nFilteredOut() > 0
+      ? ' · ' + ('memory.bulk_modal.subtitle_excluded' | translate: { n: nFilteredOut() })
+      : '')
   "
   width="560px"
   (cancelled)="onCancel()"
@@ -44,7 +44,7 @@
           <div class="bulk-col__chips" aria-hidden="true">
             @for (chip of col1Chips(); track chip) {
               <span class="bulk-chip">
-                {{ ('memory.bulk_modal.chips.' + chip) | translate }}
+                {{ 'memory.bulk_modal.chips.' + chip | translate }}
               </span>
             }
           </div>
@@ -53,7 +53,7 @@
         <article
           class="bulk-col"
           [class.bulk-col--active]="destination2() > 0"
-          [class.bulk-col--hint]="!toggleOn() && (buckets().c_ea + buckets().ch_ea) > 0"
+          [class.bulk-col--hint]="!toggleOn() && buckets().c_ea + buckets().ch_ea > 0"
           data-testid="bulk-col-2"
         >
           <header class="bulk-col__label">
@@ -67,7 +67,7 @@
           <div class="bulk-col__chips" aria-hidden="true">
             @for (chip of col2Chips(); track chip) {
               <span class="bulk-chip">
-                {{ ('memory.bulk_modal.chips.' + chip) | translate }}
+                {{ 'memory.bulk_modal.chips.' + chip | translate }}
               </span>
             }
           </div>
@@ -85,7 +85,7 @@
           <div class="bulk-col__chips" aria-hidden="true">
             @for (chip of col3Chips(); track chip) {
               <span class="bulk-chip bulk-chip--muted">
-                {{ ('memory.bulk_modal.chips.' + chip) | translate }}
+                {{ 'memory.bulk_modal.chips.' + chip | translate }}
               </span>
             }
           </div>

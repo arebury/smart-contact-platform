@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import {
-  GroupPopoverComponent,
-} from '@sc/design-system/components/group-popover/group-popover.component';
+import { GroupPopoverComponent } from '@sc/design-system/components/group-popover/group-popover.component';
 import type { GroupRef } from '@sc/design-system/components/group-popover/group-popover.types';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 

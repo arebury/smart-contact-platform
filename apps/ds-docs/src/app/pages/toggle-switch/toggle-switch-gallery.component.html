@@ -3,9 +3,9 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Toggle Switch</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-toggle-switch&gt;</code> envuelve <code>&lt;p-toggleswitch&gt;</code> con la chrome SC. Switch
-      booleano para opciones tipo activo/inactivo, settings con cambio inmediato. Hereda
-      <code>role="switch"</code>, keyboard support (Space/Tab) y form association nativos.
+      <code>&lt;sc-toggle-switch&gt;</code> envuelve <code>&lt;p-toggleswitch&gt;</code> con la
+      chrome SC. Switch booleano para opciones tipo activo/inactivo, settings con cambio inmediato.
+      Hereda <code>role="switch"</code>, keyboard support (Space/Tab) y form association nativos.
       <strong>Figma SC node 6738:22645</strong>.
     </p>
   </header>
@@ -13,7 +13,10 @@
   <!-- 1. Basic -->
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Basic (on / off)</h2>
-    <p class="gallery__hint">Estado controlado externamente via <code>[checked]</code>. <code>(checkedChange)</code> emite el nuevo boolean al click o Space.</p>
+    <p class="gallery__hint">
+      Estado controlado externamente via <code>[checked]</code>. <code>(checkedChange)</code> emite
+      el nuevo boolean al click o Space.
+    </p>
     <div class="gallery__row gallery__row--grid">
       <sc-toggle-switch
         [checked]="basicOn()"
@@ -26,41 +29,43 @@
         (checkedChange)="basicOff.set($event)"
       />
     </div>
-    <p class="gallery__output">on: <code>{{ basicOn() }}</code> · off: <code>{{ basicOff() }}</code></p>
+    <p class="gallery__output">
+      on: <code>{{ basicOn() }}</code> · off: <code>{{ basicOff() }}</code>
+    </p>
   </section>
 
   <!-- 2. Disabled -->
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Disabled</h2>
-    <p class="gallery__hint">El componente se vuelve no-interactivo. Hereda <code>:disabled</code> del input checkbox nativo.</p>
+    <p class="gallery__hint">
+      El componente se vuelve no-interactivo. Hereda <code>:disabled</code> del input checkbox
+      nativo.
+    </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-toggle-switch
-        [checked]="true"
-        [disabled]="true"
-        [ariaLabel]="'Toggle disabled on'"
-      />
-      <sc-toggle-switch
-        [checked]="false"
-        [disabled]="true"
-        [ariaLabel]="'Toggle disabled off'"
-      />
+      <sc-toggle-switch [checked]="true" [disabled]="true" [ariaLabel]="'Toggle disabled on'" />
+      <sc-toggle-switch [checked]="false" [disabled]="true" [ariaLabel]="'Toggle disabled off'" />
     </div>
   </section>
 
   <!-- 3. Form row pattern (status active/inactive) -->
   <section class="gallery__section">
     <h2 class="gallery__h2">3 · Form row pattern (status)</h2>
-    <p class="gallery__hint">Patrón canónico en AED: toggle paired con label + helper que actualiza dinámicamente. Usado en user-form, agent-form, group-form para el campo "Estado". Memoria <code>feedback_no_layout_shift</code>: el helper text reserva espacio para evitar CLS al cambiar.</p>
+    <p class="gallery__hint">
+      Patrón canónico en AED: toggle paired con label + helper que actualiza dinámicamente. Usado en
+      user-form, agent-form, group-form para el campo "Estado". Memoria
+      <code>feedback_no_layout_shift</code>: el helper text reserva espacio para evitar CLS al
+      cambiar.
+    </p>
     <div class="gallery__row">
-      <div style="display: flex; align-items: center; gap: 12px;">
+      <div style="display: flex; align-items: center; gap: 12px">
         <sc-toggle-switch
           [checked]="status() === 'active'"
           [ariaLabel]="'Estado del usuario'"
           (checkedChange)="onStatusChange($event)"
         />
-        <div style="display: flex; flex-direction: column; gap: 2px;">
-          <span style="font-weight: 500;">Estado</span>
-          <span style="font-size: 13px; color: var(--sc-text-secondary);">
+        <div style="display: flex; flex-direction: column; gap: 2px">
+          <span style="font-weight: 500">Estado</span>
+          <span style="font-size: 13px; color: var(--sc-text-secondary)">
             @if (status() === 'active') {
               Cuenta activa — puede iniciar sesión y recibir llamadas.
             } @else {
@@ -70,23 +75,36 @@
         </div>
       </div>
     </div>
-    <p class="gallery__output">status: <code>{{ status() }}</code></p>
+    <p class="gallery__output">
+      status: <code>{{ status() }}</code>
+    </p>
   </section>
 
   <!-- 4. Permission row pattern -->
   <section class="gallery__section">
     <h2 class="gallery__h2">4 · Permission row (label + info)</h2>
-    <p class="gallery__hint">Patrón en agent-form sección Permisos: label corta + info button con tooltip + toggle a la derecha. Usado para "Gestionar dispositivos", "Auto-activación", "Grabación", etc.</p>
-    <div class="gallery__row" style="gap: 14px;">
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-weight: 500;">Gestionar dispositivos</span>
+    <p class="gallery__hint">
+      Patrón en agent-form sección Permisos: label corta + info button con tooltip + toggle a la
+      derecha. Usado para "Gestionar dispositivos", "Auto-activación", "Grabación", etc.
+    </p>
+    <div class="gallery__row" style="gap: 14px">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+        <div style="display: flex; align-items: center; gap: 8px">
+          <span style="font-weight: 500">Gestionar dispositivos</span>
           <button
             type="button"
-            style="background: none; border: 0; cursor: help; color: var(--sc-text-subtle); font-size: 14px;"
+            style="
+              background: none;
+              border: 0;
+              cursor: help;
+              color: var(--sc-text-subtle);
+              font-size: 14px;
+            "
             title="El agente puede añadir y quitar dispositivos asociados a su cuenta"
             aria-label="Información sobre gestionar dispositivos"
-          >ⓘ</button>
+          >
+            ⓘ
+          </button>
         </div>
         <sc-toggle-switch
           [checked]="manageDevices()"
@@ -94,15 +112,23 @@
           (checkedChange)="manageDevices.set($event)"
         />
       </div>
-      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px;">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <span style="font-weight: 500;">Auto-activación</span>
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+        <div style="display: flex; align-items: center; gap: 8px">
+          <span style="font-weight: 500">Auto-activación</span>
           <button
             type="button"
-            style="background: none; border: 0; cursor: help; color: var(--sc-text-subtle); font-size: 14px;"
+            style="
+              background: none;
+              border: 0;
+              cursor: help;
+              color: var(--sc-text-subtle);
+              font-size: 14px;
+            "
             title="El agente se activa automáticamente al iniciar sesión"
             aria-label="Información sobre auto-activación"
-          >ⓘ</button>
+          >
+            ⓘ
+          </button>
         </div>
         <sc-toggle-switch
           [checked]="selfActivate()"
@@ -111,15 +137,19 @@
         />
       </div>
     </div>
-    <p class="gallery__output">manage: <code>{{ manageDevices() }}</code> · auto-activate: <code>{{ selfActivate() }}</code></p>
+    <p class="gallery__output">
+      manage: <code>{{ manageDevices() }}</code> · auto-activate: <code>{{ selfActivate() }}</code>
+    </p>
   </section>
 
   <!-- 5. Theme toggle pattern -->
   <section class="gallery__section">
     <h2 class="gallery__h2">5 · Theme toggle</h2>
-    <p class="gallery__hint">Standalone toggle con icono adjacente (sun/moon). Patrón típico en headers de app.</p>
+    <p class="gallery__hint">
+      Standalone toggle con icono adjacente (sun/moon). Patrón típico en headers de app.
+    </p>
     <div class="gallery__row">
-      <div style="display: flex; align-items: center; gap: 10px;">
+      <div style="display: flex; align-items: center; gap: 10px">
         <span aria-hidden="true">☀️</span>
         <sc-toggle-switch
           [checked]="darkMode()"
@@ -129,7 +159,10 @@
         <span aria-hidden="true">🌙</span>
       </div>
     </div>
-    <p class="gallery__output">darkMode: <code>{{ darkMode() }}</code> (en producción, conectado a <code>ThemeService</code> que toggle <code>.sc-dark</code> en <code>&lt;html&gt;</code>)</p>
+    <p class="gallery__output">
+      darkMode: <code>{{ darkMode() }}</code> (en producción, conectado a
+      <code>ThemeService</code> que toggle <code>.sc-dark</code> en <code>&lt;html&gt;</code>)
+    </p>
   </section>
 
   <sc-ds-docs-gallery-footer slug="toggle-switch" />

@@ -7,15 +7,7 @@
  * cualquier consumer del DS (AED, Memory futuro) lo importe sin acoplarse
  * a una capa de aplicación específica.
  */
-export type LabelColor =
-  | 'gray'
-  | 'red'
-  | 'orange'
-  | 'amber'
-  | 'green'
-  | 'teal'
-  | 'blue'
-  | 'purple';
+export type LabelColor = 'gray' | 'red' | 'orange' | 'amber' | 'green' | 'teal' | 'blue' | 'purple';
 
 /** Array iterable de la paleta, en orden de aparición canónico. */
 export const LABEL_COLORS: readonly LabelColor[] = [

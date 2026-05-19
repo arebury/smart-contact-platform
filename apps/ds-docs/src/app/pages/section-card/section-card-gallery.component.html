@@ -3,8 +3,8 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Section Card</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-section-card&gt;</code> agrupa campos dentro de un form largo. Bordered, con header
-      opcional (icon + título + hint). Soporta modo <code>collapsible</code> para "advanced
+      <code>&lt;sc-section-card&gt;</code> agrupa campos dentro de un form largo. Bordered, con
+      header opcional (icon + título + hint). Soporta modo <code>collapsible</code> para "advanced
       settings" plegadas por defecto. Patrón canónico SC para forms con 3+ secciones lógicas.
     </p>
   </header>
@@ -15,7 +15,7 @@
     <p class="gallery__hint">Card con título simple + body proyectado.</p>
     <div class="gallery__row">
       <sc-section-card titleKey="Identidad">
-        <p style="margin: 0; color: var(--sc-text-secondary);">
+        <p style="margin: 0; color: var(--sc-text-secondary)">
           Contenido del body proyectado. Cualquier markup: campos, grids, helper text...
         </p>
       </sc-section-card>
@@ -31,9 +31,7 @@
         titleKey="Permisos"
         hintKey="Configura qué puede hacer este agente dentro del sistema"
       >
-        <p style="margin: 0; color: var(--sc-text-secondary);">
-          [Toggle switches de permisos aquí]
-        </p>
+        <p style="margin: 0; color: var(--sc-text-secondary)">[Toggle switches de permisos aquí]</p>
       </sc-section-card>
     </div>
   </section>
@@ -48,9 +46,7 @@
         hintKey="Información personal y de contacto"
         [icon]="identityIcon"
       >
-        <p style="margin: 0; color: var(--sc-text-secondary);">
-          [Campos nombre, email, foto...]
-        </p>
+        <p style="margin: 0; color: var(--sc-text-secondary)">[Campos nombre, email, foto...]</p>
       </sc-section-card>
     </div>
   </section>
@@ -58,7 +54,9 @@
   <!-- 4. Collapsible (open default) -->
   <section class="gallery__section">
     <h2 class="gallery__h2">4 · Collapsible (open default)</h2>
-    <p class="gallery__hint">Header se vuelve <code>&lt;button&gt;</code> con chevron. Click para colapsar/expandir.</p>
+    <p class="gallery__hint">
+      Header se vuelve <code>&lt;button&gt;</code> con chevron. Click para colapsar/expandir.
+    </p>
     <div class="gallery__row">
       <sc-section-card
         titleKey="Avanzado"
@@ -66,7 +64,7 @@
         [icon]="settingsIcon"
         [collapsible]="true"
       >
-        <p style="margin: 0; color: var(--sc-text-secondary);">
+        <p style="margin: 0; color: var(--sc-text-secondary)">
           [Contenido avanzado — visible por defecto, clic en el header para plegar]
         </p>
       </sc-section-card>
@@ -76,7 +74,10 @@
   <!-- 5. Collapsible + initiallyCollapsed -->
   <section class="gallery__section">
     <h2 class="gallery__h2">5 · Collapsible (closed default)</h2>
-    <p class="gallery__hint">Inicialmente plegada. El usuario tiene que expandir manualmente — útil para reducir noise visual de settings menos importantes.</p>
+    <p class="gallery__hint">
+      Inicialmente plegada. El usuario tiene que expandir manualmente — útil para reducir noise
+      visual de settings menos importantes.
+    </p>
     <div class="gallery__row">
       <sc-section-card
         titleKey="Permisos avanzados"
@@ -85,7 +86,7 @@
         [collapsible]="true"
         [initiallyCollapsed]="true"
       >
-        <p style="margin: 0; color: var(--sc-text-secondary);">
+        <p style="margin: 0; color: var(--sc-text-secondary)">
           [Permisos avanzados ocultos por defecto]
         </p>
       </sc-section-card>
@@ -95,14 +96,14 @@
   <!-- 6. Anchor (form-section-nav scroll-spy) -->
   <section class="gallery__section">
     <h2 class="gallery__h2">6 · Anchor (scroll-spy)</h2>
-    <p class="gallery__hint">El <code>[anchorId]</code> expone un <code>id</code> + <code>data-section-anchor</code> que <code>&lt;sc-form-section-nav&gt;</code> usa para scroll-spy y jump-to. La scroll-margin viene del token <code>--sc-form-anchor-offset</code> (default 80px) para sticky headers.</p>
+    <p class="gallery__hint">
+      El <code>[anchorId]</code> expone un <code>id</code> + <code>data-section-anchor</code> que
+      <code>&lt;sc-form-section-nav&gt;</code> usa para scroll-spy y jump-to. La scroll-margin viene
+      del token <code>--sc-form-anchor-offset</code> (default 80px) para sticky headers.
+    </p>
     <div class="gallery__row">
-      <sc-section-card
-        anchorId="demo-anchor"
-        titleKey="Sección con ancla"
-        [icon]="identityIcon"
-      >
-        <p style="margin: 0; color: var(--sc-text-secondary);">
+      <sc-section-card anchorId="demo-anchor" titleKey="Sección con ancla" [icon]="identityIcon">
+        <p style="margin: 0; color: var(--sc-text-secondary)">
           Inspecciona el DOM: el host tiene <code>id="demo-anchor"</code>.
         </p>
       </sc-section-card>

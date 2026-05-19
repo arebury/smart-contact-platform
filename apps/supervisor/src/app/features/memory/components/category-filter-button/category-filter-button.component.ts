@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  input,
-  model,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Tag } from 'lucide-angular';
 import { PopoverModule } from 'primeng/popover';
@@ -37,9 +31,7 @@ export class CategoryFilterButtonComponent {
 
   protected readonly hasActive = computed(() => this.selected().length > 0);
   protected readonly allSelected = computed(
-    () =>
-      this.available().length > 0 &&
-      this.selected().length === this.available().length,
+    () => this.available().length > 0 && this.selected().length === this.available().length,
   );
 
   protected isChecked(cat: string): boolean {

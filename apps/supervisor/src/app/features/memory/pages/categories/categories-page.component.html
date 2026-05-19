@@ -1,7 +1,4 @@
-<sc-page-header
-  titleKey="memory.categories.page_title"
-  [icon]="tagsIcon"
->
+<sc-page-header titleKey="memory.categories.page_title" [icon]="tagsIcon">
   <ng-container page-header-actions>
     <p-button type="button" severity="primary" (onClick)="onNewCategory()">
       <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
@@ -82,12 +79,7 @@
                 >
                   <lucide-icon [img]="kebabIcon" [size]="14" aria-hidden="true" />
                 </button>
-                <p-menu
-                  #kebabMenu
-                  [model]="buildMenuItems(cat)"
-                  [popup]="true"
-                  appendTo="body"
-                />
+                <p-menu #kebabMenu [model]="buildMenuItems(cat)" [popup]="true" appendTo="body" />
               </td>
             </tr>
           }

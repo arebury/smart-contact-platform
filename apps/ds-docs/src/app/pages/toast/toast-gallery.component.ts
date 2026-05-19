@@ -2,7 +2,15 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import { LucideAngularModule, X, CircleCheck, CircleAlert, CircleX, Info, FileText } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  X,
+  CircleCheck,
+  CircleAlert,
+  CircleX,
+  Info,
+  FileText,
+} from 'lucide-angular';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
@@ -28,28 +36,58 @@ export class ToastGalleryComponent {
 
   protected iconFor(severity: string) {
     switch (severity) {
-      case 'success': return this.icons.success;
-      case 'warn':    return this.icons.warn;
-      case 'error':   return this.icons.error;
-      case 'secondary': return this.icons.draft;
-      default:        return this.icons.info;
+      case 'success':
+        return this.icons.success;
+      case 'warn':
+        return this.icons.warn;
+      case 'error':
+        return this.icons.error;
+      case 'secondary':
+        return this.icons.draft;
+      default:
+        return this.icons.info;
     }
   }
 
   protected fireSuccess(): void {
-    this.messages.add({ severity: 'success', summary: 'Guardado', detail: 'Cambios aplicados.', life: 3000 });
+    this.messages.add({
+      severity: 'success',
+      summary: 'Guardado',
+      detail: 'Cambios aplicados.',
+      life: 3000,
+    });
   }
   protected fireInfo(): void {
-    this.messages.add({ severity: 'info', summary: 'Nuevo agente conectado', detail: 'Marta acaba de iniciar sesión.', life: 3000 });
+    this.messages.add({
+      severity: 'info',
+      summary: 'Nuevo agente conectado',
+      detail: 'Marta acaba de iniciar sesión.',
+      life: 3000,
+    });
   }
   protected fireWarn(): void {
-    this.messages.add({ severity: 'warn', summary: 'Quota próxima al límite', detail: 'Has usado el 87% de tu cuota mensual.', life: 4000 });
+    this.messages.add({
+      severity: 'warn',
+      summary: 'Quota próxima al límite',
+      detail: 'Has usado el 87% de tu cuota mensual.',
+      life: 4000,
+    });
   }
   protected fireError(): void {
-    this.messages.add({ severity: 'error', summary: 'No se pudo guardar', detail: 'Comprueba la conexión e inténtalo de nuevo.', life: 5000 });
+    this.messages.add({
+      severity: 'error',
+      summary: 'No se pudo guardar',
+      detail: 'Comprueba la conexión e inténtalo de nuevo.',
+      life: 5000,
+    });
   }
   protected fireSecondary(): void {
-    this.messages.add({ severity: 'secondary', summary: 'Borrador creado', detail: 'Puedes seguir editando.', life: 3000 });
+    this.messages.add({
+      severity: 'secondary',
+      summary: 'Borrador creado',
+      detail: 'Puedes seguir editando.',
+      life: 3000,
+    });
   }
   protected fireUndo(): void {
     this.messages.add({
@@ -72,7 +110,8 @@ export class ToastGalleryComponent {
     this.messages.add({
       severity: 'warn',
       summary: 'Aviso de migración',
-      detail: 'Tu plan caduca en 30 días. Te recomendamos renovar antes para mantener el acceso a las funcionalidades premium sin interrupciones.',
+      detail:
+        'Tu plan caduca en 30 días. Te recomendamos renovar antes para mantener el acceso a las funcionalidades premium sin interrupciones.',
       life: 6000,
     });
   }

@@ -3,9 +3,9 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Page Header</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-page-header&gt;</code> es la cabecera estática de rutas no-entity (config + list pages).
-      Mirror visual de <code>&lt;sc-sticky-form-header&gt;</code> (mismo icon chip 44×44, mismo title size)
-      para que list y entity pages se sientan parte de la misma familia. Slot
+      <code>&lt;sc-page-header&gt;</code> es la cabecera estática de rutas no-entity (config + list
+      pages). Mirror visual de <code>&lt;sc-sticky-form-header&gt;</code> (mismo icon chip 44×44,
+      mismo title size) para que list y entity pages se sientan parte de la misma familia. Slot
       <code>[page-header-actions]</code> a la derecha para CTAs / search / filtros.
     </p>
   </header>
@@ -22,7 +22,9 @@
   <!-- 2. Completo: icon + entity + title + subtitle -->
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Completo (icon + entity + title + subtitle)</h2>
-    <p class="gallery__hint">Pattern canónico de list pages. Entity eyebrow uppercase + title H1 + subtitle descriptivo.</p>
+    <p class="gallery__hint">
+      Pattern canónico de list pages. Entity eyebrow uppercase + title H1 + subtitle descriptivo.
+    </p>
     <div class="gallery__row">
       <sc-page-header
         [icon]="usersIcon"
@@ -36,7 +38,9 @@
   <!-- 3. Con actions slot (CTA primary) -->
   <section class="gallery__section">
     <h2 class="gallery__h2">3 · Con actions (CTA primary)</h2>
-    <p class="gallery__hint">Slot <code>[page-header-actions]</code> a la derecha para el "Nuevo X" + search + filtros.</p>
+    <p class="gallery__hint">
+      Slot <code>[page-header-actions]</code> a la derecha para el "Nuevo X" + search + filtros.
+    </p>
     <div class="gallery__row">
       <sc-page-header
         [icon]="templatesIcon"
@@ -44,7 +48,12 @@
         titleKey="Plantillas de mensaje"
         subtitleKey="Plantillas reutilizables para chat y email"
       >
-        <button page-header-actions type="button" class="btn btn--primary" style="display: inline-flex; align-items: center; gap: 6px;">
+        <button
+          page-header-actions
+          type="button"
+          class="btn btn--primary"
+          style="display: inline-flex; align-items: center; gap: 6px"
+        >
           <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
           Nueva plantilla
         </button>
@@ -68,7 +77,9 @@
   <!-- 5. Solo title + actions (sin entity ni subtitle) -->
   <section class="gallery__section">
     <h2 class="gallery__h2">5 · Compact (title + actions)</h2>
-    <p class="gallery__hint">Variant compacta para sub-pages donde el contexto ya viene del breadcrumb.</p>
+    <p class="gallery__hint">
+      Variant compacta para sub-pages donde el contexto ya viene del breadcrumb.
+    </p>
     <div class="gallery__row">
       <sc-page-header [icon]="settingsIcon" titleKey="Repositorios">
         <button page-header-actions type="button" class="btn btn--secondary">Exportar todo</button>

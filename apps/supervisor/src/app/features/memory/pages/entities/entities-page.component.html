@@ -1,7 +1,4 @@
-<sc-page-header
-  titleKey="memory.entities.page_title"
-  [icon]="databaseIcon"
->
+<sc-page-header titleKey="memory.entities.page_title" [icon]="databaseIcon">
   <ng-container page-header-actions>
     <p-button type="button" severity="primary" (onClick)="onNewEntity()">
       <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
@@ -47,7 +44,7 @@
                 </td>
                 <td class="entities-table__td-type">
                   <span class="entity-type-chip">
-                    {{ ('memory.entities.types.' + entity.type) | translate }}
+                    {{ 'memory.entities.types.' + entity.type | translate }}
                   </span>
                 </td>
                 <td class="entities-table__td-desc">{{ entity.description }}</td>
@@ -110,7 +107,7 @@
               </td>
               <td class="entities-table__td-type">
                 <span class="entity-type-chip entity-type-chip--system">
-                  {{ ('memory.entities.types.' + entity.type) | translate }}
+                  {{ 'memory.entities.types.' + entity.type | translate }}
                 </span>
               </td>
               <td class="entities-table__td-desc">{{ entity.description }}</td>

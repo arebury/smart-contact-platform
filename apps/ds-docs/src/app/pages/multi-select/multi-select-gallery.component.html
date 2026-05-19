@@ -3,16 +3,20 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">MultiSelect</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-multi-select&gt;</code> envuelve PrimeNG <code>&lt;p-multiselect&gt;</code>. Mismo chrome
-      que <code>&lt;sc-select&gt;</code>, valor es array. Modo <code>comma</code> (texto separado por comas)
-      o <code>chip</code> (pills removibles dentro del input).
+      <code>&lt;sc-multi-select&gt;</code> envuelve PrimeNG <code>&lt;p-multiselect&gt;</code>.
+      Mismo chrome que <code>&lt;sc-select&gt;</code>, valor es array. Modo
+      <code>comma</code> (texto separado por comas) o <code>chip</code> (pills removibles dentro del
+      input).
     </p>
   </header>
 
   <!-- 1. Basic comma display. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Basic (display="comma")</h2>
-    <p class="gallery__hint">Selección múltiple básica. Los elementos seleccionados aparecen como texto separado por comas. Tras 3 seleccionados, se condensa a "N seleccionados".</p>
+    <p class="gallery__hint">
+      Selección múltiple básica. Los elementos seleccionados aparecen como texto separado por comas.
+      Tras 3 seleccionados, se condensa a "N seleccionados".
+    </p>
     <div class="gallery__row">
       <sc-multi-select
         label="Frutas"
@@ -21,13 +25,18 @@
         [(value)]="basicValue"
       />
     </div>
-    <p class="gallery__output">Valor: <code>{{ basicValue().join(', ') || '(vacío)' }}</code></p>
+    <p class="gallery__output">
+      Valor: <code>{{ basicValue().join(', ') || '(vacío)' }}</code>
+    </p>
   </section>
 
   <!-- 2. Chip display + objects with optionValue. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Chips display + objetos con <code>optionValue</code></h2>
-    <p class="gallery__hint">Cada selección aparece como pill removible (× para quitar). Valor guardado = solo el código (no el objeto).</p>
+    <p class="gallery__hint">
+      Cada selección aparece como pill removible (× para quitar). Valor guardado = solo el código
+      (no el objeto).
+    </p>
     <div class="gallery__row">
       <sc-multi-select
         label="Canales del agente"
@@ -40,7 +49,9 @@
         [(value)]="channelsValue"
       />
     </div>
-    <p class="gallery__output">Códigos: <code>[{{ channelsValue().join(', ') }}]</code></p>
+    <p class="gallery__output">
+      Códigos: <code>[{{ channelsValue().join(', ') }}]</code>
+    </p>
   </section>
 
   <!-- 3. Sizes. -->
@@ -75,15 +86,26 @@
         [(value)]="chipsValue"
       />
     </div>
-    <p class="gallery__output">Códigos: <code>[{{ chipsValue().join(', ') }}]</code></p>
+    <p class="gallery__output">
+      Códigos: <code>[{{ chipsValue().join(', ') }}]</code>
+    </p>
   </section>
 
   <!-- 5. Filled variant. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">5 · Filled (background slate-50)</h2>
-    <p class="gallery__hint">Variant del Figma <code>Filled=True</code> (node <code>6220:7054</code>).</p>
+    <p class="gallery__hint">
+      Variant del Figma <code>Filled=True</code> (node <code>6220:7054</code>).
+    </p>
     <div class="gallery__row">
-      <sc-multi-select label="Filled" [options]="channels" optionLabel="label" optionValue="code" [filled]="true" [(value)]="channelsValue" />
+      <sc-multi-select
+        label="Filled"
+        [options]="channels"
+        optionLabel="label"
+        optionValue="code"
+        [filled]="true"
+        [(value)]="channelsValue"
+      />
     </div>
   </section>
 
@@ -105,7 +127,9 @@
   <!-- 7. Reactive Forms. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">7 · Reactive Forms + validación</h2>
-    <p class="gallery__hint">Requerido + al menos 1 elemento. Se pinta inválido cuando touched + invalid.</p>
+    <p class="gallery__hint">
+      Requerido + al menos 1 elemento. Se pinta inválido cuando touched + invalid.
+    </p>
     <div class="gallery__row">
       <sc-multi-select
         label="Canales (requerido)"
@@ -115,11 +139,15 @@
         optionValue="code"
         display="chip"
         [formControl]="reactiveChannels"
-        [error]="reactiveChannels.touched && reactiveChannels.invalid ? 'Selecciona al menos un canal.' : undefined"
+        [error]="
+          reactiveChannels.touched && reactiveChannels.invalid
+            ? 'Selecciona al menos un canal.'
+            : undefined
+        "
       />
       <button class="gallery__btn" (click)="touchReactive()">Marcar touched</button>
     </div>
   </section>
 
-<sc-ds-docs-gallery-footer slug="multi-select" />
+  <sc-ds-docs-gallery-footer slug="multi-select" />
 </div>

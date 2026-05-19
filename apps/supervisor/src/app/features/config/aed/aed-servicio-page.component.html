@@ -207,11 +207,7 @@
               <span>{{ 'common.discard' | translate }}</span>
             </p-button>
           }
-          <p-button
-            type="button"
-            [disabled]="!canSaveEstados()"
-            (onClick)="saveEstados()"
-          >
+          <p-button type="button" [disabled]="!canSaveEstados()" (onClick)="saveEstados()">
             <span>{{ (estadosSaving() ? 'common.saving' : 'common.save') | translate }}</span>
           </p-button>
         </div>
@@ -363,7 +359,9 @@
             [disabled]="!canSaveConversaciones()"
             (onClick)="saveConversaciones()"
           >
-            <span>{{ (conversacionesSaving() ? 'common.saving' : 'common.save') | translate }}</span>
+            <span>{{
+              (conversacionesSaving() ? 'common.saving' : 'common.save') | translate
+            }}</span>
           </p-button>
         </div>
       </div>

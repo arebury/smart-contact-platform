@@ -4,10 +4,8 @@
   [class.type-filter-trigger--active]="hasActiveFilters()"
   [attr.aria-pressed]="hasActiveFilters()"
   [attr.aria-label]="
-    (hasActiveFilters()
-      ? 'memory.type_filter.aria_active'
-      : 'memory.type_filter.aria_default'
-    ) | translate
+    (hasActiveFilters() ? 'memory.type_filter.aria_active' : 'memory.type_filter.aria_default')
+      | translate
   "
   (click)="panel.toggle($event)"
 >
@@ -28,11 +26,7 @@
   <div class="type-filter-panel">
     <header class="type-filter-panel__head">
       <h3>{{ 'memory.type_filter.panel_title' | translate }}</h3>
-      <button
-        type="button"
-        class="type-filter-panel__reset"
-        (click)="resetPopoverFilters()"
-      >
+      <button type="button" class="type-filter-panel__reset" (click)="resetPopoverFilters()">
         {{ 'memory.type_filter.reset' | translate }}
       </button>
     </header>

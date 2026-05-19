@@ -1,6 +1,12 @@
 <section class="hero">
   <div class="hero__mark" aria-hidden="true">
-    @for (i of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35]; track i) {
+    @for (
+      i of [
+        0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+        25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35,
+      ];
+      track i
+    ) {
       <span class="hero__mark-dot"></span>
     }
   </div>
@@ -8,9 +14,9 @@
   <span class="hero__eyebrow">SCDS · Catálogo SC</span>
   <h1 class="hero__title">Una sola fuente de verdad para Smart Contact.</h1>
   <p class="hero__lede">
-    Tokens, componentes y patrones que consume AED — y consumirá Memory cuando llegue su turno.
-    Cada componente trae spec doc auditado 1:1 contra el Figma Smart Contact Prime kit.
-    Crece componente a componente.
+    Tokens, componentes y patrones que consume AED — y consumirá Memory cuando llegue su turno. Cada
+    componente trae spec doc auditado 1:1 contra el Figma Smart Contact Prime kit. Crece componente
+    a componente.
   </p>
 
   <dl class="hero__stats" aria-label="Estado del catálogo">
@@ -67,14 +73,15 @@
 <section class="tracking">
   <header class="tracking__head">
     <h2 class="tracking__title">Mi seguimiento</h2>
-    <span class="tracking__count">{{ validatedCount() }} / {{ tracked().length }} hechos en Figma</span>
+    <span class="tracking__count"
+      >{{ validatedCount() }} / {{ tracked().length }} hechos en Figma</span
+    >
   </header>
   <p class="tracking__hint">
-    Para el equipo de diseño — marca cada componente cuando ya esté plasmado en Figma con
-    el nuevo Design System Smart Contact. Es el puente entre el catálogo de código y las
-    pantallas que vais a diseñar: si está marcado, podéis componer con esa pieza sabiendo
-    que el prototipo se parecerá 1:1 al implementado. Se guarda en este navegador
-    (localStorage), no se sincroniza con nadie.
+    Para el equipo de diseño — marca cada componente cuando ya esté plasmado en Figma con el nuevo
+    Design System Smart Contact. Es el puente entre el catálogo de código y las pantallas que vais a
+    diseñar: si está marcado, podéis componer con esa pieza sabiendo que el prototipo se parecerá
+    1:1 al implementado. Se guarda en este navegador (localStorage), no se sincroniza con nadie.
   </p>
 
   <details class="tracker-glossary">
@@ -82,25 +89,35 @@
 
     <p class="tracker-glossary__intro">
       Cada componente lleva dos etiquetas diferentes:
-      <strong>las de tipo te dicen cuánto se ha customizado el componente
-      respecto a PrimeNG</strong>, y
-      <strong>las de estado te dicen cuánto puedes fiarte de la paridad
-      Figma–código</strong>.
+      <strong>las de tipo te dicen cuánto se ha customizado el componente respecto a PrimeNG</strong
+      >, y <strong>las de estado te dicen cuánto puedes fiarte de la paridad Figma–código</strong>.
     </p>
 
     <h3 class="tracker-glossary__group">Tipo — cuánto custom sobre PrimeNG</h3>
     <dl class="tracker-glossary__list">
       <dt><span class="tracker-item__badge type-full-primeng">Full PrimeNG</span></dt>
-      <dd>Es el componente de PrimeNG tal cual, sin tocarle nada — funciona como viene de fábrica.</dd>
+      <dd>
+        Es el componente de PrimeNG tal cual, sin tocarle nada — funciona como viene de fábrica.
+      </dd>
 
       <dt><span class="tracker-item__badge type-custom-preset">Custom (preset)</span></dt>
-      <dd>Componente de PrimeNG con un preset de Smart Contact aplicado encima (colores, sizes, etc.). No le añadimos slots ni props extra.</dd>
+      <dd>
+        Componente de PrimeNG con un preset de Smart Contact aplicado encima (colores, sizes, etc.).
+        No le añadimos slots ni props extra.
+      </dd>
 
       <dt><span class="tracker-item__badge type-extended">Extended</span></dt>
-      <dd>Componente de PrimeNG ENVUELTO con chrome propio de Smart Contact: label arriba, helper/error abajo, asterisco de "requerido". La pieza interactiva sigue siendo PrimeNG; lo que añadimos es el marco.</dd>
+      <dd>
+        Componente de PrimeNG ENVUELTO con chrome propio de Smart Contact: label arriba,
+        helper/error abajo, asterisco de "requerido". La pieza interactiva sigue siendo PrimeNG; lo
+        que añadimos es el marco.
+      </dd>
 
       <dt><span class="tracker-item__badge type-pure-sc">Pure SC</span></dt>
-      <dd>Componente 100% Smart Contact, sin PrimeNG por dentro. Lo dibujamos a mano porque PrimeNG no tiene equivalente (ej. la avatar ilustrada, la barra de acciones bulk).</dd>
+      <dd>
+        Componente 100% Smart Contact, sin PrimeNG por dentro. Lo dibujamos a mano porque PrimeNG no
+        tiene equivalente (ej. la avatar ilustrada, la barra de acciones bulk).
+      </dd>
     </dl>
 
     <h3 class="tracker-glossary__group">Estado — paridad Figma ↔ código</h3>
@@ -110,50 +127,92 @@
           <span aria-hidden="true">●</span> 1:1 con Figma
         </span>
       </dt>
-      <dd>Hay variante en el kit Smart Contact Prime de Figma y el código está auditado contra ella. Podéis usar el componente en una pantalla sabiendo que se va a ver igual que en el archivo.</dd>
+      <dd>
+        Hay variante en el kit Smart Contact Prime de Figma y el código está auditado contra ella.
+        Podéis usar el componente en una pantalla sabiendo que se va a ver igual que en el archivo.
+      </dd>
 
       <dt>
         <span class="tracker-item__parity parity-audited-partial">
           <span aria-hidden="true">◐</span> Auditoría parcial
         </span>
       </dt>
-      <dd>Hay variante en Figma y el código se parece bastante, pero quedan detalles menores documentados como deuda. Si lo usáis, mejor confirmar con el dev qué variante/estado todavía no está al 100%.</dd>
+      <dd>
+        Hay variante en Figma y el código se parece bastante, pero quedan detalles menores
+        documentados como deuda. Si lo usáis, mejor confirmar con el dev qué variante/estado todavía
+        no está al 100%.
+      </dd>
 
       <dt>
         <span class="tracker-item__parity parity-no-figma-equivalent">
           <span aria-hidden="true">○</span> Sin Figma equivalente
         </span>
       </dt>
-      <dd>Es un patrón inventado por Smart Contact: PrimeNG no lo tiene, ni el kit Prime de Figma tampoco. Si vais a usarlo en una pantalla, hay que dibujarlo en Figma desde cero coordinando con el dev.</dd>
+      <dd>
+        Es un patrón inventado por Smart Contact: PrimeNG no lo tiene, ni el kit Prime de Figma
+        tampoco. Si vais a usarlo en una pantalla, hay que dibujarlo en Figma desde cero coordinando
+        con el dev.
+      </dd>
     </dl>
 
     <h3 class="tracker-glossary__group">Otras etiquetas en la lista</h3>
     <dl class="tracker-glossary__list">
       <dt>
-        <span class="tracker-item__badge" style="background: color-mix(in srgb, var(--sc-color-green-600) 18%, transparent); color: var(--sc-color-green-800);">✓ Hechos en Figma</span>
+        <span
+          class="tracker-item__badge"
+          style="
+            background: color-mix(in srgb, var(--sc-color-green-600) 18%, transparent);
+            color: var(--sc-color-green-800);
+          "
+          >✓ Hechos en Figma</span
+        >
       </dt>
-      <dd>Marca personal: vosotras lo habéis dibujado ya en alguna pantalla del prototipo Figma. Se guarda en este navegador, nadie más lo ve.</dd>
+      <dd>
+        Marca personal: vosotras lo habéis dibujado ya en alguna pantalla del prototipo Figma. Se
+        guarda en este navegador, nadie más lo ve.
+      </dd>
 
       <dt>
-        <span class="tracker-item__badge" style="background: var(--sc-bg-secondary-hover); color: var(--sc-text-subtle);">Pendientes</span>
+        <span
+          class="tracker-item__badge"
+          style="background: var(--sc-bg-secondary-hover); color: var(--sc-text-subtle)"
+          >Pendientes</span
+        >
       </dt>
       <dd>Todavía no lo habéis usado en ninguna pantalla del prototipo Figma.</dd>
 
       <dt>
         <span class="tracker-item__usage is-in-use">● AED N×</span>
       </dt>
-      <dd>El componente ya se usa N veces en pantallas reales de AED. Los devs lo tienen interiorizado: si lo metéis en un diseño, no necesitan documentación adicional.</dd>
+      <dd>
+        El componente ya se usa N veces en pantallas reales de AED. Los devs lo tienen
+        interiorizado: si lo metéis en un diseño, no necesitan documentación adicional.
+      </dd>
 
       <dt>
         <span class="tracker-item__usage">○ sin uso</span>
       </dt>
-      <dd>Está terminado pero aún ninguna pantalla de AED lo consume. Si vais a ser los primeros en usarlo, hablad con los devs antes para alinear el patrón.</dd>
+      <dd>
+        Está terminado pero aún ninguna pantalla de AED lo consume. Si vais a ser los primeros en
+        usarlo, hablad con los devs antes para alinear el patrón.
+      </dd>
     </dl>
   </details>
 
   <div class="tracker-toolbar" role="search">
     <div class="tracker-search">
-      <svg class="tracker-search__icon" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg
+        class="tracker-search__icon"
+        aria-hidden="true"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
         <circle cx="11" cy="11" r="7"></circle>
         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
       </svg>
@@ -174,7 +233,16 @@
           (click)="clearSearch()"
           aria-label="Limpiar búsqueda"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
@@ -185,45 +253,101 @@
     <div class="tracker-filters">
       <div class="tracker-filters__group" role="group" aria-label="Filtrar por tipo">
         <span class="tracker-filters__label">Tipo</span>
-        <button type="button" class="filter-chip" [class.is-active]="typeFilter() === 'all'" (click)="setTypeFilter('all')">
+        <button
+          type="button"
+          class="filter-chip"
+          [class.is-active]="typeFilter() === 'all'"
+          (click)="setTypeFilter('all')"
+        >
           Todos <span class="filter-chip__count">{{ typeCounts().all }}</span>
         </button>
-        <button type="button" class="filter-chip type-pure-sc" [class.is-active]="typeFilter() === 'pure-sc'" (click)="setTypeFilter('pure-sc')">
+        <button
+          type="button"
+          class="filter-chip type-pure-sc"
+          [class.is-active]="typeFilter() === 'pure-sc'"
+          (click)="setTypeFilter('pure-sc')"
+        >
           Pure SC <span class="filter-chip__count">{{ typeCounts()['pure-sc'] }}</span>
         </button>
-        <button type="button" class="filter-chip type-extended" [class.is-active]="typeFilter() === 'extended'" (click)="setTypeFilter('extended')">
+        <button
+          type="button"
+          class="filter-chip type-extended"
+          [class.is-active]="typeFilter() === 'extended'"
+          (click)="setTypeFilter('extended')"
+        >
           Extended <span class="filter-chip__count">{{ typeCounts().extended }}</span>
         </button>
-        <button type="button" class="filter-chip type-custom-preset" [class.is-active]="typeFilter() === 'custom-preset'" (click)="setTypeFilter('custom-preset')">
-          Custom (preset) <span class="filter-chip__count">{{ typeCounts()['custom-preset'] }}</span>
+        <button
+          type="button"
+          class="filter-chip type-custom-preset"
+          [class.is-active]="typeFilter() === 'custom-preset'"
+          (click)="setTypeFilter('custom-preset')"
+        >
+          Custom (preset)
+          <span class="filter-chip__count">{{ typeCounts()['custom-preset'] }}</span>
         </button>
-        <button type="button" class="filter-chip type-full-primeng" [class.is-active]="typeFilter() === 'full-primeng'" (click)="setTypeFilter('full-primeng')">
+        <button
+          type="button"
+          class="filter-chip type-full-primeng"
+          [class.is-active]="typeFilter() === 'full-primeng'"
+          (click)="setTypeFilter('full-primeng')"
+        >
           Full PrimeNG <span class="filter-chip__count">{{ typeCounts()['full-primeng'] }}</span>
         </button>
       </div>
 
       <div class="tracker-filters__group" role="group" aria-label="Filtrar por validación">
         <span class="tracker-filters__label">Estado</span>
-        <button type="button" class="filter-chip" [class.is-active]="validationFilter() === 'all'" (click)="setValidationFilter('all')">
+        <button
+          type="button"
+          class="filter-chip"
+          [class.is-active]="validationFilter() === 'all'"
+          (click)="setValidationFilter('all')"
+        >
           Todos
         </button>
-        <button type="button" class="filter-chip is-validated-chip" [class.is-active]="validationFilter() === 'validated'" (click)="setValidationFilter('validated')">
+        <button
+          type="button"
+          class="filter-chip is-validated-chip"
+          [class.is-active]="validationFilter() === 'validated'"
+          (click)="setValidationFilter('validated')"
+        >
           ✓ Hechos en Figma <span class="filter-chip__count">{{ validatedCount() }}</span>
         </button>
-        <button type="button" class="filter-chip" [class.is-active]="validationFilter() === 'pending'" (click)="setValidationFilter('pending')">
+        <button
+          type="button"
+          class="filter-chip"
+          [class.is-active]="validationFilter() === 'pending'"
+          (click)="setValidationFilter('pending')"
+        >
           Pendientes <span class="filter-chip__count">{{ pendingCount() }}</span>
         </button>
       </div>
 
       <div class="tracker-filters__group" role="group" aria-label="Filtrar por uso en AED">
         <span class="tracker-filters__label">Uso</span>
-        <button type="button" class="filter-chip" [class.is-active]="usageFilter() === 'all'" (click)="setUsageFilter('all')">
+        <button
+          type="button"
+          class="filter-chip"
+          [class.is-active]="usageFilter() === 'all'"
+          (click)="setUsageFilter('all')"
+        >
           Todos
         </button>
-        <button type="button" class="filter-chip is-in-use-chip" [class.is-active]="usageFilter() === 'in-use'" (click)="setUsageFilter('in-use')">
+        <button
+          type="button"
+          class="filter-chip is-in-use-chip"
+          [class.is-active]="usageFilter() === 'in-use'"
+          (click)="setUsageFilter('in-use')"
+        >
           ● En uso en AED <span class="filter-chip__count">{{ inUseCount() }}</span>
         </button>
-        <button type="button" class="filter-chip" [class.is-active]="usageFilter() === 'unused'" (click)="setUsageFilter('unused')">
+        <button
+          type="button"
+          class="filter-chip"
+          [class.is-active]="usageFilter() === 'unused'"
+          (click)="setUsageFilter('unused')"
+        >
           Sin uso aún <span class="filter-chip__count">{{ unusedCount() }}</span>
         </button>
       </div>
@@ -231,7 +355,11 @@
 
     <p class="tracker-toolbar__result" aria-live="polite">
       {{ filtered().length }}
-      @if (filtered().length === 1) { resultado } @else { resultados }
+      @if (filtered().length === 1) {
+        resultado
+      } @else {
+        resultados
+      }
       @if (filtered().length !== tracked().length) {
         de {{ tracked().length }} ·
         <button type="button" class="tracker-toolbar__reset" (click)="clearAllFilters()">
@@ -279,13 +407,14 @@
                     {{ parityLabel(item.parity) }}
                   </span>
                   @if (item.aedUses > 0) {
-                    <span class="tracker-item__usage is-in-use" [attr.title]="item.aedUses + ' usos en templates AED'">
+                    <span
+                      class="tracker-item__usage is-in-use"
+                      [attr.title]="item.aedUses + ' usos en templates AED'"
+                    >
                       ● AED {{ item.aedUses }}×
                     </span>
                   } @else {
-                    <span class="tracker-item__usage" title="Aún no usado en AED">
-                      ○ sin uso
-                    </span>
+                    <span class="tracker-item__usage" title="Aún no usado en AED"> ○ sin uso </span>
                   }
                 </div>
                 <p class="tracker-item__summary">{{ item.whatItDoes }}</p>

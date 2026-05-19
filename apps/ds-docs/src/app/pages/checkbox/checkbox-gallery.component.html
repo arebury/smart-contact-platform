@@ -3,16 +3,19 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Checkbox</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-tri-state-checkbox&gt;</code> es el checkbox de facto en SC. Soporta los 2 estados binarios
-      (<code>'none'</code> / <code>'all'</code>) + un tercero <code>'some'</code> (indeterminate, extensión SC) para
-      headers de tabla con bulk-select mixto.
+      <code>&lt;sc-tri-state-checkbox&gt;</code> es el checkbox de facto en SC. Soporta los 2
+      estados binarios (<code>'none'</code> / <code>'all'</code>) + un tercero
+      <code>'some'</code> (indeterminate, extensión SC) para headers de tabla con bulk-select mixto.
     </p>
   </header>
 
   <!-- 1. Basic. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Basic (binary)</h2>
-    <p class="gallery__hint">Estado controlado externamente. El <code>cycle</code> output emite el siguiente boolean al click.</p>
+    <p class="gallery__hint">
+      Estado controlado externamente. El <code>cycle</code> output emite el siguiente boolean al
+      click.
+    </p>
     <div class="gallery__row gallery__row--grid">
       <sc-tri-state-checkbox [state]="basic()" (cycle)="onBinaryToggle(basic, $event)">
         Acepto los términos del servicio
@@ -21,21 +24,34 @@
         Recibir notificaciones por email
       </sc-tri-state-checkbox>
     </div>
-    <p class="gallery__output">basic: <code>{{ basic() }}</code> · pre-checked: <code>{{ preChecked() }}</code></p>
+    <p class="gallery__output">
+      basic: <code>{{ basic() }}</code> · pre-checked: <code>{{ preChecked() }}</code>
+    </p>
   </section>
 
   <!-- 2. Sizes. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Sizes (sm / md / lg)</h2>
-    <p class="gallery__hint">Tres tamaños del Figma — sm 14×14, md 17.5×17.5 (default), lg 21×21. El icono y el label escalan proporcionalmente.</p>
+    <p class="gallery__hint">
+      Tres tamaños del Figma — sm 14×14, md 17.5×17.5 (default), lg 21×21. El icono y el label
+      escalan proporcionalmente.
+    </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-tri-state-checkbox size="sm" [state]="smValue()" (cycle)="onBinaryToggle(smValue, $event)">
+      <sc-tri-state-checkbox
+        size="sm"
+        [state]="smValue()"
+        (cycle)="onBinaryToggle(smValue, $event)"
+      >
         Small (14px)
       </sc-tri-state-checkbox>
       <sc-tri-state-checkbox [state]="mdValue()" (cycle)="onBinaryToggle(mdValue, $event)">
         Medium / default (17.5px)
       </sc-tri-state-checkbox>
-      <sc-tri-state-checkbox size="lg" [state]="lgValue()" (cycle)="onBinaryToggle(lgValue, $event)">
+      <sc-tri-state-checkbox
+        size="lg"
+        [state]="lgValue()"
+        (cycle)="onBinaryToggle(lgValue, $event)"
+      >
         Large (21px)
       </sc-tri-state-checkbox>
     </div>
@@ -44,9 +60,16 @@
   <!-- 3. Filled. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">3 · Filled (background slate-50)</h2>
-    <p class="gallery__hint">Variant del Figma <code>Filled=True</code> (node <code>5801:52774</code>): bg slate-50 cuando unchecked. Útil cuando el checkbox vive sobre un canvas blanco y necesita destacar.</p>
+    <p class="gallery__hint">
+      Variant del Figma <code>Filled=True</code> (node <code>5801:52774</code>): bg slate-50 cuando
+      unchecked. Útil cuando el checkbox vive sobre un canvas blanco y necesita destacar.
+    </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-tri-state-checkbox [state]="filledValue()" [filled]="true" (cycle)="onBinaryToggle(filledValue, $event)">
+      <sc-tri-state-checkbox
+        [state]="filledValue()"
+        [filled]="true"
+        (cycle)="onBinaryToggle(filledValue, $event)"
+      >
         Filled checkbox
       </sc-tri-state-checkbox>
     </div>
@@ -55,7 +78,10 @@
   <!-- 4. Disabled. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">4 · Disabled</h2>
-    <p class="gallery__hint">El componente se vuelve no-interactivo. Opacity 60% (token global <code>disabled/opacity</code>).</p>
+    <p class="gallery__hint">
+      El componente se vuelve no-interactivo. Opacity 60% (token global
+      <code>disabled/opacity</code>).
+    </p>
     <div class="gallery__row gallery__row--grid">
       <sc-tri-state-checkbox [state]="'none'" [disabled]="true">
         Opción no disponible (off)
@@ -70,37 +96,46 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">5 · Tri-state (SC extension)</h2>
     <p class="gallery__hint">
-      Patrón "select all" del header de tabla: estado <code>'some'</code> = marcado parcial.
-      Mismo bg que <code>'all'</code> pero con una barra horizontal en lugar de ✓. Cycle behavior:
-      none → todos marcados; some → todos limpios; all → todos limpios.
+      Patrón "select all" del header de tabla: estado <code>'some'</code> = marcado parcial. Mismo
+      bg que <code>'all'</code> pero con una barra horizontal en lugar de ✓. Cycle behavior: none →
+      todos marcados; some → todos limpios; all → todos limpios.
     </p>
-    <div class="gallery__row" style="flex-direction:column; gap:8px;">
-      <div style="border-bottom:1px solid var(--sc-border-default); padding-bottom:8px; font-weight:600;">
+    <div class="gallery__row" style="flex-direction: column; gap: 8px">
+      <div
+        style="
+          border-bottom: 1px solid var(--sc-border-default);
+          padding-bottom: 8px;
+          font-weight: 600;
+        "
+      >
         <sc-tri-state-checkbox [state]="headerState()" (cycle)="onHeaderToggle($event)">
-          Seleccionar todo (estado: <code>{{ headerState() }}</code>)
+          Seleccionar todo (estado: <code>{{ headerState() }}</code
+          >)
         </sc-tri-state-checkbox>
       </div>
-      <div style="padding-left:24px;">
+      <div style="padding-left: 24px">
         <sc-tri-state-checkbox [state]="child1()" (cycle)="onChildToggle(1, $event)">
           María García
         </sc-tri-state-checkbox>
       </div>
-      <div style="padding-left:24px;">
+      <div style="padding-left: 24px">
         <sc-tri-state-checkbox [state]="child2()" (cycle)="onChildToggle(2, $event)">
           Pedro Sánchez
         </sc-tri-state-checkbox>
       </div>
-      <div style="padding-left:24px;">
+      <div style="padding-left: 24px">
         <sc-tri-state-checkbox [state]="child3()" (cycle)="onChildToggle(3, $event)">
           Laura Fernández
         </sc-tri-state-checkbox>
       </div>
     </div>
     <p class="gallery__output">
-      children: [<code>{{ child1() }}</code>, <code>{{ child2() }}</code>, <code>{{ child3() }}</code>]
-      → header: <code>{{ headerState() }}</code>
+      children: [<code>{{ child1() }}</code
+      >, <code>{{ child2() }}</code
+      >, <code>{{ child3() }}</code
+      >] → header: <code>{{ headerState() }}</code>
     </p>
   </section>
 
-<sc-ds-docs-gallery-footer slug="checkbox" />
+  <sc-ds-docs-gallery-footer slug="checkbox" />
 </div>

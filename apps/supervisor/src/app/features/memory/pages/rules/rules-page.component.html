@@ -1,13 +1,6 @@
-<sc-page-header
-  titleKey="memory.rules.page_title"
-  [icon]="settingsIcon"
->
+<sc-page-header titleKey="memory.rules.page_title" [icon]="settingsIcon">
   <ng-container page-header-actions>
-    <p-button
-      type="button"
-      severity="primary"
-      (onClick)="newRuleMenu.toggle($event)"
-    >
+    <p-button type="button" severity="primary" (onClick)="newRuleMenu.toggle($event)">
       <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
       <span>{{ 'memory.rules.new_rule' | translate }}</span>
     </p-button>
@@ -64,10 +57,7 @@
                 <th class="rules-table__th-kebab" scope="col" aria-label="Acciones"></th>
               </tr>
             </thead>
-            <tbody
-              cdkDropList
-              (cdkDropListDropped)="onActiveReorder($event)"
-            >
+            <tbody cdkDropList (cdkDropListDropped)="onActiveReorder($event)">
               @for (rule of activeRules(); track rule.id; let i = $index) {
                 <tr cdkDrag [cdkDragData]="rule">
                   <td class="rules-table__td-order">
@@ -150,7 +140,9 @@
                             {{
                               winningRuleId(rule) === rule.id
                                 ? rule.name
-                                : getConflictingRules(rule).find((r) => r.id === winningRuleId(rule))?.name
+                                : getConflictingRules(rule).find(
+                                    (r) => r.id === winningRuleId(rule)
+                                  )?.name
                             }}
                           </p>
                           <p class="conflict-popover__hint">

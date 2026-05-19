@@ -3,18 +3,15 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Group popover</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-group-popover&gt;</code> es la cell inline que muestra el conteo de grupos
-      de un agente y revela una lista flotante al hover o focus. Hasta 5 nombres + "+N más"
-      cuando hay overflow. Posición absolute desde el trigger — nunca empuja las filas de la
-      tabla.
+      <code>&lt;sc-group-popover&gt;</code> es la cell inline que muestra el conteo de grupos de un
+      agente y revela una lista flotante al hover o focus. Hasta 5 nombres + "+N más" cuando hay
+      overflow. Posición absolute desde el trigger — nunca empuja las filas de la tabla.
     </p>
   </header>
 
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Sin grupos (count = 0)</h2>
-    <p class="gallery__hint">
-      No abre popover. Cell visible pero pasiva.
-    </p>
+    <p class="gallery__hint">No abre popover. Cell visible pero pasiva.</p>
     <div class="gallery__row">
       <sc-group-popover [groups]="empty" />
     </div>

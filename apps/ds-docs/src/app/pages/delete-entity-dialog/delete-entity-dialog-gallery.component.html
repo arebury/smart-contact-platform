@@ -4,16 +4,20 @@
     <h1 class="gallery__title">Delete Entity Dialog</h1>
     <p class="gallery__lede">
       <code>&lt;sc-delete-entity-dialog&gt;</code> es el confirm dialog compartido para borrado de
-      entidades (users, groups, agents, templates, labels…). Dos modos: <strong>single</strong>
-      (typing confirmation con copy-name shortcut) y <strong>bulk</strong> (lista de chips
-      removibles antes de confirmar). Compuesto sobre <code>&lt;sc-modal&gt;</code> — hereda el shell.
+      entidades (users, groups, agents, templates, labels…). Dos modos:
+      <strong>single</strong> (typing confirmation con copy-name shortcut) y
+      <strong>bulk</strong> (lista de chips removibles antes de confirmar). Compuesto sobre
+      <code>&lt;sc-modal&gt;</code> — hereda el shell.
     </p>
   </header>
 
   <!-- 1. Single mode -->
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Single mode (typing confirmation)</h2>
-    <p class="gallery__hint">El usuario debe tipear el nombre EXACTO para activar Eliminar (case-sensitive). El botón "📋 Copiar" es un Fitts shortcut — copia el name al clipboard + toast de confirmación.</p>
+    <p class="gallery__hint">
+      El usuario debe tipear el nombre EXACTO para activar Eliminar (case-sensitive). El botón "📋
+      Copiar" es un Fitts shortcut — copia el name al clipboard + toast de confirmación.
+    </p>
     <div class="gallery__row">
       <button type="button" class="gallery__btn" (click)="singleVisible.set(true)">
         Abrir delete dialog (single)
@@ -33,7 +37,11 @@
   <!-- 2. Bulk mode -->
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Bulk mode (chip pruning)</h2>
-    <p class="gallery__hint">Cada chip removible con <code>×</code>. El usuario puede "podar" la selección antes de confirmar. NO auto-cierra si pruna todo — el confirm queda disabled y aparece el botón "Restaurar lista".</p>
+    <p class="gallery__hint">
+      Cada chip removible con <code>×</code>. El usuario puede "podar" la selección antes de
+      confirmar. NO auto-cierra si pruna todo — el confirm queda disabled y aparece el botón
+      "Restaurar lista".
+    </p>
     <div class="gallery__row">
       <button type="button" class="gallery__btn" (click)="bulkVisible.set(true)">
         Abrir delete dialog (bulk, 3 items)
@@ -53,7 +61,10 @@
   <!-- 3. Bulk grande -->
   <section class="gallery__section">
     <h2 class="gallery__h2">3 · Bulk con lista grande (scroll)</h2>
-    <p class="gallery__hint">La lista hace scroll si los chips no caben. Pattern útil cuando el usuario seleccionó muchos accidentalmente — puede revisar uno a uno.</p>
+    <p class="gallery__hint">
+      La lista hace scroll si los chips no caben. Pattern útil cuando el usuario seleccionó muchos
+      accidentalmente — puede revisar uno a uno.
+    </p>
     <div class="gallery__row">
       <button type="button" class="gallery__btn" (click)="bulkLargeVisible.set(true)">
         Abrir delete dialog (bulk, 12 items)

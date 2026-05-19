@@ -49,7 +49,9 @@
                 type="checkbox"
                 class="memory-conversations-table__checkbox"
                 [checked]="selected"
-                [attr.aria-label]="'memory.conversations.select_row_aria' | translate: { id: conv.id }"
+                [attr.aria-label]="
+                  'memory.conversations.select_row_aria' | translate: { id: conv.id }
+                "
                 (change)="onCheckboxChange($event, conv)"
                 (click)="$event.stopPropagation()"
                 (keydown)="onCheckboxKeydown($event)"

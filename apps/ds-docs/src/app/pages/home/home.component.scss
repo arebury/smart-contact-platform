@@ -36,7 +36,9 @@
   height: 3.5px;
 }
 @media (max-width: 720px) {
-  .hero__mark { display: none; }
+  .hero__mark {
+    display: none;
+  }
 }
 
 .hero__eyebrow {
@@ -142,8 +144,12 @@
     flex-direction: row;
     align-items: baseline;
     gap: 12px;
-    dt { order: 2; }
-    dd { order: 1; }
+    dt {
+      order: 2;
+    }
+    dd {
+      order: 1;
+    }
   }
 }
 
@@ -500,7 +506,12 @@
   &:focus {
     outline: none;
     border-color: var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--sc-color-electric-blue-500, var(--sc-color-blue-500)) 18%, transparent);
+    box-shadow: 0 0 0 3px
+      color-mix(
+        in srgb,
+        var(--sc-color-electric-blue-500, var(--sc-color-blue-500)) 18%,
+        transparent
+      );
   }
 
   /* Hide native clear of type=search (we have our own). */
@@ -662,7 +673,11 @@
 
   &.is-in-use-chip:not(.is-active) {
     color: var(--sc-color-electric-blue-800, var(--sc-color-blue-800));
-    border-color: color-mix(in srgb, var(--sc-color-electric-blue-500, var(--sc-color-blue-500)) 30%, var(--sc-border-default));
+    border-color: color-mix(
+      in srgb,
+      var(--sc-color-electric-blue-500, var(--sc-color-blue-500)) 30%,
+      var(--sc-border-default)
+    );
   }
 }
 
@@ -899,7 +914,11 @@
   color: var(--sc-text-soft, var(--sc-text-subtle));
   padding: 6px 10px;
   border-left: 2px solid var(--sc-color-electric-blue-300, var(--sc-color-blue-300));
-  background: color-mix(in srgb, var(--sc-color-electric-blue-50, var(--sc-color-blue-50)) 40%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--sc-color-electric-blue-50, var(--sc-color-blue-50)) 40%,
+    transparent
+  );
   border-radius: 0 4px 4px 0;
 }
 
@@ -957,7 +976,11 @@
   letter-spacing: 0.02em;
 
   &.is-in-use {
-    background: color-mix(in srgb, var(--sc-color-electric-blue-100, var(--sc-color-blue-100)) 60%, transparent);
+    background: color-mix(
+      in srgb,
+      var(--sc-color-electric-blue-100, var(--sc-color-blue-100)) 60%,
+      transparent
+    );
     color: var(--sc-color-electric-blue-800, var(--sc-color-blue-800));
     font-weight: 600;
   }

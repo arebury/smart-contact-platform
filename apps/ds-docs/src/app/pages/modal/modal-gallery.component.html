@@ -3,8 +3,9 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Modal / Dialog</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-modal&gt;</code> envuelve <code>&lt;p-dialog&gt;</code> con header + body slot stackeable + footer.
-      Pulsa los botones de cada sección para ver el modal en vivo. ESC cierra; click en el mask también.
+      <code>&lt;sc-modal&gt;</code> envuelve <code>&lt;p-dialog&gt;</code> con header + body slot
+      stackeable + footer. Pulsa los botones de cada sección para ver el modal en vivo. ESC cierra;
+      click en el mask también.
     </p>
   </header>
 
@@ -22,8 +23,13 @@
       [icon]="icons.info"
       (cancelled)="basicOpen.set(false)"
     >
-      <p>El enlace caduca a las 24 horas. Si no lo recibes en 5 minutos, comprueba tu carpeta de spam o pide otro.</p>
-      <p>Por seguridad, te pediremos confirmación adicional desde dispositivos que no reconozcamos.</p>
+      <p>
+        El enlace caduca a las 24 horas. Si no lo recibes en 5 minutos, comprueba tu carpeta de spam
+        o pide otro.
+      </p>
+      <p>
+        Por seguridad, te pediremos confirmación adicional desde dispositivos que no reconozcamos.
+      </p>
       <div modal-actions>
         <p-button label="Entendido" severity="secondary" (click)="basicOpen.set(false)" />
       </div>
@@ -34,7 +40,8 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Confirm danger (bodyless)</h2>
     <p class="gallery__hint">
-      Cuando la descripción cabe en el subtitle, <code>[bodyless]="true"</code> contrae el modal a header + footer pegados (sin band visual de body).
+      Cuando la descripción cabe en el subtitle, <code>[bodyless]="true"</code> contrae el modal a
+      header + footer pegados (sin band visual de body).
     </p>
     <div class="gallery__row">
       <p-button label="Eliminar agente" severity="danger" (click)="confirmOpen.set(true)" />
@@ -80,11 +87,16 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">4 · Form dentro del body slot (stacking)</h2>
     <p class="gallery__hint">
-      El body slot acepta cualquier markup. Los hijos directos se apilan verticalmente con gap 16px por defecto.
-      Aquí: 2 inputs sc-input apilados con stacking automático.
+      El body slot acepta cualquier markup. Los hijos directos se apilan verticalmente con gap 16px
+      por defecto. Aquí: 2 inputs sc-input apilados con stacking automático.
     </p>
     <div class="gallery__row">
-      <p-button label="Editar agente" severity="info" [icon]="'pi pi-pencil'" (click)="formOpen.set(true)" />
+      <p-button
+        label="Editar agente"
+        severity="info"
+        [icon]="'pi pi-pencil'"
+        (click)="formOpen.set(true)"
+      />
     </div>
     <sc-modal
       [visible]="formOpen()"
@@ -108,8 +120,8 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">5 · Body largo con scroll interno</h2>
     <p class="gallery__hint">
-      El body tiene <code>max-height: min(85vh, 720px)</code>. Contenido largo scrollea dentro del body sin
-      desbordar la pantalla. Header y footer quedan fijos arriba y abajo.
+      El body tiene <code>max-height: min(85vh, 720px)</code>. Contenido largo scrollea dentro del
+      body sin desbordar la pantalla. Header y footer quedan fijos arriba y abajo.
     </p>
     <div class="gallery__row">
       <p-button label="Abrir documento largo" severity="info" (click)="scrollOpen.set(true)" />
@@ -122,11 +134,13 @@
       [width]="'560px'"
       (cancelled)="scrollOpen.set(false)"
     >
-      @for (i of [1,2,3,4,5,6,7,8,9,10]; track i) {
+      @for (i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; track i) {
         <div>
-          <h3 style="margin: 0 0 4px; font-size: 14px; font-weight: 600;">Cláusula {{ i }}</h3>
-          <p style="margin: 0; line-height: 1.5; color: var(--sc-text-secondary); font-size: 13px;">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          <h3 style="margin: 0 0 4px; font-size: 14px; font-weight: 600">Cláusula {{ i }}</h3>
+          <p style="margin: 0; line-height: 1.5; color: var(--sc-text-secondary); font-size: 13px">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor
+            incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+            exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
           </p>
         </div>
       }
@@ -137,5 +151,5 @@
     </sc-modal>
   </section>
 
-<sc-ds-docs-gallery-footer slug="modal" />
+  <sc-ds-docs-gallery-footer slug="modal" />
 </div>

@@ -1,740 +1,1114 @@
 <!doctype html>
 <html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SCDS · Paleta gray → Aura slate · audit</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  /* ═══════════════════════════════════════════════════════════════
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SCDS · Paleta gray → Aura slate · audit</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ═══════════════════════════════════════════════════════════════
    * SCDS Palette Audit · self-contained dark editorial doc
    * Eats own dog food — uses the new Aura slate token values
    * (the very change being reviewed) for its own chrome.
    * ═══════════════════════════════════════════════════════════════ */
 
-  :root {
-    /* Mirrors --sc-color-* from the SCDS slate-aligned ramp */
-    --slate-50:  #f8fafc;
-    --slate-100: #f1f5f9;
-    --slate-200: #e2e8f0;
-    --slate-300: #cbd5e1;
-    --slate-400: #94a3b8;
-    --slate-500: #64748b;
-    --slate-600: #475569;
-    --slate-700: #334155;
-    --slate-800: #1e293b;
-    --slate-900: #0f172a;
-    --slate-950: #020617;
+      :root {
+        /* Mirrors --sc-color-* from the SCDS slate-aligned ramp */
+        --slate-50: #f8fafc;
+        --slate-100: #f1f5f9;
+        --slate-200: #e2e8f0;
+        --slate-300: #cbd5e1;
+        --slate-400: #94a3b8;
+        --slate-500: #64748b;
+        --slate-600: #475569;
+        --slate-700: #334155;
+        --slate-800: #1e293b;
+        --slate-900: #0f172a;
+        --slate-950: #020617;
 
-    --accent: #1464fe;           /* --sc-color-electric-blue-500 */
-    --accent-hover: #0d4fd4;
-    --accent-soft: rgba(20, 100, 254, 0.12);
-    --warn: #f59e0b;             /* before chip */
-    --ok:   #22c55e;             /* after chip */
+        --accent: #1464fe; /* --sc-color-electric-blue-500 */
+        --accent-hover: #0d4fd4;
+        --accent-soft: rgba(20, 100, 254, 0.12);
+        --warn: #f59e0b; /* before chip */
+        --ok: #22c55e; /* after chip */
 
-    --bg:        var(--slate-950);
-    --bg-elev:   var(--slate-900);
-    --bg-card:   #060b13;
-    --line:      var(--slate-800);
-    --line-soft: #111b2d;
-    --text:        var(--slate-50);
-    --text-muted:  var(--slate-300);
-    --text-faint:  var(--slate-400);
-    --text-dim:    var(--slate-500);
+        --bg: var(--slate-950);
+        --bg-elev: var(--slate-900);
+        --bg-card: #060b13;
+        --line: var(--slate-800);
+        --line-soft: #111b2d;
+        --text: var(--slate-50);
+        --text-muted: var(--slate-300);
+        --text-faint: var(--slate-400);
+        --text-dim: var(--slate-500);
 
-    --font-display: 'Space Grotesk', 'Inter', -apple-system, system-ui, sans-serif;
-    --font-sans:    'Inter', -apple-system, system-ui, sans-serif;
-    --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+        --font-display: 'Space Grotesk', 'Inter', -apple-system, system-ui, sans-serif;
+        --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+        --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
-    --u: 8px;                    /* base unit */
-    --max:  1280px;
+        --u: 8px; /* base unit */
+        --max: 1280px;
 
-    color-scheme: dark;
-  }
+        color-scheme: dark;
+      }
 
-  * { box-sizing: border-box; }
-  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
-    * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-  }
-  body {
-    margin: 0;
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--font-sans);
-    font-size: 14px;
-    line-height: 1.55;
-    font-feature-settings: 'cv11', 'ss01';
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+        -webkit-text-size-adjust: 100%;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        * {
+          animation-duration: 0.01ms !important;
+          transition-duration: 0.01ms !important;
+        }
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        font-size: 14px;
+        line-height: 1.55;
+        font-feature-settings: 'cv11', 'ss01';
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
 
-  ::selection { background: var(--accent-soft); color: var(--text); }
+      ::selection {
+        background: var(--accent-soft);
+        color: var(--text);
+      }
 
-  /* ─── focus rings ─── */
-  :focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-    border-radius: 3px;
-  }
+      /* ─── focus rings ─── */
+      :focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 2px;
+        border-radius: 3px;
+      }
 
-  /* ════════════════════════ HEADER ════════════════════════ */
-  header {
-    position: sticky; top: 0; z-index: 50;
-    background: rgba(2, 6, 23, 0.88);
-    backdrop-filter: saturate(140%) blur(12px);
-    -webkit-backdrop-filter: saturate(140%) blur(12px);
-    border-bottom: 1px solid var(--line);
-  }
-  .header-inner {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: calc(var(--u) * 2.5) calc(var(--u) * 4) calc(var(--u) * 2);
-  }
+      /* ════════════════════════ HEADER ════════════════════════ */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(2, 6, 23, 0.88);
+        backdrop-filter: saturate(140%) blur(12px);
+        -webkit-backdrop-filter: saturate(140%) blur(12px);
+        border-bottom: 1px solid var(--line);
+      }
+      .header-inner {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: calc(var(--u) * 2.5) calc(var(--u) * 4) calc(var(--u) * 2);
+      }
 
-  .meta-row {
-    display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 2);
-    flex-wrap: wrap;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-dim);
-    margin-bottom: calc(var(--u) * 1.5);
-  }
-  .meta-row .left  { display: flex; gap: calc(var(--u) * 2); align-items: center; }
-  .meta-row .right { color: var(--text-faint); }
-  .meta-tag {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 3px 8px;
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: 2px;
-    color: var(--text-muted);
-    letter-spacing: 0.08em;
-  }
-  .meta-tag .dot {
-    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
-    box-shadow: 0 0 8px var(--accent-soft);
-  }
+      .meta-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: calc(var(--u) * 2);
+        flex-wrap: wrap;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--text-dim);
+        margin-bottom: calc(var(--u) * 1.5);
+      }
+      .meta-row .left {
+        display: flex;
+        gap: calc(var(--u) * 2);
+        align-items: center;
+      }
+      .meta-row .right {
+        color: var(--text-faint);
+      }
+      .meta-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 3px 8px;
+        background: var(--bg-elev);
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        color: var(--text-muted);
+        letter-spacing: 0.08em;
+      }
+      .meta-tag .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 8px var(--accent-soft);
+      }
 
-  h1.title {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 4vw, 44px);
-    line-height: 1.05;
-    letter-spacing: -0.025em;
-    font-weight: 600;
-    margin: 0;
-    color: var(--text);
-  }
-  h1.title .arrow {
-    color: var(--accent);
-    font-weight: 500;
-    padding: 0 0.08em;
-  }
-  .subtitle {
-    margin: calc(var(--u) * 0.75) 0 0;
-    color: var(--text-faint);
-    font-size: 14px;
-    max-width: 64ch;
-  }
+      h1.title {
+        font-family: var(--font-display);
+        font-size: clamp(28px, 4vw, 44px);
+        line-height: 1.05;
+        letter-spacing: -0.025em;
+        font-weight: 600;
+        margin: 0;
+        color: var(--text);
+      }
+      h1.title .arrow {
+        color: var(--accent);
+        font-weight: 500;
+        padding: 0 0.08em;
+      }
+      .subtitle {
+        margin: calc(var(--u) * 0.75) 0 0;
+        color: var(--text-faint);
+        font-size: 14px;
+        max-width: 64ch;
+      }
 
-  /* ─── controls row (theme toggle + counts) ─── */
-  .controls-row {
-    display: flex; align-items: center; justify-content: space-between; gap: calc(var(--u) * 2);
-    margin-top: calc(var(--u) * 2.5);
-    flex-wrap: wrap;
-  }
-  .toggle {
-    display: inline-flex;
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 3px;
-    position: relative;
-  }
-  .toggle button {
-    appearance: none;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-family: var(--font-sans);
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-faint);
-    padding: 6px 16px;
-    border-radius: 999px;
-    transition: color 0.15s ease, background 0.18s ease;
-    position: relative;
-    z-index: 1;
-  }
-  .toggle button.active {
-    color: #fff;
-    background: var(--accent);
-  }
-  .toggle button:not(.active):hover { color: var(--text); }
+      /* ─── controls row (theme toggle + counts) ─── */
+      .controls-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: calc(var(--u) * 2);
+        margin-top: calc(var(--u) * 2.5);
+        flex-wrap: wrap;
+      }
+      .toggle {
+        display: inline-flex;
+        background: var(--bg-elev);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 3px;
+        position: relative;
+      }
+      .toggle button {
+        appearance: none;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        font-family: var(--font-sans);
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text-faint);
+        padding: 6px 16px;
+        border-radius: 999px;
+        transition:
+          color 0.15s ease,
+          background 0.18s ease;
+        position: relative;
+        z-index: 1;
+      }
+      .toggle button.active {
+        color: #fff;
+        background: var(--accent);
+      }
+      .toggle button:not(.active):hover {
+        color: var(--text);
+      }
 
-  .stats {
-    display: flex; gap: calc(var(--u) * 3);
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-faint);
-  }
-  .stats .stat strong { color: var(--text); font-weight: 500; }
+      .stats {
+        display: flex;
+        gap: calc(var(--u) * 3);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-faint);
+      }
+      .stats .stat strong {
+        color: var(--text);
+        font-weight: 500;
+      }
 
-  /* ─── jump pills (compact tertiary nav) ─── */
-  nav.jump {
-    display: flex; flex-wrap: wrap; gap: 4px;
-    margin-top: calc(var(--u) * 2);
-    padding-top: calc(var(--u) * 1.5);
-    border-top: 1px solid var(--line-soft);
-  }
-  nav.jump a {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-faint);
-    text-decoration: none;
-    padding: 4px 10px;
-    border: 1px solid transparent;
-    border-radius: 2px;
-    transition: all 0.12s ease;
-  }
-  nav.jump a:hover {
-    color: var(--text);
-    background: var(--bg-elev);
-    border-color: var(--line);
-  }
-  nav.jump a .num { color: var(--accent); margin-right: 8px; font-weight: 500; }
+      /* ─── jump pills (compact tertiary nav) ─── */
+      nav.jump {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: calc(var(--u) * 2);
+        padding-top: calc(var(--u) * 1.5);
+        border-top: 1px solid var(--line-soft);
+      }
+      nav.jump a {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-faint);
+        text-decoration: none;
+        padding: 4px 10px;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        transition: all 0.12s ease;
+      }
+      nav.jump a:hover {
+        color: var(--text);
+        background: var(--bg-elev);
+        border-color: var(--line);
+      }
+      nav.jump a .num {
+        color: var(--accent);
+        margin-right: 8px;
+        font-weight: 500;
+      }
 
-  /* ════════════════════════ NOTES PANEL ════════════════════════ */
-  details.notes {
-    margin-top: calc(var(--u) * 2);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    background: var(--bg-elev);
-  }
-  details.notes > summary {
-    padding: calc(var(--u) * 1.25) calc(var(--u) * 2);
-    cursor: pointer;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text);
-    list-style: none;
-    user-select: none;
-    display: flex; align-items: center; gap: 10px;
-    letter-spacing: 0.01em;
-  }
-  details.notes > summary::-webkit-details-marker { display: none; }
-  details.notes > summary .chev {
-    display: inline-block; width: 10px; height: 10px;
-    border-right: 1.5px solid var(--text-faint);
-    border-bottom: 1.5px solid var(--text-faint);
-    transform: rotate(-45deg);
-    transition: transform 0.18s ease;
-  }
-  details.notes[open] > summary .chev { transform: rotate(45deg); }
-  details.notes > summary .label-mono {
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-left: auto;
-  }
+      /* ════════════════════════ NOTES PANEL ════════════════════════ */
+      details.notes {
+        margin-top: calc(var(--u) * 2);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        background: var(--bg-elev);
+      }
+      details.notes > summary {
+        padding: calc(var(--u) * 1.25) calc(var(--u) * 2);
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text);
+        list-style: none;
+        user-select: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        letter-spacing: 0.01em;
+      }
+      details.notes > summary::-webkit-details-marker {
+        display: none;
+      }
+      details.notes > summary .chev {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-right: 1.5px solid var(--text-faint);
+        border-bottom: 1.5px solid var(--text-faint);
+        transform: rotate(-45deg);
+        transition: transform 0.18s ease;
+      }
+      details.notes[open] > summary .chev {
+        transform: rotate(45deg);
+      }
+      details.notes > summary .label-mono {
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-dim);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin-left: auto;
+      }
 
-  .notes-body {
-    padding: 4px calc(var(--u) * 2.5) calc(var(--u) * 2.5);
-    color: var(--text-muted);
-    font-size: 13.5px;
-    line-height: 1.65;
-    max-height: min(54vh, 520px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    /* sleek scrollbar */
-    scrollbar-width: thin;
-    scrollbar-color: var(--line) transparent;
-  }
-  .notes-body::-webkit-scrollbar { width: 10px; }
-  .notes-body::-webkit-scrollbar-track { background: transparent; }
-  .notes-body::-webkit-scrollbar-thumb { background: var(--line); border-radius: 10px; border: 2px solid var(--bg-elev); }
-  .notes-body::-webkit-scrollbar-thumb:hover { background: var(--slate-700); }
+      .notes-body {
+        padding: 4px calc(var(--u) * 2.5) calc(var(--u) * 2.5);
+        color: var(--text-muted);
+        font-size: 13.5px;
+        line-height: 1.65;
+        max-height: min(54vh, 520px);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        /* sleek scrollbar */
+        scrollbar-width: thin;
+        scrollbar-color: var(--line) transparent;
+      }
+      .notes-body::-webkit-scrollbar {
+        width: 10px;
+      }
+      .notes-body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .notes-body::-webkit-scrollbar-thumb {
+        background: var(--line);
+        border-radius: 10px;
+        border: 2px solid var(--bg-elev);
+      }
+      .notes-body::-webkit-scrollbar-thumb:hover {
+        background: var(--slate-700);
+      }
 
-  .notes-body p { margin: 0 0 calc(var(--u) * 1.25); max-width: 72ch; }
-  .notes-body strong { color: var(--text); font-weight: 600; }
-  .notes-body em { color: var(--text); font-style: normal; background: linear-gradient(transparent 60%, var(--accent-soft) 60%); padding: 0 2px; }
-  .notes-body ul, .notes-body ol { margin: 0 0 calc(var(--u) * 1.25); padding-left: calc(var(--u) * 2.5); }
-  .notes-body li { margin: 4px 0; }
-  .notes-body code {
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    padding: 1px 6px;
-    border-radius: 2px;
-    font-family: var(--font-mono);
-    font-size: 11.5px;
-    color: var(--text);
-  }
-  .notes-body .muted { color: var(--text-dim); font-size: 12.5px; padding-top: calc(var(--u) * 1.25); border-top: 1px solid var(--line-soft); margin-top: calc(var(--u) * 1.5); }
+      .notes-body p {
+        margin: 0 0 calc(var(--u) * 1.25);
+        max-width: 72ch;
+      }
+      .notes-body strong {
+        color: var(--text);
+        font-weight: 600;
+      }
+      .notes-body em {
+        color: var(--text);
+        font-style: normal;
+        background: linear-gradient(transparent 60%, var(--accent-soft) 60%);
+        padding: 0 2px;
+      }
+      .notes-body ul,
+      .notes-body ol {
+        margin: 0 0 calc(var(--u) * 1.25);
+        padding-left: calc(var(--u) * 2.5);
+      }
+      .notes-body li {
+        margin: 4px 0;
+      }
+      .notes-body code {
+        background: var(--bg-card);
+        border: 1px solid var(--line);
+        padding: 1px 6px;
+        border-radius: 2px;
+        font-family: var(--font-mono);
+        font-size: 11.5px;
+        color: var(--text);
+      }
+      .notes-body .muted {
+        color: var(--text-dim);
+        font-size: 12.5px;
+        padding-top: calc(var(--u) * 1.25);
+        border-top: 1px solid var(--line-soft);
+        margin-top: calc(var(--u) * 1.5);
+      }
 
-  /* Callout — single accent edge, no glow, editorial */
-  .notes-body .callout {
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    border-left: 3px solid var(--accent);
-    padding: calc(var(--u) * 1.5) calc(var(--u) * 2);
-    border-radius: 0 4px 4px 0;
-    margin: calc(var(--u) * 1.5) 0;
-    color: var(--text);
-    font-size: 13.5px;
-  }
-  .notes-body .callout svg { vertical-align: -3px; margin-right: 6px; color: var(--accent); }
+      /* Callout — single accent edge, no glow, editorial */
+      .notes-body .callout {
+        background: var(--bg-card);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--accent);
+        padding: calc(var(--u) * 1.5) calc(var(--u) * 2);
+        border-radius: 0 4px 4px 0;
+        margin: calc(var(--u) * 1.5) 0;
+        color: var(--text);
+        font-size: 13.5px;
+      }
+      .notes-body .callout svg {
+        vertical-align: -3px;
+        margin-right: 6px;
+        color: var(--accent);
+      }
 
-  /* Impact table */
-  .notes-body table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: calc(var(--u) * 1.5) 0;
-    font-size: 12.5px;
-    border: 1px solid var(--line);
-  }
-  .notes-body thead { background: var(--bg-card); }
-  .notes-body th {
-    padding: calc(var(--u) * 1) calc(var(--u) * 1.5);
-    text-align: left;
-    color: var(--text-faint);
-    font-weight: 500;
-    text-transform: uppercase;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    border-bottom: 1px solid var(--line);
-  }
-  .notes-body td {
-    padding: 8px calc(var(--u) * 1.5);
-    border-bottom: 1px solid var(--line-soft);
-    color: var(--text-muted);
-  }
-  .notes-body tbody tr:last-child td { border-bottom: none; }
-  .notes-body tbody tr:hover { background: rgba(20, 100, 254, 0.04); }
-  .notes-body td:nth-child(1) {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--accent);
-    font-weight: 500;
-    width: 56px;
-  }
-  .notes-body td:nth-child(2) {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-faint);
-    white-space: nowrap;
-  }
+      /* Impact table */
+      .notes-body table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: calc(var(--u) * 1.5) 0;
+        font-size: 12.5px;
+        border: 1px solid var(--line);
+      }
+      .notes-body thead {
+        background: var(--bg-card);
+      }
+      .notes-body th {
+        padding: calc(var(--u) * 1) calc(var(--u) * 1.5);
+        text-align: left;
+        color: var(--text-faint);
+        font-weight: 500;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 0.1em;
+        border-bottom: 1px solid var(--line);
+      }
+      .notes-body td {
+        padding: 8px calc(var(--u) * 1.5);
+        border-bottom: 1px solid var(--line-soft);
+        color: var(--text-muted);
+      }
+      .notes-body tbody tr:last-child td {
+        border-bottom: none;
+      }
+      .notes-body tbody tr:hover {
+        background: rgba(20, 100, 254, 0.04);
+      }
+      .notes-body td:nth-child(1) {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--accent);
+        font-weight: 500;
+        width: 56px;
+      }
+      .notes-body td:nth-child(2) {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-faint);
+        white-space: nowrap;
+      }
 
-  /* Inline screen links */
-  .notes-body a.screen-link {
-    font-family: var(--font-mono);
-    font-size: 12px;
-    color: var(--accent);
-    text-decoration: none;
-    padding: 0 2px;
-    border-bottom: 1px dashed rgba(20, 100, 254, 0.4);
-    transition: all 0.12s ease;
-  }
-  .notes-body a.screen-link:hover {
-    background: var(--accent-soft);
-    border-bottom-style: solid;
-  }
+      /* Inline screen links */
+      .notes-body a.screen-link {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        color: var(--accent);
+        text-decoration: none;
+        padding: 0 2px;
+        border-bottom: 1px dashed rgba(20, 100, 254, 0.4);
+        transition: all 0.12s ease;
+      }
+      .notes-body a.screen-link:hover {
+        background: var(--accent-soft);
+        border-bottom-style: solid;
+      }
 
-  /* Sub-jump pills inside notes */
-  .notes-jump {
-    margin-top: calc(var(--u) * 2);
-    padding-top: calc(var(--u) * 1.5);
-    border-top: 1px solid var(--line-soft);
-  }
-  .notes-jump strong {
-    display: block;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--text-dim);
-    margin-bottom: calc(var(--u) * 1);
-    font-weight: 500;
-  }
-  .notes-jump .pills { display: flex; flex-wrap: wrap; gap: 4px; }
-  .notes-jump .pills a {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    padding: 4px 9px;
-    background: var(--bg-card);
-    color: var(--text-muted);
-    text-decoration: none;
-    border-radius: 2px;
-    border: 1px solid var(--line);
-    transition: all 0.12s ease;
-  }
-  .notes-jump .pills a:hover { color: #fff; background: var(--accent); border-color: var(--accent); }
+      /* Sub-jump pills inside notes */
+      .notes-jump {
+        margin-top: calc(var(--u) * 2);
+        padding-top: calc(var(--u) * 1.5);
+        border-top: 1px solid var(--line-soft);
+      }
+      .notes-jump strong {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--text-dim);
+        margin-bottom: calc(var(--u) * 1);
+        font-weight: 500;
+      }
+      .notes-jump .pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+      .notes-jump .pills a {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        padding: 4px 9px;
+        background: var(--bg-card);
+        color: var(--text-muted);
+        text-decoration: none;
+        border-radius: 2px;
+        border: 1px solid var(--line);
+        transition: all 0.12s ease;
+      }
+      .notes-jump .pills a:hover {
+        color: #fff;
+        background: var(--accent);
+        border-color: var(--accent);
+      }
 
-  /* ════════════════════════ MAIN ════════════════════════ */
-  main {
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: calc(var(--u) * 5) calc(var(--u) * 4) calc(var(--u) * 12);
-  }
+      /* ════════════════════════ MAIN ════════════════════════ */
+      main {
+        max-width: var(--max);
+        margin: 0 auto;
+        padding: calc(var(--u) * 5) calc(var(--u) * 4) calc(var(--u) * 12);
+      }
 
-  .screen {
-    padding: calc(var(--u) * 6) 0;
-    border-bottom: 1px solid var(--line-soft);
-    scroll-margin-top: 220px;
-    transition: background 0.6s ease;
-  }
-  .screen:first-child { padding-top: calc(var(--u) * 2); }
-  .screen:last-child  { border-bottom: none; }
+      .screen {
+        padding: calc(var(--u) * 6) 0;
+        border-bottom: 1px solid var(--line-soft);
+        scroll-margin-top: 220px;
+        transition: background 0.6s ease;
+      }
+      .screen:first-child {
+        padding-top: calc(var(--u) * 2);
+      }
+      .screen:last-child {
+        border-bottom: none;
+      }
 
-  /* highlight pulse when arriving via anchor */
-  .screen.pulse {
-    background: linear-gradient(180deg, var(--accent-soft) 0%, transparent 12%);
-  }
+      /* highlight pulse when arriving via anchor */
+      .screen.pulse {
+        background: linear-gradient(180deg, var(--accent-soft) 0%, transparent 12%);
+      }
 
-  .screen-head {
-    display: flex; align-items: baseline; gap: calc(var(--u) * 2);
-    margin-bottom: calc(var(--u) * 3);
-    padding-bottom: calc(var(--u) * 1.5);
-    border-bottom: 1px solid var(--line-soft);
-  }
-  .screen-head .num {
-    font-family: var(--font-mono);
-    font-size: 11px;
-    color: var(--text-dim);
-    letter-spacing: 0.1em;
-    min-width: 4em;
-  }
-  .screen-head h2 {
-    font-family: var(--font-display);
-    font-size: 22px;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
-    font-weight: 500;
-    margin: 0;
-    color: var(--text);
-    flex: 1;
-  }
-  .screen-head .anchor {
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    color: var(--text-dim);
-    text-decoration: none;
-    font-family: var(--font-mono);
-    font-size: 13px;
-    padding: 0 6px;
-  }
-  .screen:hover .screen-head .anchor,
-  .screen-head .anchor:focus-visible { opacity: 1; }
-  .screen-head .anchor:hover { color: var(--accent); }
+      .screen-head {
+        display: flex;
+        align-items: baseline;
+        gap: calc(var(--u) * 2);
+        margin-bottom: calc(var(--u) * 3);
+        padding-bottom: calc(var(--u) * 1.5);
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .screen-head .num {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: var(--text-dim);
+        letter-spacing: 0.1em;
+        min-width: 4em;
+      }
+      .screen-head h2 {
+        font-family: var(--font-display);
+        font-size: 22px;
+        line-height: 1.2;
+        letter-spacing: -0.01em;
+        font-weight: 500;
+        margin: 0;
+        color: var(--text);
+        flex: 1;
+      }
+      .screen-head .anchor {
+        opacity: 0;
+        transition: opacity 0.15s ease;
+        color: var(--text-dim);
+        text-decoration: none;
+        font-family: var(--font-mono);
+        font-size: 13px;
+        padding: 0 6px;
+      }
+      .screen:hover .screen-head .anchor,
+      .screen-head .anchor:focus-visible {
+        opacity: 1;
+      }
+      .screen-head .anchor:hover {
+        color: var(--accent);
+      }
 
-  .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: calc(var(--u) * 3);
-  }
-  @media (max-width: 900px) {
-    .row { grid-template-columns: 1fr; gap: calc(var(--u) * 4); }
-  }
-  .col { display: flex; flex-direction: column; gap: calc(var(--u) * 1.25); min-width: 0; }
-  .col-label {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    font-weight: 500;
-  }
-  .col-label .swatch {
-    width: 10px; height: 10px; border-radius: 50%;
-  }
-  .col-label.before { color: var(--warn); }
-  .col-label.before .swatch { background: var(--warn); }
-  .col-label.after  { color: var(--ok); }
-  .col-label.after  .swatch { background: var(--ok); }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: calc(var(--u) * 3);
+      }
+      @media (max-width: 900px) {
+        .row {
+          grid-template-columns: 1fr;
+          gap: calc(var(--u) * 4);
+        }
+      }
+      .col {
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--u) * 1.25);
+        min-width: 0;
+      }
+      .col-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-weight: 500;
+      }
+      .col-label .swatch {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      .col-label.before {
+        color: var(--warn);
+      }
+      .col-label.before .swatch {
+        background: var(--warn);
+      }
+      .col-label.after {
+        color: var(--ok);
+      }
+      .col-label.after .swatch {
+        background: var(--ok);
+      }
 
-  .img-wrap {
-    position: relative;
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    overflow: hidden;
-    background: var(--bg-card);
-    transition: border-color 0.18s ease, transform 0.18s ease;
-  }
-  .img-wrap:hover { border-color: var(--accent); }
-  .img-wrap a { display: block; }
-  .img-wrap img {
-    width: 100%; height: auto; display: block;
-    background: #fff;
-    transition: opacity 0.18s ease;
-  }
-  body.dark .img-wrap img { background: var(--slate-900); }
-  /* Caption / hint */
-  .img-hint {
-    position: absolute;
-    top: 8px; right: 8px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text);
-    background: rgba(2, 6, 23, 0.7);
-    backdrop-filter: blur(6px);
-    padding: 3px 8px;
-    border-radius: 2px;
-    border: 1px solid var(--line);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.15s ease;
-  }
-  .img-wrap:hover .img-hint { opacity: 1; }
+      .img-wrap {
+        position: relative;
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        overflow: hidden;
+        background: var(--bg-card);
+        transition:
+          border-color 0.18s ease,
+          transform 0.18s ease;
+      }
+      .img-wrap:hover {
+        border-color: var(--accent);
+      }
+      .img-wrap a {
+        display: block;
+      }
+      .img-wrap img {
+        width: 100%;
+        height: auto;
+        display: block;
+        background: #fff;
+        transition: opacity 0.18s ease;
+      }
+      body.dark .img-wrap img {
+        background: var(--slate-900);
+      }
+      /* Caption / hint */
+      .img-hint {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text);
+        background: rgba(2, 6, 23, 0.7);
+        backdrop-filter: blur(6px);
+        padding: 3px 8px;
+        border-radius: 2px;
+        border: 1px solid var(--line);
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.15s ease;
+      }
+      .img-wrap:hover .img-hint {
+        opacity: 1;
+      }
 
-  /* ════════════════════════ FAB ════════════════════════ */
-  .to-top {
-    position: fixed;
-    bottom: 28px; right: 28px;
-    width: 44px; height: 44px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.04);
-    z-index: 40;
-    opacity: 0;
-    transform: translateY(8px);
-    pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease, background 0.18s ease;
-    display: inline-flex; align-items: center; justify-content: center;
-    padding: 0;
-  }
-  .to-top.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
-  .to-top:hover { background: var(--accent-hover); transform: translateY(-2px); }
-  .to-top svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2.25; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+      /* ════════════════════════ FAB ════════════════════════ */
+      .to-top {
+        position: fixed;
+        bottom: 28px;
+        right: 28px;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        box-shadow:
+          0 8px 24px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(255, 255, 255, 0.04);
+        z-index: 40;
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease,
+          background 0.18s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+      .to-top.visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+      }
+      .to-top:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+      }
+      .to-top svg {
+        width: 18px;
+        height: 18px;
+        stroke: currentColor;
+        stroke-width: 2.25;
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
 
-  /* ════════════════════════ FOOTER ════════════════════════ */
-  footer {
-    border-top: 1px solid var(--line);
-    padding: calc(var(--u) * 4);
-    max-width: var(--max);
-    margin: 0 auto;
-    font-family: var(--font-mono);
-    font-size: 10.5px;
-    color: var(--text-dim);
-    letter-spacing: 0.06em;
-    display: flex; justify-content: space-between; gap: calc(var(--u) * 2);
-    flex-wrap: wrap;
-  }
-  footer a { color: var(--text-faint); text-decoration: none; }
-  footer a:hover { color: var(--accent); }
+      /* ════════════════════════ FOOTER ════════════════════════ */
+      footer {
+        border-top: 1px solid var(--line);
+        padding: calc(var(--u) * 4);
+        max-width: var(--max);
+        margin: 0 auto;
+        font-family: var(--font-mono);
+        font-size: 10.5px;
+        color: var(--text-dim);
+        letter-spacing: 0.06em;
+        display: flex;
+        justify-content: space-between;
+        gap: calc(var(--u) * 2);
+        flex-wrap: wrap;
+      }
+      footer a {
+        color: var(--text-faint);
+        text-decoration: none;
+      }
+      footer a:hover {
+        color: var(--accent);
+      }
 
-  /* keyboard hint */
-  .kbd-hint {
-    position: fixed; bottom: 28px; left: 28px;
-    font-family: var(--font-mono);
-    font-size: 10px;
-    color: var(--text-dim);
-    background: var(--bg-elev);
-    border: 1px solid var(--line);
-    padding: 5px 10px;
-    border-radius: 3px;
-    opacity: 0;
-    transform: translateY(8px);
-    pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 40;
-    user-select: none;
-    max-width: calc(100vw - 56px);
-  }
-  .kbd-hint.visible { opacity: 1; transform: translateY(0); }
-  .kbd-hint kbd {
-    display: inline-block;
-    padding: 1px 5px;
-    background: var(--bg-card);
-    border: 1px solid var(--line);
-    border-radius: 2px;
-    color: var(--text);
-    font-family: inherit;
-    font-size: 10px;
-    margin: 0 2px;
-  }
+      /* keyboard hint */
+      .kbd-hint {
+        position: fixed;
+        bottom: 28px;
+        left: 28px;
+        font-family: var(--font-mono);
+        font-size: 10px;
+        color: var(--text-dim);
+        background: var(--bg-elev);
+        border: 1px solid var(--line);
+        padding: 5px 10px;
+        border-radius: 3px;
+        opacity: 0;
+        transform: translateY(8px);
+        pointer-events: none;
+        transition:
+          opacity 0.2s ease,
+          transform 0.2s ease;
+        z-index: 40;
+        user-select: none;
+        max-width: calc(100vw - 56px);
+      }
+      .kbd-hint.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .kbd-hint kbd {
+        display: inline-block;
+        padding: 1px 5px;
+        background: var(--bg-card);
+        border: 1px solid var(--line);
+        border-radius: 2px;
+        color: var(--text);
+        font-family: inherit;
+        font-size: 10px;
+        margin: 0 2px;
+      }
 
-  /* Small screens */
-  @media (max-width: 640px) {
-    .header-inner { padding: 18px 18px 14px; }
-    main { padding: 32px 18px 80px; }
-    h1.title { font-size: 24px; }
-    .stats { display: none; }
-    .to-top { bottom: 18px; right: 18px; }
-    .kbd-hint { display: none; }
-    .screen-head { flex-direction: column; align-items: flex-start; gap: 6px; }
-    .screen-head .num { min-width: 0; }
-  }
-</style>
-</head>
+      /* Small screens */
+      @media (max-width: 640px) {
+        .header-inner {
+          padding: 18px 18px 14px;
+        }
+        main {
+          padding: 32px 18px 80px;
+        }
+        h1.title {
+          font-size: 24px;
+        }
+        .stats {
+          display: none;
+        }
+        .to-top {
+          bottom: 18px;
+          right: 18px;
+        }
+        .kbd-hint {
+          display: none;
+        }
+        .screen-head {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 6px;
+        }
+        .screen-head .num {
+          min-width: 0;
+        }
+      }
+    </style>
+  </head>
 
-<body class="light">
-
-<header>
-  <div class="header-inner">
-    <div class="meta-row">
-      <div class="left">
-        <span class="meta-tag"><span class="dot"></span>SCDS · audit</span>
-        <span>2026-05-15</span>
-        <span>10 pantallas · 4 sets · 40 screenshots</span>
-      </div>
-      <div class="right">tokens/layers/01-primitive.css</div>
-    </div>
-
-    <h1 class="title">Paleta gray <span class="arrow">→</span> Aura slate</h1>
-    <p class="subtitle">
-      Antes y después de alinear los 11 valores <code style="font-family:var(--font-mono);font-size:13px;color:var(--accent);background:var(--bg-elev);padding:1px 6px;border-radius:2px;border:1px solid var(--line);">--sc-color-gray-*</code>
-      con la rampa <em style="background:linear-gradient(transparent 60%,var(--accent-soft) 60%);font-style:normal;">Aura slate</em> que usa Figma como referencia.
-    </p>
-
-    <div class="controls-row">
-      <div class="toggle" role="tablist" aria-label="Modo de visualización de los screenshots">
-        <button id="btn-light" class="active" role="tab" aria-selected="true" onclick="setTheme('light')">Light</button>
-        <button id="btn-dark"  role="tab" aria-selected="false" onclick="setTheme('dark')">Dark</button>
-      </div>
-      <div class="stats">
-        <span class="stat"><strong>11</strong> tokens swap</span>
-        <span class="stat"><strong>1</strong> archivo tocado</span>
-        <span class="stat"><strong>0</strong> hardcoded refs en código</span>
-      </div>
-    </div>
-
-    <nav class="jump" aria-label="Saltar a pantalla">
-      <a href="#screen-01-dashboard"><span class="num">01</span>dashboard</a>
-      <a href="#screen-02-agents-list"><span class="num">02</span>agents</a>
-      <a href="#screen-03-agent-create"><span class="num">03</span>agent · new</a>
-      <a href="#screen-04-groups-list"><span class="num">04</span>groups</a>
-      <a href="#screen-05-group-create"><span class="num">05</span>group · new</a>
-      <a href="#screen-06-users-list"><span class="num">06</span>users</a>
-      <a href="#screen-07-user-create"><span class="num">07</span>user · new</a>
-      <a href="#screen-08-labels"><span class="num">08</span>labels</a>
-      <a href="#screen-09-templates"><span class="num">09</span>templates</a>
-      <a href="#screen-10-config-aed"><span class="num">10</span>config</a>
-    </nav>
-
-    <details class="notes" open>
-      <summary>
-        <span class="chev"></span>
-        Cómo leer este diff — empieza por Dark mode
-        <span class="label-mono">notas</span>
-      </summary>
-      <div class="notes-body">
-        <div class="callout">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-          <strong>Pulsa "Dark" arriba antes de juzgar.</strong> El cambio se aprecia
-          <em>muchísimo</em> más en dark: los fondos pasan de un gris-azulado al "negro de verdad" de Aura/Tailwind slate. En light el cambio es deliberadamente sutil — solo se mueven de forma notable los grises medios (helper text, labels, body text secundario).
+  <body class="light">
+    <header>
+      <div class="header-inner">
+        <div class="meta-row">
+          <div class="left">
+            <span class="meta-tag"><span class="dot"></span>SCDS · audit</span>
+            <span>2026-05-15</span>
+            <span>10 pantallas · 4 sets · 40 screenshots</span>
+          </div>
+          <div class="right">tokens/layers/01-primitive.css</div>
         </div>
 
-        <p><strong>Qué estamos cambiando y por qué</strong>: la paleta de grises de Smart Contact Design System (SCDS) tenía 12 valores propios que corrían ~10% más claros que <em>Aura slate</em>, la referencia que usa Figma. Esto causaba que cualquier elemento gris (bordes, helper text, fondos de dark mode) divergiera ligeramente del diseño. Alinearnos con Aura slate cierra esa brecha globalmente sin tocar nada componente a componente.</p>
-
-        <p><strong>El swap no es uniforme</strong>. Los claros casi no se mueven; los medios y oscuros sí. Tabla del impacto por step:</p>
-
-        <table>
-          <thead><tr><th>step</th><th>Δ RGB</th><th>Dónde se usa</th><th>¿Lo notas?</th></tr></thead>
-          <tbody>
-            <tr><td>50</td>  <td>~2 ud</td><td>Page background</td>      <td>No</td></tr>
-            <tr><td>100</td> <td>~6 ud</td><td>Card background</td>      <td>Apenas</td></tr>
-            <tr><td>200</td> <td>~9 ud</td><td>Borders</td>              <td>Apenas</td></tr>
-            <tr><td>300</td> <td>~8 ud</td><td>Borders hover</td>        <td>Apenas</td></tr>
-            <tr><td>400</td> <td>~18 ud</td><td>Disabled</td>            <td>Algo</td></tr>
-            <tr><td>500</td> <td>~34 ud</td><td>Helper text</td>         <td><strong>Sí (light)</strong></td></tr>
-            <tr><td>600</td> <td>~34 ud</td><td>Labels</td>              <td><strong>Sí (light)</strong></td></tr>
-            <tr><td>700</td> <td>~21 ud</td><td>Body text</td>           <td>Sí</td></tr>
-            <tr><td>800</td> <td>~13 ud</td><td>Dark mode bg primario</td><td><strong>Sí (dark)</strong></td></tr>
-            <tr><td>900</td> <td>~8 ud</td><td>Dark mode bg canvas</td>  <td><strong>Sí (dark)</strong></td></tr>
-            <tr><td>950</td> <td>~9 ud</td><td>Dark mode bg profundo</td><td><strong>Sí (dark)</strong></td></tr>
-          </tbody>
-        </table>
-
-        <p><strong>Dónde mirar mejor</strong> (clic para saltar a la pantalla):</p>
-        <ul>
-          <li><strong>Dark mode, pantallas con contenido</strong> —
-            <a class="screen-link" href="#screen-02-agents-list">02 agents-list</a>,
-            <a class="screen-link" href="#screen-03-agent-create">03 agent-create</a>,
-            <a class="screen-link" href="#screen-04-groups-list">04 groups-list</a>,
-            <a class="screen-link" href="#screen-05-group-create">05 group-create</a>,
-            <a class="screen-link" href="#screen-06-users-list">06 users-list</a>,
-            <a class="screen-link" href="#screen-07-user-create">07 user-create</a>,
-            <a class="screen-link" href="#screen-09-templates">09 templates</a>.
-            Fondos más profundos, cards y modals con más contraste con el canvas.</li>
-          <li><strong>Light mode, formularios</strong> —
-            <a class="screen-link" href="#screen-03-agent-create">03 agent-create</a>,
-            <a class="screen-link" href="#screen-07-user-create">07 user-create</a>.
-            Labels (gray-600/700) y helper text (gray-500) más oscuros y legibles.</li>
-          <li><strong>Light mode, listas</strong> —
-            <a class="screen-link" href="#screen-02-agents-list">02 agents-list</a>,
-            <a class="screen-link" href="#screen-04-groups-list">04 groups-list</a>,
-            <a class="screen-link" href="#screen-06-users-list">06 users-list</a>.
-            Texto secundario de filas más contrastado.</li>
-        </ul>
-
-        <p class="muted">Las pantallas
-          <a class="screen-link" href="#screen-01-dashboard">01 dashboard</a>,
-          <a class="screen-link" href="#screen-08-labels">08 labels</a> y
-          <a class="screen-link" href="#screen-10-config-aed">10 config-aed</a>
-          caen en este snapshot en un auth wall / placeholder vacío, así que tienen poca chicha para apreciar el cambio. Aun así el CSS sí se aplicó: los 11 tokens <code>--sc-color-gray-*</code> están vivos con los valores de Aura slate (verificado en navegador con Playwright).
+        <h1 class="title">Paleta gray <span class="arrow">→</span> Aura slate</h1>
+        <p class="subtitle">
+          Antes y después de alinear los 11 valores
+          <code
+            style="
+              font-family: var(--font-mono);
+              font-size: 13px;
+              color: var(--accent);
+              background: var(--bg-elev);
+              padding: 1px 6px;
+              border-radius: 2px;
+              border: 1px solid var(--line);
+            "
+            >--sc-color-gray-*</code
+          >
+          con la rampa
+          <em
+            style="
+              background: linear-gradient(transparent 60%, var(--accent-soft) 60%);
+              font-style: normal;
+            "
+            >Aura slate</em
+          >
+          que usa Figma como referencia.
         </p>
 
-        <div class="notes-jump">
-          <strong>Saltar a pantalla</strong>
-          <div class="pills">
-            <a href="#screen-01-dashboard">01-dashboard</a>
-            <a href="#screen-02-agents-list">02-agents-list</a>
-            <a href="#screen-03-agent-create">03-agent-create</a>
-            <a href="#screen-04-groups-list">04-groups-list</a>
-            <a href="#screen-05-group-create">05-group-create</a>
-            <a href="#screen-06-users-list">06-users-list</a>
-            <a href="#screen-07-user-create">07-user-create</a>
-            <a href="#screen-08-labels">08-labels</a>
-            <a href="#screen-09-templates">09-templates</a>
-            <a href="#screen-10-config-aed">10-config-aed</a>
+        <div class="controls-row">
+          <div class="toggle" role="tablist" aria-label="Modo de visualización de los screenshots">
+            <button
+              id="btn-light"
+              class="active"
+              role="tab"
+              aria-selected="true"
+              onclick="setTheme('light')"
+            >
+              Light
+            </button>
+            <button id="btn-dark" role="tab" aria-selected="false" onclick="setTheme('dark')">
+              Dark
+            </button>
+          </div>
+          <div class="stats">
+            <span class="stat"><strong>11</strong> tokens swap</span>
+            <span class="stat"><strong>1</strong> archivo tocado</span>
+            <span class="stat"><strong>0</strong> hardcoded refs en código</span>
           </div>
         </div>
+
+        <nav class="jump" aria-label="Saltar a pantalla">
+          <a href="#screen-01-dashboard"><span class="num">01</span>dashboard</a>
+          <a href="#screen-02-agents-list"><span class="num">02</span>agents</a>
+          <a href="#screen-03-agent-create"><span class="num">03</span>agent · new</a>
+          <a href="#screen-04-groups-list"><span class="num">04</span>groups</a>
+          <a href="#screen-05-group-create"><span class="num">05</span>group · new</a>
+          <a href="#screen-06-users-list"><span class="num">06</span>users</a>
+          <a href="#screen-07-user-create"><span class="num">07</span>user · new</a>
+          <a href="#screen-08-labels"><span class="num">08</span>labels</a>
+          <a href="#screen-09-templates"><span class="num">09</span>templates</a>
+          <a href="#screen-10-config-aed"><span class="num">10</span>config</a>
+        </nav>
+
+        <details class="notes" open>
+          <summary>
+            <span class="chev"></span>
+            Cómo leer este diff — empieza por Dark mode
+            <span class="label-mono">notas</span>
+          </summary>
+          <div class="notes-body">
+            <div class="callout">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <strong>Pulsa "Dark" arriba antes de juzgar.</strong> El cambio se aprecia
+              <em>muchísimo</em> más en dark: los fondos pasan de un gris-azulado al "negro de
+              verdad" de Aura/Tailwind slate. En light el cambio es deliberadamente sutil — solo se
+              mueven de forma notable los grises medios (helper text, labels, body text secundario).
+            </div>
+
+            <p>
+              <strong>Qué estamos cambiando y por qué</strong>: la paleta de grises de Smart Contact
+              Design System (SCDS) tenía 12 valores propios que corrían ~10% más claros que
+              <em>Aura slate</em>, la referencia que usa Figma. Esto causaba que cualquier elemento
+              gris (bordes, helper text, fondos de dark mode) divergiera ligeramente del diseño.
+              Alinearnos con Aura slate cierra esa brecha globalmente sin tocar nada componente a
+              componente.
+            </p>
+
+            <p>
+              <strong>El swap no es uniforme</strong>. Los claros casi no se mueven; los medios y
+              oscuros sí. Tabla del impacto por step:
+            </p>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>step</th>
+                  <th>Δ RGB</th>
+                  <th>Dónde se usa</th>
+                  <th>¿Lo notas?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>50</td>
+                  <td>~2 ud</td>
+                  <td>Page background</td>
+                  <td>No</td>
+                </tr>
+                <tr>
+                  <td>100</td>
+                  <td>~6 ud</td>
+                  <td>Card background</td>
+                  <td>Apenas</td>
+                </tr>
+                <tr>
+                  <td>200</td>
+                  <td>~9 ud</td>
+                  <td>Borders</td>
+                  <td>Apenas</td>
+                </tr>
+                <tr>
+                  <td>300</td>
+                  <td>~8 ud</td>
+                  <td>Borders hover</td>
+                  <td>Apenas</td>
+                </tr>
+                <tr>
+                  <td>400</td>
+                  <td>~18 ud</td>
+                  <td>Disabled</td>
+                  <td>Algo</td>
+                </tr>
+                <tr>
+                  <td>500</td>
+                  <td>~34 ud</td>
+                  <td>Helper text</td>
+                  <td><strong>Sí (light)</strong></td>
+                </tr>
+                <tr>
+                  <td>600</td>
+                  <td>~34 ud</td>
+                  <td>Labels</td>
+                  <td><strong>Sí (light)</strong></td>
+                </tr>
+                <tr>
+                  <td>700</td>
+                  <td>~21 ud</td>
+                  <td>Body text</td>
+                  <td>Sí</td>
+                </tr>
+                <tr>
+                  <td>800</td>
+                  <td>~13 ud</td>
+                  <td>Dark mode bg primario</td>
+                  <td><strong>Sí (dark)</strong></td>
+                </tr>
+                <tr>
+                  <td>900</td>
+                  <td>~8 ud</td>
+                  <td>Dark mode bg canvas</td>
+                  <td><strong>Sí (dark)</strong></td>
+                </tr>
+                <tr>
+                  <td>950</td>
+                  <td>~9 ud</td>
+                  <td>Dark mode bg profundo</td>
+                  <td><strong>Sí (dark)</strong></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p><strong>Dónde mirar mejor</strong> (clic para saltar a la pantalla):</p>
+            <ul>
+              <li>
+                <strong>Dark mode, pantallas con contenido</strong> —
+                <a class="screen-link" href="#screen-02-agents-list">02 agents-list</a>,
+                <a class="screen-link" href="#screen-03-agent-create">03 agent-create</a>,
+                <a class="screen-link" href="#screen-04-groups-list">04 groups-list</a>,
+                <a class="screen-link" href="#screen-05-group-create">05 group-create</a>,
+                <a class="screen-link" href="#screen-06-users-list">06 users-list</a>,
+                <a class="screen-link" href="#screen-07-user-create">07 user-create</a>,
+                <a class="screen-link" href="#screen-09-templates">09 templates</a>. Fondos más
+                profundos, cards y modals con más contraste con el canvas.
+              </li>
+              <li>
+                <strong>Light mode, formularios</strong> —
+                <a class="screen-link" href="#screen-03-agent-create">03 agent-create</a>,
+                <a class="screen-link" href="#screen-07-user-create">07 user-create</a>. Labels
+                (gray-600/700) y helper text (gray-500) más oscuros y legibles.
+              </li>
+              <li>
+                <strong>Light mode, listas</strong> —
+                <a class="screen-link" href="#screen-02-agents-list">02 agents-list</a>,
+                <a class="screen-link" href="#screen-04-groups-list">04 groups-list</a>,
+                <a class="screen-link" href="#screen-06-users-list">06 users-list</a>. Texto
+                secundario de filas más contrastado.
+              </li>
+            </ul>
+
+            <p class="muted">
+              Las pantallas <a class="screen-link" href="#screen-01-dashboard">01 dashboard</a>,
+              <a class="screen-link" href="#screen-08-labels">08 labels</a> y
+              <a class="screen-link" href="#screen-10-config-aed">10 config-aed</a>
+              caen en este snapshot en un auth wall / placeholder vacío, así que tienen poca chicha
+              para apreciar el cambio. Aun así el CSS sí se aplicó: los 11 tokens
+              <code>--sc-color-gray-*</code> están vivos con los valores de Aura slate (verificado
+              en navegador con Playwright).
+            </p>
+
+            <div class="notes-jump">
+              <strong>Saltar a pantalla</strong>
+              <div class="pills">
+                <a href="#screen-01-dashboard">01-dashboard</a>
+                <a href="#screen-02-agents-list">02-agents-list</a>
+                <a href="#screen-03-agent-create">03-agent-create</a>
+                <a href="#screen-04-groups-list">04-groups-list</a>
+                <a href="#screen-05-group-create">05-group-create</a>
+                <a href="#screen-06-users-list">06-users-list</a>
+                <a href="#screen-07-user-create">07-user-create</a>
+                <a href="#screen-08-labels">08-labels</a>
+                <a href="#screen-09-templates">09-templates</a>
+                <a href="#screen-10-config-aed">10-config-aed</a>
+              </div>
+            </div>
+          </div>
+        </details>
       </div>
-    </details>
-  </div>
-</header>
+    </header>
 
-<main id="main"></main>
+    <main id="main"></main>
 
-<footer>
-  <span>SCDS · Palette audit · 2026-05-15</span>
-  <span>Pulsa <kbd style="display:inline-block;padding:1px 5px;background:var(--bg-elev);border:1px solid var(--line);border-radius:2px;color:var(--text);font-family:inherit;font-size:10px;margin:0 2px;">T</kbd> para alternar modo · <kbd style="display:inline-block;padding:1px 5px;background:var(--bg-elev);border:1px solid var(--line);border-radius:2px;color:var(--text);font-family:inherit;font-size:10px;margin:0 2px;">0-9</kbd> para saltar a pantalla</span>
-</footer>
+    <footer>
+      <span>SCDS · Palette audit · 2026-05-15</span>
+      <span
+        >Pulsa
+        <kbd
+          style="
+            display: inline-block;
+            padding: 1px 5px;
+            background: var(--bg-elev);
+            border: 1px solid var(--line);
+            border-radius: 2px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 10px;
+            margin: 0 2px;
+          "
+          >T</kbd
+        >
+        para alternar modo ·
+        <kbd
+          style="
+            display: inline-block;
+            padding: 1px 5px;
+            background: var(--bg-elev);
+            border: 1px solid var(--line);
+            border-radius: 2px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 10px;
+            margin: 0 2px;
+          "
+          >0-9</kbd
+        >
+        para saltar a pantalla</span
+      >
+    </footer>
 
-<button class="to-top" id="to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Volver arriba" title="Volver arriba (Home)">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="18 15 12 9 6 15"></polyline></svg>
-</button>
+    <button
+      class="to-top"
+      id="to-top"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      aria-label="Volver arriba"
+      title="Volver arriba (Home)"
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
 
-<div class="kbd-hint" id="kbd-hint">
-  <kbd>T</kbd> theme &nbsp;·&nbsp; <kbd>1</kbd>–<kbd>9</kbd> <kbd>0</kbd> jump
-</div>
+    <div class="kbd-hint" id="kbd-hint">
+      <kbd>T</kbd> theme &nbsp;·&nbsp; <kbd>1</kbd>–<kbd>9</kbd> <kbd>0</kbd> jump
+    </div>
 
-<script>
-const SCREENS = [
-  { id: '01-dashboard',     title: 'Dashboard' },
-  { id: '02-agents-list',   title: 'Agents · list' },
-  { id: '03-agent-create',  title: 'Agent · create form' },
-  { id: '04-groups-list',   title: 'Groups · list' },
-  { id: '05-group-create',  title: 'Group · create form' },
-  { id: '06-users-list',    title: 'Users · list' },
-  { id: '07-user-create',   title: 'User · create form' },
-  { id: '08-labels',        title: 'Labels' },
-  { id: '09-templates',     title: 'Templates' },
-  { id: '10-config-aed',    title: 'Config · AED' },
-];
+    <script>
+      const SCREENS = [
+        { id: '01-dashboard', title: 'Dashboard' },
+        { id: '02-agents-list', title: 'Agents · list' },
+        { id: '03-agent-create', title: 'Agent · create form' },
+        { id: '04-groups-list', title: 'Groups · list' },
+        { id: '05-group-create', title: 'Group · create form' },
+        { id: '06-users-list', title: 'Users · list' },
+        { id: '07-user-create', title: 'User · create form' },
+        { id: '08-labels', title: 'Labels' },
+        { id: '09-templates', title: 'Templates' },
+        { id: '10-config-aed', title: 'Config · AED' },
+      ];
 
-function render(theme) {
-  const main = document.getElementById('main');
-  main.innerHTML = SCREENS.map((s, i) => `
+      function render(theme) {
+        const main = document.getElementById('main');
+        main.innerHTML = SCREENS.map(
+          (s, i) => `
     <section class="screen" id="screen-${s.id}">
       <div class="screen-head">
         <span class="num">${String(i + 1).padStart(2, '0')} / ${SCREENS.length}</span>
@@ -762,76 +1136,84 @@ function render(theme) {
         </div>
       </div>
     </section>
-  `).join('');
-}
+  `,
+        ).join('');
+      }
 
-function setTheme(theme) {
-  document.body.className = theme;
-  document.getElementById('btn-light').classList.toggle('active', theme === 'light');
-  document.getElementById('btn-light').setAttribute('aria-selected', theme === 'light');
-  document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
-  document.getElementById('btn-dark').setAttribute('aria-selected', theme === 'dark');
-  render(theme);
-  try { localStorage.setItem('sc_audit_theme', theme); } catch (_) {}
-}
+      function setTheme(theme) {
+        document.body.className = theme;
+        document.getElementById('btn-light').classList.toggle('active', theme === 'light');
+        document.getElementById('btn-light').setAttribute('aria-selected', theme === 'light');
+        document.getElementById('btn-dark').classList.toggle('active', theme === 'dark');
+        document.getElementById('btn-dark').setAttribute('aria-selected', theme === 'dark');
+        render(theme);
+        try {
+          localStorage.setItem('sc_audit_theme', theme);
+        } catch (_) {}
+      }
 
-// FAB visibility on scroll
-const toTop = document.getElementById('to-top');
-window.addEventListener('scroll', () => {
-  toTop.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
-}, { passive: true });
+      // FAB visibility on scroll
+      const toTop = document.getElementById('to-top');
+      window.addEventListener(
+        'scroll',
+        () => {
+          toTop.classList.toggle('visible', window.scrollY > window.innerHeight * 0.6);
+        },
+        { passive: true },
+      );
 
-// Pulse effect on anchor arrival
-function pulseTarget() {
-  const id = location.hash.slice(1);
-  if (!id) return;
-  const el = document.getElementById(id);
-  if (!el || !el.classList.contains('screen')) return;
-  el.classList.remove('pulse');
-  // force reflow to restart the transition
-  void el.offsetWidth;
-  el.classList.add('pulse');
-  setTimeout(() => el.classList.remove('pulse'), 1600);
-}
-window.addEventListener('hashchange', pulseTarget);
-document.addEventListener('click', e => {
-  const a = e.target.closest('a[href^="#screen-"]');
-  if (a) setTimeout(pulseTarget, 50);
-});
+      // Pulse effect on anchor arrival
+      function pulseTarget() {
+        const id = location.hash.slice(1);
+        if (!id) return;
+        const el = document.getElementById(id);
+        if (!el || !el.classList.contains('screen')) return;
+        el.classList.remove('pulse');
+        // force reflow to restart the transition
+        void el.offsetWidth;
+        el.classList.add('pulse');
+        setTimeout(() => el.classList.remove('pulse'), 1600);
+      }
+      window.addEventListener('hashchange', pulseTarget);
+      document.addEventListener('click', (e) => {
+        const a = e.target.closest('a[href^="#screen-"]');
+        if (a) setTimeout(pulseTarget, 50);
+      });
 
-// Keyboard shortcuts: T (theme), 1–9/0 (screen jump), Home (top)
-document.addEventListener('keydown', e => {
-  if (e.metaKey || e.ctrlKey || e.altKey) return;
-  const t = e.target;
-  if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-  const k = e.key.toLowerCase();
-  if (k === 't') {
-    setTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
-    e.preventDefault();
-  } else if (k >= '0' && k <= '9') {
-    const idx = k === '0' ? 9 : parseInt(k, 10) - 1;
-    if (SCREENS[idx]) location.hash = `#screen-${SCREENS[idx].id}`;
-    e.preventDefault();
-  } else if (e.key === 'Home') {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-});
+      // Keyboard shortcuts: T (theme), 1–9/0 (screen jump), Home (top)
+      document.addEventListener('keydown', (e) => {
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        const t = e.target;
+        if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+        const k = e.key.toLowerCase();
+        if (k === 't') {
+          setTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
+          e.preventDefault();
+        } else if (k >= '0' && k <= '9') {
+          const idx = k === '0' ? 9 : parseInt(k, 10) - 1;
+          if (SCREENS[idx]) location.hash = `#screen-${SCREENS[idx].id}`;
+          e.preventDefault();
+        } else if (e.key === 'Home') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
 
-// Show keyboard hint briefly on load + on theme toggle
-const kbdHint = document.getElementById('kbd-hint');
-function flashHint(ms = 2800) {
-  kbdHint.classList.add('visible');
-  clearTimeout(flashHint._t);
-  flashHint._t = setTimeout(() => kbdHint.classList.remove('visible'), ms);
-}
-window.addEventListener('load', () => flashHint(3600));
+      // Show keyboard hint briefly on load + on theme toggle
+      const kbdHint = document.getElementById('kbd-hint');
+      function flashHint(ms = 2800) {
+        kbdHint.classList.add('visible');
+        clearTimeout(flashHint._t);
+        flashHint._t = setTimeout(() => kbdHint.classList.remove('visible'), ms);
+      }
+      window.addEventListener('load', () => flashHint(3600));
 
-// Init: restore theme + pulse if loaded with hash
-let savedTheme = 'light';
-try { savedTheme = localStorage.getItem('sc_audit_theme') || 'light'; } catch (_) {}
-setTheme(savedTheme);
-if (location.hash) requestAnimationFrame(pulseTarget);
-</script>
-
-</body>
+      // Init: restore theme + pulse if loaded with hash
+      let savedTheme = 'light';
+      try {
+        savedTheme = localStorage.getItem('sc_audit_theme') || 'light';
+      } catch (_) {}
+      setTheme(savedTheme);
+      if (location.hash) requestAnimationFrame(pulseTarget);
+    </script>
+  </body>
 </html>

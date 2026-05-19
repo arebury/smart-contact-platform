@@ -17,7 +17,7 @@
         }
         ·
         <span class="rule-builder__type">{{
-          ('memory.rules.builder.type.' + ruleType()) | translate
+          'memory.rules.builder.type.' + ruleType() | translate
         }}</span>
       </h1>
       <p>{{ 'memory.rules.builder.subtitle' | translate }}</p>
@@ -36,11 +36,7 @@
           <lucide-icon [img]="alertIcon" [size]="16" aria-hidden="true" />
           <p>{{ 'memory.rules.builder.draft_banner' | translate }}</p>
         </div>
-        <button
-          type="button"
-          class="rule-builder__draft-discard"
-          (click)="onDiscardDraft()"
-        >
+        <button type="button" class="rule-builder__draft-discard" (click)="onDiscardDraft()">
           <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
           {{ 'memory.rules.builder.discard_draft' | translate }}
         </button>
@@ -54,10 +50,7 @@
       <header class="rule-block__head">
         <h2>{{ 'memory.rules.builder.metadata' | translate }}</h2>
         <div class="rule-block__active-toggle">
-          <p-toggleswitch
-            inputId="active-toggle"
-            [(ngModel)]="active"
-          />
+          <p-toggleswitch inputId="active-toggle" [(ngModel)]="active" />
           <label for="active-toggle">
             {{
               (active()
@@ -87,9 +80,7 @@
       <div class="rule-block__row">
         <label for="rule-description" class="rule-builder__textarea-label">
           {{ 'memory.rules.builder.description_label' | translate }}
-          <span class="rule-builder__optional">
-            ({{ 'common.optional' | translate }})
-          </span>
+          <span class="rule-builder__optional"> ({{ 'common.optional' | translate }}) </span>
         </label>
         <textarea
           id="rule-description"
@@ -118,7 +109,12 @@
               {{ 'memory.rules.builder.scope_dim.servicios.source' | translate }}
             </p>
           </div>
-          <a class="scope-dim__link" routerLink="/admin/repositorios" target="_blank" rel="noopener">
+          <a
+            class="scope-dim__link"
+            routerLink="/admin/repositorios"
+            target="_blank"
+            rel="noopener"
+          >
             <lucide-icon [img]="externalIcon" [size]="11" aria-hidden="true" />
             {{ 'memory.rules.builder.see_repository' | translate }}
           </a>
@@ -147,7 +143,12 @@
               {{ 'memory.rules.builder.scope_dim.grupos.source' | translate }}
             </p>
           </div>
-          <a class="scope-dim__link" routerLink="/admin/repositorios" target="_blank" rel="noopener">
+          <a
+            class="scope-dim__link"
+            routerLink="/admin/repositorios"
+            target="_blank"
+            rel="noopener"
+          >
             <lucide-icon [img]="externalIcon" [size]="11" aria-hidden="true" />
             {{ 'memory.rules.builder.see_repository' | translate }}
           </a>
@@ -176,7 +177,12 @@
               {{ 'memory.rules.builder.scope_dim.agentes.source' | translate }}
             </p>
           </div>
-          <a class="scope-dim__link" routerLink="/admin/repositorios" target="_blank" rel="noopener">
+          <a
+            class="scope-dim__link"
+            routerLink="/admin/repositorios"
+            target="_blank"
+            rel="noopener"
+          >
             <lucide-icon [img]="externalIcon" [size]="11" aria-hidden="true" />
             {{ 'memory.rules.builder.see_repository' | translate }}
           </a>
@@ -359,10 +365,7 @@
               </p>
             </div>
           </div>
-          <p-toggleswitch
-            inputId="ai-toggle"
-            [(ngModel)]="aiAnalysis"
-          />
+          <p-toggleswitch inputId="ai-toggle" [(ngModel)]="aiAnalysis" />
         </header>
 
         @if (aiAnalysis()) {
@@ -385,19 +388,10 @@
   </div>
 
   <footer class="rule-builder__foot">
-    <p-button
-      type="button"
-      severity="secondary"
-      (onClick)="onCancel()"
-    >
+    <p-button type="button" severity="secondary" (onClick)="onCancel()">
       <span>{{ 'common.cancel' | translate }}</span>
     </p-button>
-    <p-button
-      type="button"
-      severity="primary"
-      [disabled]="!canSave()"
-      (onClick)="onSave()"
-    >
+    <p-button type="button" severity="primary" [disabled]="!canSave()" (onClick)="onSave()">
       <span>
         @if (isEditMode()) {
           {{ 'memory.rules.builder.save_changes' | translate }}

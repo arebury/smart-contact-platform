@@ -2,10 +2,7 @@ import { computed, Injectable, signal } from '@angular/core';
 
 import { MOCK_CONVERSATIONS } from '../data/conversations-mock';
 import type { Conversation } from '../data/conversation.types';
-import {
-  EMPTY_FILTERS,
-  type MemoryConversationFilters,
-} from '../data/conversation-filters.types';
+import { EMPTY_FILTERS, type MemoryConversationFilters } from '../data/conversation-filters.types';
 
 /**
  * Signal store de conversaciones Memory.
@@ -147,9 +144,5 @@ function matchesFilters(c: Conversation, f: MemoryConversationFilters): boolean 
  */
 function sameDateAsMockDateString(date: Date, mockDate: string): boolean {
   const [dd, mm, yyyy] = mockDate.split('/').map((n) => Number(n));
-  return (
-    date.getDate() === dd &&
-    date.getMonth() + 1 === mm &&
-    date.getFullYear() === yyyy
-  );
+  return date.getDate() === dd && date.getMonth() + 1 === mm && date.getFullYear() === yyyy;
 }

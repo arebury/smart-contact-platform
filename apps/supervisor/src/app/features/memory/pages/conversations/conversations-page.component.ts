@@ -101,9 +101,9 @@ export class ConversationsPageComponent {
   }
 
   protected onBulkTranscribe(): void {
-    const selected = this.conversationsStore.conversations().filter((c) =>
-      this.selectedIds().has(c.id),
-    );
+    const selected = this.conversationsStore
+      .conversations()
+      .filter((c) => this.selectedIds().has(c.id));
     this.bulkSnapshot.set(selected);
     this.bulkModalOpen.set(true);
   }
@@ -127,9 +127,10 @@ export class ConversationsPageComponent {
     this.bulkModalOpen.set(false);
   }
 
-  protected onBulkModalConfirm(
-    event: { includeAnalysis: boolean; eligibleIds: readonly string[] },
-  ): void {
+  protected onBulkModalConfirm(event: {
+    includeAnalysis: boolean;
+    eligibleIds: readonly string[];
+  }): void {
     this.bulkModalOpen.set(false);
     this.conversationsStore.clearSelection();
     // Sticky toast post-confirmación (iter futura). Hoy un toast simple

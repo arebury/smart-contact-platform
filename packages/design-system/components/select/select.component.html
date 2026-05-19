@@ -40,9 +40,7 @@
   -->
   @for (entry of projectedTemplates(); track entry.name) {
     <ng-template [pTemplate]="entry.name ?? ''" let-data>
-      <ng-container
-        *ngTemplateOutlet="entry.template; context: { $implicit: data }"
-      />
+      <ng-container *ngTemplateOutlet="entry.template; context: { $implicit: data }" />
     </ng-template>
   }
 </p-select>

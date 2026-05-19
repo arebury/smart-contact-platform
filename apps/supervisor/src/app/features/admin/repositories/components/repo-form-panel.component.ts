@@ -75,9 +75,7 @@ export class RepoFormPanelComponent<T extends RepoEntity> implements OnInit, Aft
   }
 
   ngAfterViewInit(): void {
-    queueMicrotask(() =>
-      this.firstInput?.nativeElement.querySelector('input')?.focus(),
-    );
+    queueMicrotask(() => this.firstInput?.nativeElement.querySelector('input')?.focus());
   }
 
   protected onChange(key: string, value: string): void {

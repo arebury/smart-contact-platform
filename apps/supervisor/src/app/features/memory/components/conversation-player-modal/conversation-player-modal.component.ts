@@ -31,10 +31,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { ModalComponent } from '@shared/components/modal/modal.component';
-import type {
-  Conversation,
-  TranscriptionLine,
-} from '../../data/conversation.types';
+import type { Conversation, TranscriptionLine } from '../../data/conversation.types';
 
 /**
  * Modal por conversación · Memory iter 5.
@@ -79,9 +76,7 @@ export class ConversationPlayerModalComponent {
   readonly requestAnalysis = output<string>();
   readonly requestTranscriptionAndAnalysis = output<string>();
 
-  protected readonly activeTab = signal<'transcription' | 'analysis'>(
-    'transcription',
-  );
+  protected readonly activeTab = signal<'transcription' | 'analysis'>('transcription');
   protected readonly isPlaying = signal(false);
   protected readonly currentTime = signal(0);
   protected readonly searchTerm = signal('');
@@ -90,9 +85,7 @@ export class ConversationPlayerModalComponent {
 
   private playbackTimer: ReturnType<typeof setInterval> | null = null;
 
-  protected readonly isChat = computed(
-    () => this.conversation()?.channel === 'chat',
-  );
+  protected readonly isChat = computed(() => this.conversation()?.channel === 'chat');
 
   protected readonly conversationLabel = computed(() =>
     this.isChat() ? 'memory.player.label_chat' : 'memory.player.label_call',
@@ -131,35 +124,23 @@ export class ConversationPlayerModalComponent {
     return total > 0 ? (this.currentTime() / total) * 100 : 0;
   });
 
-  protected readonly filteredLines = computed<readonly TranscriptionLine[]>(
-    () => {
-      const c = this.conversation();
-      if (!c?.transcription) return [];
-      const q = this.searchTerm().toLowerCase().trim();
-      if (!q) return c.transcription;
-      return c.transcription.filter(
-        (line) =>
-          line.text.toLowerCase().includes(q) ||
-          line.speaker.toLowerCase().includes(q),
-      );
-    },
-  );
+  protected readonly filteredLines = computed<readonly TranscriptionLine[]>(() => {
+    const c = this.conversation();
+    if (!c?.transcription) return [];
+    const q = this.searchTerm().toLowerCase().trim();
+    if (!q) return c.transcription;
+    return c.transcription.filter(
+      (line) => line.text.toLowerCase().includes(q) || line.speaker.toLowerCase().includes(q),
+    );
+  });
 
-  protected readonly currentTimeLabel = computed(() =>
-    formatTime(this.currentTime()),
-  );
-  protected readonly totalDurationLabel = computed(() =>
-    formatTime(this.totalDuration()),
-  );
+  protected readonly currentTimeLabel = computed(() => formatTime(this.currentTime()));
+  protected readonly totalDurationLabel = computed(() => formatTime(this.totalDuration()));
 
   protected readonly analyzeDisabled = computed(() => {
     const c = this.conversation();
     if (!c) return true;
-    return (
-      !c.hasTranscription ||
-      c.hasAnalysis === true ||
-      this.requestingAnalysis()
-    );
+    return !c.hasTranscription || c.hasAnalysis === true || this.requestingAnalysis();
   });
 
   protected readonly analyzeTitleKey = computed(() => {
@@ -258,9 +239,7 @@ export class ConversationPlayerModalComponent {
 
   protected onFwd10(): void {
     if (!this.playerEnabled()) return;
-    this.currentTime.set(
-      Math.min(this.totalDuration(), this.currentTime() + 10),
-    );
+    this.currentTime.set(Math.min(this.totalDuration(), this.currentTime() + 10));
   }
 
   protected onScrubClick(event: MouseEvent): void {
@@ -268,9 +247,7 @@ export class ConversationPlayerModalComponent {
     const target = event.currentTarget as HTMLElement;
     const rect = target.getBoundingClientRect();
     const ratio = (event.clientX - rect.left) / rect.width;
-    this.currentTime.set(
-      Math.max(0, Math.min(this.totalDuration(), ratio * this.totalDuration())),
-    );
+    this.currentTime.set(Math.max(0, Math.min(this.totalDuration(), ratio * this.totalDuration())));
   }
 
   protected onSearchInput(event: Event): void {

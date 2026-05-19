@@ -2,10 +2,8 @@
   [visible]="visible()"
   [icon]="tagsIcon"
   [title]="
-    (isEditMode()
-      ? 'memory.categories.form.title_edit'
-      : 'memory.categories.form.title_new'
-    ) | translate
+    (isEditMode() ? 'memory.categories.form.title_edit' : 'memory.categories.form.title_new')
+      | translate
   "
   [subtitle]="'memory.categories.form.subtitle' | translate"
   width="560px"
@@ -19,7 +17,7 @@
         [required]="true"
         [value]="name()"
         (valueChange)="setName($event)"
-        [error]="nameError() ? ((nameError() ?? '') | translate) : ''"
+        [error]="nameError() ? (nameError() ?? '' | translate) : ''"
       />
     </div>
 
@@ -66,8 +64,7 @@
       <div class="category-form__linked">
         <h3>
           {{
-            'memory.categories.form.linked_rules_title'
-              | translate: { count: linkedRules().length }
+            'memory.categories.form.linked_rules_title' | translate: { count: linkedRules().length }
           }}
         </h3>
         <ul>
@@ -88,12 +85,7 @@
     <p-button type="button" severity="secondary" (onClick)="onCancel()">
       <span>{{ 'common.cancel' | translate }}</span>
     </p-button>
-    <p-button
-      type="button"
-      severity="primary"
-      [disabled]="!canSave()"
-      (onClick)="onSave()"
-    >
+    <p-button type="button" severity="primary" [disabled]="!canSave()" (onClick)="onSave()">
       <span>
         @if (isEditMode()) {
           {{ 'memory.categories.form.save_changes' | translate }}

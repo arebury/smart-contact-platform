@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  LucideAngularModule,
-  MoreVertical,
-  Plus,
-  Tags,
-} from 'lucide-angular';
+import { LucideAngularModule, MoreVertical, Plus, Tags } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
@@ -102,9 +97,7 @@ export class CategoriesPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant(
-        wasEdit
-          ? 'memory.categories.form.updated_toast'
-          : 'memory.categories.form.created_toast',
+        wasEdit ? 'memory.categories.form.updated_toast' : 'memory.categories.form.created_toast',
         { name: cat.name },
       ),
       life: 2200,
@@ -112,7 +105,11 @@ export class CategoriesPageComponent {
   }
 
   protected formatDate(iso: string): string {
-    return new Date(iso).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' });
+    return new Date(iso).toLocaleDateString('es-ES', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
   }
 
   private duplicateCategory(cat: Category): void {

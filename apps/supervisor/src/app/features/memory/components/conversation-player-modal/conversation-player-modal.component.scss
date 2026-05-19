@@ -214,7 +214,9 @@
   background: transparent;
   color: var(--sc-color-gray-500);
   cursor: pointer;
-  transition: background-color 200ms ease-out, color 200ms ease-out;
+  transition:
+    background-color 200ms ease-out,
+    color 200ms ease-out;
 
   &:hover:not(:disabled) {
     background: var(--sc-color-gray-100);
@@ -310,7 +312,9 @@
   font-weight: 500;
   cursor: pointer;
   box-shadow: var(--sc-shadow-xs);
-  transition: background-color 200ms ease-out, transform 200ms ease-out;
+  transition:
+    background-color 200ms ease-out,
+    transform 200ms ease-out;
 
   &:hover:not(:disabled) {
     background: var(--sc-bg-primary-hover);
@@ -380,7 +384,9 @@
     background: var(--sc-bg-surface);
     color: var(--sc-color-gray-900);
     font-size: 0.8125rem;
-    transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+    transition:
+      border-color 200ms ease-out,
+      box-shadow 200ms ease-out;
 
     &::placeholder {
       color: var(--sc-color-gray-500);

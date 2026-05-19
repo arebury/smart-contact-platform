@@ -3,26 +3,35 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Input number</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-input-number&gt;</code> envuelve un <code>&lt;input type="number"&gt;</code> nativo con el patrón SCDS
-      (label + required + helper + error + suffix unidad). Emite <code>number | null</code> y soporta
-      <code>[(value)]</code>, <code>[(ngModel)]</code> y Reactive Forms.
+      <code>&lt;sc-input-number&gt;</code> envuelve un
+      <code>&lt;input type="number"&gt;</code> nativo con el patrón SCDS (label + required + helper
+      + error + suffix unidad). Emite <code>number | null</code> y soporta <code>[(value)]</code>,
+      <code>[(ngModel)]</code> y Reactive Forms.
     </p>
   </header>
 
   <!-- 1. Basic — placeholder only. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Basic</h2>
-    <p class="gallery__hint">Sin label, sin helper. Solo placeholder. Texto right-aligned por convención numérica.</p>
+    <p class="gallery__hint">
+      Sin label, sin helper. Solo placeholder. Texto right-aligned por convención numérica.
+    </p>
     <div class="gallery__row">
       <sc-input-number placeholder="0" [(value)]="counterValue" />
     </div>
-    <p class="gallery__output">Valor: <code>{{ counterValue() ?? '(null)' }}</code> · tipo: <code>{{ counterValue() === null ? 'null' : typeof counterValue() }}</code></p>
+    <p class="gallery__output">
+      Valor: <code>{{ counterValue() ?? '(null)' }}</code> · tipo:
+      <code>{{ counterValue() === null ? 'null' : typeof counterValue() }}</code>
+    </p>
   </section>
 
   <!-- 2. With label + required + helper + min/max. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Label + helper + min/max</h2>
-    <p class="gallery__hint">Patrón de formulario clásico. <code>min</code> y <code>max</code> se pasan al input nativo y al validador HTML.</p>
+    <p class="gallery__hint">
+      Patrón de formulario clásico. <code>min</code> y <code>max</code> se pasan al input nativo y
+      al validador HTML.
+    </p>
     <div class="gallery__row">
       <sc-input-number
         label="Capacidad del grupo"
@@ -39,7 +48,10 @@
   <!-- 3. Suffix (unit). -->
   <section class="gallery__section">
     <h2 class="gallery__h2">3 · Suffix (unidad)</h2>
-    <p class="gallery__hint">La unidad ("s", "min", "%", "agentes") va dentro del campo, alineada a la derecha. No es seleccionable.</p>
+    <p class="gallery__hint">
+      La unidad ("s", "min", "%", "agentes") va dentro del campo, alineada a la derecha. No es
+      seleccionable.
+    </p>
     <div class="gallery__row gallery__row--grid">
       <sc-input-number
         label="Pausa standard"
@@ -57,13 +69,18 @@
         [(value)]="percentValue"
       />
     </div>
-    <p class="gallery__output">Pausa: <code>{{ secondsValue() ?? '(null)' }} s</code> · Umbral: <code>{{ percentValue() ?? '(null)' }} %</code></p>
+    <p class="gallery__output">
+      Pausa: <code>{{ secondsValue() ?? '(null)' }} s</code> · Umbral:
+      <code>{{ percentValue() ?? '(null)' }} %</code>
+    </p>
   </section>
 
   <!-- 4. Sizes. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">4 · Tamaños (sm / md / lg)</h2>
-    <p class="gallery__hint">Mismas alturas que <code>&lt;sc-input&gt;</code>. <code>md</code> es el default.</p>
+    <p class="gallery__hint">
+      Mismas alturas que <code>&lt;sc-input&gt;</code>. <code>md</code> es el default.
+    </p>
     <div class="gallery__row gallery__row--grid">
       <sc-input-number label="Small" size="sm" suffix="s" [min]="0" />
       <sc-input-number label="Medium (default)" suffix="s" [min]="0" />
@@ -74,20 +91,12 @@
   <!-- 5. States: disabled, readonly, error. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">5 · Estados</h2>
-    <p class="gallery__hint">Disabled, readonly, error con mensaje. El error sobreescribe al helper.</p>
+    <p class="gallery__hint">
+      Disabled, readonly, error con mensaje. El error sobreescribe al helper.
+    </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-input-number
-        label="Disabled"
-        suffix="s"
-        [disabled]="true"
-        [(value)]="disabledValue"
-      />
-      <sc-input-number
-        label="Readonly"
-        suffix="s"
-        [readonly]="true"
-        [(value)]="disabledValue"
-      />
+      <sc-input-number label="Disabled" suffix="s" [disabled]="true" [(value)]="disabledValue" />
+      <sc-input-number label="Readonly" suffix="s" [readonly]="true" [(value)]="disabledValue" />
       <sc-input-number
         label="Capacidad"
         suffix="agentes"
@@ -102,22 +111,24 @@
   <!-- 6. ngModel binding. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">6 · [(ngModel)] binding</h2>
-    <p class="gallery__hint">Compatible con FormsModule. Útil para forms no-Reactive existentes en AED.</p>
+    <p class="gallery__hint">
+      Compatible con FormsModule. Útil para forms no-Reactive existentes en AED.
+    </p>
     <div class="gallery__row">
-      <sc-input-number
-        label="Vía ngModel"
-        suffix="items"
-        [min]="0"
-        [(ngModel)]="ngModelValue"
-      />
+      <sc-input-number label="Vía ngModel" suffix="items" [min]="0" [(ngModel)]="ngModelValue" />
     </div>
-    <p class="gallery__output">Valor: <code>{{ ngModelValue() ?? '(null)' }}</code></p>
+    <p class="gallery__output">
+      Valor: <code>{{ ngModelValue() ?? '(null)' }}</code>
+    </p>
   </section>
 
   <!-- 7. Reactive Forms with validation. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">7 · Reactive Forms + validación</h2>
-    <p class="gallery__hint">El input se pinta como inválido cuando el FormControl tiene errores Y ha sido touched. Aquí: required + min(1) + max(50).</p>
+    <p class="gallery__hint">
+      El input se pinta como inválido cuando el FormControl tiene errores Y ha sido touched. Aquí:
+      required + min(1) + max(50).
+    </p>
     <div class="gallery__row">
       <sc-input-number
         label="Nº de agentes (Reactive Form)"
@@ -126,12 +137,17 @@
         [min]="1"
         [max]="50"
         [formControl]="reactiveAgents"
-        [error]="reactiveAgents.touched && reactiveAgents.invalid
-          ? (reactiveAgents.errors?.['required'] ? 'Campo requerido.'
-            : reactiveAgents.errors?.['min'] ? 'Mínimo 1 agente.'
-            : reactiveAgents.errors?.['max'] ? 'Máximo 50 agentes.'
-            : 'Valor inválido.')
-          : undefined"
+        [error]="
+          reactiveAgents.touched && reactiveAgents.invalid
+            ? reactiveAgents.errors?.['required']
+              ? 'Campo requerido.'
+              : reactiveAgents.errors?.['min']
+                ? 'Mínimo 1 agente.'
+                : reactiveAgents.errors?.['max']
+                  ? 'Máximo 50 agentes.'
+                  : 'Valor inválido.'
+            : undefined
+        "
       />
       <button class="gallery__btn" (click)="touchReactive()">Marcar touched (simula blur)</button>
     </div>
@@ -141,8 +157,8 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">8 · Step (incrementos)</h2>
     <p class="gallery__hint">
-      <code>step</code> controla el incremento al usar las flechas del teclado (↑/↓). Por defecto es <code>1</code>.
-      Útil para porcentajes <code>step="5"</code> o décimas <code>step="0.1"</code>.
+      <code>step</code> controla el incremento al usar las flechas del teclado (↑/↓). Por defecto es
+      <code>1</code>. Útil para porcentajes <code>step="5"</code> o décimas <code>step="0.1"</code>.
     </p>
     <div class="gallery__row gallery__row--grid">
       <sc-input-number label="Step de 1 (default)" placeholder="0" />
@@ -151,5 +167,5 @@
     </div>
   </section>
 
-<sc-ds-docs-gallery-footer slug="input-number" />
+  <sc-ds-docs-gallery-footer slug="input-number" />
 </div>

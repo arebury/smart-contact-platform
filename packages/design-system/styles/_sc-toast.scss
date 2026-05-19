@@ -64,11 +64,21 @@
     border-radius: var(--sc-toast-icon-radius);
     color: var(--sc-toast-icon-fg);
 
-    .sc-toast[data-severity='success'] &   { background: var(--sc-toast-success-icon-bg); }
-    .sc-toast[data-severity='info'] &      { background: var(--sc-toast-info-icon-bg); }
-    .sc-toast[data-severity='warn'] &      { background: var(--sc-toast-warn-icon-bg); }
-    .sc-toast[data-severity='error'] &     { background: var(--sc-toast-error-icon-bg); }
-    .sc-toast[data-severity='secondary'] & { background: var(--sc-toast-violet-icon-bg); }
+    .sc-toast[data-severity='success'] & {
+      background: var(--sc-toast-success-icon-bg);
+    }
+    .sc-toast[data-severity='info'] & {
+      background: var(--sc-toast-info-icon-bg);
+    }
+    .sc-toast[data-severity='warn'] & {
+      background: var(--sc-toast-warn-icon-bg);
+    }
+    .sc-toast[data-severity='error'] & {
+      background: var(--sc-toast-error-icon-bg);
+    }
+    .sc-toast[data-severity='secondary'] & {
+      background: var(--sc-toast-violet-icon-bg);
+    }
   }
 
   &__body {

@@ -3,18 +3,18 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Sticky form header</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-sticky-form-header&gt;</code> es la barra superior de las pantallas
-      Create/Edit (Users, Groups, Agents…). Muestra el título de la entidad, opcionalmente el
-      nombre editable inline, y las acciones Save / Cancel / Delete. El botón Save lleva spinner
-      cuando <code>[saving]="true"</code> y se deshabilita con <code>[canSave]="false"</code>.
+      <code>&lt;sc-sticky-form-header&gt;</code> es la barra superior de las pantallas Create/Edit
+      (Users, Groups, Agents…). Muestra el título de la entidad, opcionalmente el nombre editable
+      inline, y las acciones Save / Cancel / Delete. El botón Save lleva spinner cuando
+      <code>[saving]="true"</code> y se deshabilita con <code>[canSave]="false"</code>.
     </p>
   </header>
 
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Modo <code>create</code></h2>
     <p class="gallery__hint">
-      Título proviene del <code>entityKey</code> i18n. Aparece input para nombre arriba; Save
-      queda deshabilitado mientras esté vacío.
+      Título proviene del <code>entityKey</code> i18n. Aparece input para nombre arriba; Save queda
+      deshabilitado mientras esté vacío.
     </p>
     <div class="gallery__row">
       <sc-sticky-form-header
@@ -57,8 +57,8 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">3 · Estado <code>saving</code> (spinner)</h2>
     <p class="gallery__hint">
-      Mientras <code>[saving]="true"</code>, el botón Save se reemplaza por el spinner Loader2
-      de Lucide. El usuario sabe que el guardado está en curso sin perder el contexto.
+      Mientras <code>[saving]="true"</code>, el botón Save se reemplaza por el spinner Loader2 de
+      Lucide. El usuario sabe que el guardado está en curso sin perder el contexto.
     </p>
     <div class="gallery__row gallery__row--stack">
       <sc-sticky-form-header
@@ -78,9 +78,9 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">4 · Con botón <code>Atrás</code></h2>
     <p class="gallery__hint">
-      <code>[showBack]="true"</code> añade un botón "Atrás" en el cluster de acciones. Default
-      es <code>false</code> porque el breadcrumb de la página ya da una salida — solo activarlo
-      en modales profundos o pantallas sin breadcrumb visible.
+      <code>[showBack]="true"</code> añade un botón "Atrás" en el cluster de acciones. Default es
+      <code>false</code> porque el breadcrumb de la página ya da una salida — solo activarlo en
+      modales profundos o pantallas sin breadcrumb visible.
     </p>
     <div class="gallery__row">
       <sc-sticky-form-header

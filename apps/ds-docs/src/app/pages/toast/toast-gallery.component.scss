@@ -164,7 +164,9 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 120ms ease, background 120ms ease;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease;
 
   &:hover {
     border-color: var(--sc-border-strong);
@@ -178,6 +180,11 @@
   box-shadow: var(--sc-toast-shadow);
   margin-bottom: var(--sc-spacing-200);
 }
-:host ::ng-deep .p-toast .p-toast-message-content { padding: 0; align-items: stretch; }
+:host ::ng-deep .p-toast .p-toast-message-content {
+  padding: 0;
+  align-items: stretch;
+}
 :host ::ng-deep .p-toast .p-toast-message-icon,
-:host ::ng-deep .p-toast .p-toast-close-button { display: none; }
+:host ::ng-deep .p-toast .p-toast-close-button {
+  display: none;
+}

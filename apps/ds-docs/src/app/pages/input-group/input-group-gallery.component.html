@@ -22,13 +22,23 @@
     <div class="gallery__row gallery__row--stack">
       <sc-input-group>
         <p-inputgroup-addon>$</p-inputgroup-addon>
-        <input pInputText placeholder="0.00" [value]="price()" (input)="price.set($any($event.target).value)" />
+        <input
+          pInputText
+          placeholder="0.00"
+          [value]="price()"
+          (input)="price.set($any($event.target).value)"
+        />
         <p-inputgroup-addon>.00</p-inputgroup-addon>
       </sc-input-group>
 
       <sc-input-group>
         <p-inputgroup-addon>www.</p-inputgroup-addon>
-        <input pInputText placeholder="smartcontact.io" [value]="website()" (input)="website.set($any($event.target).value)" />
+        <input
+          pInputText
+          placeholder="smartcontact.io"
+          [value]="website()"
+          (input)="website.set($any($event.target).value)"
+        />
       </sc-input-group>
     </div>
   </section>
@@ -46,7 +56,12 @@
         <p-inputgroup-addon>
           <i class="pi pi-user" aria-hidden="true"></i>
         </p-inputgroup-addon>
-        <input pInputText placeholder="Usuario" [value]="username()" (input)="username.set($any($event.target).value)" />
+        <input
+          pInputText
+          placeholder="Usuario"
+          [value]="username()"
+          (input)="username.set($any($event.target).value)"
+        />
       </sc-input-group>
     </div>
   </section>
@@ -65,7 +80,12 @@
         <p-inputgroup-addon>
           <i class="pi pi-star" aria-hidden="true"></i>
         </p-inputgroup-addon>
-        <input pInputText placeholder="Etiquetas + valor" [value]="multi()" (input)="multi.set($any($event.target).value)" />
+        <input
+          pInputText
+          placeholder="Etiquetas + valor"
+          [value]="multi()"
+          (input)="multi.set($any($event.target).value)"
+        />
         <p-inputgroup-addon>$</p-inputgroup-addon>
         <p-inputgroup-addon>.00</p-inputgroup-addon>
       </sc-input-group>
@@ -77,8 +97,8 @@
     <h2 class="gallery__h2">4 · Addon de botón (caso real AED)</h2>
     <p class="gallery__hint">
       Patrón <em>tag input</em>: campo de texto + botón "Añadir" pegado a la derecha. Es la
-      migración real del bloque <code>.tag-input</code> de
-      <code>aed-servicio</code> → estados de no disponibilidad. <kbd>Enter</kbd> también añade.
+      migración real del bloque <code>.tag-input</code> de <code>aed-servicio</code> → estados de no
+      disponibilidad. <kbd>Enter</kbd> también añade.
     </p>
     <div class="gallery__row gallery__row--stack">
       <sc-input-group>
@@ -105,7 +125,9 @@
           @for (t of tags(); track t) {
             <li class="gallery__chip">
               <span>{{ t }}</span>
-              <button type="button" (click)="removeTag(t)" [attr.aria-label]="'Quitar ' + t">×</button>
+              <button type="button" (click)="removeTag(t)" [attr.aria-label]="'Quitar ' + t">
+                ×
+              </button>
             </li>
           }
         </ul>

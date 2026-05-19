@@ -3,10 +3,11 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Search</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-search&gt;</code> compone <code>&lt;p-iconfield&gt;</code> + <code>&lt;p-inputicon&gt;</code> +
-      <code>pInputText</code> con icon overlay decorativo (vs <code>p-inputgroup</code> que es para addons
-      con border merge). Encapsula el patrón <code>.page__search</code> que vivía duplicado en 6 SCSS
-      distintos de AED list-pages. Soporta clear button automático y shortcut hint (<code>⌘K</code>, <code>/</code>).
+      <code>&lt;sc-search&gt;</code> compone <code>&lt;p-iconfield&gt;</code> +
+      <code>&lt;p-inputicon&gt;</code> + <code>pInputText</code> con icon overlay decorativo (vs
+      <code>p-inputgroup</code> que es para addons con border merge). Encapsula el patrón
+      <code>.page__search</code> que vivía duplicado en 6 SCSS distintos de AED list-pages. Soporta
+      clear button automático y shortcut hint (<code>⌘K</code>, <code>/</code>).
     </p>
   </header>
 
@@ -14,24 +15,23 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Básico</h2>
     <p class="gallery__hint">
-      Icon search a la izquierda + input + clear button (×) cuando hay texto. <code>showClear</code> es
-      <code>true</code> por defecto.
+      Icon search a la izquierda + input + clear button (×) cuando hay texto.
+      <code>showClear</code> es <code>true</code> por defecto.
     </p>
     <div class="gallery__row">
-      <sc-search
-        placeholder="Buscar…"
-        [(value)]="basicQuery"
-      />
+      <sc-search placeholder="Buscar…" [(value)]="basicQuery" />
     </div>
-    <p class="gallery__output">Valor: <code>"{{ basicQuery() }}"</code></p>
+    <p class="gallery__output">
+      Valor: <code>"{{ basicQuery() }}"</code>
+    </p>
   </section>
 
   <!-- 2. With shortcut hint. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Con shortcut hint (<code>⌘K</code>)</h2>
     <p class="gallery__hint">
-      El <code>shortcutHint</code> aparece a la derecha cuando el campo está vacío y sin foco
-      — pista de que existe un atajo global para enfocarlo. Desaparece al focus o cuando hay texto
+      El <code>shortcutHint</code> aparece a la derecha cuando el campo está vacío y sin foco —
+      pista de que existe un atajo global para enfocarlo. Desaparece al focus o cuando hay texto
       (para no robar atención del clear button). Patrón GitHub / Linear / Slack.
     </p>
     <div class="gallery__row">
@@ -41,7 +41,9 @@
         [(value)]="withHintQuery"
       />
     </div>
-    <p class="gallery__output">Valor: <code>"{{ withHintQuery() }}"</code></p>
+    <p class="gallery__output">
+      Valor: <code>"{{ withHintQuery() }}"</code>
+    </p>
   </section>
 
   <!-- 3. Picker (sm size, sin shortcut hint). -->
@@ -53,13 +55,11 @@
       "agendas" y "plantillas" dentro de agent-form.
     </p>
     <div class="gallery__row">
-      <sc-search
-        size="sm"
-        placeholder="Buscar agenda…"
-        [(value)]="pickerQuery"
-      />
+      <sc-search size="sm" placeholder="Buscar agenda…" [(value)]="pickerQuery" />
     </div>
-    <p class="gallery__output">Valor: <code>"{{ pickerQuery() }}"</code></p>
+    <p class="gallery__output">
+      Valor: <code>"{{ pickerQuery() }}"</code>
+    </p>
   </section>
 
   <!-- 4. Filled variant. -->
@@ -70,11 +70,7 @@
       search vive sobre un fondo blanco y necesita más contraste.
     </p>
     <div class="gallery__row">
-      <sc-search
-        [filled]="true"
-        placeholder="Buscar…"
-        [(value)]="filledQuery"
-      />
+      <sc-search [filled]="true" placeholder="Buscar…" [(value)]="filledQuery" />
     </div>
   </section>
 
@@ -98,19 +94,13 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">6 · API pública <code>focus()</code></h2>
     <p class="gallery__hint">
-      El componente expone un método <code>focus()</code> para que un atajo global del consumer enfoque
-      el campo (típico en el listener <code>⌘K</code> del shell). En el demo, el botón llama al método
-      vía <code>viewChild</code>.
+      El componente expone un método <code>focus()</code> para que un atajo global del consumer
+      enfoque el campo (típico en el listener <code>⌘K</code> del shell). En el demo, el botón llama
+      al método vía <code>viewChild</code>.
     </p>
     <div class="gallery__row gallery__row--inline">
-      <sc-search
-        #demoSearch
-        placeholder="Foca este input con el botón →"
-        shortcutHint="⌘K"
-      />
-      <button type="button" class="btn btn--secondary" (click)="focusDemoSearch()">
-        focus()
-      </button>
+      <sc-search #demoSearch placeholder="Foca este input con el botón →" shortcutHint="⌘K" />
+      <button type="button" class="btn btn--secondary" (click)="focusDemoSearch()">focus()</button>
     </div>
   </section>
 
@@ -119,14 +109,11 @@
     <h2 class="gallery__h2">7 · <code>(keydown)</code> re-emit</h2>
     <p class="gallery__hint">
       El componente re-emite el <code>KeyboardEvent</code> del input para que el consumer maneje
-      <code>Esc</code>, <code>Enter</code>, etc. sin tener que envolver el <code>&lt;sc-search&gt;</code>
-      en un wrapper con <code>(keydown)</code>.
+      <code>Esc</code>, <code>Enter</code>, etc. sin tener que envolver el
+      <code>&lt;sc-search&gt;</code> en un wrapper con <code>(keydown)</code>.
     </p>
     <div class="gallery__row">
-      <sc-search
-        placeholder="Pulsa cualquier tecla…"
-        (keydown)="onKeydown($event)"
-      />
+      <sc-search placeholder="Pulsa cualquier tecla…" (keydown)="onKeydown($event)" />
     </div>
     <p class="gallery__output">
       Última tecla:
@@ -142,15 +129,15 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">8 · Reactive Forms</h2>
     <p class="gallery__hint">
-      Soporta <code>FormControl</code> via ControlValueAccessor. Mismo binding que <code>sc-input</code>.
+      Soporta <code>FormControl</code> via ControlValueAccessor. Mismo binding que
+      <code>sc-input</code>.
     </p>
     <div class="gallery__row">
-      <sc-search
-        placeholder="Reactive forms binding…"
-        [formControl]="searchCtrl"
-      />
+      <sc-search placeholder="Reactive forms binding…" [formControl]="searchCtrl" />
     </div>
-    <p class="gallery__output">FormControl value: <code>"{{ searchCtrl.value }}"</code></p>
+    <p class="gallery__output">
+      FormControl value: <code>"{{ searchCtrl.value }}"</code>
+    </p>
   </section>
 
   <sc-ds-docs-gallery-footer slug="search" />

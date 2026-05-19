@@ -17,11 +17,7 @@ import { SelectModule } from 'primeng/select';
 import { InputComponent } from '@shared/components/input/input.component';
 import { ModalComponent } from '@shared/components/modal/modal.component';
 
-import type {
-  Entity,
-  EntityListValue,
-  EntityType,
-} from '../../data/entity.types';
+import type { Entity, EntityListValue, EntityType } from '../../data/entity.types';
 import { EntitiesStore } from '../../state/entities.store';
 
 interface EntityTypeOption {
@@ -143,9 +139,7 @@ export class EntityFormModalComponent {
         this.description.set(e.description);
         this.type.set(e.type);
         this.format.set(e.format ?? '');
-        this.listValues.set(
-          e.config?.listValues?.map((v) => v.value) ?? [],
-        );
+        this.listValues.set(e.config?.listValues?.map((v) => v.value) ?? []);
       } else {
         this.name.set('');
         this.description.set('');
@@ -173,9 +167,7 @@ export class EntityFormModalComponent {
   }
 
   protected updateListValue(index: number, value: string): void {
-    this.listValues.update((arr) =>
-      arr.map((v, i) => (i === index ? value : v)),
-    );
+    this.listValues.update((arr) => arr.map((v, i) => (i === index ? value : v)));
   }
 
   protected removeListValue(index: number): void {

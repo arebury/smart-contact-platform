@@ -1,9 +1,4 @@
-import {
-  CdkDrag,
-  CdkDragDrop,
-  CdkDropList,
-  moveItemInArray,
-} from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -202,9 +197,7 @@ export class RulesPageComponent {
         tooltip: toggleDisabled
           ? this.translate.instant('memory.rules.menu.activate_draft_tooltip')
           : undefined,
-        command: toggleDisabled
-          ? undefined
-          : () => this.rulesStore.toggleActive(rule.id),
+        command: toggleDisabled ? undefined : () => this.rulesStore.toggleActive(rule.id),
       },
       {
         label: this.translate.instant('memory.rules.menu.delete'),

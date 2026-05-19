@@ -44,24 +44,26 @@
    *   footer   17.5 lados/abajo, top 0 (content da el espacio)
    * Esto evita doble padding en las costuras header/body/footer.
    */
-  --sc-modal-bg: var(--sc-color-gray-0);                  /* Figma `dialog/background: #ffffff` */
-  --sc-modal-border: var(--sc-color-gray-200);            /* Figma `dialog/border/color: #e2e8f0` (era blue-100, fix Session 30) */
+  --sc-modal-bg: var(--sc-color-gray-0); /* Figma `dialog/background: #ffffff` */
+  --sc-modal-border: var(
+    --sc-color-gray-200
+  ); /* Figma `dialog/border/color: #e2e8f0` (era blue-100, fix Session 30) */
   --sc-modal-divider: var(--sc-color-gray-200);
-  --sc-modal-radius: var(--sc-radius-400);                /* 12px — Figma `dialog/border/radius: 12` */
+  --sc-modal-radius: var(--sc-radius-400); /* 12px — Figma `dialog/border/radius: 12` */
   /* Double drop-shadow per Figma `dialog/shadow`:
    *   #0000001A offset(0,8) r10 spread:-6
    * + #0000001A offset(0,20) r25 spread:-5 */
-  --sc-modal-shadow:
-    0 8px 10px -6px rgba(0, 0, 0, 0.1),
-    0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  --sc-modal-padding: 17.5px;                              /* Figma `dialog/header/padding`, `dialog/content/padding/*`, `dialog/footer/padding/*` — raw decimal */
-  --sc-modal-header-gap: 7px;                              /* Figma `dialog/header/gap: 7` (icon ↔ text ↔ close) */
-  --sc-modal-footer-gap: 7px;                              /* Figma `dialog/footer/gap: 7` (botón ↔ botón) */
+  --sc-modal-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --sc-modal-padding: 17.5px; /* Figma `dialog/header/padding`, `dialog/content/padding/*`, `dialog/footer/padding/*` — raw decimal */
+  --sc-modal-header-gap: 7px; /* Figma `dialog/header/gap: 7` (icon ↔ text ↔ close) */
+  --sc-modal-footer-gap: 7px; /* Figma `dialog/footer/gap: 7` (botón ↔ botón) */
   --sc-modal-head-icon-fg: var(--sc-color-gray-500);
-  --sc-modal-head-icon-size: 28px;                         /* Figma `confirmdialog/icon/size: 28` */
-  --sc-modal-title: var(--sc-color-gray-800);              /* Figma `dialog/color: #334155` (slate-700) — but darker for AED */
-  --sc-modal-title-font-size: 17.5px;                      /* Figma `dialog/title/font/size: 17.5` raw */
-  --sc-modal-title-font-weight: 600;                       /* Figma `dialog/title/font/weight: 600` (semibold) */
+  --sc-modal-head-icon-size: 28px; /* Figma `confirmdialog/icon/size: 28` */
+  --sc-modal-title: var(
+    --sc-color-gray-800
+  ); /* Figma `dialog/color: #334155` (slate-700) — but darker for AED */
+  --sc-modal-title-font-size: 17.5px; /* Figma `dialog/title/font/size: 17.5` raw */
+  --sc-modal-title-font-weight: 600; /* Figma `dialog/title/font/weight: 600` (semibold) */
   --sc-modal-subtitle: var(--sc-color-gray-600);
   --sc-modal-close-fg: var(--sc-color-gray-700);
   --sc-modal-close-bg-hover: var(--sc-color-gray-100);
@@ -92,31 +94,34 @@
 
   /* Shared text */
   --sc-toast-title: var(--sc-color-gray-800);
-  --sc-toast-message: var(--sc-color-gray-700);            /* Figma `toast/<sev>/detail/color: #334155` (slate-700) */
+  --sc-toast-message: var(
+    --sc-color-gray-700
+  ); /* Figma `toast/<sev>/detail/color: #334155` (slate-700) */
   --sc-toast-close: var(--sc-color-gray-800);
-  --sc-toast-icon-fg: var(--sc-color-gray-0);              /* white glyph inside icon square */
-  --sc-toast-summary-font-size: 14px;                      /* Figma `toast/summary/font/size: 14` */
-  --sc-toast-summary-font-weight: 500;                     /* Figma `toast/summary/font/weight: 500` */
-  --sc-toast-detail-font-size: 12.25px;                    /* Figma `toast/detail/font/size: 12.25` (raw) */
-  --sc-toast-detail-font-weight: 500;                      /* Figma `toast/detail/font/weight: 500` */
+  --sc-toast-icon-fg: var(--sc-color-gray-0); /* white glyph inside icon square */
+  --sc-toast-summary-font-size: 14px; /* Figma `toast/summary/font/size: 14` */
+  --sc-toast-summary-font-weight: 500; /* Figma `toast/summary/font/weight: 500` */
+  --sc-toast-detail-font-size: 12.25px; /* Figma `toast/detail/font/size: 12.25` (raw) */
+  --sc-toast-detail-font-weight: 500; /* Figma `toast/detail/font/weight: 500` */
 
   /* Shared geometry — Figma values */
-  --sc-toast-width: 350px;                                 /* Figma `toast/width: 350` (was 400) */
-  --sc-toast-radius: var(--sc-radius-200);                 /* 6px — Figma `toast/border/radius: 6` (was 12) */
-  --sc-toast-padding-x: 10.5px;                            /* Figma `toast/content/padding: 10.5` raw */
+  --sc-toast-width: 350px; /* Figma `toast/width: 350` (was 400) */
+  --sc-toast-radius: var(--sc-radius-200); /* 6px — Figma `toast/border/radius: 6` (was 12) */
+  --sc-toast-padding-x: 10.5px; /* Figma `toast/content/padding: 10.5` raw */
   --sc-toast-padding-y: 10.5px;
-  --sc-toast-gap-content: 7px;                             /* Figma `toast/content/gap: 7` (icon ↔ body) */
-  --sc-toast-gap-text: 7px;                                /* Figma `toast/text/gap: 7` (summary ↔ detail) */
-  --sc-toast-gap-actions: var(--sc-spacing-100);           /* SC extension — gap entre body y action buttons */
-  --sc-toast-icon-size: 15.75px;                           /* Figma `toast/icon/size: 15.75` (was 24) */
+  --sc-toast-gap-content: 7px; /* Figma `toast/content/gap: 7` (icon ↔ body) */
+  --sc-toast-gap-text: 7px; /* Figma `toast/text/gap: 7` (summary ↔ detail) */
+  --sc-toast-gap-actions: var(
+    --sc-spacing-100
+  ); /* SC extension — gap entre body y action buttons */
+  --sc-toast-icon-size: 15.75px; /* Figma `toast/icon/size: 15.75` (was 24) */
   --sc-toast-icon-radius: var(--sc-radius-200);
-  --sc-toast-close-button-width: 24.5px;                   /* Figma `toast/close/button/width: 24.5` */
+  --sc-toast-close-button-width: 24.5px; /* Figma `toast/close/button/width: 24.5` */
   --sc-toast-close-button-height: 24.5px;
-  --sc-toast-close-button-radius: 12.25px;                 /* Figma `toast/close/button/border/radius: 12.25` (= width/2 → circular) */
-  --sc-toast-close-icon-size: 14px;                        /* Figma `toast/close/icon/size: 14` */
-  --sc-toast-backdrop-blur: 1.5px;                         /* Figma `toast/blur: 1.5` — backdrop-filter frosted glass */
-  --sc-toast-shadow:
-    0 4px 8px 0 rgba(1, 4, 8, 0.04);                       /* Figma `toast/<sev>/shadow: #0X0X0X0A offset(0,4) r8` */
+  --sc-toast-close-button-radius: 12.25px; /* Figma `toast/close/button/border/radius: 12.25` (= width/2 → circular) */
+  --sc-toast-close-icon-size: 14px; /* Figma `toast/close/icon/size: 14` */
+  --sc-toast-backdrop-blur: 1.5px; /* Figma `toast/blur: 1.5` — backdrop-filter frosted glass */
+  --sc-toast-shadow: 0 4px 8px 0 rgba(1, 4, 8, 0.04); /* Figma `toast/<sev>/shadow: #0X0X0X0A offset(0,4) r8` */
 
   /* ─── Per-severity (background alpha F2 = 95% para efecto cristal) ─── */
 
@@ -130,7 +135,9 @@
   --sc-toast-info-bg: color-mix(in srgb, var(--sc-color-azure-50) 95%, transparent);
   --sc-toast-info-border: var(--sc-color-azure-200);
   --sc-toast-info-icon: var(--sc-color-azure-600);
-  --sc-toast-info-icon-bg: var(--sc-color-electric-blue-500);  /* SC override: icon-square uses electric-blue per brand */
+  --sc-toast-info-icon-bg: var(
+    --sc-color-electric-blue-500
+  ); /* SC override: icon-square uses electric-blue per brand */
 
   /* Warn — Figma `#fefce8f2` bg (yellow-50 95%), `#fef08a` border (yellow-200), `#ca8a04` icon */
   --sc-toast-warn-bg: color-mix(in srgb, var(--sc-color-amber-50) 95%, transparent);
@@ -145,9 +152,9 @@
   --sc-toast-error-icon-bg: var(--sc-color-red-500);
 
   /* Secondary — Figma slate (no alpha — opaco). Mapped to PrimeNG severity="secondary". */
-  --sc-toast-secondary-bg: var(--sc-color-gray-100);       /* slate-100 */
-  --sc-toast-secondary-border: var(--sc-color-gray-200);   /* slate-200 */
-  --sc-toast-secondary-icon: var(--sc-color-gray-600);     /* slate-600 */
+  --sc-toast-secondary-bg: var(--sc-color-gray-100); /* slate-100 */
+  --sc-toast-secondary-border: var(--sc-color-gray-200); /* slate-200 */
+  --sc-toast-secondary-icon: var(--sc-color-gray-600); /* slate-600 */
   --sc-toast-secondary-icon-bg: var(--sc-color-gray-500);
 
   /* Violet — SC EXTENSION (NO existe en Figma). Reservado para

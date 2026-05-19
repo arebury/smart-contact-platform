@@ -3,20 +3,25 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Datepicker</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-datepicker&gt;</code> envuelve PrimeNG <code>&lt;p-datepicker&gt;</code> con el patrón SCDS
-      (label + required + helper + error). Modo popup por defecto, con icono de calendario dentro del input.
-      Soporta <code>[(value)]</code> (signal de <code>Date | null</code>), <code>[(ngModel)]</code> y Reactive Forms.
+      <code>&lt;sc-datepicker&gt;</code> envuelve PrimeNG <code>&lt;p-datepicker&gt;</code> con el
+      patrón SCDS (label + required + helper + error). Modo popup por defecto, con icono de
+      calendario dentro del input. Soporta <code>[(value)]</code> (signal de
+      <code>Date | null</code>), <code>[(ngModel)]</code> y Reactive Forms.
     </p>
   </header>
 
   <!-- 1. Basic. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Basic (popup)</h2>
-    <p class="gallery__hint">Input con icono de calendario. Al click se abre el panel con el mes actual.</p>
+    <p class="gallery__hint">
+      Input con icono de calendario. Al click se abre el panel con el mes actual.
+    </p>
     <div class="gallery__row">
       <sc-datepicker label="Fecha" [(value)]="basicValue" />
     </div>
-    <p class="gallery__output">Valor: <code>{{ formatDate(basicValue()) }}</code></p>
+    <p class="gallery__output">
+      Valor: <code>{{ formatDate(basicValue()) }}</code>
+    </p>
   </section>
 
   <!-- 2. Pre-selected + helper. -->
@@ -30,7 +35,9 @@
         [(value)]="preselected"
       />
     </div>
-    <p class="gallery__output">Valor: <code>{{ formatDate(preselected()) }}</code></p>
+    <p class="gallery__output">
+      Valor: <code>{{ formatDate(preselected()) }}</code>
+    </p>
   </section>
 
   <!-- 3. Bounded (min/max). -->
@@ -78,34 +85,35 @@
   <!-- 6. Button bar (today / clear in panel). -->
   <section class="gallery__section">
     <h2 class="gallery__h2">6 · Button bar (hoy / limpiar)</h2>
-    <p class="gallery__hint">Añade dos botones en el footer del panel: "Hoy" salta a hoy, "Limpiar" deja el campo vacío.</p>
+    <p class="gallery__hint">
+      Añade dos botones en el footer del panel: "Hoy" salta a hoy, "Limpiar" deja el campo vacío.
+    </p>
     <div class="gallery__row">
-      <sc-datepicker
-        label="Con button bar"
-        [showButtonBar]="true"
-        [(value)]="basicValue"
-      />
+      <sc-datepicker label="Con button bar" [showButtonBar]="true" [(value)]="basicValue" />
     </div>
   </section>
 
   <!-- 7. Inline mode. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">7 · Inline (sin popup)</h2>
-    <p class="gallery__hint">El calendario siempre visible. Útil en wizards o pantallas dedicadas a elegir fecha.</p>
+    <p class="gallery__hint">
+      El calendario siempre visible. Útil en wizards o pantallas dedicadas a elegir fecha.
+    </p>
     <div class="gallery__row">
-      <sc-datepicker
-        label="Selecciona una fecha"
-        [inline]="true"
-        [(value)]="inlineValue"
-      />
+      <sc-datepicker label="Selecciona una fecha" [inline]="true" [(value)]="inlineValue" />
     </div>
-    <p class="gallery__output">Valor: <code>{{ formatDate(inlineValue()) }}</code></p>
+    <p class="gallery__output">
+      Valor: <code>{{ formatDate(inlineValue()) }}</code>
+    </p>
   </section>
 
   <!-- 8. View=month / year. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">8 · View=month / View=year</h2>
-    <p class="gallery__hint">Cuando solo necesitas mes o año (informes, filtros), el panel arranca directamente en esa vista.</p>
+    <p class="gallery__hint">
+      Cuando solo necesitas mes o año (informes, filtros), el panel arranca directamente en esa
+      vista.
+    </p>
     <div class="gallery__row gallery__row--grid">
       <sc-datepicker
         label="Mes"
@@ -127,17 +135,24 @@
   <!-- 9. ngModel. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">9 · [(ngModel)]</h2>
-    <p class="gallery__hint">Compatible con FormsModule. Cualquier <code>Date</code> que le metas se renderiza con el dateFormat.</p>
+    <p class="gallery__hint">
+      Compatible con FormsModule. Cualquier <code>Date</code> que le metas se renderiza con el
+      dateFormat.
+    </p>
     <div class="gallery__row">
       <sc-datepicker label="Vía ngModel" [(ngModel)]="ngModelValue" />
     </div>
-    <p class="gallery__output">Valor: <code>{{ formatDate(ngModelValue()) }}</code></p>
+    <p class="gallery__output">
+      Valor: <code>{{ formatDate(ngModelValue()) }}</code>
+    </p>
   </section>
 
   <!-- 10. Reactive Forms. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">10 · Reactive Forms + validación</h2>
-    <p class="gallery__hint">El picker se pinta inválido cuando el FormControl tiene errores Y ha sido touched.</p>
+    <p class="gallery__hint">
+      El picker se pinta inválido cuando el FormControl tiene errores Y ha sido touched.
+    </p>
     <div class="gallery__row">
       <sc-datepicker
         label="Fecha (requerida)"
@@ -148,5 +163,5 @@
     </div>
   </section>
 
-<sc-ds-docs-gallery-footer slug="datepicker" />
+  <sc-ds-docs-gallery-footer slug="datepicker" />
 </div>

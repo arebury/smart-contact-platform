@@ -9,7 +9,14 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 @Component({
   selector: 'sc-ds-docs-modal-gallery',
   standalone: true,
-  imports: [ModalComponent, InputComponent, ButtonModule, LucideAngularModule, FormsModule, GalleryFooterComponent],
+  imports: [
+    ModalComponent,
+    InputComponent,
+    ButtonModule,
+    LucideAngularModule,
+    FormsModule,
+    GalleryFooterComponent,
+  ],
   templateUrl: './modal-gallery.component.html',
   styleUrl: './modal-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

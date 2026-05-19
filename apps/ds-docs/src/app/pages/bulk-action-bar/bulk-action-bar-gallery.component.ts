@@ -40,7 +40,9 @@ export class BulkActionBarGalleryComponent {
   };
 
   protected toggle(id: number): void {
-    this.selectedIds.update((arr) => (arr.includes(id) ? arr.filter((x) => x !== id) : [...arr, id]));
+    this.selectedIds.update((arr) =>
+      arr.includes(id) ? arr.filter((x) => x !== id) : [...arr, id],
+    );
   }
 
   protected isSelected(id: number): boolean {

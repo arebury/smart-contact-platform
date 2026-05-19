@@ -3,29 +3,29 @@
     <span class="gallery__eyebrow">Component · Shell-only</span>
     <h1 class="gallery__title">Confirm host</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-confirm-host&gt;</code> es el host único que renderiza todas las
-      confirmaciones programáticas de la app (route-guard "descartar cambios", futuras
-      logout-confirms, etc.). Internamente compone una <code>&lt;sc-modal&gt;</code> con el
-      estado del <code>ConfirmHostService</code>. Página documental — el componente vive
-      en el shell y se invoca via <code>await confirm.request(…)</code>.
+      <code>&lt;sc-confirm-host&gt;</code> es el host único que renderiza todas las confirmaciones
+      programáticas de la app (route-guard "descartar cambios", futuras logout-confirms, etc.).
+      Internamente compone una <code>&lt;sc-modal&gt;</code> con el estado del
+      <code>ConfirmHostService</code>. Página documental — el componente vive en el shell y se
+      invoca via <code>await confirm.request(…)</code>.
     </p>
   </header>
 
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Por qué un host único</h2>
     <p class="gallery__hint">
-      Cada pantalla podría montar su propio modal de confirmación, pero eso obliga a llevar
-      estado local + un <code>&#64;if</code> en cada feature. Centralizar en un host único
-      <strong>permite invocarlo desde cualquier sitio con una sola línea</strong>, incluso
-      desde route guards o servicios sin contexto de template.
+      Cada pantalla podría montar su propio modal de confirmación, pero eso obliga a llevar estado
+      local + un <code>&#64;if</code> en cada feature. Centralizar en un host único
+      <strong>permite invocarlo desde cualquier sitio con una sola línea</strong>, incluso desde
+      route guards o servicios sin contexto de template.
     </p>
   </section>
 
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Patrón de uso (callers)</h2>
     <p class="gallery__hint">
-      El caller hace <code>await confirm.request(…)</code> y recibe un <code>boolean</code>.
-      No necesita saber dónde está montado el host ni manipular su template.
+      El caller hace <code>await confirm.request(…)</code> y recibe un <code>boolean</code>. No
+      necesita saber dónde está montado el host ni manipular su template.
     </p>
     <pre class="gallery__code"><code>// route-guard ejemplo
 canDeactivate(): Observable&lt;boolean&gt; | Promise&lt;boolean&gt; | boolean &#123;
@@ -45,15 +45,46 @@ canDeactivate(): Observable&lt;boolean&gt; | Promise&lt;boolean&gt; | boolean &#
     <h2 class="gallery__h2">3 · API del <code>ConfirmRequest</code></h2>
     <table class="gallery__table">
       <thead>
-        <tr><th>Campo</th><th>Tipo</th><th>Descripción</th></tr>
+        <tr>
+          <th>Campo</th>
+          <th>Tipo</th>
+          <th>Descripción</th>
+        </tr>
       </thead>
       <tbody>
-        <tr><td><code>title</code></td><td>string</td><td>Heading del modal (ya traducido).</td></tr>
-        <tr><td><code>body</code></td><td>string</td><td>Cuerpo / explicación (1 frase preferible).</td></tr>
-        <tr><td><code>acceptLabel</code></td><td>string</td><td>Label del botón de acción primaria.</td></tr>
-        <tr><td><code>rejectLabel</code></td><td>string</td><td>Label del botón cancelar.</td></tr>
-        <tr><td><code>acceptTone</code></td><td><code>'primary' | 'danger'</code></td><td>Color del botón accept. Default primary.</td></tr>
-        <tr><td><code>emphasis</code></td><td><code>'accept' | 'reject'</code></td><td>Qué botón lleva el peso visual. <code>'reject'</code> para "descartar" — el accept queda destructivo pero suave, el reject pasa al final con styling primary.</td></tr>
+        <tr>
+          <td><code>title</code></td>
+          <td>string</td>
+          <td>Heading del modal (ya traducido).</td>
+        </tr>
+        <tr>
+          <td><code>body</code></td>
+          <td>string</td>
+          <td>Cuerpo / explicación (1 frase preferible).</td>
+        </tr>
+        <tr>
+          <td><code>acceptLabel</code></td>
+          <td>string</td>
+          <td>Label del botón de acción primaria.</td>
+        </tr>
+        <tr>
+          <td><code>rejectLabel</code></td>
+          <td>string</td>
+          <td>Label del botón cancelar.</td>
+        </tr>
+        <tr>
+          <td><code>acceptTone</code></td>
+          <td><code>'primary' | 'danger'</code></td>
+          <td>Color del botón accept. Default primary.</td>
+        </tr>
+        <tr>
+          <td><code>emphasis</code></td>
+          <td><code>'accept' | 'reject'</code></td>
+          <td>
+            Qué botón lleva el peso visual. <code>'reject'</code> para "descartar" — el accept queda
+            destructivo pero suave, el reject pasa al final con styling primary.
+          </td>
+        </tr>
       </tbody>
     </table>
   </section>

@@ -30,11 +30,7 @@
 </div>
 
 @if (footerText()) {
-  <span
-    class="sc-input__msg"
-    [class.sc-input__msg--error]="!!error()"
-    [id]="resolvedId() + '-msg'"
-  >
+  <span class="sc-input__msg" [class.sc-input__msg--error]="!!error()" [id]="resolvedId() + '-msg'">
     {{ footerText() }}
   </span>
 }

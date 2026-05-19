@@ -5,8 +5,8 @@
     <p class="gallery__lede">
       <code>&lt;sc-keyboard-shortcuts&gt;</code> es la <em>cheat sheet</em> de atajos que se abre
       con <kbd>?</kbd> desde cualquier sitio. Renderiza como modal listando todos los atajos
-      soportados agrupados por propósito. Se suprime cuando el usuario está tecleando en un
-      input para que <kbd>?</kbd> se escriba normal. Página documental — vive en el app shell.
+      soportados agrupados por propósito. Se suprime cuando el usuario está tecleando en un input
+      para que <kbd>?</kbd> se escriba normal. Página documental — vive en el app shell.
     </p>
   </header>
 
@@ -16,7 +16,12 @@
       Abrirlo en AED: pulsa <kbd>?</kbd> en cualquier pantalla (fuera de un input).
     </p>
     <div class="gallery__row gallery__row--inline">
-      <a class="btn btn--secondary" href="https://aed.smartcontact.netlify.app" target="_blank" rel="noopener">
+      <a
+        class="btn btn--secondary"
+        href="https://aed.smartcontact.netlify.app"
+        target="_blank"
+        rel="noopener"
+      >
         Abrir AED en pestaña nueva →
       </a>
     </div>
@@ -32,9 +37,18 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td><kbd>?</kbd></td><td>Toggle (abre / cierra) — solo fuera de inputs</td></tr>
-        <tr><td><kbd>Esc</kbd></td><td>Cierra (siempre, incluso dentro de inputs)</td></tr>
-        <tr><td>Click en backdrop</td><td>Cierra</td></tr>
+        <tr>
+          <td><kbd>?</kbd></td>
+          <td>Toggle (abre / cierra) — solo fuera de inputs</td>
+        </tr>
+        <tr>
+          <td><kbd>Esc</kbd></td>
+          <td>Cierra (siempre, incluso dentro de inputs)</td>
+        </tr>
+        <tr>
+          <td>Click en backdrop</td>
+          <td>Cierra</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -55,10 +69,9 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">4 · Por qué se suprime dentro de inputs</h2>
     <p class="gallery__hint">
-      Sin el guard, pulsar <kbd>?</kbd> dentro del campo de búsqueda del toolbar abriría el
-      overlay y robaría el carácter. El componente comprueba el target del evento:
-      <code>INPUT</code>, <code>TEXTAREA</code>, <code>SELECT</code> o
-      <code>contenteditable</code> → no se dispara.
+      Sin el guard, pulsar <kbd>?</kbd> dentro del campo de búsqueda del toolbar abriría el overlay
+      y robaría el carácter. El componente comprueba el target del evento: <code>INPUT</code>,
+      <code>TEXTAREA</code>, <code>SELECT</code> o <code>contenteditable</code> → no se dispara.
     </p>
   </section>
 

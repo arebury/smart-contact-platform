@@ -84,9 +84,7 @@ export class BulkTranscriptionModalComponent {
     return b.c_t + b.c_ea + b.c_aa + b.ch_ea + b.ch_aa;
   });
 
-  protected readonly nFilteredOut = computed(
-    () => this.nSelected() - this.nProcessable(),
-  );
+  protected readonly nFilteredOut = computed(() => this.nSelected() - this.nProcessable());
 
   protected readonly analysisOnlyMode = computed(() => {
     const b = this.buckets();
@@ -95,9 +93,7 @@ export class BulkTranscriptionModalComponent {
 
   protected readonly toggleLocked = computed(() => this.analysisOnlyMode());
 
-  protected readonly toggleOn = computed(() =>
-    this.toggleLocked() ? true : this.userToggleOn(),
-  );
+  protected readonly toggleOn = computed(() => (this.toggleLocked() ? true : this.userToggleOn()));
 
   protected readonly destination1 = computed(() => this.buckets().c_t);
 
@@ -111,9 +107,7 @@ export class BulkTranscriptionModalComponent {
     return b.c_aa + b.ch_aa + (this.toggleOn() ? 0 : b.c_ea + b.ch_ea);
   });
 
-  protected readonly toProcess = computed(
-    () => this.destination1() + this.destination2(),
-  );
+  protected readonly toProcess = computed(() => this.destination1() + this.destination2());
 
   protected readonly buttonDisabled = computed(() => this.toProcess() === 0);
 
@@ -124,9 +118,7 @@ export class BulkTranscriptionModalComponent {
   });
 
   protected readonly destination1LabelKey = computed(() =>
-    this.toggleOn()
-      ? 'memory.bulk_modal.col1.label_on'
-      : 'memory.bulk_modal.col1.label_off',
+    this.toggleOn() ? 'memory.bulk_modal.col1.label_on' : 'memory.bulk_modal.col1.label_off',
   );
 
   protected readonly col1DescKey = computed(() =>
@@ -146,8 +138,7 @@ export class BulkTranscriptionModalComponent {
   protected readonly col3DescKey = computed(() => {
     const d3 = this.destination3();
     if (d3 === 0) return 'memory.bulk_modal.col3.desc_zero';
-    const includesEa =
-      !this.toggleOn() && this.buckets().c_ea + this.buckets().ch_ea > 0;
+    const includesEa = !this.toggleOn() && this.buckets().c_ea + this.buckets().ch_ea > 0;
     return includesEa
       ? 'memory.bulk_modal.col3.desc_with_skipped_analysis'
       : 'memory.bulk_modal.col3.desc_already';

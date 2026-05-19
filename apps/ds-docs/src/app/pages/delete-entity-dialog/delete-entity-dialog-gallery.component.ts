@@ -18,9 +18,7 @@ export class DeleteEntityDialogGalleryComponent {
   protected readonly bulkVisible = signal(false);
   protected readonly bulkLargeVisible = signal(false);
 
-  protected readonly singleItem: readonly DeletableEntity[] = [
-    { id: 1, name: 'María García' },
-  ];
+  protected readonly singleItem: readonly DeletableEntity[] = [{ id: 1, name: 'María García' }];
 
   protected readonly bulkItems: readonly DeletableEntity[] = [
     { id: 1, name: 'María García' },

@@ -16,9 +16,7 @@ export class CategoriesStore {
 
   readonly categories = this._categories.asReadonly();
 
-  readonly activeCategories = computed(() =>
-    this._categories().filter((c) => c.isActive),
-  );
+  readonly activeCategories = computed(() => this._categories().filter((c) => c.isActive));
 
   readonly isEmpty = computed(() => this._categories().length === 0);
 
@@ -30,7 +28,9 @@ export class CategoriesStore {
     this._categories.update((list) => list.filter((c) => c.id !== id));
   }
 
-  addCategory(partial: Omit<Category, 'id' | 'createdAt' | 'usedInRules' | 'classifiedCalls'>): Category {
+  addCategory(
+    partial: Omit<Category, 'id' | 'createdAt' | 'usedInRules' | 'classifiedCalls'>,
+  ): Category {
     const now = new Date().toISOString();
     const newCat: Category = {
       ...partial,
@@ -43,18 +43,17 @@ export class CategoriesStore {
     return newCat;
   }
 
-  updateCategory(id: string, patch: Partial<Omit<Category, 'id' | 'createdAt' | 'usedInRules' | 'classifiedCalls'>>): void {
-    this._categories.update((list) =>
-      list.map((c) => (c.id === id ? { ...c, ...patch } : c)),
-    );
+  updateCategory(
+    id: string,
+    patch: Partial<Omit<Category, 'id' | 'createdAt' | 'usedInRules' | 'classifiedCalls'>>,
+  ): void {
+    this._categories.update((list) => list.map((c) => (c.id === id ? { ...c, ...patch } : c)));
   }
 
   isNameTaken(name: string, exceptId?: string): boolean {
     const lower = name.trim().toLowerCase();
     if (!lower) return false;
-    return this._categories().some(
-      (c) => c.id !== exceptId && c.name.toLowerCase() === lower,
-    );
+    return this._categories().some((c) => c.id !== exceptId && c.name.toLowerCase() === lower);
   }
 
   duplicateCategory(id: string): Category | null {

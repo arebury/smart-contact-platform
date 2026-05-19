@@ -5,11 +5,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { PageHeaderService } from '@core/services';
-import {
-  InputNumberComponent,
-  SelectComponent,
-  ToggleSwitchComponent,
-} from '@shared/components';
+import { InputNumberComponent, SelectComponent, ToggleSwitchComponent } from '@shared/components';
 
 interface FormState {
   capacidadTipo: 'fija' | 'variable';
@@ -114,9 +110,10 @@ export class AedGruposPageComponent {
    * Adapter para `<sc-input-number>` que emite `number | null` directamente.
    * Si null → no actualizamos (mantener último valor válido).
    */
-  protected onNumberValueChange<
-    K extends 'limiteCola' | 'tiempoTransferencia' | 'tiempoMaxEspera',
-  >(key: K, value: number | null): void {
+  protected onNumberValueChange<K extends 'limiteCola' | 'tiempoTransferencia' | 'tiempoMaxEspera'>(
+    key: K,
+    value: number | null,
+  ): void {
     if (value !== null && Number.isFinite(value) && value >= 0) this.update(key, value);
   }
 

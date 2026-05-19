@@ -22,7 +22,9 @@
   font-weight: 500;
   cursor: pointer;
   position: relative;
-  transition: background-color 200ms ease-out, border-color 200ms ease-out;
+  transition:
+    background-color 200ms ease-out,
+    border-color 200ms ease-out;
 
   &:hover {
     background: var(--sc-bg-elevated);

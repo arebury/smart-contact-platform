@@ -18,13 +18,9 @@ export class EntitiesStore {
 
   readonly entities = this._entities.asReadonly();
 
-  readonly systemEntities = computed(() =>
-    this._entities().filter((e) => e.isSystem),
-  );
+  readonly systemEntities = computed(() => this._entities().filter((e) => e.isSystem));
 
-  readonly userEntities = computed(() =>
-    this._entities().filter((e) => !e.isSystem),
-  );
+  readonly userEntities = computed(() => this._entities().filter((e) => !e.isSystem));
 
   readonly hasUserEntities = computed(() => this.userEntities().length > 0);
 
@@ -62,9 +58,7 @@ export class EntitiesStore {
   updateEntity(id: string, patch: Partial<Omit<Entity, 'id' | 'isSystem' | 'createdAt'>>): void {
     this._entities.update((list) => {
       const now = new Date().toISOString();
-      return list.map((e) =>
-        e.id === id && !e.isSystem ? { ...e, ...patch, updatedAt: now } : e,
-      );
+      return list.map((e) => (e.id === id && !e.isSystem ? { ...e, ...patch, updatedAt: now } : e));
     });
   }
 
@@ -75,8 +69,6 @@ export class EntitiesStore {
   isNameTaken(name: string, exceptId?: string): boolean {
     const lower = name.trim().toLowerCase();
     if (!lower) return false;
-    return this._entities().some(
-      (e) => e.id !== exceptId && e.name.toLowerCase() === lower,
-    );
+    return this._entities().some((e) => e.id !== exceptId && e.name.toLowerCase() === lower);
   }
 }

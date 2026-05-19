@@ -85,9 +85,7 @@ export class LabelFormPanelComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    queueMicrotask(() =>
-      this.nameInput?.nativeElement.querySelector('input')?.focus(),
-    );
+    queueMicrotask(() => this.nameInput?.nativeElement.querySelector('input')?.focus());
   }
 
   protected onNameInput(value: string): void {

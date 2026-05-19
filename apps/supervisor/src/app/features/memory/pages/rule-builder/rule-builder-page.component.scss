@@ -179,7 +179,9 @@
     line-height: 1.45;
     resize: vertical;
     font-family: inherit;
-    transition: border-color 200ms ease-out, box-shadow 200ms ease-out;
+    transition:
+      border-color 200ms ease-out,
+      box-shadow 200ms ease-out;
 
     &:focus {
       outline: none;

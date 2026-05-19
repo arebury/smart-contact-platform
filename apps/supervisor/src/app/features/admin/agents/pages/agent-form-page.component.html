@@ -492,9 +492,7 @@
                     <sc-search
                       class="picker-search"
                       size="sm"
-                      [placeholder]="
-                        'agents.form.advanced.agendas.search_placeholder' | translate
-                      "
+                      [placeholder]="'agents.form.advanced.agendas.search_placeholder' | translate"
                       [clearAriaLabel]="'common.search_clear' | translate"
                       [value]="scheduleSearch()"
                       (valueChange)="scheduleSearch.set($event)"
@@ -622,9 +620,7 @@
                   <sc-search
                     class="picker-search"
                     size="sm"
-                    [placeholder]="
-                      'agents.form.advanced.plantillas.search_placeholder' | translate
-                    "
+                    [placeholder]="'agents.form.advanced.plantillas.search_placeholder' | translate"
                     [clearAriaLabel]="'common.search_clear' | translate"
                     [value]="templateSearch()"
                     (valueChange)="templateSearch.set($event)"
@@ -710,7 +706,7 @@
                       optionValue="value"
                       [options]="[
                         { label: 'agents.form.fields.pickup_auto' | translate, value: 'auto' },
-                        { label: 'agents.form.fields.pickup_manual' | translate, value: 'manual' }
+                        { label: 'agents.form.fields.pickup_manual' | translate, value: 'manual' },
                       ]"
                       [value]="form().pickupType"
                       (valueChange)="onPickupValueChange('pickupType', $event)"
@@ -727,7 +723,7 @@
                       optionValue="value"
                       [options]="[
                         { label: 'agents.form.fields.pickup_auto' | translate, value: 'auto' },
-                        { label: 'agents.form.fields.pickup_manual' | translate, value: 'manual' }
+                        { label: 'agents.form.fields.pickup_manual' | translate, value: 'manual' },
                       ]"
                       [value]="form().pickupTypeChat"
                       (valueChange)="onPickupValueChange('pickupTypeChat', $event)"

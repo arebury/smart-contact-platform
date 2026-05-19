@@ -8,7 +8,14 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 @Component({
   selector: 'sc-ds-docs-inputs-gallery',
   standalone: true,
-  imports: [InputComponent, FormsModule, ReactiveFormsModule, FloatLabelModule, InputTextModule, GalleryFooterComponent],
+  imports: [
+    InputComponent,
+    FormsModule,
+    ReactiveFormsModule,
+    FloatLabelModule,
+    InputTextModule,
+    GalleryFooterComponent,
+  ],
   templateUrl: './inputs-gallery.component.html',
   styleUrl: './inputs-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

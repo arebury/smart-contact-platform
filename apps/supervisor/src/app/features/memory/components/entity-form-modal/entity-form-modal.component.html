@@ -2,10 +2,8 @@
   [visible]="visible()"
   [icon]="databaseIcon"
   [title]="
-    (isEditMode()
-      ? 'memory.entities.form.title_edit'
-      : 'memory.entities.form.title_new'
-    ) | translate
+    (isEditMode() ? 'memory.entities.form.title_edit' : 'memory.entities.form.title_new')
+      | translate
   "
   [subtitle]="'memory.entities.form.subtitle' | translate"
   width="600px"
@@ -19,18 +17,14 @@
         [required]="true"
         [value]="name()"
         (valueChange)="setName($event)"
-        [error]="
-          nameError() ? ((nameError() ?? '') | translate) : ''
-        "
+        [error]="nameError() ? (nameError() ?? '' | translate) : ''"
       />
     </div>
 
     <div class="entity-form__row">
       <label for="entity-description" class="entity-form__label">
         {{ 'memory.entities.form.description_label' | translate }}
-        <span class="entity-form__optional">
-          ({{ 'common.optional' | translate }})
-        </span>
+        <span class="entity-form__optional"> ({{ 'common.optional' | translate }}) </span>
       </label>
       <textarea
         id="entity-description"
@@ -87,9 +81,7 @@
       <div class="entity-form__row entity-form__list-row">
         <h3 class="entity-form__label entity-form__label--heading">
           {{ 'memory.entities.form.list_values_label' | translate }}
-          <span class="entity-form__optional">
-            ({{ listValues().length }})
-          </span>
+          <span class="entity-form__optional"> ({{ listValues().length }}) </span>
         </h3>
         <p class="entity-form__hint">
           {{ 'memory.entities.form.list_values_hint' | translate }}
@@ -119,11 +111,7 @@
             </p>
           }
         </div>
-        <button
-          type="button"
-          class="entity-form__list-add"
-          (click)="addListValue()"
-        >
+        <button type="button" class="entity-form__list-add" (click)="addListValue()">
           <lucide-icon [img]="plusIcon" [size]="13" aria-hidden="true" />
           {{ 'memory.entities.form.add_list_value' | translate }}
         </button>
@@ -135,12 +123,7 @@
     <p-button type="button" severity="secondary" (onClick)="onCancel()">
       <span>{{ 'common.cancel' | translate }}</span>
     </p-button>
-    <p-button
-      type="button"
-      severity="primary"
-      [disabled]="!canSave()"
-      (onClick)="onSave()"
-    >
+    <p-button type="button" severity="primary" [disabled]="!canSave()" (onClick)="onSave()">
       <span>
         @if (isEditMode()) {
           {{ 'memory.entities.form.save_changes' | translate }}

@@ -18,11 +18,7 @@
   </div>
 </div>
 
-<sc-bulk-action-bar
-  [count]="selectedCount()"
-  [entity]="bulkEntity"
-  (clear)="onClearSelection()"
->
+<sc-bulk-action-bar [count]="selectedCount()" [entity]="bulkEntity" (clear)="onClearSelection()">
   <p-button type="button" severity="secondary" (onClick)="onBulkMarkRead()">
     <lucide-icon [img]="markReadIcon" [size]="14" aria-hidden="true" />
     <span>{{ 'memory.bulk.mark_read' | translate }}</span>

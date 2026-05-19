@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  model,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, model } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Filter, LucideAngularModule } from 'lucide-angular';
 import { PopoverModule } from 'primeng/popover';

@@ -1,12 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  Database,
-  LucideAngularModule,
-  Lock,
-  MoreVertical,
-  Plus,
-} from 'lucide-angular';
+import { Database, LucideAngularModule, Lock, MoreVertical, Plus } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
@@ -98,9 +92,7 @@ export class EntitiesPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant(
-        wasEdit
-          ? 'memory.entities.form.updated_toast'
-          : 'memory.entities.form.created_toast',
+        wasEdit ? 'memory.entities.form.updated_toast' : 'memory.entities.form.created_toast',
         { name: entity.name },
       ),
       life: 2200,

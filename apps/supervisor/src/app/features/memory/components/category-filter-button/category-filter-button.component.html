@@ -24,11 +24,7 @@
     <header class="category-filter-panel__head">
       <h3>{{ 'memory.category_filter.panel_title' | translate }}</h3>
       @if (hasActive()) {
-        <button
-          type="button"
-          class="category-filter-panel__clear"
-          (click)="clearAll()"
-        >
+        <button type="button" class="category-filter-panel__clear" (click)="clearAll()">
           {{ 'memory.category_filter.clear' | translate }}
         </button>
       }
@@ -41,15 +37,8 @@
         </p>
       } @else {
         @for (cat of available(); track cat) {
-          <label
-            class="category-filter-row"
-            [class.category-filter-row--selected]="isChecked(cat)"
-          >
-            <input
-              type="checkbox"
-              [checked]="isChecked(cat)"
-              (change)="toggle(cat)"
-            />
+          <label class="category-filter-row" [class.category-filter-row--selected]="isChecked(cat)">
+            <input type="checkbox" [checked]="isChecked(cat)" (change)="toggle(cat)" />
             <span>{{ cat }}</span>
           </label>
         }
@@ -58,11 +47,7 @@
 
     @if (available().length > 0) {
       <footer class="category-filter-panel__foot">
-        <button
-          type="button"
-          class="category-filter-panel__toggle-all"
-          (click)="toggleAll()"
-        >
+        <button type="button" class="category-filter-panel__toggle-all" (click)="toggleAll()">
           {{
             (allSelected()
               ? 'memory.category_filter.deselect_all'

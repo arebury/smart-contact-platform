@@ -3,19 +3,18 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Inline rename cell</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-inline-rename-cell&gt;</code> es la cell editable in-place. Usada después
-      de un "duplicar" para renombrar el borrador sin router round-trip. Autofocus + select-all
-      al montar; <kbd>Enter</kbd> o ✓ → <code>(commit)</code>;
-      <kbd>Esc</kbd> o × → <code>(cancelled)</code>. Sizing matchea exactamente la cell de
-      reposo — la tabla no shiftea al entrar/salir de edición.
+      <code>&lt;sc-inline-rename-cell&gt;</code> es la cell editable in-place. Usada después de un
+      "duplicar" para renombrar el borrador sin router round-trip. Autofocus + select-all al montar;
+      <kbd>Enter</kbd> o ✓ → <code>(commit)</code>; <kbd>Esc</kbd> o × → <code>(cancelled)</code>.
+      Sizing matchea exactamente la cell de reposo — la tabla no shiftea al entrar/salir de edición.
     </p>
   </header>
 
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Edita el nombre</h2>
     <p class="gallery__hint">
-      Prueba: cambia el texto y pulsa <kbd>Enter</kbd> (commit) o <kbd>Esc</kbd> (cancel).
-      Después dale a "Reiniciar" para repetir.
+      Prueba: cambia el texto y pulsa <kbd>Enter</kbd> (commit) o <kbd>Esc</kbd> (cancel). Después
+      dale a "Reiniciar" para repetir.
     </p>
     <div class="gallery__row gallery__row--stack">
       @if (editing()) {

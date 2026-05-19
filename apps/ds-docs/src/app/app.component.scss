@@ -80,10 +80,14 @@
 }
 
 @media (max-width: 1024px) {
-  .shell__meta-bar { left: 240px; }
+  .shell__meta-bar {
+    left: 240px;
+  }
 }
 @media (max-width: 720px) {
-  .shell__meta-bar { display: none; }
+  .shell__meta-bar {
+    display: none;
+  }
 }
 
 /* ════════════════════════════════════════════════════════════════════
@@ -184,7 +188,9 @@
     font-size: 13px;
     font-weight: 500;
     line-height: 1.4;
-    transition: background 120ms ease, color 120ms ease;
+    transition:
+      background 120ms ease,
+      color 120ms ease;
     position: relative;
 
     &:hover {
@@ -225,7 +231,9 @@
     color: var(--sc-color-gray-400);
     font-weight: 500;
     min-width: 18px;
-    transition: color 180ms ease, transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition:
+      color 180ms ease,
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
     display: inline-block;
     transform-origin: center;
   }
@@ -246,7 +254,9 @@
   padding-bottom: 4px;
   border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
 
-  &:first-child { margin-top: 0; }
+  &:first-child {
+    margin-top: 0;
+  }
 
   .shell__group-label {
     font-family: var(--dsd-font-mono);
@@ -275,7 +285,9 @@
   .shell__external-icon {
     flex-shrink: 0;
     opacity: 0.6;
-    transition: opacity 120ms ease, transform 120ms ease;
+    transition:
+      opacity 120ms ease,
+      transform 120ms ease;
   }
 
   &:hover {
@@ -307,7 +319,7 @@
 
 /* ─── Main content — asymmetric Swiss padding L>R ───────────────────── */
 .shell__main {
-  padding: 56px 72px 96px 88px;  /* L=88, R=72 — left heavier for editorial gravity */
+  padding: 56px 72px 96px 88px; /* L=88, R=72 — left heavier for editorial gravity */
   max-width: 1140px;
   min-width: 0;
 }

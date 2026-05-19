@@ -169,7 +169,11 @@ export class RuleBuilderPageComponent {
         return;
       }
       const typeParam = this.route.snapshot.queryParamMap.get('type') as RuleType | null;
-      if (typeParam === 'recording' || typeParam === 'transcription' || typeParam === 'classification') {
+      if (
+        typeParam === 'recording' ||
+        typeParam === 'transcription' ||
+        typeParam === 'classification'
+      ) {
         this.ruleType.set(typeParam);
       }
     });
@@ -226,10 +230,7 @@ export class RuleBuilderPageComponent {
         from: this.scheduleFrom(),
         to: this.scheduleTo(),
       },
-      durationMin:
-        this.durationUnit() === 'minutes'
-          ? this.durationMin() * 60
-          : this.durationMin(),
+      durationMin: this.durationUnit() === 'minutes' ? this.durationMin() * 60 : this.durationMin(),
       attendedBy: this.attendedBy(),
       aiAnalysis: this.aiAnalysis(),
     };

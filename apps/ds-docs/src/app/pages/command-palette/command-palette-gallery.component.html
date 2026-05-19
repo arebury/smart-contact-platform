@@ -4,10 +4,10 @@
     <h1 class="gallery__title">Command palette</h1>
     <p class="gallery__lede">
       <code>&lt;sc-command-palette&gt;</code> es el overlay tipo <kbd>⌘K</kbd> / <kbd>Ctrl+K</kbd>
-      con búsqueda fuzzy y comandos categorizados (Páginas, Acciones). Se monta UNA VEZ en el
-      shell de la app y escucha el shortcut globalmente. Es el componente más cercano a un
-      "component of context" — no tiene sentido fuera del app shell, por eso esta página es
-      documental (sin demo interactivo).
+      con búsqueda fuzzy y comandos categorizados (Páginas, Acciones). Se monta UNA VEZ en el shell
+      de la app y escucha el shortcut globalmente. Es el componente más cercano a un "component of
+      context" — no tiene sentido fuera del app shell, por eso esta página es documental (sin demo
+      interactivo).
     </p>
   </header>
 
@@ -15,11 +15,16 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Cómo se ve</h2>
     <p class="gallery__hint">
-      Ábrelo directamente en AED: pulsa <kbd>⌘K</kbd> (Mac) o <kbd>Ctrl+K</kbd> (Win/Linux)
-      desde cualquier pantalla de AED. Aparece centrado, con el input de búsqueda autofocado.
+      Ábrelo directamente en AED: pulsa <kbd>⌘K</kbd> (Mac) o <kbd>Ctrl+K</kbd> (Win/Linux) desde
+      cualquier pantalla de AED. Aparece centrado, con el input de búsqueda autofocado.
     </p>
     <div class="gallery__row gallery__row--inline">
-      <a class="btn btn--secondary" href="https://aed.smartcontact.netlify.app" target="_blank" rel="noopener">
+      <a
+        class="btn btn--secondary"
+        href="https://aed.smartcontact.netlify.app"
+        target="_blank"
+        rel="noopener"
+      >
         Abrir AED en pestaña nueva →
       </a>
     </div>
@@ -29,8 +34,8 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Atajos de teclado</h2>
     <p class="gallery__hint">
-      Una vez abierto, el modelo de teclado es el estándar de paletas de comandos (GitHub,
-      Linear, VS Code).
+      Una vez abierto, el modelo de teclado es el estándar de paletas de comandos (GitHub, Linear,
+      VS Code).
     </p>
     <table class="gallery__table">
       <thead>
@@ -40,11 +45,26 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td><kbd>⌘ K</kbd> / <kbd>Ctrl K</kbd></td><td>Toggle (abre / cierra)</td></tr>
-        <tr><td><kbd>Esc</kbd></td><td>Cierra</td></tr>
-        <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Mueve el cursor entre comandos</td></tr>
-        <tr><td><kbd>↵</kbd></td><td>Ejecuta el comando seleccionado</td></tr>
-        <tr><td>Click en backdrop</td><td>Cierra</td></tr>
+        <tr>
+          <td><kbd>⌘ K</kbd> / <kbd>Ctrl K</kbd></td>
+          <td>Toggle (abre / cierra)</td>
+        </tr>
+        <tr>
+          <td><kbd>Esc</kbd></td>
+          <td>Cierra</td>
+        </tr>
+        <tr>
+          <td><kbd>↑</kbd> <kbd>↓</kbd></td>
+          <td>Mueve el cursor entre comandos</td>
+        </tr>
+        <tr>
+          <td><kbd>↵</kbd></td>
+          <td>Ejecuta el comando seleccionado</td>
+        </tr>
+        <tr>
+          <td>Click en backdrop</td>
+          <td>Cierra</td>
+        </tr>
       </tbody>
     </table>
   </section>
@@ -53,8 +73,8 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">3 · Cómo se monta en el shell</h2>
     <p class="gallery__hint">
-      Se monta una sola vez en el <code>app.component.html</code> (o en el shell-level
-      template). NO hay que instanciarlo por ruta. La visibilidad la dispara el
+      Se monta una sola vez en el <code>app.component.html</code> (o en el shell-level template). NO
+      hay que instanciarlo por ruta. La visibilidad la dispara el
       <code>CommandPaletteService</code>.
     </p>
     <pre class="gallery__code"><code>// app.component.ts
@@ -77,9 +97,9 @@ export class AppComponent &#123;&#125;</code></pre>
     <p class="gallery__hint">
       <code>CommandPaletteService.commands</code> es un <code>computed</code> derivado de las
       <code>NAV_SECTIONS</code> del sidebar — cada item navegable de la app se vuelve
-      automáticamente un comando "Páginas". Los comandos "Acciones" (crear agente, abrir
-      atajos, etc.) se inyectan aparte en el service. Cuando añades una ruta nueva al sidebar,
-      aparece sola en la paleta — no hay que tocar nada más.
+      automáticamente un comando "Páginas". Los comandos "Acciones" (crear agente, abrir atajos,
+      etc.) se inyectan aparte en el service. Cuando añades una ruta nueva al sidebar, aparece sola
+      en la paleta — no hay que tocar nada más.
     </p>
     <pre class="gallery__code"><code>export interface PaletteCommand &#123;
   readonly id: string;

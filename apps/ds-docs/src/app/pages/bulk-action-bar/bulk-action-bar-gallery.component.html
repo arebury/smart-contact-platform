@@ -4,28 +4,24 @@
     <h1 class="gallery__title">Bulk action bar</h1>
     <p class="gallery__lede">
       <code>&lt;sc-bulk-action-bar&gt;</code> es la barra inferior fixed que aparece cuando se
-      seleccionan items en una tabla. Muestra <em>"N entidad seleccionada/s"</em> + botón
-      vaciar a la izquierda, y acciones proyectadas (content) a la derecha. Se alinea con la
-      sidebar via <code>--sc-sidebar-width</code>.
+      seleccionan items en una tabla. Muestra <em>"N entidad seleccionada/s"</em> + botón vaciar a
+      la izquierda, y acciones proyectadas (content) a la derecha. Se alinea con la sidebar via
+      <code>--sc-sidebar-width</code>.
     </p>
   </header>
 
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Selecciona filas para activar la barra</h2>
     <p class="gallery__hint">
-      Cuando <code>[count]="0"</code> la barra no se renderiza. Selecciona alguna fila para
-      verla aparecer abajo (puede que tengas que scrollear).
+      Cuando <code>[count]="0"</code> la barra no se renderiza. Selecciona alguna fila para verla
+      aparecer abajo (puede que tengas que scrollear).
     </p>
     <div class="gallery__row gallery__row--stack">
       <ul class="gallery__rows">
         @for (row of availableRows; track row.id) {
           <li class="gallery__rows-item">
             <label>
-              <input
-                type="checkbox"
-                [checked]="isSelected(row.id)"
-                (change)="toggle(row.id)"
-              />
+              <input type="checkbox" [checked]="isSelected(row.id)" (change)="toggle(row.id)" />
               <span>{{ row.name }}</span>
             </label>
           </li>
@@ -43,11 +39,7 @@
       <code>entity.suffixSingular = 'seleccionado'</code> / <code>'seleccionados'</code> — el
       default. La barra emite <code>(clear)</code> al click en × → vaciar la selección.
     </p>
-    <sc-bulk-action-bar
-      [count]="count()"
-      [entity]="agentEntity"
-      (clear)="clear()"
-    >
+    <sc-bulk-action-bar [count]="count()" [entity]="agentEntity" (clear)="clear()">
       <button type="button" class="btn btn--secondary">Editar</button>
       <button type="button" class="btn btn--danger">Eliminar</button>
     </sc-bulk-action-bar>
@@ -59,11 +51,7 @@
       Spanish gender suffix override. La misma selección se muestra como
       <em>"N etiquetas seleccionadas"</em>.
     </p>
-    <sc-bulk-action-bar
-      [count]="count()"
-      [entity]="femaleEntity"
-      (clear)="clear()"
-    >
+    <sc-bulk-action-bar [count]="count()" [entity]="femaleEntity" (clear)="clear()">
       <button type="button" class="btn btn--secondary">Duplicar</button>
       <button type="button" class="btn btn--secondary">Archivar</button>
     </sc-bulk-action-bar>

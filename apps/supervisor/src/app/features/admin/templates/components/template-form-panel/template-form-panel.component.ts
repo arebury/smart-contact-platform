@@ -73,9 +73,7 @@ export class TemplateFormPanelComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    queueMicrotask(() =>
-      this.titleInput?.nativeElement.querySelector('input')?.focus(),
-    );
+    queueMicrotask(() => this.titleInput?.nativeElement.querySelector('input')?.focus());
   }
 
   protected setType(type: TemplateType): void {

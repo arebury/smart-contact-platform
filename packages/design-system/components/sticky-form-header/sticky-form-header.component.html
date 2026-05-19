@@ -78,13 +78,14 @@
         <span>{{ 'common.back' | translate }}</span>
       </p-button>
     }
-    <p-button
-      type="button"
-      [disabled]="!canSave() || saving()"
-      (onClick)="save.emit()"
-    >
+    <p-button type="button" [disabled]="!canSave() || saving()" (onClick)="save.emit()">
       @if (saving()) {
-        <lucide-icon [img]="loaderIcon" [size]="13" class="sticky-header__spin" [attr.aria-hidden]="true" />
+        <lucide-icon
+          [img]="loaderIcon"
+          [size]="13"
+          class="sticky-header__spin"
+          [attr.aria-hidden]="true"
+        />
         <span>{{ 'common.loading' | translate }}</span>
       } @else {
         <span>{{ 'common.save' | translate }}</span>

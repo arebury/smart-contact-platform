@@ -26,12 +26,7 @@
           Deshacer
         </button>
       }
-      <button
-        type="button"
-        class="sc-toast__close"
-        aria-label="Cerrar"
-        (click)="onClose()"
-      >
+      <button type="button" class="sc-toast__close" aria-label="Cerrar" (click)="onClose()">
         <lucide-icon [img]="icons.close" [size]="14" aria-hidden="true" />
       </button>
     </div>
@@ -44,15 +39,18 @@
     <h1 class="gallery__title">Toast</h1>
     <p class="gallery__lede">
       Notificación efímera anclada abajo a la derecha. Basada en
-      <code>&lt;p-toast&gt;</code> de PrimeNG con un <code>pTemplate="message"</code> override
-      + tokens <code>--sc-toast-*</code>. Pulsa los botones de cada sección para ver el toast en vivo.
+      <code>&lt;p-toast&gt;</code> de PrimeNG con un <code>pTemplate="message"</code> override +
+      tokens <code>--sc-toast-*</code>. Pulsa los botones de cada sección para ver el toast en vivo.
     </p>
   </header>
 
   <!-- 1. Severities. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Severities</h2>
-    <p class="gallery__hint">5 tonos: success / info / warn / error / secondary (overload SC → violeta para "neutral notices" tipo borrador creado).</p>
+    <p class="gallery__hint">
+      5 tonos: success / info / warn / error / secondary (overload SC → violeta para "neutral
+      notices" tipo borrador creado).
+    </p>
     <div class="gallery__row">
       <p-button label="Success" severity="success" (click)="fireSuccess()" />
       <p-button label="Info" severity="info" (click)="fireInfo()" />
@@ -66,7 +64,8 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">2 · Con botón "Deshacer" (SC extension)</h2>
     <p class="gallery__hint">
-      Patrón undo: <code>data.undoEntryId</code> en <code>MessageService.add()</code> añade un botón de acción al toast. Figma no modela este slot — es extensión SC.
+      Patrón undo: <code>data.undoEntryId</code> en <code>MessageService.add()</code> añade un botón
+      de acción al toast. Figma no modela este slot — es extensión SC.
     </p>
     <div class="gallery__row">
       <p-button label="Eliminar (con undo)" severity="danger" (click)="fireUndo()" />
@@ -77,7 +76,8 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">3 · Sticky (no auto-dismiss)</h2>
     <p class="gallery__hint">
-      <code>sticky: true</code> evita el auto-dismiss. Usado para acciones de fondo (sincronización, carga larga). El usuario debe cerrarlo con la X.
+      <code>sticky: true</code> evita el auto-dismiss. Usado para acciones de fondo (sincronización,
+      carga larga). El usuario debe cerrarlo con la X.
     </p>
     <div class="gallery__row">
       <p-button label="Iniciar sync (sticky)" severity="info" (click)="fireSticky()" />
@@ -87,7 +87,10 @@
   <!-- 4. Long content (text wrap). -->
   <section class="gallery__section">
     <h2 class="gallery__h2">4 · Texto largo</h2>
-    <p class="gallery__hint">El toast tiene <code>width: 350px</code> fijo (Figma) — textos largos hacen wrap natural dentro de ese ancho.</p>
+    <p class="gallery__hint">
+      El toast tiene <code>width: 350px</code> fijo (Figma) — textos largos hacen wrap natural
+      dentro de ese ancho.
+    </p>
     <div class="gallery__row">
       <p-button label="Mostrar aviso largo" severity="warn" (click)="fireLong()" />
     </div>
@@ -96,11 +99,13 @@
   <!-- 5. Clear all. -->
   <section class="gallery__section">
     <h2 class="gallery__h2">5 · Limpiar todos</h2>
-    <p class="gallery__hint"><code>MessageService.clear()</code> sin argumentos cierra todos los toasts activos.</p>
+    <p class="gallery__hint">
+      <code>MessageService.clear()</code> sin argumentos cierra todos los toasts activos.
+    </p>
     <div class="gallery__row">
       <p-button label="Limpiar toasts" severity="secondary" (click)="clearAll()" />
     </div>
   </section>
 
-<sc-ds-docs-gallery-footer slug="toast" />
+  <sc-ds-docs-gallery-footer slug="toast" />
 </div>

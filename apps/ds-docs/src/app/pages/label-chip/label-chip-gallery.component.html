@@ -6,13 +6,16 @@
       <code>&lt;sc-label-chip&gt;</code> es la pastilla categórica con color por etiqueta. Usado en
       tablas (filas de agentes / grupos) y en pickers. Soporta dos sizes (<code>xs</code>,
       <code>sm</code>) y un botón × opcional para flujos de eliminación. El color viene del
-      <code>LabelColor</code> (10 tokens custom) — cada uno con <code>--sc-label-COLOR-(bg|text|border|dot)</code>.
+      <code>LabelColor</code> (10 tokens custom) — cada uno con
+      <code>--sc-label-COLOR-(bg|text|border|dot)</code>.
     </p>
   </header>
 
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Paleta completa (10 colores)</h2>
-    <p class="gallery__hint">Las 10 entradas de la <code>LabelColor</code> palette tal y como las consume AED.</p>
+    <p class="gallery__hint">
+      Las 10 entradas de la <code>LabelColor</code> palette tal y como las consume AED.
+    </p>
     <div class="gallery__row gallery__row--wrap">
       @for (l of colors; track l.name) {
         <sc-label-chip [label]="l" />
@@ -43,11 +46,7 @@
     <div class="gallery__row gallery__row--wrap">
       @for (l of colors; track l.name) {
         @if (!removed().includes(l.name)) {
-          <sc-label-chip
-            [label]="l"
-            [removable]="true"
-            (remove)="onRemove(l.name)"
-          />
+          <sc-label-chip [label]="l" [removable]="true" (remove)="onRemove(l.name)" />
         }
       }
     </div>

@@ -6,9 +6,9 @@
     <h1 class="gallery__title">Photo upload</h1>
     <p class="gallery__lede">
       <code>&lt;sc-photo-upload&gt;</code> es el avatar circular subible (formularios Agents +
-      Users). Hover muestra overlay con cámara, file input oculto valida tipo (JPG/PNG/GIF) y
-      tamaño (≤800 KB) y emite el data URL via <code>(photoChange)</code>. Si no hay foto y se
-      pasa <code>[name]</code>, el placeholder es el <code>IllustratedAvatarComponent</code>
+      Users). Hover muestra overlay con cámara, file input oculto valida tipo (JPG/PNG/GIF) y tamaño
+      (≤800 KB) y emite el data URL via <code>(photoChange)</code>. Si no hay foto y se pasa
+      <code>[name]</code>, el placeholder es el <code>IllustratedAvatarComponent</code>
       hashed desde el nombre (matchea la cell del listado).
     </p>
   </header>
@@ -16,15 +16,11 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">1 · Sin foto, con nombre (illustrated fallback)</h2>
     <p class="gallery__hint">
-      El placeholder es el portrait ilustrado generado por hash del nombre — el mismo que ves
-      en la cell de la tabla. Click para subir.
+      El placeholder es el portrait ilustrado generado por hash del nombre — el mismo que ves en la
+      cell de la tabla. Click para subir.
     </p>
     <div class="gallery__row">
-      <sc-photo-upload
-        name="Marta Ramírez"
-        [photo]="fresh()"
-        (photoChange)="fresh.set($event)"
-      />
+      <sc-photo-upload name="Marta Ramírez" [photo]="fresh()" (photoChange)="fresh.set($event)" />
     </div>
   </section>
 
@@ -64,7 +60,9 @@
       Sube un archivo no-imagen o &gt;800 KB para ver los toasts de error.
     </p>
     <ul class="gallery__list">
-      <li>Tipos permitidos: <code>image/jpeg</code>, <code>image/png</code>, <code>image/gif</code>.</li>
+      <li>
+        Tipos permitidos: <code>image/jpeg</code>, <code>image/png</code>, <code>image/gif</code>.
+      </li>
       <li>Tamaño máximo: 800 KB.</li>
       <li>Errores se muestran en <code>&lt;p-toast&gt;</code> (configurado en este gallery).</li>
     </ul>

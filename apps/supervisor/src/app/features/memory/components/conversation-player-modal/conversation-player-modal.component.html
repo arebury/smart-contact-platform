@@ -11,10 +11,7 @@
   @if (c) {
     <div class="player-body">
       @if (!isChat()) {
-        <div
-          class="player-audio"
-          [class.player-audio--disabled]="!playerEnabled()"
-        >
+        <div class="player-audio" [class.player-audio--disabled]="!playerEnabled()">
           <button
             type="button"
             class="player-audio__btn"
@@ -118,10 +115,16 @@
             type="button"
             class="player-tabs__action"
             [attr.aria-label]="
-              (isChat() ? 'memory.player.actions.download_chat' : 'memory.player.actions.download_audio') | translate
+              (isChat()
+                ? 'memory.player.actions.download_chat'
+                : 'memory.player.actions.download_audio'
+              ) | translate
             "
             [attr.title]="
-              (isChat() ? 'memory.player.actions.download_chat' : 'memory.player.actions.download_audio') | translate
+              (isChat()
+                ? 'memory.player.actions.download_chat'
+                : 'memory.player.actions.download_audio'
+              ) | translate
             "
             (click)="onDownload()"
           >
@@ -265,9 +268,7 @@
                 </div>
               } @empty {
                 <p class="player-transcript__no-match">
-                  {{
-                    'memory.player.transcript.no_match' | translate: { q: searchTerm() }
-                  }}
+                  {{ 'memory.player.transcript.no_match' | translate: { q: searchTerm() } }}
                 </p>
               }
             </div>
@@ -381,11 +382,7 @@
               <section class="player-section">
                 <header class="player-section__head">
                   <span class="player-section__title">
-                    <lucide-icon
-                      [img]="alignLeftIcon"
-                      [size]="13"
-                      aria-hidden="true"
-                    />
+                    <lucide-icon [img]="alignLeftIcon" [size]="13" aria-hidden="true" />
                     {{ 'memory.player.analysis.summary' | translate }}
                   </span>
                   <span
@@ -408,11 +405,7 @@
               <section class="player-section">
                 <header class="player-section__head">
                   <span class="player-section__title">
-                    <lucide-icon
-                      [img]="trendingUpIcon"
-                      [size]="13"
-                      aria-hidden="true"
-                    />
+                    <lucide-icon [img]="trendingUpIcon" [size]="13" aria-hidden="true" />
                     {{ 'memory.player.analysis.sentiment' | translate }}
                   </span>
                 </header>

@@ -153,7 +153,9 @@
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 120ms ease, background 120ms ease;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease;
 
   &:hover {
     border-color: var(--sc-border-strong);

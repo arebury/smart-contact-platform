@@ -15,13 +15,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 export type ScInputSize = 'sm' | 'md' | 'lg';
 
-export type ScInputType =
-  | 'text'
-  | 'email'
-  | 'password'
-  | 'tel'
-  | 'url'
-  | 'search';
+export type ScInputType = 'text' | 'email' | 'password' | 'tel' | 'url' | 'search';
 
 let scInputIdCounter = 0;
 
