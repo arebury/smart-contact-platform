@@ -5,20 +5,22 @@
 
 ---
 
-## Estado al cerrar (Session 46, 2026-05-20)
+## Estado al cerrar (Session 47, 2026-05-20)
 
-**17+ commits a `main` pusheados** distribuidos en 9 bloques:
+**13 commits a `main` pusheados** distribuidos en bloques A-M. Sweep de deudas
+de diseño + consistencia + naming Figma DS literal (7 wrappers SCDS renombrados).
 
-1. Fix bug switcher popover Memory (§10 #21 cerrado).
-2. Memory `Re-transcribir` desde player modal (§10 #1 cerrado) + RetranscriptionConfirmModal con type-CONFIRMAR gate.
-3. Memory MultiRecordingPlayer multi-leg IVR (§10 #2 cerrado) + wire outputs deferidos (transcription / analysis / both).
-4. Backlog #35 cerrado con voto (a) — Memory click→select justificado vs AED click→edit (DM-6).
-5. Tokens cleanup global · 0 drift residual cross-monorepo. Cocinado `--sc-font-family-mono` con decisión Opción A (system stack) (§5.8 customs-catalog).
-6. **Jerarquía docs sentada**: nuevo `DOCS-INDEX.md` + Memory `DECISIONS.md` (DM-1 a DM-7) + SCDS `DECISIONS.md` (DD-1 a DD-7) + refactor de los 3 `CLAUDE.md` para apuntar a docs source-of-truth.
-7. **Protocolo INDEX obligatorio**: formalizado "antes de tocar herramientas, identificar doc canonical en INDEX y leer primero". Lección S46 anotada en case-study-notes. Backlog #37 (Marta valida variants formales sm/md/lg Kit Pro).
-8. **Filtros Memory `/conversaciones` size=sm**: 6 inputs top-bar reducidos. Bug overlay descubierto (PrimeNG `[size]` solo afecta trigger) → cocinado `panelStyleClass` en multi-select/select/datepicker + partial global `_sc-overlay-sizes.scss` (patrón análogo a `_sc-toast.scss`).
+1. **Tracker refresh post-S46** — 11 entries `home.component.ts` actualizadas (drift cross-monorepo).
+2. **Bloque A — Severity `<p-button>` explícita** en 13 botones list-pages + config aed (cierra inconsistencia post-S34, 38 explícitos vs 13 implícitos).
+3. **Bloque B — mock-sample-switcher cleanup** — `::ng-deep` + 2 `!important` movidos a `main.scss` global (patrón S46).
+4. **Bloque C — 34 spacing tokens** — `padding/margin/gap` hardcoded en escala (4/8/10/12/14/16/20/24/32/40 px) migrados a `var(--sc-spacing-*)`.
+5. **Bloques D-F — Renames Figma DS literal 7 wrappers**: `inputtext`, `inputnumber`, `inputgroup`, `multiselect`, `toggleswitch`, `dialog`, `checkbox`. Matching Kit Pro Figma SC (`❖ ...`) y PrimeNG (`<p-...>`). Facilita Code Connect mapping futuro.
+6. **Bloque G — Verificación drift** — tracker drift = 0 post-rename, build production verde ambas apps.
+7. **Bloque H — Memorias `~/.claude` actualizadas** con nuevo naming SCDS.
+8. **Bloque I-J — Audits defensivos**: i18n keys huérfanas (alto-ruido sin AST walker → registrado #42), NG0950 transitivo (0 candidatos), OnPush coverage 100%.
+9. **Bloques K-L-M — Docs source-of-truth**: backlog `#38-#43` añadidos, tokens `--sc-modal-*` → `--sc-dialog-*` en layers, 25 archivos con stale comments actualizados, DD-8 SCDS DECISIONS, SESSION-LOG S47 entry.
 
-Estado salud: tsc verde, Netlify verde (push S46), Playwright smoke 9 routes (4 Memory + 5 AED) sin errors, husky+lint-staged activo.
+Estado salud cierre S47: tsc verde, build production verde, Netlify verde, husky+lint-staged activo. 0 anti-patterns Angular. 7 wrappers SCDS alineados 1:1 con Kit Pro Figma + PrimeNG → camino libre para Code Connect mapping (Eje 3).
 
 ---
 

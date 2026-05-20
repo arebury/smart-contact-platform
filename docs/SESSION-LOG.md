@@ -10,6 +10,45 @@
 
 ---
 
+## 2026-05-20 · Session 47 — Sweep deudas diseño + naming Figma DS literal + renames SCDS 7 wrappers
+
+> Sesión continua de deudas de diseño y consistencia. **13 commits a `main` pusheados**
+> distribuidos en bloques A-M. Cierra 6 items del backlog (#34-#43) + 7 renames SCDS
+> coherentes con Kit Pro Figma SC + PrimeNG (precedentes para Code Connect mapping).
+
+### Hitos por bloque
+
+1. **Tracker refresh post-S46** — counts `aedUses`/`memoryUses` en `home.component.ts` actualizados (11 entries con drift): button mem 15→18 (retranscription-confirm-modal S46), input aed 22→15 (refactor forms S40+), select aed 16→25 (migraciones S46), input-number +2, datepicker/multiselect/modal/bulk-action-bar +n mem (S46 filters), color-dot-picker/group-popover/command-palette +1 aed. Audit Python con regex `<sc-*` boundary + `<p-button|pButton` para custom-preset. Drift=0 post-fix. Commit `7448576`.
+2. **Bloque A — Severity explícita 13 `<p-button>`** — cierra inconsistencia post-S34 (38 botones explícitos vs 13 implícitos). list-pages admin + 5 cards config aed. Cero riesgo visual (default era primary). Backlog #39 cerrado. Commit `ff8e235`.
+3. **Bloque B — mock-sample-switcher `::ng-deep` cleanup** — reglas overlay z-index + padding=0 movidas de scoped scss a `main.scss` global junto a otros 3 popovers (type-filter, category-filter, rules-conflict). `!important` se mantiene (load-bearing — PrimeNG asigna z-index inline + theme aplica padding default). Backlog #40 cerrado. Commit `0253038`.
+4. **Bloque C — 34 spacings hardcoded → tokens** — `padding/margin/gap` con valores en escala (4/8/10/12/14/16/20/24/32/40 px) migrados a `var(--sc-spacing-*)` en 12 archivos features. Cero cambio visual. Skipped 41 hits off-scale + 274 dimensiones legítimas (width/height/font-size). Backlog #41 cerrado. Commit `9644901`.
+5. **Bloque D — Renames Figma DS literal (3 wrappers)**: `<sc-input>` → `<sc-inputtext>` (60 archivos, 44 templates, 16 markdown), `<sc-input-number>` → `<sc-inputnumber>` (23 archivos), `<sc-multi-select>` → `<sc-multiselect>` (30 archivos). Matching Kit Pro Figma SC (`❖ InputText`/`❖ InputNumber`/`❖ MultiSelect`) y PrimeNG. Facilita Code Connect mapping futuro. 3 commits separados: `8f2de3e`, `9ab6f97`, `687776d`.
+6. **Bloque E/E2/E3/F — 4 wrappers más renombrados**: `<sc-toggle-switch>` → `<sc-toggleswitch>` (29 templates, 22 imports), `<sc-modal>` → `<sc-dialog>` (33 imports, 13 templates + ModalComponent → DialogComponent), `<sc-tri-state-checkbox>` → `<sc-checkbox>` (TriStateCheckboxComponent → CheckboxComponent), `<sc-input-group>` → `<sc-inputgroup>`. Total 7 wrappers SCDS ahora alineados 1:1 con Kit Pro. Backlog #38 cerrado. Commits `6032473`, `2f5e930`, `afa9a48`, `69e8c72`.
+7. **Bloque G — Verificación post-rename** — tracker drift = 0 cross-monorepo, build production verde ambas apps, `_sc-overlay-sizes.scss` partial actualizado (`.sc-multiselect-panel--*`).
+8. **Bloque H — Memorias `~/.claude` actualizadas** — `feedback_figma_specs_thorough.md` + `feedback_migration_safety.md` con nuevo naming SCDS.
+9. **Bloque I-J — Audits defensivos** — i18n keys huérfanas (421 reportadas pero falsos positivos masivos por bindings `titleKey="X"`, requiere AST walker dedicado — registrado en backlog #42). NG0950 transitivo: 0 candidatos (memoria S39 efectiva). OnPush coverage: 100% en componentes producción.
+10. **Bloque K — Backlog `inconsistencies-backlog.md`** — entries #38-#43 añadidas con findings/decisions/results. Pure-sc components confirmados sin equivalente Figma 1:1 (#43, decisión consciente).
+11. **Bloque L — Sweep stale comments + tokens** — 25 archivos con menciones `sc-modal`/`sc-input` en comments actualizados. Tokens `--sc-modal-bg`, `--sc-modal-padding`, `--sc-modal-border`, etc. renombrados a `--sc-dialog-*` en `04-component.css` + `07-dark.css`. Backlog snapshot final. Commit `dd49060`.
+
+### Lecciones portables
+
+- **Renames mecánicos con Python regex requieren word-boundary correcto** — `\bsc-input\b` falla porque `_` es word char en `\b`; pattern correcto es `\bsc-input\b(?!-[a-z])` (no seguido de kebab-cont). Reaprendido 3 veces durante S47.
+- **Naming consistency invertida**: cuando Rafa decidió "Figma DS literal" en Bloque D, había que aplicar la MISMA regla a TODOS los wrappers que tuvieran equivalente PrimeNG/Figma — no solo los 3 iniciales (inputtext/inputnumber/multiselect). Lección: cuando se establece una regla de coherencia, sweep completo en el mismo bloque.
+- **`SESSION-LOG.md` y `historia-*` no se tocan en renames** — son historia inmutable. Solo docs vivos (`NEXT-SESSION-PLAN`, `customs-catalog`, `MIGRATION-INVENTORY`, `DECISIONS`, spec docs).
+- **Audit i18n keys orphans es alto-ruido** sin AST walker — Bloque I produjo 421 falsos positivos (mayoría por bindings `titleKey="X"` que no son `'X' | translate` literal). Marcado para tool dedicada futura.
+
+### Estado salud cierre S47
+
+- tsc verde ambas apps. Build production verde.
+- Husky+lint-staged corriendo prettier en cada commit (formato consistente).
+- 13 commits a main pusheados, Netlify verde.
+- 0 drift tracker home.component.ts.
+- 0 anti-patterns Angular NG0950.
+- 0 OnPush missing en componentes producción.
+- 7 wrappers SCDS alineados 1:1 con Kit Pro Figma + PrimeNG → camino libre para Code Connect mapping.
+
+---
+
 ## 2026-05-20 · Session 46 — Memory §10 #1+#2 cerrados + jerarquía docs sentada + sweep tokens cross-monorepo
 
 > Sesión maratón continua, 13 commits a `main`, todos pusheados. Cierra 4 backlog
