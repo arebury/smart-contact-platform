@@ -70,6 +70,19 @@ Próximo audit recomendado tras 5-6 commits feature work (hoy llevamos 13 desde 
 | 1 | Vigilar nuevos minors PrimeNG (estamos 21.1.7, último 21.1.8 patch trivial verificado S39) | cada 2-3 sesiones |
 | 2 | Dry-run próximo major PrimeNG (22.x cuando salga estable) | trigger upstream release |
 
+### 🎯 Eje 4b — Netlify deploy previews (#27 backlog)
+
+Hoy Netlify solo despliega `main` automáticamente. Activar deploy previews por
+PR significa que cada cambio antes de mergear tendría una URL temporal donde
+Marta (o tú) puede revisar visualmente el resultado antes del merge.
+
+**Cuándo activar**: cuando el flujo de trabajo cambie a "no-todo-directo-a-main"
+o cuando Marta empiece a revisar visualmente cambios sistemáticamente. Hoy el
+flujo "componentes/refactors menores directos a main" no se beneficia.
+
+**Cómo**: Rafa toggle en panel Netlify → Build & deploy → Deploy contexts →
+activar "Deploy previews" en las dos sites (Supervisor + ds-docs). Cero código.
+
 ### 🎯 Eje 5 — Memory roadmap dormidos (esperan trigger)
 
 Ver [`memory-migration-inventory.md §10`](./memory-migration-inventory.md). Items diferidos con trigger claro (#5/#6/#9 ya cableados S39, resto esperan backend real o decisión producto).
