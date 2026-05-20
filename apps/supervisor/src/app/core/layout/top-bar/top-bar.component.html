@@ -52,8 +52,8 @@
   <!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus,@angular-eslint/template/click-events-have-key-events -->
   <div
     class="top-bar__user"
-    (aedClickOutside)="closeUserMenu()"
-    [aedClickOutsideEnabled]="userMenuOpen()"
+    (scClickOutside)="closeUserMenu()"
+    [scClickOutsideEnabled]="userMenuOpen()"
     (keydown)="onMenuKeydown($event)"
   >
     <button

@@ -4,42 +4,42 @@ import { fromEvent } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 /**
- * Emits `aedClickOutside` when the user clicks outside the host element or
+ * Emits `scClickOutside` when the user clicks outside the host element or
  * presses Escape. Mirrors the `useClickOutside` hook from the React prototype.
  *
  * Usage:
- *   <div (aedClickOutside)="close()" [aedClickOutsideEnabled]="open">…</div>
+ *   <div (scClickOutside)="close()" [scClickOutsideEnabled]="open">…</div>
  */
 @Directive({
-  selector: '[aedClickOutside]',
+  selector: '[scClickOutside]',
   standalone: true,
 })
 export class ClickOutsideDirective implements OnInit {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly aedClickOutsideEnabled = input(true);
+  readonly scClickOutsideEnabled = input(true);
 
-  readonly aedClickOutside = output<void>();
+  readonly scClickOutside = output<void>();
 
   ngOnInit(): void {
     fromEvent<PointerEvent>(document, 'pointerdown')
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        filter(() => this.aedClickOutsideEnabled()),
+        filter(() => this.scClickOutsideEnabled()),
         filter((event) => {
           const target = event.target as Node | null;
           return !!target && !this.host.nativeElement.contains(target);
         }),
       )
-      .subscribe(() => this.aedClickOutside.emit());
+      .subscribe(() => this.scClickOutside.emit());
 
     fromEvent<KeyboardEvent>(document, 'keydown')
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        filter(() => this.aedClickOutsideEnabled()),
+        filter(() => this.scClickOutsideEnabled()),
         filter((event) => event.key === 'Escape'),
       )
-      .subscribe(() => this.aedClickOutside.emit());
+      .subscribe(() => this.scClickOutside.emit());
   }
 }

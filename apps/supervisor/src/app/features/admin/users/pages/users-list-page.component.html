@@ -58,7 +58,7 @@
               </th>
               <th
                 class="table__th-sort"
-                [aedSortable]="getSortDir('name')"
+                [scSortable]="getSortDir('name')"
                 (activate)="toggleSort('name')"
               >
                 {{ 'users.table.name' | translate }}
@@ -66,7 +66,7 @@
               @if (isColVisible('email')) {
                 <th
                   class="table__th-sort"
-                  [aedSortable]="getSortDir('email')"
+                  [scSortable]="getSortDir('email')"
                   (activate)="toggleSort('email')"
                 >
                   {{ 'users.table.email' | translate }}
@@ -75,7 +75,7 @@
               @if (isColVisible('identifier')) {
                 <th
                   class="table__th-sort"
-                  [aedSortable]="getSortDir('identifier')"
+                  [scSortable]="getSortDir('identifier')"
                   (activate)="toggleSort('identifier')"
                 >
                   {{ 'users.table.identifier' | translate }}
@@ -84,7 +84,7 @@
               @if (isColVisible('type')) {
                 <th
                   class="table__th-sort"
-                  [aedSortable]="getSortDir('type')"
+                  [scSortable]="getSortDir('type')"
                   (activate)="toggleSort('type')"
                 >
                   {{ 'users.table.type' | translate }}
@@ -93,7 +93,7 @@
               @if (isColVisible('status')) {
                 <th
                   class="table__th-sort"
-                  [aedSortable]="getSortDir('status')"
+                  [scSortable]="getSortDir('status')"
                   (activate)="toggleSort('status')"
                 >
                   {{ 'users.table.status' | translate }}
@@ -164,8 +164,8 @@
                 <td class="table__td-actions" (click)="$event.stopPropagation()">
                   <div
                     class="row-menu"
-                    (aedClickOutside)="closeRowMenu()"
-                    [aedClickOutsideEnabled]="openMenuId() === user.id"
+                    (scClickOutside)="closeRowMenu()"
+                    [scClickOutsideEnabled]="openMenuId() === user.id"
                   >
                     <button
                       type="button"
@@ -222,8 +222,8 @@
     class="context-menu"
     [style.left.px]="ctx.x"
     [style.top.px]="ctx.y"
-    (aedClickOutside)="closeContextMenu()"
-    [aedClickOutsideEnabled]="!!contextMenu()"
+    (scClickOutside)="closeContextMenu()"
+    [scClickOutsideEnabled]="!!contextMenu()"
     role="menu"
   >
     <button type="button" role="menuitem" (click)="onContextEdit()">

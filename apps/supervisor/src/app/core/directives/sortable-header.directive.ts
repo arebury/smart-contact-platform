@@ -10,7 +10,7 @@ export type SortDirection = 'asc' | 'desc' | null;
  *
  *     <th
  *       class="table__th-sort"
- *       [aedSortable]="currentSortDir('name')"
+ *       [scSortable]="currentSortDir('name')"
  *       (activate)="toggleSort('name')"
  *     >
  *       {{ 'agents.table.name' | translate }}
@@ -23,7 +23,7 @@ export type SortDirection = 'asc' | 'desc' | null;
  * the user re-sorts.
  */
 @Directive({
-  selector: '[aedSortable]',
+  selector: '[scSortable]',
   standalone: true,
   host: {
     role: 'button',
@@ -36,11 +36,11 @@ export type SortDirection = 'asc' | 'desc' | null;
   },
 })
 export class SortableHeaderDirective {
-  readonly aedSortable = input.required<SortDirection>();
+  readonly scSortable = input.required<SortDirection>();
   readonly activate = output<void>();
 
   protected readonly ariaSort = computed(() => {
-    const dir = this.aedSortable();
+    const dir = this.scSortable();
     if (dir === 'asc') return 'ascending';
     if (dir === 'desc') return 'descending';
     return 'none';

@@ -61,7 +61,7 @@
                   @case ('code') {
                     <th
                       class="table__th-sort"
-                      [aedSortable]="getSortDir('code')"
+                      [scSortable]="getSortDir('code')"
                       (activate)="toggleSort('code')"
                     >
                       {{ 'agents.table.code' | translate }}
@@ -70,7 +70,7 @@
                   @case ('name') {
                     <th
                       class="table__th-sort"
-                      [aedSortable]="getSortDir('name')"
+                      [scSortable]="getSortDir('name')"
                       (activate)="toggleSort('name')"
                     >
                       {{ 'agents.table.name' | translate }}
@@ -79,7 +79,7 @@
                   @case ('extension') {
                     <th
                       class="table__th-sort"
-                      [aedSortable]="getSortDir('extension')"
+                      [scSortable]="getSortDir('extension')"
                       (activate)="toggleSort('extension')"
                     >
                       {{ 'agents.table.extension' | translate }}
@@ -91,7 +91,7 @@
                   @case ('type') {
                     <th
                       class="table__th-sort"
-                      [aedSortable]="getSortDir('type')"
+                      [scSortable]="getSortDir('type')"
                       (activate)="toggleSort('type')"
                     >
                       {{ 'agents.table.type' | translate }}
@@ -103,7 +103,7 @@
                   @case ('status') {
                     <th
                       class="table__th-sort"
-                      [aedSortable]="getSortDir('status')"
+                      [scSortable]="getSortDir('status')"
                       (activate)="toggleSort('status')"
                     >
                       {{ 'agents.table.status' | translate }}
@@ -259,8 +259,8 @@
                 <td class="table__td-actions" (click)="$event.stopPropagation()">
                   <div
                     class="row-menu"
-                    (aedClickOutside)="closeRowMenu()"
-                    [aedClickOutsideEnabled]="openMenuId() === agent.id"
+                    (scClickOutside)="closeRowMenu()"
+                    [scClickOutsideEnabled]="openMenuId() === agent.id"
                   >
                     <button
                       type="button"
@@ -318,8 +318,8 @@
     class="context-menu"
     [style.left.px]="ctx.x"
     [style.top.px]="ctx.y"
-    (aedClickOutside)="closeContextMenu()"
-    [aedClickOutsideEnabled]="!!contextMenu()"
+    (scClickOutside)="closeContextMenu()"
+    [scClickOutsideEnabled]="!!contextMenu()"
     role="menu"
   >
     <button type="button" role="menuitem" (click)="onContextEdit()">

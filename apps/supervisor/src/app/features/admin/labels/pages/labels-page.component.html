@@ -2,8 +2,8 @@
   <div
     page-header-actions
     class="page__create-anchor"
-    (aedClickOutside)="closeCreatePanel()"
-    [aedClickOutsideEnabled]="creating()"
+    (scClickOutside)="closeCreatePanel()"
+    [scClickOutsideEnabled]="creating()"
   >
     <p-button type="button" severity="primary" (onClick)="onCreateClick()">
       <lucide-icon [img]="plusIcon" [size]="15" aria-hidden="true" />
@@ -98,8 +98,8 @@
                   @if (editingId() === label.id) {
                     <div
                       class="page__panel-anchor page__panel-anchor--row"
-                      (aedClickOutside)="closeEditPanel()"
-                      [aedClickOutsideEnabled]="editingId() === label.id"
+                      (scClickOutside)="closeEditPanel()"
+                      [scClickOutsideEnabled]="editingId() === label.id"
                     >
                       <sc-label-form-panel
                         [initial]="label"
@@ -124,8 +124,8 @@
                 <td class="table__td-actions">
                   <div
                     class="row-menu"
-                    (aedClickOutside)="closeRowMenu()"
-                    [aedClickOutsideEnabled]="openMenuId() === label.id"
+                    (scClickOutside)="closeRowMenu()"
+                    [scClickOutsideEnabled]="openMenuId() === label.id"
                   >
                     <button
                       type="button"
@@ -179,8 +179,8 @@
     class="context-menu"
     [style.left.px]="ctx.x"
     [style.top.px]="ctx.y"
-    (aedClickOutside)="closeContextMenu()"
-    [aedClickOutsideEnabled]="!!contextMenu()"
+    (scClickOutside)="closeContextMenu()"
+    [scClickOutsideEnabled]="!!contextMenu()"
     role="menu"
   >
     <button type="button" role="menuitem" (click)="onContextEdit()">

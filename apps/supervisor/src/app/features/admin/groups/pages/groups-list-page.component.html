@@ -59,7 +59,7 @@
               @if (isColVisible('code')) {
                 <th
                   class="table__th-sort"
-                  [aedSortable]="getSortDir('code')"
+                  [scSortable]="getSortDir('code')"
                   (activate)="toggleSort('code')"
                 >
                   {{ 'groups.table.code' | translate }}
@@ -67,7 +67,7 @@
               }
               <th
                 class="table__th-sort"
-                [aedSortable]="getSortDir('name')"
+                [scSortable]="getSortDir('name')"
                 (activate)="toggleSort('name')"
               >
                 {{ 'groups.table.name' | translate }}
@@ -81,7 +81,7 @@
               @if (isColVisible('priority')) {
                 <th
                   class="table__th-sort"
-                  [aedSortable]="getSortDir('priority')"
+                  [scSortable]="getSortDir('priority')"
                   (activate)="toggleSort('priority')"
                 >
                   {{ 'groups.table.priority' | translate }}
@@ -90,7 +90,7 @@
               @if (isColVisible('strategy')) {
                 <th
                   class="table__th-sort"
-                  [aedSortable]="getSortDir('strategy')"
+                  [scSortable]="getSortDir('strategy')"
                   (activate)="toggleSort('strategy')"
                 >
                   {{ 'groups.table.strategy' | translate }}
@@ -99,7 +99,7 @@
               @if (isColVisible('agents')) {
                 <th
                   class="table__th-sort table__th-num"
-                  [aedSortable]="getSortDir('agents')"
+                  [scSortable]="getSortDir('agents')"
                   (activate)="toggleSort('agents')"
                 >
                   {{ 'groups.table.agents' | translate }}
@@ -190,8 +190,8 @@
                 <td class="table__td-actions" (click)="$event.stopPropagation()">
                   <div
                     class="row-menu"
-                    (aedClickOutside)="closeRowMenu()"
-                    [aedClickOutsideEnabled]="openMenuId() === group.id"
+                    (scClickOutside)="closeRowMenu()"
+                    [scClickOutsideEnabled]="openMenuId() === group.id"
                   >
                     <button
                       type="button"
@@ -249,8 +249,8 @@
     class="context-menu"
     [style.left.px]="ctx.x"
     [style.top.px]="ctx.y"
-    (aedClickOutside)="closeContextMenu()"
-    [aedClickOutsideEnabled]="!!contextMenu()"
+    (scClickOutside)="closeContextMenu()"
+    [scClickOutsideEnabled]="!!contextMenu()"
     role="menu"
   >
     <button type="button" role="menuitem" (click)="onContextEdit()">

@@ -2,8 +2,8 @@
   <div
     page-header-actions
     class="page__create-anchor"
-    (aedClickOutside)="closeCreatePanel()"
-    [aedClickOutsideEnabled]="creating()"
+    (scClickOutside)="closeCreatePanel()"
+    [scClickOutsideEnabled]="creating()"
   >
     <p-button type="button" severity="primary" (onClick)="onCreateClick()">
       <lucide-icon [img]="plusIcon" [size]="13" aria-hidden="true" />
@@ -102,8 +102,8 @@
                   @if (col.emphasis && editingId() === item.id) {
                     <div
                       class="page__panel-anchor page__panel-anchor--row"
-                      (aedClickOutside)="closeEditPanel()"
-                      [aedClickOutsideEnabled]="editingId() === item.id"
+                      (scClickOutside)="closeEditPanel()"
+                      [scClickOutsideEnabled]="editingId() === item.id"
                     >
                       <sc-repo-form-panel
                         [fields]="config().fields"
@@ -121,8 +121,8 @@
               <td class="table__td-actions">
                 <div
                   class="row-menu"
-                  (aedClickOutside)="closeRowMenu()"
-                  [aedClickOutsideEnabled]="openMenuId() === item.id"
+                  (scClickOutside)="closeRowMenu()"
+                  [scClickOutsideEnabled]="openMenuId() === item.id"
                 >
                   <button
                     type="button"
@@ -179,8 +179,8 @@
     class="context-menu"
     [style.left.px]="ctx.x"
     [style.top.px]="ctx.y"
-    (aedClickOutside)="closeContextMenu()"
-    [aedClickOutsideEnabled]="!!contextMenu()"
+    (scClickOutside)="closeContextMenu()"
+    [scClickOutsideEnabled]="!!contextMenu()"
     role="menu"
   >
     <button type="button" role="menuitem" (click)="onContextEdit()">
