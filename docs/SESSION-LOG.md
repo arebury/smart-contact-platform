@@ -66,6 +66,43 @@
     - **#52** SCDS barrel 13 type aliases sin consumer en `apps/` → public API defensiva, decisión consciente mantener.
     - APIs SCDS wrappers `[size]`/`[disabled]` 100% consistentes (model<boolean> en CVA wrappers, input<boolean> en non-CVA — diferencia justificada).
 
+### Extensión bloques CC–EE (S47 continuación)
+
+17. **Bloque CC — Rediseño flow Duplicar Agentes/Usuarios/Grupos** — eliminado el patrón "draft amarillo en lista" (el jefe lo encontraba ruidoso). Nuevo flow: click "Duplicar" → navega a `/admin/{entidad}/crear?seedFromId={id}` → form-page detecta el query param y precarga payload en memoria (sin persistir). Vacía únicamente identificadores únicos (name + email + extension/pin agentes; name + email + identifier usuarios; name + phone grupos). `<sc-form-section-nav>` SCDS extendido con `[sectionsWithErrors]: ReadonlySet<string>` que pinta bola roja CSS (8×8px `--sc-bg-danger`) en sections con required vacíos. i18n × 4 idiomas. Cleanup completo: eliminado `duplicate()` method de 3 stores, `isDraft` field de data types, `draft-badge` styles, sort priority isDraft y todos los i18n keys legacy. Specs actualizados. tsc + build production + Playwright cross-app 14/14 verde.
+18. **Bloque DD1 — Fila roja transcripciones fallidas Memory** — `<sc-memory-conversation-table>` recibe `[class.is-failed]="conv.hasFailedTranscription"` con tinte sutil `red-100 50%` (mismo treatment que tenían los borradores amarillos pre-S47). Hover `red-200 50%`. Selected gana (gray-100). Sin shimmer (estado terminal). `:not(.is-processing):not(.is-analyzing)` para que reintento gane sobre fallo previo. Icono overlay rojo bottom-right se mantiene (señal local doble).
+19. **Decisión toast undo countdown circular → DESCARTADO** — evaluado y rechazado. Justificación documentada en `customs-catalog §2.1` ampliado: a11y (28×28px < 44×44 WCAG touch target + screen-reader solo oye aria-label sin tiempo), no induce click-en-pánico (urgencia debe ser proporcional al riesgo — acciones destructivas reales usan modal confirm type-CONFIRMAR), patrón enterprise estándar (Polaris/Material/Carbon todos texto). Backend grace period del undo vive server-side, no en UI — `CrossTabLockService` + optimistic locking cubren data integrity.
+20. **Bloque EE1 — Tracker refresh post-Duplicar** — form-section-nav 3→5 aedUses, sticky-form-header 3→6 aedUses (drift por bindings en 3 form-pages).
+21. **Bloque EE2 — localStorage namespace normalization** — 4 namespaces conviviendo (sc_theme snake / smartcontact_* legacy / sc_X_columns snake / sc-* kebab) → todo a `sc-X-Y` kebab. Migration silenciosa one-shot en `main.ts` antes de bootstrapApplication con marker flag `sc-storage-migration-v1`. 33 keys mapeadas, 22 archivos actualizados. Factory reset refactorizado a whitelist explícita (post-normalization el prefix match borraría theme + idioma).
+22. **Bloque EE3 §10 #4 — Modal Download GDPR Memory** — sustituye el toast directo del player. `<sc-memory-download-modal>` con checkboxes Grabaciones/Chats (defaults ON, disabled channel-aware), aviso amber GDPR fijo, botón Descargar disabled si todo unchecked. Confirm dispara los toasts existentes según opciones (mock-only). En backend real, el callback recibe `{ recordings, chats }` payload. i18n × 4. Cierra §10 #4 del memory-migration-inventory.
+
+### Memorias persistidas / docs source-of-truth actualizados S47
+
+- `~/.claude/.../memory/feedback_playwright_cross_app_inertia.md` (nueva) — protocolo "correr `npm run e2e` por inercia tras cambios SCDS/core/i18n/renames/sweeps >20 archivos".
+- `~/.claude/.../memory/feedback_figma_specs_thorough.md` + `feedback_migration_safety.md` actualizadas con nuevo naming SCDS post-renames.
+- `tests/e2e/README.md` (nueva) — guía operativa Playwright cross-app.
+- `CLAUDE.md` root — nueva sección "Red de seguridad cross-app".
+- `customs-catalog.md` §2.1 ampliado con decisión toast textual.
+- `inconsistencies-backlog.md` entries #38–#52.
+- `DECISIONS.md` SCDS DD-8 (naming Figma DS literal).
+
+### Estado salud cierre S47 final
+
+- **31 commits a `main` pusheados** (S47 maratón).
+- tsc verde · Build production verde ambas apps · Netlify verde.
+- 0 anti-patterns Angular accionables.
+- 0 stale refs post-renames (incluyendo .spec.ts).
+- 0 aria-label missing icon-only buttons.
+- 0 TODO/FIXME técnicos.
+- 0 hardcoded text Memory atacables (12 → 0, los `CONFIRMAR` son invariante producto).
+- 0 unused imports reales.
+- 7 wrappers SCDS + 2 directives + tokens alineados 1:1 con Kit Pro Figma + brand.
+- 4 idiomas i18n (ES + EN + FR + PT) operativos con language switcher en Sistema.
+- Memory polish UX §10 #4 cerrado (Modal Download).
+- Memory: fila roja para fallidas (consistencia con patrón draft amarillo histórico).
+- Duplicar Agentes/Usuarios/Grupos rediseñado (sin drafts amarillos en lista).
+- localStorage namespace normalizado con migration silenciosa segura.
+- 14/14 Playwright smoke cross-app verde · protocolo "por inercia" documentado.
+
 ---
 
 ## 2026-05-20 · Session 46 — Memory §10 #1+#2 cerrados + jerarquía docs sentada + sweep tokens cross-monorepo

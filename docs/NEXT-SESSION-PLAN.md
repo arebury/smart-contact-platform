@@ -7,107 +7,107 @@
 
 ## Estado al cerrar (Session 47, 2026-05-20)
 
-**17 commits a `main` pusheados** distribuidos en bloques A-P. Sweep maratón de
-deudas de diseño + consistencia + naming Figma DS literal (7 wrappers SCDS renombrados)
-+ border-radius tokens + directives prefix.
+**31 commits a `main` pusheados** en una sesión maratón. Sweep total de deudas
+de diseño + consistencia + features Memory polish. Codebase en estado salud
+máximo: 0 anti-patterns, 0 stale refs, 0 unused imports, 14/14 Playwright
+cross-app verde, 4 idiomas operativos.
 
-1. **Tracker refresh post-S46** — 11 entries `home.component.ts` actualizadas (drift cross-monorepo).
-2. **Bloque A — Severity `<p-button>` explícita** en 13 botones list-pages + config aed (cierra inconsistencia post-S34, 38 explícitos vs 13 implícitos).
-3. **Bloque B — mock-sample-switcher cleanup** — `::ng-deep` + 2 `!important` movidos a `main.scss` global (patrón S46).
-4. **Bloque C — 34 spacing tokens** — `padding/margin/gap` hardcoded en escala (4/8/10/12/14/16/20/24/32/40 px) migrados a `var(--sc-spacing-*)`.
-5. **Bloques D-F — Renames Figma DS literal 7 wrappers**: `inputtext`, `inputnumber`, `inputgroup`, `multiselect`, `toggleswitch`, `dialog`, `checkbox`. Matching Kit Pro Figma SC (`❖ ...`) y PrimeNG (`<p-...>`). Facilita Code Connect mapping futuro.
-6. **Bloque G — Verificación drift** — tracker drift = 0 post-rename, build production verde ambas apps.
-7. **Bloque H — Memorias `~/.claude` actualizadas** con nuevo naming SCDS.
-8. **Bloque I-J — Audits defensivos**: i18n keys huérfanas (alto-ruido sin AST walker → registrado #42), NG0950 transitivo (0 candidatos), OnPush coverage 100%.
-9. **Bloques K-L-M — Docs source-of-truth**: backlog `#38-#43` añadidos, tokens `--sc-modal-*` → `--sc-dialog-*` en layers, 25 archivos con stale comments actualizados, DD-8 SCDS DECISIONS, SESSION-LOG S47 entry.
-10. **Bloque N — Border-radius tokens** — 62 sustituciones hardcoded → `--sc-radius-*` en 29 archivos.
-11. **Bloque O — Directives `aed*` → `sc*`** — `scClickOutside` + `scSortable` (consistencia post-DD-8).
-12. **Bloque P — Backlog #44-#48** — registradas deudas no atacadas (off-scale 6px/3px, hardcoded text Memory, icon sizes, edge cases). Todas P3, requieren trigger externo o decisión Marta.
+### Bloques completados S47
 
-Estado salud cierre S47: tsc verde, build production verde, Netlify verde, husky+lint-staged activo. 0 anti-patterns Angular. 0 stale refs post-renames. 0 aria-label missing icon-only buttons. 7 wrappers SCDS + 2 directives alineados 1:1 con Kit Pro Figma + PrimeNG / brand consistency → camino libre para Code Connect mapping (Eje 3).
+1. Tracker refresh + audit estructural.
+2. Severity explícita 13 `<p-button>`, mock-sample-switcher cleanup, 34 spacings hardcoded → tokens.
+3. **7 wrappers SCDS renombrados 1:1 con Kit Pro Figma + PrimeNG**: `inputtext`, `inputnumber`, `inputgroup`, `multiselect`, `toggleswitch`, `dialog`, `checkbox`. Tokens `--sc-modal-*` → `--sc-dialog-*` propagado.
+4. **2 directives** alineadas: `scClickOutside` + `scSortable`.
+5. 96 hardcoded values → tokens (62 border-radius + 34 spacings).
+6. **4 idiomas i18n** (ES + EN + FR + PT) + language switcher en Configuración → Sistema.
+7. **Playwright cross-app smoke** + protocolo "por inercia" documentado.
+8. **Rediseño flow Duplicar** Agentes/Usuarios/Grupos (sin drafts amarillos en lista).
+9. Fila roja sutil para transcripciones fallidas Memory.
+10. **localStorage namespace normalization** (`sc-X-Y` kebab) con migration silenciosa segura.
+11. **Modal Download GDPR Memory** (§10 #4 cerrado).
+12. DD-8 SCDS DECISIONS (naming portable) + customs-catalog §2.1 ampliado (decisión toast textual).
+
+### Estado salud cierre S47
+
+tsc verde · build production verde · Netlify verde · husky+lint-staged activo ·
+Playwright cross-app 14/14 verde. Backlog `inconsistencies-backlog.md` con
+items #38–#52 todos resueltos o registrados con dependencia humana.
 
 ---
 
 ## Próximos jugosos (priorizados)
 
-Cuando arranque la próxima sesión, ataque sugerido por orden de valor:
-
-### 🎯 Eje 1 — Memory polish UX (sin Marta, acotado)
+### 🎯 Eje 1 — Memory polish UX (resto del §10)
 
 | # | Item | Tamaño | Trigger |
 |---|---|---|---|
-| §10 #4 | Modal Download heredado SC (checkboxes Grabaciones/Chats + aviso GDPR) | ~1h | producción real backend |
-| §10 #12 | Synonyms granulares per-value en EntityFormModal | ~2h | Marta/Rafa priorizan |
-| §10 #13 | CategoryRuleLinking interactivo bidireccional | ~3h (refactor 3 piezas) | Rafa explícito (S39 lo aparcó) |
+| §10 #4 | ~~Modal Download heredado SC~~ | ✅ Cerrado S47 | — |
+| §10 #12 | **Synonyms granulares per-value en EntityFormModal** | ~2h | Rafa decisión UI: ¿collapsable per-row con array inputs? |
+| §10 #13 | **CategoryRuleLinking interactivo bidireccional** | ~3h (refactor 3-piezas) | Extender `Rule` con `categorias`, selector RuleBuilder, UI interactiva CategoryFormModal |
 
-### 🎯 Eje 1b — Refresh tracker ds-docs `home.component.ts` (~30 min)
+### 🎯 Eje 2 — Code Connect mapping (Figma ↔ SCDS) 🆕 NEXT SESSION TOP
 
-Los counts `aedUses` / `memoryUses` se mantienen manualmente. Posible drift acumulado desde S39 — S46 añadió usos Memory de `<sc-multiselect>`, `<sc-datepicker>`, `<sc-inputtext>`, `<sc-dialog>` que probablemente no están reflejados. Audit con `grep` automatizado por componente, comparar contra valores en `home.component.ts` y commit batch.
+Tras S47, el naming SCDS está **1:1 con Kit Pro Figma + PrimeNG**. Code Connect ahora
+es mapping directo sin alias.
 
-### 🎯 Eje 2 — Audit periódico (defensivo, ~30-60 min)
+**Aclaración para Rafa** (de la última conversación S47):
+- **Figma MCP** (lo que ya tienes operativo) = Model Context Protocol que conecta
+  Claude → Figma. Claude lee designs vía tools `mcp__figma__*` y
+  `mcp__claude_ai_Figma__*`. Configurado.
+- **Figma Code Connect** = producto distinto. **NO es un plugin Figma**, es un
+  CLI + librería NPM que vive en el repo. Mapea componentes Figma a sources en
+  código (file path + line). El developer ve el mapping al inspeccionar un
+  componente en Figma.
+- **NO confrontan**. Son herramientas complementarias: MCP lee designs;
+  Code Connect publica el binding code↔Figma.
 
-Próximo audit recomendado tras 5-6 commits feature work (hoy llevamos 13 desde último). Ejes:
-- Anti-patrones Angular (NG0950 transitivo) — patrón conocido.
-- Dead code (i18n keys huérfanas).
-- Tokens hardcoded — ya limpio cross-monorepo S46.
-- A11y básico.
-- Bundle (diagnóstico real S39, NO atacar #31 sin trigger métrico).
-- i18n consistency.
+Pasos S48:
+1. Rafa abre Figma con el Kit Pro accesible.
+2. Claude lee `packages/design-system/docs/code-connect-mapping.md` (config existe S41) y propone el setup CLI `@figma/code-connect`.
+3. Bootstrap mappings de los 7 wrappers renombrados S47: `inputtext`, `inputnumber`, `inputgroup`, `multiselect`, `toggleswitch`, `dialog`, `checkbox`.
+4. Validación: Rafa abre cualquier componente en Figma → ve sample code real del SCDS.
 
-### 🎯 Eje 3 — Figma ↔ código (input externo Rafa+Marta)
+### 🎯 Eje 3 — Refactor god-components Memory (defensivo)
 
-| # | Item | Quién | Cuándo |
-|---|---|---|---|
-| 1 | Importar `--sc-font-family-mono` a Variables collection Figma SC | Marta vía plugin Variables Importer | cuando toque resync |
-| 2 | Bootstrap Variables Custom collection (6 divergencias documentadas) | Rafa + Marta + Claude audita MCP | cuando os pongáis |
-| 3 | Code Connect mapping Kit Pro ↔ SCDS (config inicial existe S41) | Claude config + Rafa valida | cuando Rafa dé luz verde |
-| 4 | Audit `❖ Panel` SC → desbloquea section-card refactor | Rafa o Marta + Claude MCP | cuando os pongáis |
+| # | Item | Tamaño |
+|---|---|---|
+| 1 | `conversation-player-modal.component.ts` (446 líneas) — split en sub-components o cleanup signal-idiomatic Angular | ~1.5h |
+| 2 | `multi-recording-player.component.ts` — review patrones React 1:1 mal traducidos | ~1h |
+
+NO crítico, ROI técnico medio. Atacar cuando alguien tenga que tocar esos componentes para feature nueva.
 
 ### 🎯 Eje 4 — PrimeOne upgrade vigilance (defensivo)
 
 | # | Item | Cuándo |
 |---|---|---|
-| 1 | Vigilar nuevos minors PrimeNG (estamos 21.1.7, último 21.1.8 patch trivial verificado S39) | cada 2-3 sesiones |
+| 1 | Vigilar nuevos minors PrimeNG (estamos 21.1.7) | cada 2-3 sesiones |
 | 2 | Dry-run próximo major PrimeNG (22.x cuando salga estable) | trigger upstream release |
-
-### 🎯 Eje 4b — Netlify deploy previews (#27 backlog)
-
-Hoy Netlify solo despliega `main` automáticamente. Activar deploy previews por
-PR significa que cada cambio antes de mergear tendría una URL temporal donde
-Marta (o tú) puede revisar visualmente el resultado antes del merge.
-
-**Cuándo activar**: cuando el flujo de trabajo cambie a "no-todo-directo-a-main"
-o cuando Marta empiece a revisar visualmente cambios sistemáticamente. Hoy el
-flujo "componentes/refactors menores directos a main" no se beneficia.
-
-**Cómo**: Rafa toggle en panel Netlify → Build & deploy → Deploy contexts →
-activar "Deploy previews" en las dos sites (Supervisor + ds-docs). Cero código.
 
 ### 🎯 Eje 5 — Memory roadmap dormidos (esperan trigger)
 
-Ver [`memory-migration-inventory.md §10`](./memory-migration-inventory.md). Items diferidos con trigger claro (#5/#6/#9 ya cableados S39, resto esperan backend real o decisión producto).
-
-### 🎯 Eje 6 — Case-study notes progresivo
-
-Anotar momentos pedagógicos a medida que surjan en [`case-study-notes.md`](./case-study-notes.md). NO sweep retroactivo.
+Ver [`memory-migration-inventory.md §10`](./memory-migration-inventory.md). Items diferidos con trigger claro (#5/#6/#9 ya cableados S39, #4 cerrado S47, resto esperan backend real o decisión producto).
 
 ### ⏸️ NO atacar sin trigger explícito
 
-- **#31 modular theme PrimeNG** (~3-4h): solo si Memory rollee real y Web Vitals muestren problema. Sin trigger métrico → work en vacío.
-- **§10 #3 `<sc-audio-player>` wrapper SCDS**: declinado S46 (DM-7). Re-abrir si consumer EXTERNO a Memory o Figma spec de Marta.
-- **`<sc-data-table>`, `<sc-select-button>`, `<sc-tag>`, `<sc-toggle-button>`**: gaps documentados sin caso real hoy.
-- Refactors estructurales (`reference_structural_refactor_plan` — plan dormido por diseño).
-- Nuevos componentes pure-sc "por si acaso" (memoria `minimal-customization`).
+- **#31 modular theme PrimeNG** — el proyecto NO va a producción real con backend (decisión Rafa S47). Sin trigger Web Vitals real → trabajo en vacío.
+- **§10 #3 `<sc-audio-player>` wrapper SCDS** — declinado S46 (DM-7).
+- **`<sc-data-table>`, `<sc-select-button>`, `<sc-tag>`, `<sc-toggle-button>`** — gaps documentados sin caso real.
+- **#44/#45 off-scale spacing/radius con tokens nuevos** — decisión Marta+Rafa (S47 forzado a tokens existentes).
+- **#48 Icon size tokens** — esperando que Marta cree iconset Figma.
+- **#50 Duration tokens** — descartado conscientemente (Figma no exporta variables duration).
+- **#51 i18n duplicates (107 restantes)** — esperar traductor profesional para validar contextos.
+- **localStorage keys legacy migration** — ya hecha S47 con marker idempotente.
 
 ---
 
-## Cómo arrancar
+## Cómo arrancar S48
 
 1. Leer este doc + [`DOCS-INDEX.md`](./DOCS-INDEX.md) (5 min).
-2. Si vas a tocar Memory → leer [`memory-migration-inventory.md`](./memory-migration-inventory.md) §10.
-3. Si vas a tocar SCDS / tokens → leer [`packages/design-system/docs/DECISIONS.md`](../packages/design-system/docs/DECISIONS.md) + [`customs-catalog.md`](../packages/design-system/docs/customs-catalog.md).
-4. Si vas a tocar AED → leer [`apps/supervisor/docs/DECISIONS.md`](../apps/supervisor/docs/DECISIONS.md).
-5. Para historia detallada por sesión: [`SESSION-LOG.md`](./SESSION-LOG.md).
+2. **Si toca Code Connect** (Eje 2): leer [`packages/design-system/docs/code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md) (config inicial S41). El plan de bootstrap está arriba.
+3. Si toca Memory → leer [`memory-migration-inventory.md`](./memory-migration-inventory.md) §10.
+4. Si toca SCDS / tokens → leer [`packages/design-system/docs/DECISIONS.md`](../packages/design-system/docs/DECISIONS.md) + [`customs-catalog.md`](../packages/design-system/docs/customs-catalog.md).
+5. Si toca AED → leer [`apps/supervisor/docs/DECISIONS.md`](../apps/supervisor/docs/DECISIONS.md).
+6. Historia detallada por sesión: [`SESSION-LOG.md`](./SESSION-LOG.md).
 
 ---
 
@@ -117,16 +117,18 @@ Anotar momentos pedagógicos a medida que surjan en [`case-study-notes.md`](./ca
 2. **Customizar lo MÍNIMO sobre PrimeNG** (DD-5).
 3. **2+ consumers antes de promover componente al SCDS** (DD-4).
 4. **Toda primitive nueva → entry en `customs-catalog.md`** (DD-7).
-5. **Tokens drift → 0 fallbacks innecesarios** (sweep S46 cerrado).
+5. **Naming SCDS wrappers nuevos = matching `<p-XYZ>` literal** (DD-8 S47).
 6. **Componentes y refactors menores: directo a main**. Cambios estructurales: rama + PR.
 7. **Antes de tocar componente UI**: pedir link Figma Kit Pro a Rafa.
 8. **PEDIR logs raw antes de adivinar fixes** (Netlify, CI).
 9. **Pre-commit hook husky+lint-staged es OBLIGATORIO** en monorepo sin PR.
-10. **Verificar versión React prototipo** antes de polish Memory (`verify-react-version-before-touch`).
-11. **Dev server**: `npm run start:supervisor -- --no-hmr` (Angular 21 no enlaza puerto sin `--no-hmr` para Playwright). Playwright usa `domcontentloaded`, no `networkidle`.
+10. **Verificar versión React prototipo** antes de polish Memory.
+11. **Dev server**: `npm run start:supervisor -- --no-hmr` (Angular 21 no enlaza puerto sin `--no-hmr` para Playwright). Playwright usa `domcontentloaded`.
+12. **Playwright `npm run e2e` por inercia** tras cambios SCDS/core/i18n/renames/sweeps >20 archivos. Sin que Rafa lo pida. Detalle en [`tests/e2e/README.md`](../tests/e2e/README.md).
+13. **localStorage keys** = todas `sc-X-Y` kebab. Si añades una key nueva, sigue ese patrón.
 
 ---
 
 ## Memorias estructurales relevantes (en `~/.claude/.../memory/`)
 
-`feedback_migration_safety` · `feedback_minimal_customization` · `feedback_track_inconsistencies` · `feedback_figma_link_workflow` · `feedback_figma_link_before_component` · `project_memory_aed_shared_shell` · `feedback_verify_react_version_before_touch` · `feedback_ng0950_transitive_pitfall` · `reference_netlify_auto_deploy_setup` · `feedback_pre_commit_hook_critical` · `feedback_pedir_logs_no_adivinar` · `feedback_iter_closing_summary` · `feedback_critical_sparring_partner` · `feedback_communication_style`.
+`feedback_migration_safety` · `feedback_minimal_customization` · `feedback_track_inconsistencies` · `feedback_figma_link_workflow` · `feedback_figma_link_before_component` · `project_memory_aed_shared_shell` · `feedback_verify_react_version_before_touch` · `feedback_ng0950_transitive_pitfall` · `reference_netlify_auto_deploy_setup` · `feedback_pre_commit_hook_critical` · `feedback_pedir_logs_no_adivinar` · `feedback_iter_closing_summary` · `feedback_critical_sparring_partner` · `feedback_communication_style` · `feedback_playwright_cross_app_inertia` (S47 nueva).
