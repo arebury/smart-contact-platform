@@ -1,51 +1,53 @@
 # Smart Contact Design System (SCDS) — CLAUDE memory
 
-> Tokens + componentes consumidos por AED, ds-docs, y (futura) Memory.
-> Source of truth para identidad visual SC.
+> 🧭 Para mapa completo de docs: [`docs/DOCS-INDEX.md`](../../docs/DOCS-INDEX.md) (root).
 
-## ¿Qué es esto?
+Tokens + componentes consumidos por AED, Memory y ds-docs. **Source of
+truth de identidad visual SC**.
 
-SCDS contiene:
-- **Tokens** en 7 capas CSS (`tokens/layers/`): primitive → semantic → palette → component → extensions → dark.
-- **Componentes** Angular standalone (`components/`): wrappers de PrimeNG (modal, toast) + custom (photo-upload, illustrated-avatar, etc.).
-- **Preset PrimeNG** (`tokens/sc-preset.ts`): bridge que mapea cada `--p-*` a su `--sc-*`.
-- **Audit docs** (`docs/audit/`): histórico de validación contra Aura, decisiones de divergence.
+## Contenido del package
 
-## Convenciones
+- **Tokens** en 7 capas CSS (`tokens/layers/`) — primitive → semantic → palette
+  → component → extensions → primeng-bridge → dark.
+- **Componentes** Angular standalone (`components/`) — wrappers de PrimeNG +
+  pure-sc justificados.
+- **Bridge PrimeNG** (`tokens/sc-preset.ts`) — mapea cada `--p-*` a su `--sc-*`.
 
-- Tokens CSS: `--sc-<scope>-<role>-<step>`. Ej. `--sc-color-blue-500`, `--sc-spacing-300`.
-- Componentes selector `sc-*` (brand prefix). Clase TS sin prefijo: `ModalComponent`, no `ScModalComponent`.
-- Standalone-first. `ChangeDetection.OnPush` por defecto.
-- Components ENTRAN al package cuando: (a) se usan en ≥2 lugares de AED, o (b) son parte explícita de SCDS por decisión de diseño.
-- Cualquier componente NUEVO necesita: implementación + page en ds-docs + entry en `docs/MIGRATION-INVENTORY.md`.
+## Docs operativos (source of truth)
 
-## Customs (divergencias documentadas)
+| Tema | Doc |
+|---|---|
+| Decisiones arquitectónicas SCDS | [`docs/DECISIONS.md`](docs/DECISIONS.md) — DD-1 a DD-7 |
+| Inventario componentes + estado | [`docs/MIGRATION-INVENTORY.md`](docs/MIGRATION-INVENTORY.md) |
+| Brand divergences vs Aura | [`docs/customs-catalog.md`](docs/customs-catalog.md) |
+| Backlog deuda DS | [`docs/inconsistencies-backlog.md`](docs/inconsistencies-backlog.md) |
+| Reglas blindaje migración | [`docs/migration-safety.md`](docs/migration-safety.md) |
+| Patrones banned / canónicos | [`docs/impeccable.md`](docs/impeccable.md) |
+| Spec por componente | [`docs/components/01-XX.md`](docs/components/) |
+| Audits históricos | [`docs/audit/`](docs/audit/) |
+| Guía tokens (español, diseño) | [`tokens/GUIA.md`](tokens/GUIA.md) |
+| Guía tokens (técnica) | [`tokens/README.md`](tokens/README.md) |
 
-Cuando un componente SCDS sobrescribe un token de Aura por marca:
-- Override en `sc-preset.ts` con comentario explicando WHY.
-- Anota en `docs/customs-catalog.md` (TBD, se crea cuando llegamos a 5+ divergencias).
-- Eventualmente sync con Custom Variables collection de Figma vía plugin Variables Importer.
+## Convenciones rápidas
+
+- Tokens CSS: `--sc-<scope>-<role>-<step>` (ej. `--sc-color-blue-500`).
+- Componentes consumen tokens de capa 2-4 (semánticos / componente), nunca
+  capa 1 primitive directamente (excepción rara documentada).
+- Selectores `sc-*`. Clase TS sin prefix (`ModalComponent`).
+- Standalone + `ChangeDetection.OnPush` por defecto.
+
+## Reglas para añadir / cambiar (críticas)
+
+1. **2+ consumers** antes de promover componente al package (DD-4).
+2. **Minimal customization sobre PrimeNG** (DD-5) — 3 preguntas del
+   `customs-catalog §0` obligatorias antes de cocinar pure-sc nuevo.
+3. **Toda primitive nueva → entry en `customs-catalog.md`** (DD-7).
+   No cocinar tokens sin doc explícito + plan para Figma SC Variables.
+4. **`sc-preset.ts` es load-bearing** — no mover, no renombrar, no simplificar.
 
 ## No-goals
 
-- NO crear componentes "por si acaso". Solo añadir cuando hay 2+ consumidores reales.
-- NO bootstrap Custom Variables collection en Figma hasta `customs-catalog.md` tenga ≥5 entradas.
-- NO mover tokens fuera de las 7 capas. La cascada es estable y validada.
-- NO romper el contrato `--sc-*` (renombrar tokens) — componentes en AED dependen de ellos.
-
-## Estado actual
-
-- Tokens: 7 capas estables. Validados contra Aura (ver `docs/audit/`).
-- Componentes: 24 migrados desde `apps/supervisor/src/app/shared/components/` (Fase 1 Foundation).
-- Preset `ScPreset` cubre primitive overrides (green/yellow/red/blue/sky/orange), semantic primary, focus ring, formField, overlays, content surface.
-- Próximo: bootstrap Input (text/email/password) — primer componente cocinado nativo SCDS.
-
-## Para más detalle
-
-- [docs/CLAUDE.md](docs/CLAUDE.md) — versión expandida del CLAUDE original (audit context).
-- [docs/MIGRATION-INVENTORY.md](docs/MIGRATION-INVENTORY.md) — inventario completo de componentes y status.
-- [docs/audit/](docs/audit/) — validaciones token-by-token + bridge coverage.
-- [docs/design-system.md](docs/design-system.md) — overview arquitectónico.
-- [docs/impeccable.md](docs/impeccable.md) — patrones banned + canónicos.
-- [tokens/GUIA.md](tokens/GUIA.md) — guía de tokens en español, para diseño.
-- [tokens/README.md](tokens/README.md) — guía técnica de tokens.
+- NO crear componentes "por si acaso". Trigger real o nada.
+- NO mover tokens fuera de las 7 capas.
+- NO romper el contrato `--sc-*` (renombrar tokens) — AED + Memory dependen.
+- NO bootstrap Custom Variables collection en Figma hasta tener ≥5 entries en customs-catalog.

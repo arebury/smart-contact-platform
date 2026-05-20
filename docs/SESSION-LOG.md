@@ -10,6 +10,49 @@
 
 ---
 
+## 2026-05-20 · Session 46 — Memory §10 #1+#2 cerrados + jerarquía docs sentada + sweep tokens cross-monorepo
+
+> Sesión maratón continua, 13 commits a `main`, todos pusheados. Cierra 4 backlog
+> items + 7 decisiones nuevas grandes (DM-6/DM-7 Memory + DD-7 SCDS + 3 docs nuevos) +
+> 0 drift tokens en todo el monorepo.
+
+### Hitos por bloque
+
+1. **Bug switcher popover Memory (§10 #21)** — fix dual: `max-height 70vh + overflow-y auto + overscroll-behavior contain` en el list + `z-index: var(--sc-z-popover) !important` para vencer al sticky page-header. Verificado Playwright (scrollHeight 971 > clientHeight 630, popoverZ 1080 > pageHeaderZ 1030). Commit `21857e1`.
+2. **Copy fix Grabación** — hint "Si las llamadas del agente quedan grabadas" era condicional roto. Cambiado a "Las llamadas del agente quedan grabadas si está activado". Commit `ce6b6a9`.
+3. **Backlog #35 cerrado con voto (a)** — Memory click→select vs AED click→edit (modelos mentales distintos). Documentado en Memory DECISIONS DM-6. Commit `913ebd7`.
+4. **§10 #1 Re-transcribir player** — componente `<sc-memory-retranscription-confirm-modal>` con type-CONFIRMAR gate + botón RotateCcw en player tabs + sibling-pattern (no p-dialog anidado) + bonus `[isTranscribing]`/`[isAnalyzing]` derivados desde processingIds. Commit `95137f3`.
+5. **§10 #2 MultiRecordingPlayer multi-leg IVR** — componente `<sc-memory-multi-recording-player>` (réplica 1:1 React) con 3 filas: transport + segmented bar + leg labels radiogroup. Wire outputs deferidos del player + nuevo `dispatchAnalysisOnly` en store. §10 #3 sc-audio-player declinado (DM-7). Commit `771c83f`.
+6. **Tokens cleanup global** — cocinado `--sc-font-family-mono` (system stack, Opción A decisión Rafa) + sweep 0 drift residual cross-monorepo: 30+ archivos · 22 fallbacks + 13 `999px` literales removidos. Customs-catalog §5.8 nuevo. Commits `f4ce8bd`, `0e32fe6`, `894e6b7`.
+7. **Jerarquía docs sentada** (gap cazado por Rafa) — cada tipo de info tiene UN source canonical; los demás son punteros. Docs nuevos: `docs/DOCS-INDEX.md`, `apps/supervisor/docs/memory/DECISIONS.md` (DM-1 a DM-7), `packages/design-system/docs/DECISIONS.md` (DD-1 a DD-7) — incluye DD-7 nueva: toda primitive nueva → entry customs-catalog. Refactor 3 `CLAUDE.md` → punteros. Refactor `NEXT-SESSION-PLAN.md` 777→145 líneas. Memoria persistente nueva `reference_docs_index_entry_point.md`. Commits `9058d72` + commit final S46.
+
+### Estado salud al cerrar S46
+
+| Sistema | Estado |
+|---|---|
+| aedmigration.netlify.app | ✅ Live · Memory con re-transcribir + multi-leg |
+| ds-smartcontact.netlify.app | ✅ Live |
+| CI GitHub Actions | ✅ Verde |
+| Pre-commit hook husky+lint-staged | ✅ Activo |
+| tsc --noEmit | ✅ Verde |
+| Drift tokens cross-monorepo | ✅ 0 residual |
+| Playwright smoke 9 routes | ✅ 0 console errors |
+
+### Lecciones portables S46
+
+- **Docs source-of-truth**: el drift NO viene de "no se actualizan", viene de "no hay jerarquía clara de qué doc es source para qué". Anotado en `case-study-notes.md` con tabla operativa.
+- **Fallbacks innecesarios en CSS vars**: `var(--sc-X, fallback)` solo aplica si la variable está undefined. Si el token existe, el fallback NUNCA se ejecuta. Dropearlos nunca cambia visual — solo limpia ruido. Sweep masivo seguro.
+- **p-dialog anidado dentro de p-dialog**: render pero queda hidden. Solución: sibling-pattern al nivel de la page.
+- **Tokens nuevos sin customs-catalog entry**: gap formalizado como DD-7. Toda primitive nueva requiere doc explícito + plan para Figma SC Variables.
+
+### Commits S46 (13)
+
+`21857e1` · `ce6b6a9` · `913ebd7` · `95137f3` · `771c83f` · `f4ce8bd` · `9058d72` · `0e32fe6` · `894e6b7` · (+ commit final con este SESSION-LOG entry y refactors CLAUDE.md / NEXT-SESSION-PLAN).
+
+Last commit en main al cerrar: pendiente (commit final con esta entry).
+
+---
+
 ## 2026-05-19 · Session 43-45 — Bloque consistencia visual: 6 commits cierran 1 backlog completo + 3 fixes UX
 
 > Sesión continua multi-bloque (6 commits push directo a `main`). Audit
