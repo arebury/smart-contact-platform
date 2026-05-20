@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { ToggleSwitchComponent } from '@sc/design-system/components/toggle-switch/toggle-switch.component';
+import { ToggleSwitchComponent } from '@sc/design-system/components/toggleswitch/toggleswitch.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
-  selector: 'sc-ds-docs-toggle-switch-gallery',
+  selector: 'sc-ds-docs-toggleswitch-gallery',
   standalone: true,
   imports: [ToggleSwitchComponent, GalleryFooterComponent],
-  templateUrl: './toggle-switch-gallery.component.html',
-  styleUrl: './toggle-switch-gallery.component.scss',
+  templateUrl: './toggleswitch-gallery.component.html',
+  styleUrl: './toggleswitch-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleSwitchGalleryComponent {

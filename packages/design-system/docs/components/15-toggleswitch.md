@@ -1,4 +1,4 @@
-# 15 · Toggle Switch (`<sc-toggle-switch>`)
+# 15 · Toggle Switch (`<sc-toggleswitch>`)
 
 > **Type**: Extended · **AED uses**: 21 · **Figma parity**: 1:1 con Figma
 
@@ -9,7 +9,7 @@
 ## TL;DR
 
 ```html
-<sc-toggle-switch
+<sc-toggleswitch
   [checked]="user().active"
   [ariaLabel]="'users.fields.status' | translate"
   (checkedChange)="onActiveChange($event)"
@@ -82,7 +82,7 @@ El switch suele vivir junto a un label + helper, no dentro de un `<label>` wrapp
 
 ```html
 <div class="field field--inline">
-  <sc-toggle-switch
+  <sc-toggleswitch
     [checked]="form().status === 'active'"
     [ariaLabel]="'users.form.fields.status' | translate"
     (checkedChange)="onStatusChange($event)"

@@ -26,7 +26,7 @@
 ## Cuándo NO usarlo
 
 - Selección entre múltiples opciones excluyentes → radios o `<sc-select>`.
-- Toggle prominente (acciones, not selection) → `<sc-toggle-switch>`.
+- Toggle prominente (acciones, not selection) → `<sc-toggleswitch>`.
 
 ## API
 

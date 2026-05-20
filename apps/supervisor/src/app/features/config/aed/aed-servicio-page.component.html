@@ -122,7 +122,7 @@
                 {{ 'config.aed.subpages.servicio.estados.filtrar_hint' | translate }}
               </p>
             </div>
-            <sc-toggle-switch
+            <sc-toggleswitch
               [checked]="form().filtrarEstados"
               [ariaLabel]="'config.aed.subpages.servicio.estados.filtrar_label' | translate"
               (checkedChange)="updateEstados('filtrarEstados', $event)"
@@ -138,7 +138,7 @@
                 {{ 'config.aed.subpages.servicio.estados.admin_hint' | translate }}
               </p>
             </div>
-            <sc-toggle-switch
+            <sc-toggleswitch
               [checked]="form().trabajoAdministrativo"
               [ariaLabel]="'config.aed.subpages.servicio.estados.admin_label' | translate"
               (checkedChange)="updateEstados('trabajoAdministrativo', $event)"

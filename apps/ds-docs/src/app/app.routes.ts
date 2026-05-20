@@ -75,9 +75,9 @@ export const appRoutes: Routes = [
       import('./pages/checkbox/checkbox-gallery.component').then((m) => m.CheckboxGalleryComponent),
   },
   {
-    path: 'components/toggle-switch',
+    path: 'components/toggleswitch',
     loadComponent: () =>
-      import('./pages/toggle-switch/toggle-switch-gallery.component').then(
+      import('./pages/toggleswitch/toggleswitch-gallery.component').then(
         (m) => m.ToggleSwitchGalleryComponent,
       ),
   },

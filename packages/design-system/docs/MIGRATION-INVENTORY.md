@@ -20,7 +20,7 @@
 | 02 | Modal / Dialog | ✓ | 🟢 Extended | `<sc-modal>` | [6738:50207](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50207) ConfirmDialog · [6738:50208](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50208) ConfirmPopup | **100%** — Session 30 audit. Border slate-200, radius 12, padding 17.5 uniforme (top:0 en body/footer), title 17.5/600, header gap 7, footer gap 7, double-layer shadow. Body slot con stacking auto via `display: flex; gap: 16px`. SC extensions documentadas (3-slot shell, bodyless mode). | `docs/components/11-modal.md` |
 | 03 | Toast | ✓ | 🟣 Custom-preset + template | `<p-toast>` + pTemplate override en `app.component.html` | [6738:53165](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-53165) | **100%** — Session 30 audit. Width 350, radius 6, padding 10.5, icon 15.75, borders severity-200 tinted, backdrop blur 1.5, close 24.5 circular. SC extensions: action button (undo), icon-square chrome, severity=secondary→violet. | `docs/components/10-toast.md` |
 | 04 | Photo upload | ✓ | ⚪ Pure SC | `<sc-photo-upload>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/29-photo-upload.md` |
-| 05 | Toggle switch | ✓ | 🟢 Extended | `<sc-toggle-switch>` | [6738:22645](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22645) | **100%** — S32 refactor: ahora wrapper de `<p-toggleswitch>` (era CSS sobre input nativo). Hereda chrome + a11y PrimeNG. | `docs/components/15-toggle-switch.md` |
+| 05 | Toggle switch | ✓ | 🟢 Extended | `<sc-toggleswitch>` | [6738:22645](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22645) | **100%** — S32 refactor: ahora wrapper de `<p-toggleswitch>` (era CSS sobre input nativo). Hereda chrome + a11y PrimeNG. | `docs/components/15-toggleswitch.md` |
 | 06 | Tri-state checkbox | ✓ | 🟢 Extended | `<sc-tri-state-checkbox>` | [6738:22640](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22640) | **100%** — Session 30 audit Nivel-2 contra los 60 variants Figma. Box 17.5/14/21 por size, border slate-300 1px, icon 12.25, filled bg slate-50. Checked=navy primary (era blue-700, ahora alineado a `--sc-bg-primary`). `'some'` indeterminate = SC extension. | `docs/components/09-checkbox.md` |
 | 07 | Illustrated avatar | ✓ | ⚪ Pure SC | `<sc-illustrated-avatar>` | n/a (asset custom, no Figma) | n/a | `docs/components/16-illustrated-avatar.md` |
 | 08 | Section card | ✓ | ⚪ Pure SC | `<sc-section-card>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/13-section-card.md` |
@@ -85,7 +85,7 @@ Capa | Archivo | Status
 | `<sc-datepicker>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory ConversationFilters). Variants `size: sm/md/lg` aplicadas correctamente. **Pendiente Marta**: idem multi-select. |
 | `<sc-inputtext>` (re-check S46) | 2026-05-20 | S46 | Aplicado `size="sm"` en Memory filters origin/destination. Sin drift visual perceptible. Variants `sm/md/lg` ya estaban auditadas S30 (240 variants Nivel-2). |
 | `<sc-search>` | 2026-05-15 | S31 | Composición aditiva canvas Light+Dark+Components |
-| `<sc-toggle-switch>` | 2026-05-15 | S32 | Refactor a wrapper p-toggleswitch, Figma node 6738:22645 |
+| `<sc-toggleswitch>` | 2026-05-15 | S32 | Refactor a wrapper p-toggleswitch, Figma node 6738:22645 |
 | `<sc-label-chip>` | 2026-05-15 | S32 | Figma `❖ Chip` node 6738:55109 confirmado |
 
 **Verificación global variables Figma SC**: 2026-05-15 (S32). Subagent audit confirmó NO se han modificado variables base del kit PrimeOne. Política `audit/01-identity-recap.md §2.10` consistente. Próxima verificación recomendada: cuando Marta haga cambios en el file, o cada 3 meses (whichever first).
@@ -105,7 +105,7 @@ Capa | Archivo | Status
 | Componente | AED uses | Notas |
 |---|---|---|
 | `<p-button>` | 38 (incluye `.btn` class) | Top usage del catálogo |
-| `<sc-toggle-switch>` | 21 | Refactor S32 a wrapper p-toggleswitch |
+| `<sc-toggleswitch>` | 21 | Refactor S32 a wrapper p-toggleswitch |
 | `<sc-inputtext>` | 21 | Migración 100% en S31+S32 |
 | `<sc-select>` | 16 | Migración 100% en S31+S32 |
 | `<sc-section-card>` | 12 | Patrón canónico form long |

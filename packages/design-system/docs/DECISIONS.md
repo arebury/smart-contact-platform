@@ -47,7 +47,7 @@
 
 **Razón**: PrimeOne upgrade dry-run se vuelve trivial si SCDS es mayoritariamente wrappers. Cocinar pure-sc duplicado de algo que ya existe es deuda permanente.
 
-**Consecuencia**: refactors S32 (`sc-toggle-switch`, `sc-bulk-edit-menu`) y declines justificados (`inline-rename-cell`, `label-chip`).
+**Consecuencia**: refactors S32 (`sc-toggleswitch`, `sc-bulk-edit-menu`) y declines justificados (`inline-rename-cell`, `label-chip`).
 
 ---
 

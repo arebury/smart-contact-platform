@@ -81,7 +81,7 @@ export { SectionCardComponent } from './section-card/section-card.component';
 
 export { StickyFormHeaderComponent } from './sticky-form-header/sticky-form-header.component';
 
-export { ToggleSwitchComponent } from './toggle-switch/toggle-switch.component';
+export { ToggleSwitchComponent } from './toggleswitch/toggleswitch.component';
 
 export { TriStateCheckboxComponent } from './tri-state-checkbox/tri-state-checkbox.component';
 export type { TriState, ScCheckboxSize } from './tri-state-checkbox/tri-state-checkbox.component';

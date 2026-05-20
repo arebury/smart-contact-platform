@@ -23,11 +23,11 @@ let toggleIdCounter = 0;
  * aprovechar lógica nativa PrimeNG (memoria `minimal-customization`).
  */
 @Component({
-  selector: 'sc-toggle-switch',
+  selector: 'sc-toggleswitch',
   standalone: true,
   imports: [FormsModule, ToggleSwitchModule],
-  templateUrl: './toggle-switch.component.html',
-  styleUrl: './toggle-switch.component.scss',
+  templateUrl: './toggleswitch.component.html',
+  styleUrl: './toggleswitch.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ToggleSwitchComponent {

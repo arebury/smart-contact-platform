@@ -3,7 +3,7 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Toggle Switch</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-toggle-switch&gt;</code> envuelve <code>&lt;p-toggleswitch&gt;</code> con la
+      <code>&lt;sc-toggleswitch&gt;</code> envuelve <code>&lt;p-toggleswitch&gt;</code> con la
       chrome SC. Switch booleano para opciones tipo activo/inactivo, settings con cambio inmediato.
       Hereda <code>role="switch"</code>, keyboard support (Space/Tab) y form association nativos.
       <strong>Figma SC node 6738:22645</strong>.
@@ -18,12 +18,12 @@
       el nuevo boolean al click o Space.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-toggle-switch
+      <sc-toggleswitch
         [checked]="basicOn()"
         [ariaLabel]="'Toggle básico activo'"
         (checkedChange)="basicOn.set($event)"
       />
-      <sc-toggle-switch
+      <sc-toggleswitch
         [checked]="basicOff()"
         [ariaLabel]="'Toggle básico inactivo'"
         (checkedChange)="basicOff.set($event)"
@@ -42,8 +42,8 @@
       nativo.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-toggle-switch [checked]="true" [disabled]="true" [ariaLabel]="'Toggle disabled on'" />
-      <sc-toggle-switch [checked]="false" [disabled]="true" [ariaLabel]="'Toggle disabled off'" />
+      <sc-toggleswitch [checked]="true" [disabled]="true" [ariaLabel]="'Toggle disabled on'" />
+      <sc-toggleswitch [checked]="false" [disabled]="true" [ariaLabel]="'Toggle disabled off'" />
     </div>
   </section>
 
@@ -58,7 +58,7 @@
     </p>
     <div class="gallery__row">
       <div style="display: flex; align-items: center; gap: 12px">
-        <sc-toggle-switch
+        <sc-toggleswitch
           [checked]="status() === 'active'"
           [ariaLabel]="'Estado del usuario'"
           (checkedChange)="onStatusChange($event)"
@@ -106,7 +106,7 @@
             ⓘ
           </button>
         </div>
-        <sc-toggle-switch
+        <sc-toggleswitch
           [checked]="manageDevices()"
           [ariaLabel]="'Gestionar dispositivos'"
           (checkedChange)="manageDevices.set($event)"
@@ -130,7 +130,7 @@
             ⓘ
           </button>
         </div>
-        <sc-toggle-switch
+        <sc-toggleswitch
           [checked]="selfActivate()"
           [ariaLabel]="'Auto-activación'"
           (checkedChange)="selfActivate.set($event)"
@@ -151,7 +151,7 @@
     <div class="gallery__row">
       <div style="display: flex; align-items: center; gap: 10px">
         <span aria-hidden="true">☀️</span>
-        <sc-toggle-switch
+        <sc-toggleswitch
           [checked]="darkMode()"
           [ariaLabel]="'Modo oscuro'"
           (checkedChange)="darkMode.set($event)"
@@ -165,5 +165,5 @@
     </p>
   </section>
 
-  <sc-ds-docs-gallery-footer slug="toggle-switch" />
+  <sc-ds-docs-gallery-footer slug="toggleswitch" />
 </div>

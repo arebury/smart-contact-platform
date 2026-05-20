@@ -66,7 +66,7 @@ const CATEGORY_BY_SLUG: Record<string, ComponentCategory> = {
   multiselect: 'form',
   datepicker: 'form',
   checkbox: 'form',
-  'toggle-switch': 'form',
+  toggleswitch: 'form',
   search: 'form',
   'photo-upload': 'form',
   'color-dot-picker': 'form',
@@ -355,13 +355,13 @@ export class HomeComponent {
       whereToSee: 'AED → Administración → Agentes → "Crear agente" → bloque "Foto del agente".',
     },
     {
-      slug: 'toggle-switch',
-      name: 'Toggle switch',
+      slug: 'toggleswitch',
+      name: 'ToggleSwitch',
       type: 'extended',
       parity: 'audited-full',
       aedUses: 21,
       memoryUses: 0,
-      pageRoute: '/components/toggle-switch',
+      pageRoute: '/components/toggleswitch',
       whatItDoes:
         'Interruptor on/off estilo iOS (la bolita que se desliza de izquierda a derecha).',
       whereToSee:

@@ -23,7 +23,7 @@
 
 - Selección entre opciones predefinidas (3+ items).
 - Reemplaza los `<select>` nativos repartidos por los forms de AED (20+ en agent-form, group-form, config pages).
-- Para 2 opciones, considera `<sc-toggle-switch>` o radios.
+- Para 2 opciones, considera `<sc-toggleswitch>` o radios.
 - Para opciones con búsqueda obligatoria (50+ items), añade `[filter]="true"`.
 
 ## Cuándo NO usarlo

@@ -170,7 +170,7 @@
                     {{ 'agents.form.fields.status_' + form().status | translate }}
                   </span>
                 </div>
-                <sc-toggle-switch
+                <sc-toggleswitch
                   [checked]="form().status === 'active'"
                   [ariaLabel]="'agents.form.fields.status' | translate"
                   (checkedChange)="onStatusChange($event)"
@@ -210,7 +210,7 @@
                   {{ 'agents.form.section.recording_hint' | translate }}
                 </span>
               </div>
-              <sc-toggle-switch
+              <sc-toggleswitch
                 [checked]="form().permissions.recording"
                 [ariaLabel]="'agents.permission.recording' | translate"
                 (checkedChange)="onRecordingChange($event)"
@@ -284,7 +284,7 @@
                   <lucide-icon [img]="infoIcon" [size]="13" aria-hidden="true" />
                 </button>
               </div>
-              <sc-toggle-switch
+              <sc-toggleswitch
                 [checked]="form().permissions.manageDevices"
                 [ariaLabel]="'agents.form.permissions.manage_devices' | translate"
                 (checkedChange)="togglePermission('manageDevices')"
@@ -305,7 +305,7 @@
                   <lucide-icon [img]="infoIcon" [size]="13" aria-hidden="true" />
                 </button>
               </div>
-              <sc-toggle-switch
+              <sc-toggleswitch
                 [checked]="form().permissions.selfActivate"
                 [ariaLabel]="'agents.form.permissions.self_activate' | translate"
                 (checkedChange)="togglePermission('selfActivate')"
@@ -764,7 +764,7 @@
                       <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
                     </button>
                   </div>
-                  <sc-toggle-switch
+                  <sc-toggleswitch
                     [checked]="form().randomOrder"
                     [ariaLabel]="'agents.form.advanced.comportamiento.random_order' | translate"
                     (checkedChange)="onRandomOrderChange($event)"
@@ -814,7 +814,7 @@
                       <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
                     </button>
                   </div>
-                  <sc-toggle-switch
+                  <sc-toggleswitch
                     [checked]="form().permissions.externalDevices"
                     [ariaLabel]="
                       'agents.form.advanced.integracion.dispositivos_externos' | translate
@@ -889,7 +889,7 @@
                       <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
                     </button>
                   </div>
-                  <sc-toggle-switch
+                  <sc-toggleswitch
                     [checked]="form().loginExtOverride"
                     [ariaLabel]="'agents.form.advanced.sesion.login_ext_override' | translate"
                     (checkedChange)="onLoginExtOverrideChange($event)"

@@ -146,7 +146,7 @@
                   {{ 'config.aed.subpages.grupos.voz.desbordar_llamadas_hint' | translate }}
                 </p>
               </div>
-              <sc-toggle-switch
+              <sc-toggleswitch
                 [checked]="form().desbordarLlamadas"
                 [ariaLabel]="'config.aed.subpages.grupos.voz.desbordar_llamadas' | translate"
                 (checkedChange)="update('desbordarLlamadas', $event)"
@@ -162,7 +162,7 @@
                   {{ 'config.aed.subpages.grupos.voz.desbordar_sesion_hint' | translate }}
                 </p>
               </div>
-              <sc-toggle-switch
+              <sc-toggleswitch
                 [checked]="form().desbordarSesion"
                 [ariaLabel]="'config.aed.subpages.grupos.voz.desbordar_sesion' | translate"
                 (checkedChange)="update('desbordarSesion', $event)"

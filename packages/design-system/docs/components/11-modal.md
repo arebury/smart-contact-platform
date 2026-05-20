@@ -70,7 +70,7 @@ Cualquier markup. **Stacking natural**: el body es `display: flex; flex-directio
   <sc-inputtext label="Nombre" [(value)]="name" />
   <sc-inputtext label="Email" type="email" [(value)]="email" />
   <sc-select label="Grupo" [options]="groups" [(value)]="groupId" />
-  <sc-toggle-switch [checked]="active" label="Activo" />
+  <sc-toggleswitch [checked]="active" label="Activo" />
 
   <div modal-actions>
     <button class="btn btn--secondary" (click)="dismiss()">Cancelar</button>

@@ -125,7 +125,7 @@
                 {{ 'config.aed.subpages.agentes.dispositivos.gestion_hint' | translate }}
               </p>
             </div>
-            <sc-toggle-switch
+            <sc-toggleswitch
               [checked]="form().gestionDispositivos"
               [ariaLabel]="'config.aed.subpages.agentes.dispositivos.gestion_label' | translate"
               (checkedChange)="update('gestionDispositivos', $event)"
@@ -141,7 +141,7 @@
                 {{ 'config.aed.subpages.agentes.dispositivos.activacion_hint' | translate }}
               </p>
             </div>
-            <sc-toggle-switch
+            <sc-toggleswitch
               [checked]="form().activacionGrupo"
               [ariaLabel]="'config.aed.subpages.agentes.dispositivos.activacion_label' | translate"
               (checkedChange)="update('activacionGrupo', $event)"
@@ -157,7 +157,7 @@
                 {{ 'config.aed.subpages.agentes.dispositivos.externos_hint' | translate }}
               </p>
             </div>
-            <sc-toggle-switch
+            <sc-toggleswitch
               [checked]="form().dispositivosExternos"
               [ariaLabel]="'config.aed.subpages.agentes.dispositivos.externos_label' | translate"
               (checkedChange)="update('dispositivosExternos', $event)"
@@ -184,7 +184,7 @@
                 {{ 'config.aed.subpages.agentes.visualizacion.orden_hint' | translate }}
               </p>
             </div>
-            <sc-toggle-switch
+            <sc-toggleswitch
               [checked]="form().ordenAleatorio"
               [ariaLabel]="'config.aed.subpages.agentes.visualizacion.orden_label' | translate"
               (checkedChange)="update('ordenAleatorio', $event)"
@@ -214,7 +214,7 @@
                 {{ 'config.aed.subpages.agentes.iframe.activate_hint' | translate }}
               </p>
             </div>
-            <sc-toggle-switch
+            <sc-toggleswitch
               [checked]="form().iframeActivo"
               [ariaLabel]="'config.aed.subpages.agentes.iframe.activate_label' | translate"
               (checkedChange)="update('iframeActivo', $event)"

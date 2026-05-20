@@ -110,11 +110,11 @@ con esta prop específica.
 
 ---
 
-### Toggle switch — `<sc-toggle-switch>` ↔ `❖ toggleswitch`
+### Toggle switch — `<sc-toggleswitch>` ↔ `❖ toggleswitch`
 
 | Campo | Valor |
 |---|---|
-| Angular | `<sc-toggle-switch>` (wrapper SCDS de `<p-toggleswitch>` desde S32) |
+| Angular | `<sc-toggleswitch>` (wrapper SCDS de `<p-toggleswitch>` desde S32) |
 | Figma name | `toggleswitch` |
 | Figma nodeId | `260:11899` |
 | Figma componentKey | `a4ff7cdbd9e804f9bd97bdd5a1e51936235e0c19` |
