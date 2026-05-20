@@ -17,12 +17,18 @@ import type { Conversation } from './conversation.types';
  * El proyecto SmartContact es prototipo permanente sin backend real,
  * por lo que este sistema de samples es parte canonical del demo
  * (no deuda).
+ *
+ * S49 bug 2b: `label`/`description` → `labelKey`/`descriptionKey` (i18n
+ * keys), el switcher los traduce en runtime. Las claves viven en
+ * `memory.mock_samples.<id>.{label,description}` de los 4 locales.
  */
 
 export interface MockSample {
   readonly id: string;
-  readonly label: string;
-  readonly description: string;
+  /** i18n key (e.g. `memory.mock_samples.default.label`). */
+  readonly labelKey: string;
+  /** i18n key (e.g. `memory.mock_samples.default.description`). */
+  readonly descriptionKey: string;
   readonly build: () => readonly Conversation[];
 }
 
@@ -35,19 +41,21 @@ const clone = (c: Conversation): Conversation => ({
 
 const cloneAll = (): Conversation[] => MOCK_CONVERSATIONS.map(clone);
 
+/** Helper: construye `labelKey` + `descriptionKey` desde el id del sample. */
+const i18n = (id: string) => ({
+  labelKey: `memory.mock_samples.${id}.label`,
+  descriptionKey: `memory.mock_samples.${id}.description`,
+});
+
 export const MOCK_SAMPLES: readonly MockSample[] = [
   {
     id: 'default',
-    label: 'Estado mixto',
-    description:
-      'Mezcla realista — el conjunto base con grabación, transcripción y análisis en distintos estados.',
+    ...i18n('default'),
     build: () => cloneAll(),
   },
   {
     id: 'all-pending',
-    label: 'Todo por procesar',
-    description:
-      'Llamadas sin transcripción ni análisis. Los chats mantienen transcripción (siempre la tienen por definición).',
+    ...i18n('all-pending'),
     build: () =>
       cloneAll().map((c) => {
         if (c.channel === 'chat') return c;
@@ -65,8 +73,7 @@ export const MOCK_SAMPLES: readonly MockSample[] = [
   },
   {
     id: 'all-done',
-    label: 'Todo procesado',
-    description: 'Todo grabado, transcrito y analizado. Demuestra el estado C1 (todo procesado).',
+    ...i18n('all-done'),
     build: () =>
       cloneAll().map((c) => {
         if (c.deleted) return c; // respetar custodia GDPR vencida
@@ -84,9 +91,7 @@ export const MOCK_SAMPLES: readonly MockSample[] = [
   },
   {
     id: 'calls-only-untranscribed',
-    label: 'Solo llamadas pendientes',
-    description:
-      'Solo llamadas con grabación pero sin transcripción. Perfecto para mostrar el flujo principal de transcribir.',
+    ...i18n('calls-only-untranscribed'),
     build: () =>
       cloneAll()
         .filter((c) => c.channel === 'llamada' && c.hasRecording && !c.deleted)
@@ -103,29 +108,22 @@ export const MOCK_SAMPLES: readonly MockSample[] = [
   },
   {
     id: 'chats-only',
-    label: 'Solo chats',
-    description:
-      'Conjunto reducido a chats — todos transcritos por definición. Demuestra que el toggle de análisis arranca activado.',
+    ...i18n('chats-only'),
     build: () => cloneAll().filter((c) => c.channel === 'chat'),
   },
   {
     id: 'small',
-    label: 'Conjunto reducido',
-    description: 'Las primeras 8 conversaciones para vistas más cómodas o capturas.',
+    ...i18n('small'),
     build: () => cloneAll().slice(0, 8),
   },
   {
     id: 'multi-recording',
-    label: 'Solo multi-grabación',
-    description:
-      'Conversaciones que pasaron por IVR con transferencia entre grupos — cada tramo es una grabación distinta.',
+    ...i18n('multi-recording'),
     build: () => cloneAll().filter((c) => c.recordings && c.recordings.length > 1),
   },
   {
     id: 'only-failed',
-    label: 'Solo fallidas',
-    description:
-      'Conversaciones con transcripción fallida. Demuestra el estado terminal rojo + filtro "Solo fallidas" + acción "Marcar como leídas".',
+    ...i18n('only-failed'),
     build: () =>
       cloneAll()
         .filter((c) => c.channel === 'llamada' && c.hasRecording && !c.deleted)
@@ -139,9 +137,7 @@ export const MOCK_SAMPLES: readonly MockSample[] = [
   },
   {
     id: 'gdpr-expired',
-    label: 'Custodia GDPR vencida',
-    description:
-      'Conversaciones con custodia GDPR vencida — fila atenuada, tooltip explicativo, excluidas del bulk en silencio (COA §"Custodia GDPR").',
+    ...i18n('gdpr-expired'),
     build: () =>
       cloneAll()
         .slice(0, 6)
@@ -155,9 +151,7 @@ export const MOCK_SAMPLES: readonly MockSample[] = [
   },
   {
     id: 'multi-tramo-parcial',
-    label: 'Multi-tramo parcial',
-    description:
-      'Llamadas multi-grabación donde unos tramos están transcritos y otros no — caveat documentado en COA §"Multi-tramo parcial".',
+    ...i18n('multi-tramo-parcial'),
     build: () =>
       cloneAll()
         .filter((c) => c.recordings && c.recordings.length > 1)
@@ -178,9 +172,7 @@ export const MOCK_SAMPLES: readonly MockSample[] = [
   },
   {
     id: 'no-recording',
-    label: 'Llamadas sin grabación',
-    description:
-      'Llamadas que entraron pero no quedaron grabadas — estado "Sin grabación" en el reproductor (COA §"Estados de la pestaña Transcripción" #2).',
+    ...i18n('no-recording'),
     build: () =>
       cloneAll()
         .filter((c) => c.channel === 'llamada')

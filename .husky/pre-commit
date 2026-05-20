@@ -1,1 +1,6 @@
 npx lint-staged
+
+# i18n audit · evita el bug `common.duplicate` (S49): si un path es string en
+# un locale y object en otro, `translate.instant(key)` devuelve "[object Object]"
+# literal. Bloquea el commit si hay tipo divergente cross-locale.
+npm run i18n:audit

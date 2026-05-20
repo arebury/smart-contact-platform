@@ -10,6 +10,97 @@
 
 ---
 
+## 2026-05-20 · Session 49 — §10 #13 CategoryRuleLinking bidireccional + 5 bugs (i18n/UX)
+
+> Sesión densa. Implementación completa de §10 #13 (refactor 3-piezas Rule ↔ Category)
+> + 5 bugs en cadena reportados por Rafa durante la sesión: red row stale, bulk toolbar
+> hardcoded ES, mock samples sin traducir, `common.duplicate` `[object Object]` en EN/FR/PT,
+> filter input multiselect tamaño desmesurado. Añadida red de seguridad i18n
+> (script audit cross-locale + integración husky pre-commit).
+
+### Hitos
+
+1. **§10 #13 — CategoryRuleLinking interactivo bidireccional** (refactor 3-piezas):
+   - **Pieza 1**: `Rule.categorias?: readonly string[]` (fuente de verdad). Mock rule
+     id=3 (Clasificar VIP IA) preloaded con 2 categorías. `RulesStore` añade
+     `rulesByCategoryId` computed Map + `rulesUsingCategory(id)` + `linkCategoryToRule` +
+     `unlinkCategoryFromRule`. `duplicateRule` copia categorias.
+   - **Pieza 2**: Refactor `Category` — remove `usedInRules` (static count) + `linkedRules`
+     (orphan field). El contador se deriva en runtime desde `RulesStore.rulesByCategoryId`
+     → no hay estado duplicado. `categories-page` lee `usedInRules(cat.id)` derivado.
+   - **Pieza 3**: `RuleBuilder` añade selector `<sc-multiselect>` en Análisis IA cuando
+     `type=classification + aiAnalysis ON`. Reemplaza el chip read-only "Categorías IA".
+     Empty state con CTA `/conversaciones/categorias`. Solo persiste categorias si la
+     regla cumple ambas condiciones (cambio de tipo o aiAnalysis OFF limpia).
+   - **Pieza 4 (la grande)**: `CategoryFormModal` interactivo (4 variantes React 1:1):
+     A. linkedRules=0 + reglas=0 → alert amber + tip bidireccional + CTA "Crear primera regla".
+     B. linkedRules=0 + reglas>0 → alert "no activa" + `<p-select>` filtrable "Añadir a regla".
+     C. linkedRules>0 + alguna activa → success green "Activa en N reglas" + lista + unlink hover-reveal + "Añadir a otra".
+     D. linkedRules>0 + todas inactivas → status muted + lista con badge "Inactiva" + unlink + "Añadir a otra".
+     Tokens: `--sc-label-amber-*` (banner) + `--sc-label-green-*` (success) + `--sc-label-red-*` (unlink hover) — todos ya en `03-palette.css`, 0 nuevos.
+   - 18 i18n keys nuevas × 4 locales (es/en/fr/pt). Sub-bloque `memory.categories.linking.*` + `memory.rules.builder.categorias_*`.
+
+2. **Bug 1 — Red row stale tras "Marcar como leídas"** (S49 reportado por Rafa).
+   `ConversationsStore.onBulkMarkRead` era stub (toast-only); `hasFailedTranscription`
+   nunca se limpiaba → la fila roja persistía. Fix: nuevo método `ConversationsStore.markAsRead(ids)`
+   que setea `hasFailedTranscription: false` en las seleccionadas. Wire desde
+   `conversations-page.onBulkMarkRead` antes del `clearSelection`. El contador `failedCount`
+   y el chip "Solo fallidas" se recalculan automáticamente (computed signal).
+
+3. **Bug 2a — Bulk toolbar hardcoded ES** ("N conversaciones seleccionadas" persistía
+   en EN/FR/PT). `bulkEntity` en `conversations-page.component.ts` era static literal ES.
+   Fix: `bulkEntity` ahora es `computed<BulkActionEntityLabels>` con dependency
+   `currentLang` (signal derivado de `translate.onLangChange` via `toSignal` + `rxjs map/startWith`)
+   → re-evalúa al cambio de idioma. 4 keys nuevas en `memory.bulk.entity.*`
+   (singular/plural/selected_one/selected_other) en 4 locales. AED admin pages
+   (agents/labels/groups/users/templates/repos) mantienen hardcoded ES — sweep similar
+   queda para sesión futura (uso interno ES-mayoritario).
+
+4. **Bug 2b — Mock samples sin traducir** (11 escenarios demo del switcher: "Solo fallidas",
+   "Custodia GDPR vencida", "Multi-tramo parcial", etc). Refactor `MockSample` interface:
+   `label` → `labelKey`, `description` → `descriptionKey`. Helper `i18n(id)` mapea id →
+   par de claves `memory.mock_samples.<id>.{label,description}`. 22 keys × 4 locales.
+   Switcher template usa `(s.labelKey | translate)` + `(s.descriptionKey | translate)`.
+
+5. **Bug 3 — `[object Object]` en menú duplicar EN/FR/PT** (screenshot Rafa /admin/agents).
+   `common.duplicate` en `en.json`/`fr.json`/`pt.json` era OBJECT con sub-keys huérfanos
+   (`discard_changes_title/body/confirm/keep`, `required_missing_hint`) — nadie en código
+   las referenciaba. ngx-translate devolvía el objeto serializado `[object Object]` al
+   hacer `translate.instant('common.duplicate')`. Fix: reemplazo el objeto por string
+   "Duplicate"/"Dupliquer"/"Duplicar" (ES ya era string). Sub-keys eliminados.
+
+6. **Bug 5 — Filter search input desmesurado** (screenshot Rafa, search dentro de
+   multiselect dropdown se veía md mientras el trigger era sm). PrimeNG aplica el size
+   solo al trigger; el `<input>` interno (`.p-multiselect-filter` / `.p-select-filter`)
+   queda al default md. Fix en `packages/design-system/styles/_sc-overlay-sizes.scss`:
+   añadir reglas para `.p-multiselect-filter` y `.p-select-filter` en ambos `--sm` y
+   `--lg` (font-size + padding alineados 1:1 con la escala Figma SC del trigger).
+
+7. **Red de seguridad i18n** (raíz del bug 3):
+   - `scripts/i18n-audit.mjs` recorre los 4 JSONs, calcula tipo (`string`/`object`) por
+     path y reporta divergencias. Type mismatch = fail (exit 1). Missing keys = warn
+     (o fail en `--strict`).
+   - `npm run i18n:audit` + `npm run i18n:audit:strict`.
+   - Añadido a `.husky/pre-commit` después de `lint-staged` → bloquea commit si vuelve
+     a aparecer otro `common.duplicate`-style type drift.
+   - Validación inicial: 1438 paths únicos × 4 locales, 0 type mismatches, 0 missing.
+
+### Estado salud cierre S49
+
+`tsc --noEmit` verde · build production verde · Playwright cross-app 14/14 verde
+(38.5s) · i18n audit verde (1438 paths, 0 mismatches). Pre-commit hook husky+lint-staged+i18n-audit activo.
+
+### Archivos tocados
+
+- `apps/supervisor/src/app/features/memory/`: data/{rule.types,rules-mock,category.types,categories-mock,mock-samples}.ts · state/{rules,categories,conversations}.store.ts · components/category-form-modal/* · pages/{rule-builder,conversations,categories}/* · components/mock-sample-switcher/mock-sample-switcher.component.html
+- `apps/supervisor/src/assets/i18n/{es,en,fr,pt}.json` (~70 keys nuevas + fix `common.duplicate` × 3 locales)
+- `packages/design-system/styles/_sc-overlay-sizes.scss` (4 reglas filter input)
+- `scripts/i18n-audit.mjs` (nuevo)
+- `package.json` (2 scripts) · `.husky/pre-commit` (1 línea)
+- `docs/{SESSION-LOG,NEXT-SESSION-PLAN,memory-migration-inventory}.md`
+
+---
+
 ## 2026-05-20 · Session 48 — Code Connect dormido (sparring) + §10 #12 Synonyms granulares Memory
 
 > Sesión corta y reflexiva. Plan original era Eje 2 (Code Connect mapping de los 7

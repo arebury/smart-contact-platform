@@ -137,6 +137,25 @@ export class ConversationsStore {
   }
 
   /**
+   * Marca como leídas las conversaciones indicadas: limpia el flag
+   * `hasFailedTranscription` para que la fila pierda el tint rojo y el
+   * badge failed deje de pintarse. El contador `failedCount` y el chip
+   * "Solo fallidas" se recalculan en consecuencia.
+   *
+   * Decisión Memory 15.46 — "Marcar como leídas" reset visual del estado
+   * post-procesamiento. Hasta ahora era un stub (toast-only) — bug S49.
+   */
+  markAsRead(ids: readonly string[]): void {
+    if (ids.length === 0) return;
+    const idSet = new Set(ids);
+    this._conversations.update((all) =>
+      all.map((c) =>
+        idSet.has(c.id) && c.hasFailedTranscription ? { ...c, hasFailedTranscription: false } : c,
+      ),
+    );
+  }
+
+  /**
    * Mock dispatch de transcripción (bulk o unitario).
    *
    * Simula el ciclo backend con `setTimeout`. Fases:

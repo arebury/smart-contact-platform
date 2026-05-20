@@ -85,6 +85,63 @@ export class RulesStore {
     return this.conflictsByRuleId().has(id);
   }
 
+  /**
+   * Mapa categoryId → reglas que la usan (en `rule.categorias`). Fuente de
+   * verdad para la relación bidireccional Rule ↔ Category (S49 §10 #13).
+   * Vista derivada de `Rule.categorias`; sin estado duplicado.
+   */
+  readonly rulesByCategoryId = computed(() => {
+    const map = new Map<string, Rule[]>();
+    for (const rule of this._rules()) {
+      const cats = rule.categorias;
+      if (!cats || cats.length === 0) continue;
+      for (const catId of cats) {
+        const curr = map.get(catId);
+        if (curr) curr.push(rule);
+        else map.set(catId, [rule]);
+      }
+    }
+    return map;
+  });
+
+  rulesUsingCategory(categoryId: string): readonly Rule[] {
+    return this.rulesByCategoryId().get(categoryId) ?? [];
+  }
+
+  /**
+   * Vincula `categoryId` a la regla. Idempotente: si ya está, no duplica.
+   */
+  linkCategoryToRule(ruleId: number, categoryId: string): void {
+    this._rules.update((rules) => {
+      const target = rules.find((r) => r.id === ruleId);
+      if (!target) return rules;
+      const curr = target.categorias ?? [];
+      if (curr.includes(categoryId)) return rules;
+      const now = new Date().toISOString();
+      return rules.map((r) =>
+        r.id === ruleId ? { ...r, categorias: [...curr, categoryId], lastModified: now } : r,
+      );
+    });
+  }
+
+  /**
+   * Desvincula `categoryId` de la regla.
+   */
+  unlinkCategoryFromRule(ruleId: number, categoryId: string): void {
+    this._rules.update((rules) => {
+      const target = rules.find((r) => r.id === ruleId);
+      if (!target) return rules;
+      const curr = target.categorias ?? [];
+      if (!curr.includes(categoryId)) return rules;
+      const now = new Date().toISOString();
+      return rules.map((r) =>
+        r.id === ruleId
+          ? { ...r, categorias: curr.filter((c) => c !== categoryId), lastModified: now }
+          : r,
+      );
+    });
+  }
+
   getConflictingRules(id: number): readonly Rule[] {
     const ids = this.conflictsByRuleId().get(id) ?? [];
     const all = this._rules();
@@ -231,6 +288,7 @@ export class RulesStore {
       durationMin: source.durationMin,
       attendedBy: source.attendedBy,
       aiAnalysis: source.aiAnalysis,
+      categorias: source.categorias,
       isDraft: true,
       duplicatedFromId: id,
     });

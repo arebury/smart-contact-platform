@@ -202,7 +202,13 @@
       "transcribe_analyze": "Transcrire et analyser",
       "mark_read": "Marquer comme lues",
       "mark_read_toast": "{{n}} conversations marquées comme lues",
-      "coming_soon_toast": "Modal en lot à venir (iter 6b)"
+      "coming_soon_toast": "Modal en lot à venir (iter 6b)",
+      "entity": {
+        "singular": "conversation",
+        "plural": "conversations",
+        "selected_one": "sélectionnée",
+        "selected_other": "sélectionnées"
+      }
     },
     "bulk_transcription": {
       "total_label": "Total à traiter",
@@ -212,6 +218,52 @@
       "all_processed": "tout traité",
       "close_btn": "Fermer",
       "process_btn": "Traiter"
+    },
+    "mock_samples": {
+      "default": {
+        "label": "État mixte",
+        "description": "Mélange réaliste — le jeu de base avec enregistrement, transcription et analyse dans divers états."
+      },
+      "all-pending": {
+        "label": "Tout en attente",
+        "description": "Appels sans transcription ni analyse. Les chats gardent leur transcription (toujours présente par définition)."
+      },
+      "all-done": {
+        "label": "Tout traité",
+        "description": "Tout enregistré, transcrit et analysé. Démontre l'état C1 (entièrement traité)."
+      },
+      "calls-only-untranscribed": {
+        "label": "Uniquement appels en attente",
+        "description": "Uniquement les appels enregistrés mais non transcrits. Idéal pour démontrer le flux principal de transcription."
+      },
+      "chats-only": {
+        "label": "Uniquement chats",
+        "description": "Réduit aux chats — tous transcrits par définition. Démontre que le toggle d'analyse démarre activé."
+      },
+      "small": {
+        "label": "Jeu réduit",
+        "description": "Les 8 premières conversations pour des vues plus compactes ou des captures."
+      },
+      "multi-recording": {
+        "label": "Uniquement multi-enregistrement",
+        "description": "Conversations passées par un IVR avec transfert entre groupes — chaque segment est un enregistrement distinct."
+      },
+      "only-failed": {
+        "label": "Uniquement échouées",
+        "description": "Conversations avec transcription échouée. Démontre l'état terminal rouge + filtre \"Uniquement échouées\" + action \"Marquer comme lues\"."
+      },
+      "gdpr-expired": {
+        "label": "Conservation RGPD expirée",
+        "description": "Conversations dont la conservation RGPD a expiré — ligne grisée, infobulle explicative, exclues silencieusement du lot."
+      },
+      "multi-tramo-parcial": {
+        "label": "Multi-segment partiel",
+        "description": "Appels multi-enregistrement où certains segments sont transcrits et d'autres non — caveat documenté dans COA."
+      },
+      "no-recording": {
+        "label": "Appels sans enregistrement",
+        "description": "Appels entrés mais non enregistrés — état \"Sans enregistrement\" dans le lecteur."
+      }
     },
     "mock_sample_switcher": {
       "chip_label": "Démo",
@@ -328,6 +380,11 @@
         "ai_chip_summary": "Résumé automatique",
         "ai_chip_sentiment": "Analyse de sentiment",
         "ai_chip_categories": "Catégories IA",
+        "categorias_label": "Catégories IA à détecter",
+        "categorias_placeholder": "Sélectionner des catégories…",
+        "categorias_hint": "L'IA n'étiquettera que les catégories sélectionnées. Laissez vide pour classifier librement.",
+        "categorias_manage": "Gérer les catégories",
+        "categorias_empty": "Vous n'avez pas encore de catégories IA. Créez-en une dans le référentiel pour commencer.",
         "save_changes": "Sauvegarder les modifications",
         "create_rule": "Créer la règle",
         "created_toast": "Règle créée",
@@ -447,7 +504,6 @@
         "group_placeholder": "ex. Service Client",
         "active_label": "Active",
         "inactive_label": "Inactive",
-        "linked_rules_title": "Utilisée dans {{count}} règle(s)",
         "save_changes": "Sauvegarder les modifications",
         "create_category": "Créer la catégorie",
         "created_toast": "Catégorie «{{name}}» créée",
@@ -458,6 +514,25 @@
       "templates": {
         "title": "Modèles prédéfinis",
         "subtitle": "Choisissez un cas typique pour démarrer. Vous pourrez ajuster les textes avant de sauvegarder."
+      },
+      "linking": {
+        "title": "Liaison avec les règles",
+        "tooltip": "Les catégories ne sont détectées que dans les appels qui remplissent les conditions des règles auxquelles elles sont liées.",
+        "inactive_title": "Cette catégorie n'est pas active",
+        "no_rules_desc": "Pour que l'IA détecte <strong>{{name}}</strong> dans vos appels, vous devez la lier à une règle. Vous n'avez encore aucune règle.",
+        "attach_desc": "Pour que l'IA détecte <strong>{{name}}</strong> dans vos appels, liez-la à une règle de classification.",
+        "bidirectional_tip": "Quand vous créez une règle et liez cette catégorie depuis le constructeur, elle apparaît ici automatiquement. La liaison est bidirectionnelle.",
+        "create_first_rule": "Créer ma première règle",
+        "add_to_existing": "Ajouter à une règle existante",
+        "select_rule_placeholder": "Sélectionner une règle…",
+        "add_another_placeholder": "+ Ajouter à une autre règle…",
+        "no_available_rules": "Plus de règles disponibles",
+        "active_in_n_rules": "Active dans {{count}} règle(s)",
+        "all_inactive_n_rules": "Dans {{count}} règle(s) (inactives)",
+        "inactive_badge": "Inactive",
+        "services_meta": "Services",
+        "rule_disabled_meta": "Cette règle est désactivée",
+        "unlink_aria": "Délier {{name}}"
       }
     },
     "category_filter": {
@@ -495,13 +570,7 @@
       "seconds": "sec"
     },
     "delete": "Supprimer",
-    "duplicate": {
-      "discard_changes_title": "Annuler la duplication ?",
-      "discard_changes_body": "Vous dupliquez un enregistrement et ne l'avez pas encore sauvegardé. Sortir maintenant fera perdre la copie.",
-      "discard_changes_confirm": "Annuler",
-      "discard_changes_keep": "Continuer l'édition",
-      "required_missing_hint": "Remplissez les champs obligatoires avant de sauvegarder"
-    },
+    "duplicate": "Dupliquer",
     "edit": "Éditer",
     "loading": "Chargement…",
     "search": "Rechercher...",

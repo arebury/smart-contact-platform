@@ -202,7 +202,13 @@
       "transcribe_analyze": "Transcribir y analizar",
       "mark_read": "Marcar como leídas",
       "mark_read_toast": "{{n}} conversaciones marcadas como leídas",
-      "coming_soon_toast": "Modal masivo en camino (iter 6b)"
+      "coming_soon_toast": "Modal masivo en camino (iter 6b)",
+      "entity": {
+        "singular": "conversación",
+        "plural": "conversaciones",
+        "selected_one": "seleccionada",
+        "selected_other": "seleccionadas"
+      }
     },
     "bulk_transcription": {
       "total_label": "Total a procesar",
@@ -217,6 +223,52 @@
       "chip_label": "Demo",
       "data_prefix": "Datos:",
       "list_header": "Conjuntos de prueba"
+    },
+    "mock_samples": {
+      "default": {
+        "label": "Estado mixto",
+        "description": "Mezcla realista — el conjunto base con grabación, transcripción y análisis en distintos estados."
+      },
+      "all-pending": {
+        "label": "Todo por procesar",
+        "description": "Llamadas sin transcripción ni análisis. Los chats mantienen transcripción (siempre la tienen por definición)."
+      },
+      "all-done": {
+        "label": "Todo procesado",
+        "description": "Todo grabado, transcrito y analizado. Demuestra el estado C1 (todo procesado)."
+      },
+      "calls-only-untranscribed": {
+        "label": "Solo llamadas pendientes",
+        "description": "Solo llamadas con grabación pero sin transcripción. Perfecto para mostrar el flujo principal de transcribir."
+      },
+      "chats-only": {
+        "label": "Solo chats",
+        "description": "Conjunto reducido a chats — todos transcritos por definición. Demuestra que el toggle de análisis arranca activado."
+      },
+      "small": {
+        "label": "Conjunto reducido",
+        "description": "Las primeras 8 conversaciones para vistas más cómodas o capturas."
+      },
+      "multi-recording": {
+        "label": "Solo multi-grabación",
+        "description": "Conversaciones que pasaron por IVR con transferencia entre grupos — cada tramo es una grabación distinta."
+      },
+      "only-failed": {
+        "label": "Solo fallidas",
+        "description": "Conversaciones con transcripción fallida. Demuestra el estado terminal rojo + filtro \"Solo fallidas\" + acción \"Marcar como leídas\"."
+      },
+      "gdpr-expired": {
+        "label": "Custodia GDPR vencida",
+        "description": "Conversaciones con custodia GDPR vencida — fila atenuada, tooltip explicativo, excluidas del bulk en silencio."
+      },
+      "multi-tramo-parcial": {
+        "label": "Multi-tramo parcial",
+        "description": "Llamadas multi-grabación donde unos tramos están transcritos y otros no — caveat documentado en COA."
+      },
+      "no-recording": {
+        "label": "Llamadas sin grabación",
+        "description": "Llamadas que entraron pero no quedaron grabadas — estado \"Sin grabación\" en el reproductor."
+      }
     },
     "rules": {
       "page_title": "Reglas",
@@ -328,6 +380,11 @@
         "ai_chip_summary": "Resumen automático",
         "ai_chip_sentiment": "Análisis de sentimiento",
         "ai_chip_categories": "Categorías IA",
+        "categorias_label": "Categorías IA a detectar",
+        "categorias_placeholder": "Seleccionar categorías…",
+        "categorias_hint": "La IA solo etiquetará las categorías que selecciones. Déjalo vacío para clasificar libremente.",
+        "categorias_manage": "Gestionar categorías",
+        "categorias_empty": "Aún no tienes categorías IA creadas. Crea una desde el repositorio para empezar.",
         "save_changes": "Guardar cambios",
         "create_rule": "Crear regla",
         "created_toast": "Regla creada",
@@ -447,7 +504,6 @@
         "group_placeholder": "ej. Atención al Cliente",
         "active_label": "Activa",
         "inactive_label": "Inactiva",
-        "linked_rules_title": "Usada en {{count}} regla(s)",
         "save_changes": "Guardar cambios",
         "create_category": "Crear categoría",
         "created_toast": "Categoría «{{name}}» creada",
@@ -458,6 +514,25 @@
       "templates": {
         "title": "Plantillas predefinidas",
         "subtitle": "Elige un caso típico para arrancar. Podrás ajustar los textos antes de guardar."
+      },
+      "linking": {
+        "title": "Vinculación con reglas",
+        "tooltip": "Las categorías solo se detectan en las llamadas que cumplan las condiciones de las reglas a las que están vinculadas.",
+        "inactive_title": "Esta categoría no está activa",
+        "no_rules_desc": "Para que la IA detecte <strong>{{name}}</strong> en tus llamadas, necesitas vincularla a una regla. Aún no tienes reglas creadas.",
+        "attach_desc": "Para que la IA detecte <strong>{{name}}</strong> en tus llamadas, vincúlala a una regla de clasificación.",
+        "bidirectional_tip": "Cuando crees una regla y vincules esta categoría desde el constructor, aparecerá automáticamente reflejada aquí. La vinculación es bidireccional.",
+        "create_first_rule": "Crear mi primera regla",
+        "add_to_existing": "Añadir a regla existente",
+        "select_rule_placeholder": "Seleccionar regla…",
+        "add_another_placeholder": "+ Añadir a otra regla…",
+        "no_available_rules": "No hay más reglas disponibles",
+        "active_in_n_rules": "Activa en {{count}} regla(s)",
+        "all_inactive_n_rules": "En {{count}} regla(s) (inactivas)",
+        "inactive_badge": "Inactiva",
+        "services_meta": "Servicios",
+        "rule_disabled_meta": "Esta regla está desactivada",
+        "unlink_aria": "Desvincular {{name}}"
       }
     },
     "category_filter": {

@@ -28,15 +28,12 @@ export class CategoriesStore {
     this._categories.update((list) => list.filter((c) => c.id !== id));
   }
 
-  addCategory(
-    partial: Omit<Category, 'id' | 'createdAt' | 'usedInRules' | 'classifiedCalls'>,
-  ): Category {
+  addCategory(partial: Omit<Category, 'id' | 'createdAt' | 'classifiedCalls'>): Category {
     const now = new Date().toISOString();
     const newCat: Category = {
       ...partial,
       id: `cat_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
       createdAt: now,
-      usedInRules: 0,
       classifiedCalls: 0,
     };
     this._categories.update((list) => [newCat, ...list]);
@@ -45,7 +42,7 @@ export class CategoriesStore {
 
   updateCategory(
     id: string,
-    patch: Partial<Omit<Category, 'id' | 'createdAt' | 'usedInRules' | 'classifiedCalls'>>,
+    patch: Partial<Omit<Category, 'id' | 'createdAt' | 'classifiedCalls'>>,
   ): void {
     this._categories.update((list) => list.map((c) => (c.id === id ? { ...c, ...patch } : c)));
   }
@@ -64,7 +61,6 @@ export class CategoriesStore {
       id: `cat_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
       name: `${source.name} (copia)`,
       createdAt: new Date().toISOString(),
-      usedInRules: 0,
       classifiedCalls: 0,
     };
     this._categories.update((list) => [copy, ...list]);

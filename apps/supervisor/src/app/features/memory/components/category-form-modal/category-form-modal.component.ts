@@ -15,14 +15,21 @@ import {
   AlertCircle,
   AlertTriangle,
   Building2,
+  Check,
   ExternalLink,
+  FileText,
+  Info,
   LayoutTemplate,
   LucideAngularModule,
+  Plus,
   Tags,
   Wrench,
+  X,
 } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
+import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
@@ -33,7 +40,7 @@ import { CategoriesStore } from '../../state/categories.store';
 import { RulesStore } from '../../state/rules.store';
 
 /**
- * CategoryFormModal · Crear + Editar categorías IA · iter 11b + 11c.
+ * CategoryFormModal · Crear + Editar categorías IA · iter 11b + 11c + S49 §10 #13.
  *
  * Unifica `CreateCategoryPanel` + `EditCategoryPanel` del prototipo
  * React en modal SCDS.
@@ -41,13 +48,14 @@ import { RulesStore } from '../../state/rules.store';
  * Features:
  *  - **Templates predefinidos** (S39, iter 11c): 4 plantillas (Queja,
  *    Intención de baja, Competencia, Incidencia) seleccionables vía
- *    dialog secundario que prellena name + description. Réplica del
- *    React `CreateCategoryPanel.templates` + `TEMPLATE_DATA`.
- *
- * Simplificaciones pragmáticas (anotadas §10 si surge trigger):
- *  - Sección "Reglas que la usan" **read-only**: lista con enlaces a
- *    editar reglas. CategoryRuleLinking interactivo (que permite
- *    linkar/unlinkar desde la categoría) → iter 11d.
+ *    dialog secundario que prellena name + description.
+ *  - **CategoryRuleLinking bidireccional** (S49 §10 #13): réplica del
+ *    React `CategoryRuleLinking.tsx`. 4 variantes según estado:
+ *      A. linkedRules=0 + reglas=0 → empty state + CTA "Crear regla"
+ *      B. linkedRules=0 + reglas>0 → alert "no activa" + selector
+ *      C. linkedRules>0 + alguna activa → success + lista[unlink] + "añadir otra"
+ *      D. linkedRules>0 + todas inactivas → muted + lista[unlink] + "añadir otra"
+ *    Fuente de verdad: `Rule.categorias[]`. Link/unlink en `RulesStore`.
  *
  * Campos:
  *  - Name (required, min 3 chars, unique).
@@ -56,19 +64,14 @@ import { RulesStore } from '../../state/rules.store';
  *  - isActive toggle.
  */
 
-/** ID de las 4 plantillas predefinidas. Mapean al `TEMPLATE_DATA` del
- *  prototipo React `CreateCategoryPanel.tsx` línea 46-63. */
 type CategoryTemplateId = 'complaint' | 'churn' | 'competitor' | 'incident';
 
 interface CategoryTemplate {
   readonly id: CategoryTemplateId;
   readonly icon: typeof AlertCircle;
   readonly title: string;
-  /** Hint corto en la card del dialog. */
   readonly hint: string;
-  /** Lo que se prellena en el campo `name` al seleccionar. */
   readonly name: string;
-  /** Lo que se prellena en el campo `description` al seleccionar. */
   readonly description: string;
 }
 
@@ -110,6 +113,7 @@ const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
       'Llamadas reportando problemas técnicos, fallos en el servicio, averías, errores en sistemas o cualquier situación que requiera intervención técnica o resolución de incidentes.',
   },
 ];
+
 @Component({
   selector: 'sc-memory-category-form-modal',
   imports: [
@@ -119,7 +123,9 @@ const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
     LucideAngularModule,
     DialogComponent,
     RouterLink,
+    SelectModule,
     ToggleSwitchModule,
+    TooltipModule,
     TranslateModule,
   ],
   templateUrl: './category-form-modal.component.html',
@@ -130,9 +136,6 @@ export class CategoryFormModalComponent {
   private readonly categoriesStore = inject(CategoriesStore);
   private readonly rulesStore = inject(RulesStore);
 
-  // input con default false: el effect del constructor lee `this.visible()`
-  // antes del primer binding y `input.required` cascaría con NG0950
-  // (mismo bug que arregló 7525864 en BulkTranscriptionModal).
   readonly visible = input<boolean>(false);
   readonly category = input<Category | null>(null);
 
@@ -142,6 +145,12 @@ export class CategoryFormModalComponent {
   protected readonly tagsIcon = Tags;
   protected readonly externalIcon = ExternalLink;
   protected readonly layoutTemplateIcon = LayoutTemplate;
+  protected readonly alertIcon = AlertTriangle;
+  protected readonly checkIcon = Check;
+  protected readonly infoIcon = Info;
+  protected readonly fileTextIcon = FileText;
+  protected readonly plusIcon = Plus;
+  protected readonly xIcon = X;
 
   protected readonly name = signal('');
   protected readonly description = signal('');
@@ -150,15 +159,12 @@ export class CategoryFormModalComponent {
 
   protected readonly isEditMode = computed(() => this.category() !== null);
 
-  /** Estado del dialog secundario "Plantillas predefinidas". Solo visible
-   *  en modo Create — al editar una categoría existente no tiene sentido
-   *  sobrescribir sus campos con un template. */
   protected readonly templatesDialogVisible = signal(false);
   protected readonly templates: readonly CategoryTemplate[] = CATEGORY_TEMPLATES;
 
   protected readonly nameError = computed<string | null>(() => {
     const trimmed = this.name().trim();
-    if (trimmed.length === 0) return null; // No mostrar error inicial
+    if (trimmed.length === 0) return null;
     if (trimmed.length < 3) return 'memory.categories.form.name_error_short';
     if (this.categoriesStore.isNameTaken(trimmed, this.category()?.id)) {
       return 'memory.categories.form.name_error_duplicate';
@@ -176,20 +182,40 @@ export class CategoryFormModalComponent {
     );
   });
 
-  /**
-   * Reglas que referencian esta categoría — read-only en iter 11b.
-   * Iter 9c builders aún NO permiten seleccionar categorías al crear/
-   * editar regla (la spec lo incluye en Análisis IA pero el builder
-   * Angular no expone aún). Por ahora retorna lista vacía en edit y
-   * NO se renderiza la sección hasta que iter futura conecte la
-   * relación bidireccional via `categorias[]` en Rule.
-   */
+  // ─── Vinculación con reglas (S49 §10 #13) ───────────────────────────
+
+  /** Reglas que referencian esta categoría. Derivado de `Rule.categorias`. */
   protected readonly linkedRules = computed<readonly Rule[]>(() => {
-    // Placeholder: cuando RuleBuilder añada selector de categorías,
-    // filtrar `rules().filter(r => r.categorias?.includes(this.category()?.id))`.
-    void this.rulesStore; // referencia para tree-shaking awareness
-    return [];
+    const cat = this.category();
+    if (!cat) return [];
+    return this.rulesStore.rulesUsingCategory(cat.id);
   });
+
+  protected readonly hasActiveRules = computed(() => this.linkedRules().some((r) => r.active));
+
+  protected readonly allRulesInactive = computed(() => {
+    const linked = this.linkedRules();
+    return linked.length > 0 && !linked.some((r) => r.active);
+  });
+
+  /** Reglas disponibles para añadir (todas menos las ya vinculadas). */
+  protected readonly availableRules = computed<readonly Rule[]>(() => {
+    const linkedIds = new Set(this.linkedRules().map((r) => r.id));
+    return this.rulesStore.rules().filter((r) => !linkedIds.has(r.id));
+  });
+
+  protected readonly availableRuleOptions = computed(() =>
+    this.availableRules().map((r) => ({
+      value: r.id,
+      label: r.name,
+      hint: this.formatRuleHint(r),
+    })),
+  );
+
+  protected readonly hasAnyRules = computed(() => this.rulesStore.rules().length > 0);
+
+  /** Estado UI del selector "Añadir a regla existente". Se resetea al cerrar. */
+  protected readonly selectedRuleToAdd = signal<number | null>(null);
 
   constructor() {
     effect(() => {
@@ -206,6 +232,7 @@ export class CategoryFormModalComponent {
         this.group.set('');
         this.isActive.set(true);
       }
+      this.selectedRuleToAdd.set(null);
     });
   }
 
@@ -257,5 +284,28 @@ export class CategoryFormModalComponent {
       const created = this.categoriesStore.addCategory(base);
       this.saved.emit(created);
     }
+  }
+
+  // ─── Link / Unlink reglas ────────────────────────────────────────────
+
+  protected onAddRule(ruleId: number | null): void {
+    const cat = this.category();
+    if (!cat || ruleId === null) return;
+    this.rulesStore.linkCategoryToRule(ruleId, cat.id);
+    // Reset del selector para que vuelva al placeholder.
+    this.selectedRuleToAdd.set(null);
+  }
+
+  protected onUnlinkRule(ruleId: number): void {
+    const cat = this.category();
+    if (!cat) return;
+    this.rulesStore.unlinkCategoryFromRule(ruleId, cat.id);
+  }
+
+  private formatRuleHint(rule: Rule): string {
+    const services = rule.servicios.slice(0, 2).join(', ');
+    const extra = rule.servicios.length > 2 ? ` +${rule.servicios.length - 2}` : '';
+    const catCount = rule.categorias?.length ?? 0;
+    return `${services}${extra} · ${catCount} cat.`;
   }
 }

@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { map, startWith } from 'rxjs';
 import { CheckCheck, LucideAngularModule, MessagesSquare, Sparkles } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -77,12 +79,26 @@ export class ConversationsPageComponent {
   protected readonly bulkIcon = Sparkles;
   protected readonly markReadIcon = CheckCheck;
 
-  protected readonly bulkEntity: BulkActionEntityLabels = {
-    singular: 'conversación',
-    plural: 'conversaciones',
-    suffixSingular: 'seleccionada',
-    suffixPlural: 'seleccionadas',
-  };
+  /** Reactividad al cambio de idioma (S49 bug 2a). El componente
+   *  `<sc-bulk-action-bar>` recibe strings ya traducidos; sin esta señal
+   *  el computed no se re-evalúa cuando el usuario cambia ES↔EN/FR/PT. */
+  private readonly currentLang = toSignal(
+    this.translate.onLangChange.pipe(
+      map((e) => e.lang),
+      startWith(this.translate.currentLang),
+    ),
+    { initialValue: this.translate.currentLang },
+  );
+
+  protected readonly bulkEntity = computed<BulkActionEntityLabels>(() => {
+    this.currentLang(); // dependency for re-runs on lang change
+    return {
+      singular: this.translate.instant('memory.bulk.entity.singular'),
+      plural: this.translate.instant('memory.bulk.entity.plural'),
+      suffixSingular: this.translate.instant('memory.bulk.entity.selected_one'),
+      suffixPlural: this.translate.instant('memory.bulk.entity.selected_other'),
+    };
+  });
 
   protected readonly playerOpen = signal(false);
   protected readonly playerConversation = signal<Conversation | null>(null);
@@ -138,11 +154,12 @@ export class ConversationsPageComponent {
 
   protected onBulkMarkRead(): void {
     // Decisión 15.46 Memory: "Marcar como leídas" reset visual del estado
-    // post-procesamiento (amarillas → blanco, fallidas dejan "Solo fallidas"
-    // queue aunque su icono siga). Stub iter 8: toast + clear selection.
-    // El estado visual real (processingIds, sticky toasts) llega en iter
-    // dispatch real (§10 #5/#9 inventory).
+    // post-procesamiento. S49 fix: además de cerrar selección + toast,
+    // limpia `hasFailedTranscription` en las seleccionadas → la fila roja
+    // desaparece (antes era stub toast-only y el feedback persistía).
     const n = this.selectedCount();
+    const ids = [...this.selectedIds()];
+    this.conversationsStore.markAsRead(ids);
     this.conversationsStore.clearSelection();
     this.messages.add({
       severity: 'success',

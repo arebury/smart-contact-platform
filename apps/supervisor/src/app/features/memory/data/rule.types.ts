@@ -43,6 +43,13 @@ export interface Rule {
   readonly durationMin?: number; // segundos
   readonly attendedBy?: readonly string[]; // agentes o grupos
   readonly aiAnalysis?: boolean;
+  /**
+   * IDs de categorías IA que esta regla detecta. Solo aplica a reglas
+   * `type: 'classification'`. Fuente de verdad para la relación
+   * bidireccional Rule ↔ Category (S49 §10 #13). `Category.usedInRules`
+   * se deriva contando reglas con la categoría en este array.
+   */
+  readonly categorias?: readonly string[];
   // Estado
   /** Borrador sin editar — copia recién creada que aún no se ha modificado. */
   readonly isDraft?: boolean;

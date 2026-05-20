@@ -49,8 +49,8 @@
                 {{ cat.description }}
               </td>
               <td class="categories-table__td-num">
-                @if (cat.usedInRules > 0) {
-                  <span class="categories-num">{{ cat.usedInRules }}</span>
+                @if (usedInRules(cat.id) > 0) {
+                  <span class="categories-num">{{ usedInRules(cat.id) }}</span>
                 } @else {
                   <span class="categories-num categories-num--empty">—</span>
                 }

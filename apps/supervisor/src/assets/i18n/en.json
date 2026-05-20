@@ -202,7 +202,13 @@
       "transcribe_analyze": "Transcribe and analyze",
       "mark_read": "Mark as read",
       "mark_read_toast": "{{n}} conversations marked as read",
-      "coming_soon_toast": "Bulk modal coming (iter 6b)"
+      "coming_soon_toast": "Bulk modal coming (iter 6b)",
+      "entity": {
+        "singular": "conversation",
+        "plural": "conversations",
+        "selected_one": "selected",
+        "selected_other": "selected"
+      }
     },
     "bulk_transcription": {
       "total_label": "Total to process",
@@ -217,6 +223,52 @@
       "chip_label": "Demo",
       "data_prefix": "Data:",
       "list_header": "Test datasets"
+    },
+    "mock_samples": {
+      "default": {
+        "label": "Mixed state",
+        "description": "Realistic mix — the base set with recording, transcription and analysis in various states."
+      },
+      "all-pending": {
+        "label": "All pending",
+        "description": "Calls with no transcription or analysis. Chats keep their transcription (always present by definition)."
+      },
+      "all-done": {
+        "label": "All processed",
+        "description": "Everything recorded, transcribed and analyzed. Demos the C1 state (fully processed)."
+      },
+      "calls-only-untranscribed": {
+        "label": "Only pending calls",
+        "description": "Only calls with recording but no transcription. Ideal to showcase the main transcribe flow."
+      },
+      "chats-only": {
+        "label": "Chats only",
+        "description": "Reduced to chats — all transcribed by definition. Demos that the analysis toggle starts on."
+      },
+      "small": {
+        "label": "Small set",
+        "description": "First 8 conversations for tighter views or captures."
+      },
+      "multi-recording": {
+        "label": "Only multi-recording",
+        "description": "Conversations that went through IVR with group transfer — each leg is a separate recording."
+      },
+      "only-failed": {
+        "label": "Only failed",
+        "description": "Conversations with failed transcription. Demos the red terminal state + \"Only failed\" filter + \"Mark as read\" action."
+      },
+      "gdpr-expired": {
+        "label": "GDPR retention expired",
+        "description": "Conversations whose GDPR retention has expired — dimmed row, explanatory tooltip, silently excluded from bulk."
+      },
+      "multi-tramo-parcial": {
+        "label": "Partial multi-leg",
+        "description": "Multi-recording calls where some legs are transcribed and others not — caveat documented in COA."
+      },
+      "no-recording": {
+        "label": "Calls without recording",
+        "description": "Calls that came in but weren't recorded — \"No recording\" state in the player."
+      }
     },
     "rules": {
       "page_title": "Rules",
@@ -328,6 +380,11 @@
         "ai_chip_summary": "Automatic summary",
         "ai_chip_sentiment": "Sentiment analysis",
         "ai_chip_categories": "AI categories",
+        "categorias_label": "AI categories to detect",
+        "categorias_placeholder": "Select categories…",
+        "categorias_hint": "AI will only tag the categories you select. Leave empty to classify freely.",
+        "categorias_manage": "Manage categories",
+        "categorias_empty": "You don't have any AI categories yet. Create one in the repository to get started.",
         "save_changes": "Save changes",
         "create_rule": "Create rule",
         "created_toast": "Rule created",
@@ -447,7 +504,6 @@
         "group_placeholder": "e.g. Customer Service",
         "active_label": "Active",
         "inactive_label": "Inactive",
-        "linked_rules_title": "Used in {{count}} rule(s)",
         "save_changes": "Save changes",
         "create_category": "Create category",
         "created_toast": "Category «{{name}}» created",
@@ -458,6 +514,25 @@
       "templates": {
         "title": "Predefined templates",
         "subtitle": "Choose a typical case to start with. You can adjust texts before saving."
+      },
+      "linking": {
+        "title": "Rule linking",
+        "tooltip": "Categories are only detected in calls that match the conditions of the rules they're linked to.",
+        "inactive_title": "This category is not active",
+        "no_rules_desc": "For AI to detect <strong>{{name}}</strong> in your calls, you need to link it to a rule. You don't have any rules yet.",
+        "attach_desc": "For AI to detect <strong>{{name}}</strong> in your calls, link it to a classification rule.",
+        "bidirectional_tip": "When you create a rule and link this category from the builder, it'll appear here automatically. Linking is bidirectional.",
+        "create_first_rule": "Create my first rule",
+        "add_to_existing": "Add to existing rule",
+        "select_rule_placeholder": "Select rule…",
+        "add_another_placeholder": "+ Add to another rule…",
+        "no_available_rules": "No more rules available",
+        "active_in_n_rules": "Active in {{count}} rule(s)",
+        "all_inactive_n_rules": "In {{count}} rule(s) (inactive)",
+        "inactive_badge": "Inactive",
+        "services_meta": "Services",
+        "rule_disabled_meta": "This rule is disabled",
+        "unlink_aria": "Unlink {{name}}"
       }
     },
     "category_filter": {
@@ -495,13 +570,7 @@
       "seconds": "sec"
     },
     "delete": "Delete",
-    "duplicate": {
-      "discard_changes_title": "Discard duplicate?",
-      "discard_changes_body": "You're duplicating a record and haven't saved yet. Leaving now will lose the copy.",
-      "discard_changes_confirm": "Discard",
-      "discard_changes_keep": "Keep editing",
-      "required_missing_hint": "Fill in the required fields before saving"
-    },
+    "duplicate": "Duplicate",
     "edit": "Edit",
     "loading": "Loading…",
     "search": "Search...",

@@ -34,6 +34,13 @@
   .p-multiselect-header {
     padding: 5.25px 8.75px;
   }
+  /* Filter search input dentro del header (S49 bug 5): hereda chrome md por
+   * defecto y se ve desmesurado contra el trigger sm. Aplica la misma escala
+   * sm que el trigger (font 12.25 / padding 5.25/8.75). */
+  .p-multiselect-filter {
+    padding: 5.25px 8.75px;
+    font-size: 12.25px;
+  }
 }
 
 .sc-multiselect-panel--lg {
@@ -49,6 +56,10 @@
   }
   .p-multiselect-header {
     padding: 8.75px 12.25px;
+  }
+  .p-multiselect-filter {
+    padding: 8.75px 12.25px;
+    font-size: 15.75px;
   }
 }
 
@@ -68,6 +79,11 @@
   .p-select-header {
     padding: 5.25px 8.75px;
   }
+  /* Filter search input dentro del header — mismo motivo que multiselect. */
+  .p-select-filter {
+    padding: 5.25px 8.75px;
+    font-size: 12.25px;
+  }
 }
 
 .sc-select-panel--lg {
@@ -83,6 +99,10 @@
   }
   .p-select-header {
     padding: 8.75px 12.25px;
+  }
+  .p-select-filter {
+    padding: 8.75px 12.25px;
+    font-size: 15.75px;
   }
 }
 

@@ -25,6 +25,8 @@
     "e2e:ui": "playwright test --ui",
     "e2e:report": "playwright show-report",
     "lint": "ng lint supervisor",
+    "i18n:audit": "node scripts/i18n-audit.mjs",
+    "i18n:audit:strict": "node scripts/i18n-audit.mjs --strict",
     "format": "prettier --write \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",
     "format:check": "prettier --check \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",
     "prepare": "husky"

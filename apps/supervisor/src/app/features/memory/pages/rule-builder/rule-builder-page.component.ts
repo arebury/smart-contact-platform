@@ -34,6 +34,7 @@ import {
   SERVICE_OPTIONS,
 } from '../../data/conversation-filter-options';
 import type { Direction, Rule, RuleType } from '../../data/rule.types';
+import { CategoriesStore } from '../../state/categories.store';
 import { RulesStore } from '../../state/rules.store';
 
 /**
@@ -77,12 +78,19 @@ export class RuleBuilderPageComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly rulesStore = inject(RulesStore);
+  private readonly categoriesStore = inject(CategoriesStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
 
   protected readonly serviceOptions = SERVICE_OPTIONS;
   protected readonly groupOptions = GROUP_OPTIONS;
   protected readonly agentOptions = AGENT_OPTIONS;
+
+  /** Catálogo de categorías IA para el selector — solo activas + sólo
+   *  visible en `type: 'classification'`. Spec S49 §10 #13. */
+  protected readonly categoryOptions = computed(() =>
+    this.categoriesStore.activeCategories().map((c) => ({ value: c.id, label: c.name })),
+  );
 
   protected readonly backIcon = ArrowLeft;
   protected readonly externalIcon = ExternalLink;
@@ -135,6 +143,8 @@ export class RuleBuilderPageComponent {
   protected readonly durationUnit = signal<'seconds' | 'minutes'>('seconds');
   protected readonly attendedBy = signal<readonly string[]>([]);
   protected readonly aiAnalysis = signal(false);
+  // Categorías IA (solo classification + aiAnalysis ON) · S49 §10 #13
+  protected readonly categorias = signal<readonly string[]>([]);
 
   protected readonly nameInvalid = computed(() => this.name().trim().length < 3);
   protected readonly canSave = computed(() => !this.nameInvalid());
@@ -203,6 +213,7 @@ export class RuleBuilderPageComponent {
     }
     this.attendedBy.set(rule.attendedBy ?? []);
     this.aiAnalysis.set(rule.aiAnalysis ?? false);
+    this.categorias.set(rule.categorias ?? []);
   }
 
   private formatDimension(values: readonly string[], singular: string, plural: string): string {
@@ -233,6 +244,10 @@ export class RuleBuilderPageComponent {
       durationMin: this.durationUnit() === 'minutes' ? this.durationMin() * 60 : this.durationMin(),
       attendedBy: this.attendedBy(),
       aiAnalysis: this.aiAnalysis(),
+      // Solo persistimos categorías si la regla es classification + aiAnalysis;
+      // si el usuario cambia el tipo o desactiva el toggle quedan limpias.
+      categorias:
+        this.ruleType() === 'classification' && this.aiAnalysis() ? this.categorias() : [],
     };
 
     if (this.isEditMode()) {
@@ -296,5 +311,9 @@ export class RuleBuilderPageComponent {
 
   protected setAttendedBy(v: unknown[] | readonly string[]): void {
     this.attendedBy.set((v ?? []) as readonly string[]);
+  }
+
+  protected setCategorias(v: unknown[] | readonly string[]): void {
+    this.categorias.set((v ?? []) as readonly string[]);
   }
 }

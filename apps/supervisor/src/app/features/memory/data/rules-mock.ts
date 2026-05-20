@@ -57,6 +57,8 @@ export const MOCK_RULES: readonly Rule[] = [
     clasificacion: true,
     active: true,
     priority: 3,
+    aiAnalysis: true,
+    categorias: ['cat_queja_facturacion', 'cat_retencion'],
     lastModified: '2026-05-18T09:12:00Z',
   },
   {

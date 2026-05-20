@@ -5,19 +5,27 @@
 
 ---
 
-## Estado al cerrar (Session 48, 2026-05-20)
+## Estado al cerrar (Session 49, 2026-05-20)
+
+**Sesión densa**: §10 #13 cerrado completo (refactor 3-piezas Rule ↔ Category
+bidireccional) + 5 bugs en cadena reportados durante la sesión (red row stale,
+bulk toolbar hardcoded ES, mock samples sin traducir, `common.duplicate`
+`[object Object]` en EN/FR/PT, filter input multiselect desmesurado) + red de
+seguridad i18n (script audit + husky hook).
+
+**Lo grande de S49**:
+- §10 #13 CategoryRuleLinking bidireccional con 4 variantes React 1:1 en
+  `CategoryFormModal` + selector `<sc-multiselect>` en RuleBuilder + `Rule.categorias`
+  fuente de verdad (Category.usedInRules derivado, no duplicado).
+- Bug `common.duplicate` (object en EN/FR/PT, string en ES) reveló riesgo
+  estructural — añadido `scripts/i18n-audit.mjs` + integrado en husky pre-commit
+  para bloquear futuros type drifts cross-locale.
+
+## Estado al cerrar S48 (referencia)
 
 **2 commits a `main`**: (1) feat Memory §10 #12 Synonyms granulares per-value
 EntityFormModal, (2) docs S48 (Code Connect dormido + inventory + SESSION-LOG
-+ memory). Sesión corta y reflexiva tras la maratón S47.
-
-**Lo grande de S48**: sparring con Rafa pivota Eje 2 (Code Connect mapping) →
-**dormido con trigger**. Razón: devs prod no acceden a este repo; publicar
-snippets `<sc-inputtext>` generaría referencias rotas en su Dev Mode Figma.
-Trigger reapertura y setup futuro completos en
-[`code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md).
-
-Tras Code Connect, atacado §10 #12 Memory.
++ memory).
 
 ### Estado al cerrar S47 (referencia)
 
@@ -51,13 +59,33 @@ items #38–#52 todos resueltos o registrados con dependencia humana.
 
 ## Próximos jugosos (priorizados)
 
-### 🎯 Eje 1 — Memory polish UX (resto del §10) 🆕 NEXT SESSION TOP S49
+### 🎯 Eje 1 — Memory polish UX (resto del §10)
 
 | # | Item | Tamaño | Trigger |
 |---|---|---|---|
 | §10 #4 | ~~Modal Download heredado SC~~ | ✅ Cerrado S47 | — |
 | §10 #12 | ~~**Synonyms granulares per-value en EntityFormModal**~~ | ✅ Cerrado S48 | — |
-| §10 #13 | **CategoryRuleLinking interactivo bidireccional** | ~3h (refactor 3-piezas) | Extender `Rule` con `categorias`, selector RuleBuilder, UI interactiva CategoryFormModal |
+| §10 #13 | ~~**CategoryRuleLinking interactivo bidireccional**~~ | ✅ Cerrado S49 | — |
+
+Todo §10 vivo está cerrado o en limbo con trigger explícito (#4 producción real,
+#5/#6/#7/#9 dispatch real, #8 refactor SCDS, #11 producción real). Siguiente eje
+post-§10 depende de qué priorice Rafa.
+
+### 🎯 Eje sweep — AED bulk-toolbar i18n (post-S49) 🆕
+
+Tras fix Memory en S49 (`bulkEntity` reactivo via `computed + toSignal(onLangChange)`),
+6 consumidores AED siguen con `readonly bulkEntity = { singular: 'usuario', ... }`
+hardcoded ES:
+
+- `apps/supervisor/src/app/features/admin/agents/pages/agents-list-page.component.ts:299`
+- `apps/supervisor/src/app/features/admin/labels/pages/labels-page.component.ts:112`
+- `apps/supervisor/src/app/features/admin/groups/pages/groups-list-page.component.ts:221`
+- `apps/supervisor/src/app/features/admin/users/pages/users-list-page.component.ts:178`
+- `apps/supervisor/src/app/features/admin/templates/pages/templates-page.component.ts:118`
+- `apps/supervisor/src/app/features/admin/repositories/components/repo-list-page.component.ts:110` (computed con `config().entityNameSpanish` — parametriza N repos)
+
+Tamaño: ~1h sweep mecánico (mismo patrón Memory). Trigger: cuando Rafa pida AED
+multi-idioma o detecte el bug en alguna captura.
 
 ### 🎯 Eje 2 — Code Connect mapping (Figma ↔ SCDS) — DORMIDO con trigger (decisión S48)
 

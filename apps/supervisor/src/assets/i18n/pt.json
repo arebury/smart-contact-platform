@@ -202,7 +202,13 @@
       "transcribe_analyze": "Transcrever e analisar",
       "mark_read": "Marcar como lidas",
       "mark_read_toast": "{{n}} conversas marcadas como lidas",
-      "coming_soon_toast": "Modal em massa a caminho (iter 6b)"
+      "coming_soon_toast": "Modal em massa a caminho (iter 6b)",
+      "entity": {
+        "singular": "conversa",
+        "plural": "conversas",
+        "selected_one": "selecionada",
+        "selected_other": "selecionadas"
+      }
     },
     "bulk_transcription": {
       "total_label": "Total a processar",
@@ -212,6 +218,52 @@
       "all_processed": "tudo processado",
       "close_btn": "Fechar",
       "process_btn": "Processar"
+    },
+    "mock_samples": {
+      "default": {
+        "label": "Estado misto",
+        "description": "Mistura realista — o conjunto base com gravação, transcrição e análise em vários estados."
+      },
+      "all-pending": {
+        "label": "Tudo por processar",
+        "description": "Chamadas sem transcrição nem análise. Os chats mantêm a transcrição (sempre presente por definição)."
+      },
+      "all-done": {
+        "label": "Tudo processado",
+        "description": "Tudo gravado, transcrito e analisado. Demonstra o estado C1 (totalmente processado)."
+      },
+      "calls-only-untranscribed": {
+        "label": "Apenas chamadas pendentes",
+        "description": "Apenas chamadas com gravação mas sem transcrição. Ideal para demonstrar o fluxo principal de transcrição."
+      },
+      "chats-only": {
+        "label": "Apenas chats",
+        "description": "Reduzido a chats — todos transcritos por definição. Demonstra que o toggle de análise arranca ativado."
+      },
+      "small": {
+        "label": "Conjunto reduzido",
+        "description": "As primeiras 8 conversas para vistas mais compactas ou capturas."
+      },
+      "multi-recording": {
+        "label": "Apenas multi-gravação",
+        "description": "Conversas que passaram por IVR com transferência entre grupos — cada segmento é uma gravação distinta."
+      },
+      "only-failed": {
+        "label": "Apenas falhadas",
+        "description": "Conversas com transcrição falhada. Demonstra o estado terminal vermelho + filtro \"Apenas falhadas\" + ação \"Marcar como lidas\"."
+      },
+      "gdpr-expired": {
+        "label": "Retenção RGPD expirada",
+        "description": "Conversas cuja retenção RGPD expirou — linha atenuada, tooltip explicativo, excluídas silenciosamente do bulk."
+      },
+      "multi-tramo-parcial": {
+        "label": "Multi-segmento parcial",
+        "description": "Chamadas multi-gravação onde alguns segmentos estão transcritos e outros não — caveat documentado no COA."
+      },
+      "no-recording": {
+        "label": "Chamadas sem gravação",
+        "description": "Chamadas que entraram mas não foram gravadas — estado \"Sem gravação\" no reprodutor."
+      }
     },
     "mock_sample_switcher": {
       "chip_label": "Demo",
@@ -328,6 +380,11 @@
         "ai_chip_summary": "Resumo automático",
         "ai_chip_sentiment": "Análise de sentimento",
         "ai_chip_categories": "Categorias IA",
+        "categorias_label": "Categorias IA a detectar",
+        "categorias_placeholder": "Selecionar categorias…",
+        "categorias_hint": "A IA só etiquetará as categorias selecionadas. Deixe vazio para classificar livremente.",
+        "categorias_manage": "Gerir categorias",
+        "categorias_empty": "Ainda não tem categorias IA. Crie uma no repositório para começar.",
         "save_changes": "Salvar alterações",
         "create_rule": "Criar regra",
         "created_toast": "Regra criada",
@@ -447,7 +504,6 @@
         "group_placeholder": "ex. Atendimento ao Cliente",
         "active_label": "Ativa",
         "inactive_label": "Inativa",
-        "linked_rules_title": "Usada em {{count}} regra(s)",
         "save_changes": "Salvar alterações",
         "create_category": "Criar categoria",
         "created_toast": "Categoria «{{name}}» criada",
@@ -458,6 +514,25 @@
       "templates": {
         "title": "Modelos predefinidos",
         "subtitle": "Escolha um caso típico para começar. Você poderá ajustar os textos antes de salvar."
+      },
+      "linking": {
+        "title": "Vinculação com regras",
+        "tooltip": "As categorias só são detectadas em chamadas que cumprem as condições das regras às quais estão vinculadas.",
+        "inactive_title": "Esta categoria não está ativa",
+        "no_rules_desc": "Para que a IA detecte <strong>{{name}}</strong> nas chamadas, é necessário vinculá-la a uma regra. Ainda não tem regras criadas.",
+        "attach_desc": "Para que a IA detecte <strong>{{name}}</strong> nas chamadas, vincule-a a uma regra de classificação.",
+        "bidirectional_tip": "Quando criar uma regra e vincular esta categoria desde o construtor, aparecerá aqui automaticamente. A vinculação é bidirecional.",
+        "create_first_rule": "Criar a minha primeira regra",
+        "add_to_existing": "Adicionar a regra existente",
+        "select_rule_placeholder": "Selecionar regra…",
+        "add_another_placeholder": "+ Adicionar a outra regra…",
+        "no_available_rules": "Sem mais regras disponíveis",
+        "active_in_n_rules": "Ativa em {{count}} regra(s)",
+        "all_inactive_n_rules": "Em {{count}} regra(s) (inativas)",
+        "inactive_badge": "Inativa",
+        "services_meta": "Serviços",
+        "rule_disabled_meta": "Esta regra está desativada",
+        "unlink_aria": "Desvincular {{name}}"
       }
     },
     "category_filter": {
@@ -495,13 +570,7 @@
       "seconds": "seg"
     },
     "delete": "Eliminar",
-    "duplicate": {
-      "discard_changes_title": "Descartar duplicação?",
-      "discard_changes_body": "Você está duplicando um registro e ainda não salvou. Se sair agora perderá a cópia.",
-      "discard_changes_confirm": "Descartar",
-      "discard_changes_keep": "Continuar editando",
-      "required_missing_hint": "Preencha os campos obrigatórios antes de salvar"
-    },
+    "duplicate": "Duplicar",
     "edit": "Editar",
     "loading": "Carregando…",
     "search": "Buscar...",

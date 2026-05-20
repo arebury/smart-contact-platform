@@ -12,6 +12,7 @@ import { PageHeaderComponent } from '@shared/components';
 import { CategoryFormModalComponent } from '../../components/category-form-modal/category-form-modal.component';
 import type { Category } from '../../data/category.types';
 import { CategoriesStore } from '../../state/categories.store';
+import { RulesStore } from '../../state/rules.store';
 
 /**
  * Listado de Categorías IA · iter 11a.
@@ -39,12 +40,19 @@ import { CategoriesStore } from '../../state/categories.store';
 })
 export class CategoriesPageComponent {
   private readonly categoriesStore = inject(CategoriesStore);
+  private readonly rulesStore = inject(RulesStore);
   private readonly confirm = inject(ConfirmHostService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
 
   protected readonly categories = this.categoriesStore.categories;
   protected readonly isEmpty = this.categoriesStore.isEmpty;
+
+  /** Derivado de `Rule.categorias` (S49 §10 #13 bidireccional) — sin estado
+   *  duplicado en Category. */
+  protected usedInRules(categoryId: string): number {
+    return this.rulesStore.rulesUsingCategory(categoryId).length;
+  }
 
   protected readonly formOpen = signal(false);
   protected readonly formCategory = signal<Category | null>(null);
