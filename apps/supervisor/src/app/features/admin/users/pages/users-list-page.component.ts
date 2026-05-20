@@ -142,8 +142,6 @@ export class UsersListPageComponent {
 
     list.sort((a, b) => {
       // Drafts always first.
-      if (a.isDraft && !b.isDraft) return -1;
-      if (!a.isDraft && b.isDraft) return 1;
       if (!field) return 0;
 
       let cmp = 0;
@@ -245,18 +243,14 @@ export class UsersListPageComponent {
   }
 
   protected onRowDuplicate(user: User): void {
-    const draft = this.usersStore.duplicate(user.id);
     this.openMenuId.set(null);
-    if (!draft) return;
-    this.renamingId.set(draft.id);
-    this.undoStack.push(
-      this.translate.instant('common.draft_created', { name: draft.name }),
-      this.translate.instant('common.draft_removed'),
-      () => {
-        this.usersStore.deleteUser(draft.id);
-        if (this.renamingId() === draft.id) this.renamingId.set(null);
-      },
-    );
+    // Navega al form de creación con el source precargado vía queryParam.
+    // El form-page detecta `?seedFromId` y precarga los campos copiables
+    // (todos excepto los unique: name, email, identifier).
+    // Si abandona sin guardar, no queda nada persistido (S47 cleanup).
+    void this.router.navigate(['/admin/usuarios/crear'], {
+      queryParams: { seedFromId: user.id },
+    });
   }
 
   protected onRowDelete(user: User): void {
@@ -277,7 +271,6 @@ export class UsersListPageComponent {
   protected onRenameCancel(id: number): void {
     const target = this.usersStore.getUser(id);
     this.renamingId.set(null);
-    if (target?.isDraft) this.usersStore.deleteUser(id);
   }
 
   protected requestDeleteSelection(): void {

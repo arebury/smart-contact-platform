@@ -33,7 +33,27 @@ export class FormSectionNavComponent {
   /** Drops the outer card chrome so the nav can be embedded inside another container. */
   readonly compact = input<boolean>(false);
 
+  /**
+   * Set of section ids that currently have required fields empty (or invalid
+   * required state). Each id present here renders a red dot next to the
+   * label, indicating "te falta algo aquí". Updates en tiempo real al
+   * rellenar los campos faltantes.
+   *
+   * NO incluye errores de formato (e.g. email malformado) — solo "required
+   * vacíos". Decisión consciente: la bola roja en el nav señala bloqueos de
+   * guardado, no warnings cosméticos. Errors de formato se ven en el campo
+   * mismo.
+   *
+   * Aria-label del dot via key `common.form_nav.section_has_errors` para
+   * screen readers.
+   */
+  readonly sectionsWithErrors = input<ReadonlySet<string>>(new Set());
+
   readonly activeChange = output<string>();
+
+  protected hasError(id: string): boolean {
+    return this.sectionsWithErrors().has(id);
+  }
 
   protected onJump(event: MouseEvent, id: string): void {
     event.preventDefault();

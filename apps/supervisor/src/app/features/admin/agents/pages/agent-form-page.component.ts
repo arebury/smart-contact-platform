@@ -469,6 +469,14 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   ];
 
   protected readonly editingId = signal<number | null>(null);
+  /**
+   * Si el usuario llegó vía "Duplicar" desde un row-menu, este signal guarda
+   * el nombre del agente origen para mostrar en el title + breadcrumb. NULL
+   * cuando es create vacío normal. Coexiste con `editingId === null` —
+   * juntos describen los 3 modos: edit (editingId truthy), duplicate
+   * (editingId null + duplicatingFromName truthy), create (ambos null).
+   */
+  protected readonly duplicatingFromName = signal<string | null>(null);
   protected readonly initial = signal<Agent | null>(null);
   protected readonly form = signal<FormState>(this.emptyForm());
   protected readonly errors = signal<Readonly<Record<string, string>>>({});
@@ -481,7 +489,34 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly conflictWarning = signal(false);
   private releaseLock: (() => void) | null = null;
 
-  protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
+  protected readonly mode = computed<'edit' | 'duplicate' | 'create'>(() => {
+    if (this.editingId()) return 'edit';
+    if (this.duplicatingFromName()) return 'duplicate';
+    return 'create';
+  });
+
+  /** Mode pasado al SCDS <sc-sticky-form-header>, que solo conoce edit/create.
+   *  `duplicate` se mapea a `create` (la entidad NO existe aún hasta Guardar). */
+  protected readonly headerMode = computed<'edit' | 'create'>(() =>
+    this.mode() === 'edit' ? 'edit' : 'create',
+  );
+
+  /**
+   * Set de section ids con required vacíos. El `<sc-form-section-nav>`
+   * pinta una bola roja al lado de cada label aquí presente. Updates en
+   * tiempo real al rellenar.
+   *
+   * Solo señala REQUIRED VACÍOS, no errores de formato (e.g. email
+   * malformado). Razón: la bola roja en el nav comunica "te falta
+   * algo aquí" — errors de formato se ven en el input mismo.
+   */
+  protected readonly sectionsWithErrors = computed<ReadonlySet<string>>(() => {
+    const f = this.form();
+    const errors = new Set<string>();
+    // Identity section: name + extension son required.
+    if (!f.name.trim() || !f.extension) errors.add('agent-section-identity');
+    return errors;
+  });
 
   protected readonly canSave = computed(() => {
     const f = this.form();
@@ -533,6 +568,49 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       this.releaseLock = this.crossTab.acquire('agent', agent.id, () =>
         this.conflictWarning.set(true),
       );
+      return;
+    }
+
+    // Modo "Duplicar": detecta ?seedFromId en query params y precarga el
+    // form desde el source EXCEPTO los identificadores únicos (nombre,
+    // extensión, email, PIN). El usuario debe rellenar esos 4 antes de
+    // guardar — la bola roja en el nav señala la sección Identity con
+    // required vacíos.
+    const seedFromId = this.route.snapshot.queryParamMap.get('seedFromId');
+    if (seedFromId) {
+      const source = this.agentsStore.getAgent(Number(seedFromId));
+      if (!source) {
+        void this.router.navigateByUrl('/admin/agentes', { replaceUrl: true });
+        return;
+      }
+      this.duplicatingFromName.set(source.name);
+      this.form.set({
+        // Unique identifiers — vaciados, el usuario los rellena.
+        name: '',
+        extension: '',
+        email: '',
+        pin: '',
+        // Resto del payload copiado tal cual.
+        agentType: source.agentType,
+        status: source.status,
+        presenceStatus: source.presenceStatus ?? 'disponible',
+        phone: source.phone ?? '',
+        pickupType: source.pickupType ?? 'auto',
+        pickupTypeChat: source.pickupTypeChat ?? 'auto',
+        randomOrder: source.randomOrder ?? false,
+        maxChats: source.maxChats ?? 4,
+        iframeUrl: source.iframeUrl ?? '',
+        loginExtOverride: source.loginExtOverride ?? false,
+        links: this.linksStore.linksForAgent(source.id),
+        permissions: { ...source.permissions },
+        photo: source.photo ?? null,
+        languages: source.languages ? [...source.languages] : [],
+        labelIds: new Set(source.labels ?? []),
+        scheduleIds: new Set(source.schedules ?? []),
+        templateIds: new Set(source.templates ?? []),
+      });
+      // Form arranca dirty para que el formDirtyGuard pida confirm al salir.
+      this.formDirty.set(true);
     }
   }
 
@@ -794,7 +872,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
       const editingId = this.editingId();
       if (editingId) {
-        this.agentsStore.updateAgent(editingId, { ...payload, isDraft: undefined });
+        this.agentsStore.updateAgent(editingId, { ...payload });
         this.linksStore.replaceLinksForAgent(editingId, this.normalizeLinks(f.links, editingId));
         const refreshed = this.agentsStore.getAgent(editingId);
         if (refreshed) this.initial.set(refreshed);

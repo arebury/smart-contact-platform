@@ -45,17 +45,6 @@ export class GroupsStore {
     return this.store.getItem(id);
   }
 
-  duplicate(id: number): Group | undefined {
-    const source = this.getGroup(id);
-    if (!source) return undefined;
-    const { id: _id, code: _code, ...rest } = source;
-    return this.addGroup({
-      ...rest,
-      name: `Copia de ${source.name}`,
-      isDraft: true,
-    });
-  }
-
   bulkUpdate(ids: readonly number[], field: GroupBulkField, value: unknown): void {
     if (ids.length === 0) return;
     const idSet = new Set(ids);

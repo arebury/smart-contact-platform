@@ -71,22 +71,9 @@ describe('GroupsStore', () => {
     });
   });
 
-  describe('duplicate', () => {
-    it('returns a copy with "Copia de" prefix and draft flag', () => {
-      const store = TestBed.inject(GroupsStore);
-      const source = store.groups()[0]!;
-      const copy = store.duplicate(source.id);
-      expect(copy).toBeTruthy();
-      expect(copy!.name).toBe(`Copia de ${source.name}`);
-      expect(copy!.isDraft).toBe(true);
-      expect(copy!.id).not.toBe(source.id);
-    });
-
-    it('returns undefined when the source id does not exist', () => {
-      const store = TestBed.inject(GroupsStore);
-      expect(store.duplicate(999_999)).toBeUndefined();
-    });
-  });
+  // El método duplicate() del store fue eliminado en S47 al rediseñar el
+  // flow: ahora "Duplicar" navega a /admin/grupos/crear?seedFromId={id}
+  // y el form-page precarga el payload sin persistir hasta Guardar.
 
   describe('bulkUpdate', () => {
     it('applies a priority change to every selected id', () => {

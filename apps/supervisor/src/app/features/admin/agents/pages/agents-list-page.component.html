@@ -124,7 +124,6 @@
               <tr
                 class="table__row"
                 [class.table__row--selected]="selectedIds().has(agent.id)"
-                [class.table__row--draft]="agent.isDraft"
                 [class.table__row--clickable]="renamingId() !== agent.id"
                 (click)="onRowClick(agent)"
                 (contextmenu)="onContextMenu($event, agent.id)"
@@ -163,11 +162,6 @@
                           />
                         } @else {
                           <span class="table__td-name-text">{{ agent.name }}</span>
-                          @if (agent.isDraft) {
-                            <span class="draft-badge">
-                              {{ 'common.draft_badge' | translate }}
-                            </span>
-                          }
                         }
                       </td>
                     }

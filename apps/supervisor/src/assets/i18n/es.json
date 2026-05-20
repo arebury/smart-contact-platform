@@ -474,14 +474,15 @@
     "saving": "Guardando…",
     "discard": "Descartar",
     "form_nav": {
-      "label": "Secciones del formulario"
+      "label": "Secciones del formulario",
+      "section_has_errors": "Esta sección tiene campos obligatorios sin rellenar"
     },
+    "duplicate": "Duplicar",
     "create": "Crear",
     "units": {
       "seconds": "seg"
     },
     "delete": "Eliminar",
-    "duplicate": "Duplicar",
     "edit": "Editar",
     "loading": "Cargando…",
     "search": "Buscar...",
@@ -497,7 +498,6 @@
     "copy_failed": "No se pudo copiar al portapapeles",
     "click_to_copy": "Clic para copiar",
     "remove_from_list": "Quitar {{name}} de la lista",
-    "draft_badge": "Borrador",
     "bulk_updated": "{{count}} elementos actualizados",
     "columns": "Columnas",
     "edit_field": "Editar campo",
@@ -509,8 +509,6 @@
     "cross_tab_warning": "Este registro está siendo editado en otra pestaña. Los cambios pueden sobrescribirse.",
     "undo": "Deshacer",
     "change_reverted": "Cambio revertido",
-    "draft_created": "Borrador creado «{{name}}»",
-    "draft_removed": "Borrador eliminado",
     "presence_changed": "Presencia de {{name}} → {{status}}",
     "photo": {
       "select": "Seleccionar foto",
@@ -870,7 +868,6 @@
     "create_button": "Nuevo usuario",
     "search_placeholder": "Buscar usuario por nombre, email, identificador...",
     "no_results": "No se encontraron usuarios",
-    "draft_badge": "Borrador",
     "entity_singular": "usuario",
     "table": {
       "name": "Nombre",
@@ -913,6 +910,9 @@
       "create_title": "Nuevo usuario",
       "create_breadcrumb": "Nuevo usuario",
       "edit_breadcrumb": "Editar usuario",
+      "duplicate_title": "Duplicar usuario",
+      "duplicate_breadcrumb": "Duplicar usuario",
+      "duplicate_hint": "Duplicando «{{source}}» · rellena los campos obligatorios y guarda",
       "section": {
         "summary": "Resumen de perfil",
         "identity": "Identidad",
@@ -995,6 +995,9 @@
       "create_title": "Nuevo grupo",
       "create_breadcrumb": "Nuevo grupo",
       "edit_breadcrumb": "Editar grupo",
+      "duplicate_title": "Duplicar grupo",
+      "duplicate_breadcrumb": "Duplicar grupo",
+      "duplicate_hint": "Duplicando «{{source}}» · rellena los campos obligatorios y guarda",
       "section": {
         "identity": "Identidad",
         "identity_hint": "Datos básicos y prioridad",
@@ -1126,6 +1129,9 @@
       "create_title": "Nuevo agente",
       "create_breadcrumb": "Nuevo agente",
       "edit_breadcrumb": "Editar agente",
+      "duplicate_title": "Duplicar agente",
+      "duplicate_breadcrumb": "Duplicar agente",
+      "duplicate_hint": "Duplicando «{{source}}» · rellena los campos obligatorios y guarda",
       "section": {
         "identification": "Identificación",
         "identification_hint": "Foto, contacto y extensión",

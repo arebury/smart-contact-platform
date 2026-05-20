@@ -105,3 +105,21 @@
   flex: 1 1 auto;
   min-width: 0;
 }
+
+/*
+ * Error dot — pequeño círculo rojo a la derecha del label, indicando que la
+ * sección tiene required vacíos. CSS dot puro (no emoji, no SVG icon) por
+ * tres razones:
+ *   1. A11y: emoji + screen reader = ruido inconsistente cross-browser.
+ *   2. Sizing: 8×8px fijo independiente de font-size del label.
+ *   3. Color: hereda del token semántico --sc-bg-danger automáticamente
+ *      en dark mode sin overrides.
+ */
+.form-nav__dot {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--sc-radius-full);
+  background: var(--sc-bg-danger);
+  margin-left: var(--sc-spacing-100);
+}

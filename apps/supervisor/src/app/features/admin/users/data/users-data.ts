@@ -101,7 +101,6 @@ export interface User {
   readonly status: 'active' | 'inactive';
   readonly createdAt: string;
   /** Draft flag — set on duplicated entities (DD#294 in the React prototype). */
-  readonly isDraft?: boolean;
 }
 
 export const AVAILABLE_SERVICES: readonly string[] = [

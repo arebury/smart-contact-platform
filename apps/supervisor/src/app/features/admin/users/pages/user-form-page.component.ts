@@ -99,6 +99,12 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly availableGroupsById = new Map(AVAILABLE_GROUPS_REF.map((g) => [g.id, g.name]));
 
   protected readonly editingId = signal<number | null>(null);
+  /**
+   * Si el usuario llegó vía "Duplicar" desde un row-menu, este signal guarda
+   * el nombre del usuario origen para mostrar en el title/breadcrumb. NULL
+   * cuando es create vacío normal.
+   */
+  protected readonly duplicatingFromName = signal<string | null>(null);
   protected readonly initial = signal<User | null>(null);
   protected readonly form = signal<FormState>(this.emptyForm());
   protected readonly errors = signal<Readonly<Record<string, string>>>({});
@@ -149,7 +155,29 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     return this.navSections().find((s) => s.id === id)?.icon ?? null;
   });
 
-  protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
+  protected readonly mode = computed<'edit' | 'duplicate' | 'create'>(() => {
+    if (this.editingId()) return 'edit';
+    if (this.duplicatingFromName()) return 'duplicate';
+    return 'create';
+  });
+
+  /** Mode pasado al SCDS <sc-sticky-form-header>, que solo conoce edit/create.
+   *  `duplicate` se mapea a `create` (la entidad NO existe aún hasta Guardar). */
+  protected readonly headerMode = computed<'edit' | 'create'>(() =>
+    this.mode() === 'edit' ? 'edit' : 'create',
+  );
+
+  /**
+   * Section ids con required vacíos. El `<sc-form-section-nav>` pinta una
+   * bola roja al lado del label de cada section aquí presente.
+   * Solo required vacíos — no errores de formato (e.g. email malformado).
+   */
+  protected readonly sectionsWithErrors = computed<ReadonlySet<string>>(() => {
+    const f = this.form();
+    const errors = new Set<string>();
+    if (!f.name.trim() || !f.email.trim()) errors.add('user-section-identity');
+    return errors;
+  });
 
   protected readonly canSave = computed(() => {
     const f = this.form();
@@ -193,6 +221,36 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       this.releaseLock = this.crossTab.acquire('user', user.id, () =>
         this.conflictWarning.set(true),
       );
+      return;
+    }
+
+    // Modo "Duplicar": detecta ?seedFromId en query params y precarga el
+    // form desde el source EXCEPTO los identificadores únicos (name +
+    // email + identifier). El usuario debe rellenar esos 3 antes de
+    // guardar. La bola roja en el nav señala la sección Identity.
+    const seedFromId = this.route.snapshot.queryParamMap.get('seedFromId');
+    if (seedFromId) {
+      const source = this.usersStore.getUser(Number(seedFromId));
+      if (!source) {
+        void this.router.navigateByUrl('/admin/usuarios', { replaceUrl: true });
+        return;
+      }
+      this.duplicatingFromName.set(source.name);
+      this.form.set({
+        // Unique identifiers — vaciados.
+        name: '',
+        email: '',
+        identifier: '',
+        // Resto del payload copiado.
+        type: source.type,
+        status: source.status,
+        sections: { ...source.sections },
+        permissions: { ...source.permissions },
+        groups: new Set(source.assignedGroups),
+        services: new Set(source.assignedServices),
+        photo: source.photo ?? null,
+      });
+      this.formDirty.set(true);
     }
   }
 
@@ -302,7 +360,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
       const editingId = this.editingId();
       if (editingId) {
-        this.usersStore.updateUser(editingId, { ...payload, isDraft: undefined });
+        this.usersStore.updateUser(editingId, { ...payload });
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('users.toasts.updated', { name: payload.name }),

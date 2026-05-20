@@ -161,6 +161,8 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly phoneIcon = Phone;
 
   protected readonly editingId = signal<number | null>(null);
+  /** Source name si llegó vía Duplicar (?seedFromId). NULL en create vacío. */
+  protected readonly duplicatingFromName = signal<string | null>(null);
   protected readonly initial = signal<Group | null>(null);
   protected readonly form = signal<FormState>(this.emptyForm());
   protected readonly errors = signal<Readonly<Record<string, string>>>({});
@@ -182,7 +184,31 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   protected readonly conflictWarning = signal(false);
   private releaseLock: (() => void) | null = null;
 
-  protected readonly mode = computed(() => (this.editingId() ? 'edit' : 'create'));
+  protected readonly mode = computed<'edit' | 'duplicate' | 'create'>(() => {
+    if (this.editingId()) return 'edit';
+    if (this.duplicatingFromName()) return 'duplicate';
+    return 'create';
+  });
+
+  /** Mode pasado al SCDS <sc-sticky-form-header>, que solo conoce edit/create.
+   *  `duplicate` se mapea a `create` (la entidad NO existe aún hasta Guardar). */
+  protected readonly headerMode = computed<'edit' | 'create'>(() =>
+    this.mode() === 'edit' ? 'edit' : 'create',
+  );
+
+  /**
+   * Section ids con required vacíos. La bola roja en el nav señala las
+   * sections con required vacíos. Solo required — no errores de formato.
+   */
+  protected readonly sectionsWithErrors = computed<ReadonlySet<string>>(() => {
+    const f = this.form();
+    const errors = new Set<string>();
+    // Identity: name required.
+    if (!f.name.trim()) errors.add('group-section-identity');
+    // Channels: al menos uno required.
+    if (f.channels.size === 0) errors.add('group-section-channels');
+    return errors;
+  });
 
   protected readonly canSave = computed(() => {
     const f = this.form();
@@ -239,6 +265,37 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       this.releaseLock = this.crossTab.acquire('group', group.id, () =>
         this.conflictWarning.set(true),
       );
+      return;
+    }
+
+    // Modo "Duplicar": detecta ?seedFromId y precarga el form desde el
+    // source EXCEPTO los identificadores únicos (name + phone). El usuario
+    // debe rellenar esos antes de guardar.
+    const seedFromId = this.route.snapshot.queryParamMap.get('seedFromId');
+    if (seedFromId) {
+      const source = this.groupsStore.getGroup(Number(seedFromId));
+      if (!source) {
+        void this.router.navigateByUrl('/admin/grupos', { replaceUrl: true });
+        return;
+      }
+      this.duplicatingFromName.set(source.name);
+      const seedLinks = this.linksStore.linksForGroup(source.id);
+      this.form.set({
+        // Unique identifiers — vaciados.
+        name: '',
+        phone: '',
+        // Resto del payload copiado.
+        priority: source.priority,
+        typification: source.typification,
+        channels: new Set(source.channels),
+        strategy: source.strategy,
+        chatStrategy: source.chatStrategy ?? CHAT_STRATEGIES[0]!,
+        capacityValue: source.capacityValue ?? null,
+        links: seedLinks,
+      });
+      this.initialChannels.set(new Set(source.channels));
+      this.initialLinks.set(seedLinks);
+      this.formDirty.set(true);
     }
   }
 
@@ -369,7 +426,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
       const editingId = this.editingId();
       if (editingId) {
-        this.groupsStore.updateGroup(editingId, { ...payload, isDraft: undefined });
+        this.groupsStore.updateGroup(editingId, { ...payload });
         this.linksStore.replaceLinksForGroup(editingId, this.normalizeLinks(f.links, editingId));
         this.messages.add({
           severity: 'success',

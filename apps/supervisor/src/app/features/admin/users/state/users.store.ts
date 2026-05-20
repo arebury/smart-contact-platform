@@ -46,20 +46,4 @@ export class UsersStore {
   getUser(id: number): User | undefined {
     return this.store.getItem(id);
   }
-
-  /**
-   * Duplicates a user, marking the copy as a draft and appending "(copia)"
-   * to the name so the list page can pin it on top.
-   */
-  duplicate(id: number): User | undefined {
-    const source = this.getUser(id);
-    if (!source) return undefined;
-    const { id: _id, code: _code, createdAt: _createdAt, ...rest } = source;
-    return this.addUser({
-      ...rest,
-      name: `${source.name} (copia)`,
-      identifier: '',
-      isDraft: true,
-    });
-  }
 }

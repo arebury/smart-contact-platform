@@ -113,7 +113,6 @@
               <tr
                 class="table__row"
                 [class.table__row--selected]="selectedIds().has(group.id)"
-                [class.table__row--draft]="group.isDraft"
                 [class.table__row--clickable]="renamingId() !== group.id"
                 (click)="onRowClick(group)"
                 (contextmenu)="onContextMenu($event, group.id)"
@@ -145,9 +144,6 @@
                     />
                   } @else {
                     <span class="table__td-name-text">{{ group.name }}</span>
-                    @if (group.isDraft) {
-                      <span class="draft-badge">{{ 'common.draft_badge' | translate }}</span>
-                    }
                   }
                 </td>
                 @if (isColVisible('phone')) {

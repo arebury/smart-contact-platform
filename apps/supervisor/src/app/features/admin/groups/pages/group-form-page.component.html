@@ -1,5 +1,5 @@
 <sc-sticky-form-header
-  [mode]="mode()"
+  [mode]="headerMode()"
   [entityKey]="mode() === 'create' ? 'groups.form.create_title' : 'groups.entity_singular'"
   [name]="form().name"
   [canSave]="canSave()"
@@ -37,6 +37,7 @@
       <sc-form-section-nav
         [sections]="navSections()"
         [activeId]="activeSection()"
+        [sectionsWithErrors]="sectionsWithErrors()"
         [compact]="true"
         (activeChange)="activeSection.set($event)"
       />

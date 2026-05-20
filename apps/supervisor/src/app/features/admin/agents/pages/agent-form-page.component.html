@@ -1,5 +1,5 @@
 <sc-sticky-form-header
-  [mode]="mode()"
+  [mode]="headerMode()"
   [entityKey]="mode() === 'create' ? 'agents.form.create_title' : 'agents.entity_singular'"
   [name]="form().name"
   [canSave]="canSave()"
@@ -64,6 +64,7 @@
       <sc-form-section-nav
         [sections]="navSections()"
         [activeId]="activeSection()"
+        [sectionsWithErrors]="sectionsWithErrors()"
         [compact]="true"
         (activeChange)="activeSection.set($event)"
       />

@@ -188,8 +188,6 @@ export class GroupsListPageComponent {
     const field = this.sortField();
     const dir = this.sortDir();
     list.sort((a, b) => {
-      if (a.isDraft && !b.isDraft) return -1;
-      if (!a.isDraft && b.isDraft) return 1;
       if (!field) return 0;
       let cmp = 0;
       switch (field) {
@@ -322,18 +320,14 @@ export class GroupsListPageComponent {
   }
 
   protected onRowDuplicate(group: Group): void {
-    const draft = this.groupsStore.duplicate(group.id);
     this.openMenuId.set(null);
-    if (!draft) return;
-    this.renamingId.set(draft.id);
-    this.undoStack.push(
-      this.translate.instant('common.draft_created', { name: draft.name }),
-      this.translate.instant('common.draft_removed'),
-      () => {
-        this.groupsStore.deleteGroup(draft.id);
-        if (this.renamingId() === draft.id) this.renamingId.set(null);
-      },
-    );
+    // Navega al form de creación con el source precargado vía queryParam.
+    // El form-page detecta `?seedFromId` y precarga los campos copiables
+    // excepto el name (único). Si abandona sin guardar, no queda nada
+    // persistido (S47 cleanup).
+    void this.router.navigate(['/admin/grupos/crear'], {
+      queryParams: { seedFromId: group.id },
+    });
   }
 
   protected onRowDelete(group: Group): void {
@@ -354,7 +348,6 @@ export class GroupsListPageComponent {
   protected onRenameCancel(id: number): void {
     const target = this.groupsStore.getGroup(id);
     this.renamingId.set(null);
-    if (target?.isDraft) this.groupsStore.deleteGroup(id);
   }
 
   protected requestDeleteSelection(): void {

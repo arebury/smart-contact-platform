@@ -474,14 +474,21 @@
     "saving": "Sauvegarde…",
     "discard": "Annuler",
     "form_nav": {
-      "label": "Sections du formulaire"
+      "label": "Sections du formulaire",
+      "section_has_errors": "Cette section contient des champs obligatoires non remplis"
     },
     "create": "Créer",
     "units": {
       "seconds": "sec"
     },
     "delete": "Supprimer",
-    "duplicate": "Dupliquer",
+    "duplicate": {
+      "discard_changes_title": "Annuler la duplication ?",
+      "discard_changes_body": "Vous dupliquez un enregistrement et ne l'avez pas encore sauvegardé. Sortir maintenant fera perdre la copie.",
+      "discard_changes_confirm": "Annuler",
+      "discard_changes_keep": "Continuer l'édition",
+      "required_missing_hint": "Remplissez les champs obligatoires avant de sauvegarder"
+    },
     "edit": "Éditer",
     "loading": "Chargement…",
     "search": "Rechercher...",
@@ -497,7 +504,6 @@
     "copy_failed": "Impossible de copier dans le presse-papiers",
     "click_to_copy": "Cliquer pour copier",
     "remove_from_list": "Retirer {{name}} de la liste",
-    "draft_badge": "Brouillon",
     "bulk_updated": "{{count}} éléments mis à jour",
     "columns": "Colonnes",
     "edit_field": "Éditer le champ",
@@ -509,8 +515,6 @@
     "cross_tab_warning": "Cet enregistrement est édité dans un autre onglet. Les modifications peuvent s'écraser mutuellement.",
     "undo": "Annuler",
     "change_reverted": "Modification annulée",
-    "draft_created": "Brouillon créé «{{name}}»",
-    "draft_removed": "Brouillon supprimé",
     "presence_changed": "Présence de {{name}} → {{status}}",
     "photo": {
       "select": "Sélectionner une photo",
@@ -870,7 +874,6 @@
     "create_button": "Nouvel utilisateur",
     "search_placeholder": "Rechercher un utilisateur par nom, email, identifiant...",
     "no_results": "Aucun utilisateur trouvé",
-    "draft_badge": "Brouillon",
     "entity_singular": "utilisateur",
     "table": {
       "name": "Nom",
@@ -934,7 +937,10 @@
         "status_active": "Utilisateur actif : peut se connecter et opérer.",
         "status_inactive": "Utilisateur inactif : ne pourra pas se connecter jusqu'à réactivation."
       },
-      "danger_zone_description": "Supprimer cet utilisateur révoque son accès au panneau et efface ses permissions. L'action ne peut pas être annulée."
+      "danger_zone_description": "Supprimer cet utilisateur révoque son accès au panneau et efface ses permissions. L'action ne peut pas être annulée.",
+      "duplicate_title": "Dupliquer l'utilisateur",
+      "duplicate_breadcrumb": "Dupliquer l'utilisateur",
+      "duplicate_hint": "Duplication de «{{source}}» · remplissez les champs obligatoires et sauvegardez"
     },
     "errors": {
       "name_required": "Le nom est obligatoire",
@@ -1046,7 +1052,10 @@
         "body": "Cela désactivera {{channels}} pour {{count}} agents assignés à ce groupe. Continuer ?",
         "confirm": "Oui, retirer"
       },
-      "danger_zone_description": "Supprimer ce groupe le retire des règles et routes qui le référencent. L'action ne peut pas être annulée."
+      "danger_zone_description": "Supprimer ce groupe le retire des règles et routes qui le référencent. L'action ne peut pas être annulée.",
+      "duplicate_title": "Dupliquer le groupe",
+      "duplicate_breadcrumb": "Dupliquer le groupe",
+      "duplicate_hint": "Duplication de «{{source}}» · remplissez les champs obligatoires et sauvegardez"
     },
     "errors": {
       "name_required": "Le nom est obligatoire",
@@ -1248,7 +1257,10 @@
         "row_internacionales": "Internationaux",
         "row_especial": "Numérotation spéciale"
       },
-      "danger_zone_description": "Supprimer cet agent le désassigne de tous les groupes auxquels il participe. L'action ne peut pas être annulée."
+      "danger_zone_description": "Supprimer cet agent le désassigne de tous les groupes auxquels il participe. L'action ne peut pas être annulée.",
+      "duplicate_title": "Dupliquer l'agent",
+      "duplicate_breadcrumb": "Dupliquer l'agent",
+      "duplicate_hint": "Duplication de «{{source}}» · remplissez les champs obligatoires et sauvegardez"
     },
     "toasts": {
       "created": "Agent \"{{name}}\" créé",

@@ -75,21 +75,7 @@ describe('UsersStore', () => {
     });
   });
 
-  describe('duplicate', () => {
-    it('returns a copy with "(copia)" suffix + cleared identifier + draft flag', () => {
-      const store = TestBed.inject(UsersStore);
-      const source = store.users()[0]!;
-      const copy = store.duplicate(source.id);
-      expect(copy).toBeTruthy();
-      expect(copy!.name).toBe(`${source.name} (copia)`);
-      expect(copy!.identifier).toBe('');
-      expect(copy!.isDraft).toBe(true);
-      expect(copy!.id).not.toBe(source.id);
-    });
-
-    it('returns undefined when the source id does not exist', () => {
-      const store = TestBed.inject(UsersStore);
-      expect(store.duplicate(999_999)).toBeUndefined();
-    });
-  });
+  // El método duplicate() del store fue eliminado en S47 al rediseñar el
+  // flow: ahora "Duplicar" navega a /admin/usuarios/crear?seedFromId={id}
+  // y el form-page precarga el payload sin persistir hasta Guardar.
 });

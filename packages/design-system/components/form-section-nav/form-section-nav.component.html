@@ -9,6 +9,7 @@
         <a
           class="form-nav__item"
           [class.form-nav__item--active]="activeId() === section.id"
+          [class.form-nav__item--has-error]="hasError(section.id)"
           [attr.aria-current]="activeId() === section.id ? 'true' : null"
           href="#"
           role="tab"
@@ -20,6 +21,12 @@
             </span>
           }
           <span class="form-nav__label">{{ section.labelKey | translate }}</span>
+          @if (hasError(section.id)) {
+            <span
+              class="form-nav__dot"
+              [attr.aria-label]="'common.form_nav.section_has_errors' | translate"
+            ></span>
+          }
         </a>
       </li>
     }

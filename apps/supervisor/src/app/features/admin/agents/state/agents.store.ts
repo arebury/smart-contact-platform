@@ -57,20 +57,6 @@ export class AgentsStore {
     return this.store.getItem(id);
   }
 
-  duplicate(id: number): Agent | undefined {
-    const source = this.getAgent(id);
-    if (!source) return undefined;
-    const { id: _id, code: _code, ...rest } = source;
-    return this.addAgent({
-      ...rest,
-      name: `Copia de ${source.name}`,
-      extension: '',
-      pin: '',
-      status: 'inactive',
-      isDraft: true,
-    });
-  }
-
   /** Update a single field on a presence-only fast path (avoids spreading full record). */
   updatePresence(id: number, presence: PresenceStatus): void {
     this.store.updateItem(id, { presenceStatus: presence });

@@ -107,7 +107,6 @@
               <tr
                 class="table__row"
                 [class.table__row--selected]="selectedIds().has(user.id)"
-                [class.table__row--draft]="user.isDraft"
                 [class.table__row--clickable]="renamingId() !== user.id"
                 (click)="onRowClick(user)"
                 (contextmenu)="onContextMenu($event, user.id)"
@@ -135,9 +134,6 @@
                     />
                   } @else {
                     <span>{{ user.name }}</span>
-                    @if (user.isDraft) {
-                      <span class="draft-badge">{{ 'common.draft_badge' | translate }}</span>
-                    }
                   }
                 </td>
                 @if (isColVisible('email')) {

@@ -82,25 +82,11 @@ describe('AgentsStore', () => {
     });
   });
 
-  describe('duplicate', () => {
-    it('returns a copy with prefixed name + cleared extension/pin + draft flag', () => {
-      const store = TestBed.inject(AgentsStore);
-      const source = store.agents()[0]!;
-      const copy = store.duplicate(source.id);
-      expect(copy).toBeTruthy();
-      expect(copy!.name).toBe(`Copia de ${source.name}`);
-      expect(copy!.extension).toBe('');
-      expect(copy!.pin).toBe('');
-      expect(copy!.status).toBe('inactive');
-      expect(copy!.isDraft).toBe(true);
-      expect(copy!.id).not.toBe(source.id);
-    });
-
-    it('returns undefined when the source id does not exist', () => {
-      const store = TestBed.inject(AgentsStore);
-      expect(store.duplicate(999_999)).toBeUndefined();
-    });
-  });
+  // El método duplicate() del store fue eliminado en S47 al rediseñar el flow
+  // (DD#XX): ahora "Duplicar" navega directamente al form-page con
+  // ?seedFromId. El precargado del payload se hace en el componente, no en
+  // el store. Si más adelante hace falta una utilidad de copia server-side
+  // (cuando haya backend), volverá aquí.
 
   describe('updatePresence', () => {
     it('updates only the presenceStatus field', () => {

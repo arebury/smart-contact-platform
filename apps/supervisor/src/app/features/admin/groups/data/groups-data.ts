@@ -53,7 +53,6 @@ export interface Group {
   readonly services?: readonly string[];
   readonly schedules?: readonly number[];
   /** Draft flag — set on duplicated entities until the user saves (DD#294 in the React prototype). */
-  readonly isDraft?: boolean;
 }
 
 export const GROUPS_SEED: readonly Group[] = [

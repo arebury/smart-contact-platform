@@ -103,7 +103,6 @@ export interface Agent {
   /** When true, the agent's `extension` field is auto-updated on login. */
   readonly loginExtOverride?: boolean;
   /** Draft flag — set on duplicated entities until the user saves (DD#294). */
-  readonly isDraft?: boolean;
 }
 
 export interface ExtensionOption {

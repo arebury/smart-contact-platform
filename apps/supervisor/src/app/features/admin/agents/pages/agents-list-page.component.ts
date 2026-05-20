@@ -266,8 +266,6 @@ export class AgentsListPageComponent {
     const field = this.sortField();
     const dir = this.sortDir();
     list.sort((a, b) => {
-      if (a.isDraft && !b.isDraft) return -1;
-      if (!a.isDraft && b.isDraft) return 1;
       if (!field) return 0;
       let cmp = 0;
       switch (field) {
@@ -370,20 +368,15 @@ export class AgentsListPageComponent {
   }
 
   protected onRowDuplicate(agent: Agent): void {
-    const draft = this.agentsStore.duplicate(agent.id);
     this.openMenuId.set(null);
-    if (!draft) return;
-    // Enter inline-rename mode immediately so the user can refine the name
-    // without a router round-trip.
-    this.renamingId.set(draft.id);
-    this.undoStack.push(
-      this.translate.instant('common.draft_created', { name: draft.name }),
-      this.translate.instant('common.draft_removed'),
-      () => {
-        this.agentsStore.deleteAgent(draft.id);
-        if (this.renamingId() === draft.id) this.renamingId.set(null);
-      },
-    );
+    // Navega al form de creación con el source precargado en memoria.
+    // El form-page detecta `?seedFromId` y precarga los campos copiables
+    // (todos excepto los unique: name, email, extension, pin).
+    // Si el usuario abandona sin guardar, no queda nada persistido — los
+    // borradores amarillos en la lista se eliminaron en S47 (DD#XX).
+    void this.router.navigate(['/admin/agentes/crear'], {
+      queryParams: { seedFromId: agent.id },
+    });
   }
 
   protected onRowDelete(agent: Agent): void {
@@ -406,7 +399,6 @@ export class AgentsListPageComponent {
   protected onRenameCancel(id: number): void {
     const target = this.agentsStore.getAgent(id);
     this.renamingId.set(null);
-    if (target?.isDraft) this.agentsStore.deleteAgent(id);
   }
 
   protected onPresenceChange(agent: Agent, event: Event): void {
