@@ -10,6 +10,102 @@
 
 ---
 
+## 2026-05-20 · Session 50 — Toolbar inline legacy parity + SCDS animations + mockdata + AED i18n sweep
+
+> Sesión grande post-S49. Rafa pidió 6 bloques en cascada: animaciones del bulk
+> modal del prototipo replicadas correctamente, mockdata legacy ampliada,
+> Download button habilitado, toolbar refactorizada al patrón inline legacy,
+> sweep AED bulk-toolbar i18n (5/6 consumers migrados al helper SCDS).
+
+### Hitos
+
+1. **Animaciones SC al SCDS** — 4 keyframes canónicos (`sc-bump` 260ms 1.03,
+   `sc-pulse` 360ms 1.08, `sc-shake` 280ms ±4px, `sc-delta-fly` 750ms ghost
+   float-up) promovidos al partial global `packages/design-system/styles/_sc-animations.scss`
+   con utility classes `.animate-sc-*` + fallback `@media (prefers-reduced-motion: reduce)`.
+   `_sc-animations` importado en `main.scss` después de `_sc-overlay-sizes`.
+   Réplica 1:1 del prototipo React `sc-design-system.css`. Bulk modal Angular
+   migrado: eliminados keyframes locales duplicados (`sc-bulk-pulse`/`-shake`),
+   usa SCDS classes. Pulse alineado a 1.08 (era 1.045 sub-spec).
+
+2. **Delta-fly ghost en bulk modal** — réplica del React `BulkTranscriptionModal.tsx`:
+   cuando cambia `heroCount` por toggle de análisis, aparece un ghost `+N`/`−N`
+   absolute-positioned sobre el hero number, anima 750ms translateY(-34px) +
+   opacity 0→1→0. Implementado vía `deltaGhost = signal<{key, value} | null>`
+   + `@for ... track g.key` para forzar remount (re-fire del keyframe). Color
+   teal-600 para positivo, text-subtle para negativo.
+
+3. **Mockdata legacy ampliado** — `conversations-mock.ts` 15 → 33 entries (+18).
+   Casuísticas añadidas: multi-rec 3 tramos + multi-rec 4 tramos (IVR + 3
+   transfers), llamada madrugada 00:30, llamada cortísima 12s (drop), llamada
+   extra-larga 52min (retención compleja), chat 3 categorías AI, outbound
+   campaign con análisis, chat interno agente-a-agente, categoría sensible
+   (insultos+lenguaje malsonante), felicitación (positivo), fin de semana,
+   failed multi-rec parcial, chat venta 15min, recording-only (rule sin
+   transcription), multi-rec rápido <2min, outbound corto baja conversión,
+   chat sin análisis, GDPR expired + multi-rec, interna outbound (agent→agent).
+
+4. **Download button habilitado** — `DownloadModalComponent` ya cocinado
+   (S47 §10 #4) pero solo wireado desde `ConversationPlayerModal`. S50 lo
+   añade a la toolbar inline conversations-page: si hay selección, descarga
+   ese subset; si no, descarga todo el filtered. Toasts por canal (audio +
+   chat) hereda patrón del player. Sin backend real — placeholders i18n
+   `memory.bulk.download_audio_toast` + `download_chat_toast` en 4 locales.
+
+5. **Toolbar inline legacy parity** — refactor `conversation-filters.component`:
+   - Layout antiguo (flex horizontal grid + actions side-by-side) →
+     nuevo (flex column con grid arriba + actions row con border-top y
+     justify-between).
+   - Action row: `[Tipo] [Categorías IA] [Solo fallidas?] | [Transcribir(badge)]
+     [Download] [Marcar leídas(badge)] [Help]  ←justify-between→  [Resultados:
+     N · Última: hh:mm dd/mm/yyyy] [Reset]`.
+   - 4 icon buttons compactos h-9 w-9 con `--sc-color-teal-*` hover, badge
+     pegado top-right (sc-text-primary bg + white fg, 16x16).
+   - 9 i18n keys nuevas × 4 locales (transcribe/download/mark_read/help/results/
+     last_search + 2 aria variants).
+   - **Removido `<sc-bulk-action-bar>` overlay del Memory** — el patrón inline
+     legacy sustituye al overlay flotante. El componente SCDS sigue vivo (6
+     consumers AED). Memory ya no consume el overlay.
+
+6. **AED bulk-toolbar i18n sweep (5/6 consumers)** — promovido patrón
+   reactivo S49 a helper SCDS `useBulkEntityI18n(keys)` en
+   `packages/design-system/components/bulk-action-bar/use-bulk-entity-i18n.ts`.
+   Inyecta `TranslateService` + `toSignal(onLangChange)` + computed
+   `Signal<BulkActionEntityLabels>`. Exportado desde barrel `@shared/components`.
+   Consumers migrados: agents-list, users-list, groups-list, labels-page,
+   templates-page. Cada uno pasa keys `common.bulk.entity.<x>_singular/plural`
+   + opcionalmente `_selected_one/_other` para género femenino (labels,
+   templates). 14 keys × 4 locales en `common.bulk.entity.*`.
+   - **Diferido**: `repo-list-page` parametrizado via `config().entityNameSpanish`
+     requiere refactor del config schema (1h + tocar configs múltiples). Anotado
+     en NEXT-SESSION-PLAN sweep cuando Rafa lo pida.
+
+### Estado salud cierre S50
+
+`tsc --noEmit` verde · build production verde (warnings preexistentes budget) ·
+Playwright cross-app 14/14 verde (30.9s) · i18n audit verde (1470 paths × 4
+locales, 0 mismatches). Pre-commit hook husky+lint-staged+i18n-audit activo.
+
+### Archivos tocados
+
+- SCDS: `packages/design-system/styles/_sc-animations.scss` (nuevo) ·
+  `components/bulk-action-bar/use-bulk-entity-i18n.ts` (nuevo) ·
+  `components/index.ts` (export helper) · `styles/_sc-overlay-sizes.scss` (-).
+- Memory:
+  `components/bulk-transcription-modal/*` (delta-fly + SCDS animations) ·
+  `components/conversation-filters/*` (toolbar inline refactor) ·
+  `data/conversations-mock.ts` (+18 entries) ·
+  `pages/conversations/conversations-page.component.*` (download wire +
+  remove overlay + reactive bulkEntity) · `state/...` (markAsRead from S49 ya
+  estaba).
+- AED admin: `agents-list-page` · `users-list-page` · `groups-list-page` ·
+  `labels-page` · `templates-page` (5× migración helper).
+- i18n: `apps/supervisor/src/assets/i18n/{es,en,fr,pt}.json` (~50 keys nuevas).
+- App entry: `apps/supervisor/src/styles/main.scss` (1 línea `@use sc-animations`).
+- Docs: `SESSION-LOG.md` · `NEXT-SESSION-PLAN.md`.
+
+---
+
 ## 2026-05-20 · Session 49 — §10 #13 CategoryRuleLinking bidireccional + 5 bugs (i18n/UX)
 
 > Sesión densa. Implementación completa de §10 #13 (refactor 3-piezas Rule ↔ Category)

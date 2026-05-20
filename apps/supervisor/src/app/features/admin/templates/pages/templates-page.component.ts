@@ -20,6 +20,7 @@ import { ClickOutsideDirective } from '@core/directives';
 import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
+  useBulkEntityI18n,
   DeleteEntityDialogComponent,
   PageHeaderComponent,
   SearchComponent,
@@ -115,12 +116,12 @@ export class TemplatesPageComponent {
     (this.deleteTarget() ?? []).map((t) => ({ id: t.id, name: t.title })),
   );
 
-  protected readonly bulkEntity = {
-    singular: 'plantilla',
-    plural: 'plantillas',
-    suffixSingular: 'seleccionada',
-    suffixPlural: 'seleccionadas',
-  } as const;
+  protected readonly bulkEntity = useBulkEntityI18n({
+    singular: 'common.bulk.entity.template_singular',
+    plural: 'common.bulk.entity.template_plural',
+    selectedOne: 'common.bulk.entity.template_selected_one',
+    selectedOther: 'common.bulk.entity.template_selected_other',
+  });
 
   protected switchTab(tab: TemplateType): void {
     this.activeTab.set(tab);

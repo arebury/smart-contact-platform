@@ -10,7 +10,14 @@
       [filters]="filters()"
       [availableAiCategories]="availableAiCategories()"
       [failedCount]="failedCount()"
+      [filteredCount]="filteredCount()"
+      [selectedCount]="selectedCount()"
+      [lastSearchAt]="lastSearchAt()"
       (filtersChange)="onFiltersChange($event)"
+      (bulkTranscribeRequested)="onBulkTranscribe()"
+      (downloadRequested)="onDownloadRequested()"
+      (bulkMarkReadRequested)="onBulkMarkRead()"
+      (helpRequested)="onHelpRequested()"
     />
     <sc-memory-conversation-table
       [conversations]="conversations()"
@@ -24,17 +31,6 @@
     />
   </div>
 </div>
-
-<sc-bulk-action-bar [count]="selectedCount()" [entity]="bulkEntity()" (clear)="onClearSelection()">
-  <p-button type="button" severity="secondary" (onClick)="onBulkMarkRead()">
-    <lucide-icon [img]="markReadIcon" [size]="14" aria-hidden="true" />
-    <span>{{ 'memory.bulk.mark_read' | translate }}</span>
-  </p-button>
-  <p-button type="button" severity="primary" (onClick)="onBulkTranscribe()">
-    <lucide-icon [img]="bulkIcon" [size]="14" aria-hidden="true" />
-    <span>{{ 'memory.bulk.transcribe_analyze' | translate }}</span>
-  </p-button>
-</sc-bulk-action-bar>
 
 <sc-memory-conversation-player-modal
   [visible]="playerOpen()"
@@ -61,4 +57,10 @@
   [analyzingIds]="analyzingIdsArray()"
   (closed)="onBulkModalClose()"
   (confirmed)="onBulkModalConfirm($event)"
+/>
+
+<sc-memory-download-modal
+  [visible]="downloadModalOpen()"
+  (confirm)="onDownloadConfirm($event)"
+  (cancelled)="onDownloadCancel()"
 />

@@ -354,7 +354,7 @@
   (confirm)="onBulkPreviewConfirm($event)"
 />
 
-<sc-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
+<sc-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity()" (clear)="clearSelection()">
   <sc-bulk-edit-menu
     [fields]="bulkEditFields()"
     [buttonLabel]="'Editar'"

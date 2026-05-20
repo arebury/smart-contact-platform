@@ -5,8 +5,8 @@
 
 .memory-conversation-filters {
   display: flex;
-  align-items: flex-end;
-  gap: var(--sc-spacing-200);
+  flex-direction: column;
+  gap: var(--sc-spacing-300);
   padding: var(--sc-spacing-300);
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
@@ -14,17 +14,60 @@
   box-shadow: var(--sc-shadow-100);
 
   &__grid {
-    flex: 1;
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: var(--sc-spacing-200);
   }
 
+  /* S50 toolbar inline (legacy parity): row de actions con left
+   * (Tipo/Categorías/Failed + separator + 4 icons) y right (Resultados
+   * + Reset). justify-between los empuja a los extremos. */
   &__actions {
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    gap: var(--sc-spacing-300);
+    padding-top: var(--sc-spacing-200);
+    border-top: 1px solid var(--sc-border-default);
+  }
+
+  &__actions-left {
+    display: flex;
+    align-items: center;
     gap: var(--sc-spacing-100);
-    padding-bottom: 0;
+    flex-wrap: wrap;
+  }
+
+  &__actions-right {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+  }
+
+  &__divider {
+    display: inline-block;
+    width: 1px;
+    height: 24px;
+    background: var(--sc-border-default);
+    margin: 0 var(--sc-spacing-100);
+  }
+
+  &__results {
+    font-size: 0.8125rem;
+    color: var(--sc-text-secondary);
+    white-space: nowrap;
+  }
+
+  &__results-num,
+  &__results-time {
+    color: var(--sc-text-primary);
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+
+  &__results-sep {
+    margin: 0 var(--sc-spacing-100);
+    color: var(--sc-text-subtle);
   }
 }
 
@@ -36,14 +79,81 @@
 }
 
 @media (max-width: 768px) {
-  .memory-conversation-filters {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
   .memory-conversation-filters__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .memory-conversation-filters__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* S50 toolbar inline — action icons compactos (h-9 w-9 legacy parity).
+ * Patrón texto-color-only: no background propio; en hover bg subtle. */
+.memory-toolbar-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--sc-radius-200);
+  background: transparent;
+  color: var(--sc-color-teal-600);
+  cursor: pointer;
+  transition:
+    background-color 160ms ease-out,
+    color 160ms ease-out;
+
+  &:hover:not(:disabled) {
+    background: var(--sc-color-teal-50);
+    color: var(--sc-color-teal-700);
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-electric-blue-500);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    color: var(--sc-text-disabled);
+    cursor: not-allowed;
+  }
+
+  &--muted {
+    color: var(--sc-text-secondary);
+
+    &:hover:not(:disabled) {
+      background: var(--sc-bg-elevated);
+      color: var(--sc-text-primary);
+    }
+  }
+}
+
+.memory-toolbar-icon__badge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: var(--sc-radius-full);
+  background: var(--sc-text-primary);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 /* Chip "Solo fallidas" — aparece solo cuando hay errores en el set. */

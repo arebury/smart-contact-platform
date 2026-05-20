@@ -5,27 +5,23 @@
 
 ---
 
-## Estado al cerrar (Session 49, 2026-05-20)
+## Estado al cerrar (Session 50, 2026-05-20)
 
-**Sesión densa**: §10 #13 cerrado completo (refactor 3-piezas Rule ↔ Category
-bidireccional) + 5 bugs en cadena reportados durante la sesión (red row stale,
-bulk toolbar hardcoded ES, mock samples sin traducir, `common.duplicate`
-`[object Object]` en EN/FR/PT, filter input multiselect desmesurado) + red de
-seguridad i18n (script audit + husky hook).
+**Sesión grande**: 6 bloques en cascada. (1) 4 animaciones SC promovidas al
+SCDS partial `_sc-animations.scss`. (2) Delta-fly ghost `+N`/`−N` en bulk
+modal (réplica React). (3) Mockdata 15→33 entries con casuísticas legacy.
+(4) Download button habilitado en toolbar. (5) Toolbar refactor a patrón
+inline legacy (Filtros·Tipo·Categorías·sep·Transcribir·Download·MarcarLeídas·
+Help · Resultados/Última). (6) Sweep AED bulk-toolbar i18n 5/6 consumers
+migrados al helper SCDS `useBulkEntityI18n`.
 
-**Lo grande de S49**:
-- §10 #13 CategoryRuleLinking bidireccional con 4 variantes React 1:1 en
-  `CategoryFormModal` + selector `<sc-multiselect>` en RuleBuilder + `Rule.categorias`
-  fuente de verdad (Category.usedInRules derivado, no duplicado).
-- Bug `common.duplicate` (object en EN/FR/PT, string en ES) reveló riesgo
-  estructural — añadido `scripts/i18n-audit.mjs` + integrado en husky pre-commit
-  para bloquear futuros type drifts cross-locale.
+**Diferido**: repo-list-page bulk i18n (parametrizado via config — necesita
+refactor del config schema). Ver Eje sweep AED abajo.
 
-## Estado al cerrar S48 (referencia)
+## Estado al cerrar S49 (referencia)
 
-**2 commits a `main`**: (1) feat Memory §10 #12 Synonyms granulares per-value
-EntityFormModal, (2) docs S48 (Code Connect dormido + inventory + SESSION-LOG
-+ memory).
+**1 commit a `main`** (8b8f1f4): feat S49 §10 #13 CategoryRuleLinking
+bidireccional + fix 5 bugs i18n/UX + red de seguridad i18n (audit + husky).
 
 ### Estado al cerrar S47 (referencia)
 
@@ -71,21 +67,18 @@ Todo §10 vivo está cerrado o en limbo con trigger explícito (#4 producción r
 #5/#6/#7/#9 dispatch real, #8 refactor SCDS, #11 producción real). Siguiente eje
 post-§10 depende de qué priorice Rafa.
 
-### 🎯 Eje sweep — AED bulk-toolbar i18n (post-S49) 🆕
+### 🎯 Eje sweep — AED bulk-toolbar i18n
 
-Tras fix Memory en S49 (`bulkEntity` reactivo via `computed + toSignal(onLangChange)`),
-6 consumidores AED siguen con `readonly bulkEntity = { singular: 'usuario', ... }`
-hardcoded ES:
+✅ **5/6 migrados S50** via helper SCDS `useBulkEntityI18n`:
+agents, users, groups, labels, templates.
 
-- `apps/supervisor/src/app/features/admin/agents/pages/agents-list-page.component.ts:299`
-- `apps/supervisor/src/app/features/admin/labels/pages/labels-page.component.ts:112`
-- `apps/supervisor/src/app/features/admin/groups/pages/groups-list-page.component.ts:221`
-- `apps/supervisor/src/app/features/admin/users/pages/users-list-page.component.ts:178`
-- `apps/supervisor/src/app/features/admin/templates/pages/templates-page.component.ts:118`
-- `apps/supervisor/src/app/features/admin/repositories/components/repo-list-page.component.ts:110` (computed con `config().entityNameSpanish` — parametriza N repos)
+⏸️ **Pendiente repo-list-page** — parametrizado via `config().entityNameSpanish`
+/ `entityPluralSpanish`. Refactor mayor: hay que cambiar el `RepoConfig`
+schema para usar i18n keys (`entityNameKey`/`entityPluralKey`) + actualizar
+N configs por tipo de repositorio. Tamaño: ~1-1.5h. Trigger: cuando Rafa
+pida i18n en /admin/repositorios o se detecte el bug en captura.
 
-Tamaño: ~1h sweep mecánico (mismo patrón Memory). Trigger: cuando Rafa pida AED
-multi-idioma o detecte el bug en alguna captura.
+Archivo: `apps/supervisor/src/app/features/admin/repositories/components/repo-list-page.component.ts:110`.
 
 ### 🎯 Eje 2 — Code Connect mapping (Figma ↔ SCDS) — DORMIDO con trigger (decisión S48)
 

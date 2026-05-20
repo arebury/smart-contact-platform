@@ -20,6 +20,7 @@ import { XlsxExportService } from '@core/services';
 import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
+  useBulkEntityI18n,
   LabelChipComponent,
   PageHeaderComponent,
   SearchComponent,
@@ -109,12 +110,12 @@ export class LabelsPageComponent {
     return sortedLen > 0 && this.selectedIds().size === sortedLen;
   });
 
-  protected readonly bulkEntity = {
-    singular: 'label',
-    plural: 'labels',
-    suffixSingular: 'seleccionada',
-    suffixPlural: 'seleccionadas',
-  } as const;
+  protected readonly bulkEntity = useBulkEntityI18n({
+    singular: 'common.bulk.entity.label_singular',
+    plural: 'common.bulk.entity.label_plural',
+    selectedOne: 'common.bulk.entity.label_selected_one',
+    selectedOther: 'common.bulk.entity.label_selected_other',
+  });
 
   protected onCreateClick(): void {
     this.editingId.set(null);

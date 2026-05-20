@@ -1,5 +1,7 @@
 export { BulkActionBarComponent } from './bulk-action-bar/bulk-action-bar.component';
 export type { BulkActionEntityLabels } from './bulk-action-bar/bulk-action-bar.component';
+export { useBulkEntityI18n } from './bulk-action-bar/use-bulk-entity-i18n';
+export type { BulkEntityI18nKeys } from './bulk-action-bar/use-bulk-entity-i18n';
 
 export { BulkEditMenuComponent } from './bulk-edit-menu/bulk-edit-menu.component';
 export type {

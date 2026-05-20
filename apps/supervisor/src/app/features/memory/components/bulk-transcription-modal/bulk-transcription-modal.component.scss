@@ -75,8 +75,29 @@
   color: var(--sc-text-primary);
   letter-spacing: -0.025em;
 
+  /* Hero counter cambia → bump (260ms 1.03, sutil para no llamar
+   * demasiado la atención sobre el número 88px). SCDS partial. */
   &.is-bumping {
-    animation: sc-bulk-pulse 360ms ease-out;
+    animation: sc-bump 260ms var(--sc-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+  }
+}
+
+/* Ghost "+N" / "−N" delta-fly cuando cambia el hero counter.
+ * Posiciona absoluto sobre el lado del hero number, float-up + fade. */
+.bulkv26__hero-delta {
+  position: absolute;
+  margin-left: var(--sc-spacing-200);
+  font-size: 16px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  animation: sc-delta-fly 750ms var(--sc-ease-out, cubic-bezier(0.16, 1, 0.3, 1)) forwards;
+
+  &.is-positive {
+    color: var(--sc-color-teal-600);
+  }
+  &.is-negative {
+    color: var(--sc-text-subtle);
   }
 }
 
@@ -163,7 +184,7 @@
   }
 
   &.is-pulsing {
-    animation: sc-bulk-pulse 360ms ease-out;
+    animation: sc-pulse 360ms var(--sc-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
   }
 }
 
@@ -174,7 +195,7 @@
 /* ─── Cell decision shake (C1 nudge) ────────────────────────── */
 
 .bulkv26__cell--decision.is-shaking {
-  animation: sc-bulk-shake 320ms cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  animation: sc-shake 280ms ease;
 }
 
 /* ─── Error strip (Audit A6) ────────────────────────────────── */
@@ -202,47 +223,10 @@
 }
 
 /* ─── Animations ────────────────────────────────────────────── */
-
-@keyframes sc-bulk-pulse {
-  0% {
-    transform: scale(1);
-  }
-  40% {
-    transform: scale(1.045);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@keyframes sc-bulk-shake {
-  10%,
-  90% {
-    transform: translate3d(-1px, 0, 0);
-  }
-  20%,
-  80% {
-    transform: translate3d(2px, 0, 0);
-  }
-  30%,
-  50%,
-  70% {
-    transform: translate3d(-4px, 0, 0);
-  }
-  40%,
-  60% {
-    transform: translate3d(4px, 0, 0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .bulkv26__hero-number.is-bumping,
-  .bulkv26__caption-num.is-pulsing,
-  .bulkv26__caption-pred.is-pulsing,
-  .bulkv26__cell--decision.is-shaking {
-    animation: none;
-  }
-}
+/* Las 4 animaciones SC (bump/pulse/shake/delta-fly) viven ahora en
+ * `packages/design-system/styles/_sc-animations.scss` (S49). Este
+ * componente las consume vía `animation: sc-bump|sc-pulse|sc-shake|sc-delta-fly`.
+ * El fallback `prefers-reduced-motion: reduce` se hereda del partial. */
 
 /* ─── Responsive: stack a 1 columna en mobile ───────────────── */
 

@@ -55,7 +55,15 @@
         "agents_placeholder": "Qualquer agente",
         "reset": "Limpar filtros",
         "only_failed": "Apenas falhas",
-        "only_failed_hint": "Mostrar apenas conversas com transcrição falhada"
+        "only_failed_hint": "Mostrar apenas conversas com transcrição falhada",
+        "transcribe": "Transcrever seleção",
+        "transcribe_aria": "Transcrever seleção ({{count}})",
+        "download": "Descarregar",
+        "mark_read": "Marcar como lidas",
+        "mark_read_aria": "Marcar como lidas ({{count}})",
+        "help": "Documentação",
+        "results": "Resultados",
+        "last_search": "Última pesquisa"
       }
     },
     "type_filter": {
@@ -203,12 +211,17 @@
       "mark_read": "Marcar como lidas",
       "mark_read_toast": "{{n}} conversas marcadas como lidas",
       "coming_soon_toast": "Modal em massa a caminho (iter 6b)",
+      "download_audio_toast": "A descarregar áudio de {{n}} conversas",
+      "download_chat_toast": "A descarregar chats de {{n}} conversas",
       "entity": {
         "singular": "conversa",
         "plural": "conversas",
         "selected_one": "selecionada",
         "selected_other": "selecionadas"
       }
+    },
+    "help": {
+      "coming_soon_toast": "Documentação chega na próxima iteração"
     },
     "bulk_transcription": {
       "total_label": "Total a processar",
@@ -553,6 +566,28 @@
     }
   },
   "common": {
+    "bulk": {
+      "selected_one": "selecionado",
+      "selected_other": "selecionados",
+      "selected_one_f": "selecionada",
+      "selected_other_f": "selecionadas",
+      "entity": {
+        "agent_singular": "agente",
+        "agent_plural": "agentes",
+        "user_singular": "utilizador",
+        "user_plural": "utilizadores",
+        "group_singular": "grupo",
+        "group_plural": "grupos",
+        "label_singular": "etiqueta",
+        "label_plural": "etiquetas",
+        "template_singular": "modelo",
+        "template_plural": "modelos",
+        "template_selected_one": "selecionado",
+        "template_selected_other": "selecionados",
+        "label_selected_one": "selecionada",
+        "label_selected_other": "selecionadas"
+      }
+    },
     "skip_to_content": "Ir para o conteúdo principal",
     "back": "Voltar",
     "back_to_home": "Voltar ao início",

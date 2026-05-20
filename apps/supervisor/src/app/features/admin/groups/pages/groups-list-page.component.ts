@@ -25,6 +25,7 @@ import { SelectionState } from '@core/utils/selection-state';
 import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
+  useBulkEntityI18n,
   BulkEditCommit,
   BulkEditFieldOption,
   BulkEditMenuComponent,
@@ -218,12 +219,10 @@ export class GroupsListPageComponent {
     (this.deleteTarget() ?? []).map((g) => ({ id: g.id, name: g.name })),
   );
 
-  protected readonly bulkEntity = {
-    singular: 'grupo',
-    plural: 'grupos',
-    suffixSingular: 'seleccionado',
-    suffixPlural: 'seleccionados',
-  } as const;
+  protected readonly bulkEntity = useBulkEntityI18n({
+    singular: 'common.bulk.entity.group_singular',
+    plural: 'common.bulk.entity.group_plural',
+  });
 
   protected readonly impactItems = computed<readonly ImpactItem[]>(() => {
     const ids = this.selectedIds();

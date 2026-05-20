@@ -22,6 +22,7 @@ import { SelectionState } from '@core/utils/selection-state';
 import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
+  useBulkEntityI18n,
   ColumnDef,
   ColumnSelectorComponent,
   DeleteEntityDialogComponent,
@@ -175,12 +176,10 @@ export class UsersListPageComponent {
     (this.deleteTarget() ?? []).map((u) => ({ id: u.id, name: u.name })),
   );
 
-  protected readonly bulkEntity = {
-    singular: 'usuario',
-    plural: 'usuarios',
-    suffixSingular: 'seleccionado',
-    suffixPlural: 'seleccionados',
-  } as const;
+  protected readonly bulkEntity = useBulkEntityI18n({
+    singular: 'common.bulk.entity.user_singular',
+    plural: 'common.bulk.entity.user_plural',
+  });
 
   protected typeLabel(type: UserType): string {
     return this.translate.instant(this.typeLabelKeys[type]);

@@ -23,6 +23,18 @@
           >
             {{ heroCount() }}
           </span>
+          <!-- Ghost "+N" / "−N" delta-fly · 750ms float-up (S49 SCDS animation).
+               Cambiar la key via @for fuerza remount → keyframe re-fired. -->
+          @for (g of deltaGhost() ? [deltaGhost()] : []; track g!.key) {
+            <span
+              class="bulkv26__hero-delta"
+              [class.is-positive]="g!.value > 0"
+              [class.is-negative]="g!.value < 0"
+              aria-hidden="true"
+            >
+              {{ g!.value > 0 ? '+' : '' }}{{ g!.value }}
+            </span>
+          }
           <!-- "{{ 'memory.bulk_transcription.cost_hint' | translate }}" cue. Slot reservado siempre para que C1
                (isAllProcessed) no haga reflow al esconderlo. -->
           <span

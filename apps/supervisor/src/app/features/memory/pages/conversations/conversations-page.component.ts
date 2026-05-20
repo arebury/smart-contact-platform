@@ -1,21 +1,16 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { map, startWith } from 'rxjs';
-import { CheckCheck, LucideAngularModule, MessagesSquare, Sparkles } from 'lucide-angular';
+import { LucideAngularModule, MessagesSquare } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
-import {
-  BulkActionBarComponent,
-  type BulkActionEntityLabels,
-} from '@shared/components/bulk-action-bar/bulk-action-bar.component';
 import { PageHeaderComponent } from '@shared/components';
 
 import { BulkTranscriptionModalComponent } from '../../components/bulk-transcription-modal/bulk-transcription-modal.component';
 import { ConversationFiltersComponent } from '../../components/conversation-filters/conversation-filters.component';
 import { ConversationPlayerModalComponent } from '../../components/conversation-player-modal/conversation-player-modal.component';
 import { ConversationTableComponent } from '../../components/conversation-table/conversation-table.component';
+import { DownloadModalComponent } from '../../components/download-modal/download-modal.component';
 import { MockSampleSwitcherComponent } from '../../components/mock-sample-switcher/mock-sample-switcher.component';
 import { RetranscriptionConfirmModalComponent } from '../../components/retranscription-confirm-modal/retranscription-confirm-modal.component';
 import type { Conversation } from '../../data/conversation.types';
@@ -46,11 +41,11 @@ import { ConversationsStore } from '../../state/conversations.store';
     ButtonModule,
     LucideAngularModule,
     PageHeaderComponent,
-    BulkActionBarComponent,
     BulkTranscriptionModalComponent,
     ConversationFiltersComponent,
     ConversationTableComponent,
     ConversationPlayerModalComponent,
+    DownloadModalComponent,
     MockSampleSwitcherComponent,
     RetranscriptionConfirmModalComponent,
   ],
@@ -76,29 +71,20 @@ export class ConversationsPageComponent {
   protected readonly processingIdsArray = computed(() => [...this.processingIds()]);
   protected readonly analyzingIdsArray = computed(() => [...this.analyzingIds()]);
   protected readonly pageIcon = MessagesSquare;
-  protected readonly bulkIcon = Sparkles;
-  protected readonly markReadIcon = CheckCheck;
 
-  /** Reactividad al cambio de idioma (S49 bug 2a). El componente
-   *  `<sc-bulk-action-bar>` recibe strings ya traducidos; sin esta señal
-   *  el computed no se re-evalúa cuando el usuario cambia ES↔EN/FR/PT. */
-  private readonly currentLang = toSignal(
-    this.translate.onLangChange.pipe(
-      map((e) => e.lang),
-      startWith(this.translate.currentLang),
-    ),
-    { initialValue: this.translate.currentLang },
-  );
+  /** Última búsqueda — placeholder hoy = now. Con backend real, lo seteará
+   *  el dispatcher al recibir respuesta. */
+  protected readonly lastSearchAt = signal<Date>(new Date());
 
-  protected readonly bulkEntity = computed<BulkActionEntityLabels>(() => {
-    this.currentLang(); // dependency for re-runs on lang change
-    return {
-      singular: this.translate.instant('memory.bulk.entity.singular'),
-      plural: this.translate.instant('memory.bulk.entity.plural'),
-      suffixSingular: this.translate.instant('memory.bulk.entity.selected_one'),
-      suffixPlural: this.translate.instant('memory.bulk.entity.selected_other'),
-    };
-  });
+  /** S50: download modal trigger desde toolbar. NULL = no abierto. Cuando el
+   *  toolbar dispara download sin selección, descarga todo filtered; con
+   *  selección, solo el subset seleccionado. */
+  protected readonly downloadModalOpen = signal(false);
+  /** Selected count cached cuando se abre el modal, para preservarlo si el
+   *  usuario deselecciona mientras el modal está visible. */
+  protected readonly downloadTargetCount = signal(0);
+
+  protected readonly filteredCount = computed(() => this.conversations().length);
 
   protected readonly playerOpen = signal(false);
   protected readonly playerConversation = signal<Conversation | null>(null);
@@ -170,6 +156,50 @@ export class ConversationsPageComponent {
 
   protected onBulkModalClose(): void {
     this.bulkModalOpen.set(false);
+  }
+
+  /** S50 toolbar: abrir Download modal. Si hay selección, descarga ese
+   *  subset; si no, descarga todo el filtered. */
+  protected onDownloadRequested(): void {
+    const count = this.selectedCount() > 0 ? this.selectedCount() : this.filteredCount();
+    this.downloadTargetCount.set(count);
+    this.downloadModalOpen.set(true);
+  }
+
+  protected onDownloadConfirm(opts: { recordings: boolean; chats: boolean }): void {
+    this.downloadModalOpen.set(false);
+    const n = this.downloadTargetCount();
+    // Sin backend real: toast por canal seleccionado. Hereda patron del
+    // player-modal (S47 §10 #4). En producción este punto llamará al
+    // endpoint de descarga.
+    if (opts.recordings) {
+      this.messages.add({
+        severity: 'success',
+        summary: this.translate.instant('memory.bulk.download_audio_toast', { n }),
+        life: 2500,
+      });
+    }
+    if (opts.chats) {
+      this.messages.add({
+        severity: 'success',
+        summary: this.translate.instant('memory.bulk.download_chat_toast', { n }),
+        life: 2500,
+      });
+    }
+  }
+
+  protected onDownloadCancel(): void {
+    this.downloadModalOpen.set(false);
+  }
+
+  /** S50 toolbar: help/docs icon. Stub — abre toast hint hasta cocinar
+   *  DocumentationModal del prototipo. */
+  protected onHelpRequested(): void {
+    this.messages.add({
+      severity: 'info',
+      summary: this.translate.instant('memory.help.coming_soon_toast'),
+      life: 2500,
+    });
   }
 
   protected async onBulkModalConfirm(event: {

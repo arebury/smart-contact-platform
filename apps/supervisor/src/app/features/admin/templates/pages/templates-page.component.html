@@ -241,7 +241,7 @@
   (confirm)="confirmDelete($event)"
 />
 
-<sc-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity" (clear)="clearSelection()">
+<sc-bulk-action-bar [count]="selectedIds().size" [entity]="bulkEntity()" (clear)="clearSelection()">
   <p-button type="button" severity="danger" (onClick)="requestDeleteSelection()">
     <span>{{ 'common.delete' | translate }}</span>
   </p-button>

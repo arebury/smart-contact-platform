@@ -83,6 +83,10 @@ export class BulkTranscriptionModalComponent {
   protected readonly shakeKey = signal(0);
   protected readonly pulseKey = signal(0);
   protected readonly bumpKey = signal(0);
+  /** Ghost "+N" / "−N" flotante (sc-delta-fly 750ms) cuando cambia el
+   *  heroCount tras togglear análisis. `null` = sin ghost activo. La key
+   *  fuerza remount del *@if* para re-disparar el keyframe al cambiar. */
+  protected readonly deltaGhost = signal<{ key: number; value: number } | null>(null);
   protected readonly isLoading = signal(false);
   protected readonly error = signal<string | null>(null);
 
@@ -191,12 +195,19 @@ export class BulkTranscriptionModalComponent {
       this.error.set(null);
     });
 
-    // Pulse hero al cambiar heroCount (solo mientras visible).
+    // Pulse hero al cambiar heroCount + ghost delta-fly "+N"/"−N"
+    // (réplica del prototipo React `BulkTranscriptionModal.tsx · v26`).
     let prevHero = this.heroCount();
+    let ghostKey = 0;
     effect(() => {
       const h = this.heroCount();
       if (this.visible() && h !== prevHero) {
         this.bumpKey.update((k) => k + 1);
+        const delta = h - prevHero;
+        if (delta !== 0) {
+          ghostKey += 1;
+          this.deltaGhost.set({ key: ghostKey, value: delta });
+        }
       }
       prevHero = h;
     });

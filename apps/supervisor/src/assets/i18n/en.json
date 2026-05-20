@@ -55,7 +55,15 @@
         "agents_placeholder": "Any agent",
         "reset": "Clear filters",
         "only_failed": "Failed only",
-        "only_failed_hint": "Show only conversations with failed transcription"
+        "only_failed_hint": "Show only conversations with failed transcription",
+        "transcribe": "Transcribe selection",
+        "transcribe_aria": "Transcribe selection ({{count}})",
+        "download": "Download",
+        "mark_read": "Mark as read",
+        "mark_read_aria": "Mark as read ({{count}})",
+        "help": "Documentation",
+        "results": "Results",
+        "last_search": "Last search"
       }
     },
     "type_filter": {
@@ -203,12 +211,17 @@
       "mark_read": "Mark as read",
       "mark_read_toast": "{{n}} conversations marked as read",
       "coming_soon_toast": "Bulk modal coming (iter 6b)",
+      "download_audio_toast": "Downloading audio of {{n}} conversations",
+      "download_chat_toast": "Downloading chats of {{n}} conversations",
       "entity": {
         "singular": "conversation",
         "plural": "conversations",
         "selected_one": "selected",
         "selected_other": "selected"
       }
+    },
+    "help": {
+      "coming_soon_toast": "Documentation coming in the next iteration"
     },
     "bulk_transcription": {
       "total_label": "Total to process",
@@ -561,6 +574,28 @@
     "save": "Save",
     "saving": "Saving…",
     "discard": "Discard",
+    "bulk": {
+      "selected_one": "selected",
+      "selected_other": "selected",
+      "selected_one_f": "selected",
+      "selected_other_f": "selected",
+      "entity": {
+        "agent_singular": "agent",
+        "agent_plural": "agents",
+        "user_singular": "user",
+        "user_plural": "users",
+        "group_singular": "group",
+        "group_plural": "groups",
+        "label_singular": "label",
+        "label_plural": "labels",
+        "template_singular": "template",
+        "template_plural": "templates",
+        "template_selected_one": "selected",
+        "template_selected_other": "selected",
+        "label_selected_one": "selected",
+        "label_selected_other": "selected"
+      }
+    },
     "form_nav": {
       "label": "Form sections",
       "section_has_errors": "This section has required fields unfilled"

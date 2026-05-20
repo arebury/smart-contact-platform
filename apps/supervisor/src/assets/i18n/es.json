@@ -55,7 +55,15 @@
         "agents_placeholder": "Cualquier agente",
         "reset": "Limpiar filtros",
         "only_failed": "Solo fallidas",
-        "only_failed_hint": "Mostrar solo conversaciones con transcripción fallida"
+        "only_failed_hint": "Mostrar solo conversaciones con transcripción fallida",
+        "transcribe": "Transcribir selección",
+        "transcribe_aria": "Transcribir selección ({{count}})",
+        "download": "Descargar",
+        "mark_read": "Marcar como leídas",
+        "mark_read_aria": "Marcar como leídas ({{count}})",
+        "help": "Documentación y validación",
+        "results": "Resultados",
+        "last_search": "Última búsqueda"
       }
     },
     "type_filter": {
@@ -203,12 +211,17 @@
       "mark_read": "Marcar como leídas",
       "mark_read_toast": "{{n}} conversaciones marcadas como leídas",
       "coming_soon_toast": "Modal masivo en camino (iter 6b)",
+      "download_audio_toast": "Descargando audio de {{n}} conversaciones",
+      "download_chat_toast": "Descargando chats de {{n}} conversaciones",
       "entity": {
         "singular": "conversación",
         "plural": "conversaciones",
         "selected_one": "seleccionada",
         "selected_other": "seleccionadas"
       }
+    },
+    "help": {
+      "coming_soon_toast": "Documentación llega en próxima iteración"
     },
     "bulk_transcription": {
       "total_label": "Total a procesar",
@@ -561,6 +574,28 @@
     "save": "Guardar",
     "saving": "Guardando…",
     "discard": "Descartar",
+    "bulk": {
+      "selected_one": "seleccionado",
+      "selected_other": "seleccionados",
+      "selected_one_f": "seleccionada",
+      "selected_other_f": "seleccionadas",
+      "entity": {
+        "agent_singular": "agente",
+        "agent_plural": "agentes",
+        "user_singular": "usuario",
+        "user_plural": "usuarios",
+        "group_singular": "grupo",
+        "group_plural": "grupos",
+        "label_singular": "label",
+        "label_plural": "labels",
+        "template_singular": "plantilla",
+        "template_plural": "plantillas",
+        "template_selected_one": "seleccionada",
+        "template_selected_other": "seleccionadas",
+        "label_selected_one": "seleccionada",
+        "label_selected_other": "seleccionadas"
+      }
+    },
     "form_nav": {
       "label": "Secciones del formulario",
       "section_has_errors": "Esta sección tiene campos obligatorios sin rellenar"

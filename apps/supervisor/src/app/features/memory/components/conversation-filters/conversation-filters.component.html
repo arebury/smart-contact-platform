@@ -63,34 +63,106 @@
   </div>
 
   <div class="memory-conversation-filters__actions">
-    <sc-memory-type-filter-button [(filters)]="filters" />
-    <sc-memory-category-filter-button
-      [available]="availableAiCategories()"
-      [selected]="filters().aiCategories"
-      (selectedChange)="onAiCategoriesChange($event)"
-    />
-    @if (failedCount() > 0) {
+    <div class="memory-conversation-filters__actions-left">
+      <sc-memory-type-filter-button [(filters)]="filters" />
+      <sc-memory-category-filter-button
+        [available]="availableAiCategories()"
+        [selected]="filters().aiCategories"
+        (selectedChange)="onAiCategoriesChange($event)"
+      />
+      @if (failedCount() > 0) {
+        <button
+          type="button"
+          class="memory-failed-chip"
+          [class.is-active]="filters().status.onlyFailed"
+          (click)="toggleOnlyFailed()"
+          [attr.aria-pressed]="filters().status.onlyFailed"
+          [attr.title]="'memory.conversations.filters.only_failed_hint' | translate"
+        >
+          <lucide-icon [img]="alertIcon" [size]="13" aria-hidden="true" />
+          <span>{{ 'memory.conversations.filters.only_failed' | translate }}</span>
+          <span class="memory-failed-chip__count">{{ failedCount() }}</span>
+        </button>
+      }
+
+      <!-- S50 toolbar inline (legacy parity): separator + 4 action icons.
+           Transcribir/Marcar como leídas muestran badge con el conteo
+           relevante. Download siempre habilitado. Help abre tooltip o
+           modal doc (stub por ahora). -->
+      <span class="memory-conversation-filters__divider" aria-hidden="true"></span>
+
       <button
         type="button"
-        class="memory-failed-chip"
-        [class.is-active]="filters().status.onlyFailed"
-        (click)="toggleOnlyFailed()"
-        [attr.aria-pressed]="filters().status.onlyFailed"
-        [attr.title]="'memory.conversations.filters.only_failed_hint' | translate"
+        class="memory-toolbar-icon"
+        [attr.aria-label]="
+          'memory.conversations.filters.transcribe_aria' | translate: { count: transcribeBadge() }
+        "
+        [attr.title]="'memory.conversations.filters.transcribe' | translate"
+        (click)="bulkTranscribeRequested.emit()"
+        [disabled]="transcribeBadge() === 0"
       >
-        <lucide-icon [img]="alertIcon" [size]="13" aria-hidden="true" />
-        <span>{{ 'memory.conversations.filters.only_failed' | translate }}</span>
-        <span class="memory-failed-chip__count">{{ failedCount() }}</span>
+        <lucide-icon [img]="transcribeIcon" [size]="18" aria-hidden="true" />
+        @if (transcribeBadge() > 0) {
+          <span class="memory-toolbar-icon__badge">{{ transcribeBadge() }}</span>
+        }
       </button>
-    }
-    <button
-      type="button"
-      class="sc-icon-btn"
-      (click)="onReset()"
-      [attr.aria-label]="'memory.conversations.filters.reset' | translate"
-      [attr.title]="'memory.conversations.filters.reset' | translate"
-    >
-      <lucide-icon [img]="resetIcon" [size]="14" aria-hidden="true" />
-    </button>
+
+      <button
+        type="button"
+        class="memory-toolbar-icon"
+        [attr.aria-label]="'memory.conversations.filters.download' | translate"
+        [attr.title]="'memory.conversations.filters.download' | translate"
+        (click)="downloadRequested.emit()"
+      >
+        <lucide-icon [img]="downloadIcon" [size]="18" aria-hidden="true" />
+      </button>
+
+      <button
+        type="button"
+        class="memory-toolbar-icon"
+        [attr.aria-label]="
+          'memory.conversations.filters.mark_read_aria' | translate: { count: selectedCount() }
+        "
+        [attr.title]="'memory.conversations.filters.mark_read' | translate"
+        (click)="bulkMarkReadRequested.emit()"
+        [disabled]="selectedCount() === 0"
+      >
+        <lucide-icon [img]="markReadIcon" [size]="18" aria-hidden="true" />
+        @if (selectedCount() > 0) {
+          <span class="memory-toolbar-icon__badge">{{ selectedCount() }}</span>
+        }
+      </button>
+
+      <button
+        type="button"
+        class="memory-toolbar-icon memory-toolbar-icon--muted"
+        [attr.aria-label]="'memory.conversations.filters.help' | translate"
+        [attr.title]="'memory.conversations.filters.help' | translate"
+        (click)="helpRequested.emit()"
+      >
+        <lucide-icon [img]="helpIcon" [size]="18" aria-hidden="true" />
+      </button>
+    </div>
+
+    <div class="memory-conversation-filters__actions-right">
+      <span class="memory-conversation-filters__results">
+        {{ 'memory.conversations.filters.results' | translate }}:
+        <span class="memory-conversation-filters__results-num">{{ filteredCount() }}</span>
+        @if (lastSearchAt()) {
+          <span class="memory-conversation-filters__results-sep">·</span>
+          {{ 'memory.conversations.filters.last_search' | translate }}:
+          <span class="memory-conversation-filters__results-time">{{ lastSearchLabel() }}</span>
+        }
+      </span>
+      <button
+        type="button"
+        class="sc-icon-btn"
+        (click)="onReset()"
+        [attr.aria-label]="'memory.conversations.filters.reset' | translate"
+        [attr.title]="'memory.conversations.filters.reset' | translate"
+      >
+        <lucide-icon [img]="resetIcon" [size]="14" aria-hidden="true" />
+      </button>
+    </div>
   </div>
 </div>

@@ -1,7 +1,16 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { AlertCircle, LucideAngularModule, RotateCcw, Search } from 'lucide-angular';
+import {
+  AlertCircle,
+  AlignLeft,
+  CircleHelp,
+  CheckCheck,
+  Download,
+  LucideAngularModule,
+  RotateCcw,
+  Search,
+} from 'lucide-angular';
 
 import { DatepickerComponent } from '@shared/components/datepicker/datepicker.component';
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
@@ -64,6 +73,16 @@ export class ConversationFiltersComponent {
   /** Count de conversaciones con `hasFailedTranscription: true` en el set
    *  actual. Si es 0 el chip "Solo fallidas" se oculta automáticamente. */
   readonly failedCount = input<number>(0);
+  /** S50 toolbar inline (legacy parity): conteos para los action icons. */
+  readonly filteredCount = input<number>(0);
+  readonly selectedCount = input<number>(0);
+  /** Timestamp de la última búsqueda — null si no ha ocurrido. */
+  readonly lastSearchAt = input<Date | null>(null);
+
+  readonly bulkTranscribeRequested = output<void>();
+  readonly downloadRequested = output<void>();
+  readonly bulkMarkReadRequested = output<void>();
+  readonly helpRequested = output<void>();
 
   protected readonly serviceOptions = SERVICE_OPTIONS;
   protected readonly groupOptions = GROUP_OPTIONS;
@@ -72,6 +91,26 @@ export class ConversationFiltersComponent {
   protected readonly searchIcon = Search;
   protected readonly resetIcon = RotateCcw;
   protected readonly alertIcon = AlertCircle;
+  protected readonly transcribeIcon = AlignLeft;
+  protected readonly downloadIcon = Download;
+  protected readonly markReadIcon = CheckCheck;
+  protected readonly helpIcon = CircleHelp;
+
+  /** Badge del botón "Transcribir": selection si hay, total filtered si no. */
+  protected readonly transcribeBadge = computed(() =>
+    this.selectedCount() > 0 ? this.selectedCount() : this.filteredCount(),
+  );
+
+  /** Hora última búsqueda en formato `HH:mm - dd/mm/yyyy` ES. */
+  protected readonly lastSearchLabel = computed(() => {
+    const d = this.lastSearchAt();
+    if (!d) return '';
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mo = String(d.getMonth() + 1).padStart(2, '0');
+    return `${hh}:${mm} - ${dd}/${mo}/${d.getFullYear()}`;
+  });
 
   protected setServices(services: readonly string[] | unknown[]): void {
     this.filters.update((f) => ({ ...f, services: (services ?? []) as readonly string[] }));

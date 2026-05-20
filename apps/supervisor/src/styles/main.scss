@@ -13,6 +13,7 @@
  * multi-select / select / datepicker panels cuando el wrapper propaga
  * size=sm|lg via `panelStyleClass`. Patrón análogo a `_sc-toast.scss`. */
 @use '../../../../packages/design-system/styles/sc-overlay-sizes';
+@use '../../../../packages/design-system/styles/sc-animations';
 
 /* Design tokens — layered system (primitive → semantic → palette →
  * component → extensions → PrimeNG bridge → dark). Single source of
