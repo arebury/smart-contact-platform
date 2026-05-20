@@ -50,8 +50,6 @@ export interface RepoPageConfig<T extends RepoEntity> {
   readonly titleKey: string;
   readonly entitySingularKey: string;
   readonly entityPluralKey: string;
-  readonly entityNameSpanish: string;
-  readonly entityPluralSpanish: string;
   readonly icon: LucideIconData;
   readonly breadcrumbExtraKey: string;
   readonly columns: readonly RepoColumnDef<T>[];

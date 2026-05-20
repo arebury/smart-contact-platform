@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { map, startWith } from 'rxjs';
 import {
   Download,
   LucideAngularModule,
@@ -107,11 +109,35 @@ export class RepoListPageComponent<T extends RepoEntity> {
     (this.deleteTarget() ?? []).map((item) => ({ id: item.id, name: item.name })),
   );
 
+  /** Reactividad al cambio de idioma para resolver `entitySingularKey` y
+   *  `entityPluralKey` del config (S51 sweep AED i18n). Patrón S49 reactive
+   *  pattern — sin esta dependency `translate.instant` no se re-evalúa al
+   *  cambio de idioma. */
+  private readonly currentLang = toSignal(
+    this.translate.onLangChange.pipe(
+      map((e) => e.lang),
+      startWith(this.translate.currentLang),
+    ),
+    { initialValue: this.translate.currentLang },
+  );
+
+  /** Nombre singular de la entidad, traducido. Dependency: config + lang. */
+  protected readonly entitySingular = computed(() => {
+    this.currentLang();
+    return this.translate.instant(this.config().entitySingularKey);
+  });
+
+  /** Nombre plural de la entidad, traducido. */
+  protected readonly entityPlural = computed(() => {
+    this.currentLang();
+    return this.translate.instant(this.config().entityPluralKey);
+  });
+
   protected readonly bulkEntity = computed(() => ({
-    singular: this.config().entityNameSpanish,
-    plural: this.config().entityPluralSpanish,
-    suffixSingular: 'seleccionado',
-    suffixPlural: 'seleccionados',
+    singular: this.entitySingular(),
+    plural: this.entityPlural(),
+    suffixSingular: this.translate.instant('common.bulk.selected_one'),
+    suffixPlural: this.translate.instant('common.bulk.selected_other'),
   }));
 
   protected getCellValue(item: T, key: string): string {
@@ -139,7 +165,7 @@ export class RepoListPageComponent<T extends RepoEntity> {
     const created = this.store().addItem(submission as unknown as Omit<T, 'id'>);
     this.creating.set(false);
     this.toastSuccess('repositories.toasts.created', {
-      entity: this.config().entityNameSpanish,
+      entity: this.entitySingular(),
       name: created.name,
     });
   }
@@ -149,7 +175,7 @@ export class RepoListPageComponent<T extends RepoEntity> {
     this.editingId.set(null);
     const name = submission['name'] ?? '';
     this.toastSuccess('repositories.toasts.updated', {
-      entity: this.config().entityNameSpanish,
+      entity: this.entitySingular(),
       name,
     });
   }
@@ -199,14 +225,14 @@ export class RepoListPageComponent<T extends RepoEntity> {
     if (ids.length === 1) {
       this.store().deleteItem(ids[0]!);
       this.toastSuccess('repositories.toasts.deleted_single', {
-        entity: this.config().entityNameSpanish,
+        entity: this.entitySingular(),
         name: toasted[0]!.name,
       });
     } else {
       this.store().deleteItems(ids);
       this.toastSuccess('repositories.toasts.deleted_bulk', {
         count: ids.length,
-        entity: this.config().entityPluralSpanish,
+        entity: this.entityPlural(),
       });
     }
 

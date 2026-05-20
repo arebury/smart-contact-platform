@@ -167,8 +167,6 @@ export class AgendasPageComponent {
     titleKey: 'repositories.agendas.title',
     entitySingularKey: 'repositories.agendas.singular',
     entityPluralKey: 'repositories.agendas.plural',
-    entityNameSpanish: 'agenda',
-    entityPluralSpanish: 'agendas',
     icon: Phone,
     breadcrumbExtraKey: 'repositories.agendas.title',
     columns: COLUMNS,

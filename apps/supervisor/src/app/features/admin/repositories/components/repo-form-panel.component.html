@@ -3,13 +3,13 @@
   role="dialog"
   [attr.aria-label]="
     (initial() ? 'repositories.form.edit_title' : 'repositories.form.create_title')
-      | translate: { entity: entityNameSpanish() }
+      | translate: { entity: entitySingular() }
   "
 >
   <h3 class="panel__title">
     {{
       (initial() ? 'repositories.form.edit_title' : 'repositories.form.create_title')
-        | translate: { entity: entityNameSpanish() }
+        | translate: { entity: entitySingular() }
     }}
   </h3>
 

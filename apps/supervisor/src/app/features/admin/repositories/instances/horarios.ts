@@ -190,8 +190,6 @@ export class HorariosPageComponent {
     titleKey: 'repositories.horarios.title',
     entitySingularKey: 'repositories.horarios.singular',
     entityPluralKey: 'repositories.horarios.plural',
-    entityNameSpanish: 'horario',
-    entityPluralSpanish: 'horarios',
     icon: Clock,
     breadcrumbExtraKey: 'repositories.horarios.title',
     columns: COLUMNS,

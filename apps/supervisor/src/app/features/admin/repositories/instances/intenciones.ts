@@ -175,8 +175,6 @@ export class IntencionesPageComponent {
     titleKey: 'repositories.intenciones.title',
     entitySingularKey: 'repositories.intenciones.singular',
     entityPluralKey: 'repositories.intenciones.plural',
-    entityNameSpanish: 'intención',
-    entityPluralSpanish: 'intenciones',
     icon: MessageSquare,
     breadcrumbExtraKey: 'repositories.intenciones.title',
     columns: COLUMNS,

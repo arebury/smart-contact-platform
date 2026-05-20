@@ -165,8 +165,6 @@ export class EntidadesPageComponent {
     titleKey: 'repositories.entidades.title',
     entitySingularKey: 'repositories.entidades.singular',
     entityPluralKey: 'repositories.entidades.plural',
-    entityNameSpanish: 'entidad',
-    entityPluralSpanish: 'entidades',
     icon: Box,
     breadcrumbExtraKey: 'repositories.entidades.title',
     columns: COLUMNS,

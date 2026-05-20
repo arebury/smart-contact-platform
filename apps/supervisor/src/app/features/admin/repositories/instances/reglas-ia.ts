@@ -205,8 +205,6 @@ export class ReglasIAPageComponent {
     titleKey: 'repositories.reglas_ia.title',
     entitySingularKey: 'repositories.reglas_ia.singular',
     entityPluralKey: 'repositories.reglas_ia.plural',
-    entityNameSpanish: 'regla IA',
-    entityPluralSpanish: 'reglas IA',
     icon: Sparkles,
     breadcrumbExtraKey: 'repositories.reglas_ia.title',
     columns: COLUMNS,

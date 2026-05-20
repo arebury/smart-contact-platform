@@ -15,7 +15,7 @@
         <sc-repo-form-panel
           [fields]="config().fields"
           [existingNames]="existingNames()"
-          [entityNameSpanish]="config().entityNameSpanish"
+          [entitySingular]="entitySingular()"
           (save)="onCreateSubmit($event)"
           (cancelled)="closeCreatePanel()"
         />
@@ -29,9 +29,7 @@
     <div class="page__action-bar">
       <sc-search
         class="page__search"
-        [placeholder]="
-          'repositories.search_placeholder' | translate: { entity: config().entityPluralSpanish }
-        "
+        [placeholder]="'repositories.search_placeholder' | translate: { entity: entityPlural() }"
         shortcutHint="⌘K"
         [clearAriaLabel]="'labels.clear_search' | translate"
         [value]="searchQuery()"
@@ -109,7 +107,7 @@
                         [fields]="config().fields"
                         [initial]="item"
                         [existingNames]="existingNames()"
-                        [entityNameSpanish]="config().entityNameSpanish"
+                        [entitySingular]="entitySingular()"
                         (save)="onEditSubmit(item.id, $event)"
                         (cancelled)="closeEditPanel()"
                       />
@@ -157,13 +155,10 @@
                 @if (searchQuery()) {
                   {{
                     'repositories.no_results.with_query'
-                      | translate: { entity: config().entityPluralSpanish, query: searchQuery() }
+                      | translate: { entity: entityPlural(), query: searchQuery() }
                   }}
                 } @else {
-                  {{
-                    'repositories.no_results.empty'
-                      | translate: { entity: config().entityPluralSpanish }
-                  }}
+                  {{ 'repositories.no_results.empty' | translate: { entity: entityPlural() } }}
                 }
               </td>
             </tr>
@@ -198,8 +193,8 @@
   [visible]="!!deleteTarget()"
   [mode]="(deleteTarget()?.length ?? 0) === 1 ? 'single' : 'bulk'"
   [items]="deleteItems()"
-  [entitySingular]="config().entityNameSpanish"
-  [entityPlural]="config().entityPluralSpanish"
+  [entitySingular]="entitySingular()"
+  [entityPlural]="entityPlural()"
   (cancelled)="cancelDelete()"
   (confirm)="confirmDelete($event)"
 />

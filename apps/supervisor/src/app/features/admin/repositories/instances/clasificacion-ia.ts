@@ -194,8 +194,6 @@ export class ClasificacionIAPageComponent {
     titleKey: 'repositories.clasificacion_ia.title',
     entitySingularKey: 'repositories.clasificacion_ia.singular',
     entityPluralKey: 'repositories.clasificacion_ia.plural',
-    entityNameSpanish: 'clasificación IA',
-    entityPluralSpanish: 'clasificaciones IA',
     icon: Tags,
     breadcrumbExtraKey: 'repositories.clasificacion_ia.title',
     columns: COLUMNS,

@@ -203,8 +203,6 @@ export class VariablesPageComponent {
     titleKey: 'repositories.variables.title',
     entitySingularKey: 'repositories.variables.singular',
     entityPluralKey: 'repositories.variables.plural',
-    entityNameSpanish: 'variable',
-    entityPluralSpanish: 'variables',
     icon: Variable,
     breadcrumbExtraKey: 'repositories.variables.title',
     columns: COLUMNS,

@@ -183,8 +183,6 @@ export class EntidadesIAPageComponent {
     titleKey: 'repositories.entidades_ia.title',
     entitySingularKey: 'repositories.entidades_ia.singular',
     entityPluralKey: 'repositories.entidades_ia.plural',
-    entityNameSpanish: 'entidad IA',
-    entityPluralSpanish: 'entidades IA',
     icon: Box,
     breadcrumbExtraKey: 'repositories.entidades_ia.title',
     columns: COLUMNS,

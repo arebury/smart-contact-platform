@@ -196,8 +196,6 @@ export class TipificacionesPageComponent {
     titleKey: 'repositories.tipificaciones.title',
     entitySingularKey: 'repositories.tipificaciones.singular',
     entityPluralKey: 'repositories.tipificaciones.plural',
-    entityNameSpanish: 'tipificación',
-    entityPluralSpanish: 'tipificaciones',
     icon: Tags,
     breadcrumbExtraKey: 'repositories.tipificaciones.title',
     columns: COLUMNS,
