@@ -184,7 +184,7 @@ export class HomeComponent {
       type: 'custom-preset',
       parity: 'audited-full',
       aedUses: 37,
-      memoryUses: 15,
+      memoryUses: 18,
       pageRoute: '/components/button',
       whatItDoes: 'Botón de acción (primario azul, secundario gris, peligro rojo, etc.).',
       whereToSee:
@@ -197,7 +197,7 @@ export class HomeComponent {
       name: 'Input',
       type: 'extended',
       parity: 'audited-full',
-      aedUses: 22,
+      aedUses: 15,
       memoryUses: 7,
       pageRoute: '/components/input',
       whatItDoes:
@@ -212,7 +212,7 @@ export class HomeComponent {
       name: 'Input number',
       type: 'extended',
       parity: 'audited-full',
-      aedUses: 7,
+      aedUses: 9,
       memoryUses: 0,
       pageRoute: '/components/input-number',
       whatItDoes:
@@ -238,7 +238,7 @@ export class HomeComponent {
       name: 'Select / dropdown',
       type: 'extended',
       parity: 'audited-full',
-      aedUses: 16,
+      aedUses: 25,
       memoryUses: 0,
       pageRoute: '/components/select',
       whatItDoes:
@@ -252,7 +252,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 0,
-      memoryUses: 1,
+      memoryUses: 2,
       pageRoute: '/components/datepicker',
       whatItDoes:
         'Selector de fecha. Abre un calendario al hacer click. Soporta selección día/mes/año, rangos min-max ("solo próximos 30 días"), y modo inline (calendario siempre visible).',
@@ -292,7 +292,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 0,
-      memoryUses: 7,
+      memoryUses: 8,
       pageRoute: '/components/multi-select',
       whatItDoes:
         'Desplegable para elegir VARIAS opciones a la vez (al contrario que select, que es solo una). Los seleccionados aparecen como texto separado por comas O como pills removibles (X cada uno) según prefieras.',
@@ -320,7 +320,7 @@ export class HomeComponent {
       type: 'extended',
       parity: 'audited-full',
       aedUses: 2,
-      memoryUses: 4,
+      memoryUses: 6,
       pageRoute: '/components/modal',
       whatItDoes:
         'Ventana emergente con título, body (acepta cualquier contenido apilado) y botones de acción. Se abre centrada sobre la pantalla con un velo gris detrás.',
@@ -415,7 +415,7 @@ export class HomeComponent {
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
       aedUses: 6,
-      memoryUses: 1,
+      memoryUses: 2,
       pageRoute: '/components/bulk-action-bar',
       whatItDoes:
         'Barra que aparece flotando abajo cuando seleccionas varios elementos de una tabla, con acciones masivas (borrar varios, editar varios…).',
@@ -504,7 +504,7 @@ export class HomeComponent {
       name: 'Color dot picker',
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
-      aedUses: 1,
+      aedUses: 2,
       memoryUses: 0,
       pageRoute: '/components/color-dot-picker',
       whatItDoes:
@@ -530,7 +530,7 @@ export class HomeComponent {
       name: 'Group popover',
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
-      aedUses: 1,
+      aedUses: 2,
       memoryUses: 0,
       pageRoute: '/components/group-popover',
       whatItDoes:
@@ -554,7 +554,7 @@ export class HomeComponent {
       name: 'Command palette',
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
-      aedUses: 1,
+      aedUses: 2,
       memoryUses: 0,
       pageRoute: '/components/command-palette',
       whatItDoes:
