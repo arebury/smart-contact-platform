@@ -1110,7 +1110,7 @@
         "identification_hint": "Foto, contacto y extensión",
         "channels": "Canales",
         "recording": "Grabación",
-        "recording_hint": "Si las llamadas del agente quedan grabadas",
+        "recording_hint": "Las llamadas del agente quedan grabadas si está activado",
         "languages": "Idiomas",
         "languages_hint": "Idiomas que domina el agente para enrutamiento",
         "labels": "Etiquetas",
