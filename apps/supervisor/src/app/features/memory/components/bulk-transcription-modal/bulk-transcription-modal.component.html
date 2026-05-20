@@ -12,7 +12,7 @@
   <div class="bulkv26" data-testid="bulk-modal-body">
     <!-- ── Hero cell · Total a procesar ── -->
     <section class="bulkv26__cell bulkv26__cell--hero">
-      <span class="bulkv26__label">Total a procesar</span>
+      <span class="bulkv26__label">{{ 'memory.bulk_transcription.total_label' | translate }}</span>
       <div class="bulkv26__hero-stack">
         <div class="bulkv26__hero-row">
           <span
@@ -23,14 +23,14 @@
           >
             {{ heroCount() }}
           </span>
-          <!-- "genera coste" cue. Slot reservado siempre para que C1
+          <!-- "{{ 'memory.bulk_transcription.cost_hint' | translate }}" cue. Slot reservado siempre para que C1
                (isAllProcessed) no haga reflow al esconderlo. -->
           <span
             class="bulkv26__cost-cue"
             [class.is-hidden]="isAllProcessed()"
             [attr.aria-hidden]="isAllProcessed() ? 'true' : null"
           >
-            genera coste
+            {{ 'memory.bulk_transcription.cost_hint' | translate }}
           </span>
         </div>
         <!-- Delta hint slot — min-height reservado, evita CLS al cambiar
@@ -47,7 +47,9 @@
       [class.is-shaking]="shakeKey() > 0"
       [attr.key-shake]="shakeKey()"
     >
-      <span class="bulkv26__label">Análisis</span>
+      <span class="bulkv26__label">{{
+        'memory.bulk_transcription.analysis_label' | translate
+      }}</span>
       <div class="bulkv26__decision-stack">
         <div class="bulkv26__decision-row">
           <span
@@ -55,20 +57,22 @@
             [class.is-on]="toggleOn()"
             [class.is-off]="!toggleOn()"
           >
-            Incluir análisis
+            {{ 'memory.bulk_transcription.include_analysis' | translate }}
           </span>
           <p-toggleswitch
             [ngModel]="toggleOn()"
             (ngModelChange)="onToggleChange($event)"
             [disabled]="toggleDisabled()"
-            aria-label="Incluir análisis"
+            [attr.aria-label]="'memory.bulk_transcription.include_analysis' | translate"
           />
         </div>
 
-        <!-- Caption: "todo procesado" en C1; "N admiten análisis" resto. -->
+        <!-- Caption: "{{ 'memory.bulk_transcription.all_processed' | translate }}" en C1; "N admiten análisis" resto. -->
         <div class="bulkv26__caption">
           @if (toggleDisabled()) {
-            <span class="bulkv26__caption-muted">todo procesado</span>
+            <span class="bulkv26__caption-muted">{{
+              'memory.bulk_transcription.all_processed' | translate
+            }}</span>
           } @else {
             <span
               class="bulkv26__caption-num"
@@ -102,7 +106,7 @@
 
   <div modal-actions>
     <p-button type="button" severity="secondary" [disabled]="isLoading()" (onClick)="onCancel()">
-      <span>Cerrar</span>
+      <span>{{ 'memory.bulk_transcription.close_btn' | translate }}</span>
     </p-button>
     <p-button
       type="button"
@@ -111,7 +115,7 @@
       [disabled]="!canSubmit()"
       (onClick)="onConfirm()"
     >
-      <span>Procesar</span>
+      <span>{{ 'memory.bulk_transcription.process_btn' | translate }}</span>
     </p-button>
   </div>
 </sc-dialog>

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { Check, Database, LucideAngularModule } from 'lucide-angular';
 import { PopoverModule } from 'primeng/popover';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { ConversationsStore } from '../../state/conversations.store';
 
@@ -22,7 +23,7 @@ import { ConversationsStore } from '../../state/conversations.store';
  */
 @Component({
   selector: 'sc-memory-mock-sample-switcher',
-  imports: [LucideAngularModule, PopoverModule],
+  imports: [LucideAngularModule, PopoverModule, TranslateModule],
   templateUrl: './mock-sample-switcher.component.html',
   styleUrl: './mock-sample-switcher.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

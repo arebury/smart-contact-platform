@@ -194,6 +194,20 @@
       "mark_read_toast": "{{n}} conversaciones marcadas como leídas",
       "coming_soon_toast": "Modal masivo en camino (iter 6b)"
     },
+    "bulk_transcription": {
+      "total_label": "Total a procesar",
+      "cost_hint": "genera coste",
+      "analysis_label": "Análisis",
+      "include_analysis": "Incluir análisis",
+      "all_processed": "todo procesado",
+      "close_btn": "Cerrar",
+      "process_btn": "Procesar"
+    },
+    "mock_sample_switcher": {
+      "chip_label": "Demo",
+      "data_prefix": "Datos:",
+      "list_header": "Conjuntos de prueba"
+    },
     "rules": {
       "page_title": "Reglas",
       "new_rule": "Nueva regla",
@@ -1477,6 +1491,12 @@
         "min_length_hint": "Número mínimo de caracteres requeridos",
         "expiration": "Expiración de contraseñas",
         "expiration_hint": "Tiempo tras el cual las contraseñas caducan",
+        "expiration_options": {
+          "never": "Sin expiración",
+          "days_30": "30 días",
+          "days_60": "60 días",
+          "days_90": "90 días"
+        },
         "special_chars": "Caracteres especiales obligatorios",
         "special_chars_hint": "Requiere al menos un carácter no alfanumérico"
       },

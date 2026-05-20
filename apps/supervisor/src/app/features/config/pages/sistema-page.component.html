@@ -102,10 +102,16 @@
             </p>
           </div>
           <select class="policy-row__select">
-            <option>Sin expiración</option>
-            <option>30 días</option>
-            <option>60 días</option>
-            <option>90 días</option>
+            <option>{{ 'config.seguridad.policies.expiration_options.never' | translate }}</option>
+            <option>
+              {{ 'config.seguridad.policies.expiration_options.days_30' | translate }}
+            </option>
+            <option>
+              {{ 'config.seguridad.policies.expiration_options.days_60' | translate }}
+            </option>
+            <option>
+              {{ 'config.seguridad.policies.expiration_options.days_90' | translate }}
+            </option>
           </select>
         </div>
 
