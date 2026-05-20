@@ -434,6 +434,26 @@ table.table {
   }
 }
 
+/* Memory · MockSampleSwitcher popover (S39 prototype switcher).
+ *
+ * `<p-popover>` con appendTo:body monta fuera del scope component → reglas
+ * en main.scss (unscoped). El trigger vive dentro de `<sc-page-header>`
+ * que es `position: sticky; z-index: 1030`, y el pool de overlays PrimeNG
+ * arranca en ~1000 — el panel quedaba por debajo del header al
+ * re-scrollear arriba. `!important` necesario:
+ *   - z-index: PrimeNG asigna z-index inline al overlay; sin `!important`
+ *     el token --sc-z-popover (1080) no llega a aplicarse.
+ *   - padding: el theme aplica padding default sobre `.p-popover-content`
+ *     con specificity equiparable; sin `!important` la regla local cede.
+ */
+.mock-sample-switcher__popover {
+  z-index: var(--sc-z-popover) !important;
+
+  .p-popover-content {
+    padding: 0 !important;
+  }
+}
+
 /* Memory · Rules conflict popover (iter 9d-2).
  * `<p-popover>` con appendTo:body monta fuera del scope component.
  */

@@ -83,18 +83,10 @@
 
 /* ─── Popover content (overlay rendered en <body>) ──────────────── */
 
-/* Trigger vive dentro de <sc-page-header> que es position: sticky
- * z-index 1030. La popover de PrimeNG arranca en su pool de overlays
- * (~1000) y quedaba por debajo del header al re-scrollear arriba.
- * Forzamos z-index al token --sc-z-popover (1080) para vencer al
- * sticky-form-header pero quedar por debajo de tooltip/toast. */
-::ng-deep .mock-sample-switcher__popover {
-  z-index: var(--sc-z-popover) !important;
-
-  .p-popover-content {
-    padding: 0 !important;
-  }
-}
+/* Reglas globales del overlay (z-index + padding=0) viven en
+ * `apps/supervisor/src/styles/main.scss` bajo `.mock-sample-switcher__popover`.
+ * El overlay PrimeNG monta en `<body>`, fuera del scope encapsulado, por
+ * lo que las reglas tienen que ser unscoped. */
 
 .mock-sample-switcher__list {
   display: flex;
