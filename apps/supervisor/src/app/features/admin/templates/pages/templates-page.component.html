@@ -5,7 +5,7 @@
     (aedClickOutside)="closeCreatePanel()"
     [aedClickOutsideEnabled]="creating()"
   >
-    <p-button type="button" (onClick)="onCreateClick()">
+    <p-button type="button" severity="primary" (onClick)="onCreateClick()">
       <lucide-icon [img]="plusIcon" [size]="15" aria-hidden="true" />
       <span>{{ 'templates.create_button' | translate }}</span>
     </p-button>
@@ -71,7 +71,7 @@
         </div>
         <h2 class="empty__title">{{ 'templates.empty.title' | translate }}</h2>
         <p class="empty__text">{{ 'templates.empty.text' | translate }}</p>
-        <p-button type="button" (onClick)="creating.set(true)">
+        <p-button type="button" severity="primary" (onClick)="creating.set(true)">
           <lucide-icon [img]="plusIcon" [size]="16" aria-hidden="true" />
           <span>{{ 'templates.empty.cta' | translate }}</span>
         </p-button>

@@ -102,7 +102,7 @@
       <p-button type="button" severity="secondary" (onClick)="discard()">
         <span>{{ 'config.aed.discard' | translate }}</span>
       </p-button>
-      <p-button type="button" [disabled]="saving()" (onClick)="save()">
+      <p-button type="button" severity="primary" [disabled]="saving()" (onClick)="save()">
         <lucide-icon [img]="saveIcon" [size]="14" aria-hidden="true" />
         <span>
           {{ (saving() ? 'config.aed.saving' : 'config.aed.save') | translate }}

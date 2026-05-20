@@ -264,7 +264,7 @@
               <span>{{ 'common.discard' | translate }}</span>
             </p-button>
           }
-          <p-button type="button" [disabled]="!canSave()" (onClick)="save()">
+          <p-button type="button" severity="primary" [disabled]="!canSave()" (onClick)="save()">
             <span>{{ (saving() ? 'common.saving' : 'common.save') | translate }}</span>
           </p-button>
         </div>

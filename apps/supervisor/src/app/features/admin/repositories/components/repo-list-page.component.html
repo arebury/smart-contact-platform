@@ -5,7 +5,7 @@
     (aedClickOutside)="closeCreatePanel()"
     [aedClickOutsideEnabled]="creating()"
   >
-    <p-button type="button" (onClick)="onCreateClick()">
+    <p-button type="button" severity="primary" (onClick)="onCreateClick()">
       <lucide-icon [img]="plusIcon" [size]="13" aria-hidden="true" />
       <span>{{ 'common.create' | translate }}</span>
     </p-button>
