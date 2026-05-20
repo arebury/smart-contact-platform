@@ -25,8 +25,14 @@ interface EntityTypeOption {
   readonly labelKey: string;
 }
 
+interface ListValueDraft {
+  value: string;
+  synonymsCsv: string;
+  expanded: boolean;
+}
+
 /**
- * EntityFormModal · Crear + Editar entidades user · iter 10b.
+ * EntityFormModal · Crear + Editar entidades user · iter 10b + S48 synonyms.
  *
  * Unifica `CreateEntityModal` (288 líneas) + `EditEntitySidepanel`
  * (575 líneas) del prototipo React. Usa `sc-dialog` SCDS — no
@@ -38,8 +44,9 @@ interface EntityTypeOption {
  *   - Description (opcional)
  *   - Type (select 18 tipos, locked en edit)
  *   - Format (opcional, hint string)
- *   - List values (solo si type === 'list'): array de strings.
- *     Synonyms granulares por valor → diferido a iter futura.
+ *   - List values (solo si type === 'list'): por valor, opcional
+ *     synonyms (CSV en UI, array al persistir). Trigger collapsable
+ *     "Añadir sinónimos" por row — patrón 1:1 con React legacy.
  *
  * Modos:
  *   - `entity` undefined → Create mode.
@@ -101,7 +108,7 @@ export class EntityFormModalComponent {
   protected readonly description = signal('');
   protected readonly type = signal<EntityType>('text');
   protected readonly format = signal('');
-  protected readonly listValues = signal<readonly string[]>([]);
+  protected readonly listValues = signal<readonly ListValueDraft[]>([]);
 
   protected readonly isEditMode = computed(() => this.entity() !== null);
 
@@ -141,7 +148,13 @@ export class EntityFormModalComponent {
         this.description.set(e.description);
         this.type.set(e.type);
         this.format.set(e.format ?? '');
-        this.listValues.set(e.config?.listValues?.map((v) => v.value) ?? []);
+        this.listValues.set(
+          e.config?.listValues?.map((v) => ({
+            value: v.value,
+            synonymsCsv: v.synonyms.join(', '),
+            expanded: v.synonyms.length > 0,
+          })) ?? [],
+        );
       } else {
         this.name.set('');
         this.description.set('');
@@ -165,11 +178,21 @@ export class EntityFormModalComponent {
   }
 
   protected addListValue(): void {
-    this.listValues.update((arr) => [...arr, '']);
+    this.listValues.update((arr) => [...arr, { value: '', synonymsCsv: '', expanded: false }]);
   }
 
-  protected updateListValue(index: number, value: string): void {
-    this.listValues.update((arr) => arr.map((v, i) => (i === index ? value : v)));
+  protected updateListValueText(index: number, value: string): void {
+    this.listValues.update((arr) => arr.map((d, i) => (i === index ? { ...d, value } : d)));
+  }
+
+  protected updateListValueSynonyms(index: number, synonymsCsv: string): void {
+    this.listValues.update((arr) => arr.map((d, i) => (i === index ? { ...d, synonymsCsv } : d)));
+  }
+
+  protected toggleListValueSynonyms(index: number): void {
+    this.listValues.update((arr) =>
+      arr.map((d, i) => (i === index ? { ...d, expanded: !d.expanded } : d)),
+    );
   }
 
   protected removeListValue(index: number): void {
@@ -183,9 +206,14 @@ export class EntityFormModalComponent {
   protected onSave(): void {
     if (!this.canSave()) return;
     const listValuesClean: EntityListValue[] = this.listValues()
-      .map((v) => v.trim())
-      .filter((v) => v.length > 0)
-      .map((v) => ({ value: v, synonyms: [] }));
+      .filter((d) => d.value.trim().length > 0)
+      .map((d) => ({
+        value: d.value.trim(),
+        synonyms: d.synonymsCsv
+          .split(',')
+          .map((s) => s.trim())
+          .filter((s) => s.length > 0),
+      }));
 
     const base = {
       name: this.name().trim(),

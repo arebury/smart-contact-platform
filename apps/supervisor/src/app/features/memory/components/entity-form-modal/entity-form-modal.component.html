@@ -87,23 +87,48 @@
           {{ 'memory.entities.form.list_values_hint' | translate }}
         </p>
         <div class="entity-form__list-values">
-          @for (val of listValues(); track $index) {
-            <div class="entity-form__list-value-row">
-              <input
-                type="text"
-                class="entity-form__list-input"
-                [placeholder]="'memory.entities.form.list_value_placeholder' | translate"
-                [value]="val"
-                (input)="updateListValue($index, $any($event.target).value)"
-              />
-              <button
-                type="button"
-                class="entity-form__list-remove"
-                [attr.aria-label]="'memory.entities.form.list_remove' | translate"
-                (click)="removeListValue($index)"
-              >
-                <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
-              </button>
+          @for (draft of listValues(); track $index) {
+            <div class="entity-form__list-value-card">
+              <div class="entity-form__list-value-row">
+                <input
+                  type="text"
+                  class="entity-form__list-input"
+                  [placeholder]="'memory.entities.form.list_value_placeholder' | translate"
+                  [value]="draft.value"
+                  (input)="updateListValueText($index, $any($event.target).value)"
+                />
+                <button
+                  type="button"
+                  class="entity-form__list-remove"
+                  [attr.aria-label]="'memory.entities.form.list_remove' | translate"
+                  (click)="removeListValue($index)"
+                >
+                  <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
+                </button>
+              </div>
+
+              @if (draft.expanded) {
+                <div class="entity-form__synonyms-block">
+                  <label class="entity-form__synonyms-label">
+                    {{ 'memory.entities.form.synonyms_label' | translate }}
+                  </label>
+                  <input
+                    type="text"
+                    class="entity-form__synonyms-input"
+                    [placeholder]="'memory.entities.form.synonyms_placeholder' | translate"
+                    [value]="draft.synonymsCsv"
+                    (input)="updateListValueSynonyms($index, $any($event.target).value)"
+                  />
+                </div>
+              } @else {
+                <button
+                  type="button"
+                  class="entity-form__synonyms-trigger"
+                  (click)="toggleListValueSynonyms($index)"
+                >
+                  {{ 'memory.entities.form.add_synonyms' | translate }}
+                </button>
+              }
             </div>
           } @empty {
             <p class="entity-form__list-empty">
