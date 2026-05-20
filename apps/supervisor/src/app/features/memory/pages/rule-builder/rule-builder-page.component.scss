@@ -110,8 +110,8 @@
   &__draft-discard {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
+    gap: var(--sc-spacing-50);
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
     border: 1px solid var(--sc-color-amber-300);
     border-radius: var(--sc-radius-200);
     background: transparent;
@@ -173,7 +173,7 @@
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--sc-text-primary);
-    margin-bottom: 6px;
+    margin-bottom: var(--sc-spacing-50);
   }
 
   &__optional {
@@ -316,7 +316,7 @@
     }
 
     input[type='time'] {
-      padding: 6px 8px;
+      padding: var(--sc-spacing-100) var(--sc-spacing-100);
       border: 1px solid var(--sc-border-default);
       border-radius: var(--sc-radius-200);
       background: var(--sc-bg-surface);

@@ -126,8 +126,8 @@
   top: 50%;
   width: 12px;
   height: 12px;
-  margin-left: -6px;
-  margin-top: -6px;
+  margin-left: -var(--sc-spacing-50);
+  margin-top: -var(--sc-spacing-50);
   border-radius: 50%;
   background: var(--sc-bg-primary);
   box-shadow: var(--sc-shadow-sm);
@@ -301,7 +301,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: var(--sc-spacing-50);
   min-width: 200px;
   padding: var(--sc-spacing-100) var(--sc-spacing-300);
   border: 0;
@@ -339,7 +339,7 @@
 .player-state__cost {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--sc-spacing-50);
   font-size: 0.75rem;
   color: var(--sc-color-amber-700);
 }

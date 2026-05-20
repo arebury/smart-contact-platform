@@ -174,7 +174,7 @@ body {
   }
 
   &__body {
-    padding: 16px 18px;
+    padding: var(--sc-spacing-300) 18px;
     overflow-x: auto;
     white-space: pre;
     color: var(--sc-text-primary);

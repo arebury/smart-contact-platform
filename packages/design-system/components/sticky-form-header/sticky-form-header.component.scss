@@ -115,7 +115,7 @@
   &__icon-btn {
     background: var(--sc-bg-secondary-subtle);
     border: 0;
-    padding: 6px;
+    padding: var(--sc-spacing-100);
     color: var(--sc-text-secondary);
     cursor: pointer;
     border-radius: var(--sc-radius-100);

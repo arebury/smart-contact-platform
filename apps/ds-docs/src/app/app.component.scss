@@ -47,7 +47,7 @@
 .shell__meta-tag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--sc-spacing-50);
   color: var(--sc-text-secondary);
   font-weight: 600;
   letter-spacing: 0.14em;
@@ -301,7 +301,7 @@
 
 /* Sidebar footer */
 .shell__nav-foot {
-  padding: 12px 20px 16px;
+  padding: var(--sc-spacing-200) 20px var(--sc-spacing-300);
   border-top: 1px solid var(--sc-border-default);
   display: flex;
   justify-content: space-between;

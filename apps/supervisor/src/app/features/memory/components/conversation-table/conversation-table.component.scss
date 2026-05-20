@@ -206,7 +206,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 6px;
+  padding: var(--sc-spacing-50) var(--sc-spacing-100);
   border: 0;
   border-radius: var(--sc-radius-200);
   background: transparent;

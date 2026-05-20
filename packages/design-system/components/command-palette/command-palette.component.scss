@@ -63,7 +63,7 @@
     font-family: var(--sc-font-family-primary);
     font-size: var(--sc-font-size-50);
     font-weight: var(--sc-font-weight-semibold);
-    padding: 2px 6px;
+    padding: 2px var(--sc-spacing-100);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-100);
     background: var(--sc-bg-default);

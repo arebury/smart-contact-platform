@@ -64,7 +64,7 @@
   }
 
   &__input {
-    padding: 6px var(--sc-spacing-200);
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
     font-family: inherit;
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);

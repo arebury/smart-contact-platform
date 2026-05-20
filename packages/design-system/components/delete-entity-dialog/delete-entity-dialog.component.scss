@@ -16,7 +16,7 @@
 
   &__reset {
     align-self: flex-start;
-    padding: 6px 12px;
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-100);
     background: transparent;

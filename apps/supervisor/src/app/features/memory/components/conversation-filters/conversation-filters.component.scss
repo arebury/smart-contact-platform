@@ -50,7 +50,7 @@
 .memory-failed-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: var(--sc-spacing-50);
   height: 32px;
   padding: 0 11px;
   border: 1px solid var(--sc-color-red-300);
@@ -91,7 +91,7 @@
   align-items: center;
   justify-content: center;
   min-width: 18px;
-  padding: 0 6px;
+  padding: 0 var(--sc-spacing-100);
   height: 18px;
   border-radius: var(--sc-radius-full);
   background: color-mix(in srgb, var(--sc-color-red-200) 80%, transparent);

@@ -111,7 +111,7 @@
     flex: 0 0 auto;
     align-self: flex-start;
     /* 6px Y off-scale spacing (4 → 8 has no in-between step) — kept raw. */
-    padding: 6px var(--sc-spacing-200);
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-200);
     background: var(--sc-bg-surface);

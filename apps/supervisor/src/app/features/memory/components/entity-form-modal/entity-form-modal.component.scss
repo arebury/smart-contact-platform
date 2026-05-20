@@ -27,7 +27,7 @@
     font-size: 0.8125rem;
     font-weight: 500;
     color: var(--sc-text-primary);
-    margin-bottom: 6px;
+    margin-bottom: var(--sc-spacing-50);
   }
 
   &__optional {
@@ -81,7 +81,7 @@
   &__list-values {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: var(--sc-spacing-50);
     margin: var(--sc-spacing-200) 0;
   }
 
@@ -93,7 +93,7 @@
 
   &__list-input {
     flex: 1;
-    padding: 6px 10px;
+    padding: var(--sc-spacing-100) var(--sc-spacing-150);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-200);
     background: var(--sc-bg-surface);
@@ -138,8 +138,8 @@
   &__list-add {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 6px 10px;
+    gap: var(--sc-spacing-50);
+    padding: var(--sc-spacing-100) var(--sc-spacing-150);
     border: 1px dashed var(--sc-border-default);
     border-radius: var(--sc-radius-200);
     background: transparent;

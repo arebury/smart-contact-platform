@@ -485,7 +485,7 @@ table.table {
     gap: 4px;
 
     li {
-      padding: 6px 10px;
+      padding: var(--sc-spacing-100) var(--sc-spacing-150);
       background: var(--sc-bg-elevated);
       border-radius: var(--sc-radius-100);
       font-size: 0.75rem;
@@ -504,7 +504,7 @@ table.table {
 
   .conflict-popover__winner {
     margin: 0 0 var(--sc-spacing-200) 0;
-    padding: 6px 10px;
+    padding: var(--sc-spacing-100) var(--sc-spacing-150);
     background: var(--sc-bg-primary-subtle);
     border-radius: var(--sc-radius-100);
     font-size: 0.75rem;
