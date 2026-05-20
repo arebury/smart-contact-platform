@@ -7,8 +7,9 @@
 
 ## Estado al cerrar (Session 47, 2026-05-20)
 
-**13 commits a `main` pusheados** distribuidos en bloques A-M. Sweep de deudas
-de diseño + consistencia + naming Figma DS literal (7 wrappers SCDS renombrados).
+**17 commits a `main` pusheados** distribuidos en bloques A-P. Sweep maratón de
+deudas de diseño + consistencia + naming Figma DS literal (7 wrappers SCDS renombrados)
++ border-radius tokens + directives prefix.
 
 1. **Tracker refresh post-S46** — 11 entries `home.component.ts` actualizadas (drift cross-monorepo).
 2. **Bloque A — Severity `<p-button>` explícita** en 13 botones list-pages + config aed (cierra inconsistencia post-S34, 38 explícitos vs 13 implícitos).
@@ -19,8 +20,11 @@ de diseño + consistencia + naming Figma DS literal (7 wrappers SCDS renombrados
 7. **Bloque H — Memorias `~/.claude` actualizadas** con nuevo naming SCDS.
 8. **Bloque I-J — Audits defensivos**: i18n keys huérfanas (alto-ruido sin AST walker → registrado #42), NG0950 transitivo (0 candidatos), OnPush coverage 100%.
 9. **Bloques K-L-M — Docs source-of-truth**: backlog `#38-#43` añadidos, tokens `--sc-modal-*` → `--sc-dialog-*` en layers, 25 archivos con stale comments actualizados, DD-8 SCDS DECISIONS, SESSION-LOG S47 entry.
+10. **Bloque N — Border-radius tokens** — 62 sustituciones hardcoded → `--sc-radius-*` en 29 archivos.
+11. **Bloque O — Directives `aed*` → `sc*`** — `scClickOutside` + `scSortable` (consistencia post-DD-8).
+12. **Bloque P — Backlog #44-#48** — registradas deudas no atacadas (off-scale 6px/3px, hardcoded text Memory, icon sizes, edge cases). Todas P3, requieren trigger externo o decisión Marta.
 
-Estado salud cierre S47: tsc verde, build production verde, Netlify verde, husky+lint-staged activo. 0 anti-patterns Angular. 7 wrappers SCDS alineados 1:1 con Kit Pro Figma + PrimeNG → camino libre para Code Connect mapping (Eje 3).
+Estado salud cierre S47: tsc verde, build production verde, Netlify verde, husky+lint-staged activo. 0 anti-patterns Angular. 0 stale refs post-renames. 0 aria-label missing icon-only buttons. 7 wrappers SCDS + 2 directives alineados 1:1 con Kit Pro Figma + PrimeNG / brand consistency → camino libre para Code Connect mapping (Eje 3).
 
 ---
 

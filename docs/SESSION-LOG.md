@@ -41,11 +41,21 @@
 
 - tsc verde ambas apps. Build production verde.
 - Husky+lint-staged corriendo prettier en cada commit (formato consistente).
-- 13 commits a main pusheados, Netlify verde.
+- 17 commits a main pusheados, Netlify verde.
 - 0 drift tracker home.component.ts.
 - 0 anti-patterns Angular NG0950.
 - 0 OnPush missing en componentes producción.
+- 0 stale refs en .spec.ts post-renames.
+- 0 icon-only buttons sin aria-label (a11y básico OK).
+- 0 TODO/FIXME técnicos.
 - 7 wrappers SCDS alineados 1:1 con Kit Pro Figma + PrimeNG → camino libre para Code Connect mapping.
+
+### Extensión bloques N-P
+
+12. **Bloque N — Border-radius hardcoded → tokens** — 62 sustituciones en 29 archivos: `4px` → `--sc-radius-100`, `6px` → `--sc-radius-200`, `999px`/`9999px` → `--sc-radius-full`, etc. Cero cambio visual. Skipped: 36 hits `3px` (off-token, requiere decisión Marta — registrado #45). Commit `3c69fce`.
+13. **Bloque O — Rename `aedClickOutside` + `aedSortable` → `sc*`** — 10 archivos. Post-DD-8 directive prefix consistency (las únicas excepciones legítimas `aed-*` son las routes/folders `features/config/aed/`, donde `aed` es feature name). Commit `1ce6b78`.
+14. **Bloque P — Backlog updates #44-#48** — registradas deudas no-atacadas: off-scale spacing 6px (24), off-scale radius 3px (36), edge cases radius 1/10px (3), hardcoded text Memory (12), icon size hardcoded (208). Todas P3, no atacar sin trigger externo/decisión humana. Commit `7380b3d`.
+15. **Audit final post-N/O/P** — 0 z-index >= 1000 literal (solo comments). 0 aria-label missing en icon buttons (a11y OK). 0 TODO/FIXME. localStorage keys inconsistency detectada (`sc_theme` snake_case vs `smartcontact_*` legacy vs `sc-ds-validated` kebab) — NO renombrar sin invalidar storage usuarios (deuda registrada conscientemente: cambiar key rompe persistencia). 11 `::ng-deep` restantes son load-bearing en SCDS chrome reset (dialog/toast/popover). 9 `!important` restantes idem.
 
 ---
 
