@@ -14,6 +14,17 @@
   display: block;
 }
 
+/* Override scoped del padding del body del sc-dialog · réplica legacy
+ * `<Modal.Body !p-0>`. El bulk modal v26 usa una grid 720×200 que ocupa
+ * todo el body sin padding (cada celda paga su padding interno). Sin
+ * este override, el padding canónico 17.5/17.5 del dialog reduce el
+ * ancho efectivo y descoloca la grid + las acciones del footer leen
+ * más apretadas. ::ng-deep necesario porque el body vive fuera del
+ * scope encapsulado del modal padre. */
+:host ::ng-deep .sc-dialog__body {
+  padding: 0;
+}
+
 .bulkv26 {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -75,10 +86,10 @@
   color: var(--sc-text-primary);
   letter-spacing: -0.025em;
 
-  /* Hero counter cambia → bump (260ms 1.03, sutil para no llamar
-   * demasiado la atención sobre el número 88px). SCDS partial. */
-  &.is-bumping {
-    animation: sc-bump 260ms var(--sc-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
+  /* Hero counter cambia al togglear → pulse 1.08 / 360ms (réplica legacy
+   * `BulkTranscriptionModal.tsx`). Sincronizado con `is-pulsing` en caption. */
+  &.is-pulsing {
+    animation: sc-pulse 360ms var(--sc-ease-out, cubic-bezier(0.16, 1, 0.3, 1));
   }
 }
 

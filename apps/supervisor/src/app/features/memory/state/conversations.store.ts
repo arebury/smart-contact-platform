@@ -1,8 +1,25 @@
 import { computed, Injectable, signal } from '@angular/core';
 
-import type { Conversation } from '../data/conversation.types';
+import type { Conversation, TranscriptionLine } from '../data/conversation.types';
+import { TRANSCRIPTION_POOL } from '../data/conversations-mock';
 import { EMPTY_FILTERS, type MemoryConversationFilters } from '../data/conversation-filters.types';
 import { DEFAULT_SAMPLE_ID, getSample, MOCK_SAMPLES } from '../data/mock-samples';
+
+/**
+ * Selecciona una plantilla de transcripción determinística para una
+ * conversación recién marcada como transcrita (mock-only). Usa el hash
+ * estable del id para que la misma conversación reciba siempre la misma
+ * plantilla entre reloads. Chats reciben la plantilla CHAT; llamadas rotan
+ * entre las 5 plantillas call.
+ */
+function pickTranscriptionMock(c: Conversation): readonly TranscriptionLine[] {
+  if (c.channel === 'chat') return TRANSCRIPTION_POOL.chat;
+  const pool = TRANSCRIPTION_POOL.call;
+  if (pool.length === 0) return [];
+  let hash = 0;
+  for (let i = 0; i < c.id.length; i++) hash = (hash * 31 + c.id.charCodeAt(i)) | 0;
+  return pool[Math.abs(hash) % pool.length];
+}
 
 /**
  * Signal store de conversaciones Memory.
@@ -197,12 +214,19 @@ export class ConversationsStore {
           else successIds.push(id);
         }
 
-        // Mutar conversaciones: marcar success como transcribed, failure
-        // como hasFailedTranscription.
+        // Mutar conversaciones: marcar success como transcribed (cargando
+        // líneas mock si no las tiene → el player necesita `transcription`
+        // populated para mostrar contenido, no solo el flag), failure como
+        // hasFailedTranscription.
         this._conversations.update((all) =>
           all.map((c) => {
             if (successIds.includes(c.id)) {
-              return { ...c, hasTranscription: true, hasFailedTranscription: false };
+              return {
+                ...c,
+                hasTranscription: true,
+                hasFailedTranscription: false,
+                transcription: c.transcription ?? pickTranscriptionMock(c),
+              };
             }
             if (failedIds.includes(c.id)) {
               return { ...c, hasFailedTranscription: true };

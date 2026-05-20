@@ -85,25 +85,26 @@
         </button>
       }
 
-      <!-- S50 toolbar inline (legacy parity): separator + 4 action icons.
-           Transcribir/Marcar como leídas muestran badge con el conteo
-           relevante. Download siempre habilitado. Help abre tooltip o
-           modal doc (stub por ahora). -->
+      <!-- S50/S52 toolbar inline (legacy parity): separator + 4 action icons.
+           Las 3 acciones bulk (Transcribir / Download / Marcar leídas) están
+           DISABLED hasta que el usuario seleccione filas — no se opera sobre
+           "todo lo filtrado" por defecto. Badge = nº de seleccionadas.
+           Help (último) siempre habilitado. -->
       <span class="memory-conversation-filters__divider" aria-hidden="true"></span>
 
       <button
         type="button"
         class="memory-toolbar-icon"
         [attr.aria-label]="
-          'memory.conversations.filters.transcribe_aria' | translate: { count: transcribeBadge() }
+          'memory.conversations.filters.transcribe_aria' | translate: { count: selectedCount() }
         "
         [attr.title]="'memory.conversations.filters.transcribe' | translate"
         (click)="bulkTranscribeRequested.emit()"
-        [disabled]="transcribeBadge() === 0"
+        [disabled]="!bulkActionsEnabled()"
       >
         <lucide-icon [img]="transcribeIcon" [size]="18" aria-hidden="true" />
-        @if (transcribeBadge() > 0) {
-          <span class="memory-toolbar-icon__badge">{{ transcribeBadge() }}</span>
+        @if (bulkActionsEnabled()) {
+          <span class="memory-toolbar-icon__badge">{{ selectedCount() }}</span>
         }
       </button>
 
@@ -113,6 +114,7 @@
         [attr.aria-label]="'memory.conversations.filters.download' | translate"
         [attr.title]="'memory.conversations.filters.download' | translate"
         (click)="downloadRequested.emit()"
+        [disabled]="!bulkActionsEnabled()"
       >
         <lucide-icon [img]="downloadIcon" [size]="18" aria-hidden="true" />
       </button>

@@ -395,8 +395,7 @@ export class AgentsListPageComponent {
 
   /** Cancel the inline rename — also drops the just-created draft so the user
    * doesn't end up with a stray "Copia de …" they didn't want. */
-  protected onRenameCancel(id: number): void {
-    const target = this.agentsStore.getAgent(id);
+  protected onRenameCancel(_id: number): void {
     this.renamingId.set(null);
   }
 

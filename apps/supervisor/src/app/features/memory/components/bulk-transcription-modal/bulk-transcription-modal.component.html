@@ -15,12 +15,7 @@
       <span class="bulkv26__label">{{ 'memory.bulk_transcription.total_label' | translate }}</span>
       <div class="bulkv26__hero-stack">
         <div class="bulkv26__hero-row">
-          <span
-            class="bulkv26__hero-number"
-            [class.is-bumping]="bumpKey() > 0"
-            [attr.key]="bumpKey()"
-            aria-live="polite"
-          >
+          <span class="bulkv26__hero-number" [class.is-pulsing]="isPulsing()" aria-live="polite">
             {{ heroCount() }}
           </span>
           <!-- Ghost "+N" / "−N" delta-fly · 750ms float-up (S49 SCDS animation).
@@ -54,11 +49,7 @@
     </section>
 
     <!-- ── Decision cell · Análisis ── -->
-    <section
-      class="bulkv26__cell bulkv26__cell--decision"
-      [class.is-shaking]="shakeKey() > 0"
-      [attr.key-shake]="shakeKey()"
-    >
+    <section class="bulkv26__cell bulkv26__cell--decision" [class.is-shaking]="isShaking()">
       <span class="bulkv26__label">{{
         'memory.bulk_transcription.analysis_label' | translate
       }}</span>
@@ -89,15 +80,14 @@
             <span
               class="bulkv26__caption-num"
               [class.is-on]="toggleOn()"
-              [class.is-pulsing]="pulseKey() > 0"
-              [attr.key-pulse]="pulseKey()"
+              [class.is-pulsing]="isPulsing()"
             >
               {{ nTrans() + nAnBase() }}
             </span>
             <span
               class="bulkv26__caption-pred"
               [class.is-on]="toggleOn()"
-              [class.is-pulsing]="pulseKey() > 0"
+              [class.is-pulsing]="isPulsing()"
             >
               {{ captionLabel() }}
             </span>

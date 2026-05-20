@@ -80,12 +80,13 @@ export class BulkTranscriptionModalComponent {
   /** Estado del toggle controlado por el usuario. El estado efectivo `toggleOn`
    *  aplica el natural-default + el lock cuando no se puede transcribir. */
   protected readonly userToggleOn = signal(false);
-  protected readonly shakeKey = signal(0);
-  protected readonly pulseKey = signal(0);
-  protected readonly bumpKey = signal(0);
-  /** Ghost "+N" / "−N" flotante (sc-delta-fly 750ms) cuando cambia el
-   *  heroCount tras togglear análisis. `null` = sin ghost activo. La key
-   *  fuerza remount del *@if* para re-disparar el keyframe al cambiar. */
+  /** Pulse simultáneo hero + caption al togglear (legacy: scale 1.08, 360ms). */
+  protected readonly isPulsing = signal(false);
+  /** Shake de la cell decision cuando toggle disabled + click (C1 nudge). */
+  protected readonly isShaking = signal(false);
+  /** Ghost "+N" / "−N" flotante (sc-delta-fly 750ms). Solo aparece al
+   *  togglear cuando `delta = (next ? 1 : -1) * nAnBase` ≠ 0. Se limpia
+   *  tras la animación. Patrón legacy `BulkTranscriptionModal.tsx`. */
   protected readonly deltaGhost = signal<{ key: number; value: number } | null>(null);
   protected readonly isLoading = signal(false);
   protected readonly error = signal<string | null>(null);
@@ -195,31 +196,48 @@ export class BulkTranscriptionModalComponent {
       this.error.set(null);
     });
 
-    // Pulse hero al cambiar heroCount + ghost delta-fly "+N"/"−N"
-    // (réplica del prototipo React `BulkTranscriptionModal.tsx · v26`).
-    let prevHero = this.heroCount();
-    let ghostKey = 0;
+    // Solo limpiar ghost stale al cerrar/abrir el modal (legacy clear-on-open).
     effect(() => {
-      const h = this.heroCount();
-      if (this.visible() && h !== prevHero) {
-        this.bumpKey.update((k) => k + 1);
-        const delta = h - prevHero;
-        if (delta !== 0) {
-          ghostKey += 1;
-          this.deltaGhost.set({ key: ghostKey, value: delta });
-        }
-      }
-      prevHero = h;
+      if (!this.visible()) this.deltaGhost.set(null);
     });
+  }
+
+  /** Toggle pulse + flash · réplica `BulkTranscriptionModal.tsx`
+   *  `handleToggle`: el ghost solo aparece al click del toggle (no en
+   *  cualquier cambio de heroCount), con `delta = (next ? 1 : -1) * nAnBase`. */
+  private ghostKey = 0;
+  private pulseTimer: ReturnType<typeof setTimeout> | null = null;
+  private ghostTimer: ReturnType<typeof setTimeout> | null = null;
+  private firePulseAndFlash(delta: number): void {
+    // Pulse hero + caption al unísono (legacy: animate-sc-pulse simultáneo).
+    this.isPulsing.set(false);
+    requestAnimationFrame(() => {
+      this.isPulsing.set(true);
+      if (this.pulseTimer) clearTimeout(this.pulseTimer);
+      this.pulseTimer = setTimeout(() => this.isPulsing.set(false), 360);
+    });
+    // Ghost solo si el delta produce un cambio real en el heroCount.
+    if (delta !== 0) {
+      this.ghostKey += 1;
+      this.deltaGhost.set({ key: this.ghostKey, value: delta });
+      if (this.ghostTimer) clearTimeout(this.ghostTimer);
+      this.ghostTimer = setTimeout(() => this.deltaGhost.set(null), 800);
+    }
   }
 
   protected onToggleChange(next: boolean): void {
     if (this.toggleDisabled()) {
-      // C1 nudge: shake la cell decisión.
-      this.shakeKey.update((k) => k + 1);
+      // C1 nudge: shake la cell decisión (legacy refire pattern OFF→ON).
+      this.isShaking.set(false);
+      requestAnimationFrame(() => {
+        this.isShaking.set(true);
+        setTimeout(() => this.isShaking.set(false), 280);
+      });
       return;
     }
-    this.pulseKey.update((k) => k + 1);
+    // Delta = ± nAnBase (legacy): el toggle suma/resta las analizables a hero.
+    const delta = (next ? 1 : -1) * this.nAnBase();
+    this.firePulseAndFlash(delta);
     this.userToggleOn.set(next);
   }
 

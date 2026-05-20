@@ -4,3 +4,7 @@ npx lint-staged
 # un locale y object en otro, `translate.instant(key)` devuelve "[object Object]"
 # literal. Bloquea el commit si hay tipo divergente cross-locale.
 npm run i18n:audit
+
+# Lint · evita CI rojo en main (S51): GitHub Actions corre `ng lint` y
+# bloquea push si hay errores. Pre-commit local previene el round-trip.
+npm run lint

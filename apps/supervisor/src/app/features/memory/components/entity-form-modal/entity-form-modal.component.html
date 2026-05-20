@@ -109,11 +109,12 @@
 
               @if (draft.expanded) {
                 <div class="entity-form__synonyms-block">
-                  <label class="entity-form__synonyms-label">
+                  <label class="entity-form__synonyms-label" [attr.for]="'syn-input-' + $index">
                     {{ 'memory.entities.form.synonyms_label' | translate }}
                   </label>
                   <input
                     type="text"
+                    [id]="'syn-input-' + $index"
                     class="entity-form__synonyms-input"
                     [placeholder]="'memory.entities.form.synonyms_placeholder' | translate"
                     [value]="draft.synonymsCsv"

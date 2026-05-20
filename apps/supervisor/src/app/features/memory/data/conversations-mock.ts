@@ -145,6 +145,39 @@ const CHAT_CONSULTA: readonly TranscriptionLine[] = [
   },
 ];
 
+/**
+ * Pool de plantillas usado por `ConversationsStore.dispatchTranscription`
+ * para rellenar `transcription` en las conversaciones que el usuario
+ * dispatcha (mock-only). Sin este pool, marcaríamos `hasTranscription: true`
+ * sin contenido → player vacío. Cada conversación recibe una plantilla por
+ * canal (chat siempre `CHAT_CONSULTA`, llamada elegida por hash del id).
+ */
+export const TRANSCRIPTION_POOL: {
+  readonly chat: readonly TranscriptionLine[];
+  readonly call: readonly (readonly TranscriptionLine[])[];
+} = {
+  chat: [
+    { time: '00:00', speaker: 'Speaker 1', text: 'Hola, ¿en qué puedo ayudarle?' },
+    {
+      time: '00:08',
+      speaker: 'Speaker 2',
+      text: 'Hola, quiero saber si vuestro plan Pro tiene integración con CRM.',
+    },
+    {
+      time: '00:15',
+      speaker: 'Speaker 1',
+      text: 'Sí, integra con los principales CRM del mercado. ¿Cuál usáis?',
+    },
+    { time: '00:22', speaker: 'Speaker 2', text: 'Salesforce. Y nos interesa también la API.' },
+    {
+      time: '00:30',
+      speaker: 'Speaker 1',
+      text: 'Perfecto, ambos casos están cubiertos. Le envío documentación al correo.',
+    },
+  ],
+  call: [],
+};
+
 const INTERNA_CONSULTA: readonly TranscriptionLine[] = [
   {
     time: '00:00',
@@ -157,6 +190,17 @@ const INTERNA_CONSULTA: readonly TranscriptionLine[] = [
     speaker: 'Agente',
     text: 'Sí, propongo que llevemos el caso a comité para acordar la compensación adecuada.',
   },
+];
+
+// Asignación call-pool tras declarar las plantillas individuales (definidas
+// arriba). El array literal del export al principio del archivo no puede
+// referenciar las constantes que aún no existen, así que se rellena aquí.
+(TRANSCRIPTION_POOL as { call: readonly (readonly TranscriptionLine[])[] }).call = [
+  SOPORTE_AVERIA,
+  VENTAS_PLAN,
+  SOPORTE_TECNICO,
+  FACTURACION_DISPUTA,
+  POSTVENTA_ELOGIO,
 ];
 
 export const MOCK_CONVERSATIONS: readonly Conversation[] = [

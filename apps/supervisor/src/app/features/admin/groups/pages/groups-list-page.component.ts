@@ -344,8 +344,7 @@ export class GroupsListPageComponent {
     });
   }
 
-  protected onRenameCancel(id: number): void {
-    const target = this.groupsStore.getGroup(id);
+  protected onRenameCancel(_id: number): void {
     this.renamingId.set(null);
   }
 

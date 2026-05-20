@@ -267,8 +267,7 @@ export class UsersListPageComponent {
     });
   }
 
-  protected onRenameCancel(id: number): void {
-    const target = this.usersStore.getUser(id);
+  protected onRenameCancel(_id: number): void {
     this.renamingId.set(null);
   }
 

@@ -96,10 +96,14 @@ export class ConversationFiltersComponent {
   protected readonly markReadIcon = CheckCheck;
   protected readonly helpIcon = CircleHelp;
 
-  /** Badge del botón "Transcribir": selection si hay, total filtered si no. */
-  protected readonly transcribeBadge = computed(() =>
-    this.selectedCount() > 0 ? this.selectedCount() : this.filteredCount(),
-  );
+  /** Badge del botón "Transcribir": número de seleccionadas. Disabled si 0.
+   *  S52: las 3 acciones (Transcribir / Download / Marcar leídas) requieren
+   *  selección explícita — el operador no descarga/procesa 75 filas
+   *  accidentalmente con un click. */
+  protected readonly transcribeBadge = computed(() => this.selectedCount());
+
+  /** Las 3 acciones bulk están enabled SOLO cuando hay selección. */
+  protected readonly bulkActionsEnabled = computed(() => this.selectedCount() > 0);
 
   /** Hora última búsqueda en formato `HH:mm - dd/mm/yyyy` ES. */
   protected readonly lastSearchLabel = computed(() => {

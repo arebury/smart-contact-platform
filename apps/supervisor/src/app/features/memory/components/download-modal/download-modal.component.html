@@ -8,7 +8,7 @@
 >
   <div class="download-modal">
     <div class="download-modal__options" role="group">
-      <label class="download-modal__option" [class.is-disabled]="!hasRecordings()">
+      <div class="download-modal__option" [class.is-disabled]="!hasRecordings()">
         <sc-checkbox
           [state]="recordingsChecked() && hasRecordings() ? 'all' : 'none'"
           [disabled]="!hasRecordings()"
@@ -25,9 +25,9 @@
             </span>
           }
         </div>
-      </label>
+      </div>
 
-      <label class="download-modal__option" [class.is-disabled]="!hasChats()">
+      <div class="download-modal__option" [class.is-disabled]="!hasChats()">
         <sc-checkbox
           [state]="chatsChecked() && hasChats() ? 'all' : 'none'"
           [disabled]="!hasChats()"
@@ -44,7 +44,7 @@
             </span>
           }
         </div>
-      </label>
+      </div>
     </div>
 
     <div class="download-modal__gdpr" role="note">
