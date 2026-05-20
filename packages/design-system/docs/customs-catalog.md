@@ -88,6 +88,10 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 - **Implementación**: AED `app.component.html` template del `<p-toast>` + estilos en `packages/design-system/styles/_sc-toast.scss` (`&__action`, `&__action--solid`).
 - **Para qué**: undo pattern post-acción destructiva ("Agente eliminado · Deshacer"). Critical UX SC.
 
+**Decisión consciente: botón texto, NO countdown circular** (S47 evaluado y descartado). Patrón countdown circular (Notion / Linear / Twitter) genera urgencia visual innecesaria en herramientas enterprise + falla en accesibilidad (28×28px < 44×44 WCAG 2.1 AA touch target, screen-reader solo oye aria-label sin tiempo) + falacia común "urgencia visual = menos errores" (en realidad induce click-en-pánico). La urgencia debe ser **proporcional al riesgo**: acciones de bajo riesgo (toast undo) usan texto sin presión visual; acciones destructivas reales (eliminar agente, re-transcribir, restaurar fábrica) usan modal con confirmación type-CONFIRMAR — NO toast.
+
+Para el caso futuro de backend real: el grace period del undo vive **server-side** (soft commit con timestamp + reversal en N segundos), no en la UI. La urgencia visual NO afecta data integrity — eso lo cubren `CrossTabLockService` + optimistic locking (ETags, version numbers) cuando exista DB.
+
 ### 2.2 Toast icon-square chrome
 
 - **Figma**: el icono va "pelado" (svg sin background).

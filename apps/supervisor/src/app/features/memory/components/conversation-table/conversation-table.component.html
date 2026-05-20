@@ -42,6 +42,7 @@
           [class.is-selected]="selected"
           [class.is-processing]="processing"
           [class.is-analyzing]="analyzing"
+          [class.is-failed]="conv.hasFailedTranscription"
           class="memory-conversations-table__row"
           tabindex="0"
           (click)="onRowClick(conv)"
