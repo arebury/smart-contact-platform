@@ -52,6 +52,21 @@ cambió esa sesión. El resto queda estable.
   `start:ds-docs` arranca cada una. Para Playwright local con dev server,
   usar `--no-hmr` (ng serve plano no enlaza puerto en Angular 21 de este repo).
 
+## Red de seguridad cross-app
+
+`npm run e2e` corre los smoke tests Playwright que validan AED + Memory +
+ds-docs en una pasada (~30-90s). **Claude debe correrlo por inercia**, sin
+que Rafa lo pida, tras cambios que afecten >1 surface:
+
+- Cualquier toque en `packages/design-system/` (componentes, tokens, partials globales).
+- Cambios en `apps/supervisor/src/app/core/` (servicios shared, directives, layout, `app.config.ts`).
+- Cambios en `assets/i18n/*.json` (añadir/eliminar/consolidar keys).
+- Renames cross-app (folder/selector/class de componente SCDS).
+- Audits/refactors con regex masivo (>20 archivos tocados).
+
+Detalle operativo + lista de tests + protocolo cuando algo falla:
+[`tests/e2e/README.md`](tests/e2e/README.md).
+
 ## Convenciones de marca
 
 - Brand prefix de componentes: **`sc-`**. Folder
