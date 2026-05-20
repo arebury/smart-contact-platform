@@ -1,6 +1,7 @@
 <div class="memory-conversation-filters">
   <div class="memory-conversation-filters__grid">
     <sc-multi-select
+      size="sm"
       [label]="'memory.conversations.filters.services_label' | translate"
       [options]="serviceOptions"
       optionLabel="label"
@@ -12,6 +13,7 @@
     />
 
     <sc-datepicker
+      size="sm"
       [label]="'memory.conversations.filters.date_label' | translate"
       [placeholder]="'memory.conversations.filters.date_placeholder' | translate"
       [value]="filters().date"
@@ -20,6 +22,7 @@
     />
 
     <sc-input
+      size="sm"
       [label]="'memory.conversations.filters.origin_label' | translate"
       [placeholder]="'memory.conversations.filters.origin_placeholder' | translate"
       [value]="filters().origin"
@@ -27,6 +30,7 @@
     />
 
     <sc-input
+      size="sm"
       [label]="'memory.conversations.filters.destination_label' | translate"
       [placeholder]="'memory.conversations.filters.destination_placeholder' | translate"
       [value]="filters().destination"
@@ -34,6 +38,7 @@
     />
 
     <sc-multi-select
+      size="sm"
       [label]="'memory.conversations.filters.groups_label' | translate"
       [options]="groupOptions"
       optionLabel="label"
@@ -45,6 +50,7 @@
     />
 
     <sc-multi-select
+      size="sm"
       [label]="'memory.conversations.filters.agents_label' | translate"
       [options]="agentOptions"
       optionLabel="label"
