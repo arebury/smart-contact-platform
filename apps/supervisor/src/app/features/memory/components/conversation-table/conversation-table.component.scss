@@ -112,7 +112,7 @@
     &:focus-visible {
       outline: 2px solid var(--sc-color-electric-blue-500);
       outline-offset: 2px;
-      border-radius: 2px;
+      border-radius: var(--sc-radius-50);
     }
   }
 
@@ -208,7 +208,7 @@
   justify-content: center;
   padding: 4px 6px;
   border: 0;
-  border-radius: 6px;
+  border-radius: var(--sc-radius-200);
   background: transparent;
   cursor: pointer;
   transition: background-color 200ms ease-out;

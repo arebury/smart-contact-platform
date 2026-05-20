@@ -9,7 +9,7 @@
     width: 64px;
     height: 64px;
     border: 1px solid var(--sc-border-default);
-    border-radius: 9999px;
+    border-radius: var(--sc-radius-full);
     background: var(--sc-bg-subtle);
     overflow: hidden;
     cursor: pointer;

@@ -364,7 +364,7 @@ table.table {
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
-  border-radius: 999px;
+  border-radius: var(--sc-radius-full);
   font-size: 0.6875rem;
   font-weight: 600;
   text-transform: uppercase;

@@ -268,7 +268,7 @@ select.field__input {
   &:focus-within > span {
     outline: 2px solid var(--sc-border-focus);
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: var(--sc-radius-50);
   }
 }
 

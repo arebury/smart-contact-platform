@@ -21,7 +21,7 @@
   padding: 0 var(--sc-spacing-200);
   background: var(--sc-bg-secondary-subtle);
   border: 1px solid var(--sc-border-default);
-  border-radius: 999px;
+  border-radius: var(--sc-radius-full);
   font-size: var(--sc-font-size-50, 12px);
   color: var(--sc-text-secondary);
 

@@ -117,7 +117,7 @@ body {
   margin: 0;
   background: var(--sc-bg-elevated);
   border: 1px solid var(--sc-border-default);
-  border-radius: 6px;
+  border-radius: var(--sc-radius-200);
   overflow: hidden;
   font-family: var(--dsd-font-mono);
   font-size: 12.5px;
@@ -187,7 +187,7 @@ body {
   }
   &__body::-webkit-scrollbar-thumb {
     background: var(--sc-color-gray-300);
-    border-radius: 8px;
+    border-radius: var(--sc-radius-300);
   }
 }
 
