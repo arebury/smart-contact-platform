@@ -117,7 +117,7 @@
   }
 
   &__id {
-    font-family: var(--sc-font-family-mono, ui-monospace, SFMono-Regular, Menlo, monospace);
+    font-family: var(--sc-font-family-mono);
     font-size: var(--sc-font-size-100);
     color: var(--sc-text-subtle);
     letter-spacing: 0.02em;
@@ -136,11 +136,7 @@
    * siga siendo legible. El barrido animado tipo "shimmer" comunica
    * actividad sin spinner por fila. */
   tr.is-processing:not(.is-deleted) {
-    background: color-mix(
-      in srgb,
-      var(--sc-color-amber-100, var(--sc-color-orange-100)) 50%,
-      transparent
-    );
+    background: color-mix(in srgb, var(--sc-color-amber-100) 50%, transparent);
     position: relative;
     overflow: hidden;
 
@@ -151,8 +147,7 @@
       background: linear-gradient(
         90deg,
         transparent 0%,
-        color-mix(in srgb, var(--sc-color-amber-300, var(--sc-color-orange-300)) 40%, transparent)
-          50%,
+        color-mix(in srgb, var(--sc-color-amber-300) 40%, transparent) 50%,
         transparent 100%
       );
       animation: row-shimmer 2200ms ease-in-out infinite;
@@ -236,7 +231,7 @@
     justify-content: center;
     width: 14px;
     height: 14px;
-    border-radius: 999px;
+    border-radius: var(--sc-radius-full);
     background: var(--sc-bg-surface);
     color: var(--sc-text-danger);
   }
@@ -252,7 +247,7 @@
     min-width: 16px;
     height: 16px;
     padding: 0 4px;
-    border-radius: 999px;
+    border-radius: var(--sc-radius-full);
     background: var(--sc-text-info);
     color: var(--sc-color-gray-0);
     font-size: 10px;

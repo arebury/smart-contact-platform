@@ -17,14 +17,13 @@
   gap: 8px;
   height: 36px;
   padding: 0 12px;
-  border: 1px dashed
-    color-mix(in srgb, var(--sc-color-amber-500, var(--sc-color-orange-500)) 40%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--sc-color-amber-100, var(--sc-color-orange-100)) 70%, white);
-  font-family: var(--sc-font-family-base, inherit);
+  border: 1px dashed color-mix(in srgb, var(--sc-color-amber-500) 40%, transparent);
+  border-radius: var(--sc-radius-full);
+  background: color-mix(in srgb, var(--sc-color-amber-100) 70%, white);
+  font-family: var(--sc-font-family-primary);
   font-size: 12px;
   font-weight: 500;
-  color: var(--sc-color-amber-800, var(--sc-color-orange-800));
+  color: var(--sc-color-amber-800);
   cursor: pointer;
   transition:
     border-color 160ms ease,
@@ -32,16 +31,8 @@
     transform 100ms ease;
 
   &:hover {
-    border-color: color-mix(
-      in srgb,
-      var(--sc-color-amber-600, var(--sc-color-orange-600)) 60%,
-      transparent
-    );
-    background: color-mix(
-      in srgb,
-      var(--sc-color-amber-200, var(--sc-color-orange-200)) 80%,
-      white
-    );
+    border-color: color-mix(in srgb, var(--sc-color-amber-600) 60%, transparent);
+    background: color-mix(in srgb, var(--sc-color-amber-200) 80%, white);
   }
 
   &:active {
@@ -49,7 +40,7 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--sc-color-amber-500, var(--sc-color-orange-500));
+    outline: 2px solid var(--sc-color-amber-500);
     outline-offset: 2px;
   }
 }
@@ -58,8 +49,8 @@
   display: inline-block;
   padding: 1px 6px;
   border-radius: 3px;
-  background: color-mix(in srgb, var(--sc-color-amber-200, var(--sc-color-orange-200)) 90%, white);
-  color: var(--sc-color-amber-900, var(--sc-color-orange-900));
+  background: color-mix(in srgb, var(--sc-color-amber-200) 90%, white);
+  color: var(--sc-color-amber-900);
   font-size: 9px;
   font-weight: 700;
   text-transform: uppercase;
@@ -68,7 +59,7 @@
 
 .mock-sample-switcher__icon {
   display: inline-flex;
-  color: var(--sc-color-amber-800, var(--sc-color-orange-800));
+  color: var(--sc-color-amber-800);
   transition: transform 160ms ease;
 
   .mock-sample-switcher__trigger:hover & {
@@ -78,7 +69,7 @@
 
 .mock-sample-switcher__label-prefix {
   display: none;
-  color: var(--sc-color-amber-800, var(--sc-color-orange-800));
+  color: var(--sc-color-amber-800);
 
   @media (min-width: 640px) {
     display: inline;
@@ -86,7 +77,7 @@
 }
 
 .mock-sample-switcher__current {
-  color: var(--sc-color-amber-900, var(--sc-color-orange-900));
+  color: var(--sc-color-amber-900);
   font-weight: 600;
 }
 
@@ -118,7 +109,7 @@
 
 .mock-sample-switcher__list-label {
   padding: 8px 10px 6px;
-  font-family: var(--sc-font-family-base, inherit);
+  font-family: var(--sc-font-family-primary);
   font-size: 11px;
   font-weight: 500;
   text-transform: uppercase;
@@ -134,7 +125,7 @@
   gap: 2px;
   padding: 10px 10px;
   border: 0;
-  border-radius: var(--sc-radius-100, 4px);
+  border-radius: var(--sc-radius-100);
   background: transparent;
   text-align: left;
   cursor: pointer;

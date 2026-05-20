@@ -121,8 +121,8 @@
     transition: background-color 200ms ease-out;
 
     &:hover {
-      background: var(--sc-color-red-100, #fee2e2);
-      color: var(--sc-color-red-700, #b91c1c);
+      background: var(--sc-color-red-100);
+      color: var(--sc-color-red-700);
     }
   }
 

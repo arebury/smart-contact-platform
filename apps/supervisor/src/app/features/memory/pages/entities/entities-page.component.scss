@@ -170,7 +170,7 @@
   display: inline-flex;
   align-items: center;
   padding: 2px 8px;
-  border-radius: 999px;
+  border-radius: var(--sc-radius-full);
   background: var(--sc-bg-primary-subtle);
   color: var(--sc-bg-primary);
   font-size: 0.6875rem;
