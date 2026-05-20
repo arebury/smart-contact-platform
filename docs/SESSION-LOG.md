@@ -56,6 +56,15 @@
 13. **Bloque O — Rename `aedClickOutside` + `aedSortable` → `sc*`** — 10 archivos. Post-DD-8 directive prefix consistency (las únicas excepciones legítimas `aed-*` son las routes/folders `features/config/aed/`, donde `aed` es feature name). Commit `1ce6b78`.
 14. **Bloque P — Backlog updates #44-#48** — registradas deudas no-atacadas: off-scale spacing 6px (24), off-scale radius 3px (36), edge cases radius 1/10px (3), hardcoded text Memory (12), icon size hardcoded (208). Todas P3, no atacar sin trigger externo/decisión humana. Commit `7380b3d`.
 15. **Audit final post-N/O/P** — 0 z-index >= 1000 literal (solo comments). 0 aria-label missing en icon buttons (a11y OK). 0 TODO/FIXME. localStorage keys inconsistency detectada (`sc_theme` snake_case vs `smartcontact_*` legacy vs `sc-ds-validated` kebab) — NO renombrar sin invalidar storage usuarios (deuda registrada conscientemente: cambiar key rompe persistencia). 11 `::ng-deep` restantes son load-bearing en SCDS chrome reset (dialog/toast/popover). 9 `!important` restantes idem.
+16. **Audit S47-ext final** — Cerrado lo que NO requiere input externo. Hallazgos remanentes (todos P3 con dependencia humana, NO atacar):
+    - 0 unused imports reales (3 falsos positivos del scan: `Users as UsersIcon` alias + types usados vía `model.required<T>()`).
+    - 0 god-class (`agent-form-page.component.ts` con 903 líneas es el más grande pero arquitectónicamente coherente, no fragmentar sin trigger feature).
+    - 0 `$any()` problemáticos (los 10 hits son patrón estándar Angular para `event.target.value` sin formControl).
+    - **#49** Box-shadow custom 5 hits divergentes con `--sc-shadow-xs` → Marta decide.
+    - **#50** Transition durations 200ms × 23 + 120ms × 5 sin tokens `--sc-duration-*` → Rafa+Marta sistema escala.
+    - **#51** i18n duplicate values 115 strings (`Estado` × 11, `Fecha` × 5) → traductor dependent (consolidar puede romper contexto).
+    - **#52** SCDS barrel 13 type aliases sin consumer en `apps/` → public API defensiva, decisión consciente mantener.
+    - APIs SCDS wrappers `[size]`/`[disabled]` 100% consistentes (model<boolean> en CVA wrappers, input<boolean> en non-CVA — diferencia justificada).
 
 ---
 
