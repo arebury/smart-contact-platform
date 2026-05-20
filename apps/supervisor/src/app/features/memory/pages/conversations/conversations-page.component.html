@@ -39,7 +39,16 @@
 <sc-memory-conversation-player-modal
   [visible]="playerOpen()"
   [conversation]="playerConversation()"
+  [isTranscribing]="playerIsTranscribing()"
+  [isAnalyzing]="playerIsAnalyzing()"
   (closed)="onPlayerClose()"
+  (requestRetranscriptionConfirm)="onPlayerRequestRetransConfirm($event)"
+/>
+
+<sc-memory-retranscription-confirm-modal
+  [visible]="retransConfirmOpen()"
+  (cancelled)="onRetransCancel()"
+  (confirmed)="onRetransConfirm()"
 />
 
 <sc-memory-bulk-transcription-modal

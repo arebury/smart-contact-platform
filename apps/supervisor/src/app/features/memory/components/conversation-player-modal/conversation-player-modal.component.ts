@@ -48,8 +48,15 @@ import type { Conversation, TranscriptionLine } from '../../data/conversation.ty
  *     └ Tab body con state machine: Decision / Processing / Terminal / Active.
  *   Footer  ─ "Cerrar".
  *
- * Diferidos a iter siguiente / post-rollout (ver `docs/memory-migration-inventory.md §10`):
- *  - Re-transcribir + RetranscriptionConfirmModal.
+ * Cocinado S46 (§10 #1):
+ *  - Botón RotateCcw "Re-transcribir" en `.player-tabs__actions` (visible
+ *    solo cuando `c.hasTranscription === true`).
+ *  - `<sc-memory-retranscription-confirm-modal>` con type-CONFIRMAR gate
+ *    (destructivo: reemplaza transcripción + análisis derivados).
+ *  - Parent reusa `dispatchTranscription` existente (S39): los IDs entran
+ *    a `processingIds` y el modal se cierra.
+ *
+ * Diferidos restantes (ver `docs/memory-migration-inventory.md §10`):
  *  - MultiRecordingPlayer (multi-leg IVR). Iter 5 renderiza single con la
  *    primera grabación cuando hay >1.
  *  - Wrapper `<sc-audio-player>` SCDS (esperando 2º consumer).
@@ -77,6 +84,11 @@ export class ConversationPlayerModalComponent {
   readonly requestTranscription = output<string>();
   readonly requestAnalysis = output<string>();
   readonly requestTranscriptionAndAnalysis = output<string>();
+  /** Re-transcribir destructivo · §10 #1. El parent (conversations-page)
+   *  abre su propio modal `<sc-memory-retranscription-confirm-modal>` y, al
+   *  confirmar, dispatcha via `dispatchTranscription` reusando el pipeline
+   *  existente. Sibling al player modal para evitar p-dialog anidado. */
+  readonly requestRetranscriptionConfirm = output<string>();
 
   protected readonly activeTab = signal<'transcription' | 'analysis'>('transcription');
   protected readonly isPlaying = signal(false);
@@ -283,6 +295,12 @@ export class ConversationPlayerModalComponent {
     this.requestingAnalysis.set(true);
     this.requestTranscriptionAndAnalysis.emit(c.id);
     setTimeout(() => this.requestingAnalysis.set(false), 600);
+  }
+
+  protected onOpenRetransConfirm(): void {
+    const c = this.conversation();
+    if (!c) return;
+    this.requestRetranscriptionConfirm.emit(c.id);
   }
 
   protected onDownload(): void {

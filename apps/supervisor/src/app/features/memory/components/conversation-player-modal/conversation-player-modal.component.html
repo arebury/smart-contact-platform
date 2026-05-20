@@ -101,6 +101,18 @@
         </button>
 
         <span class="player-tabs__actions">
+          @if (c.hasTranscription) {
+            <button
+              type="button"
+              class="player-tabs__action"
+              [attr.aria-label]="'memory.player.actions.retranscribe' | translate"
+              [attr.title]="'memory.player.actions.retranscribe' | translate"
+              data-testid="player-retrans-btn"
+              (click)="onOpenRetransConfirm()"
+            >
+              <lucide-icon [img]="back10Icon" [size]="15" aria-hidden="true" />
+            </button>
+          }
           <button
             type="button"
             class="player-tabs__action"

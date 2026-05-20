@@ -15,6 +15,7 @@ import { ConversationFiltersComponent } from '../../components/conversation-filt
 import { ConversationPlayerModalComponent } from '../../components/conversation-player-modal/conversation-player-modal.component';
 import { ConversationTableComponent } from '../../components/conversation-table/conversation-table.component';
 import { MockSampleSwitcherComponent } from '../../components/mock-sample-switcher/mock-sample-switcher.component';
+import { RetranscriptionConfirmModalComponent } from '../../components/retranscription-confirm-modal/retranscription-confirm-modal.component';
 import type { Conversation } from '../../data/conversation.types';
 import { ConversationsStore } from '../../state/conversations.store';
 
@@ -49,6 +50,7 @@ import { ConversationsStore } from '../../state/conversations.store';
     ConversationTableComponent,
     ConversationPlayerModalComponent,
     MockSampleSwitcherComponent,
+    RetranscriptionConfirmModalComponent,
   ],
   templateUrl: './conversations-page.component.html',
   styleUrl: './conversations-page.component.scss',
@@ -84,9 +86,27 @@ export class ConversationsPageComponent {
 
   protected readonly playerOpen = signal(false);
   protected readonly playerConversation = signal<Conversation | null>(null);
+  /** Estado in-flight derivado para el player: refleja si la conversación
+   *  abierta está en `processingIds`/`analyzingIds` del store. Necesario
+   *  para que la re-transcripción (§10 #1) pinte el tab body en estado
+   *  procesando mientras el dispatch resuelve. */
+  protected readonly playerIsTranscribing = computed(() => {
+    const id = this.playerConversation()?.id;
+    return !!id && this.processingIds().has(id);
+  });
+  protected readonly playerIsAnalyzing = computed(() => {
+    const id = this.playerConversation()?.id;
+    return !!id && this.analyzingIds().has(id);
+  });
 
   protected readonly bulkModalOpen = signal(false);
   protected readonly bulkSnapshot = signal<readonly Conversation[]>([]);
+
+  /** Re-transcribir gate · §10 #1. El modal vive a nivel page (no anidado
+   *  dentro del player) para evitar p-dialog nesting issues. La página
+   *  guarda el ID que dispara el confirm para reusarlo al dispatchear. */
+  protected readonly retransConfirmOpen = signal(false);
+  protected readonly retransTargetId = signal<string | null>(null);
 
   protected onFiltersChange(filters: ReturnType<ConversationsStore['filters']>): void {
     this.conversationsStore.setFilters(filters);
@@ -225,5 +245,33 @@ export class ConversationsPageComponent {
 
   protected onPlayerClose(): void {
     this.playerOpen.set(false);
+  }
+
+  /**
+   * Re-transcribir desde el player modal (§10 #1).
+   *
+   * Flow: player emite intent → page abre confirm modal con gate
+   * "CONFIRMAR" → al confirmar, dispatch reusando el pipeline existente
+   * (mismo sticky toast progress + processingIds). El player no se cierra:
+   * el tab body pinta el estado procesando vía `playerIsTranscribing`
+   * binding y al resolver vuelve a la transcripción con contenido fresh
+   * del mock.
+   */
+  protected onPlayerRequestRetransConfirm(id: string): void {
+    this.retransTargetId.set(id);
+    this.retransConfirmOpen.set(true);
+  }
+
+  protected onRetransCancel(): void {
+    this.retransConfirmOpen.set(false);
+    this.retransTargetId.set(null);
+  }
+
+  protected async onRetransConfirm(): Promise<void> {
+    const id = this.retransTargetId();
+    this.retransConfirmOpen.set(false);
+    this.retransTargetId.set(null);
+    if (!id) return;
+    await this.dispatchWithStickyToast([id], false);
   }
 }

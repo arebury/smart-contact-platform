@@ -117,7 +117,18 @@
         "analyze_no_transcript": "Requiere transcripción",
         "analyze_done": "Análisis ya realizado",
         "download_audio": "Descargar audio",
-        "download_chat": "Descargar conversación"
+        "download_chat": "Descargar conversación",
+        "retranscribe": "Re-transcribir"
+      },
+      "retranscribe": {
+        "title": "Re-transcribir conversación",
+        "subtitle": "Acción destructiva",
+        "warn_headline": "Esta acción reemplazará la transcripción existente.",
+        "warn_body": "La transcripción actual y todos sus análisis derivados se eliminarán y se generará una nueva.",
+        "warn_cost": "Genera coste adicional.",
+        "type_to_confirm_pre": "Escribe",
+        "type_to_confirm_post": "para continuar:",
+        "confirm_btn": "Re-transcribir"
       },
       "download_audio_toast": "Descargando audio",
       "download_chat_toast": "Descargando conversación",
