@@ -1,5 +1,7 @@
 # 25 · Impact Preview Dialog (`<sc-impact-preview-dialog>`)
 
+![25-impact-preview-dialog](./screenshots/25-impact-preview-dialog.png)
+
 > **Type**: Pure SC · **AED uses**: 2 · **Figma parity**: Sin Figma equivalente
 
 > Diálogo de confirmación que **previsualiza el impacto** de una operación bulk (edit / duplicate) antes de commitirla. Lista los items que van a recibir el cambio, permite quitarlos individualmente con un `×` (hover-revealed), y emite el array de ids sobrevivientes en `(confirm)`.

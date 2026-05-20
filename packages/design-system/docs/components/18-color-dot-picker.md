@@ -1,5 +1,7 @@
 # 18 · Color Dot Picker (`<sc-color-dot-picker>`)
 
+![18-color-dot-picker](./screenshots/18-color-dot-picker.png)
+
 > **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
 
 > Fila inline de "puntos de color" seleccionables. Single-choice radio-style. Usado en el form de etiquetas para que el supervisor elija qué color tendrá una Label nueva (`<sc-label-chip>` lo renderiza después). Two-way bindable.

@@ -1,5 +1,7 @@
 # 31 · Command Palette (`<sc-command-palette>`)
 
+![31-command-palette](./screenshots/31-command-palette.png)
+
 > **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
 
 > Overlay ⌘K / Ctrl+K — paleta de comandos searchable global. Mounted una vez en el app shell, escucha el shortcut, y renderiza la lista de comandos categorizados desde `CommandPaletteService`. Navegación con flechas, Enter ejecuta, Esc cierra.

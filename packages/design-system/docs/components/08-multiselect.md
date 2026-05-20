@@ -1,5 +1,7 @@
 # 08 · MultiSelect (`<sc-multiselect>`)
 
+![08-multiselect](./screenshots/08-multiselect.png)
+
 > **Type**: Extended · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
 
 > Dropdown multi-selección para formularios SC. Envuelve PrimeNG `<p-multiselect>` con la chrome SCDS. Hermano de `<sc-select>` — mismos tokens visuales, semántica diferente (array value).

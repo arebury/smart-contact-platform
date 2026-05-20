@@ -1,5 +1,7 @@
 # 07 · Tooltip (`[pTooltip]`)
 
+![07-tooltip](./screenshots/07-tooltip.png)
+
 > **Type**: Full PrimeNG · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
 
 > Directiva de PrimeNG para mostrar hint text al hover. SCDS NO envuelve PrimeNG aquí — se usa la directiva nativa con overrides en `sc-preset.ts`. Categoría 🟦 **Full PrimeNG passthrough**.

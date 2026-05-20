@@ -30,7 +30,7 @@
     <div class="retrans-confirm__gate">
       <label class="retrans-confirm__gate-label" for="retrans-confirm-input">
         {{ 'memory.player.retranscribe.type_to_confirm_pre' | translate }}
-        <span class="retrans-confirm__gate-token">CONFIRMAR</span>
+        <span class="retrans-confirm__gate-token">{{ gateToken() }}</span>
         {{ 'memory.player.retranscribe.type_to_confirm_post' | translate }}
       </label>
       <input
@@ -39,7 +39,7 @@
         class="retrans-confirm__gate-input"
         [class.is-invalid]="confirmText().length > 0 && !isValid()"
         [class.is-valid]="isValid()"
-        placeholder="CONFIRMAR"
+        [placeholder]="gateToken()"
         autocomplete="off"
         spellcheck="false"
         [ngModel]="confirmText()"

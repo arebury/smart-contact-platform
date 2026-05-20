@@ -1,5 +1,7 @@
 # 12 · Empty State (`<sc-empty-state>`)
 
+![12-empty-state](./screenshots/12-empty-state.png)
+
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 
 > Componente para mostrar "vacío amable" cuando una lista no tiene rows (initial seed, sin resultados de filtro, sin datos del backend).

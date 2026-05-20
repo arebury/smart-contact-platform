@@ -1,5 +1,7 @@
 # 15 · Toggle Switch (`<sc-toggleswitch>`)
 
+![15-toggleswitch](./screenshots/15-toggleswitch.png)
+
 > **Type**: Extended · **AED uses**: 21 · **Figma parity**: 1:1 con Figma
 
 > Switch accesible para opciones booleanas (activo/inactivo, enabled/disabled). Construido sobre un `<input type="checkbox">` real con `role="switch"` — el track + thumb son CSS puro encima. Hereda teclado, focus management y form association nativos.

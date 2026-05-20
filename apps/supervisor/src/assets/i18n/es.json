@@ -136,6 +136,7 @@
         "warn_cost": "Genera coste adicional.",
         "type_to_confirm_pre": "Escribe",
         "type_to_confirm_post": "para continuar:",
+        "gate_token": "CONFIRMAR",
         "confirm_btn": "Re-transcribir"
       },
       "multi": {
@@ -226,6 +227,14 @@
       "coming_soon_toast": "Documentación llega en próxima iteración"
     },
     "bulk_transcription": {
+      "modal_title": "Procesar conversaciones",
+      "no_selection": "Sin selección",
+      "subtitle_one": "1 conversación seleccionada",
+      "subtitle_many": "{{count}} conversaciones seleccionadas",
+      "calls_one": "1 llamada",
+      "calls_many": "{{count}} llamadas",
+      "chats_one": "1 chat",
+      "chats_many": "{{count}} chats",
       "total_label": "Total a procesar",
       "cost_hint": "genera coste",
       "analysis_label": "Análisis",
@@ -1617,6 +1626,12 @@
           "days_30": "30 días",
           "days_60": "60 días",
           "days_90": "90 días"
+        },
+        "min_length_options": {
+          "chars_8": "8 caracteres",
+          "chars_10": "10 caracteres",
+          "chars_12": "12 caracteres",
+          "chars_16": "16 caracteres"
         },
         "special_chars": "Caracteres especiales obligatorios",
         "special_chars_hint": "Requiere al menos un carácter no alfanumérico"

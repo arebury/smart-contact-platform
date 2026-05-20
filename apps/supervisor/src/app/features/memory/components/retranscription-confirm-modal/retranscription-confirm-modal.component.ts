@@ -3,14 +3,17 @@ import {
   Component,
   computed,
   effect,
+  inject,
   input,
   output,
   signal,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertTriangle, Loader2, LucideAngularModule, RotateCcw } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
+import { map, startWith } from 'rxjs';
 
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 
@@ -38,8 +41,24 @@ export class RetranscriptionConfirmModalComponent {
   readonly cancelled = output<void>();
   readonly confirmed = output<void>();
 
+  private readonly translate = inject(TranslateService);
+  /** Reactive lang dependency — el gate token se traduce per-locale
+   *  (ES "CONFIRMAR", EN "CONFIRM", FR "CONFIRMER", PT "CONFIRMAR"). */
+  private readonly currentLang = toSignal(
+    this.translate.onLangChange.pipe(
+      map((e) => e.lang),
+      startWith(this.translate.currentLang),
+    ),
+    { initialValue: this.translate.currentLang },
+  );
+
+  protected readonly gateToken = computed(() => {
+    this.currentLang();
+    return this.translate.instant('memory.player.retranscribe.gate_token');
+  });
+
   protected readonly confirmText = signal('');
-  protected readonly isValid = computed(() => this.confirmText() === 'CONFIRMAR');
+  protected readonly isValid = computed(() => this.confirmText() === this.gateToken());
 
   protected readonly retransIcon = RotateCcw;
   protected readonly alertIcon = AlertTriangle;

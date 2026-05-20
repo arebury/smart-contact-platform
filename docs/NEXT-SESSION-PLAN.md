@@ -5,6 +5,30 @@
 
 ---
 
+## Estado al cerrar (Session 53, 2026-05-21)
+
+**Sesión autónoma** (Rafa pidió "ejecuta plan que acoja todo, sin
+inventar tokens, siguiendo filosofía"). Ejecutado el subset del
+inventario S52 cuyo trigger SÍ estaba cumplido; items dormidos por
+trigger no cumplido NO atacados (8 esperan equipo de diseño, 7 esperan
+≥N consumers, 5 esperan otros triggers, conversation-player-modal sin
+trigger, Code Connect dormido).
+
+Cerrados S53:
+- TOP-2: stitched-card filtros+toolbar+tabla (gestalt unificada, 3
+  reglas SCSS, 0 tokens nuevos, reversible).
+- TOP-1: 34 capturas componente + sweep 34 spec docs SCDS.
+- #46 border-radius: 1 hit tokenizado (scrollbar→radius-full), 2
+  mantenidos como intencional (checkbox glyph).
+- #47 i18n Memory: 14 keys × 4 locales (subtitle bulk + gate token
+  retrans + modal title bulk + 4× chars_N sistema-page).
+- Eje 3 #2 multi-rec verificado-OK sin deuda.
+- Eje 4 #1 PrimeNG 21.1.7 vs 21.1.8 vigilado (single fix Drawer, no
+  aplica).
+
+**Estado salud**: tsc verde · lint verde · build verde · Playwright
+14/14 verde · i18n 1486 paths × 4 locales 0 mismatches.
+
 ## Estado al cerrar (Session 52, 2026-05-21)
 
 **Sesión densa**: 4 commits. CI cadena rojo de 11 commits ARREGLADA (lint
@@ -19,24 +43,15 @@ ready · 14/14 Playwright · i18n 1472 paths × 4 locales 0 mismatches.
 
 ## Próximas tareas (priorizadas)
 
-### 🎯 TOP S53 (pedidos directos del user)
+### ✅ TOP S53 cerrados (referencia)
 
-1. **Capturas componente por componente** — referencia visual para
-   añadir a cada checklist `packages/design-system/docs/components/NN-*.md`.
-   Script Playwright itera las 33 rutas `/components/<name>` del ds-docs,
-   captura el componente principal (no la página entera) y guarda en
-   `packages/design-system/docs/components/screenshots/<name>.png`.
-   Después sweep de 33 docs md con `![<name>](./screenshots/<name>.png)`
-   en el header. ~1.5h. Requiere convención CSS selector `.gallery__hero`
-   o `data-testid="component-instance"` en cada gallery.
-
-2. **/impeccable rework container filtros+toolbar+tabla** — user reportó
-   gestalt extraña: el container separa visualmente la tabla del resto
-   cuando deberían sentirse UN bloque conectado. Aplicar /impeccable
-   como dirección de diseño moderno SaaS respetando normas (tokens
-   existentes, wrappers SCDS, 0 tokens nuevos). Target: filtros + toolbar
-   + tabla como UNA card continua, no 2 elementos con aire vertical
-   entre ellos. Reversible si no convence.
+1. ~~Capturas componente por componente~~ ✅ S53: script Playwright + 34
+   PNG en `packages/design-system/docs/components/screenshots/` + sweep
+   34 spec docs SCDS con imagen tras el `# h1`. Sidebar ds-docs ocultada
+   via `addStyleTag` antes del clip 1440×720.
+2. ~~/impeccable rework container filtros+toolbar+tabla~~ ✅ S53:
+   stitched-card pattern. 3 reglas SCSS, 0 tokens nuevos, reversible.
+   Light + dark verificados.
 
 ### 🎯 Memory §10 dormidos (8 items vivos, esperan trigger)
 
@@ -83,8 +98,8 @@ Resumen por trigger:
 - #28 Repo Memory + monorepo CI (Memory active threshold)
 - #31 Modular theme PrimeNG — sin trigger Web Vitals
 - #42 AED es.json optimization 1152 keys — P3
-- #46 3 hits residuales border-radius post-N audit
-- #47 12 strings sin i18n en Memory iter
+- ~~#46 3 hits residuales border-radius~~ ✅ cerrado S53
+- ~~#47 12 strings sin i18n en Memory~~ ✅ cerrado S53
 - #51 i18n duplicates (115 strings) — traductor profesional
 
 ### 🎯 Eje 3 — Refactor god-components Memory (defensivo)

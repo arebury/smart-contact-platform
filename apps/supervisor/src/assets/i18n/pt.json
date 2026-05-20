@@ -136,6 +136,7 @@
         "warn_cost": "Gera custo adicional.",
         "type_to_confirm_pre": "Digite",
         "type_to_confirm_post": "para continuar:",
+        "gate_token": "CONFIRMAR",
         "confirm_btn": "Re-transcrever"
       },
       "multi": {
@@ -226,6 +227,14 @@
       "coming_soon_toast": "Documentação chega na próxima iteração"
     },
     "bulk_transcription": {
+      "modal_title": "Processar conversas",
+      "no_selection": "Sem seleção",
+      "subtitle_one": "1 conversa selecionada",
+      "subtitle_many": "{{count}} conversas selecionadas",
+      "calls_one": "1 chamada",
+      "calls_many": "{{count}} chamadas",
+      "chats_one": "1 chat",
+      "chats_many": "{{count}} chats",
       "total_label": "Total a processar",
       "cost_hint": "gera custo",
       "analysis_label": "Análise",
@@ -1617,6 +1626,12 @@
           "days_30": "30 dias",
           "days_60": "60 dias",
           "days_90": "90 dias"
+        },
+        "min_length_options": {
+          "chars_8": "8 caracteres",
+          "chars_10": "10 caracteres",
+          "chars_12": "12 caracteres",
+          "chars_16": "16 caracteres"
         },
         "special_chars": "Caracteres especiais obrigatórios",
         "special_chars_hint": "Requer pelo menos um caractere não alfanumérico"

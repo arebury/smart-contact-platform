@@ -1,5 +1,7 @@
 # 03 · Input number (`<sc-inputnumber>`)
 
+![03-inputnumber](./screenshots/03-inputnumber.png)
+
 > **Type**: Extended · **AED uses**: 7 · **Figma parity**: 1:1 con Figma
 
 > Numeric input para formularios SC. Misma chrome que `<sc-inputtext>` pero con valor tipado `number | null`, sufijo de unidad opcional y texto right-aligned. Cubre los casos de contadores, capacidades, segundos, porcentajes.

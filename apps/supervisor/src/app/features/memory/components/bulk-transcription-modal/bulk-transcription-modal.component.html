@@ -1,7 +1,7 @@
 <sc-dialog
   [visible]="visible()"
   [icon]="headerIcon"
-  title="Procesar conversaciones"
+  [title]="'memory.bulk_transcription.modal_title' | translate"
   [subtitle]="subtitle()"
   width="720px"
   (cancelled)="onCancel()"

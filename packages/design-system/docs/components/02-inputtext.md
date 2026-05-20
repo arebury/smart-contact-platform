@@ -1,5 +1,7 @@
 # 02 · Input (`<sc-inputtext>`)
 
+![02-inputtext](./screenshots/02-inputtext.png)
+
 > **Type**: Extended · **AED uses**: 21 · **Figma parity**: 1:1 con Figma
 
 > Text input para formularios SC. Cubre los casos text/email/password/tel/url/search.

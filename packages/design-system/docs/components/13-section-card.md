@@ -1,5 +1,7 @@
 # 13 · Section Card (`<sc-section-card>`)
 
+![13-section-card](./screenshots/13-section-card.png)
+
 > **Type**: Pure SC · **AED uses**: 12 · **Figma parity**: Sin Figma equivalente
 
 > Tarjeta con borde + header opcional usada para **agrupar campos** dentro de un formulario (configuración, edición de entidad). Mirror del patrón `SectionCard` del prototipo React. Soporta modo `collapsible` para secciones "advanced" que deberían estar plegadas por defecto.

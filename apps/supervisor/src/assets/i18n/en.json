@@ -136,6 +136,7 @@
         "warn_cost": "Incurs additional cost.",
         "type_to_confirm_pre": "Type",
         "type_to_confirm_post": "to continue:",
+        "gate_token": "CONFIRM",
         "confirm_btn": "Re-transcribe"
       },
       "multi": {
@@ -226,6 +227,14 @@
       "coming_soon_toast": "Documentation coming in the next iteration"
     },
     "bulk_transcription": {
+      "modal_title": "Process conversations",
+      "no_selection": "No selection",
+      "subtitle_one": "1 conversation selected",
+      "subtitle_many": "{{count}} conversations selected",
+      "calls_one": "1 call",
+      "calls_many": "{{count}} calls",
+      "chats_one": "1 chat",
+      "chats_many": "{{count}} chats",
       "total_label": "Total to process",
       "cost_hint": "incurs cost",
       "analysis_label": "Analysis",
@@ -1617,6 +1626,12 @@
           "days_30": "30 days",
           "days_60": "60 days",
           "days_90": "90 days"
+        },
+        "min_length_options": {
+          "chars_8": "8 characters",
+          "chars_10": "10 characters",
+          "chars_12": "12 characters",
+          "chars_16": "16 characters"
         },
         "special_chars": "Mandatory special characters",
         "special_chars_hint": "Requires at least one non-alphanumeric character"

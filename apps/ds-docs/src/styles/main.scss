@@ -201,7 +201,7 @@ body {
 }
 ::-webkit-scrollbar-thumb {
   background: var(--sc-color-gray-300);
-  border-radius: 10px;
+  border-radius: var(--sc-radius-full);
   border: 3px solid transparent;
   background-clip: padding-box;
 }

@@ -1,5 +1,7 @@
 # 11 · Modal / Dialog (`<sc-dialog>`)
 
+![11-dialog](./screenshots/11-dialog.png)
+
 > **Type**: Extended · **AED uses**: 2 · **Figma parity**: 1:1 con Figma
 
 > Shell modal canónico con header + body slot + footer. Envuelve `<p-dialog>` de PrimeNG con focus trap / ESC / mask / animación, pero la chrome visual es 100% SC.

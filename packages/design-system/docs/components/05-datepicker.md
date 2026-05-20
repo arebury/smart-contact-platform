@@ -1,5 +1,7 @@
 # 05 · Datepicker (`<sc-datepicker>`)
 
+![05-datepicker](./screenshots/05-datepicker.png)
+
 > **Type**: Extended · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
 
 > Date picker para formularios SC. Envuelve PrimeNG `<p-datepicker>` con la chrome SCDS. Single-date selection en popup por defecto; soporta inline, mes-only, año-only y bounds min/max.

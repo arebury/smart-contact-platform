@@ -1,5 +1,7 @@
 # 09 · Checkbox (`<sc-checkbox>`)
 
+![09-checkbox](./screenshots/09-checkbox.png)
+
 > **Type**: Pure SC · **AED uses**: 6 · **Figma parity**: 1:1 con Figma
 
 > Checkbox custom de SC con soporte tri-state (none / some / all). El selector es `sc-checkbox` por razón histórica — ES el checkbox de facto en AED (6 usos), no hay otro componente checkbox.

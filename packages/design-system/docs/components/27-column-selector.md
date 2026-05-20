@@ -1,5 +1,7 @@
 # 27 · Column Selector (`<sc-column-selector>`)
 
+![27-column-selector](./screenshots/27-column-selector.png)
+
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 
 > Popover trigger desde una list page para configurar **qué columnas son visibles** y en **qué orden**. Soporta visibilidad por checkbox + drag-drop para reordenar. Persiste preferencias en `localStorage` con versionado. Columnas marcadas `locked` se quedan fijas y no se pueden mover ni ocultar.

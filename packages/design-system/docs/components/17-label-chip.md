@@ -1,5 +1,7 @@
 # 17 · Label Chip (`<sc-label-chip>`)
 
+![17-label-chip](./screenshots/17-label-chip.png)
+
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: 1:1 con Figma
 
 > Chip categórico pequeño para etiquetas removibles. Renderiza una "label de Smart Contact" (entidad del CRUD de etiquetas, con color y nombre) en table cells, agent rows, picker selections, etc. Opcionalmente removable con un `×` inline.

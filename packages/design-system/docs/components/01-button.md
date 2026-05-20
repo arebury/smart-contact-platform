@@ -1,5 +1,7 @@
 # 01 · Button (`<p-button>`)
 
+![01-button](./screenshots/01-button.png)
+
 > **Type**: Custom-preset · **AED uses**: 39 · **Figma parity**: 1:1 con Figma
 
 > Botón de acción. SCDS NO envuelve PrimeNG aquí — usa `<p-button>` directo con overrides en `sc-preset.ts`. Categoría 🟣 **Custom-preset**.

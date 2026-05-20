@@ -1,5 +1,7 @@
 # 06 · Tabs (`<p-tabs>`)
 
+![06-tabs](./screenshots/06-tabs.png)
+
 > **Type**: Custom-preset · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
 
 > Navegación tabular para organizar contenido en secciones. SCDS NO envuelve PrimeNG aquí — usa `<p-tabs>` directo con overrides en `sc-preset.ts`. Categoría 🟣 **Custom-preset** (mismo patrón que `<p-button>`).

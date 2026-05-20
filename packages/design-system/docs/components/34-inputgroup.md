@@ -1,5 +1,7 @@
 # sc-inputgroup
 
+![34-inputgroup](./screenshots/34-inputgroup.png)
+
 > **Type**: Extended · **AED uses**: 1 · **Figma parity**: 1:1 con Figma
 
 > Wrapper Extended sobre `<p-inputgroup>`. Agrupa un input con addons left/right

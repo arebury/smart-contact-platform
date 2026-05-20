@@ -1,5 +1,7 @@
 # 04 · Select (`<sc-select>`)
 
+![04-select](./screenshots/04-select.png)
+
 > **Type**: Extended · **AED uses**: 16 · **Figma parity**: 1:1 con Figma
 
 > Dropdown / single-select para formularios SC. Envuelve PrimeNG `<p-select>` con la chrome SCDS. Para multi-select usar `<sc-multiselect>` (TBD).

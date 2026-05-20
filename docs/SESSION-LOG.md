@@ -10,6 +10,85 @@
 
 ---
 
+## 2026-05-21 · Session 53 — Autonomous sweep: stitched-card gestalt + i18n Memory + 34 screenshots SCDS
+
+> Sesión autónoma: Rafa pidió "ejecuta plan que acoja todo, sin inventar
+> tokens y siguiendo filosofía". Ejecutado el subset del inventario S52
+> cuyo trigger SÍ estaba cumplido (skip items dormidos por trigger).
+
+### Hitos
+
+1. **Stitched-card rework conversaciones** (TOP-2 pedido directo) —
+   filtros + toolbar + tabla eran 2 cards separadas con `gap-400` entre
+   ellas, doble border, doble radius (300/200), doble shadow. Refactor
+   a UNA card continua con tokens existentes (0 tokens nuevos): filtros
+   adopta `radius-200 radius-200 0 0` + `border-bottom: 0` + `shadow:
+   none`; tabla mantiene `radius 0 0 200 200`. `gap: 0` en `.page__inner`.
+   El `border-top` de la tabla es el único hairline divisor compartido.
+   Reversible cambiando 3 reglas. Verificado Playwright light + dark.
+
+2. **Sweep i18n Memory (#47)** — audit S47 contó 12 strings pero 7 ya
+   estaban i18n (mock-sample-switcher.*, bulk_transcription.total/
+   analysis/include/cost/processed/close/process, sistema.never).
+   Quedaba: (a) 2× `CONFIRMAR` retrans gate → key `gate_token` per-locale
+   (ES "CONFIRMAR" / EN "CONFIRM" / FR "CONFIRMER" / PT "CONFIRMAR") +
+   validación TS contra computed reactive con `currentLang = toSignal(
+   onLangChange.pipe(map, startWith))`. (b) `Procesar conversaciones`
+   title bulk modal → `modal_title`. (c) 5 hits en `subtitle()` computed
+   bulk modal: no selección + pluralización conv/llamada/chat con
+   pattern S49 reactive + `{{count}}` interpolation. (d) 4× `N caracteres`
+   sistema-page → `min_length_options.chars_8/10/12/16`. **14 keys nuevas
+   × 4 locales = 56 entries**. i18n audit: 1486 paths verde (vs 1472 S52).
+
+3. **Border-radius edge cases (#46)** — 3 hits residuales auditados:
+   `border-radius: 10px` scrollbar thumb (12×12 con border 3px transparent
+   → thumb visible ~6px → 10px era pill práctico) → `var(--sc-radius-full)`.
+   Checkbox `__mark` 1px (glyph 12.25px) + indeterminate-bar 1px (barra
+   2px alto) mantenidos como intencional: réplica Figma checkbox glyph
+   radius, tokenizar a `radius-50` cambiaría suavidad del check mark en
+   componente 1:1 con Kit Pro.
+
+4. **Capturas componente por componente** (TOP-1 pedido directo) — script
+   Playwright itera 34 rutas `/components/*` del ds-docs (port 4300),
+   hide sidebar via `addStyleTag` + override grid `1fr`, captura clip
+   `1440×720` con `clip` rectangle del hero (título + descripción +
+   2 primeras variantes). Output: `packages/design-system/docs/components/
+   screenshots/NN-name.png` (34 PNGs). Sweep 34 spec docs SCDS con
+   `![NN-name](./screenshots/NN-name.png)` insertado tras el `# h1`.
+
+5. **Eje 3 #2 verificación** — multi-recording-player auditado: signals
+   OnPush, computed bien factorizados, `labelText` y `ariaLabel` con
+   `translate.instant()` + interpolation (S51 cerró). Sin deuda → no toco.
+
+6. **Eje 4 #1 vigilancia PrimeNG** — 21.1.7 (instalado) vs 21.1.8
+   (latest). Único change es fix Drawer CSP (no usamos `<p-drawer>`).
+   Safe patch sin urgencia.
+
+### Items dormidos (trigger NO cumplido) — NO atacados conscientemente
+
+- **Memory §10 #3-#11 + §11 A**: esperan dispatch backend real /
+  pipeline / Figma input. Sin trigger, no se ejecuta.
+- **SCDS gaps consumers (#2/#4/#6/#7/#8/#32/#33)**: esperan ≥N consumers
+  (DD-4 promoción). Forzarlo sin caso real violaría regla.
+- **SCDS Figma dependent (#14/#15/#37/#44/#45/#48/#49/#50)**: esperan
+  input del equipo de diseño. "No inventes tokens" es regla del user.
+- **SCDS otros (#27/#28/#31/#42/#51)**: infra/tooling no listos.
+- **Eje 3 #1 conversation-player-modal split** (476 líneas): defensivo,
+  sin trigger funcional (regla `feedback_devaluation_existing_work`).
+- **Eje 5 Code Connect oficial**: dormido con 3 condiciones explícitas.
+
+### Estado salud cierre S53
+
+tsc verde · lint verde · build verde · Playwright cross-app 14/14
+verde (28.8s) · i18n audit verde (1486 paths × 4 locales, 0 mismatches).
+Husky pre-commit: prettier + i18n-audit + lint.
+
+### Commits S53
+
+- (esta sesión) — single commit cierra todo el sweep autónomo.
+
+---
+
 ## 2026-05-21 · Session 52 — Sweep nombres + repos i18n + CI lint fix + 4 bugs UI bulk modal
 
 > Sesión densa con 5 commits. Cierra el sweep AED i18n (último consumer

@@ -1,5 +1,7 @@
 # 21 · Form Danger Zone (`<sc-form-danger-zone>`)
 
+![21-form-danger-zone](./screenshots/21-form-danger-zone.png)
+
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 
 > Sección "danger zone" al final de un form edit. Alberga acciones irreversibles (delete, transfer, archive) **fuera del scan path principal** del usuario. Visual frame + trigger button; la confirmación se gestiona aparte (pair típico: `<sc-delete-entity-dialog>` o `<sc-impact-preview-dialog>`).

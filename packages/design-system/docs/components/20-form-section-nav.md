@@ -1,5 +1,7 @@
 # 20 · Form Section Nav (`<sc-form-section-nav>`)
 
+![20-form-section-nav](./screenshots/20-form-section-nav.png)
+
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 
 > Navegación tab-style controlada usada dentro de un form largo para conmutar entre **secciones**. El parent dueño de `[activeId]`, el nav emite `(activeChange)` al click. Cada sección se renderiza como pane independiente (no scroll), no como bloques apilados.

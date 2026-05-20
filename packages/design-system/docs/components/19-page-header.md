@@ -1,5 +1,7 @@
 # 19 · Page Header (`<sc-page-header>`)
 
+![19-page-header](./screenshots/19-page-header.png)
+
 > **Type**: Pure SC · **AED uses**: 8 · **Figma parity**: Sin Figma equivalente
 
 > Cabecera de página estática (no sticky) para rutas no-entity: `/config/*` y list pages. Visualmente espejo de `<sc-sticky-form-header>` (mismo leading icon 44×44, eyebrow uppercase, title grande, subtitle sutil) para que el conjunto de la app se lea como una misma familia.

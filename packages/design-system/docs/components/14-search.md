@@ -1,5 +1,7 @@
 # 14 · Search (`<sc-search>`)
 
+![14-search](./screenshots/14-search.png)
+
 > **Type**: Extended · **AED uses**: 8 · **Figma parity**: 1:1 con Figma
 
 > Input de búsqueda con icon overlay decorativo a la izquierda + clear

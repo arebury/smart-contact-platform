@@ -1,5 +1,7 @@
 # 10 · Toast (`<p-toast>` + custom template)
 
+![10-toast](./screenshots/10-toast.png)
+
 > **Type**: Custom-preset · **AED uses**: 1 · **Figma parity**: 1:1 con Figma
 
 > Notificación efímera (success / info / warn / error / secondary / violet) anclada a una esquina. SCDS NO crea un componente standalone — usa el `<p-toast>` de PrimeNG con un `pTemplate="message"` override + tokens `--sc-toast-*` (capa 4). Categoría: 🟣 **Custom-preset + custom template**.

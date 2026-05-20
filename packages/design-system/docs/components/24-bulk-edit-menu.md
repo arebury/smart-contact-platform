@@ -1,5 +1,7 @@
 # 24 · Bulk Edit Menu (`<sc-bulk-edit-menu>`)
 
+![24-bulk-edit-menu](./screenshots/24-bulk-edit-menu.png)
+
 > **Type**: Pure SC · **AED uses**: 2 · **Figma parity**: Sin Figma equivalente
 
 > Editor inline "Cambiar [field] a [value] [Aplicar]" que vive dentro de la `<sc-bulk-action-bar>`. Caller pasa los campos editables y sus value choices; este componente orquesta los pickers y emite un `commit` único cuando el usuario clica Aplicar. La mutación efectiva suele pasar por `<sc-impact-preview-dialog>` antes de persistir.

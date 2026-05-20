@@ -3,15 +3,18 @@ import {
   Component,
   computed,
   effect,
+  inject,
   input,
   output,
   signal,
 } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertCircle, AlignLeft, ListChecks, Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
+import { map, startWith } from 'rxjs';
 
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 
@@ -121,25 +124,43 @@ export class BulkTranscriptionModalComponent {
 
   protected readonly canSubmit = computed(() => this.heroCount() > 0 && !this.isLoading());
 
+  private readonly translate = inject(TranslateService);
+  /** Reactive lang dependency for computed subtitles — patrón S49
+   *  (feedback_i18n_reactive_pattern). `translate.instant()` aislado
+   *  no re-evalúa al cambiar idioma; el signal lo fuerza. */
+  private readonly currentLang = toSignal(
+    this.translate.onLangChange.pipe(
+      map((e) => e.lang),
+      startWith(this.translate.currentLang),
+    ),
+    { initialValue: this.translate.currentLang },
+  );
+
   /**
    * Subtitle dinámico para el header del modal: contexto de selección.
    * Muestra desglose "X llamadas, Y chats" solo cuando hay mix (evita
    * redundancia "5 conversaciones · 5 llamadas").
    */
   protected readonly subtitle = computed(() => {
+    this.currentLang(); // dependency for re-runs on lang change
     const sel = this.selected();
-    if (sel.length === 0) return 'Sin selección';
+    if (sel.length === 0) return this.translate.instant('memory.bulk_transcription.no_selection');
     const nCalls = sel.filter((c) => c.channel === 'llamada').length;
     const nChats = sel.length - nCalls;
     const head =
       sel.length === 1
-        ? '1 conversación seleccionada'
-        : `${sel.length} conversaciones seleccionadas`;
+        ? this.translate.instant('memory.bulk_transcription.subtitle_one')
+        : this.translate.instant('memory.bulk_transcription.subtitle_many', { count: sel.length });
     if (nCalls > 0 && nChats > 0) {
-      const bits: string[] = [];
-      bits.push(`${nCalls} ${nCalls === 1 ? 'llamada' : 'llamadas'}`);
-      bits.push(`${nChats} ${nChats === 1 ? 'chat' : 'chats'}`);
-      return `${head} · ${bits.join(', ')}`;
+      const callsLabel =
+        nCalls === 1
+          ? this.translate.instant('memory.bulk_transcription.calls_one')
+          : this.translate.instant('memory.bulk_transcription.calls_many', { count: nCalls });
+      const chatsLabel =
+        nChats === 1
+          ? this.translate.instant('memory.bulk_transcription.chats_one')
+          : this.translate.instant('memory.bulk_transcription.chats_many', { count: nChats });
+      return `${head} · ${callsLabel}, ${chatsLabel}`;
     }
     return head;
   });
