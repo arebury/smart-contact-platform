@@ -7,7 +7,7 @@
 
 ## Estado al cerrar (Session 46, 2026-05-20)
 
-**13 commits a `main` pusheados** distribuidos en 6 bloques:
+**17+ commits a `main` pusheados** distribuidos en 9 bloques:
 
 1. Fix bug switcher popover Memory (§10 #21 cerrado).
 2. Memory `Re-transcribir` desde player modal (§10 #1 cerrado) + RetranscriptionConfirmModal con type-CONFIRMAR gate.
@@ -15,6 +15,8 @@
 4. Backlog #35 cerrado con voto (a) — Memory click→select justificado vs AED click→edit (DM-6).
 5. Tokens cleanup global · 0 drift residual cross-monorepo. Cocinado `--sc-font-family-mono` con decisión Opción A (system stack) (§5.8 customs-catalog).
 6. **Jerarquía docs sentada**: nuevo `DOCS-INDEX.md` + Memory `DECISIONS.md` (DM-1 a DM-7) + SCDS `DECISIONS.md` (DD-1 a DD-7) + refactor de los 3 `CLAUDE.md` para apuntar a docs source-of-truth.
+7. **Protocolo INDEX obligatorio**: formalizado "antes de tocar herramientas, identificar doc canonical en INDEX y leer primero". Lección S46 anotada en case-study-notes. Backlog #37 (Marta valida variants formales sm/md/lg Kit Pro).
+8. **Filtros Memory `/conversaciones` size=sm**: 6 inputs top-bar reducidos. Bug overlay descubierto (PrimeNG `[size]` solo afecta trigger) → cocinado `panelStyleClass` en multi-select/select/datepicker + partial global `_sc-overlay-sizes.scss` (patrón análogo a `_sc-toast.scss`).
 
 Estado salud: tsc verde, Netlify verde (push S46), Playwright smoke 9 routes (4 Memory + 5 AED) sin errors, husky+lint-staged activo.
 
@@ -31,6 +33,10 @@ Cuando arranque la próxima sesión, ataque sugerido por orden de valor:
 | §10 #4 | Modal Download heredado SC (checkboxes Grabaciones/Chats + aviso GDPR) | ~1h | producción real backend |
 | §10 #12 | Synonyms granulares per-value en EntityFormModal | ~2h | Marta/Rafa priorizan |
 | §10 #13 | CategoryRuleLinking interactivo bidireccional | ~3h (refactor 3 piezas) | Rafa explícito (S39 lo aparcó) |
+
+### 🎯 Eje 1b — Refresh tracker ds-docs `home.component.ts` (~30 min)
+
+Los counts `aedUses` / `memoryUses` se mantienen manualmente. Posible drift acumulado desde S39 — S46 añadió usos Memory de `<sc-multi-select>`, `<sc-datepicker>`, `<sc-input>`, `<sc-modal>` que probablemente no están reflejados. Audit con `grep` automatizado por componente, comparar contra valores en `home.component.ts` y commit batch.
 
 ### 🎯 Eje 2 — Audit periódico (defensivo, ~30-60 min)
 

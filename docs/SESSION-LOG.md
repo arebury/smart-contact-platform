@@ -24,7 +24,11 @@
 4. **§10 #1 Re-transcribir player** — componente `<sc-memory-retranscription-confirm-modal>` con type-CONFIRMAR gate + botón RotateCcw en player tabs + sibling-pattern (no p-dialog anidado) + bonus `[isTranscribing]`/`[isAnalyzing]` derivados desde processingIds. Commit `95137f3`.
 5. **§10 #2 MultiRecordingPlayer multi-leg IVR** — componente `<sc-memory-multi-recording-player>` (réplica 1:1 React) con 3 filas: transport + segmented bar + leg labels radiogroup. Wire outputs deferidos del player + nuevo `dispatchAnalysisOnly` en store. §10 #3 sc-audio-player declinado (DM-7). Commit `771c83f`.
 6. **Tokens cleanup global** — cocinado `--sc-font-family-mono` (system stack, Opción A decisión Rafa) + sweep 0 drift residual cross-monorepo: 30+ archivos · 22 fallbacks + 13 `999px` literales removidos. Customs-catalog §5.8 nuevo. Commits `f4ce8bd`, `0e32fe6`, `894e6b7`.
-7. **Jerarquía docs sentada** (gap cazado por Rafa) — cada tipo de info tiene UN source canonical; los demás son punteros. Docs nuevos: `docs/DOCS-INDEX.md`, `apps/supervisor/docs/memory/DECISIONS.md` (DM-1 a DM-7), `packages/design-system/docs/DECISIONS.md` (DD-1 a DD-7) — incluye DD-7 nueva: toda primitive nueva → entry customs-catalog. Refactor 3 `CLAUDE.md` → punteros. Refactor `NEXT-SESSION-PLAN.md` 777→145 líneas. Memoria persistente nueva `reference_docs_index_entry_point.md`. Commits `9058d72` + commit final S46.
+7. **Jerarquía docs sentada** (gap cazado por Rafa) — cada tipo de info tiene UN source canonical; los demás son punteros. Docs nuevos: `docs/DOCS-INDEX.md`, `apps/supervisor/docs/memory/DECISIONS.md` (DM-1 a DM-7), `packages/design-system/docs/DECISIONS.md` (DD-1 a DD-7) — incluye DD-7 nueva: toda primitive nueva → entry customs-catalog. Refactor 3 `CLAUDE.md` → punteros. Refactor `NEXT-SESSION-PLAN.md` 777→145 líneas. Memoria persistente nueva `reference_docs_index_entry_point.md`. Commits `9058d72`, `14cd2bd`.
+
+8. **Protocolo INDEX obligatorio** (segundo gap cazado por Rafa) — la jerarquía no sirve si el protocolo de consulta es opcional. Ejemplo: lancé 4 queries `search_design_system` MCP antes de descubrir que `MIGRATION-INVENTORY.md` ya tenía Figma node IDs auditados al 100% parity (S30). Formalizado protocolo "al recibir tarea nueva, ANTES de tocar herramientas, identificar doc canonical en INDEX y leerlo primero". Updates: DOCS-INDEX con keywords "audit Figma alignment" → MIGRATION-INVENTORY; case-study-notes con lección portable; backlog #37 nuevo (Marta valida variants formales sm/md/lg Kit Pro). Commit `af53858`.
+
+9. **Filtros Memory size=sm + fix overlay** — Rafa reporta filtros enormes en `/conversaciones`. Aplicado `size="sm"` a los 6 inputs del top-bar (commit `cb2082b`). Después cazó visualmente: trigger compacto OK pero overlay del dropdown se renderizaba en tamaño default (PrimeNG `[size]` solo afecta trigger; el overlay vive en `<body>` fuera del view encapsulation). Fix: `panelStyleClass` computed en `<sc-multi-select>` + `<sc-select>` + `<sc-datepicker>` que propaga clase al overlay; partial global SCDS nuevo `_sc-overlay-sizes.scss` con selectores para los 3 panels (font 12.25/15.75, padding 5.25/8.75 vs 8.75/12.25 según escala Figma S30). Patrón análogo a `_sc-toast.scss`. Importado desde Supervisor `main.scss`. Commit `8870e06`.
 
 ### Estado salud al cerrar S46
 
@@ -45,9 +49,9 @@
 - **p-dialog anidado dentro de p-dialog**: render pero queda hidden. Solución: sibling-pattern al nivel de la page.
 - **Tokens nuevos sin customs-catalog entry**: gap formalizado como DD-7. Toda primitive nueva requiere doc explícito + plan para Figma SC Variables.
 
-### Commits S46 (13)
+### Commits S46 (17 + commit cierre)
 
-`21857e1` · `ce6b6a9` · `913ebd7` · `95137f3` · `771c83f` · `f4ce8bd` · `9058d72` · `0e32fe6` · `894e6b7` · (+ commit final con este SESSION-LOG entry y refactors CLAUDE.md / NEXT-SESSION-PLAN).
+`21857e1` · `ce6b6a9` · `913ebd7` · `95137f3` · `771c83f` · `f4ce8bd` · `9058d72` · `0e32fe6` · `894e6b7` · `14cd2bd` · `cb2082b` · `af53858` · `8870e06` · (+ commit final con este SESSION-LOG entry actualizado).
 
 Last commit en main al cerrar: pendiente (commit final con esta entry).
 
