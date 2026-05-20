@@ -2,7 +2,7 @@ import { MOCK_CONVERSATIONS } from './conversations-mock';
 import type { Conversation } from './conversation.types';
 
 /**
- * Mock-data samples · prototype-only feature (S39).
+ * Mock-data samples · prototype feature permanente (S39).
  *
  * Cada sample es una re-shaping del mock base `MOCK_CONVERSATIONS` que
  * demuestra un estado distinto del prototipo. La `ConversationsPage`
@@ -14,14 +14,9 @@ import type { Conversation } from './conversation.types';
  * Angular (15 entries vs 156 React). Las muestras se reducen al
  * subset que tiene sentido con la base actual.
  *
- * ⚠️ PURGA PRE-DEPLOY · stakeholder no técnico:
- *   Antes de cualquier deploy real / cliente final, eliminar:
- *     · Este archivo (`mock-samples.ts`).
- *     · `MockSampleSwitcherComponent` y su uso en `ConversationsPage`.
- *     · La signal `currentSampleId` y el método `setSample()` del
- *       `ConversationsStore`.
- *   Sustituir por una carga directa de `MOCK_CONVERSATIONS` (o del
- *   backend cuando exista). Sec 17 P3 (canon React).
+ * El proyecto SmartContact es prototipo permanente sin backend real,
+ * por lo que este sistema de samples es parte canonical del demo
+ * (no deuda).
  */
 
 export interface MockSample {

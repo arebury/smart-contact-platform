@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConversationsStore } from '../../state/conversations.store';
 
 /**
- * MockSampleSwitcher · prototype-only (S39).
+ * MockSampleSwitcher · prototype feature permanente (S39).
  *
  * Switcher en la esquina superior derecha de `ConversationsPage` que
  * permite ciclar entre conjuntos curados de mock-data ("Todo procesado",
@@ -16,10 +16,9 @@ import { ConversationsStore } from '../../state/conversations.store';
  * un chip dashed amber (señal visual "este componente NO es de
  * producción") + popover con la lista de samples.
  *
- * ⚠️ PURGA PRE-DEPLOY · stakeholder no técnico:
- *   Eliminar este componente, su uso en `ConversationsPage` header
- *   y `data/mock-samples.ts` antes del primer deploy con cliente
- *   real. Sec 17 P3 (canon React).
+ * El proyecto SmartContact es prototipo permanente — no se conecta a
+ * backend real. Por tanto este switcher es parte canonical del demo,
+ * no deuda pre-deploy.
  */
 @Component({
   selector: 'sc-memory-mock-sample-switcher',
