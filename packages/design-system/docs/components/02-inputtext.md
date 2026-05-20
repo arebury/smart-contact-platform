@@ -29,7 +29,7 @@
 
 - Para valores numéricos → usar `<sc-inputnumber>` (TBD, cocinar cuando aparezca caso real).
 - Para OTP / códigos de verificación → usar `<sc-input-otp>` (TBD).
-- Para inputs con icono interactivo + texto + botón (search bar pro, prefix dropdown) → `<sc-input-group>` (TBD).
+- Para inputs con icono interactivo + texto + botón (search bar pro, prefix dropdown) → `<sc-inputgroup>` (TBD).
 - Para checkbox / radio → usar componentes específicos (`<sc-checkbox>`).
 
 ## API
@@ -277,5 +277,5 @@ Auditado Session 30. Tokens verificados vía `mcp__claude_ai_Figma__get_variable
 
 - **Padding decimal (10.5 / 7, 8.75 / 5.25, 12.25 / 8.75)**: valores raw px porque caen off-scale en `--sc-spacing-*`. Honesto 1:1 con Figma > tokens "limpios". Aplica a sc-inputtext y, vía preset, a sc-select / sc-datepicker / cualquier formField PrimeNG.
 - **Focus border color**: preset usa `--sc-bg-primary` (brand navy) en vez del Figma `#3b82f6` (azure). Decisión SC: el accent visible (electric blue) lo aplica el focusRing CSS, mientras el border respeta la primary. Cambio TBD si la audit visual dice que falta accent.
-- **Sin slots de icon** (ni `leftIcon` ni `rightIcon`): el componente Figma `❖ InputText` no contempla iconos internos. Para casos input+icon el Kit ofrece `❖ InputGroup` como componente separado (8 variants left/right/secondLeft/secondRight). Cuando aparezca el primer caso real en AED, usar `<p-inputgroup>` directo o crear `sc-input-group` wrapper.
+- **Sin slots de icon** (ni `leftIcon` ni `rightIcon`): el componente Figma `❖ InputText` no contempla iconos internos. Para casos input+icon el Kit ofrece `❖ InputGroup` como componente separado (8 variants left/right/secondLeft/secondRight). Cuando aparezca el primer caso real en AED, usar `<p-inputgroup>` directo o crear `sc-inputgroup` wrapper.
 - **Float Label / Ifta Label variants** (4 valores × 2 booleans en Figma): NO implementados como props del `<sc-inputtext>`. La composición Float Label se hace afuera vía `<p-floatlabel>` envolviendo `<sc-inputtext>` (ver sección 9 de la página demo). Ifta Label sin caso real en AED.

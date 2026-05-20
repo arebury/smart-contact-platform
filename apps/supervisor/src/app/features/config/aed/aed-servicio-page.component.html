@@ -23,7 +23,7 @@
             </p>
           </header>
 
-          <sc-input-group class="tag-input">
+          <sc-inputgroup class="tag-input">
             <input
               pInputText
               id="servicio-tag"
@@ -43,7 +43,7 @@
               <lucide-icon [img]="addIcon" [size]="14" aria-hidden="true" />
               <span>{{ 'config.aed.subpages.servicio.estados.add' | translate }}</span>
             </p-button>
-          </sc-input-group>
+          </sc-inputgroup>
 
           @if (form().estadosNoDisponibles.length > 0) {
             <ul class="chips" aria-label="Estados de no disponibilidad personalizados">

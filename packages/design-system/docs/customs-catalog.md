@@ -156,13 +156,13 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 
 Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión consciente: añadir solo cuando aparezca primer caso real de uso en AED.
 
-### 5.1 `sc-input-group` — ✅ Resuelto Session 33 (Figma `❖ InputGroup` node 6738:22644)
+### 5.1 `sc-inputgroup` — ✅ Resuelto Session 33 (Figma `❖ InputGroup` node 6738:22644)
 
 - **Figma SC**: 8 variants `Left × Right × SecondLeft × SecondRight` para addons laterales del input (icon, button, prefix/suffix con border merge).
 - **PrimeNG**: `<p-inputgroup>` + `<p-inputgroup-addon>` cubren esto.
-- **Resolución S33**: wrapper Extended cocinado en `packages/design-system/components/input-group/`. API minimal (`size`, `fluid`). Tokens fluyen via `formField.*` sin overrides propios. Spec doc `34-input-group.md` + gallery `/components/input-group` (5 escenarios) + tag-input aed-servicio migrado.
-- **Decisión arquitectónica**: NO se re-empaqueta `<p-inputgroup-addon>` como `<sc-input-group-addon>` — los addons son 100% PrimeNG sin overrides, un wrapper SC añadiría boilerplate sin valor (memoria `minimal-customization`). El consumer importa `InputGroupAddonModule` directo. Patrón consistente con `<sc-dialog>` que permite `<p-button>` por dentro.
-- **NO confundir con search**: `<sc-search>` usa `<p-iconfield>` (icon overlay decorativo dentro del input, sin border merge). `<sc-input-group>` usa `<p-inputgroup>` (addons con border merge). Semánticas distintas.
+- **Resolución S33**: wrapper Extended cocinado en `packages/design-system/components/input-group/`. API minimal (`size`, `fluid`). Tokens fluyen via `formField.*` sin overrides propios. Spec doc `34-inputgroup.md` + gallery `/components/input-group` (5 escenarios) + tag-input aed-servicio migrado.
+- **Decisión arquitectónica**: NO se re-empaqueta `<p-inputgroup-addon>` como `<sc-inputgroup-addon>` — los addons son 100% PrimeNG sin overrides, un wrapper SC añadiría boilerplate sin valor (memoria `minimal-customization`). El consumer importa `InputGroupAddonModule` directo. Patrón consistente con `<sc-dialog>` que permite `<p-button>` por dentro.
+- **NO confundir con search**: `<sc-search>` usa `<p-iconfield>` (icon overlay decorativo dentro del input, sin border merge). `<sc-inputgroup>` usa `<p-inputgroup>` (addons con border merge). Semánticas distintas.
 
 ### 5.2 `sc-select-button` — gap (Figma `❖ SelectButton` node 6738:46433)
 

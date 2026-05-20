@@ -1,4 +1,4 @@
-# sc-input-group
+# sc-inputgroup
 
 > **Type**: Extended · **AED uses**: 1 · **Figma parity**: 1:1 con Figma
 
@@ -9,14 +9,14 @@
 ## TL;DR
 
 ```html
-<sc-input-group>
+<sc-inputgroup>
   <p-inputgroup-addon>$</p-inputgroup-addon>
   <input pInputText placeholder="Price" />
   <p-inputgroup-addon>.00</p-inputgroup-addon>
-</sc-input-group>
+</sc-inputgroup>
 ```
 
-- `<sc-input-group>` envuelve `<p-inputgroup>`.
+- `<sc-inputgroup>` envuelve `<p-inputgroup>`.
 - Los addons usan `<p-inputgroup-addon>` (PrimeNG nativo). El consumer importa
   `InputGroupAddonModule` en sus `imports[]`.
 - Tokens fluyen desde `formField.*` via `sc-preset.ts`. No hay overrides propios.
@@ -78,12 +78,12 @@ La interacción la llevan el `<input pInputText>` y los `<p-button>` proyectados
 
 ## Decisiones de diseño SC
 
-1. **No re-empaquetamos `<p-inputgroup-addon>` como `<sc-input-group-addon>`.**
+1. **No re-empaquetamos `<p-inputgroup-addon>` como `<sc-inputgroup-addon>`.**
    El addon es 100% PrimeNG sin overrides; un wrapper SC añadiría boilerplate
    sin valor (memoria `minimal-customization`). El consumer importa
    `InputGroupAddonModule` directamente.
 
-2. **Dentro de `sc-input-group` se usa `<input pInputText>` nativo**, NO
+2. **Dentro de `sc-inputgroup` se usa `<input pInputText>` nativo**, NO
    `<sc-inputtext>`. Razón: `sc-inputtext` arrastra chrome de campo-en-formulario
    (label, helper, error) que rompería el merge visual del grupo. Para el
    label, ponerlo en el `<header>` exterior de la sub-section.
@@ -149,6 +149,6 @@ via `formField.*` → `sc-preset.ts` → `--sc-*`.
 
 ## Resuelve
 
-- `inconsistencies-backlog.md` #5 — gap `<sc-input-group>` (P2). Trigger real:
+- `inconsistencies-backlog.md` #5 — gap `<sc-inputgroup>` (P2). Trigger real:
   tag-input aed-servicio.
 - `customs-catalog.md` §5.6 — gap documentado con node Figma.

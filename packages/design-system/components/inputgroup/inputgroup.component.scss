@@ -1,5 +1,5 @@
 /*
- * sc-input-group — wrapper Extended sobre <p-inputgroup>.
+ * sc-inputgroup — wrapper Extended sobre <p-inputgroup>.
  *
  * PrimeNG se encarga del border-merge entre input y addons (los addons
  * absorben el borde compartido). Lo único que añadimos aquí son:
@@ -17,19 +17,19 @@
  *   --p-inputgroup-addon-min-width     → 2.5rem (heredado Aura)
  */
 
-.sc-input-group {
+.sc-inputgroup {
   display: block;
   min-width: 0;
 }
 
-.sc-input-group__inner--fluid {
+.sc-inputgroup__inner--fluid {
   width: 100%;
   display: flex;
 }
 
 /* ───── Size variants — alinear con sc-input padding decimal (10.5/7) ───── */
 
-.sc-input-group--sm .sc-input-group__inner {
+.sc-inputgroup--sm .sc-inputgroup__inner {
   /* sc-input sm: padding 8.75/5.25, font-size 12.25 — replicamos en addon. */
   .p-inputgroup-addon {
     padding: 5.25px 8.75px;
@@ -44,7 +44,7 @@
   }
 }
 
-.sc-input-group--lg .sc-input-group__inner {
+.sc-inputgroup--lg .sc-inputgroup__inner {
   /* sc-input lg: padding 12.25/8.75, font-size 15.75. */
   .p-inputgroup-addon {
     padding: 8.75px 12.25px;

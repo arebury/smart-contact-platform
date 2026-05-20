@@ -3,8 +3,8 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Input group</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-input-group&gt;</code> envuelve <code>&lt;p-inputgroup&gt;</code> para componer
-      un input con addons left/right: texto, icono, botón, checkbox o radio. PrimeNG hace el
+      <code>&lt;sc-inputgroup&gt;</code> envuelve <code>&lt;p-inputgroup&gt;</code> para componer un
+      input con addons left/right: texto, icono, botón, checkbox o radio. PrimeNG hace el
       <em>border-merge</em> entre el input y los addons (los addons absorben el borde compartido);
       el wrapper SCDS solo añade <code>size</code> y <code>fluid</code> para combinar con el resto
       del DS. Distinto de <code>sc-search</code>, que es para icon overlay decorativo sin borde
@@ -20,7 +20,7 @@
       addons absorben el borde compartido — el resultado lee como una pieza única.
     </p>
     <div class="gallery__row gallery__row--stack">
-      <sc-input-group>
+      <sc-inputgroup>
         <p-inputgroup-addon>$</p-inputgroup-addon>
         <input
           pInputText
@@ -29,9 +29,9 @@
           (input)="price.set($any($event.target).value)"
         />
         <p-inputgroup-addon>.00</p-inputgroup-addon>
-      </sc-input-group>
+      </sc-inputgroup>
 
-      <sc-input-group>
+      <sc-inputgroup>
         <p-inputgroup-addon>www.</p-inputgroup-addon>
         <input
           pInputText
@@ -39,7 +39,7 @@
           [value]="website()"
           (input)="website.set($any($event.target).value)"
         />
-      </sc-input-group>
+      </sc-inputgroup>
     </div>
   </section>
 
@@ -52,7 +52,7 @@
       <code>p-iconfield</code> en lugar de este componente.
     </p>
     <div class="gallery__row">
-      <sc-input-group>
+      <sc-inputgroup>
         <p-inputgroup-addon>
           <i class="pi pi-user" aria-hidden="true"></i>
         </p-inputgroup-addon>
@@ -62,7 +62,7 @@
           [value]="username()"
           (input)="username.set($any($event.target).value)"
         />
-      </sc-input-group>
+      </sc-inputgroup>
     </div>
   </section>
 
@@ -73,7 +73,7 @@
       Hasta 2 addons por lado. Refleja la variante "Multiple" del kit Figma Smart Contact Prime.
     </p>
     <div class="gallery__row">
-      <sc-input-group>
+      <sc-inputgroup>
         <p-inputgroup-addon>
           <i class="pi pi-clock" aria-hidden="true"></i>
         </p-inputgroup-addon>
@@ -88,7 +88,7 @@
         />
         <p-inputgroup-addon>$</p-inputgroup-addon>
         <p-inputgroup-addon>.00</p-inputgroup-addon>
-      </sc-input-group>
+      </sc-inputgroup>
     </div>
   </section>
 
@@ -101,7 +101,7 @@
       disponibilidad. <kbd>Enter</kbd> también añade.
     </p>
     <div class="gallery__row gallery__row--stack">
-      <sc-input-group>
+      <sc-inputgroup>
         <input
           pInputText
           placeholder="Nuevo estado (ej. Reunión)"
@@ -118,7 +118,7 @@
           [disabled]="!tag().trim()"
           (onClick)="addTag()"
         />
-      </sc-input-group>
+      </sc-inputgroup>
 
       @if (tags().length > 0) {
         <ul class="gallery__chips" aria-label="Estados añadidos">
@@ -143,22 +143,22 @@
       misma fila que campos sueltos sin desnivel visual.
     </p>
     <div class="gallery__row gallery__row--stack">
-      <sc-input-group size="sm">
+      <sc-inputgroup size="sm">
         <p-inputgroup-addon>@</p-inputgroup-addon>
         <input pInputText placeholder="usuario" />
-      </sc-input-group>
+      </sc-inputgroup>
 
-      <sc-input-group>
+      <sc-inputgroup>
         <p-inputgroup-addon>@</p-inputgroup-addon>
         <input pInputText placeholder="usuario (md, default)" />
-      </sc-input-group>
+      </sc-inputgroup>
 
-      <sc-input-group size="lg">
+      <sc-inputgroup size="lg">
         <p-inputgroup-addon>@</p-inputgroup-addon>
         <input pInputText placeholder="usuario (lg)" />
-      </sc-input-group>
+      </sc-inputgroup>
     </div>
   </section>
 
-  <sc-ds-docs-gallery-footer slug="input-group" />
+  <sc-ds-docs-gallery-footer slug="inputgroup" />
 </div>

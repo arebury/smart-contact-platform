@@ -49,8 +49,8 @@ export type { ScInputSize, ScInputType } from './inputtext/inputtext.component';
 export { InputNumberComponent } from './inputnumber/inputnumber.component';
 export type { ScInputNumberSize } from './inputnumber/inputnumber.component';
 
-export { InputGroupComponent } from './input-group/input-group.component';
-export type { ScInputGroupSize } from './input-group/input-group.component';
+export { InputGroupComponent } from './inputgroup/inputgroup.component';
+export type { ScInputGroupSize } from './inputgroup/inputgroup.component';
 
 export { SelectComponent } from './select/select.component';
 export type { ScSelectSize } from './select/select.component';

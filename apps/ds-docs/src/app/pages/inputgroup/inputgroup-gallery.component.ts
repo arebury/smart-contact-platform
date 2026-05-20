@@ -3,11 +3,11 @@ import { ButtonModule } from 'primeng/button';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { InputGroupComponent } from '@sc/design-system/components/input-group/input-group.component';
+import { InputGroupComponent } from '@sc/design-system/components/inputgroup/inputgroup.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
-  selector: 'sc-ds-docs-input-group-gallery',
+  selector: 'sc-ds-docs-inputgroup-gallery',
   standalone: true,
   imports: [
     InputGroupComponent,
@@ -16,8 +16,8 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
     ButtonModule,
     GalleryFooterComponent,
   ],
-  templateUrl: './input-group-gallery.component.html',
-  styleUrl: './input-group-gallery.component.scss',
+  templateUrl: './inputgroup-gallery.component.html',
+  styleUrl: './inputgroup-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputGroupGalleryComponent {

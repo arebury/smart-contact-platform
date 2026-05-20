@@ -14,17 +14,17 @@ export type ScInputGroupSize = 'sm' | 'md' | 'lg';
  * componer un input con addons left/right (texto, icono, botón, checkbox o
  * radio). PrimeNG ya hace el border-merge entre el input y los addons; el
  * wrapper aquí solo añade:
- *   - selector brand-prefijado `sc-input-group` (consistencia DS).
+ *   - selector brand-prefijado `sc-inputgroup` (consistencia DS).
  *   - prop `size` que matchea `sc-input` (sm/md/lg) para combinar alturas
  *     cuando el input-group convive con otros campos.
  *
  * Patrón de uso (content projection):
  * ```html
- * <sc-input-group>
+ * <sc-inputgroup>
  *   <p-inputgroup-addon>$</p-inputgroup-addon>
  *   <input pInputText placeholder="Price" />
  *   <p-inputgroup-addon>.00</p-inputgroup-addon>
- * </sc-input-group>
+ * </sc-inputgroup>
  * ```
  *
  * El consumer importa `InputGroupAddonModule` y `InputTextModule` de PrimeNG
@@ -34,17 +34,17 @@ export type ScInputGroupSize = 'sm' | 'md' | 'lg';
  * Figma SC reference: `❖ InputGroup` node 6738:22644.
  */
 @Component({
-  selector: 'sc-input-group',
+  selector: 'sc-inputgroup',
   standalone: true,
   imports: [InputGroupModule],
-  templateUrl: './input-group.component.html',
-  styleUrl: './input-group.component.scss',
+  templateUrl: './inputgroup.component.html',
+  styleUrl: './inputgroup.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
-    class: 'sc-input-group',
-    '[class.sc-input-group--sm]': "size() === 'sm'",
-    '[class.sc-input-group--lg]': "size() === 'lg'",
+    class: 'sc-inputgroup',
+    '[class.sc-inputgroup--sm]': "size() === 'sm'",
+    '[class.sc-inputgroup--lg]': "size() === 'lg'",
   },
 })
 export class InputGroupComponent {
@@ -53,6 +53,6 @@ export class InputGroupComponent {
   readonly fluid = input<boolean>(true);
 
   protected readonly innerClass = computed(() =>
-    this.fluid() ? 'sc-input-group__inner sc-input-group__inner--fluid' : 'sc-input-group__inner',
+    this.fluid() ? 'sc-inputgroup__inner sc-inputgroup__inner--fluid' : 'sc-inputgroup__inner',
   );
 }

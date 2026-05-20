@@ -61,7 +61,7 @@ const CATEGORY_BY_SLUG: Record<string, ComponentCategory> = {
   // Formularios y entrada
   inputtext: 'form',
   inputnumber: 'form',
-  'input-group': 'form',
+  inputgroup: 'form',
   select: 'form',
   multiselect: 'form',
   datepicker: 'form',
@@ -221,13 +221,13 @@ export class HomeComponent {
         'AED → Configuración → AED → Grupos → Capacidad ("Límite de cola") + 2 tiempos en segundos (transferencia, max espera). 3 fields migrados como POC. Resto pendiente de migración por feature.',
     },
     {
-      slug: 'input-group',
-      name: 'Input group',
+      slug: 'inputgroup',
+      name: 'InputGroup',
       type: 'extended',
       parity: 'audited-full',
       aedUses: 1,
       memoryUses: 0,
-      pageRoute: '/components/input-group',
+      pageRoute: '/components/inputgroup',
       whatItDoes:
         'Agrupa un input con addons pegados a izquierda o derecha (prefijo $, sufijo .00, icono usuario, botón "Añadir"…). PrimeNG funde los bordes para que el conjunto se lea como una pieza única.',
       whereToSee:

@@ -128,7 +128,7 @@ Específicos del componente:
   ya dice "Agentes" → el search no necesita label "Buscar"). Si llega
   caso de search dentro de un formulario que requiera label/error,
   usar `<sc-inputtext type="search">` directo con `[leftIcon]` cuando
-  exista `sc-input-group` (gap §5.1 customs-catalog).
+  exista `sc-inputgroup` (gap §5.1 customs-catalog).
 - **shortcutHint desaparece al focus**: no es prop, es comportamiento
   hardcoded. Patrón GitHub / Linear / Slack. Si llegara caso de "hint
   siempre visible", añadir `[hintAlwaysVisible]` prop (no urgente).

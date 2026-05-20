@@ -41,7 +41,7 @@ const COMPONENTS: readonly NavLink[] = [
   { slug: 'command-palette', name: 'Command palette', num: '31' },
   { slug: 'keyboard-shortcuts', name: 'Keyboard shortcuts', num: '32' },
   { slug: 'confirm-host', name: 'Confirm host', num: '33' },
-  { slug: 'input-group', name: 'Input group', num: '34' },
+  { slug: 'inputgroup', name: 'Input group', num: '34' },
 ];
 
 const SPEC_DOC_NAMES: Record<string, string> = {
@@ -78,7 +78,7 @@ const SPEC_DOC_NAMES: Record<string, string> = {
   'command-palette': '31-command-palette.md',
   'keyboard-shortcuts': '32-keyboard-shortcuts.md',
   'confirm-host': '33-confirm-host.md',
-  'input-group': '34-input-group.md',
+  inputgroup: '34-inputgroup.md',
 };
 
 /**

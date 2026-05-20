@@ -110,9 +110,9 @@ export const appRoutes: Routes = [
       ),
   },
   {
-    path: 'components/input-group',
+    path: 'components/inputgroup',
     loadComponent: () =>
-      import('./pages/input-group/input-group-gallery.component').then(
+      import('./pages/inputgroup/inputgroup-gallery.component').then(
         (m) => m.InputGroupGalleryComponent,
       ),
   },
