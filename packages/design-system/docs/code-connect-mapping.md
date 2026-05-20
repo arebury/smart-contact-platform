@@ -1,8 +1,12 @@
 # Code Connect mapping · Angular ↔ Figma SC Kit Pro
 
-> **Estado**: bootstrap inicial (S41). Eje 4 punto 2b del mapa
-> estratégico vigente. Tabla viva — añadir entry cuando se valide un
-> componente nuevo SCDS contra un Figma component del Kit.
+> **Estado**: DORMIDO (decisión S48). Bootstrap inicial documental (S41). Code
+> Connect oficial **NO publicado** a Figma. Tabla viva interna — añadir entry
+> cuando se valide un componente nuevo SCDS contra un Figma component del Kit.
+>
+> **Trigger reapertura**: cuando el equipo de producción adopte SCDS y exista
+> el wrapper `<sc-*>` en su codebase con naming validado. Ver §"Estado
+> dormido + setup futuro" al final.
 >
 > **Origen**: durante S41 rendericé `/admin/agentes/crear` en Figma
 > con instances reales del Kit Pro (file key `khNq9dJKNi13pNllrqm6dx`).
@@ -224,3 +228,146 @@ mapa estratégico, dormido hasta que Marta + Rafa se pongan):
 3. Asignar el `boundFill` al `node.fills = [boundFill]`.
 4. Verificar `node.fills[0].boundVariables.color.id` apunta al
    VariableID esperado.
+
+---
+
+## Estado dormido + setup futuro (decisión S48)
+
+### Por qué Code Connect oficial está dormido
+
+S48 evaluamos publicar Code Connect oficial (`@figma/code-connect` CLI + `*.figma.ts`
+con `parser: "html"`, Angular soportado desde oct/2024). **Decisión: posponer**.
+
+Razón principal: **este repo es del equipo de diseño (Rafa + Marta + Claude). Los devs
+de producción que aplicarán SCDS NO tienen acceso a este repo**. Publicar Code Connect
+hoy generaría:
+
+1. **Snippets con referencias rotas**: `<sc-inputtext>` e `import { InputtextComponent }
+   from '@sc/design-system/components'` referencian implementación que NO existe en el
+   repo de producción.
+2. **Imposición unilateral de naming**: estamos dictando "así se debe instanciar" sin
+   validar con el equipo prod que su stack acepta este convention. Su naming puede ser
+   distinto (`<smart-input>`, `<ds-text-field>`, etc.).
+3. **Riesgo de reverso**: si en N meses prod adopta SCDS con naming distinto, hay que
+   rehacer los `.figma.ts` y republicar. Trabajo en vacío.
+
+El comparable "worst case sin Code Connect = dev importa PrimeNG directo" (argumento
+válido para Shopify/GitHub-style equipos compartiendo codebase) **no aplica aquí** —
+los devs prod no tienen PrimeNG ni SCDS, tienen su propio stack.
+
+Mientras tanto, este `code-connect-mapping.md` cubre el rol de source-of-truth interno
+del mapping Angular↔Figma para sparring entre Rafa/Marta/Claude. Suficiente.
+
+### Trigger de reapertura
+
+Reabrir cuando **TODOS** los siguientes sean verdad:
+
+- [ ] El equipo de producción ha adoptado SCDS (vía npm package publicado, copia de
+      componentes, o lo que negociéis).
+- [ ] Los wrappers `<sc-*>` existen en el codebase de producción **con el mismo naming**
+      que tenemos aquí (validado con un dev prod, no asumido).
+- [ ] Hay al menos 1 dev prod consumiendo el DS desde Figma activamente (no en teoría).
+
+Si solo se cumple "queremos que se vea profesional para case-study" sin un consumidor
+real → NO reabrir. Es overhead sin ROI.
+
+### Setup futuro (cuando se reabra)
+
+Pasos exactos, validados S48:
+
+```bash
+# 1. Instalar dep (NO instalada hoy a propósito — coger versión vigente entonces)
+npm install -D @figma/code-connect@latest
+
+# 2. Inicializar config en root
+npx figma connect create
+# Te pregunta parser → elegir "html"
+# Te pregunta token Figma → access token con permisos Code Connect (Dev Mode)
+# Genera figma.config.json en root
+```
+
+**`figma.config.json` esperado** (parser html, Angular auto-detectado del package.json):
+
+```json
+{
+  "codeConnect": {
+    "parser": "html",
+    "include": ["packages/design-system/components/**/*.figma.ts"],
+    "exclude": ["node_modules/**"]
+  }
+}
+```
+
+**Ubicación archivos** (decisión S48): co-localizados con el componente Angular.
+Ejemplo `packages/design-system/components/inputtext/inputtext.figma.ts`:
+
+```ts
+import figma, { html } from '@figma/code-connect/html';
+import { InputtextComponent } from './inputtext.component';
+
+figma.connect(
+  InputtextComponent,
+  'https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/...?node-id=23-835',
+  {
+    props: {
+      label: figma.string('↳ Label#5662:83'),
+      placeholder: figma.string('Placeholder'), // text node interno, ver gotcha S41
+      error: figma.enum('❌ Invalid', { True: true, False: false }),
+      disabled: figma.enum('🚫 Disabled', { True: true, False: false }),
+      size: figma.enum('🤏 Size', {
+        Small: 'small',
+        Normal: 'normal',
+        Large: 'large'
+      }),
+    },
+    example: (props) => html`
+      <!-- SCDS wrapper (Smart Contact DS). Wraps PrimeNG p-inputtext with -->
+      <!-- label/helper/error spec. See packages/design-system/components/inputtext/ -->
+      <sc-inputtext
+        [label]="${props.label}"
+        [placeholder]="${props.placeholder}"
+        [error]="${props.error}"
+        [disabled]="${props.disabled}"
+      />
+    `,
+  }
+);
+```
+
+**Publicación** (genera el snippet visible en Dev Mode):
+
+```bash
+npx figma connect publish
+```
+
+### Wrappers candidatos para bootstrap (7 renombrados S47, naming 1:1 Kit Pro)
+
+Hechos S47, naming wrappers = nombre Figma literal. Listos para bootstrap cuando llegue
+el trigger:
+
+1. `<sc-inputtext>` ↔ `❖ inputtext` — nodeId `23:835` (mapping completo arriba)
+2. `<sc-inputnumber>` ↔ `❖ inputnumber` — pendiente nodeId, sigue patrón inputtext
+3. `<sc-inputgroup>` ↔ `❖ inputgroup` — pendiente nodeId
+4. `<sc-multiselect>` ↔ `❖ multiselect` — pendiente nodeId
+5. `<sc-toggleswitch>` ↔ `❖ toggleswitch` — nodeId `260:11899` (arriba)
+6. `<sc-dialog>` ↔ `❖ dialog` — pendiente nodeId (tokens `--sc-dialog-*` ya alineados)
+7. `<sc-checkbox>` ↔ `❖ checkbox` — pendiente nodeId
+
+Más los pre-existentes:
+- `<p-button>` (no wrapper, override en preset) ↔ `❖ button` — nodeId `10:125`
+- `<sc-select>` ↔ `❖ select` — nodeId `156:5882`
+
+### Checklist mantenimiento durante dormido
+
+- Si renombramos un wrapper SCDS, **actualizar este doc también** (regla DD-8 ya cubre
+  naming portable, pero conviene re-leer este doc al hacer rename).
+- Si Marta re-publica el Kit Pro con nuevos nodeIds, los IDs documentados arriba pueden
+  obsolescer. No crítico mientras esté dormido — se re-verifican al reabrir.
+- Si sale `@figma/code-connect@2.x` con breaking changes en parser html, este setup
+  puede quedar obsoleto. Re-validar al reabrir.
+
+### Referencias
+
+- Doc oficial parser html (Angular): https://developers.figma.com/docs/code-connect/html/
+- Decisión S48 en chat de sesión.
+- Memory auto Claude: `feedback_code_connect_dormant.md`.

@@ -10,6 +10,74 @@
 
 ---
 
+## 2026-05-20 · Session 48 — Code Connect dormido (sparring) + §10 #12 Synonyms granulares Memory
+
+> Sesión corta y reflexiva. Plan original era Eje 2 (Code Connect mapping de los 7
+> wrappers SCDS renombrados S47). Sparring con Rafa pivota a **postponer Code
+> Connect** con trigger documentado (devs prod ≠ devs diseño, snippets generarían
+> referencias rotas en su Dev Mode Figma). Tras cerrar Code Connect dormido, se
+> ataca §10 #12 — Synonyms granulares per-value en EntityFormModal (Memory).
+
+### Hitos
+
+1. **Sparring Code Connect: posponer con trigger** — confirmado vía CLI que
+   `@figma/code-connect@1.4.5` soporta Angular vía `parser: "html"` (no `.figma.tsx`,
+   son `.figma.ts` con template strings). Premisa inicial mía ("worst case sin
+   Code Connect = devs prod importan PrimeNG directo") era válida para
+   Shopify/GitHub pero **no aplica aquí**: este repo es del equipo de diseño SC
+   (Rafa + Marta + Claude); los devs prod no acceden a este código. Publicar
+   snippets `<sc-inputtext>` + import `@sc/design-system/...` desde aquí generaría
+   referencias rotas en Dev Mode Figma + imposición unilateral de naming + riesgo
+   de reverso. Decisión: **NO instalar dep, NO publicar**. Setup completo cuando
+   llegue trigger (los 3): prod adopta SCDS + wrappers existen con mismo naming +
+   ≥1 dev prod consume DS desde Figma. Documentado en
+   `packages/design-system/docs/code-connect-mapping.md` §"Estado dormido + setup
+   futuro" con comandos exactos, `.figma.ts` ejemplo, checklist. Entry en
+   `NEXT-SESSION-PLAN.md` "NO atacar sin trigger". Memory auto persistente
+   `feedback_code_connect_dormant.md` + `reference_code_connect_mapping.md`.
+2. **§10 #12 — Synonyms granulares per-value** — refactor `EntityFormModal`
+   (componente unificado Create+Edit, S38 iter 10b). Tipo interno
+   `ListValueDraft = { value: string, synonymsCsv: string, expanded: boolean }`.
+   Sustituye `signal<readonly string[]>` (que persistía `synonyms: []` siempre
+   vacío). UI 1:1 React legacy `CreateEntityModal.tsx`: card per value con input
+   principal + trash + trigger "Añadir sinónimos, separados por comas" (text-xs
+   dotted underline) → click expande input synonyms con label "Sinónimos". Save
+   parsea CSV → `EntityListValue.synonyms: string[]`. Edit mode reconstruye
+   `synonymsCsv = synonyms.join(', ')` + `expanded = synonyms.length > 0`. i18n
+   3 keys nuevas × 4 idiomas (es/en/fr/pt). Sin layout shift CLS (expand es
+   action explícita usuario). Verificado Playwright ad-hoc: create entity list +
+   "Madrid" con "MAD, mad, madrid_capital" + "Barcelona" sin synonyms + save +
+   reopen edit → synonyms persisten correctamente y Barcelona mantiene collapsed.
+
+### Lecciones portables
+
+- **"Quién consume" cambia el ROI de Code Connect**. Para equipos con
+  consumidores del DS dentro del mismo repo (Shopify/GitHub-style): publicar +
+  visible Dev Mode es win. Para equipos donde el repo es solo del diseño y los
+  devs viven en otro stack: publicar es imposición unilateral con riesgo de
+  reverso. Sparring de Rafa modeló este sesgo perfectamente; mi argumentación
+  inicial partía de premisa errada.
+- **Memoria del data model adelantada al UI**. `EntityListValue.synonyms` ya
+  existía como `readonly string[]` en `entity.types.ts` desde S38 — el wrapper
+  React había decidido la shape correcta. El UI Angular en S38 simplificó
+  (synonyms vacío) con TODO "diferido a iter futura". S48 solo cierra el TODO;
+  no toca tipos. Este patrón (definir data correcto, simplificar UI primero,
+  ampliar después) protege contra refactors cascadeantes.
+- **Storage interno objeto > CSV string** vs React. React legacy guardaba
+  draft como string `"Madrid, MAD, mad"` y parseaba al save (bug latente: ¿qué
+  pasa si el valor contiene comma?). Angular S48 separa `value` y `synonymsCsv`
+  en el draft → no hay bug del comma-in-value. Coste extra: cero (mismo número
+  de updates), beneficio: type-safe.
+
+### Estado salud cierre S48
+
+- tsc verde supervisor.
+- Playwright ad-hoc test pasó (no añadido al smoke suite — feature interna
+  no requiere e2e por inercia: 1 modal Memory, no SCDS/core/i18n consolidation).
+- Sin nuevas deudas SCDS. Sin nuevas inconsistencias.
+
+---
+
 ## 2026-05-20 · Session 47 — Sweep deudas diseño + naming Figma DS literal + renames SCDS 7 wrappers
 
 > Sesión continua de deudas de diseño y consistencia. **13 commits a `main` pusheados**

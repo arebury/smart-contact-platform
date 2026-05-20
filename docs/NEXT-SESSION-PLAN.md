@@ -5,7 +5,21 @@
 
 ---
 
-## Estado al cerrar (Session 47, 2026-05-20)
+## Estado al cerrar (Session 48, 2026-05-20)
+
+**2 commits a `main`**: (1) feat Memory §10 #12 Synonyms granulares per-value
+EntityFormModal, (2) docs S48 (Code Connect dormido + inventory + SESSION-LOG
++ memory). Sesión corta y reflexiva tras la maratón S47.
+
+**Lo grande de S48**: sparring con Rafa pivota Eje 2 (Code Connect mapping) →
+**dormido con trigger**. Razón: devs prod no acceden a este repo; publicar
+snippets `<sc-inputtext>` generaría referencias rotas en su Dev Mode Figma.
+Trigger reapertura y setup futuro completos en
+[`code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md).
+
+Tras Code Connect, atacado §10 #12 Memory.
+
+### Estado al cerrar S47 (referencia)
 
 **31 commits a `main` pusheados** en una sesión maratón. Sweep total de deudas
 de diseño + consistencia + features Memory polish. Codebase en estado salud
@@ -37,35 +51,40 @@ items #38–#52 todos resueltos o registrados con dependencia humana.
 
 ## Próximos jugosos (priorizados)
 
-### 🎯 Eje 1 — Memory polish UX (resto del §10)
+### 🎯 Eje 1 — Memory polish UX (resto del §10) 🆕 NEXT SESSION TOP S49
 
 | # | Item | Tamaño | Trigger |
 |---|---|---|---|
 | §10 #4 | ~~Modal Download heredado SC~~ | ✅ Cerrado S47 | — |
-| §10 #12 | **Synonyms granulares per-value en EntityFormModal** | ~2h | Rafa decisión UI: ¿collapsable per-row con array inputs? |
+| §10 #12 | ~~**Synonyms granulares per-value en EntityFormModal**~~ | ✅ Cerrado S48 | — |
 | §10 #13 | **CategoryRuleLinking interactivo bidireccional** | ~3h (refactor 3-piezas) | Extender `Rule` con `categorias`, selector RuleBuilder, UI interactiva CategoryFormModal |
 
-### 🎯 Eje 2 — Code Connect mapping (Figma ↔ SCDS) 🆕 NEXT SESSION TOP
+### 🎯 Eje 2 — Code Connect mapping (Figma ↔ SCDS) — DORMIDO con trigger (decisión S48)
 
-Tras S47, el naming SCDS está **1:1 con Kit Pro Figma + PrimeNG**. Code Connect ahora
-es mapping directo sin alias.
+**Estado**: pospuesto en S48 tras sparring. **NO atacar sin trigger explícito**.
 
-**Aclaración para Rafa** (de la última conversación S47):
-- **Figma MCP** (lo que ya tienes operativo) = Model Context Protocol que conecta
-  Claude → Figma. Claude lee designs vía tools `mcp__figma__*` y
-  `mcp__claude_ai_Figma__*`. Configurado.
-- **Figma Code Connect** = producto distinto. **NO es un plugin Figma**, es un
-  CLI + librería NPM que vive en el repo. Mapea componentes Figma a sources en
-  código (file path + line). El developer ve el mapping al inspeccionar un
-  componente en Figma.
-- **NO confrontan**. Son herramientas complementarias: MCP lee designs;
-  Code Connect publica el binding code↔Figma.
+Razón corta: los devs de producción que aplicarán SCDS NO tienen acceso a este repo.
+Publicar Code Connect hoy generaría snippets con referencias rotas (`<sc-inputtext>`,
+import `@sc/design-system/...`) en su Dev Mode Figma. Imposición unilateral de naming
++ riesgo de reverso si su naming difiere.
 
-Pasos S48:
-1. Rafa abre Figma con el Kit Pro accesible.
-2. Claude lee `packages/design-system/docs/code-connect-mapping.md` (config existe S41) y propone el setup CLI `@figma/code-connect`.
-3. Bootstrap mappings de los 7 wrappers renombrados S47: `inputtext`, `inputnumber`, `inputgroup`, `multiselect`, `toggleswitch`, `dialog`, `checkbox`.
-4. Validación: Rafa abre cualquier componente en Figma → ve sample code real del SCDS.
+**Trigger reapertura** (los 3 deben ser verdad):
+1. Equipo producción ha adoptado SCDS (npm package, copia, lo que sea).
+2. Wrappers `<sc-*>` existen en codebase prod con mismo naming (validado, no asumido).
+3. Hay al menos 1 dev prod consumiendo el DS desde Figma activamente.
+
+**Setup completo cuando se reabra** (comandos exactos, archivo `*.figma.ts` ejemplo,
+checklist, lista wrappers candidatos): ver
+[`packages/design-system/docs/code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md)
+§ "Estado dormido + setup futuro".
+
+**Aclaración técnica vigente** (de S47, mantener para futuras sesiones):
+- **Figma MCP** (operativo en mis tools) = lectura Figma → Claude. `mcp__figma__*` y
+  `mcp__claude_ai_Figma__*`.
+- **Figma Code Connect** = producto distinto. CLI + lib NPM `@figma/code-connect`. NO
+  es plugin Figma. Para Angular usa `parser: "html"` (no `.figma.tsx`, son `.figma.ts`
+  con template strings Angular). Soportado oct/2024.
+- **NO confrontan**. Complementarios.
 
 ### 🎯 Eje 3 — Refactor god-components Memory (defensivo)
 
@@ -89,6 +108,7 @@ Ver [`memory-migration-inventory.md §10`](./memory-migration-inventory.md). Ite
 
 ### ⏸️ NO atacar sin trigger explícito
 
+- **Code Connect oficial publish** (Eje 2 arriba) — dormido S48. Trigger = prod adopta SCDS con naming validado + dev prod consume Figma. Detalle setup futuro en `code-connect-mapping.md`.
 - **#31 modular theme PrimeNG** — el proyecto NO va a producción real con backend (decisión Rafa S47). Sin trigger Web Vitals real → trabajo en vacío.
 - **§10 #3 `<sc-audio-player>` wrapper SCDS** — declinado S46 (DM-7).
 - **`<sc-data-table>`, `<sc-select-button>`, `<sc-tag>`, `<sc-toggle-button>`** — gaps documentados sin caso real.
@@ -100,13 +120,13 @@ Ver [`memory-migration-inventory.md §10`](./memory-migration-inventory.md). Ite
 
 ---
 
-## Cómo arrancar S48
+## Cómo arrancar S49 (post-S48)
 
 1. Leer este doc + [`DOCS-INDEX.md`](./DOCS-INDEX.md) (5 min).
-2. **Si toca Code Connect** (Eje 2): leer [`packages/design-system/docs/code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md) (config inicial S41). El plan de bootstrap está arriba.
-3. Si toca Memory → leer [`memory-migration-inventory.md`](./memory-migration-inventory.md) §10.
-4. Si toca SCDS / tokens → leer [`packages/design-system/docs/DECISIONS.md`](../packages/design-system/docs/DECISIONS.md) + [`customs-catalog.md`](../packages/design-system/docs/customs-catalog.md).
-5. Si toca AED → leer [`apps/supervisor/docs/DECISIONS.md`](../apps/supervisor/docs/DECISIONS.md).
+2. **Si toca Memory** (prioridad TOP post-S48) → leer [`memory-migration-inventory.md`](./memory-migration-inventory.md) §10. Items vivos: #12 Synonyms granulares, #13 CategoryRuleLinking.
+3. Si toca SCDS / tokens → leer [`packages/design-system/docs/DECISIONS.md`](../packages/design-system/docs/DECISIONS.md) + [`customs-catalog.md`](../packages/design-system/docs/customs-catalog.md).
+4. Si toca AED → leer [`apps/supervisor/docs/DECISIONS.md`](../apps/supervisor/docs/DECISIONS.md).
+5. **Code Connect oficial está dormido** — NO atacar sin que se cumpla el trigger documentado arriba + en [`code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md).
 6. Historia detallada por sesión: [`SESSION-LOG.md`](./SESSION-LOG.md).
 
 ---
