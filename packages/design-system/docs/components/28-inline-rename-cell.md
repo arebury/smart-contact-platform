@@ -1,6 +1,6 @@
 # 28 · Inline Rename Cell (`<sc-inline-rename-cell>`)
 
-![28-inline-rename-cell](./screenshots/28-inline-rename-cell.png)
+![inline-rename-cell](./screenshots/inline-rename-cell.png)
 
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 

@@ -1,6 +1,6 @@
 # 09 · Checkbox (`<sc-checkbox>`)
 
-![09-checkbox](./screenshots/09-checkbox.png)
+![checkbox](./screenshots/checkbox.png)
 
 > **Type**: Pure SC · **AED uses**: 6 · **Figma parity**: 1:1 con Figma
 

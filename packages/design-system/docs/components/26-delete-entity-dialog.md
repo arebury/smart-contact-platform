@@ -1,6 +1,6 @@
 # 26 · Delete Entity Dialog (`<sc-delete-entity-dialog>`)
 
-![26-delete-entity-dialog](./screenshots/26-delete-entity-dialog.png)
+![delete-entity-dialog](./screenshots/delete-entity-dialog.png)
 
 > **Type**: Pure SC · **AED uses**: 8 · **Figma parity**: Sin Figma equivalente
 

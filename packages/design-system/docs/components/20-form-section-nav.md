@@ -1,6 +1,6 @@
 # 20 · Form Section Nav (`<sc-form-section-nav>`)
 
-![20-form-section-nav](./screenshots/20-form-section-nav.png)
+![form-section-nav](./screenshots/form-section-nav.png)
 
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 

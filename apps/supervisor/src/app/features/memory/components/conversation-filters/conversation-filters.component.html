@@ -119,31 +119,23 @@
         <lucide-icon [img]="downloadIcon" [size]="18" aria-hidden="true" />
       </button>
 
-      <button
-        type="button"
-        class="memory-toolbar-icon"
-        [attr.aria-label]="
-          'memory.conversations.filters.mark_read_aria' | translate: { count: selectedCount() }
-        "
-        [attr.title]="'memory.conversations.filters.mark_read' | translate"
-        (click)="bulkMarkReadRequested.emit()"
-        [disabled]="selectedCount() === 0"
-      >
-        <lucide-icon [img]="markReadIcon" [size]="18" aria-hidden="true" />
-        @if (selectedCount() > 0) {
-          <span class="memory-toolbar-icon__badge">{{ selectedCount() }}</span>
-        }
-      </button>
-
-      <button
-        type="button"
-        class="memory-toolbar-icon memory-toolbar-icon--muted"
-        [attr.aria-label]="'memory.conversations.filters.help' | translate"
-        [attr.title]="'memory.conversations.filters.help' | translate"
-        (click)="helpRequested.emit()"
-      >
-        <lucide-icon [img]="helpIcon" [size]="18" aria-hidden="true" />
-      </button>
+      @if (failedCount() > 0) {
+        <button
+          type="button"
+          class="memory-toolbar-icon"
+          [attr.aria-label]="
+            'memory.conversations.filters.mark_read_aria' | translate: { count: selectedCount() }
+          "
+          [attr.title]="'memory.conversations.filters.mark_read' | translate"
+          (click)="bulkMarkReadRequested.emit()"
+          [disabled]="selectedCount() === 0"
+        >
+          <lucide-icon [img]="markReadIcon" [size]="18" aria-hidden="true" />
+          @if (selectedCount() > 0) {
+            <span class="memory-toolbar-icon__badge">{{ selectedCount() }}</span>
+          }
+        </button>
+      }
     </div>
 
     <div class="memory-conversation-filters__actions-right">

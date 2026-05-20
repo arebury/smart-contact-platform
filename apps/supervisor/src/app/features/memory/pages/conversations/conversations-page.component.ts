@@ -9,7 +9,10 @@ import { PageHeaderComponent } from '@shared/components';
 import { BulkTranscriptionModalComponent } from '../../components/bulk-transcription-modal/bulk-transcription-modal.component';
 import { ConversationFiltersComponent } from '../../components/conversation-filters/conversation-filters.component';
 import { ConversationPlayerModalComponent } from '../../components/conversation-player-modal/conversation-player-modal.component';
-import { ConversationTableComponent } from '../../components/conversation-table/conversation-table.component';
+import {
+  ConversationTableComponent,
+  type ConversationContextAction,
+} from '../../components/conversation-table/conversation-table.component';
 import { DownloadModalComponent } from '../../components/download-modal/download-modal.component';
 import { MockSampleSwitcherComponent } from '../../components/mock-sample-switcher/mock-sample-switcher.component';
 import { RetranscriptionConfirmModalComponent } from '../../components/retranscription-confirm-modal/retranscription-confirm-modal.component';
@@ -192,16 +195,6 @@ export class ConversationsPageComponent {
     this.downloadModalOpen.set(false);
   }
 
-  /** S50 toolbar: help/docs icon. Stub — abre toast hint hasta cocinar
-   *  DocumentationModal del prototipo. */
-  protected onHelpRequested(): void {
-    this.messages.add({
-      severity: 'info',
-      summary: this.translate.instant('memory.help.coming_soon_toast'),
-      life: 2500,
-    });
-  }
-
   protected async onBulkModalConfirm(event: {
     includeAnalysis: boolean;
     eligibleIds: readonly string[];
@@ -363,6 +356,36 @@ export class ConversationsPageComponent {
         }),
         life: 3500,
       });
+    }
+  }
+
+  /**
+   * S53.5: acción del menú contextual por fila. Dispatch espejo de los
+   * handlers existentes según action:
+   *  - `process` → mismo pipeline que `onPlayerRequestTranscription`
+   *  - `analyze` → mismo pipeline que `onPlayerRequestAnalysis`
+   *  - `mark-read` → unitario (limpia hasFailedTranscription + toast)
+   */
+  protected async onContextAction(event: {
+    action: ConversationContextAction;
+    conversation: Conversation;
+  }): Promise<void> {
+    const { action, conversation } = event;
+    switch (action) {
+      case 'process':
+        await this.dispatchWithStickyToast([conversation.id], false);
+        return;
+      case 'analyze':
+        await this.onPlayerRequestAnalysis(conversation.id);
+        return;
+      case 'mark-read':
+        this.conversationsStore.markAsRead([conversation.id]);
+        this.messages.add({
+          severity: 'success',
+          summary: this.translate.instant('memory.bulk.mark_read_toast', { n: 1 }),
+          life: 2500,
+        });
+        return;
     }
   }
 }

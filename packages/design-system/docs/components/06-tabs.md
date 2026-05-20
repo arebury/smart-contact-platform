@@ -1,6 +1,6 @@
 # 06 · Tabs (`<p-tabs>`)
 
-![06-tabs](./screenshots/06-tabs.png)
+![tabs](./screenshots/tabs.png)
 
 > **Type**: Custom-preset · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
 

@@ -1,6 +1,6 @@
 # 15 · Toggle Switch (`<sc-toggleswitch>`)
 
-![15-toggleswitch](./screenshots/15-toggleswitch.png)
+![toggleswitch](./screenshots/toggleswitch.png)
 
 > **Type**: Extended · **AED uses**: 21 · **Figma parity**: 1:1 con Figma
 

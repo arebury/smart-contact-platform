@@ -1,6 +1,6 @@
 # 10 · Toast (`<p-toast>` + custom template)
 
-![10-toast](./screenshots/10-toast.png)
+![toast](./screenshots/toast.png)
 
 > **Type**: Custom-preset · **AED uses**: 1 · **Figma parity**: 1:1 con Figma
 

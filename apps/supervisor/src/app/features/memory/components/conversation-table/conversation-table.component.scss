@@ -2,6 +2,50 @@
   display: block;
 }
 
+/* Context menu (click derecho) — espejo del patrón AED list-pages
+ * (labels/agents/groups). Position fixed via [style.left/top.px] de
+ * `contextMenu` signal. Globals de `_table-elements.scss` aplican al
+ * separator + variantes is-danger. */
+.context-menu {
+  position: fixed;
+  width: 184px;
+  background: var(--sc-bg-surface);
+  border: 1px solid var(--sc-border-default);
+  border-radius: var(--sc-radius-200);
+  padding: var(--sc-spacing-50) 0;
+  box-shadow: var(--sc-shadow-popover);
+  z-index: var(--sc-z-popover);
+
+  > button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-200);
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    font-size: var(--sc-font-size-200);
+    color: var(--sc-text-secondary);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 120ms var(--sc-easing-default, ease);
+
+    > lucide-icon {
+      color: var(--sc-icon-subtle);
+      flex: 0 0 auto;
+    }
+
+    &:hover {
+      background: var(--sc-bg-secondary-hover);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500);
+      outline-offset: -2px;
+    }
+  }
+}
+
 /* ------------------------------------------------------------------ *
  * Estilo tabla Memory `/conversaciones` ← adoptado de AED list-pages
  * (S40 #16). Memory hereda el chrome AED: wrapper con border + radius

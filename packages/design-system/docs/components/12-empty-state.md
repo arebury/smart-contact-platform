@@ -1,6 +1,6 @@
 # 12 · Empty State (`<sc-empty-state>`)
 
-![12-empty-state](./screenshots/12-empty-state.png)
+![empty-state](./screenshots/empty-state.png)
 
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 

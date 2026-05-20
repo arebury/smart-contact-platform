@@ -17,7 +17,6 @@
       (bulkTranscribeRequested)="onBulkTranscribe()"
       (downloadRequested)="onDownloadRequested()"
       (bulkMarkReadRequested)="onBulkMarkRead()"
-      (helpRequested)="onHelpRequested()"
     />
     <sc-memory-conversation-table
       [conversations]="conversations()"
@@ -28,6 +27,7 @@
       (conversationOpen)="onConversationOpen($event)"
       (selectionToggled)="onSelectionToggled($event)"
       (allToggled)="onAllToggled()"
+      (contextActionRequested)="onContextAction($event)"
     />
   </div>
 </div>

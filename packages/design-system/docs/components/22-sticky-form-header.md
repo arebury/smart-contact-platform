@@ -1,6 +1,6 @@
 # 22 · Sticky Form Header (`<sc-sticky-form-header>`)
 
-![22-sticky-form-header](./screenshots/22-sticky-form-header.png)
+![sticky-form-header](./screenshots/sticky-form-header.png)
 
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 

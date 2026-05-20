@@ -1,6 +1,6 @@
 # 32 · Keyboard Shortcuts (`<sc-keyboard-shortcuts>`)
 
-![32-keyboard-shortcuts](./screenshots/32-keyboard-shortcuts.png)
+![keyboard-shortcuts](./screenshots/keyboard-shortcuts.png)
 
 > **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
 

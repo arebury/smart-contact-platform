@@ -10,6 +10,69 @@
 
 ---
 
+## 2026-05-21 · Session 53.5 — Tracker thumbnails ds-docs + Memory context menu + agent header /impeccable
+
+> Iter de polish post-S53 con 5 pedidos del user: capturas en el tracker
+> del ds-docs (no solo en los `.md`), menú contextual click-derecho en
+> filas Memory con acciones dinámicas, toolbar mark-read conditional,
+> header agente con más espacio.
+
+### Hitos
+
+1. **Thumbnails en tracker home ds-docs** — los 34 PNG generados en S53
+   solo eran visibles en los `.md` del repo. Sweep en 2 pasos: (a)
+   renombrar `01-button.png → button.png` (slug-based, sin NN prefix)
+   + actualizar referencia en los 34 `.md`; (b) `angular.json` ds-docs
+   añade asset entry: `packages/design-system/docs/components/screenshots
+   → /component-screenshots` (sin duplicar PNG); (c) `tracker-item`
+   gana 3er slot `__thumb` (160×80, ratio 2:1 del source 1440×720)
+   con `routerLink` a la gallery + lazy/async loading + hover translateY
+   sin layout shift. Hidden bajo 720px de viewport.
+
+2. **Context menu click-derecho en filas Memory** — espejo del patrón
+   AED labels/agents/groups (signal contextMenu + clampToViewport +
+   scClickOutside). Acciones dinámicas según estado:
+   - `process` si NO hay transcripción (premisa user S53.5: sin
+     recording ⇒ sin transcripción posible, no hay "transcribir"
+     separado).
+   - `analyze` si hay transcripción pero no análisis.
+   - `mark-read` SOLO si `hasFailedTranscription` (fila roja).
+   - Sin acción aplicable → menú no abre.
+   Single output `contextActionRequested = {action, conversation}` →
+   page dispatcha `dispatchWithStickyToast` (process), `dispatchAnalysisOnly`
+   (analyze) o `markAsRead` (mark-read). 3 keys i18n × 4 locales.
+
+3. **Toolbar conversations** — quitado icono de ayuda (`<CircleHelp>` +
+   handler `onHelpRequested` stub + 2 keys i18n huérfanas eliminadas:
+   `filters.help` × 4 + `memory.help.coming_soon_toast` × 4). El botón
+   "Marcar como leída" envuelto en `@if (failedCount() > 0)` → solo
+   visible cuando hay errores en el dataset.
+
+4. **Header agente form `/impeccable`** — `<sc-sticky-form-header>` SCDS
+   con más espacio:
+   - padding vertical 12 → 20px (`spacing-300 → spacing-400`).
+   - title-block gap `2px literal` → `spacing-50` (4px).
+   - name-line gap `spacing-150` → `spacing-200` (10 → 12px).
+   - meta gap entre chunks `spacing-200` → `spacing-400` (12 → 20px).
+   - meta margin-top `2px literal` → `spacing-50` (4px).
+   - `header-meta__chunk` (locales agent/user/group) gap interior
+     `spacing-100` → `spacing-150` (8 → 10px).
+   Cero tokens nuevos. Mejora propaga a los 7 consumers SCDS
+   (`sc-sticky-form-header`).
+
+### Estado salud cierre S53.5
+
+tsc verde · lint verde · build verde · Playwright cross-app 14/14 verde
+(40.9s) · i18n audit verde (1487 paths × 4 locales, +1 net vs S53:
++3 context keys ×4 = +12, -2 keys huérfanas ×4 = -8, neto +1 path
+después del rename gate token).
+
+### Commits S53.5
+
+- (esta sesión) — single commit cierra el iter.
+
+---
+
 ## 2026-05-21 · Session 53 — Autonomous sweep: stitched-card gestalt + i18n Memory + 34 screenshots SCDS
 
 > Sesión autónoma: Rafa pidió "ejecuta plan que acoja todo, sin inventar

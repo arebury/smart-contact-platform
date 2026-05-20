@@ -148,6 +148,11 @@
               {
                 "glob": "**/*",
                 "input": "apps/ds-docs/public"
+              },
+              {
+                "glob": "**/*.png",
+                "input": "packages/design-system/docs/components/screenshots",
+                "output": "/component-screenshots"
               }
             ],
             "styles": ["apps/ds-docs/src/styles/main.scss"],

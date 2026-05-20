@@ -1,6 +1,6 @@
 # 13 · Section Card (`<sc-section-card>`)
 
-![13-section-card](./screenshots/13-section-card.png)
+![section-card](./screenshots/section-card.png)
 
 > **Type**: Pure SC · **AED uses**: 12 · **Figma parity**: Sin Figma equivalente
 

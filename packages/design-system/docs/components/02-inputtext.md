@@ -1,6 +1,6 @@
 # 02 · Input (`<sc-inputtext>`)
 
-![02-inputtext](./screenshots/02-inputtext.png)
+![inputtext](./screenshots/inputtext.png)
 
 > **Type**: Extended · **AED uses**: 21 · **Figma parity**: 1:1 con Figma
 

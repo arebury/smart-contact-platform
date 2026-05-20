@@ -61,9 +61,13 @@
         "download": "Download",
         "mark_read": "Mark as read",
         "mark_read_aria": "Mark as read ({{count}})",
-        "help": "Documentation",
         "results": "Results",
         "last_search": "Last search"
+      },
+      "context": {
+        "process": "Process",
+        "analyze": "Analyze",
+        "mark_read": "Mark as read"
       }
     },
     "type_filter": {
@@ -222,9 +226,6 @@
         "selected_one": "selected",
         "selected_other": "selected"
       }
-    },
-    "help": {
-      "coming_soon_toast": "Documentation coming in the next iteration"
     },
     "bulk_transcription": {
       "modal_title": "Process conversations",

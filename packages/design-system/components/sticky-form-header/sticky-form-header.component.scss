@@ -8,7 +8,10 @@
 .sticky-header {
   background: var(--sc-bg-surface);
   border-bottom: 1px solid var(--sc-border-default);
-  padding: var(--sc-spacing-300) var(--sc-spacing-600);
+  /* S53.5 /impeccable rework: padding vertical 12→20px para layout más
+   * respirable. Antes el header se sentía cramped en edit-mode con
+   * avatar + eyebrow + nombre + pill + metadata stack vertical. */
+  padding: var(--sc-spacing-400) var(--sc-spacing-600);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -28,7 +31,9 @@
   &__title-block {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    /* S53.5: gap 2→4px entre eyebrow / name-line / meta — el bloque
+     * de 3 líneas queda con respiración intencional sin perder cohesión. */
+    gap: var(--sc-spacing-50);
     min-width: 0;
     flex: 1;
   }
@@ -45,7 +50,8 @@
     display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--sc-spacing-150);
+    /* S53.5: 10→12px entre name + lápiz + pill presence. */
+    gap: var(--sc-spacing-200);
     min-width: 0;
   }
 
@@ -65,8 +71,14 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--sc-spacing-200);
-    margin-top: 2px;
+    /* S53.5: 12→20px entre chunks (Sin email · Extensión · WebRTC).
+     * Antes los chunks parecían pegados — sin separador visual ni
+     * respiración suficiente para distinguir bloques. 20px da
+     * affordance editorial sin desconectar visualmente. */
+    gap: var(--sc-spacing-400);
+    /* S53.5: 2px → 6px de separación con name-line — pequeño
+     * suspiro vertical antes de la metadata secundaria. */
+    margin-top: var(--sc-spacing-50);
     font-size: var(--sc-font-size-100);
     color: var(--sc-text-subtle);
     line-height: 1.3;

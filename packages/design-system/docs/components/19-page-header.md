@@ -1,6 +1,6 @@
 # 19 · Page Header (`<sc-page-header>`)
 
-![19-page-header](./screenshots/19-page-header.png)
+![page-header](./screenshots/page-header.png)
 
 > **Type**: Pure SC · **AED uses**: 8 · **Figma parity**: Sin Figma equivalente
 

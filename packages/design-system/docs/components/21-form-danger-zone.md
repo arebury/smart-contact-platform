@@ -1,6 +1,6 @@
 # 21 · Form Danger Zone (`<sc-form-danger-zone>`)
 
-![21-form-danger-zone](./screenshots/21-form-danger-zone.png)
+![form-danger-zone](./screenshots/form-danger-zone.png)
 
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 

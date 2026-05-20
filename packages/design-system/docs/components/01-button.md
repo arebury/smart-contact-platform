@@ -1,6 +1,6 @@
 # 01 · Button (`<p-button>`)
 
-![01-button](./screenshots/01-button.png)
+![button](./screenshots/button.png)
 
 > **Type**: Custom-preset · **AED uses**: 39 · **Figma parity**: 1:1 con Figma
 

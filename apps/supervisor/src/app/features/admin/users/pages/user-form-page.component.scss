@@ -63,11 +63,12 @@
   }
 }
 
-/* Header meta line — projected into <sc-sticky-form-header> */
+/* Header meta line — projected into <sc-sticky-form-header>
+ * S53.5: gap interior 8→10px (icon+label más respirable). */
 .header-meta__chunk {
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-150);
   color: var(--sc-text-secondary);
   font-size: var(--sc-font-size-100);
 

@@ -1,6 +1,6 @@
 # 23 · Bulk Action Bar (`<sc-bulk-action-bar>`)
 
-![23-bulk-action-bar](./screenshots/23-bulk-action-bar.png)
+![bulk-action-bar](./screenshots/bulk-action-bar.png)
 
 > **Type**: Pure SC · **AED uses**: 6 · **Figma parity**: Sin Figma equivalente
 

@@ -1,6 +1,6 @@
 # 04 · Select (`<sc-select>`)
 
-![04-select](./screenshots/04-select.png)
+![select](./screenshots/select.png)
 
 > **Type**: Extended · **AED uses**: 16 · **Figma parity**: 1:1 con Figma
 

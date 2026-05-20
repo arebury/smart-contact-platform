@@ -1,6 +1,6 @@
 # 33 · Confirm Host (`<sc-confirm-host>`)
 
-![33-confirm-host](./screenshots/33-confirm-host.png)
+![confirm-host](./screenshots/confirm-host.png)
 
 > **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
 

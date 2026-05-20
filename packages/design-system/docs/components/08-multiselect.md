@@ -1,6 +1,6 @@
 # 08 · MultiSelect (`<sc-multiselect>`)
 
-![08-multiselect](./screenshots/08-multiselect.png)
+![multiselect](./screenshots/multiselect.png)
 
 > **Type**: Extended · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
 

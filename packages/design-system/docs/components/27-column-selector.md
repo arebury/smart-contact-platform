@@ -1,6 +1,6 @@
 # 27 · Column Selector (`<sc-column-selector>`)
 
-![27-column-selector](./screenshots/27-column-selector.png)
+![column-selector](./screenshots/column-selector.png)
 
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
 

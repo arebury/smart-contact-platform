@@ -1,6 +1,6 @@
 # 05 · Datepicker (`<sc-datepicker>`)
 
-![05-datepicker](./screenshots/05-datepicker.png)
+![datepicker](./screenshots/datepicker.png)
 
 > **Type**: Extended · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
 

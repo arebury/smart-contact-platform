@@ -47,6 +47,7 @@
           tabindex="0"
           (click)="onRowClick(conv)"
           (keydown)="onRowKeydown($event, conv)"
+          (contextmenu)="onContextMenu($event, conv)"
         >
           <td class="memory-conversations-table__td-select">
             <label class="memory-conversations-table__checkbox-wrap">
@@ -138,3 +139,32 @@
     </tbody>
   </table>
 </div>
+
+@if (contextMenu(); as ctx) {
+  @if (contextHasItems()) {
+    <div
+      class="context-menu"
+      [style.left.px]="ctx.x"
+      [style.top.px]="ctx.y"
+      (scClickOutside)="closeContextMenu()"
+      [scClickOutsideEnabled]="!!contextMenu()"
+      role="menu"
+    >
+      @if (contextPrimaryAction(); as action) {
+        <button type="button" role="menuitem" (click)="dispatchContext(action)">
+          <lucide-icon [img]="primaryActionIcon(action)" [size]="13" aria-hidden="true" />
+          <span>{{ primaryActionLabelKey(action) | translate }}</span>
+        </button>
+      }
+      @if (contextShowMarkRead()) {
+        @if (contextPrimaryAction()) {
+          <div class="context-menu__separator" aria-hidden="true"></div>
+        }
+        <button type="button" role="menuitem" (click)="dispatchContext('mark-read')">
+          <lucide-icon [img]="markReadIcon" [size]="13" aria-hidden="true" />
+          <span>{{ 'memory.conversations.context.mark_read' | translate }}</span>
+        </button>
+      }
+    </div>
+  }
+}

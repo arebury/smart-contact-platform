@@ -1,6 +1,6 @@
 # 03 · Input number (`<sc-inputnumber>`)
 
-![03-inputnumber](./screenshots/03-inputnumber.png)
+![inputnumber](./screenshots/inputnumber.png)
 
 > **Type**: Extended · **AED uses**: 7 · **Figma parity**: 1:1 con Figma
 

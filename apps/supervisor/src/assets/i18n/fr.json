@@ -61,9 +61,13 @@
         "download": "Télécharger",
         "mark_read": "Marquer comme lues",
         "mark_read_aria": "Marquer comme lues ({{count}})",
-        "help": "Documentation",
         "results": "Résultats",
         "last_search": "Dernière recherche"
+      },
+      "context": {
+        "process": "Traiter",
+        "analyze": "Analyser",
+        "mark_read": "Marquer comme lue"
       }
     },
     "type_filter": {
@@ -222,9 +226,6 @@
         "selected_one": "sélectionnée",
         "selected_other": "sélectionnées"
       }
-    },
-    "help": {
-      "coming_soon_toast": "Documentation à venir dans la prochaine itération"
     },
     "bulk_transcription": {
       "modal_title": "Traiter les conversations",

@@ -1,6 +1,6 @@
 # 18 · Color Dot Picker (`<sc-color-dot-picker>`)
 
-![18-color-dot-picker](./screenshots/18-color-dot-picker.png)
+![color-dot-picker](./screenshots/color-dot-picker.png)
 
 > **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
 

@@ -1,6 +1,6 @@
 # 16 · Illustrated Avatar (`<sc-illustrated-avatar>`)
 
-![16-illustrated-avatar](./screenshots/16-illustrated-avatar.png)
+![illustrated-avatar](./screenshots/illustrated-avatar.png)
 
 > **Type**: Pure SC · **AED uses**: 7 · **Figma parity**: Sin Figma equivalente
 

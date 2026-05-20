@@ -61,9 +61,13 @@
         "download": "Descargar",
         "mark_read": "Marcar como leídas",
         "mark_read_aria": "Marcar como leídas ({{count}})",
-        "help": "Documentación y validación",
         "results": "Resultados",
         "last_search": "Última búsqueda"
+      },
+      "context": {
+        "process": "Procesar",
+        "analyze": "Analizar",
+        "mark_read": "Marcar como leída"
       }
     },
     "type_filter": {
@@ -222,9 +226,6 @@
         "selected_one": "seleccionada",
         "selected_other": "seleccionadas"
       }
-    },
-    "help": {
-      "coming_soon_toast": "Documentación llega en próxima iteración"
     },
     "bulk_transcription": {
       "modal_title": "Procesar conversaciones",

@@ -4,7 +4,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import {
   AlertCircle,
   AlignLeft,
-  CircleHelp,
   CheckCheck,
   Download,
   LucideAngularModule,
@@ -82,7 +81,6 @@ export class ConversationFiltersComponent {
   readonly bulkTranscribeRequested = output<void>();
   readonly downloadRequested = output<void>();
   readonly bulkMarkReadRequested = output<void>();
-  readonly helpRequested = output<void>();
 
   protected readonly serviceOptions = SERVICE_OPTIONS;
   protected readonly groupOptions = GROUP_OPTIONS;
@@ -94,7 +92,6 @@ export class ConversationFiltersComponent {
   protected readonly transcribeIcon = AlignLeft;
   protected readonly downloadIcon = Download;
   protected readonly markReadIcon = CheckCheck;
-  protected readonly helpIcon = CircleHelp;
 
   /** Badge del botón "Transcribir": número de seleccionadas. Disabled si 0.
    *  S52: las 3 acciones (Transcribir / Download / Marcar leídas) requieren

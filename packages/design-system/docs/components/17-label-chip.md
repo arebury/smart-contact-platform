@@ -1,6 +1,6 @@
 # 17 · Label Chip (`<sc-label-chip>`)
 
-![17-label-chip](./screenshots/17-label-chip.png)
+![label-chip](./screenshots/label-chip.png)
 
 > **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: 1:1 con Figma
 

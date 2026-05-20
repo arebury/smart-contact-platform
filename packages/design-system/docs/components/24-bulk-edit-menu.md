@@ -1,6 +1,6 @@
 # 24 · Bulk Edit Menu (`<sc-bulk-edit-menu>`)
 
-![24-bulk-edit-menu](./screenshots/24-bulk-edit-menu.png)
+![bulk-edit-menu](./screenshots/bulk-edit-menu.png)
 
 > **Type**: Pure SC · **AED uses**: 2 · **Figma parity**: Sin Figma equivalente
 

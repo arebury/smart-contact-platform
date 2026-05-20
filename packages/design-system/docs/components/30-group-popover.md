@@ -1,6 +1,6 @@
 # 30 · Group Popover (`<sc-group-popover>`)
 
-![30-group-popover](./screenshots/30-group-popover.png)
+![group-popover](./screenshots/group-popover.png)
 
 > **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
 

@@ -459,6 +459,21 @@
                   </p>
                 }
               </div>
+
+              @if (item.pageRoute) {
+                <a
+                  class="tracker-item__thumb"
+                  [routerLink]="item.pageRoute"
+                  [attr.aria-label]="'Ver gallery de ' + item.name"
+                >
+                  <img
+                    [src]="'/component-screenshots/' + item.slug + '.png'"
+                    [alt]="item.name + ' — vista previa de la gallery'"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </a>
+              }
             </li>
           }
         </ul>

@@ -1,6 +1,6 @@
 # 29 · Photo Upload (`<sc-photo-upload>`)
 
-![29-photo-upload](./screenshots/29-photo-upload.png)
+![photo-upload](./screenshots/photo-upload.png)
 
 > **Type**: Pure SC · **AED uses**: 2 · **Figma parity**: Sin Figma equivalente
 

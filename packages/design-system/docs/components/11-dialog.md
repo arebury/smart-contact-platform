@@ -1,6 +1,6 @@
 # 11 · Modal / Dialog (`<sc-dialog>`)
 
-![11-dialog](./screenshots/11-dialog.png)
+![dialog](./screenshots/dialog.png)
 
 > **Type**: Extended · **AED uses**: 2 · **Figma parity**: 1:1 con Figma
 

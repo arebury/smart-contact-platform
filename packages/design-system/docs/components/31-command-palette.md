@@ -1,6 +1,6 @@
 # 31 · Command Palette (`<sc-command-palette>`)
 
-![31-command-palette](./screenshots/31-command-palette.png)
+![command-palette](./screenshots/command-palette.png)
 
 > **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
 

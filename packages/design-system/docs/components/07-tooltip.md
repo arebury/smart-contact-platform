@@ -1,6 +1,6 @@
 # 07 · Tooltip (`[pTooltip]`)
 
-![07-tooltip](./screenshots/07-tooltip.png)
+![tooltip](./screenshots/tooltip.png)
 
 > **Type**: Full PrimeNG · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
 
