@@ -67,7 +67,7 @@
     background: var(--sc-bg-elevated);
     border: 1px solid var(--sc-border-default);
     padding: 1px var(--sc-spacing-100);
-    border-radius: 3px;
+    border-radius: var(--sc-radius-100);
     font-size: 12px;
   }
 }
@@ -99,7 +99,7 @@
     background: var(--sc-bg-elevated);
     border: 1px solid var(--sc-border-default);
     padding: 1px var(--sc-spacing-100);
-    border-radius: 3px;
+    border-radius: var(--sc-radius-100);
     font-size: 12px;
   }
 }

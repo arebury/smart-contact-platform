@@ -48,7 +48,7 @@
 .mock-sample-switcher__chip {
   display: inline-block;
   padding: 1px var(--sc-spacing-100);
-  border-radius: 3px;
+  border-radius: var(--sc-radius-100);
   background: color-mix(in srgb, var(--sc-color-amber-200) 90%, white);
   color: var(--sc-color-amber-900);
   font-size: 9px;

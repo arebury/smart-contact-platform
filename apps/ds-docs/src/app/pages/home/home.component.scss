@@ -345,7 +345,7 @@
   background: var(--sc-bg-elevated);
   border: 1px solid var(--sc-border-default);
   padding: 3px 10px;
-  border-radius: 3px;
+  border-radius: var(--sc-radius-100);
   letter-spacing: 0.06em;
 }
 
