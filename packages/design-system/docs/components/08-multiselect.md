@@ -1,4 +1,4 @@
-# 08 · MultiSelect (`<sc-multi-select>`)
+# 08 · MultiSelect (`<sc-multiselect>`)
 
 > **Type**: Extended · **AED uses**: 0 · **Figma parity**: 1:1 con Figma
 
@@ -9,7 +9,7 @@
 ## TL;DR
 
 ```html
-<sc-multi-select
+<sc-multiselect
   label="Canales"
   placeholder="Elige canales"
   [options]="channels"
@@ -72,7 +72,7 @@ interface ScMultiSelectProps<T = unknown> {
 
 ## Tokens consumidos (Figma → SC) — matriz exhaustiva
 
-Tokens `multiselect/*` son **literalmente idénticos** a `select/*` (verificado side-by-side). Reuso del bridge formField completo + overrides específicos en sc-multi-select.scss.
+Tokens `multiselect/*` son **literalmente idénticos** a `select/*` (verificado side-by-side). Reuso del bridge formField completo + overrides específicos en sc-multiselect.scss.
 
 ### Default Normal — node `6220:7022`
 
@@ -92,7 +92,7 @@ Tokens `multiselect/*` son **literalmente idénticos** a `select/*` (verificado 
 
 | Token Figma | Valor | Mapeo SC |
 |-------------|-------|----------|
-| `multiselect/sm/font/size` | `12.25` | sc-multi-select.scss `.sc-multi-select--sm .p-multiselect-label` raw |
+| `multiselect/sm/font/size` | `12.25` | sc-multiselect.scss `.sc-multiselect--sm .p-multiselect-label` raw |
 | `multiselect/sm/padding/x` | `8.75` | raw |
 | `multiselect/sm/padding/y` | `5.25` | raw |
 
@@ -100,7 +100,7 @@ Tokens `multiselect/*` son **literalmente idénticos** a `select/*` (verificado 
 
 | Token Figma | Valor | Mapeo SC |
 |-------------|-------|----------|
-| `multiselect/lg/font/size` | `15.75` | sc-multi-select.scss `.sc-multi-select--lg .p-multiselect-label` raw |
+| `multiselect/lg/font/size` | `15.75` | sc-multiselect.scss `.sc-multiselect--lg .p-multiselect-label` raw |
 | `multiselect/lg/padding/x` | `12.25` | raw |
 | `multiselect/lg/padding/y` | `8.75` | raw |
 
@@ -108,7 +108,7 @@ Tokens `multiselect/*` son **literalmente idénticos** a `select/*` (verificado 
 
 | Token Figma | Valor | Mapeo SC |
 |-------------|-------|----------|
-| `multiselect/filled/background` | `#f8fafc` | `--sc-color-gray-50` via `.sc-multi-select--filled` |
+| `multiselect/filled/background` | `#f8fafc` | `--sc-color-gray-50` via `.sc-multiselect--filled` |
 
 ### Invalid = True — node `6220:7085`
 
@@ -149,7 +149,7 @@ Los chips dentro del input usan los mismos tokens base. La visualización (pills
 
 **Después**:
 ```html
-<sc-multi-select
+<sc-multiselect
   label="Canales"
   [options]="channels"
   optionLabel="label"

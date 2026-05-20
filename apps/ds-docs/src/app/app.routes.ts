@@ -48,9 +48,9 @@ export const appRoutes: Routes = [
       import('./pages/tooltip/tooltip-gallery.component').then((m) => m.TooltipGalleryComponent),
   },
   {
-    path: 'components/multi-select',
+    path: 'components/multiselect',
     loadComponent: () =>
-      import('./pages/multi-select/multi-select-gallery.component').then(
+      import('./pages/multiselect/multiselect-gallery.component').then(
         (m) => m.MultiSelectGalleryComponent,
       ),
   },

@@ -32,11 +32,11 @@ let scMultiSelectIdCounter = 0;
  *   - 'comma' → selected items render as comma-separated text
  */
 @Component({
-  selector: 'sc-multi-select',
+  selector: 'sc-multiselect',
   standalone: true,
   imports: [MultiSelectModule, FormsModule],
-  templateUrl: './multi-select.component.html',
-  styleUrl: './multi-select.component.scss',
+  templateUrl: './multiselect.component.html',
+  styleUrl: './multiselect.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -47,12 +47,12 @@ let scMultiSelectIdCounter = 0;
     },
   ],
   host: {
-    class: 'sc-multi-select',
-    '[class.sc-multi-select--sm]': "size() === 'sm'",
-    '[class.sc-multi-select--lg]': "size() === 'lg'",
-    '[class.sc-multi-select--invalid]': 'isInvalid()',
-    '[class.sc-multi-select--disabled]': 'disabled()',
-    '[class.sc-multi-select--filled]': 'filled()',
+    class: 'sc-multiselect',
+    '[class.sc-multiselect--sm]': "size() === 'sm'",
+    '[class.sc-multiselect--lg]': "size() === 'lg'",
+    '[class.sc-multiselect--invalid]': 'isInvalid()',
+    '[class.sc-multiselect--disabled]': 'disabled()',
+    '[class.sc-multiselect--filled]': 'filled()',
   },
 })
 export class MultiSelectComponent implements ControlValueAccessor {
@@ -97,7 +97,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
 
   // ─── Derived ───────────────────────────────────────────────────────
   protected readonly resolvedId = computed(
-    () => this.inputId() ?? `sc-multi-select-${++scMultiSelectIdCounter}`,
+    () => this.inputId() ?? `sc-multiselect-${++scMultiSelectIdCounter}`,
   );
 
   protected readonly isInvalid = computed(() => {
@@ -119,7 +119,7 @@ export class MultiSelectComponent implements ControlValueAccessor {
    *  SCSS hookea esa clase para ajustar padding/font de los items. */
   protected readonly panelStyleClass = computed(() => {
     const s = this.size();
-    return s === 'sm' ? 'sc-multi-select-panel--sm' : s === 'lg' ? 'sc-multi-select-panel--lg' : '';
+    return s === 'sm' ? 'sc-multiselect-panel--sm' : s === 'lg' ? 'sc-multiselect-panel--lg' : '';
   });
 
   protected readonly optionsMutable = computed(() => this.options() as unknown[]);

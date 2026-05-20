@@ -2,7 +2,7 @@
 
 > **Type**: Extended · **AED uses**: 16 · **Figma parity**: 1:1 con Figma
 
-> Dropdown / single-select para formularios SC. Envuelve PrimeNG `<p-select>` con la chrome SCDS. Para multi-select usar `<sc-multi-select>` (TBD).
+> Dropdown / single-select para formularios SC. Envuelve PrimeNG `<p-select>` con la chrome SCDS. Para multi-select usar `<sc-multiselect>` (TBD).
 >
 > **Auditado 1:1 con Figma `Smart Contact Prime → ❖ Select` (canvas `6738:22642`) — Session 30.** 258 variants en Figma (8 ejes: State / Invalid / Disabled / Filled / Size / IftaLabel / FloatLabel / FloatLabelVariant / Group). Tokens extraídos vía MCP en cada variant clave.
 
@@ -28,7 +28,7 @@
 
 ## Cuándo NO usarlo
 
-- Multi-selección → `<sc-multi-select>` (TBD).
+- Multi-selección → `<sc-multiselect>` (TBD).
 - Autocomplete con sugerencias remotas → `<sc-autocomplete>` (TBD).
 - Selección visual (colores, avatars) → `<sc-color-dot-picker>` o componente específico.
 - Selección como navegación → `<sc-tabs>` o `<sc-segmented>`.

@@ -3,10 +3,9 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">MultiSelect</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-multi-select&gt;</code> envuelve PrimeNG <code>&lt;p-multiselect&gt;</code>.
-      Mismo chrome que <code>&lt;sc-select&gt;</code>, valor es array. Modo
-      <code>comma</code> (texto separado por comas) o <code>chip</code> (pills removibles dentro del
-      input).
+      <code>&lt;sc-multiselect&gt;</code> envuelve PrimeNG <code>&lt;p-multiselect&gt;</code>. Mismo
+      chrome que <code>&lt;sc-select&gt;</code>, valor es array. Modo <code>comma</code> (texto
+      separado por comas) o <code>chip</code> (pills removibles dentro del input).
     </p>
   </header>
 
@@ -18,7 +17,7 @@
       Tras 3 seleccionados, se condensa a "N seleccionados".
     </p>
     <div class="gallery__row">
-      <sc-multi-select
+      <sc-multiselect
         label="Frutas"
         placeholder="Elige frutas…"
         [options]="fruits"
@@ -38,7 +37,7 @@
       (no el objeto).
     </p>
     <div class="gallery__row">
-      <sc-multi-select
+      <sc-multiselect
         label="Canales del agente"
         placeholder="Elige canales"
         [options]="channels"
@@ -59,9 +58,9 @@
     <h2 class="gallery__h2">3 · Tamaños (sm / md / lg)</h2>
     <p class="gallery__hint">Mismas alturas que <code>&lt;sc-select&gt;</code>.</p>
     <div class="gallery__row gallery__row--grid">
-      <sc-multi-select label="Small" size="sm" placeholder="Elige…" [options]="fruits" />
-      <sc-multi-select label="Medium" placeholder="Elige…" [options]="fruits" />
-      <sc-multi-select label="Large" size="lg" placeholder="Elige…" [options]="fruits" />
+      <sc-multiselect label="Small" size="sm" placeholder="Elige…" [options]="fruits" />
+      <sc-multiselect label="Medium" placeholder="Elige…" [options]="fruits" />
+      <sc-multiselect label="Large" size="lg" placeholder="Elige…" [options]="fruits" />
     </div>
   </section>
 
@@ -72,7 +71,7 @@
       Búsqueda dentro del dropdown, "×" para limpiar todo, y un límite de 3 elementos.
     </p>
     <div class="gallery__row">
-      <sc-multi-select
+      <sc-multiselect
         label="Canales (max 3)"
         placeholder="Buscar canal…"
         [options]="channels"
@@ -98,7 +97,7 @@
       Variant del Figma <code>Filled=True</code> (node <code>6220:7054</code>).
     </p>
     <div class="gallery__row">
-      <sc-multi-select
+      <sc-multiselect
         label="Filled"
         [options]="channels"
         optionLabel="label"
@@ -113,7 +112,7 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">6 · Error</h2>
     <div class="gallery__row">
-      <sc-multi-select
+      <sc-multiselect
         label="Canales"
         [options]="channels"
         optionLabel="label"
@@ -131,7 +130,7 @@
       Requerido + al menos 1 elemento. Se pinta inválido cuando touched + invalid.
     </p>
     <div class="gallery__row">
-      <sc-multi-select
+      <sc-multiselect
         label="Canales (requerido)"
         placeholder="Selecciona uno o más"
         [options]="channels"
@@ -149,5 +148,5 @@
     </div>
   </section>
 
-  <sc-ds-docs-gallery-footer slug="multi-select" />
+  <sc-ds-docs-gallery-footer slug="multiselect" />
 </div>

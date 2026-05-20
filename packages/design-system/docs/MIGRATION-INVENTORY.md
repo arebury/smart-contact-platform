@@ -47,7 +47,7 @@
 | 29 | Datepicker | ✓ | 🟢 Extended | `<sc-datepicker>` | [6738:20817](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-20817) | **~100%** — input chrome slate-300/6px/shadow, panel slate-200 bg white + dates 28×28 circulares, anchor-gutter 2 | `docs/components/05-datepicker.md` |
 | 30 | Tabs | ✓ | 🟣 Custom-preset | `<p-tabs>` | [6738:49740](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-49740) | **100%** — Session 30 audit Nivel-2. Padding tab 14/15.75, tabpanel 12.25/15.75/15.75/15.75 overrides en `components.tabs`. Active = navy (brand divergence vs azure). | `docs/components/06-tabs.md` |
 | 31 | Tooltip | ✓ | 🟦 Full PrimeNG | `[pTooltip]` | [6738:50212](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50212) | **100%** — Session 30 audit. bg slate-700, padding 10.5/7, radius 6, max-width 175. Overrides en `components.tooltip.root`. Shadow heredado de overlay.popover. | `docs/components/07-tooltip.md` |
-| 32 | MultiSelect | ✓ | 🟢 Extended | `<sc-multi-select>` | [6738:22651](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22651) | **100%** — Session 30. Tokens `multiselect/*` idénticos a `select/*` (mismo chrome). Display `comma` o `chip`, selectionLimit, filter. | `docs/components/08-multi-select.md` |
+| 32 | MultiSelect | ✓ | 🟢 Extended | `<sc-multiselect>` | [6738:22651](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22651) | **100%** — Session 30. Tokens `multiselect/*` idénticos a `select/*` (mismo chrome). Display `comma` o `chip`, selectionLimit, filter. | `docs/components/08-multiselect.md` |
 | 33 | Search | ✓ | 🟢 Extended | `<sc-search>` | [11861:55210](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=11861-55210) | **100%** — S31 cocinado. Composición `<p-iconfield>` + `<p-inputicon>` + `pInputText` + clear button auto + opcional kbd hint `⌘K`/`/`. Figma canvas compuesto (Light + Dark + Components frame). | `docs/components/14-search.md` |
 | 34 | Input group | ✓ | 🟢 Extended | `<sc-input-group>` | [6738:22644](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22644) | **100%** — S33 cocinado. Wrapper minimal de `<p-inputgroup>` + `<p-inputgroup-addon>` (PrimeNG nativo). `size` matchea `sc-inputtext`. Trigger real: tag-input aed-servicio. Tokens fluyen via `formField.*` sin overrides propios. | `docs/components/34-input-group.md` |
 
@@ -80,7 +80,7 @@ Capa | Archivo | Status
 | `<sc-inputtext>` | 2026-05-15 | S30 | 240 variants Nivel-2, padding decimal raw |
 | `<p-tabs>` | 2026-05-15 | S30 | Padding tab 14/15.75 |
 | `<p-tooltip>` | 2026-05-15 | S30 | bg slate-700, padding 10.5/7 |
-| `<sc-multi-select>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory `/conversaciones` ConversationFilters top-bar). Variants `size: sm/md/lg` aplicadas correctamente en `sm` (height 36px) sin override custom. **Pendiente Marta**: confirmar variants formales `sm/md/lg` en Kit Pro (S30 audit Nivel-2 cubrió size default, no las 3 variants size). |
+| `<sc-multiselect>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory `/conversaciones` ConversationFilters top-bar). Variants `size: sm/md/lg` aplicadas correctamente en `sm` (height 36px) sin override custom. **Pendiente Marta**: confirmar variants formales `sm/md/lg` en Kit Pro (S30 audit Nivel-2 cubrió size default, no las 3 variants size). |
 | `<sc-select>` | 2026-05-15 | S30 | 258 variants Nivel-2, Filled + Invalid |
 | `<sc-datepicker>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory ConversationFilters). Variants `size: sm/md/lg` aplicadas correctamente. **Pendiente Marta**: idem multi-select. |
 | `<sc-inputtext>` (re-check S46) | 2026-05-20 | S46 | Aplicado `size="sm"` en Memory filters origin/destination. Sin drift visual perceptible. Variants `sm/md/lg` ya estaban auditadas S30 (240 variants Nivel-2). |
@@ -137,7 +137,7 @@ Capa | Archivo | Status
 | `<sc-inline-rename-cell>` | 3 | Solo post-duplicate flow |
 | `<sc-group-popover>` | 1 | Solo agents-list-page columna grupos |
 | `<sc-color-dot-picker>` | 1 | Solo label form |
-| `<sc-multi-select>` | 0 | Esperando primer caso real |
+| `<sc-multiselect>` | 0 | Esperando primer caso real |
 | `<sc-datepicker>` | 0 | Esperando primer caso real |
 
 ### `internal` (singletons app-level, no consumidos como library)

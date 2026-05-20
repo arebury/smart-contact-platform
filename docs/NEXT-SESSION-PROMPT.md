@@ -57,7 +57,7 @@ PASO 2 (30 min decisión): Diseño Angular antes de codear.
     después selección múltiple, después reproductor. O lo que Rafa prefiera.
   - Para wrappers SCDS necesarios:
     - `<sc-datepicker>`: existe Extended 0 uses, primer uso real.
-    - `<sc-multi-select>`: existe Extended 0 uses, primer uso real.
+    - `<sc-multiselect>`: existe Extended 0 uses, primer uso real.
     - `<sc-data-table>` (gap nuevo): PEDIR a Rafa link Figma "Table" del
       Kit Pro antes de cocinar. Si no hay equivalente Figma, decidir si
       es Pure SC custom o esperar.

@@ -41,7 +41,7 @@
 /* `.sc-datepicker__control` ES el <p-datepicker> (la clase se aplica al
  * root del componente PrimeNG, que añade `.p-datepicker` al mismo
  * elemento). NO usar `display: block` — rompe el flex interno (bug
- * análogo a sc-select / sc-multi-select pre-Session 31). */
+ * análogo a sc-select / sc-multiselect pre-Session 31). */
 .sc-datepicker__control {
   width: 100%;
   min-width: 0;

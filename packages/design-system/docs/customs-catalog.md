@@ -148,7 +148,7 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 
 - **Figma**: muchos paddings caen en 0.5/0.25 px (10.5, 7, 8.75, 5.25, 12.25, 14, 15.75, 17.5).
 - **SC**: `--sc-spacing-*` scale es entera (4, 8, 12, 16, 24, 32…). NO añadimos tokens decimales para evitar inflar la API.
-- **Solución**: los valores raw px se escriben directamente en el SCSS (sin token) cuando el Figma así lo manda. Comentados con "raw decimal (off-scale)". Aplica a sc-inputtext sizes, sc-select sizes, sc-multi-select sizes, sc-checkbox sizes, formField.paddingX/Y, dialog padding 17.5, tabs padding 14/15.75, tooltip padding 10.5/7.
+- **Solución**: los valores raw px se escriben directamente en el SCSS (sin token) cuando el Figma así lo manda. Comentados con "raw decimal (off-scale)". Aplica a sc-inputtext sizes, sc-select sizes, sc-multiselect sizes, sc-checkbox sizes, formField.paddingX/Y, dialog padding 17.5, tabs padding 14/15.75, tooltip padding 10.5/7.
 
 ---
 

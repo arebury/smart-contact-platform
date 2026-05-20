@@ -1,5 +1,5 @@
 /*
- * sc-multi-select — Smart Contact multi-select dropdown.
+ * sc-multiselect — Smart Contact multi-select dropdown.
  *
  * Wraps <p-multiselect>. Chrome (border, padding, focus, hover,
  * disabled, invalid) hereda de sc-preset → semantic.formField.*
@@ -14,14 +14,14 @@
  *  - invalid border red-400 / placeholder red-600
  */
 
-.sc-multi-select {
+.sc-multiselect {
   display: flex;
   flex-direction: column;
   gap: 7px;
   min-width: 0;
 }
 
-.sc-multi-select__label {
+.sc-multiselect__label {
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
@@ -31,17 +31,17 @@
   margin-bottom: 0;
 }
 
-.sc-multi-select__required {
+.sc-multiselect__required {
   color: var(--sc-text-danger);
   font-weight: var(--sc-font-weight-medium);
 }
 
-/* `.sc-multi-select__control` ES el <p-multiselect> (esa clase se aplica
+/* `.sc-multiselect__control` ES el <p-multiselect> (esa clase se aplica
  * al root del componente PrimeNG, que añade `.p-multiselect` al mismo
  * elemento). NO usar `display: block` — rompe el flex interno del label
  * (bug análogo al que tenía sc-select pre-Session 31). El default
  * `inline-flex` de PrimeNG es lo correcto. */
-.sc-multi-select__control {
+.sc-multiselect__control {
   width: 100%;
   min-width: 0;
 }
@@ -54,11 +54,11 @@
  *   Large:  font 15.75 / padding 12.25x / 8.75y
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-multi-select--sm .sc-multi-select__control .p-multiselect-label {
+.sc-multiselect--sm .sc-multiselect__control .p-multiselect-label {
   padding: 5.25px 8.75px;
   font-size: 12.25px;
 }
-.sc-multi-select--lg .sc-multi-select__control .p-multiselect-label {
+.sc-multiselect--lg .sc-multiselect__control .p-multiselect-label {
   padding: 8.75px 12.25px;
   font-size: 15.75px;
 }
@@ -74,7 +74,7 @@
  *   `multiselect/filled/background = #f8fafc` (slate-50).
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-multi-select--filled .sc-multi-select__control {
+.sc-multiselect--filled .sc-multiselect__control {
   background: var(--sc-color-gray-50);
 
   &:hover {
@@ -89,7 +89,7 @@
  * Ambos ya alineados via --sc-border-error / --sc-text-danger.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-multi-select--invalid .sc-multi-select__control {
+.sc-multiselect--invalid .sc-multiselect__control {
   border-color: var(--sc-border-error);
 
   &:hover,
@@ -103,7 +103,7 @@
  * Footer message — reserve 1.25em (no layout shift).
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-multi-select__msg {
+.sc-multiselect__msg {
   display: block;
   min-height: 1.25em;
   font-size: var(--sc-font-size-100);
@@ -111,10 +111,10 @@
   color: var(--sc-text-subtle);
 }
 
-.sc-multi-select__msg--error {
+.sc-multiselect__msg--error {
   color: var(--sc-text-danger);
 }
 
-.sc-multi-select--disabled .sc-multi-select__label {
+.sc-multiselect--disabled .sc-multiselect__label {
   color: var(--sc-text-disabled);
 }

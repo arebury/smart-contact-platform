@@ -287,13 +287,13 @@ export class HomeComponent {
         'AED tiene tooltips en los botones icon-only de las tablas (ej: el botón "borrar" papelera). En ds-docs tienes ejemplos interactivos.',
     },
     {
-      slug: 'multi-select',
+      slug: 'multiselect',
       name: 'MultiSelect',
       type: 'extended',
       parity: 'audited-full',
       aedUses: 0,
       memoryUses: 8,
-      pageRoute: '/components/multi-select',
+      pageRoute: '/components/multiselect',
       whatItDoes:
         'Desplegable para elegir VARIAS opciones a la vez (al contrario que select, que es solo una). Los seleccionados aparecen como texto separado por comas O como pills removibles (X cada uno) según prefieras.',
       whereToSee:

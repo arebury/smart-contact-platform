@@ -26,7 +26,7 @@ import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
-import { MultiSelectComponent } from '@shared/components/multi-select/multi-select.component';
+import { MultiSelectComponent } from '@shared/components/multiselect/multiselect.component';
 
 import {
   AGENT_OPTIONS,

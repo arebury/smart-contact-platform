@@ -1,6 +1,6 @@
 <div class="memory-conversation-filters">
   <div class="memory-conversation-filters__grid">
-    <sc-multi-select
+    <sc-multiselect
       size="sm"
       [label]="'memory.conversations.filters.services_label' | translate"
       [options]="serviceOptions"
@@ -37,7 +37,7 @@
       (valueChange)="setDestination($event)"
     />
 
-    <sc-multi-select
+    <sc-multiselect
       size="sm"
       [label]="'memory.conversations.filters.groups_label' | translate"
       [options]="groupOptions"
@@ -49,7 +49,7 @@
       (valueChange)="setGroups($event)"
     />
 
-    <sc-multi-select
+    <sc-multiselect
       size="sm"
       [label]="'memory.conversations.filters.agents_label' | translate"
       [options]="agentOptions"

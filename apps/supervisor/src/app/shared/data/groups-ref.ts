@@ -1,7 +1,7 @@
 /**
  * Cross-feature roster of group references. Lives here (shared/) instead of
  * inside the Agents feature because Users (sidebar id→name resolution) and
- * Agents (group multi-select) both need the same list. El tipo `GroupRef`
+ * Agents (group multiselect) both need the same list. El tipo `GroupRef`
  * vive en SCDS (consume por `<sc-group-popover>`); aquí solo re-exportamos
  * y proveemos el dataset concreto que usa AED.
  */

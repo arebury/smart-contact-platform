@@ -119,7 +119,7 @@ Cualquier cambio upstream PrimeNG SOLO afecta la última capa. El bridge contien
 
 ### 2. Aprovecha `pTemplate`
 
-PrimeNG expone slots de templating en casi todos sus componentes. Antes de reescribir un item / option / cell, busca el `pTemplate="item"` (o equivalente). Nuestros wrappers Extended (`<sc-select>`, `<sc-multi-select>`, `<sc-datepicker>`) ya pasan estos templates a través.
+PrimeNG expone slots de templating en casi todos sus componentes. Antes de reescribir un item / option / cell, busca el `pTemplate="item"` (o equivalente). Nuestros wrappers Extended (`<sc-select>`, `<sc-multiselect>`, `<sc-datepicker>`) ya pasan estos templates a través.
 
 ```html
 <sc-select [options]="agentTypes" [(value)]="selected">

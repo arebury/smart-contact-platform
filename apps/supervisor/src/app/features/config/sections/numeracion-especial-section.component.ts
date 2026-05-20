@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
 import { COUNTRY_PREFIXES, type CountryPrefix } from '../data/country-prefixes';
 
 /**
- * Numeración especial section — country-prefix multi-select with
+ * Numeración especial section — country-prefix multiselect with
  * search, chips and a dirty-only save bar.
  *
  * Lifted out of the old AedPageComponent so it can sit inside Sistema

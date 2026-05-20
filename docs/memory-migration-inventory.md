@@ -82,7 +82,7 @@ Por trigger real (memoria `minimal-customization`):
 | Wrapper SCDS | Estado actual | Trigger Memory probable |
 |---|---|---|
 | `<sc-datepicker>` | Extended, 0 uses AED | `DateRangePicker` Memory |
-| `<sc-multi-select>` | Extended, 0 uses AED | `MultiSelectWithSearch` Memory |
+| `<sc-multiselect>` | Extended, 0 uses AED | `MultiSelectWithSearch` Memory |
 | `<sc-data-table>` (no existe) | Gap nuevo | `ConversationTable` (tabla densa, filtros, selección, sticky) |
 | `<sc-audio-player>` (no existe) | Gap nuevo | `MultiRecordingPlayer` + `ConversationPlayerModal` |
 

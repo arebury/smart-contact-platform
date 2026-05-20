@@ -5,7 +5,7 @@ import { AlertCircle, LucideAngularModule, RotateCcw, Search } from 'lucide-angu
 
 import { DatepickerComponent } from '@shared/components/datepicker/datepicker.component';
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
-import { MultiSelectComponent } from '@shared/components/multi-select/multi-select.component';
+import { MultiSelectComponent } from '@shared/components/multiselect/multiselect.component';
 
 import {
   AGENT_OPTIONS,
@@ -23,12 +23,12 @@ import { TypeFilterButtonComponent } from '../type-filter-button/type-filter-but
  * Top-bar de filtros para Memory ConversationsView.
  *
  * Iter 3 (S37): grid 6 columnas con pickers:
- *   - Servicios (sc-multi-select)
+ *   - Servicios (sc-multiselect)
  *   - Fecha (sc-datepicker single)
  *   - Origen (sc-input)
  *   - Destino (sc-input)
- *   - Grupos ACD (sc-multi-select)
- *   - Agentes (sc-multi-select)
+ *   - Grupos ACD (sc-multiselect)
+ *   - Agentes (sc-multiselect)
  *
  * + botón Reset (RotateCcw) que limpia todos los filtros.
  * + botón Search icon-only navy (placeholder, hoy es submit-on-change).
@@ -39,7 +39,7 @@ import { TypeFilterButtonComponent } from '../type-filter-button/type-filter-but
  * ya disparaba el filtrado. Mantenemos un botón visual por afinidad
  * Figma pero hoy no añade comportamiento (lo dejamos disabled).
  *
- * Estrena los wrappers `<sc-multi-select>` y `<sc-datepicker>` por
+ * Estrena los wrappers `<sc-multiselect>` y `<sc-datepicker>` por
  * primer caso real en el monorepo (ambos 0 uses AED hasta hoy).
  */
 @Component({

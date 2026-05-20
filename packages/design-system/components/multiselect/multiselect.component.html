@@ -1,14 +1,14 @@
 @if (label()) {
-  <label class="sc-multi-select__label" [attr.for]="resolvedId()">
+  <label class="sc-multiselect__label" [attr.for]="resolvedId()">
     {{ label() }}
     @if (required()) {
-      <span class="sc-multi-select__required" aria-hidden="true">*</span>
+      <span class="sc-multiselect__required" aria-hidden="true">*</span>
     }
   </label>
 }
 
 <p-multiselect
-  class="sc-multi-select__control"
+  class="sc-multiselect__control"
   [inputId]="resolvedId()"
   [options]="optionsMutable()"
   [optionLabel]="optionLabel()"
@@ -38,8 +38,8 @@
 
 @if (footerText()) {
   <span
-    class="sc-multi-select__msg"
-    [class.sc-multi-select__msg--error]="!!error()"
+    class="sc-multiselect__msg"
+    [class.sc-multiselect__msg--error]="!!error()"
     [id]="resolvedId() + '-msg'"
   >
     {{ footerText() }}

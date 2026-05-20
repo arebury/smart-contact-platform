@@ -342,7 +342,7 @@ los archivos staged.
 
 ## 2026-05-18 · S37 — Budget bumpeado vs investigación profunda: momentum manda en sesión larga
 
-**Contexto**: en iter 3 de ConversationsView Memory, al introducir el primer uso real de `<sc-multi-select>` y `<sc-datepicker>` en el monorepo, el initial bundle saltó de 1.42 MB a 1.62 MB (+200 KB). El error budget del Angular era 1.5 MB → build rojo.
+**Contexto**: en iter 3 de ConversationsView Memory, al introducir el primer uso real de `<sc-multiselect>` y `<sc-datepicker>` en el monorepo, el initial bundle saltó de 1.42 MB a 1.62 MB (+200 KB). El error budget del Angular era 1.5 MB → build rojo.
 
 **Premisa equivocada (tentación)**: parar la iteración, abrir `source-map-explorer`, mapear qué módulos PrimeNG se promovieron al initial chunk, intentar dynamic `import()` para forzar code-splitting, etc. Trabajo de bundle optimization puro de 1-2h.
 
