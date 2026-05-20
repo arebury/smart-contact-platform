@@ -209,6 +209,16 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
 - **PrimeNG**: `<p-togglebutton>`.
 - **Cuándo crear**: primer caso real en AED — segmented toggle de un single estado (ej. "Mostrar solo activos" si fuese button con press state vs un toggle switch). No hay caso hoy.
 
+### 5.8 `--sc-font-family-mono` — primitive nuevo SC (Session 46)
+
+- **Tipo de divergencia**: token primitivo añadido al catálogo SC; PrimeNG/Aura **NO expone** equivalente (`--p-font-family-*` no incluye monospace).
+- **Razón concreta**: time labels del player Memory (single + multi-rec) + gate input "CONFIRMAR" del retranscription modal usan tabular monospace. Hasta S46 cada consumer hardcodeaba `ui-monospace, monospace` como fallback inline — desalineación garantizada.
+- **Valor**: system mono stack — `ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', monospace`. No mapea a font custom; es la heurística cross-OS estándar.
+- **Definición en código**: `01-primitive.css:208` (junto a `--sc-font-family-primary` / `--sc-font-family-secondary`).
+- **Consumers actuales**: `multi-recording-player.component.scss` (time + label-meta) + `retranscription-confirm-modal.component.scss` (gate label + gate input) + (futuro próximo) `conversation-player-modal.component.scss` single audio bar time labels (tiene `font-variant-numeric: tabular-nums` ya, pendiente alinear).
+- **🟡 Pendiente Figma SC**: añadir variable `font-family-mono` a la collection Variables SC con el mismo stack. Sin export → entry "Custom" en Figma SC que designer no podrá referenciar al construir specs. **Acción Marta**: importar token vía plugin Variables Importer cuando toque resync. Rafa+Marta deciden si SC quiere fuente custom (ej. `JetBrains Mono`) en lugar del system stack — hoy default es system para no añadir webfont weight.
+- **Cuándo borrar**: nunca (es primitive permanente). Si Marta decide custom font, solo cambia el valor del primitive — los consumers no se enteran.
+
 ### 5.7 Refactors de consistencia Session 32 (pure-sc → Extended)
 
 - **No son divergencias** — al revés, son **alineaciones con PrimeNG** que reducen el custom innecesario. Se documentan aquí como reseña para Memory / futuros contributors:
