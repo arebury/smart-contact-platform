@@ -13,7 +13,7 @@
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-300);
   overflow: hidden;
-  box-shadow: 0 1px 1.5px rgb(0 0 0 / 0.04);
+  box-shadow: var(--sc-shadow-xs);
 
   &__head {
     padding: var(--sc-spacing-300) var(--sc-spacing-500);

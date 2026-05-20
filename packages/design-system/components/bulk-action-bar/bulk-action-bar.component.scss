@@ -16,7 +16,7 @@
   color: var(--sc-text-primary);
   z-index: var(--sc-z-bulk-action-bar);
   border-radius: var(--sc-radius-200);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
+  box-shadow: var(--sc-shadow-dropdown);
 
   &__summary {
     display: flex;

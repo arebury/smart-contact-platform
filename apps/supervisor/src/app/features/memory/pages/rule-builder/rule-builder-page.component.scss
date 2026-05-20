@@ -163,7 +163,8 @@
     padding: var(--sc-spacing-400) var(--sc-spacing-500);
     background: var(--sc-bg-surface);
     border-top: 1px solid var(--sc-border-default);
-    /* Soft shadow upward to hint the content scrolls beneath the foot. */
+    /* Soft shadow upward (Y-inverse) — no SCDS token aplica (todos tienen Y+);
+     * intencional para hint scroll-beneath-foot del rule-builder sticky footer. */
     box-shadow: 0 -4px 12px rgb(0 0 0 / 0.04);
   }
 
