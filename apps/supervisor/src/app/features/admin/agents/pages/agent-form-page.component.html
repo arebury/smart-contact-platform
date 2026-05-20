@@ -327,22 +327,22 @@
                     {{ 'agents.form.permissions.destino' | translate }}
                   </th>
                   <th scope="col" class="perm-matrix__th-col">
-                    <sc-tri-state-checkbox
+                    <sc-checkbox
                       [state]="columnState().llamada"
                       [ariaLabel]="'agents.form.permissions.toggle_all_llamada' | translate"
                       (cycle)="toggleColumnAll('llamada', $event)"
                     >
                       <span>{{ 'agents.form.permissions.col_llamada' | translate }}</span>
-                    </sc-tri-state-checkbox>
+                    </sc-checkbox>
                   </th>
                   <th scope="col" class="perm-matrix__th-col">
-                    <sc-tri-state-checkbox
+                    <sc-checkbox
                       [state]="columnState().transferencia"
                       [ariaLabel]="'agents.form.permissions.toggle_all_transferencia' | translate"
                       (cycle)="toggleColumnAll('transferencia', $event)"
                     >
                       <span>{{ 'agents.form.permissions.col_transferencia' | translate }}</span>
-                    </sc-tri-state-checkbox>
+                    </sc-checkbox>
                   </th>
                 </tr>
               </thead>
@@ -630,7 +630,7 @@
                       <thead>
                         <tr>
                           <th class="picker-table__th-check">
-                            <sc-tri-state-checkbox
+                            <sc-checkbox
                               [state]="filteredTemplatesState()"
                               [disabled]="filteredTemplates().length === 0"
                               [ariaLabel]="'agents.form.advanced.plantillas.select_all' | translate"

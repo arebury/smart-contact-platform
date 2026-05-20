@@ -43,7 +43,7 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 | Button `severity=primary` | `#3b82f6` (azure-500) | `#344a70` (navy-500) | `sc-preset.semantic.primary.color = --sc-bg-primary` (líneas 147-158) |
 | Tabs `active` | azure | navy | `components.tabs` inherits `primary.color` |
 | Select / Datepicker / Input / MultiSelect `focus border` | azure | navy | `formField.focusBorderColor = --sc-bg-primary` |
-| Checkbox `checked` (bg + border) | azure | navy | `sc-tri-state-checkbox.scss` checked state `--sc-bg-primary` |
+| Checkbox `checked` (bg + border) | azure | navy | `sc-checkbox.scss` checked state `--sc-bg-primary` |
 | Modal `header icon` | slate-700 | (puede ser inicia primary tinted) | — |
 
 **Razón**: brand identity SC = navy oscuro, distinto del Aura primary default. Marca corporate consistent en CTAs principales.
@@ -100,7 +100,7 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 - **Figma**: el checkbox modela Selected=True/False (binary). NO hay variant para indeterminate.
 - **SC**: añadimos un tercer state `'some'` para el patrón "select all" del header de tabla con selección parcial.
 - **Visual**: mismo bg/border que `'all'` (checked, navy primary) + barra horizontal blanca en lugar del ✓.
-- **Implementación**: `tri-state-checkbox.scss` `.tri-checkbox__input:indeterminate + .tri-checkbox__box` rules. Width de la barra escala con size (8 / 10 / 12 raw px).
+- **Implementación**: `checkbox.scss` `.tri-checkbox__input:indeterminate + .tri-checkbox__box` rules. Width de la barra escala con size (8 / 10 / 12 raw px).
 - **Para qué**: bulk-select de tablas (header row marca todo / nada / mixto según children).
 
 ### 2.4 Modal body slot stacking
@@ -142,7 +142,7 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
   - Input: `sc-inputtext.scss` `--sm/--lg` con valores Figma exactos.
   - Select / MultiSelect: idem en `.p-select-label / .p-multiselect-label`.
   - Datepicker: `sc-datepicker.scss` (extiende formField via [size]).
-  - Checkbox: `tri-state-checkbox.scss` `&--sm / &--lg` con 14/21 px box.
+  - Checkbox: `checkbox.scss` `&--sm / &--lg` con 14/21 px box.
 
 ### 4.2 Sub-pixel padding (raw decimals)
 
@@ -197,7 +197,7 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
   sm/md/lg × HasHint × Filled × Disabled). El spec doc 14-search.md tiene
   la receta detallada.
 
-### 5.4 Reclasificación: `sc-tri-state-checkbox` (Session 31)
+### 5.4 Reclasificación: `sc-checkbox` (Session 31)
 
 - **No es gap** (el componente existe), pero estaba mal etiquetado.
 - **Auditoría confirmó**: NO importa `primeng/*`, usa `<input type="checkbox">` nativo + CSS custom para los 3 estados. Es **pure-sc**, no extended.

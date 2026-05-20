@@ -53,7 +53,7 @@ import {
   SelectComponent,
   StickyFormHeaderComponent,
   ToggleSwitchComponent,
-  TriStateCheckboxComponent,
+  CheckboxComponent,
   type TriState,
 } from '@shared/components';
 import { LabelsStore } from '@features/admin/labels/state/labels.store';
@@ -151,7 +151,7 @@ interface FormState {
     StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
-    TriStateCheckboxComponent,
+    CheckboxComponent,
   ],
   templateUrl: './agent-form-page.component.html',
   styleUrl: './agent-form-page.component.scss',

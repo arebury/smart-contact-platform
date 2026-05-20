@@ -1,17 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TriState, TriStateCheckboxComponent } from './tri-state-checkbox.component';
+import { TriState, CheckboxComponent } from './checkbox.component';
 import { Component, signal } from '@angular/core';
 
 @Component({
   standalone: true,
-  imports: [TriStateCheckboxComponent],
+  imports: [CheckboxComponent],
   template: `
-    <sc-tri-state-checkbox
-      [state]="state()"
-      [ariaLabel]="'Test header'"
-      (cycle)="lastEmit.set($event)"
-    />
+    <sc-checkbox [state]="state()" [ariaLabel]="'Test header'" (cycle)="lastEmit.set($event)" />
   `,
 })
 class HostComponent {
@@ -19,7 +15,7 @@ class HostComponent {
   readonly lastEmit = signal<boolean | null>(null);
 }
 
-describe('TriStateCheckboxComponent', () => {
+describe('CheckboxComponent', () => {
   let fixture: ComponentFixture<HostComponent>;
   let host: HostComponent;
 

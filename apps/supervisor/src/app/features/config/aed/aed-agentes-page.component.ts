@@ -8,7 +8,7 @@ import { PageHeaderService } from '@core/services';
 import {
   InputTextComponent,
   ToggleSwitchComponent,
-  TriStateCheckboxComponent,
+  CheckboxComponent,
   type TriState,
 } from '@shared/components';
 
@@ -74,7 +74,7 @@ const DEFAULT_FORM: FormState = {
     LucideAngularModule,
     ToggleSwitchComponent,
     TranslateModule,
-    TriStateCheckboxComponent,
+    CheckboxComponent,
   ],
   templateUrl: './aed-agentes-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-agentes-page.component.scss'],

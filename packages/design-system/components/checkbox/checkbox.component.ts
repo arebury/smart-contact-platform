@@ -33,13 +33,13 @@ let triStateIdCounter = 0;
  * an input state to drive the visual.
  */
 @Component({
-  selector: 'sc-tri-state-checkbox',
+  selector: 'sc-checkbox',
   standalone: true,
-  templateUrl: './tri-state-checkbox.component.html',
-  styleUrl: './tri-state-checkbox.component.scss',
+  templateUrl: './checkbox.component.html',
+  styleUrl: './checkbox.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TriStateCheckboxComponent implements AfterViewInit {
+export class CheckboxComponent implements AfterViewInit {
   readonly state = input.required<TriState>();
   readonly disabled = input<boolean>(false);
   readonly ariaLabel = input<string | null>(null);

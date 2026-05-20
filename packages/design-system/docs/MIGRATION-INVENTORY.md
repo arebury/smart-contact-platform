@@ -21,7 +21,7 @@
 | 03 | Toast | ✓ | 🟣 Custom-preset + template | `<p-toast>` + pTemplate override en `app.component.html` | [6738:53165](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-53165) | **100%** — Session 30 audit. Width 350, radius 6, padding 10.5, icon 15.75, borders severity-200 tinted, backdrop blur 1.5, close 24.5 circular. SC extensions: action button (undo), icon-square chrome, severity=secondary→violet. | `docs/components/10-toast.md` |
 | 04 | Photo upload | ✓ | ⚪ Pure SC | `<sc-photo-upload>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/29-photo-upload.md` |
 | 05 | Toggle switch | ✓ | 🟢 Extended | `<sc-toggleswitch>` | [6738:22645](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22645) | **100%** — S32 refactor: ahora wrapper de `<p-toggleswitch>` (era CSS sobre input nativo). Hereda chrome + a11y PrimeNG. | `docs/components/15-toggleswitch.md` |
-| 06 | Tri-state checkbox | ✓ | 🟢 Extended | `<sc-tri-state-checkbox>` | [6738:22640](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22640) | **100%** — Session 30 audit Nivel-2 contra los 60 variants Figma. Box 17.5/14/21 por size, border slate-300 1px, icon 12.25, filled bg slate-50. Checked=navy primary (era blue-700, ahora alineado a `--sc-bg-primary`). `'some'` indeterminate = SC extension. | `docs/components/09-checkbox.md` |
+| 06 | Tri-state checkbox | ✓ | 🟢 Extended | `<sc-checkbox>` | [6738:22640](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22640) | **100%** — Session 30 audit Nivel-2 contra los 60 variants Figma. Box 17.5/14/21 por size, border slate-300 1px, icon 12.25, filled bg slate-50. Checked=navy primary (era blue-700, ahora alineado a `--sc-bg-primary`). `'some'` indeterminate = SC extension. | `docs/components/09-checkbox.md` |
 | 07 | Illustrated avatar | ✓ | ⚪ Pure SC | `<sc-illustrated-avatar>` | n/a (asset custom, no Figma) | n/a | `docs/components/16-illustrated-avatar.md` |
 | 08 | Section card | ✓ | ⚪ Pure SC | `<sc-section-card>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/13-section-card.md` |
 | 09 | Bulk action bar | ✓ | ⚪ Pure SC | `<sc-bulk-action-bar>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/23-bulk-action-bar.md` |
@@ -76,7 +76,7 @@ Capa | Archivo | Status
 | `<p-button>` | 2026-05-15 | S30 | Nivel-2 contra 1965 variants, parity 100% |
 | `<sc-dialog>` | 2026-05-15 | S30 | Border slate-200, radius 12, padding 17.5 |
 | `<p-toast>` | 2026-05-15 | S30 | Width 350, severity-200 tinted borders |
-| `<sc-tri-state-checkbox>` | 2026-05-15 | S30 | 60 variants Nivel-2, navy primary |
+| `<sc-checkbox>` | 2026-05-15 | S30 | 60 variants Nivel-2, navy primary |
 | `<sc-inputtext>` | 2026-05-15 | S30 | 240 variants Nivel-2, padding decimal raw |
 | `<p-tabs>` | 2026-05-15 | S30 | Padding tab 14/15.75 |
 | `<p-tooltip>` | 2026-05-15 | S30 | bg slate-700, padding 10.5/7 |
@@ -114,7 +114,7 @@ Capa | Archivo | Status
 | `<sc-delete-entity-dialog>` | 8 | Pattern industry |
 | `<sc-inputnumber>` | 7 | Estable |
 | `<sc-illustrated-avatar>` | 7 | Custom asset |
-| `<sc-tri-state-checkbox>` | 6 | API estable |
+| `<sc-checkbox>` | 6 | API estable |
 | `<sc-bulk-action-bar>` | 6 | Pattern Gmail/Linear |
 | `<sc-sticky-form-header>` | 3 | Patrón canónico Create/Edit |
 | `<sc-form-section-nav>` | 3 | Patrón canónico form long |

@@ -220,14 +220,14 @@
     width: 140px;
 
     /*
-     * The column header is an `<sc-tri-state-checkbox>` that wraps a
+     * The column header is an `<sc-checkbox>` that wraps a
      * projected `<span>` (the column label). Default tri-state layout
      * is "[box] label"; we want "LABEL [box]" to match Voice's
      * Figura 15 (DD#55). We also want the projected label to inherit
      * the header's small-caps treatment instead of the tri-state's
      * own body-text style.
      */
-    sc-tri-state-checkbox .tri-checkbox {
+    sc-checkbox .tri-checkbox {
       flex-direction: row-reverse;
       justify-content: center;
       font-size: inherit;

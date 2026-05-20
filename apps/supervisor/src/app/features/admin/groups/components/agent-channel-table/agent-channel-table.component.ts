@@ -7,7 +7,7 @@ import {
   IllustratedAvatarComponent,
   ToggleSwitchComponent,
   TriState,
-  TriStateCheckboxComponent,
+  CheckboxComponent,
 } from '@shared/components';
 
 import { CHANNEL_LABEL_KEYS, GroupChannel } from '@features/admin/groups/data/groups-data';
@@ -56,7 +56,7 @@ interface VisibleRow {
     LucideAngularModule,
     ToggleSwitchComponent,
     TranslateModule,
-    TriStateCheckboxComponent,
+    CheckboxComponent,
   ],
   templateUrl: './agent-channel-table.component.html',
   styleUrl: './agent-channel-table.component.scss',

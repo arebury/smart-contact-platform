@@ -29,7 +29,7 @@
 ## Cuándo NO usarlo
 
 - Selección única → `<sc-select>`.
-- Si el dominio tiene < 5 opciones y el usuario suele marcar la mayoría → considerar checkboxes inline (`<sc-tri-state-checkbox>` por opción).
+- Si el dominio tiene < 5 opciones y el usuario suele marcar la mayoría → considerar checkboxes inline (`<sc-checkbox>` por opción).
 - Tag input con creación libre de tags → `<sc-chips>` (TBD).
 
 ## API

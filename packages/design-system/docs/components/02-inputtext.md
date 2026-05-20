@@ -30,7 +30,7 @@
 - Para valores numéricos → usar `<sc-inputnumber>` (TBD, cocinar cuando aparezca caso real).
 - Para OTP / códigos de verificación → usar `<sc-input-otp>` (TBD).
 - Para inputs con icono interactivo + texto + botón (search bar pro, prefix dropdown) → `<sc-input-group>` (TBD).
-- Para checkbox / radio → usar componentes específicos (`<sc-tri-state-checkbox>`).
+- Para checkbox / radio → usar componentes específicos (`<sc-checkbox>`).
 
 ## API
 
