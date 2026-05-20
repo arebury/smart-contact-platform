@@ -10,6 +10,65 @@
 
 ---
 
+## 2026-05-21 · Session 52 — Sweep nombres + repos i18n + CI lint fix + 4 bugs UI bulk modal
+
+> Sesión densa con 5 commits. Cierra el sweep AED i18n (último consumer
+> parametrizado: repos), normaliza referencias por nombre del equipo en
+> docs/mocks/memoria, arregla 11 CI rojos consecutivos (lint errors no
+> detectados por husky) y resuelve 4 bugs UI del bulk transcription modal.
+
+### Hitos
+
+1. **Sweep nombres del equipo** (`6d8efc2`) — 52 archivos. Refs por nombre
+   propio sin apellido → "el equipo de diseño". Mocks con apellido
+   renombrados a "Inés Recio/Ramírez/López". Memoria persistente añadida
+   con regla "hablar de equipo de diseño, no nombres propios".
+
+2. **Repos i18n cierre sweep AED** (`0e65b6e`) — schema `RepoConfig`
+   removed `entityNameSpanish/Plural` (deuda S50). `repo-list-page` usa
+   patrón S49 reactive: `entitySingular/Plural` computeds + lang signal.
+   9 instances purgadas. `repo-form-panel` input renombrado.
+
+3. **Multi-rec aria i18n** (`bb41f88`) — `labelText()` y `ariaLabel()`
+   resuelven via `translate.instant` (antes strings ES hardcoded).
+
+4. **CI lint fix + 4 bugs UI bulk modal** (`ec332d8`) — bloque grande:
+   - **CI rojo cadena 11 commits**: husky pre-commit corría solo
+     prettier, no eslint. 6 lint errors no detectados (3× `target`
+     unused, 3× `label-has-associated-control`). Fix + integrado
+     `npm run lint` en pre-commit → estructural anti-regression.
+   - **Bug 1 toolbar disabled**: Transcribir/Download/MarcarLeídas ahora
+     disabled hasta selección explícita. Antes operador podía descargar
+     75 filas con click accidental.
+   - **Bug 2 heroCount animation**: refactor patrón `[attr.key]` →
+     signal toggle (false → requestAnimationFrame → true → timeout →
+     false). Hero usa `sc-pulse` (1.08 / 360ms, legacy) en vez de
+     `sc-bump`. Caption pulsa con hero. Ghost `+N`/`−N` solo al
+     togglear con cleanup 800ms.
+   - **Bug 3 procesar unitario sin resultado**:
+     `dispatchTranscription` marcaba `hasTranscription: true` sin
+     contenido → player vacío. Fix: `TRANSCRIPTION_POOL` exportado
+     (chat + 5 call). Store inyecta plantilla determinística por hash.
+   - **Bug 4 spacing botones modal**: override scoped
+     `::ng-deep .sc-dialog__body { padding: 0 }` réplica `<Modal.Body
+     !p-0>` legacy. Otros modales mantienen padding canónico.
+
+### Estado salud cierre S52
+
+CI `#377` ec332d8 ✅ verde. Netlify `aedmigration` + `ds-smartcontact`
+ready @ec332d8. tsc verde · lint verde · build production verde ·
+Playwright cross-app 14/14 verde · i18n audit verde (1472 paths × 4
+locales, 0 mismatches). Husky pre-commit: prettier + i18n-audit + lint.
+
+### Commits S52
+
+- `0e65b6e` refactor(repos): bulk-toolbar i18n + remove entityNameSpanish
+- `bb41f88` fix(memory): multi-rec aria labels i18n
+- `6d8efc2` docs(repo): normalizar referencias autoría
+- `ec332d8` fix(memory): CI lint errors + 4 bugs UI bulk modal
+
+---
+
 ## 2026-05-20 · Session 50 — Toolbar inline legacy parity + SCDS animations + mockdata + AED i18n sweep
 
 > Sesión grande post-S49. Rafa pidió 6 bloques en cascada: animaciones del bulk

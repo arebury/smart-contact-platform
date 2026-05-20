@@ -5,18 +5,57 @@
 
 ---
 
-## Estado al cerrar (Session 50, 2026-05-20)
+## Estado al cerrar (Session 52, 2026-05-21)
 
-**Sesión grande**: 6 bloques en cascada. (1) 4 animaciones SC promovidas al
-SCDS partial `_sc-animations.scss`. (2) Delta-fly ghost `+N`/`−N` en bulk
-modal (réplica React). (3) Mockdata 15→33 entries con casuísticas legacy.
-(4) Download button habilitado en toolbar. (5) Toolbar refactor a patrón
-inline legacy (Filtros·Tipo·Categorías·sep·Transcribir·Download·MarcarLeídas·
-Help · Resultados/Última). (6) Sweep AED bulk-toolbar i18n 5/6 consumers
-migrados al helper SCDS `useBulkEntityI18n`.
+**Sesión densa**: 4 commits. CI cadena rojo de 11 commits ARREGLADA (lint
+errors no detectados por husky → integrado `npm run lint` en pre-commit
+como red estructural). Sweep AED i18n cerrado (último consumer: repos
+schema refactor). Sweep nombres del equipo (52 archivos, docs + mocks +
+memoria). 4 bugs UI del bulk transcription modal resueltos según legacy
+React 1:1.
 
-**Diferido**: repo-list-page bulk i18n (parametrizado via config — necesita
-refactor del config schema). Ver Eje sweep AED abajo.
+**Estado salud**: CI `#377` ec332d8 ✅ · Netlify aedmigration+ds-smartcontact
+ready · 14/14 Playwright · i18n 1472 paths × 4 locales 0 mismatches.
+
+## Próximas tareas (priorizadas)
+
+### 🎯 Pendiente top S53 — Capturas componente por componente
+
+User pidió generar referencia visual por componente para añadir a cada
+checklist `packages/design-system/docs/components/NN-*.md`. Idea:
+script Playwright que itera las 33 rutas `/components/<name>` del
+ds-docs, captura el componente principal (no la página entera) y
+guarda en `packages/design-system/docs/components/screenshots/<name>.png`.
+Después: añadir `![<name>](./screenshots/<name>.png)` al header de
+cada doc.
+
+Trabajo definido: ~1-1.5h. Requiere:
+- Convención CSS selector `.gallery__hero` (o data-testid) en cada
+  gallery para identificar el componente focal vs la página entera.
+- Script `scripts/capture-components.mjs` que arranca ds-docs +
+  Playwright + itera.
+- Sweep 33 docs.
+
+### 🎯 Pendiente top S53 — /impeccable rework container filtros+toolbar+tabla
+
+User reportó: el container actual hace **gestalt extraña** — visualmente
+separa la tabla del resto cuando deberían sentirse UN bloque conectado.
+
+Aplicar /impeccable como dirección de diseño moderna SaaS, respetando
+las normas (tokens existentes, wrappers SCDS, sin tokens nuevos). El
+target es que filtros + toolbar + tabla se lean como **una sola card
+continua**, no 2 elementos separados con aire vertical entre ellos.
+
+Si la propuesta /impeccable no nos convence al revisarla, volvemos a
+la anterior. Es exploración.
+
+## Estado al cerrar S50/S51 (referencia)
+
+S50 (`70e352d`): 6 bloques en cascada — animaciones SC partial, delta-fly,
+mockdata 15→33, Download wire, toolbar inline legacy, AED i18n 5/6.
+
+S51 (`0e65b6e` + `bb41f88` + `6d8efc2`): repos schema refactor (último
+consumer i18n), multi-rec aria, sweep nombres → "equipo de diseño".
 
 ## Estado al cerrar S49 (referencia)
 
@@ -67,18 +106,11 @@ Todo §10 vivo está cerrado o en limbo con trigger explícito (#4 producción r
 #5/#6/#7/#9 dispatch real, #8 refactor SCDS, #11 producción real). Siguiente eje
 post-§10 depende de qué priorice Rafa.
 
-### 🎯 Eje sweep — AED bulk-toolbar i18n
+### 🎯 Eje sweep — AED bulk-toolbar i18n ✅ CERRADO S51
 
-✅ **5/6 migrados S50** via helper SCDS `useBulkEntityI18n`:
-agents, users, groups, labels, templates.
-
-⏸️ **Pendiente repo-list-page** — parametrizado via `config().entityNameSpanish`
-/ `entityPluralSpanish`. Refactor mayor: hay que cambiar el `RepoConfig`
-schema para usar i18n keys (`entityNameKey`/`entityPluralKey`) + actualizar
-N configs por tipo de repositorio. Tamaño: ~1-1.5h. Trigger: cuando Rafa
-pida i18n en /admin/repositorios o se detecte el bug en captura.
-
-Archivo: `apps/supervisor/src/app/features/admin/repositories/components/repo-list-page.component.ts:110`.
+5/6 migrados S50 + repos S51. Todos los consumers `<sc-bulk-action-bar>`
+reactivos al cambio de idioma. Schema `RepoConfig` purgado de
+`entityNameSpanish/Plural` (deuda hardcoded ES).
 
 ### 🎯 Eje 2 — Code Connect mapping (Figma ↔ SCDS) — DORMIDO con trigger (decisión S48)
 
