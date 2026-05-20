@@ -3,7 +3,7 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Input number</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-input-number&gt;</code> envuelve un
+      <code>&lt;sc-inputnumber&gt;</code> envuelve un
       <code>&lt;input type="number"&gt;</code> nativo con el patrón SCDS (label + required + helper
       + error + suffix unidad). Emite <code>number | null</code> y soporta <code>[(value)]</code>,
       <code>[(ngModel)]</code> y Reactive Forms.
@@ -17,7 +17,7 @@
       Sin label, sin helper. Solo placeholder. Texto right-aligned por convención numérica.
     </p>
     <div class="gallery__row">
-      <sc-input-number placeholder="0" [(value)]="counterValue" />
+      <sc-inputnumber placeholder="0" [(value)]="counterValue" />
     </div>
     <p class="gallery__output">
       Valor: <code>{{ counterValue() ?? '(null)' }}</code> · tipo:
@@ -33,7 +33,7 @@
       al validador HTML.
     </p>
     <div class="gallery__row">
-      <sc-input-number
+      <sc-inputnumber
         label="Capacidad del grupo"
         placeholder="Ej. 20"
         helperText="Número máximo de agentes simultáneos."
@@ -53,14 +53,14 @@
       seleccionable.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-input-number
+      <sc-inputnumber
         label="Pausa standard"
         placeholder="0"
         suffix="s"
         [min]="0"
         [(value)]="secondsValue"
       />
-      <sc-input-number
+      <sc-inputnumber
         label="Umbral de alerta"
         placeholder="0"
         suffix="%"
@@ -82,9 +82,9 @@
       Mismas alturas que <code>&lt;sc-inputtext&gt;</code>. <code>md</code> es el default.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-input-number label="Small" size="sm" suffix="s" [min]="0" />
-      <sc-input-number label="Medium (default)" suffix="s" [min]="0" />
-      <sc-input-number label="Large" size="lg" suffix="s" [min]="0" />
+      <sc-inputnumber label="Small" size="sm" suffix="s" [min]="0" />
+      <sc-inputnumber label="Medium (default)" suffix="s" [min]="0" />
+      <sc-inputnumber label="Large" size="lg" suffix="s" [min]="0" />
     </div>
   </section>
 
@@ -95,9 +95,9 @@
       Disabled, readonly, error con mensaje. El error sobreescribe al helper.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-input-number label="Disabled" suffix="s" [disabled]="true" [(value)]="disabledValue" />
-      <sc-input-number label="Readonly" suffix="s" [readonly]="true" [(value)]="disabledValue" />
-      <sc-input-number
+      <sc-inputnumber label="Disabled" suffix="s" [disabled]="true" [(value)]="disabledValue" />
+      <sc-inputnumber label="Readonly" suffix="s" [readonly]="true" [(value)]="disabledValue" />
+      <sc-inputnumber
         label="Capacidad"
         suffix="agentes"
         [min]="1"
@@ -115,7 +115,7 @@
       Compatible con FormsModule. Útil para forms no-Reactive existentes en AED.
     </p>
     <div class="gallery__row">
-      <sc-input-number label="Vía ngModel" suffix="items" [min]="0" [(ngModel)]="ngModelValue" />
+      <sc-inputnumber label="Vía ngModel" suffix="items" [min]="0" [(ngModel)]="ngModelValue" />
     </div>
     <p class="gallery__output">
       Valor: <code>{{ ngModelValue() ?? '(null)' }}</code>
@@ -130,7 +130,7 @@
       required + min(1) + max(50).
     </p>
     <div class="gallery__row">
-      <sc-input-number
+      <sc-inputnumber
         label="Nº de agentes (Reactive Form)"
         placeholder="1–50"
         suffix="agentes"
@@ -161,9 +161,9 @@
       <code>1</code>. Útil para porcentajes <code>step="5"</code> o décimas <code>step="0.1"</code>.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-input-number label="Step de 1 (default)" placeholder="0" />
-      <sc-input-number label="Step de 5" placeholder="0" [step]="5" suffix="%" />
-      <sc-input-number label="Step de 0.1 (decimal)" placeholder="0.0" [step]="0.1" />
+      <sc-inputnumber label="Step de 1 (default)" placeholder="0" />
+      <sc-inputnumber label="Step de 5" placeholder="0" [step]="5" suffix="%" />
+      <sc-inputnumber label="Step de 0.1 (decimal)" placeholder="0.0" [step]="0.1" />
     </div>
   </section>
 

@@ -19,9 +19,9 @@ export const appRoutes: Routes = [
       ),
   },
   {
-    path: 'components/input-number',
+    path: 'components/inputnumber',
     loadComponent: () =>
-      import('./pages/input-number/input-number-gallery.component').then(
+      import('./pages/inputnumber/inputnumber-gallery.component').then(
         (m) => m.InputNumberGalleryComponent,
       ),
   },

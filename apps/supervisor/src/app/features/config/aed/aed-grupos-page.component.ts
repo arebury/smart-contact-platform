@@ -107,7 +107,7 @@ export class AedGruposPageComponent {
   }
 
   /**
-   * Adapter para `<sc-input-number>` que emite `number | null` directamente.
+   * Adapter para `<sc-inputnumber>` que emite `number | null` directamente.
    * Si null → no actualizamos (mantener último valor válido).
    */
   protected onNumberValueChange<K extends 'limiteCola' | 'tiempoTransferencia' | 'tiempoMaxEspera'>(

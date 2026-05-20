@@ -60,7 +60,7 @@
                 [attr.title]="'config.aed.subpages.grupos.capacidad.limite_info' | translate"
               />
             </label>
-            <sc-input-number
+            <sc-inputnumber
               inputId="grupos-limite-cola"
               [min]="1"
               [suffix]="'config.aed.subpages.grupos.capacidad.limite_suffix' | translate"
@@ -89,7 +89,7 @@
                 <span>{{ 'config.aed.subpages.grupos.tiempos.transferencia' | translate }}</span>
                 <lucide-icon [img]="infoIcon" [size]="12" class="field__info" aria-hidden="true" />
               </label>
-              <sc-input-number
+              <sc-inputnumber
                 inputId="grupos-tiempo-transfer"
                 [min]="0"
                 [suffix]="'common.units.seconds' | translate"
@@ -103,7 +103,7 @@
                 <span>{{ 'config.aed.subpages.grupos.tiempos.max_cola' | translate }}</span>
                 <lucide-icon [img]="infoIcon" [size]="12" class="field__info" aria-hidden="true" />
               </label>
-              <sc-input-number
+              <sc-inputnumber
                 inputId="grupos-tiempo-cola"
                 [min]="0"
                 [suffix]="'common.units.seconds' | translate"

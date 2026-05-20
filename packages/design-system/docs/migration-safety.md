@@ -92,7 +92,7 @@ Cualquier cambio upstream PrimeNG SOLO afecta la última capa. El bridge contien
 
 ### Sesión 31 — Migraciones AED a SCDS
 
-- 24 commits, ~25 inputs/selects nativos AED migrados a `<sc-inputtext>` / `<sc-select>` / `<sc-input-number>`.
+- 24 commits, ~25 inputs/selects nativos AED migrados a `<sc-inputtext>` / `<sc-select>` / `<sc-inputnumber>`.
 - Componente `<sc-search>` nuevo (Extended sobre `p-iconfield` + `pInputText` + clear button).
 - Auditoría profunda pure-sc: 0 issues nivel-1.
 - Figma SC `❖ Search` canvas compuesto (Light + Dark + Components frames) — composición aditiva, **NO se modificaron variables Figma base**.

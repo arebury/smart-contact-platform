@@ -34,11 +34,11 @@ let scInputNumberIdCounter = 0;
  * `p-inputNumber`'s.
  */
 @Component({
-  selector: 'sc-input-number',
+  selector: 'sc-inputnumber',
   standalone: true,
   imports: [InputTextModule],
-  templateUrl: './input-number.component.html',
-  styleUrl: './input-number.component.scss',
+  templateUrl: './inputnumber.component.html',
+  styleUrl: './inputnumber.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
@@ -49,13 +49,13 @@ let scInputNumberIdCounter = 0;
     },
   ],
   host: {
-    class: 'sc-input-number',
-    '[class.sc-input-number--sm]': "size() === 'sm'",
-    '[class.sc-input-number--lg]': "size() === 'lg'",
-    '[class.sc-input-number--invalid]': 'isInvalid()',
-    '[class.sc-input-number--disabled]': 'disabled()',
-    '[class.sc-input-number--has-suffix]': 'hasSuffix()',
-    '[style.--sc-input-number-suffix-pad]': 'suffixPad()',
+    class: 'sc-inputnumber',
+    '[class.sc-inputnumber--sm]': "size() === 'sm'",
+    '[class.sc-inputnumber--lg]': "size() === 'lg'",
+    '[class.sc-inputnumber--invalid]': 'isInvalid()',
+    '[class.sc-inputnumber--disabled]': 'disabled()',
+    '[class.sc-inputnumber--has-suffix]': 'hasSuffix()',
+    '[style.--sc-inputnumber-suffix-pad]': 'suffixPad()',
   },
 })
 export class InputNumberComponent implements ControlValueAccessor {
@@ -84,7 +84,7 @@ export class InputNumberComponent implements ControlValueAccessor {
 
   // ─── Derived ───────────────────────────────────────────────────────
   protected readonly resolvedId = computed(
-    () => this.inputId() ?? `sc-input-number-${++scInputNumberIdCounter}`,
+    () => this.inputId() ?? `sc-inputnumber-${++scInputNumberIdCounter}`,
   );
 
   protected readonly hasSuffix = computed(() => !!this.suffix());

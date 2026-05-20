@@ -117,7 +117,7 @@ La interacción la llevan el `<input pInputText>` y los `<p-button>` proyectados
 Sin más consumidores hoy. Se espera reutilización en:
 - Inputs de URL con prefijo `https://` o `www.` en futuras config-pages.
 - Inputs numéricos con unidad (cuando la unidad NO se quiere dentro del input
-  como `[suffix]` de `sc-input-number`, sino como addon fuera del campo).
+  como `[suffix]` de `sc-inputnumber`, sino como addon fuera del campo).
 
 ## Página demo
 

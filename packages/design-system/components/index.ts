@@ -46,8 +46,8 @@ export { InlineRenameCellComponent } from './inline-rename-cell/inline-rename-ce
 export { InputTextComponent } from './inputtext/inputtext.component';
 export type { ScInputSize, ScInputType } from './inputtext/inputtext.component';
 
-export { InputNumberComponent } from './input-number/input-number.component';
-export type { ScInputNumberSize } from './input-number/input-number.component';
+export { InputNumberComponent } from './inputnumber/inputnumber.component';
+export type { ScInputNumberSize } from './inputnumber/inputnumber.component';
 
 export { InputGroupComponent } from './input-group/input-group.component';
 export type { ScInputGroupSize } from './input-group/input-group.component';

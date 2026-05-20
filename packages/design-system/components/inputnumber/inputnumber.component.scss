@@ -1,5 +1,5 @@
 /*
- * sc-input-number — Smart Contact numeric input.
+ * sc-inputnumber — Smart Contact numeric input.
  *
  * Mirrors sc-input's chrome (label / input / helper-or-error) so the
  * two read as a family. Differences:
@@ -11,14 +11,14 @@
  * sc-preset → semantic.formField.*, same as sc-input.
  */
 
-.sc-input-number {
+.sc-inputnumber {
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-50);
   min-width: 0;
 }
 
-.sc-input-number__label {
+.sc-inputnumber__label {
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
@@ -28,18 +28,18 @@
   margin-bottom: 2px;
 }
 
-.sc-input-number__required {
+.sc-inputnumber__required {
   color: var(--sc-text-danger);
   font-weight: var(--sc-font-weight-medium);
 }
 
-.sc-input-number__field {
+.sc-inputnumber__field {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.sc-input-number__control {
+.sc-inputnumber__control {
   width: 100%;
   font-family: inherit;
   /* Numbers read right-aligned. */
@@ -50,19 +50,19 @@
 
 /* Strip browser-default spinners — they clash with our design and
  * aren't used in AED. Consumers who need them can re-enable per case. */
-.sc-input-number__control::-webkit-outer-spin-button,
-.sc-input-number__control::-webkit-inner-spin-button {
+.sc-inputnumber__control::-webkit-outer-spin-button,
+.sc-inputnumber__control::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.sc-input-number__control {
+.sc-inputnumber__control {
   -moz-appearance: textfield;
   appearance: textfield;
 }
 
 /* Suffix — unit label glued to the right edge of the input.
  * Reserves space via padding-right so the number doesn't bleed under it. */
-.sc-input-number__suffix {
+.sc-inputnumber__suffix {
   position: absolute;
   right: var(--sc-spacing-200);
   top: 50%;
@@ -75,32 +75,32 @@
   font-variant-numeric: tabular-nums;
 }
 
-.sc-input-number__field--has-suffix .sc-input-number__control {
-  /* El host setea --sc-input-number-suffix-pad calculado del length del
+.sc-inputnumber__field--has-suffix .sc-inputnumber__control {
+  /* El host setea --sc-inputnumber-suffix-pad calculado del length del
    * suffix (ver suffixPad() en el TS). Fallback 32px ≈ 3 chars para
    * cubrir casos sin el binding aplicado. */
-  padding-right: calc(var(--sc-spacing-200) + var(--sc-input-number-suffix-pad));
+  padding-right: calc(var(--sc-spacing-200) + var(--sc-inputnumber-suffix-pad));
 }
 
 /* ────────────────────────────────────────────────────────────────────
  * Size variants — same scale as sc-input.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-input-number--sm .sc-input-number__control {
+.sc-inputnumber--sm .sc-inputnumber__control {
   padding-top: 4px;
   padding-bottom: 4px;
   font-size: var(--sc-font-size-100);
 }
-.sc-input-number--sm .sc-input-number__suffix {
+.sc-inputnumber--sm .sc-inputnumber__suffix {
   font-size: var(--sc-font-size-50);
 }
 
-.sc-input-number--lg .sc-input-number__control {
+.sc-inputnumber--lg .sc-inputnumber__control {
   padding-top: 12px;
   padding-bottom: 12px;
   font-size: var(--sc-font-size-300);
 }
-.sc-input-number--lg .sc-input-number__suffix {
+.sc-inputnumber--lg .sc-inputnumber__suffix {
   font-size: var(--sc-font-size-200);
 }
 
@@ -109,7 +109,7 @@
  * aria-invalid; the host class covers the manual `[error]` path.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-input-number--invalid .sc-input-number__control {
+.sc-inputnumber--invalid .sc-inputnumber__control {
   border-color: var(--sc-border-error);
 
   &:hover,
@@ -118,7 +118,7 @@
   }
 }
 
-.sc-input-number--invalid .sc-input-number__suffix {
+.sc-inputnumber--invalid .sc-inputnumber__suffix {
   color: var(--sc-text-danger);
 }
 
@@ -127,7 +127,7 @@
  * shifts layout (DD#16, "no layout shift" feedback).
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-input-number__msg {
+.sc-inputnumber__msg {
   display: block;
   min-height: 1.25em;
   margin-top: var(--sc-spacing-50);
@@ -136,7 +136,7 @@
   color: var(--sc-text-subtle);
 }
 
-.sc-input-number__msg--error {
+.sc-inputnumber__msg--error {
   color: var(--sc-text-danger);
 }
 
@@ -144,7 +144,7 @@
  * Disabled — dim the label + suffix so the whole field reads inert.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-input-number--disabled .sc-input-number__label,
-.sc-input-number--disabled .sc-input-number__suffix {
+.sc-inputnumber--disabled .sc-inputnumber__label,
+.sc-inputnumber--disabled .sc-inputnumber__suffix {
   color: var(--sc-text-disabled);
 }

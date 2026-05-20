@@ -208,13 +208,13 @@ export class HomeComponent {
         "Memory → /conversaciones/categorías o /entidades → 'Crear/Editar' → campos nombre y descripción. También en filtros de búsqueda.",
     },
     {
-      slug: 'input-number',
-      name: 'Input number',
+      slug: 'inputnumber',
+      name: 'InputNumber',
       type: 'extended',
       parity: 'audited-full',
       aedUses: 9,
       memoryUses: 0,
-      pageRoute: '/components/input-number',
+      pageRoute: '/components/inputnumber',
       whatItDoes:
         'Campo numérico para formularios: capacidades, contadores, segundos, porcentajes. Mismo aspecto que el campo de texto pero con la unidad ("s", "%", "agentes") a la derecha y el número alineado a la derecha también.',
       whereToSee:

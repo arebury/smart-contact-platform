@@ -34,7 +34,7 @@
 - Para input + addon button con border merge (ej. "+ Añadir") →
   `<p-inputgroup>` directo + `<sc-inputtext>` dentro (caso del tag-input en
   aed-servicio).
-- Para input numérico → `<sc-input-number>`.
+- Para input numérico → `<sc-inputnumber>`.
 
 ## API
 

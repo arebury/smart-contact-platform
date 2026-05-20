@@ -270,7 +270,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   }
 
   /**
-   * Adapter para `<sc-input-number>` (capacityValue). Emite `number | null`;
+   * Adapter para `<sc-inputnumber>` (capacityValue). Emite `number | null`;
    * un null → campo vacío, mantenemos el null en el form para que serialize
    * lo traduzca a `undefined`. Filtra valores negativos (defensa por si el
    * usuario teclea un signo: el min="0" del input ya lo bloquea normalmente).

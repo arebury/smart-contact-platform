@@ -1,4 +1,4 @@
-# 03 · Input number (`<sc-input-number>`)
+# 03 · Input number (`<sc-inputnumber>`)
 
 > **Type**: Extended · **AED uses**: 7 · **Figma parity**: 1:1 con Figma
 
@@ -7,7 +7,7 @@
 ## TL;DR
 
 ```html
-<sc-input-number
+<sc-inputnumber
   label="Capacidad del grupo"
   placeholder="Ej. 20"
   suffix="agentes"
@@ -27,7 +27,7 @@
 ## Cuándo NO usarlo
 
 - Para texto, email, etc. → `<sc-inputtext>`.
-- Para currency con formato local (`1.234,56 €`) → `<p-inputNumber>` directo (Custom-preset, TBD). `sc-input-number` deliberadamente NO incluye formatting/locale porque AED no lo usa hoy.
+- Para currency con formato local (`1.234,56 €`) → `<p-inputNumber>` directo (Custom-preset, TBD). `sc-inputnumber` deliberadamente NO incluye formatting/locale porque AED no lo usa hoy.
 - Para spinner buttons (+/−) → `<p-inputNumber>` directo. Misma razón.
 - Para sliders / rangos → `<sc-slider>` (TBD).
 
@@ -44,7 +44,7 @@ interface ScInputNumberProps {
   placeholder?: string;
   disabled?: boolean;
   readonly?: boolean;
-  inputId?: string;             // auto: 'sc-input-number-N'
+  inputId?: string;             // auto: 'sc-inputnumber-N'
   name?: string;
 
   // Number-specific
@@ -65,7 +65,7 @@ interface ScInputNumberProps {
 ### Signals (recomendado)
 
 ```html
-<sc-input-number [(value)]="capacitySignal" />
+<sc-inputnumber [(value)]="capacitySignal" />
 ```
 
 ```typescript
@@ -75,13 +75,13 @@ capacitySignal = signal<number | null>(null);
 ### ngModel
 
 ```html
-<sc-input-number [(ngModel)]="capacity" />
+<sc-inputnumber [(ngModel)]="capacity" />
 ```
 
 ### Reactive Forms
 
 ```html
-<sc-input-number
+<sc-inputnumber
   [formControl]="agentsCtrl"
   [min]="1"
   [max]="50"
@@ -127,11 +127,11 @@ Específicos del componente:
 - **Texto right-aligned por defecto**. Convención numérica (alineas decimales, columnas). Si necesitas left-align para un caso concreto (p.ej. ID/código), override con CSS local. NO añadir prop `[align]` hasta que tengamos 2+ casos reales.
 - **Spinners nativos ocultos**. Los browser defaults (`::-webkit-inner-spin-button`) son inconsistentes y feos. AED no los usa. Reactivar requiere refactor.
 - **No locale formatting**. `1234` se muestra como `1234`, no `1.234`. PrimeNG `p-inputNumber` lo hace; deliberadamente fuera de scope aquí. Si llega un caso real, escalar a `p-inputNumber` Custom-preset.
-- **Padding-right del suffix se calcula automáticamente** según `suffix().length` (Inter ≈ 0.6em por carácter + 0.5em safety, mínimo 2.3em para preservar suffixes cortos). Se expone como CSS custom property `--sc-input-number-suffix-pad` en el host. Si el cálculo falla por una fuente custom, override la variable en el consumer.
+- **Padding-right del suffix se calcula automáticamente** según `suffix().length` (Inter ≈ 0.6em por carácter + 0.5em safety, mínimo 2.3em para preservar suffixes cortos). Se expone como CSS custom property `--sc-inputnumber-suffix-pad` en el host. Si el cálculo falla por una fuente custom, override la variable en el consumer.
 
 ## Comparativa con `<sc-inputtext>`
 
-| Aspecto | `<sc-inputtext>` | `<sc-input-number>` |
+| Aspecto | `<sc-inputtext>` | `<sc-inputnumber>` |
 |---------|--------------|---------------------|
 | Tipo de valor | `string` | `number \| null` |
 | Alineación texto | left | right |
@@ -161,7 +161,7 @@ Específicos del componente:
 
 **Después**:
 ```html
-<sc-input-number
+<sc-inputnumber
   label="Capacidad"
   helperText="Capacidad opcional del grupo."
   [min]="0"
@@ -169,12 +169,12 @@ Específicos del componente:
 />
 ```
 
-Si la pareja `[value] + (input)` desserializaba un string a number a mano, ya no hace falta — `<sc-input-number>` emite `number | null` directamente.
+Si la pareja `[value] + (input)` desserializaba un string a number a mano, ya no hace falta — `<sc-inputnumber>` emite `number | null` directamente.
 
 ## Recipe: porcentaje 0–100
 
 ```html
-<sc-input-number
+<sc-inputnumber
   label="Umbral de alerta"
   suffix="%"
   [min]="0"
@@ -187,7 +187,7 @@ Si la pareja `[value] + (input)` desserializaba un string a number a mano, ya no
 ## Recipe: segundos con default
 
 ```html
-<sc-input-number
+<sc-inputnumber
   label="Pausa standard"
   suffix="s"
   [min]="0"

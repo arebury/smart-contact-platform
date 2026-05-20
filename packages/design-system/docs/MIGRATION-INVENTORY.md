@@ -42,7 +42,7 @@
 | 24 | Page header | ✓ | ⚪ Pure SC | `<sc-page-header>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/19-page-header.md` |
 | 25 | Sticky form header | ✓ | ⚪ Pure SC | `<sc-sticky-form-header>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/22-sticky-form-header.md` |
 | 26 | Input (text/email/password/tel/url/search) | ✓ | 🟢 Extended | `<sc-inputtext>` | [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | **100%** — Session 30 audit Nivel-2 contra los 240 variants Figma. Padding 10.5/7 (default), 8.75/5.25 (sm), 12.25/8.75 (lg) raw decimal. Variant `[filled]` añadida (slate-50 bg) | `docs/components/02-inputtext.md` |
-| 27 | Input number | ✓ | 🟢 Extended | `<sc-input-number>` | hereda de [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) (sc-inputtext) | **100%** — chrome 1:1 vía sc-inputtext auditado S30. Extensiones SC (suffix unit + right-align numérico) NO modeladas en Figma kit. S34: TODO cerrado. | `docs/components/03-input-number.md` |
+| 27 | Input number | ✓ | 🟢 Extended | `<sc-inputnumber>` | hereda de [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) (sc-inputtext) | **100%** — chrome 1:1 vía sc-inputtext auditado S30. Extensiones SC (suffix unit + right-align numérico) NO modeladas en Figma kit. S34: TODO cerrado. | `docs/components/03-inputnumber.md` |
 | 28 | Select / dropdown | ✓ | 🟢 Extended | `<sc-select>` | [6738:22642](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22642) | **100%** — Session 30 audit Nivel-2 contra los 258 variants. Padding decimal 8.75/5.25 (sm), 10.5/7 (md), 12.25/8.75 (lg). Variants Filled + Invalid añadidos / verificados. | `docs/components/04-select.md` |
 | 29 | Datepicker | ✓ | 🟢 Extended | `<sc-datepicker>` | [6738:20817](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-20817) | **~100%** — input chrome slate-300/6px/shadow, panel slate-200 bg white + dates 28×28 circulares, anchor-gutter 2 | `docs/components/05-datepicker.md` |
 | 30 | Tabs | ✓ | 🟣 Custom-preset | `<p-tabs>` | [6738:49740](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-49740) | **100%** — Session 30 audit Nivel-2. Padding tab 14/15.75, tabpanel 12.25/15.75/15.75/15.75 overrides en `components.tabs`. Active = navy (brand divergence vs azure). | `docs/components/06-tabs.md` |
@@ -112,7 +112,7 @@ Capa | Archivo | Status
 | `<sc-search>` | 8 | Cocinado S31, migrado consumers |
 | `<sc-page-header>` | 8 | Mirror visual con sticky-form-header |
 | `<sc-delete-entity-dialog>` | 8 | Pattern industry |
-| `<sc-input-number>` | 7 | Estable |
+| `<sc-inputnumber>` | 7 | Estable |
 | `<sc-illustrated-avatar>` | 7 | Custom asset |
 | `<sc-tri-state-checkbox>` | 6 | API estable |
 | `<sc-bulk-action-bar>` | 6 | Pattern Gmail/Linear |

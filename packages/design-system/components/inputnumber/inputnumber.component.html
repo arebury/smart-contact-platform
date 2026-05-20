@@ -1,16 +1,16 @@
 @if (label()) {
-  <label class="sc-input-number__label" [attr.for]="resolvedId()">
+  <label class="sc-inputnumber__label" [attr.for]="resolvedId()">
     {{ label() }}
     @if (required()) {
-      <span class="sc-input-number__required" aria-hidden="true">*</span>
+      <span class="sc-inputnumber__required" aria-hidden="true">*</span>
     }
   </label>
 }
 
-<div class="sc-input-number__field" [class.sc-input-number__field--has-suffix]="hasSuffix()">
+<div class="sc-inputnumber__field" [class.sc-inputnumber__field--has-suffix]="hasSuffix()">
   <input
     pInputText
-    class="sc-input-number__control"
+    class="sc-inputnumber__control"
     type="number"
     inputmode="numeric"
     [id]="resolvedId()"
@@ -30,14 +30,14 @@
   />
 
   @if (hasSuffix()) {
-    <span class="sc-input-number__suffix" aria-hidden="true">{{ suffix() }}</span>
+    <span class="sc-inputnumber__suffix" aria-hidden="true">{{ suffix() }}</span>
   }
 </div>
 
 @if (footerText()) {
   <span
-    class="sc-input-number__msg"
-    [class.sc-input-number__msg--error]="!!error()"
+    class="sc-inputnumber__msg"
+    [class.sc-inputnumber__msg--error]="!!error()"
     [id]="resolvedId() + '-msg'"
   >
     {{ footerText() }}

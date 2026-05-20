@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { InputNumberComponent } from '@sc/design-system/components/input-number/input-number.component';
+import { InputNumberComponent } from '@sc/design-system/components/inputnumber/inputnumber.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
-  selector: 'sc-ds-docs-input-number-gallery',
+  selector: 'sc-ds-docs-inputnumber-gallery',
   standalone: true,
   imports: [InputNumberComponent, FormsModule, ReactiveFormsModule, GalleryFooterComponent],
-  templateUrl: './input-number-gallery.component.html',
-  styleUrl: './input-number-gallery.component.scss',
+  templateUrl: './inputnumber-gallery.component.html',
+  styleUrl: './inputnumber-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputNumberGalleryComponent {
