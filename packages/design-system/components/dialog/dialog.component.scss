@@ -1,9 +1,9 @@
 /*
  * Modal card chrome. The PrimeNG `<p-dialog>` host is reset to
- * transparent (see `:host ::ng-deep .sc-modal-host` below) so the
- * visible chrome is entirely this `.sc-modal` block.
+ * transparent (see `:host ::ng-deep .sc-dialog-host` below) so the
+ * visible chrome is entirely this `.sc-dialog` block.
  */
-.sc-modal {
+.sc-dialog {
   display: flex;
   flex-direction: column;
   background: var(--sc-modal-bg);
@@ -132,9 +132,9 @@
 /*
  * PrimeNG `<p-dialog>` wraps our content in a styled container that
  * paints its own background, border and padding. Strip those so the
- * `.sc-modal` card we render is the only visible chrome.
+ * `.sc-dialog` card we render is the only visible chrome.
  */
-:host ::ng-deep .sc-modal-host {
+:host ::ng-deep .sc-dialog-host {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
@@ -142,7 +142,7 @@
   border-radius: 0 !important;
 }
 
-:host ::ng-deep .sc-modal-host .p-dialog-content {
+:host ::ng-deep .sc-dialog-host .p-dialog-content {
   background: transparent !important;
   padding: 0 !important;
   border-radius: 0 !important;
@@ -153,12 +153,12 @@
  * Buttons projected via `<div modal-actions>` need a minimum width and an
  * equal-share flex behaviour so that "Descartar" / "Seguir editando" read
  * as two balanced choices rather than one tight pill and one wide one.
- * The rule has to live at the top level (outside `.sc-modal {}`) because
+ * The rule has to live at the top level (outside `.sc-dialog {}`) because
  * `:host` is a pseudo-class on the component element — nesting it inside
- * a descendant selector would resolve to `.sc-modal :host …` and match
+ * a descendant selector would resolve to `.sc-dialog :host …` and match
  * nothing. Content projection puts these buttons outside this component's
  * encapsulated scope, so `::ng-deep` is the cleanest piercing path.
  */
-:host ::ng-deep .sc-modal__foot .btn {
+:host ::ng-deep .sc-dialog__foot .btn {
   min-width: 128px;
 }

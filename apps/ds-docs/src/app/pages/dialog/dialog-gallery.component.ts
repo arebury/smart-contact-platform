@@ -2,26 +2,26 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { LucideAngularModule, Trash2, AlertTriangle, Pencil, Info } from 'lucide-angular';
-import { ModalComponent } from '@sc/design-system/components/modal/modal.component';
+import { DialogComponent } from '@sc/design-system/components/dialog/dialog.component';
 import { InputTextComponent } from '@sc/design-system/components/inputtext/inputtext.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
-  selector: 'sc-ds-docs-modal-gallery',
+  selector: 'sc-ds-docs-dialog-gallery',
   standalone: true,
   imports: [
-    ModalComponent,
+    DialogComponent,
     InputTextComponent,
     ButtonModule,
     LucideAngularModule,
     FormsModule,
     GalleryFooterComponent,
   ],
-  templateUrl: './modal-gallery.component.html',
-  styleUrl: './modal-gallery.component.scss',
+  templateUrl: './dialog-gallery.component.html',
+  styleUrl: './dialog-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalGalleryComponent {
+export class DialogGalleryComponent {
   protected readonly icons = {
     trash: Trash2,
     warning: AlertTriangle,

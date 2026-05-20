@@ -7,33 +7,33 @@
   [showHeader]="false"
   [dismissableMask]="false"
   [style]="{ width: width() }"
-  styleClass="sc-modal-host"
+  styleClass="sc-dialog-host"
   (onHide)="onClose()"
 >
   <section
-    class="sc-modal"
-    [class.sc-modal--bodyless]="bodyless()"
+    class="sc-dialog"
+    [class.sc-dialog--bodyless]="bodyless()"
     role="dialog"
     aria-modal="true"
     [attr.aria-labelledby]="titleId()"
     [attr.aria-describedby]="subtitle() ? subtitleId() : null"
   >
-    <header class="sc-modal__head">
+    <header class="sc-dialog__head">
       @if (icon(); as ic) {
-        <div class="sc-modal__head-icon" aria-hidden="true">
+        <div class="sc-dialog__head-icon" aria-hidden="true">
           <lucide-icon [img]="ic" [size]="16" aria-hidden="true" />
         </div>
       }
-      <div class="sc-modal__head-text">
-        <h2 class="sc-modal__title" [id]="titleId()">{{ title() }}</h2>
+      <div class="sc-dialog__head-text">
+        <h2 class="sc-dialog__title" [id]="titleId()">{{ title() }}</h2>
         @if (subtitle(); as sub) {
-          <p class="sc-modal__subtitle" [id]="subtitleId()">{{ sub }}</p>
+          <p class="sc-dialog__subtitle" [id]="subtitleId()">{{ sub }}</p>
         }
       </div>
       @if (closable()) {
         <button
           type="button"
-          class="sc-modal__close"
+          class="sc-dialog__close"
           [attr.aria-label]="'common.close' | translate"
           (click)="onClose()"
         >
@@ -43,13 +43,13 @@
     </header>
 
     @if (!bodyless()) {
-      <div class="sc-modal__body">
+      <div class="sc-dialog__body">
         <ng-content />
       </div>
     }
 
     @if (hasFooter()) {
-      <footer class="sc-modal__foot">
+      <footer class="sc-dialog__foot">
         <ng-content select="[modal-actions]" />
       </footer>
     }

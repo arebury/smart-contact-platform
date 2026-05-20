@@ -12,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AlertTriangle, Loader2, LucideAngularModule, RotateCcw } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
-import { ModalComponent } from '@shared/components/modal/modal.component';
+import { DialogComponent } from '@shared/components/dialog/dialog.component';
 
 /**
  * RetranscriptionConfirmModal · Memory §10 #1 (S46).
@@ -27,7 +27,7 @@ import { ModalComponent } from '@shared/components/modal/modal.component';
  */
 @Component({
   selector: 'sc-memory-retranscription-confirm-modal',
-  imports: [ButtonModule, FormsModule, LucideAngularModule, ModalComponent, TranslateModule],
+  imports: [ButtonModule, FormsModule, LucideAngularModule, DialogComponent, TranslateModule],
   templateUrl: './retranscription-confirm-modal.component.html',
   styleUrl: './retranscription-confirm-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

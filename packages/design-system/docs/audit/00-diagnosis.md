@@ -118,7 +118,7 @@ y PrimeNG vuelve a los defaults de Aura, no a los `--sc-*`.
 | Archivo | Instancias | Patrón | Veredicto |
 |---|---|---|---|
 | `app.component.scss` | 3 | `::ng-deep .p-toast .{message,message-content,*}` — reset chrome PrimeNG toast para que solo se vea `.aed-toast`. | Load-bearing. Sin esto, PrimeNG paint extra padding/background detrás. |
-| `modal/modal.component.scss` | 3 | `::ng-deep .aed-modal-host`, `::ng-deep .aed-modal-host .p-dialog-content`, `::ng-deep .aed-modal__foot .btn` — reset host de p-dialog + ancho mínimo en botones proyectados. | Load-bearing. Comentario explica por qué `:host` no funciona con content projection. |
+| `dialog/dialog.component.scss` | 3 | `::ng-deep .aed-modal-host`, `::ng-deep .aed-modal-host .p-dialog-content`, `::ng-deep .aed-modal__foot .btn` — reset host de p-dialog + ancho mínimo en botones proyectados. | Load-bearing. Comentario explica por qué `:host` no funciona con content projection. |
 | `confirm-host/...scss` | 1 | `::ng-deep .aed-modal__foot > .confirm-host__actions` — alinea acciones proyectadas. | Load-bearing (proyección). |
 | `sticky-form-header/...scss` | ~8 | `::ng-deep .photo-upload*` y `::ng-deep aed-illustrated-avatar *` — fuerza tamaño 44×44 sobre componentes proyectados. | Load-bearing pero invasivo: el photo-upload no expone API para tamaño. |
 | `impact-preview-dialog/...scss` | ~4 | `::ng-deep .aed-impact-dialog` + `.p-dialog-{header,content,footer}` — padding propio en dialog. | Load-bearing. |
@@ -131,7 +131,7 @@ y PrimeNG vuelve a los defaults de Aura, no a los `--sc-*`.
 | `_buttons.scss` | 3 | `&:disabled, &[aria-disabled='true']` → fuerza colores disabled sobre hover/active. | Legítimo (patrón conocido para defeat state combinations). |
 | `_forms.scss` | 1 | `.perm-matrix__th-col { text-align: center !important; }`. | Bandera. No es obviamente necesario; podría sustituirse por selector más específico. |
 | `agent-form-page.component.scss` | 2 | `text-align: center !important;` y `padding: … !important;` locales. | Bandera. Probable cascade fight con `_forms.scss`. |
-| `modal/modal.component.scss` | ~9 | Bloque `::ng-deep .aed-modal-host { background, border, box-shadow, padding, border-radius : … !important }` × 2 (host + content). | Load-bearing acompañando al `::ng-deep`. PrimeNG aplica esos estilos con alta especificidad. |
+| `dialog/dialog.component.scss` | ~9 | Bloque `::ng-deep .aed-modal-host { background, border, box-shadow, padding, border-radius : … !important }` × 2 (host + content). | Load-bearing acompañando al `::ng-deep`. PrimeNG aplica esos estilos con alta especificidad. |
 
 ### 5.3. Selectores `.p-*` directos (9 ocurrencias, 3 archivos)
 

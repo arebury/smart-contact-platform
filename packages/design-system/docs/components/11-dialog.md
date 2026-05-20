@@ -1,4 +1,4 @@
-# 11 · Modal / Dialog (`<sc-modal>`)
+# 11 · Modal / Dialog (`<sc-dialog>`)
 
 > **Type**: Extended · **AED uses**: 2 · **Figma parity**: 1:1 con Figma
 
@@ -6,7 +6,7 @@
 >
 > **Auditado 1:1 con Figma `Smart Contact Prime → ❖ ConfirmDialog` (canvas `6738:50207`) — Session 30.** Tokens `dialog/*` extraídos vía MCP (Dialog y ConfirmDialog comparten el mismo set de tokens — son el spec del shell, ConfirmDialog es solo un caso de uso típico).
 >
-> Las URLs Figma que dio el usuario (ConfirmDialog `6738:50207` y ConfirmPopup `6738:50208`) son patrones específicos. El componente `<sc-modal>` es el SHELL general que cubre cualquier caso de uso (confirm, form, info, picker, etc.) — el body es free-slot.
+> Las URLs Figma que dio el usuario (ConfirmDialog `6738:50207` y ConfirmPopup `6738:50208`) son patrones específicos. El componente `<sc-dialog>` es el SHELL general que cubre cualquier caso de uso (confirm, form, info, picker, etc.) — el body es free-slot.
 
 ## TL;DR
 
@@ -27,7 +27,7 @@
     <button class="btn btn--secondary" (click)="open.set(false)">Cancelar</button>
     <button class="btn btn--danger" (click)="confirm()">Eliminar</button>
   </div>
-</sc-modal>
+</sc-dialog>
 ```
 
 ## Anatomía
@@ -76,7 +76,7 @@ Cualquier markup. **Stacking natural**: el body es `display: flex; flex-directio
     <button class="btn btn--secondary" (click)="dismiss()">Cancelar</button>
     <button class="btn btn--primary" (click)="save()">Guardar</button>
   </div>
-</sc-modal>
+</sc-dialog>
 ```
 
 ### Footer — slot-attribute projection (`<ng-content select="[modal-actions]">`)
@@ -107,7 +107,7 @@ Para confirmaciones simples donde la descripción cabe en el subtitle:
     <button class="btn btn--secondary" (click)="dismiss()">Cancelar</button>
     <button class="btn btn--danger" (click)="discard()">Descartar</button>
   </div>
-</sc-modal>
+</sc-dialog>
 ```
 
 Sin el `body` slot, el modal se contrae: header + footer pegados sin band visual entre ellos.
@@ -196,7 +196,7 @@ ConfirmPopup (canvas `6738:50208`) es un popup anclado a un trigger button. **No
 
 ## Migración / patrones AED actuales
 
-`<sc-modal>` se usa en varios sitios de AED (confirm-host, impact-preview-dialog, delete-entity-dialog, otros). El cambio Session 30 es solo visual:
+`<sc-dialog>` se usa en varios sitios de AED (confirm-host, impact-preview-dialog, delete-entity-dialog, otros). El cambio Session 30 es solo visual:
 - Bordes más sutiles (slate-200 vs blue-100)
 - Padding más ligero (17.5 vs 24)
 - Title más pequeño (17.5 vs h4 que era ~20)

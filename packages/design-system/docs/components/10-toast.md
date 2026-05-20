@@ -32,7 +32,7 @@ El template del toast vive **inline** en `apps/supervisor/src/app/app.component.
 
 ## Cuándo NO usarlo
 
-- Texto crítico que el usuario DEBE leer → `<sc-modal>` con confirmación.
+- Texto crítico que el usuario DEBE leer → `<sc-dialog>` con confirmación.
 - Estado permanente (banner de "Trial expira en 3 días") → componente banner inline (TBD).
 - Mensaje persistente sobre un campo → helper text inline en `<sc-inputtext>`.
 

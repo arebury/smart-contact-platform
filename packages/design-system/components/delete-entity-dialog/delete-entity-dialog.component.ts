@@ -15,7 +15,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { ClipboardService } from '@core/services/clipboard.service';
-import { ModalComponent } from '../modal/modal.component';
+import { DialogComponent } from '../dialog/dialog.component';
 
 export interface DeletableEntity {
   readonly id: number;
@@ -35,7 +35,7 @@ export interface DeletableEntity {
  */
 @Component({
   selector: 'sc-delete-entity-dialog',
-  imports: [ButtonModule, FormsModule, LucideAngularModule, ModalComponent, TranslateModule],
+  imports: [ButtonModule, FormsModule, LucideAngularModule, DialogComponent, TranslateModule],
   templateUrl: './delete-entity-dialog.component.html',
   styleUrl: './delete-entity-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -83,7 +83,7 @@ export class DeleteEntityDialogComponent {
     return this.visibleItems().length > 0;
   });
 
-  /** i18n title resolved from mode + count, fed into `<sc-modal [title]>`. */
+  /** i18n title resolved from mode + count, fed into `<sc-dialog [title]>`. */
   protected readonly dialogTitle = computed(() => {
     if (this.mode() === 'single') {
       return this.translate.instant('common.delete_dialog.title_single', {

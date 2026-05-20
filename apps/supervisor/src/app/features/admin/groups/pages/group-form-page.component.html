@@ -219,7 +219,7 @@
 />
 
 @if (cascadeConfirm(); as c) {
-  <sc-modal
+  <sc-dialog
     [visible]="true"
     [title]="'groups.form.cascade.title' | translate"
     [subtitle]="
@@ -240,5 +240,5 @@
         <span>{{ 'groups.form.cascade.confirm' | translate }}</span>
       </p-button>
     </div>
-  </sc-modal>
+  </sc-dialog>
 }

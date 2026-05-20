@@ -65,9 +65,9 @@ export const appRoutes: Routes = [
       import('./pages/toast/toast-gallery.component').then((m) => m.ToastGalleryComponent),
   },
   {
-    path: 'components/modal',
+    path: 'components/dialog',
     loadComponent: () =>
-      import('./pages/modal/modal-gallery.component').then((m) => m.ModalGalleryComponent),
+      import('./pages/dialog/dialog-gallery.component').then((m) => m.DialogGalleryComponent),
   },
   {
     path: 'components/checkbox',

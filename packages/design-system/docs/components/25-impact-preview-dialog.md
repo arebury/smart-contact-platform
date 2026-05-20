@@ -110,7 +110,7 @@ interface ScImpactPreviewDialogProps {
 
 ## Decisiones de diseño SC
 
-- **Built on `<sc-modal>`**: el dialog usa el wrapper SCDS modal — body + footer slots, sombras + radius unificados, mount en `document.body` via styleClass.
+- **Built on `<sc-dialog>`**: el dialog usa el wrapper SCDS modal — body + footer slots, sombras + radius unificados, mount en `document.body` via styleClass.
 - **`::ng-deep .sc-impact-dialog`**: el estilo del header/body/footer se aplica via styleClass al `.p-dialog` porque PrimeNG monta el dialog fuera del component host (body portal). Pattern aceptado en CLAUDE de design-system para resetear chrome PrimeNG.
 - **NO auto-close on prune-to-empty**: previo comportamiento auto-cerraba si el usuario quitaba todos los chips. Eliminado (mismo razonamiento que `<sc-delete-entity-dialog>` PR#10): los usuarios perdían la operación por accidente. Ahora la lista mínima es 1 (template guard sobre el ×).
 - **Order-preserving confirm output**: el array emitido en `(confirm)` mantiene el orden original de `items` — no el orden de pruning. Esto evita sorpresas en el caller.
@@ -118,7 +118,7 @@ interface ScImpactPreviewDialogProps {
 
 ## A11y
 
-- Modal con `role="dialog"` + `aria-modal="true"` (heredado de `<sc-modal>`).
+- Modal con `role="dialog"` + `aria-modal="true"` (heredado de `<sc-dialog>`).
 - × button en cada chip con `aria-label="Quitar de la operación: <name>"`.
 - Confirm button con texto visible incluyendo el count ("Aplicar a 3 usuarios").
 - Escape cierra (heredado del modal).
@@ -142,4 +142,4 @@ Pendiente — gallery `/components/impact-preview-dialog` con:
 
 ## Figma reference
 
-**No aplica** — pattern in-house. Construido sobre `<sc-modal>` que sí está alineado con Figma SC.
+**No aplica** — pattern in-house. Construido sobre `<sc-dialog>` que sí está alineado con Figma SC.

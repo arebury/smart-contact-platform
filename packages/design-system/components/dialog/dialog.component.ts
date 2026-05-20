@@ -23,7 +23,7 @@ let modalIdCounter = 0;
  * Usage:
  *
  * ```html
- * <sc-modal
+ * <sc-dialog
  *   [visible]="open()"
  *   title="¿Eliminar agente?"
  *   subtitle="Esta acción no se puede deshacer."
@@ -35,17 +35,17 @@ let modalIdCounter = 0;
  *     <button class="btn btn--secondary" (click)="open.set(false)">Cancelar</button>
  *     <button class="btn btn--danger" (click)="confirm()">Eliminar</button>
  *   </div>
- * </sc-modal>
+ * </sc-dialog>
  * ```
  */
 @Component({
-  selector: 'sc-modal',
+  selector: 'sc-dialog',
   imports: [DialogModule, LucideAngularModule, TranslateModule],
-  templateUrl: './modal.component.html',
-  styleUrl: './modal.component.scss',
+  templateUrl: './dialog.component.html',
+  styleUrl: './dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalComponent {
+export class DialogComponent {
   readonly visible = input.required<boolean>();
   readonly title = input.required<string>();
   readonly subtitle = input<string | null>(null);
@@ -64,8 +64,8 @@ export class ModalComponent {
   protected readonly closeIcon = X;
   /** Stable ids so `aria-labelledby` / `aria-describedby` resolve correctly. */
   protected readonly id = ++modalIdCounter;
-  protected readonly titleId = computed(() => `sc-modal-${this.id}-title`);
-  protected readonly subtitleId = computed(() => `sc-modal-${this.id}-subtitle`);
+  protected readonly titleId = computed(() => `sc-dialog-${this.id}-title`);
+  protected readonly subtitleId = computed(() => `sc-dialog-${this.id}-subtitle`);
 
   protected onClose(): void {
     this.cancelled.emit();

@@ -43,7 +43,7 @@
 ## Cuándo NO usarlo
 
 - List pages → `<sc-page-header>` (no sticky, no save actions).
-- Form embedded en modal → el `<sc-modal>` ya tiene su propio header.
+- Form embedded en modal → el `<sc-dialog>` ya tiene su propio header.
 - Form mínimo single-field → no necesita header completo, basta un title inline.
 
 ## Modos

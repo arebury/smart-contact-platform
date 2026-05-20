@@ -3,7 +3,7 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Modal / Dialog</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-modal&gt;</code> envuelve <code>&lt;p-dialog&gt;</code> con header + body slot
+      <code>&lt;sc-dialog&gt;</code> envuelve <code>&lt;p-dialog&gt;</code> con header + body slot
       stackeable + footer. Pulsa los botones de cada sección para ver el modal en vivo. ESC cierra;
       click en el mask también.
     </p>
@@ -16,7 +16,7 @@
     <div class="gallery__row">
       <p-button label="Abrir info modal" severity="info" (click)="basicOpen.set(true)" />
     </div>
-    <sc-modal
+    <sc-dialog
       [visible]="basicOpen()"
       title="¿Cómo funciona el reset de contraseña?"
       subtitle="Te enviamos un enlace a tu email registrado."
@@ -33,7 +33,7 @@
       <div modal-actions>
         <p-button label="Entendido" severity="secondary" (click)="basicOpen.set(false)" />
       </div>
-    </sc-modal>
+    </sc-dialog>
   </section>
 
   <!-- 2. Confirm — danger (con bodyless). -->
@@ -46,7 +46,7 @@
     <div class="gallery__row">
       <p-button label="Eliminar agente" severity="danger" (click)="confirmOpen.set(true)" />
     </div>
-    <sc-modal
+    <sc-dialog
       [visible]="confirmOpen()"
       title="¿Eliminar agente?"
       subtitle="«María García» será eliminada permanentemente. Esta acción no se puede deshacer."
@@ -58,7 +58,7 @@
         <p-button label="Cancelar" severity="secondary" (click)="confirmOpen.set(false)" />
         <p-button label="Eliminar" severity="danger" (click)="onDelete()" />
       </div>
-    </sc-modal>
+    </sc-dialog>
   </section>
 
   <!-- 3. Discard changes (bodyless warning). -->
@@ -68,7 +68,7 @@
     <div class="gallery__row">
       <p-button label="Descartar cambios" severity="warn" (click)="bodylessOpen.set(true)" />
     </div>
-    <sc-modal
+    <sc-dialog
       [visible]="bodylessOpen()"
       title="¿Descartar cambios?"
       subtitle="Perderás lo que has editado en este formulario."
@@ -80,7 +80,7 @@
         <p-button label="Seguir editando" severity="secondary" (click)="bodylessOpen.set(false)" />
         <p-button label="Sí, descartar" severity="danger" (click)="onDiscard()" />
       </div>
-    </sc-modal>
+    </sc-dialog>
   </section>
 
   <!-- 4. Form inside modal (body slot stacking). -->
@@ -98,7 +98,7 @@
         (click)="formOpen.set(true)"
       />
     </div>
-    <sc-modal
+    <sc-dialog
       [visible]="formOpen()"
       title="Editar agente"
       subtitle="Cambios se aplican al guardar"
@@ -113,7 +113,7 @@
         <p-button label="Cancelar" severity="secondary" (click)="formOpen.set(false)" />
         <p-button label="Guardar" severity="info" (click)="onSave()" />
       </div>
-    </sc-modal>
+    </sc-dialog>
   </section>
 
   <!-- 5. Scrolling body (long content). -->
@@ -126,7 +126,7 @@
     <div class="gallery__row">
       <p-button label="Abrir documento largo" severity="info" (click)="scrollOpen.set(true)" />
     </div>
-    <sc-modal
+    <sc-dialog
       [visible]="scrollOpen()"
       title="Términos del servicio"
       subtitle="Última actualización: 15 de mayo, 2026"
@@ -148,8 +148,8 @@
         <p-button label="Cerrar" severity="secondary" (click)="scrollOpen.set(false)" />
         <p-button label="Aceptar" severity="info" (click)="scrollOpen.set(false)" />
       </div>
-    </sc-modal>
+    </sc-dialog>
   </section>
 
-  <sc-ds-docs-gallery-footer slug="modal" />
+  <sc-ds-docs-gallery-footer slug="dialog" />
 </div>

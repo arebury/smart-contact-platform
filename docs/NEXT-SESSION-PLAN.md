@@ -36,7 +36,7 @@ Cuando arranque la próxima sesión, ataque sugerido por orden de valor:
 
 ### 🎯 Eje 1b — Refresh tracker ds-docs `home.component.ts` (~30 min)
 
-Los counts `aedUses` / `memoryUses` se mantienen manualmente. Posible drift acumulado desde S39 — S46 añadió usos Memory de `<sc-multiselect>`, `<sc-datepicker>`, `<sc-inputtext>`, `<sc-modal>` que probablemente no están reflejados. Audit con `grep` automatizado por componente, comparar contra valores en `home.component.ts` y commit batch.
+Los counts `aedUses` / `memoryUses` se mantienen manualmente. Posible drift acumulado desde S39 — S46 añadió usos Memory de `<sc-multiselect>`, `<sc-datepicker>`, `<sc-inputtext>`, `<sc-dialog>` que probablemente no están reflejados. Audit con `grep` automatizado por componente, comparar contra valores en `home.component.ts` y commit batch.
 
 ### 🎯 Eje 2 — Audit periódico (defensivo, ~30-60 min)
 

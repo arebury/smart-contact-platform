@@ -448,7 +448,7 @@ los archivos staged.
 
 **Premisa equivocada**: "el componente Figma cubre el mismo concepto, refactor mejora paridad".
 
-**Descubrimiento**: `sc-confirm-host` ya está renderizado a través de `sc-modal`, que **a su vez está auditado 1:1 con el mismo Figma node `❖ ConfirmDialog`** (6738:50207) que `<p-confirmdialog>` usaría. La paridad Figma **ya existe**, solo difiere el plumbing interno. Pero **sí había deuda escondida**: los botones del `<sc-confirm-host>` usaban `.btn` hardcoded, que tras eliminar `_buttons.scss` quedaron unstyled.
+**Descubrimiento**: `sc-confirm-host` ya está renderizado a través de `sc-dialog`, que **a su vez está auditado 1:1 con el mismo Figma node `❖ ConfirmDialog`** (6738:50207) que `<p-confirmdialog>` usaría. La paridad Figma **ya existe**, solo difiere el plumbing interno. Pero **sí había deuda escondida**: los botones del `<sc-confirm-host>` usaban `.btn` hardcoded, que tras eliminar `_buttons.scss` quedaron unstyled.
 
 **Lección portable**: antes de un refactor estructural, lee el código actual entero. Lo que parece "duplicación con el canonical" puede estar consumiendo el canonical por una ruta no obvia. Y la deuda real puede no estar donde la categorización del backlog la pinta — está en otro sitio cercano. Apliqué refactor de todas formas (resultó beneficioso por otras razones: menos plumbing, mejor migration safety), pero la justificación correcta no era la inicial.
 

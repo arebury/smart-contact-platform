@@ -18,7 +18,7 @@ const COMPONENTS: readonly NavLink[] = [
   { slug: 'multiselect', name: 'MultiSelect', num: '08' },
   { slug: 'checkbox', name: 'Checkbox', num: '09' },
   { slug: 'toast', name: 'Toast', num: '10' },
-  { slug: 'modal', name: 'Modal', num: '11' },
+  { slug: 'dialog', name: 'Dialog', num: '11' },
   { slug: 'section-card', name: 'Section card', num: '13' },
   { slug: 'search', name: 'Search', num: '14' },
   { slug: 'toggleswitch', name: 'Toggle switch', num: '15' },

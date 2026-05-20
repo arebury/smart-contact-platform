@@ -61,7 +61,7 @@ export type { ScMultiSelectSize, ScMultiSelectDisplay } from './multiselect/mult
 export { DatepickerComponent } from './datepicker/datepicker.component';
 export type { ScDatepickerSize, ScDatepickerView } from './datepicker/datepicker.component';
 
-export { ModalComponent } from './modal/modal.component';
+export { DialogComponent } from './dialog/dialog.component';
 
 export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';

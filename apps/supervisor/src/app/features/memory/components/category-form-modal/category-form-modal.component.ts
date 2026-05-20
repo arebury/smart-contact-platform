@@ -25,7 +25,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
-import { ModalComponent } from '@shared/components/modal/modal.component';
+import { DialogComponent } from '@shared/components/dialog/dialog.component';
 
 import type { Category } from '../../data/category.types';
 import type { Rule } from '../../data/rule.types';
@@ -117,7 +117,7 @@ const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
     FormsModule,
     InputTextComponent,
     LucideAngularModule,
-    ModalComponent,
+    DialogComponent,
     RouterLink,
     ToggleSwitchModule,
     TranslateModule,

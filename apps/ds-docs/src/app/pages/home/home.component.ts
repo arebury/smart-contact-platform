@@ -85,7 +85,7 @@ const CATEGORY_BY_SLUG: Record<string, ComponentCategory> = {
   'command-palette': 'navigation',
   'keyboard-shortcuts': 'navigation',
   // Overlays y diálogos
-  modal: 'overlay',
+  dialog: 'overlay',
   toast: 'overlay',
   tooltip: 'overlay',
   'delete-entity-dialog': 'overlay',
@@ -315,19 +315,19 @@ export class HomeComponent {
         'AED → Administración → cualquier list page (Agentes/Usuarios/Grupos/Etiquetas/Plantillas/Repositorios) → buscador del toolbar arriba. También en agent-form picker-search (agendas/plantillas). 8 instancias en producción. Figma SC `❖ Search` canvas compuesto en S31.',
     },
     {
-      slug: 'modal',
-      name: 'Modal',
+      slug: 'dialog',
+      name: 'Dialog',
       type: 'extended',
       parity: 'audited-full',
       aedUses: 2,
       memoryUses: 6,
-      pageRoute: '/components/modal',
+      pageRoute: '/components/dialog',
       whatItDoes:
         'Ventana emergente con título, body (acepta cualquier contenido apilado) y botones de acción. Se abre centrada sobre la pantalla con un velo gris detrás.',
       whereToSee:
         'AED → Administración → Etiquetas → click en una etiqueta para editarla (se abre encima). Demo interactiva en ds-docs con 5 escenarios.',
       whereToSeeMemory:
-        'Memory → click en una fila de la tabla → ConversationPlayerModal. Y los modales CategoryForm, EntityForm, BulkTranscription se montan también con <sc-modal>.',
+        'Memory → click en una fila de la tabla → ConversationPlayerModal. Y los modales CategoryForm, EntityForm, BulkTranscription se montan también con <sc-dialog>.',
     },
     {
       slug: 'toast',

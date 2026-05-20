@@ -30,7 +30,7 @@ import {
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
-import { ModalComponent } from '@shared/components/modal/modal.component';
+import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import type { Conversation, Recording, TranscriptionLine } from '../../data/conversation.types';
 import { MultiRecordingPlayerComponent } from '../multi-recording-player/multi-recording-player.component';
 
@@ -75,7 +75,7 @@ import { MultiRecordingPlayerComponent } from '../multi-recording-player/multi-r
   imports: [
     ButtonModule,
     LucideAngularModule,
-    ModalComponent,
+    DialogComponent,
     MultiRecordingPlayerComponent,
     TranslateModule,
   ],

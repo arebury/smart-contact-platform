@@ -2,9 +2,9 @@
 
 > **Type**: Pure SC · **AED uses**: 1 · **Figma parity**: Sin Figma equivalente
 
-> Host único que renderiza todas las confirmaciones programáticas de la app (route-guard discard, futuro logout, etc.) a través del shell canónico `<sc-modal>`. Lee state de `ConfirmHostService` y rutea clicks de buttons de vuelta al service. Mounted una vez en `app.component.html`.
+> Host único que renderiza todas las confirmaciones programáticas de la app (route-guard discard, futuro logout, etc.) a través del shell canónico `<sc-dialog>`. Lee state de `ConfirmHostService` y rutea clicks de buttons de vuelta al service. Mounted una vez en `app.component.html`.
 >
-> Categoría ⚪ **Pure SC** — pattern app-level. Composición sobre `<sc-modal>` (Extended).
+> Categoría ⚪ **Pure SC** — pattern app-level. Composición sobre `<sc-dialog>` (Extended).
 
 ## TL;DR
 
@@ -34,7 +34,7 @@ if (ok) { /* descartar */ }
 
 ## Cuándo NO usarlo
 
-- Confirmaciones específicas de feature → usar `<sc-modal>` directo en el template de esa feature.
+- Confirmaciones específicas de feature → usar `<sc-dialog>` directo en el template de esa feature.
 - Delete entity → usar `<sc-delete-entity-dialog>` (chrome especializado).
 - Bulk operation → usar `<sc-impact-preview-dialog>`.
 
@@ -91,7 +91,7 @@ El componente NO tiene props. Lee `host.state()` del service injected.
 
 ## Tokens consumidos
 
-Hereda los del `<sc-modal>` (ver `docs/components/11-modal.md`). Sin styling adicional propio relevante.
+Hereda los del `<sc-dialog>` (ver `docs/components/11-dialog.md`). Sin styling adicional propio relevante.
 
 | Token | Uso |
 |-------|-----|
@@ -103,7 +103,7 @@ Hereda los del `<sc-modal>` (ver `docs/components/11-modal.md`). Sin styling adi
 - **Singleton host**: un solo `<sc-confirm-host>` mounted globalmente evita N modals competing si dos servicios piden confirm simultáneamente. El service cola las requests (FIFO) o reemplaza la actual (overwrite) — decisión del service, no del componente.
 - **Service-driven, async Promise**: `request()` devuelve Promise<boolean> → el guard puede `await`. Más limpio que callbacks.
 - **`emphasis: 'reject'` para flow safety**: cuando el accept es destructivo y reject es safe, hacemos el reject visualmente primary. Evita que el usuario hit Enter por inercia destruyendo data.
-- **Construido sobre `<sc-modal>`**: heredamos shell + Escape behavior + body portal + a11y. Si `<sc-modal>` evoluciona, este host se beneficia gratis.
+- **Construido sobre `<sc-dialog>`**: heredamos shell + Escape behavior + body portal + a11y. Si `<sc-dialog>` evoluciona, este host se beneficia gratis.
 
 ## A11y
 
@@ -132,4 +132,4 @@ Pendiente — gallery `/components/confirm-host` con:
 
 ## Figma reference
 
-**No aplica** — composición sobre `<sc-modal>` (que sí tiene Figma reference). Si Marta modela el flujo confirm específicamente, anotar URL.
+**No aplica** — composición sobre `<sc-dialog>` (que sí tiene Figma reference). Si Marta modela el flujo confirm específicamente, anotar URL.

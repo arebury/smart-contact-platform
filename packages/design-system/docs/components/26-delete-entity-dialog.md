@@ -4,7 +4,7 @@
 
 > Diálogo de confirmación compartido para eliminación de entidades (Users, Groups, Agents, Templates, Labels…). Dos modos: **single** (typing confirmation con copy-name shortcut), **bulk** (lista de chips removibles antes de confirmar). Mirror del React prototype (DD#163, DD#172).
 >
-> Categoría ⚪ **Pure SC** — pattern propio sobre `<sc-modal>`.
+> Categoría ⚪ **Pure SC** — pattern propio sobre `<sc-dialog>`.
 
 ## TL;DR
 
@@ -130,7 +130,7 @@ interface ScDeleteEntityDialogProps {
 - **`📋 Copiar` shortcut**: Fitts — el usuario lee el name, lo necesita escribir EXACTO. Copiarlo evita typos. Toast "Copiado al portapapeles" confirma la acción + `Check` icon 2s.
 - **NO auto-close on prune-to-empty**: si el usuario quita todos los chips, el dialog se queda abierto con la lista vacía + Confirmar disabled. Previo comportamiento auto-cerraba — perdía la operación por accidente. Cambio en PR#10.
 - **`[Restaurar lista]` recovery**: bulk mode tiene botón para re-stage todos los chips originales. Recovery del "pruné todo por error".
-- **Built on `<sc-modal>`**: heredamos shell + Escape behavior + body portal.
+- **Built on `<sc-dialog>`**: heredamos shell + Escape behavior + body portal.
 - **i18n keys parametrizados**: title/subtitle se computan via `translate.instant` con params (`entity`, `count`, `name`) — siempre traducidos correctamente.
 
 ## A11y
@@ -162,4 +162,4 @@ Pendiente — gallery `/components/delete-entity-dialog` con:
 
 ## Figma reference
 
-**No aplica** — pattern in-house. Hereda visual de `<sc-modal>` (ya alineado con Figma SC ❖ Dialog).
+**No aplica** — pattern in-house. Hereda visual de `<sc-dialog>` (ya alineado con Figma SC ❖ Dialog).

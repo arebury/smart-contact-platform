@@ -15,7 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
-import { ModalComponent } from '@shared/components/modal/modal.component';
+import { DialogComponent } from '@shared/components/dialog/dialog.component';
 
 import type { Entity, EntityListValue, EntityType } from '../../data/entity.types';
 import { EntitiesStore } from '../../state/entities.store';
@@ -52,7 +52,7 @@ interface EntityTypeOption {
     FormsModule,
     InputTextComponent,
     LucideAngularModule,
-    ModalComponent,
+    DialogComponent,
     SelectModule,
     TranslateModule,
   ],

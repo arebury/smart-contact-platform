@@ -114,7 +114,7 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 
 - **Figma**: el body siempre existe.
 - **SC**: prop `[bodyless]="true"` colapsa el modal a header + footer pegados (sin body band visual). Para confirm dialogs donde la descripción cabe en subtitle.
-- **Implementación**: `<sc-modal>` template + scss `.sc-modal--bodyless` rules.
+- **Implementación**: `<sc-dialog>` template + scss `.sc-modal--bodyless` rules.
 - **Para qué**: confirm dialogs (delete, discard, leave page) son el 60% de los usos de modal en AED.
 
 ---
@@ -161,7 +161,7 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
 - **Figma SC**: 8 variants `Left × Right × SecondLeft × SecondRight` para addons laterales del input (icon, button, prefix/suffix con border merge).
 - **PrimeNG**: `<p-inputgroup>` + `<p-inputgroup-addon>` cubren esto.
 - **Resolución S33**: wrapper Extended cocinado en `packages/design-system/components/input-group/`. API minimal (`size`, `fluid`). Tokens fluyen via `formField.*` sin overrides propios. Spec doc `34-input-group.md` + gallery `/components/input-group` (5 escenarios) + tag-input aed-servicio migrado.
-- **Decisión arquitectónica**: NO se re-empaqueta `<p-inputgroup-addon>` como `<sc-input-group-addon>` — los addons son 100% PrimeNG sin overrides, un wrapper SC añadiría boilerplate sin valor (memoria `minimal-customization`). El consumer importa `InputGroupAddonModule` directo. Patrón consistente con `<sc-modal>` que permite `<p-button>` por dentro.
+- **Decisión arquitectónica**: NO se re-empaqueta `<p-inputgroup-addon>` como `<sc-input-group-addon>` — los addons son 100% PrimeNG sin overrides, un wrapper SC añadiría boilerplate sin valor (memoria `minimal-customization`). El consumer importa `InputGroupAddonModule` directo. Patrón consistente con `<sc-dialog>` que permite `<p-button>` por dentro.
 - **NO confundir con search**: `<sc-search>` usa `<p-iconfield>` (icon overlay decorativo dentro del input, sin border merge). `<sc-input-group>` usa `<p-inputgroup>` (addons con border merge). Semánticas distintas.
 
 ### 5.2 `sc-select-button` — gap (Figma `❖ SelectButton` node 6738:46433)

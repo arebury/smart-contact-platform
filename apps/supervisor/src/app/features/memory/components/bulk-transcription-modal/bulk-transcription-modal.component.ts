@@ -13,7 +13,7 @@ import { ButtonModule } from 'primeng/button';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 
-import { ModalComponent } from '@shared/components/modal/modal.component';
+import { DialogComponent } from '@shared/components/dialog/dialog.component';
 
 import type { Conversation } from '../../data/conversation.types';
 
@@ -54,7 +54,7 @@ import type { Conversation } from '../../data/conversation.types';
     ButtonModule,
     FormsModule,
     LucideAngularModule,
-    ModalComponent,
+    DialogComponent,
     ToggleSwitchModule,
     TranslateModule,
   ],

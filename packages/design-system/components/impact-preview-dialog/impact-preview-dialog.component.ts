@@ -10,7 +10,7 @@ import {
 import { LucideAngularModule, ArrowRight, Copy, X } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
-import { ModalComponent } from '../modal/modal.component';
+import { DialogComponent } from '../dialog/dialog.component';
 
 export interface ImpactItem {
   readonly id: number;
@@ -34,7 +34,7 @@ export interface ImpactBadge {
  */
 @Component({
   selector: 'sc-impact-preview-dialog',
-  imports: [ButtonModule, LucideAngularModule, ModalComponent],
+  imports: [ButtonModule, LucideAngularModule, DialogComponent],
   templateUrl: './impact-preview-dialog.component.html',
   styleUrl: './impact-preview-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

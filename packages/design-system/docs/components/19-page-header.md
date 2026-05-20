@@ -31,7 +31,7 @@
 ## Cuándo NO usarlo
 
 - Form Create/Edit page → `<sc-sticky-form-header>` (sticky + save/cancel actions cluster + editable name).
-- Modal / drawer → no aplica (los modals tienen su propio header via `<sc-modal>`).
+- Modal / drawer → no aplica (los modals tienen su propio header via `<sc-dialog>`).
 - Sub-page dentro de un dialog → mantener el header del dialog.
 
 ## Anatomía

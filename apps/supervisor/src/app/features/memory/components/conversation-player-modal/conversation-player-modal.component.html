@@ -1,6 +1,6 @@
 @let c = conversation();
 
-<sc-modal
+<sc-dialog
   [visible]="visible() && !!c"
   [icon]="isChat() ? chatIcon : phoneIcon"
   [title]="modalTitle()"
@@ -461,4 +461,4 @@
       <span>{{ 'memory.player.close' | translate }}</span>
     </p-button>
   </div>
-</sc-modal>
+</sc-dialog>

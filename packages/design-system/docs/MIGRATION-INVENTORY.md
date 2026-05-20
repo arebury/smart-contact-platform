@@ -17,7 +17,7 @@
 | #  | Name | Status | Type | Selector | Figma | Figma parity | Doc |
 |----|------|--------|------|----------|-------|--------------|-----|
 | 01 | Button | ✓ | 🟣 Custom-preset | `<p-button>` | [6738:49717](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-49717) | **100%** — Session 30 audit Nivel-2 contra los 1965 variants Figma. Padding 10.5/7 ✓ matchea preset. Brand divergences (Primary navy, Info electric-blue, Warn amber) documentadas. | `docs/components/01-button.md` |
-| 02 | Modal / Dialog | ✓ | 🟢 Extended | `<sc-modal>` | [6738:50207](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50207) ConfirmDialog · [6738:50208](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50208) ConfirmPopup | **100%** — Session 30 audit. Border slate-200, radius 12, padding 17.5 uniforme (top:0 en body/footer), title 17.5/600, header gap 7, footer gap 7, double-layer shadow. Body slot con stacking auto via `display: flex; gap: 16px`. SC extensions documentadas (3-slot shell, bodyless mode). | `docs/components/11-modal.md` |
+| 02 | Modal / Dialog | ✓ | 🟢 Extended | `<sc-dialog>` | [6738:50207](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50207) ConfirmDialog · [6738:50208](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50208) ConfirmPopup | **100%** — Session 30 audit. Border slate-200, radius 12, padding 17.5 uniforme (top:0 en body/footer), title 17.5/600, header gap 7, footer gap 7, double-layer shadow. Body slot con stacking auto via `display: flex; gap: 16px`. SC extensions documentadas (3-slot shell, bodyless mode). | `docs/components/11-dialog.md` |
 | 03 | Toast | ✓ | 🟣 Custom-preset + template | `<p-toast>` + pTemplate override en `app.component.html` | [6738:53165](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-53165) | **100%** — Session 30 audit. Width 350, radius 6, padding 10.5, icon 15.75, borders severity-200 tinted, backdrop blur 1.5, close 24.5 circular. SC extensions: action button (undo), icon-square chrome, severity=secondary→violet. | `docs/components/10-toast.md` |
 | 04 | Photo upload | ✓ | ⚪ Pure SC | `<sc-photo-upload>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/29-photo-upload.md` |
 | 05 | Toggle switch | ✓ | 🟢 Extended | `<sc-toggleswitch>` | [6738:22645](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22645) | **100%** — S32 refactor: ahora wrapper de `<p-toggleswitch>` (era CSS sobre input nativo). Hereda chrome + a11y PrimeNG. | `docs/components/15-toggleswitch.md` |
@@ -74,7 +74,7 @@ Capa | Archivo | Status
 | Componente | Última verificación | Sesión | Notas |
 |---|---|---|---|
 | `<p-button>` | 2026-05-15 | S30 | Nivel-2 contra 1965 variants, parity 100% |
-| `<sc-modal>` | 2026-05-15 | S30 | Border slate-200, radius 12, padding 17.5 |
+| `<sc-dialog>` | 2026-05-15 | S30 | Border slate-200, radius 12, padding 17.5 |
 | `<p-toast>` | 2026-05-15 | S30 | Width 350, severity-200 tinted borders |
 | `<sc-tri-state-checkbox>` | 2026-05-15 | S30 | 60 variants Nivel-2, navy primary |
 | `<sc-inputtext>` | 2026-05-15 | S30 | 240 variants Nivel-2, padding decimal raw |
@@ -121,7 +121,7 @@ Capa | Archivo | Status
 | `<sc-form-danger-zone>` | 3 | Pattern industry |
 | `<sc-empty-state>` | 3 | Patrón canónico list pages |
 | `<sc-label-chip>` | 3 | Modelo LabelColor propio |
-| `<sc-modal>` | 2 | Pattern foundation |
+| `<sc-dialog>` | 2 | Pattern foundation |
 | `<p-toast>` | 1 (singleton) | App-level |
 | `<p-tabs>` | 0 (esperando caso) | API estable |
 | `<p-tooltip>` | 0+ (utility) | API estable |

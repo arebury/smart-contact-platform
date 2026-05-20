@@ -1,4 +1,4 @@
-<sc-modal
+<sc-dialog
   [visible]="visible()"
   [icon]="tagsIcon"
   [title]="
@@ -109,13 +109,13 @@
       </span>
     </p-button>
   </div>
-</sc-modal>
+</sc-dialog>
 
 <!-- Dialog secundario: plantillas predefinidas. Modal nested sobre el
      CategoryFormModal; al seleccionar una card prellena name+description
      y se cierra a sí mismo. El modal principal queda abierto para que
      el usuario revise/edite antes de Guardar. -->
-<sc-modal
+<sc-dialog
   [visible]="templatesDialogVisible()"
   [icon]="layoutTemplateIcon"
   [title]="'memory.categories.templates.title' | translate"
@@ -142,4 +142,4 @@
       <span>{{ 'common.cancel' | translate }}</span>
     </p-button>
   </div>
-</sc-modal>
+</sc-dialog>
