@@ -1528,6 +1528,16 @@
         "theme_dark": "Oscuro",
         "theme_system": "Sistema"
       },
+      "language": {
+        "title": "Idioma",
+        "hint": "(afecta a este navegador)",
+        "label": "Idioma de la interfaz",
+        "lang_hint": "Elige el idioma en el que se muestra la interfaz. El cambio se aplica de inmediato.",
+        "es": "Español",
+        "en": "Inglés",
+        "fr": "Francés",
+        "pt": "Portugués"
+      },
       "data": {
         "title": "Datos",
         "hint": "(prototipo)",

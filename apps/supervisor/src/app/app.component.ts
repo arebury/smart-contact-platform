@@ -12,7 +12,7 @@ import {
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
-import { ThemeService, UndoStackService } from '@core/services';
+import { LanguageService, ThemeService, UndoStackService } from '@core/services';
 import {
   CommandPaletteComponent,
   ConfirmHostComponent,
@@ -48,6 +48,14 @@ export class AppComponent {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private readonly _theme = inject(ThemeService);
+  /*
+   * `LanguageService` mismo patrón que ThemeService: el constructor del
+   * service llama `translate.use(persistedLang)` para aplicar el idioma
+   * al arranque. Inject como side-effect dependency para garantizar
+   * instanciación temprana.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private readonly _language = inject(LanguageService);
 
   protected readonly closeIcon = X;
 

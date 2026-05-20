@@ -1,0 +1,1552 @@
+{
+  "app": {
+    "name": "SmartContact",
+    "tagline": "un outil Digital Virgo"
+  },
+  "placeholder": {
+    "title": "Section en construction",
+    "subtitle": "Cette page n'est pas encore disponible"
+  },
+  "memory": {
+    "conversations": {
+      "page_title": "Conversations",
+      "open_aria": "Ouvrir la conversation {{id}}",
+      "open_aria_with_state": "Ouvrir la conversation {{id}} — État : {{state}}",
+      "open_player": "Ouvrir dans le lecteur",
+      "select_all_aria": "Sélectionner toutes les conversations filtrées",
+      "select_row_aria": "Sélectionner la conversation {{id}}",
+      "table": {
+        "status": "État",
+        "hour": "Heure",
+        "date": "Date",
+        "service": "Service",
+        "origin": "Origine",
+        "group": "Groupe",
+        "destination": "Destination",
+        "duration": "Durée conv.",
+        "waiting": "T. attente",
+        "id": "ID"
+      },
+      "status": {
+        "call": "Appel",
+        "call_recorded": "Appel · enregistré",
+        "call_transcribed": "Appel · enregistré et transcrit",
+        "call_analyzed": "Appel · enregistré, transcrit et analysé",
+        "chat": "Chat",
+        "chat_transcribed": "Chat · transcrit",
+        "chat_analyzed": "Chat · analysé",
+        "transcribing": "Transcription en cours…",
+        "analyzing": "Analyse en cours…",
+        "failed": "Transcription échouée",
+        "multi_recording": "{{count}} enregistrements"
+      },
+      "filters": {
+        "services_label": "Services",
+        "services_placeholder": "Tout service",
+        "date_label": "Date",
+        "date_placeholder": "Toute date",
+        "origin_label": "Origine",
+        "origin_placeholder": "Toute origine",
+        "destination_label": "Destination",
+        "destination_placeholder": "Toute destination",
+        "groups_label": "Groupes ACD",
+        "groups_placeholder": "Tout groupe",
+        "agents_label": "Agents",
+        "agents_placeholder": "Tout agent",
+        "reset": "Effacer les filtres",
+        "only_failed": "Échouées uniquement",
+        "only_failed_hint": "Afficher uniquement les conversations avec transcription échouée"
+      }
+    },
+    "type_filter": {
+      "label": "Type",
+      "aria_default": "Filtres de type et état",
+      "aria_active": "Filtres de type et état · actifs",
+      "panel_title": "Filtres",
+      "reset": "Effacer",
+      "groups": {
+        "type": "Type de conversation",
+        "channel": "Canal",
+        "direction": "Direction",
+        "rules": "Traitement appliqué",
+        "status": "État",
+        "multirec": "Multi-enregistrement"
+      },
+      "types": {
+        "interna": "interne",
+        "externa": "externe"
+      },
+      "channels": {
+        "llamada": "appel",
+        "chat": "chat"
+      },
+      "directions": {
+        "entrante": "entrant",
+        "saliente": "sortant"
+      },
+      "rules": {
+        "recording": "avec enregistrement",
+        "transcription": "avec transcription",
+        "classification": "avec classification"
+      },
+      "status": {
+        "only_failed": "uniquement échouées"
+      },
+      "multirec": {
+        "only_multi": "uniquement avec plusieurs tronçons",
+        "only_partial": "uniquement avec tronçons partiellement transcrits"
+      }
+    },
+    "player": {
+      "label_call": "Appel",
+      "label_chat": "Chat",
+      "close": "Fermer",
+      "audio": {
+        "play": "Lecture",
+        "pause": "Pause",
+        "back10": "Reculer de 10 secondes",
+        "fwd10": "Avancer de 10 secondes",
+        "seek": "Chercher position"
+      },
+      "tabs": {
+        "transcription": "Transcription",
+        "analysis": "Analyse"
+      },
+      "actions": {
+        "analyze": "Analyse",
+        "analyze_no_transcript": "Transcription requise",
+        "analyze_done": "Analyse déjà effectuée",
+        "download_audio": "Télécharger l'audio",
+        "download_chat": "Télécharger la conversation",
+        "retranscribe": "Re-transcrire"
+      },
+      "retranscribe": {
+        "title": "Re-transcrire la conversation",
+        "subtitle": "Action destructive",
+        "warn_headline": "Cette action remplacera la transcription existante.",
+        "warn_body": "La transcription actuelle et toutes les analyses dérivées seront supprimées et une nouvelle sera générée.",
+        "warn_cost": "Engendre un coût supplémentaire.",
+        "type_to_confirm_pre": "Tapez",
+        "type_to_confirm_post": "pour continuer :",
+        "confirm_btn": "Re-transcrire"
+      },
+      "multi": {
+        "aria_player": "Lecteur multi-tronçons",
+        "aria_seek": "Chercher position dans le tronçon actif",
+        "aria_radiogroup": "Sélectionnez un tronçon",
+        "leg_transcribed": "Tronçon transcrit"
+      },
+      "download_audio_toast": "Téléchargement de l'audio",
+      "download_chat_toast": "Téléchargement de la conversation",
+      "empty": {
+        "no_recording_title": "Aucun enregistrement de cet appel",
+        "no_recording_desc": "Sans audio nous ne pouvons pas transcrire. Vérifiez les règles d'enregistrement si vous l'attendiez.",
+        "no_transcription_title": "Pas de transcription",
+        "no_transcription_desc": "Générez le texte pour chercher dans la conversation et rendre l'analyse disponible.",
+        "transcribe_btn": "Transcrire",
+        "transcribing_btn": "Demande en cours…",
+        "transcribe_cost": "Engendre un coût · ~30 s",
+        "transcription_empty_title": "Transcription vide",
+        "transcription_empty_desc": "Le traitement s'est terminé sans extraire de lignes. Cela arrive avec des audios très courts ou de longs silences.",
+        "ready_title": "Prêt à analyser",
+        "ready_desc": "Résumé actionnable et évaluation du sentiment sur la transcription existante.",
+        "ready_btn": "Demander l'analyse",
+        "requesting_btn": "Demande en cours…",
+        "ready_cost": "Engendre un coût · ~10 s",
+        "deadend_title": "En attente de transcription et analyse",
+        "deadend_desc": "L'analyse a besoin de texte. Nous lançons la transcription et, dès qu'elle finit, nous générons le résumé et le sentiment.",
+        "deadend_btn": "Transcrire et analyser",
+        "processing_btn": "Traitement…",
+        "deadend_cost": "Engendre un coût · transcription + analyse"
+      },
+      "processing": {
+        "transcribing_title": "Transcription",
+        "transcribing_caption": "Traite l'audio et sépare les interlocuteurs. Prend quelques secondes.",
+        "analyzing_title": "Analyse",
+        "analyzing_caption": "Génère résumé et sentiment à partir de la transcription."
+      },
+      "transcript": {
+        "count_one": "intervention",
+        "count_other": "interventions",
+        "search_placeholder": "Chercher dans la transcription",
+        "search_aria": "Chercher dans la transcription",
+        "no_match": "Aucun résultat pour «{{q}}»."
+      },
+      "analysis": {
+        "summary": "Résumé",
+        "sentiment": "Sentiment",
+        "ai_generated": "Généré par IA",
+        "ai_generated_hint": "Généré automatiquement à partir de la transcription",
+        "no_summary": "Pas assez de transcription pour générer un résumé."
+      },
+      "sentiment": {
+        "positive": "Positif",
+        "positive_summary": "ton général favorable",
+        "neutral": "Neutre",
+        "neutral_summary": "sans biais émotionnel",
+        "negative": "Négatif",
+        "negative_summary": "friction détectée"
+      }
+    },
+    "bulk": {
+      "transcribe_analyze": "Transcrire et analyser",
+      "mark_read": "Marquer comme lues",
+      "mark_read_toast": "{{n}} conversations marquées comme lues",
+      "coming_soon_toast": "Modal en lot à venir (iter 6b)"
+    },
+    "bulk_transcription": {
+      "total_label": "Total à traiter",
+      "cost_hint": "engendre un coût",
+      "analysis_label": "Analyse",
+      "include_analysis": "Inclure l'analyse",
+      "all_processed": "tout traité",
+      "close_btn": "Fermer",
+      "process_btn": "Traiter"
+    },
+    "mock_sample_switcher": {
+      "chip_label": "Démo",
+      "data_prefix": "Données :",
+      "list_header": "Jeux de test"
+    },
+    "rules": {
+      "page_title": "Règles",
+      "new_rule": "Nouvelle règle",
+      "empty_title": "Pas encore de règles",
+      "empty_desc": "Les règles automatisent ce qui est enregistré, transcrit et analysé des conversations entrant dans le système.",
+      "empty_cta": "Créer la première règle",
+      "active_title": "Règles actives · ordre de priorité",
+      "no_active_hint": "Aucune règle active. Activez une règle pour commencer à l'appliquer.",
+      "inactive_title": "Inactives et brouillons",
+      "cols": {
+        "order": "#",
+        "name": "Règle",
+        "scope": "Portée",
+        "actions": "Actions",
+        "status": "État",
+        "last_modified": "Dern. modif.",
+        "more": "Plus d'actions"
+      },
+      "chip": {
+        "recording": "Enregistre",
+        "transcription": "Transcrit",
+        "classification": "Classifie avec IA"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "draft": "Brouillon non édité",
+        "conflict": "En conflit"
+      },
+      "menu": {
+        "activate": "Activer",
+        "deactivate": "Désactiver",
+        "activate_draft_tooltip": "Éditez au moins un champ pour activer cette règle."
+      },
+      "order_updated": "Ordre mis à jour",
+      "conflict": {
+        "title": "En conflit",
+        "desc": "Cette règle chevauche sa portée avec {{count}} règle(s) du même type. Le superviseur peut coexister avec les conflits — l'UI montre laquelle gagne.",
+        "winner": "Gagne",
+        "hint": "Glisser pour réordonner et changer la priorité."
+      },
+      "delete_title": "Supprimer la règle",
+      "delete_body": "Vous allez supprimer «{{name}}». Cette action ne peut pas être annulée.",
+      "deleted_toast": "Règle «{{name}}» supprimée",
+      "duplicated_toast": "Règle dupliquée. Éditez au moins un champ pour pouvoir l'activer.",
+      "builder": {
+        "back": "Retour à la liste",
+        "title_new": "Nouvelle règle",
+        "title_edit": "Éditer la règle",
+        "subtitle": "Définissez comment traiter les conversations entrant à partir de maintenant. S'applique au futur, pas aux existantes.",
+        "type": {
+          "recording": "Enregistrement",
+          "transcription": "Transcription",
+          "classification": "Classification IA"
+        },
+        "metadata": "Informations de base",
+        "active_label": "Règle active",
+        "inactive_label": "Règle inactive",
+        "name_label": "Nom",
+        "name_placeholder": "ex. Enregistrer Support Technique entrant",
+        "name_error": "Le nom doit avoir au moins 3 caractères.",
+        "description_label": "Description",
+        "description_placeholder": "Documentez l'objectif de cette règle pour votre équipe…",
+        "scope": "Portée",
+        "scope_desc": "À quelles conversations la règle s'applique. Une dimension vide signifie «toute».",
+        "see_repository": "Voir le référentiel",
+        "scope_dim": {
+          "servicios": {
+            "title": "Services",
+            "source": "Depuis le référentiel des Services",
+            "placeholder": "Tout service"
+          },
+          "grupos": {
+            "title": "Groupes ACD",
+            "source": "Depuis le référentiel des Groupes",
+            "placeholder": "Tout groupe"
+          },
+          "agentes": {
+            "title": "Agents",
+            "source": "Depuis le référentiel des Agents",
+            "placeholder": "Tout agent"
+          }
+        },
+        "recording": "Critères d'enregistrement",
+        "recording_desc": "Filtrer quels appels du périmètre sont enregistrés.",
+        "direction_label": "Direction",
+        "direction": {
+          "all": "Toutes",
+          "inbound": "Entrants",
+          "outbound": "Sortants"
+        },
+        "schedule_label": "Filtrer par horaire",
+        "schedule_from": "De",
+        "schedule_to": "À",
+        "transcription": "Critères de transcription",
+        "transcription_desc": "Filtrer quelles conversations du périmètre sont transcrites. La transcription a un coût — utilisez ces filtres pour écarter les conversations non pertinentes.",
+        "duration_label": "Durée minimale",
+        "duration_hint": "Seules les conversations dépassant cette durée sont transcrites.",
+        "duration_unit": {
+          "seconds": "secondes",
+          "minutes": "minutes"
+        },
+        "attended_by_label": "Traitée par",
+        "attended_by_hint": "Parmi les conversations du périmètre, transcrire uniquement celles traitées par…",
+        "attended_by_placeholder": "Tout agent ou groupe",
+        "ai_analysis": "Analyse IA",
+        "ai_analysis_desc": "Génère résumé et analyse de sentiment de chaque conversation transcrite.",
+        "ai_chip_summary": "Résumé automatique",
+        "ai_chip_sentiment": "Analyse de sentiment",
+        "ai_chip_categories": "Catégories IA",
+        "save_changes": "Sauvegarder les modifications",
+        "create_rule": "Créer la règle",
+        "created_toast": "Règle créée",
+        "updated_toast": "Règle mise à jour",
+        "draft_banner": "Cette règle est une copie non modifiée. Éditez au moins un champ et sauvegardez pour pouvoir l'activer.",
+        "discard_draft": "Annuler la copie",
+        "draft_ready_toast": "Règle prête à activer",
+        "discarded_toast": "Copie annulée"
+      }
+    },
+    "entities": {
+      "page_title": "Entités",
+      "new_entity": "Nouvelle entité",
+      "user_title": "Vos entités",
+      "user_desc": "Données personnalisées que l'IA extrait du texte des conversations.",
+      "system_title": "Entités système",
+      "system_desc": "Variables et entités standard incluses par défaut. Immuables.",
+      "empty_user": "Vous n'avez pas encore créé d'entités. Créez-en une pour que l'IA commence à l'extraire du texte.",
+      "coming_soon_toast": "Modal de création arrive en iter 10b",
+      "cols": {
+        "name": "Nom",
+        "type": "Type",
+        "description": "Description",
+        "format": "Format",
+        "more": "Plus d'actions"
+      },
+      "types": {
+        "text": "Texte",
+        "number": "Nombre",
+        "date": "Date",
+        "email": "Email",
+        "phone": "Téléphone",
+        "list": "Liste",
+        "name": "Nom propre",
+        "age": "Âge",
+        "url": "URL",
+        "ordinal": "Ordinal",
+        "currency": "Devise",
+        "datetime": "Date + Heure",
+        "dimension": "Dimension",
+        "geography": "Géographie",
+        "key_phrase": "Phrase clé",
+        "percentage": "Pourcentage",
+        "phone_number": "Téléphone",
+        "temperature": "Température"
+      },
+      "menu": {},
+      "delete_title": "Supprimer l'entité",
+      "delete_body": "Vous allez supprimer l'entité «{{name}}». Les règles qui la référencent cesseront de l'extraire.",
+      "deleted_toast": "Entité «{{name}}» supprimée",
+      "form": {
+        "title_new": "Nouvelle entité",
+        "title_edit": "Éditer l'entité",
+        "subtitle": "Définissez une donnée que l'IA doit détecter et extraire du texte.",
+        "name_label": "Nom technique",
+        "name_placeholder": "ex. produit, montant_total, motif_resiliation",
+        "name_error_short": "Minimum 3 caractères.",
+        "name_error_duplicate": "Une entité avec ce nom existe déjà.",
+        "description_label": "Description",
+        "description_placeholder": "Documentez ce que cette entité représente pour votre équipe…",
+        "type_label": "Type",
+        "type_locked_hint": "Le type ne peut pas être changé en édition. Créez-en une nouvelle si besoin.",
+        "format_label": "Format",
+        "format_placeholder": "ex. E.164, ISO 8601, 0,00 EUR",
+        "format_hint": "Optionnel. Motif attendu pour l'extraction.",
+        "list_values_label": "Valeurs",
+        "list_values_hint": "Définissez les valeurs discrètes que l'IA doit reconnaître.",
+        "list_values_empty": "Pas encore de valeurs. Ajoutez-en au moins une pour sauvegarder.",
+        "list_value_placeholder": "Valeur reconnaissable",
+        "add_list_value": "Ajouter une valeur",
+        "list_remove": "Supprimer la valeur",
+        "save_changes": "Sauvegarder les modifications",
+        "create_entity": "Créer l'entité",
+        "created_toast": "Entité «{{name}}» créée",
+        "updated_toast": "Entité «{{name}}» mise à jour"
+      }
+    },
+    "categories": {
+      "page_title": "Catégories IA",
+      "new_category": "Nouvelle catégorie",
+      "empty_title": "Pas encore de catégories",
+      "empty_desc": "Les catégories sont les thèmes et motifs de contact que l'IA étiquette sur les conversations. Créez-en une pour que l'analyse les détecte automatiquement.",
+      "coming_soon_toast": "Modal de création arrive en iter 11b",
+      "cols": {
+        "name": "Nom",
+        "description": "Description",
+        "used_in": "Utilisée dans",
+        "classified": "Appels",
+        "status": "État",
+        "created": "Créée",
+        "more": "Plus d'actions"
+      },
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "menu": {},
+      "delete_title": "Supprimer la catégorie",
+      "delete_body": "Vous allez supprimer la catégorie «{{name}}». Les règles qui la référencent perdront cette étiquette.",
+      "deleted_toast": "Catégorie «{{name}}» supprimée",
+      "duplicated_toast": "Catégorie dupliquée en «{{name}}»",
+      "form": {
+        "title_new": "Nouvelle catégorie IA",
+        "title_edit": "Éditer la catégorie",
+        "subtitle": "Définissez un thème ou motif de contact que l'IA doit détecter dans les conversations.",
+        "name_label": "Nom",
+        "name_placeholder": "ex. Réclamation facturation",
+        "name_error_short": "Minimum 3 caractères.",
+        "name_error_duplicate": "Une catégorie avec ce nom existe déjà.",
+        "description_label": "Description",
+        "description_placeholder": "Décrivez quand cette catégorie doit s'appliquer. Minimum 10 caractères.",
+        "description_hint": "L'IA utilise cette description pour décider quand étiqueter une conversation avec cette catégorie. Soyez spécifique.",
+        "group_label": "Groupe",
+        "group_placeholder": "ex. Service Client",
+        "active_label": "Active",
+        "inactive_label": "Inactive",
+        "linked_rules_title": "Utilisée dans {{count}} règle(s)",
+        "save_changes": "Sauvegarder les modifications",
+        "create_category": "Créer la catégorie",
+        "created_toast": "Catégorie «{{name}}» créée",
+        "updated_toast": "Catégorie «{{name}}» mise à jour",
+        "templates_open": "Partir d'un modèle",
+        "templates_hint": "Pré-remplir titre et description avec un cas typique."
+      },
+      "templates": {
+        "title": "Modèles prédéfinis",
+        "subtitle": "Choisissez un cas typique pour démarrer. Vous pourrez ajuster les textes avant de sauvegarder."
+      }
+    },
+    "category_filter": {
+      "label": "Catégories IA",
+      "aria": "Filtres par catégorie IA",
+      "panel_title": "Catégories IA",
+      "clear": "Effacer",
+      "empty": "Pas encore de catégories. Traitez des conversations avec analyse pour les voir ici.",
+      "select_all": "Tout sélectionner",
+      "deselect_all": "Tout désélectionner"
+    },
+    "dispatch": {
+      "transcribing": "Génération de la transcription de {{n}} conversations…",
+      "analyzing": "Génération de l'analyse IA de {{n}} conversations…",
+      "success": "{{n}} conversations traitées correctement",
+      "all_failed": "{{n}} transcriptions ont échoué. Vérifiez 'Échouées uniquement' pour réessayer.",
+      "partial": "{{ok}} traitées · {{ko}} échouées. Vérifiez 'Échouées uniquement' pour réessayer."
+    }
+  },
+  "common": {
+    "skip_to_content": "Aller au contenu principal",
+    "back": "Retour",
+    "back_to_home": "Retour à l'accueil",
+    "name_placeholder": "Nom",
+    "cancel": "Annuler",
+    "save": "Sauvegarder",
+    "saving": "Sauvegarde…",
+    "discard": "Annuler",
+    "form_nav": {
+      "label": "Sections du formulaire"
+    },
+    "create": "Créer",
+    "units": {
+      "seconds": "sec"
+    },
+    "delete": "Supprimer",
+    "duplicate": "Dupliquer",
+    "edit": "Éditer",
+    "loading": "Chargement…",
+    "search": "Rechercher...",
+    "search_clear": "Effacer la recherche",
+    "search_no_results": "Aucun résultat",
+    "remove": "Retirer {{name}}",
+    "close": "Fermer",
+    "yes": "Oui",
+    "no": "Non",
+    "optional": "optionnel",
+    "export_success": "{{count}} {{sheet}} exportés vers Excel",
+    "copied_to_clipboard": "Nom copié dans le presse-papiers",
+    "copy_failed": "Impossible de copier dans le presse-papiers",
+    "click_to_copy": "Cliquer pour copier",
+    "remove_from_list": "Retirer {{name}} de la liste",
+    "draft_badge": "Brouillon",
+    "bulk_updated": "{{count}} éléments mis à jour",
+    "columns": "Colonnes",
+    "edit_field": "Éditer le champ",
+    "preview_impact": "Prévisualiser l'impact",
+    "discard_title": "Annuler les modifications ?",
+    "discard_body": "Les modifications non sauvegardées seront perdues.",
+    "discard_confirm": "Annuler",
+    "discard_keep": "Continuer l'édition",
+    "cross_tab_warning": "Cet enregistrement est édité dans un autre onglet. Les modifications peuvent s'écraser mutuellement.",
+    "undo": "Annuler",
+    "change_reverted": "Modification annulée",
+    "draft_created": "Brouillon créé «{{name}}»",
+    "draft_removed": "Brouillon supprimé",
+    "presence_changed": "Présence de {{name}} → {{status}}",
+    "photo": {
+      "select": "Sélectionner une photo",
+      "change": "Changer la photo",
+      "remove": "Supprimer la photo",
+      "hint": "JPG, GIF ou PNG. Max 800k",
+      "invalid_type": "Format invalide. Utilisez JPG, PNG ou GIF.",
+      "too_large": "L'image dépasse 800 Ko."
+    },
+    "languages": {
+      "label": "Langue",
+      "placeholder": "Sélectionner une langue...",
+      "remove": "Retirer {{lang}}"
+    },
+    "groups_count": "{{count}} groupes",
+    "groups_count_short": "{{count}}",
+    "groups_more": "+{{count}} de plus",
+    "delete_dialog": {
+      "title_single": "Supprimer {{entity}} ?",
+      "title_bulk": "Supprimer {{count}} {{entity}} ?",
+      "body_single": "Vous allez supprimer le {{entity}} «{{name}}». Cette action ne peut pas être annulée.",
+      "body_bulk": "Cette action ne peut pas être annulée. Les {{entity}} suivants seront supprimés :",
+      "type_to_confirm": "Tapez le nom pour confirmer :",
+      "empty_pruned": "Vous avez écarté tous les éléments. Restaurez la liste ou annulez.",
+      "reset": "Restaurer la liste"
+    },
+    "danger_zone": {
+      "title": "Zone de risque"
+    }
+  },
+  "topbar": {
+    "go_to_dashboard": "Aller au tableau de bord",
+    "back_to": "Retour à {{name}}",
+    "keyboard_shortcuts": "Raccourcis clavier (?)",
+    "user": {
+      "help": "Centre d'aide",
+      "logout": "Déconnexion",
+      "role_admin": "Admin"
+    }
+  },
+  "sidebar": {
+    "tools": "OUTILS",
+    "settings": "PARAMÈTRES",
+    "supervision": "Supervision",
+    "dashboard": "Tableau de bord",
+    "servicios": "Services",
+    "nodo_ia": "Nœud IA",
+    "campanas": "Campagnes",
+    "conversaciones": "Conversations",
+    "estadisticas": "Statistiques",
+    "informes": "Rapports de données",
+    "analizador": "Analyseur de flux",
+    "scc": "SCC",
+    "vui_designer": "VUI Designer",
+    "administration": "Administration",
+    "configuration": "Configuration",
+    "users": "Utilisateurs",
+    "groups": "Groupes",
+    "agents": "Agents",
+    "repositories": "Référentiels",
+    "security": "Sécurité",
+    "personalization": "Personnalisation",
+    "aed": "AED",
+    "integrations": "Intégrations",
+    "system": "Système",
+    "design_decisions": "Décisions de design",
+    "design_decisions_hint": "Voir DECISIONS.md sur GitHub (ouvre un nouvel onglet)"
+  },
+  "labels": {
+    "breadcrumb": "Étiquettes",
+    "page_title": "Étiquettes",
+    "create_button": "Nouvelle étiquette",
+    "export_button": "Exporter",
+    "clear_search": "Effacer la recherche",
+    "select_all": "Tout sélectionner",
+    "row_menu": "Plus d'actions",
+    "no_description": "Sans description",
+    "count": "{{count}} étiquettes",
+    "entity_plural": "étiquettes",
+    "empty": {
+      "title": "Pas encore d'étiquettes",
+      "text": "Créez votre première étiquette pour organiser et filtrer vos agents",
+      "cta": "Créer une étiquette"
+    },
+    "table": {
+      "name": "Nom",
+      "description": "Description"
+    },
+    "no_results": {
+      "title": "Aucun résultat",
+      "text": "Aucune étiquette ne correspond à \"{{query}}\""
+    },
+    "form": {
+      "create_title": "Nouvelle étiquette",
+      "edit_title": "Éditer l'étiquette",
+      "name": "Nom",
+      "name_placeholder": "Nom de l'étiquette",
+      "color": "Couleur",
+      "description": "Description",
+      "description_placeholder": "Brève description..."
+    },
+    "errors": {
+      "name_required": "Le nom est obligatoire",
+      "duplicate_name": "Une étiquette avec ce nom existe déjà"
+    },
+    "color": {
+      "gray": "Gris",
+      "red": "Rouge",
+      "orange": "Orange",
+      "amber": "Ambre",
+      "green": "Vert",
+      "teal": "Turquoise",
+      "blue": "Bleu",
+      "purple": "Violet"
+    },
+    "delete": {
+      "title_single": "Supprimer l'étiquette",
+      "title_bulk": "Supprimer {{count}} étiquettes",
+      "body_single": "Supprimer l'étiquette \"{{name}}\" ?",
+      "body_bulk": "Supprimer ces étiquettes ?",
+      "affected_agents": "Affectera {{count}} agents."
+    },
+    "toasts": {
+      "created": "Étiquette \"{{name}}\" créée",
+      "updated": "Étiquette \"{{name}}\" mise à jour",
+      "deleted_single": "Étiquette \"{{name}}\" supprimée",
+      "deleted_bulk": "{{count}} étiquettes supprimées"
+    },
+    "export": {
+      "name": "Nom",
+      "color": "Couleur",
+      "description": "Description",
+      "assigned_agents": "Agents assignés",
+      "sheet": "Étiquettes"
+    }
+  },
+  "templates": {
+    "breadcrumb": "Modèles",
+    "page_title": "Modèles",
+    "create_button": "Nouveau modèle",
+    "count": "{{count}} modèles",
+    "entity_plural": "modèles",
+    "entity": {
+      "singular": "modèle",
+      "plural": "modèles"
+    },
+    "type": {
+      "chat": "Chat",
+      "email": "Email"
+    },
+    "empty": {
+      "title": "Pas encore de modèles",
+      "text": "Créez votre premier modèle de message pour accélérer le service",
+      "cta": "Créer un modèle"
+    },
+    "table": {
+      "title": "Titre",
+      "body": "Contenu",
+      "updated": "Mis à jour"
+    },
+    "no_results": {
+      "text": "Aucun modèle de {{tab}} dans ce filtre",
+      "text_with_query": "Aucun modèle de {{tab}} ne correspond à \"{{query}}\""
+    },
+    "form": {
+      "create_title": "Nouveau modèle",
+      "edit_title": "Éditer le modèle",
+      "title": "Titre",
+      "title_placeholder": "Titre du modèle",
+      "channel": "Canal",
+      "body": "Contenu",
+      "body_placeholder": "Écrivez le contenu du modèle...",
+      "variables_hint": "Variables : {agent}, {client}, {ref}, {date}"
+    },
+    "errors": {
+      "title_required": "Le titre est obligatoire",
+      "duplicate_title": "Un modèle avec ce titre existe déjà",
+      "body_required": "Le contenu est obligatoire"
+    },
+    "delete": {
+      "single_detail": "Les agents et groupes qui l'ont assigné perdront la référence.",
+      "bulk_footer": "Les agents et groupes qui les ont assignés perdront la référence."
+    },
+    "toasts": {
+      "created": "Modèle \"{{name}}\" créé",
+      "updated": "Modèle \"{{name}}\" mis à jour",
+      "deleted_single": "Modèle \"{{name}}\" supprimé",
+      "deleted_bulk": "{{count}} modèles supprimés"
+    }
+  },
+  "repositories": {
+    "search_placeholder": "Rechercher {{entity}}...",
+    "errors": {
+      "name_required": "Le nom est obligatoire",
+      "duplicate_name": "Un/Une {{entity}} avec ce nom existe déjà",
+      "field_required": "\"{{field}}\" est obligatoire"
+    },
+    "form": {
+      "create_title": "Nouveau/Nouvelle {{entity}}",
+      "edit_title": "Éditer {{entity}}"
+    },
+    "toasts": {
+      "created": "{{entity}} \"{{name}}\" créé(e)",
+      "updated": "{{entity}} \"{{name}}\" mis(e) à jour",
+      "deleted_single": "{{entity}} \"{{name}}\" supprimé(e)",
+      "deleted_bulk": "{{count}} {{entity}} supprimés(es)"
+    },
+    "no_results": {
+      "with_query": "Aucun(e) {{entity}} ne correspond à \"{{query}}\"",
+      "empty": "Pas encore de {{entity}}"
+    },
+    "columns": {
+      "name": "Nom",
+      "description": "Description",
+      "status": "État"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "placeholders": {
+      "description": "Brève description..."
+    },
+    "hub": {
+      "coming_soon": "Bientôt disponible",
+      "categories": {
+        "communication": "Communication",
+        "classification": "Classification",
+        "conversational_designer": "Concepteur Conversationnel",
+        "ai": "IA"
+      },
+      "descriptions": {
+        "agendas": "Collections de numéros téléphoniques pour le routage des appels",
+        "horarios": "Plages horaires et quarts opérationnels du centre de contact",
+        "plantillas": "Messages prédéfinis pour réponses rapides et campagnes",
+        "tipificaciones": "Catégories de clôture pour classifier les conversations",
+        "labels": "Étiquettes de couleur pour organiser et filtrer les entités",
+        "variables": "Variables dynamiques pour personnaliser messages et flux",
+        "entidades": "Données structurées que le système extrait des conversations",
+        "intenciones": "Intentions de l'utilisateur détectées dans le langage naturel",
+        "reglas_ia": "Règles métier appliquées au moteur d'intelligence artificielle",
+        "entidades_ia": "Entités sémantiques gérées par modèles de langage",
+        "clasificacion_ia": "Modèles de classification automatique de conversations"
+      }
+    },
+    "agendas": {
+      "title": "Carnets",
+      "singular": "carnet",
+      "plural": "carnets",
+      "numbers": "Numéros",
+      "name_placeholder": "Ex : Ventes nationales",
+      "numbers_placeholder": "900 100 200, 900 100 201..."
+    },
+    "horarios": {
+      "title": "Horaires",
+      "singular": "horaire",
+      "plural": "horaires",
+      "schedule": "Horaire",
+      "timezone": "Fuseau horaire",
+      "name_placeholder": "Ex : Horaire général",
+      "schedule_placeholder": "L-V 09:00–18:00",
+      "timezone_placeholder": "Europe/Paris"
+    },
+    "tipificaciones": {
+      "title": "Typifications",
+      "singular": "typification",
+      "plural": "typifications",
+      "code": "Code",
+      "category": "Catégorie",
+      "name_placeholder": "Ex : Requête résolue",
+      "code_placeholder": "Ex : REQ-001",
+      "category_placeholder": "Ex : Requête"
+    },
+    "variables": {
+      "title": "Variables",
+      "singular": "variable",
+      "plural": "variables",
+      "key": "Clé",
+      "default": "Valeur par défaut",
+      "type": "Type",
+      "types": {
+        "text": "Texte",
+        "number": "Nombre",
+        "date": "Date"
+      },
+      "name_placeholder": "Ex : Nom de l'agent",
+      "key_placeholder": "Ex : {agent}",
+      "default_placeholder": "Ex : Agent"
+    },
+    "entidades": {
+      "title": "Entités",
+      "singular": "entité",
+      "plural": "entités",
+      "type": "Type",
+      "values": "Valeurs",
+      "types": {
+        "text": "Texte",
+        "list": "Liste",
+        "regex": "Regex",
+        "number": "Nombre",
+        "date": "Date"
+      },
+      "name_placeholder": "Ex : Produit",
+      "values_placeholder": "Valeurs séparées par virgule ou expression régulière..."
+    },
+    "intenciones": {
+      "title": "Intentions",
+      "singular": "intention",
+      "plural": "intentions",
+      "category": "Catégorie",
+      "examples": "Exemples",
+      "name_placeholder": "Ex : Salutation",
+      "category_placeholder": "Ex : Général",
+      "examples_placeholder": "Exemples de phrases séparés par virgule..."
+    },
+    "reglas_ia": {
+      "title": "Règles IA",
+      "singular": "règle IA",
+      "plural": "règles IA",
+      "condition": "Condition",
+      "action": "Action",
+      "priority": "Priorité",
+      "priority_levels": {
+        "high": "Haute",
+        "medium": "Moyenne",
+        "low": "Basse"
+      },
+      "name_placeholder": "Ex : Escalade par sentiment",
+      "condition_placeholder": "sentiment_score < -0.7",
+      "action_placeholder": "Transférer à un agent humain"
+    },
+    "entidades_ia": {
+      "title": "Entités IA",
+      "singular": "entité IA",
+      "plural": "entités IA",
+      "type": "Type",
+      "model": "Modèle",
+      "name_placeholder": "Ex : Sentiment",
+      "type_placeholder": "Ex : classification",
+      "model_placeholder": "Ex : GPT-4o"
+    },
+    "clasificacion_ia": {
+      "title": "Classification IA",
+      "singular": "classification IA",
+      "plural": "classifications IA",
+      "model": "Modèle",
+      "categories": "Catégories",
+      "accuracy": "Précision",
+      "name_placeholder": "Ex : Classificateur d'intentions",
+      "model_placeholder": "Ex : GPT-4o",
+      "categories_placeholder": "Catégories séparées par virgule...",
+      "accuracy_placeholder": "Ex : 94.2%"
+    }
+  },
+  "users": {
+    "page_title": "Utilisateurs",
+    "create_button": "Nouvel utilisateur",
+    "search_placeholder": "Rechercher un utilisateur par nom, email, identifiant...",
+    "no_results": "Aucun utilisateur trouvé",
+    "draft_badge": "Brouillon",
+    "entity_singular": "utilisateur",
+    "table": {
+      "name": "Nom",
+      "email": "Email",
+      "identifier": "Identifiant",
+      "type": "Type",
+      "status": "État"
+    },
+    "type": {
+      "administrator": "Administrateur",
+      "supervisor": "Superviseur",
+      "agent": "Agent",
+      "viewer": "Lecteur"
+    },
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif"
+    },
+    "section": {
+      "dashboard": "Tableau de bord",
+      "services": "Services",
+      "ai_node": "Nœud IA",
+      "groups_agents_typifications": "Groupes / Agents / Typifications",
+      "campaigns": "Campagnes",
+      "conversations": "Conversations",
+      "stats": "Statistiques",
+      "stats_data_reports": "Rapports de données",
+      "stats_flow_analyzer": "Analyseur de flux",
+      "vui_designer": "VUI Designer",
+      "users": "Utilisateurs"
+    },
+    "permission": {
+      "vui_designer_management": "Gestion VUI Designer",
+      "users_management": "Gestion des utilisateurs",
+      "recording_management": "Gestion des enregistrements",
+      "transcriptions_management": "Gestion des transcriptions",
+      "spy_on_conversations": "Espionner les conversations"
+    },
+    "form": {
+      "create_title": "Nouvel utilisateur",
+      "create_breadcrumb": "Nouvel utilisateur",
+      "edit_breadcrumb": "Éditer l'utilisateur",
+      "section": {
+        "summary": "Résumé du profil",
+        "identity": "Identité",
+        "identity_hint": "Données basiques et rôle",
+        "sections": "Sections",
+        "sections_hint": "Zones du panneau accessibles",
+        "permissions": "Permissions",
+        "permissions_hint": "Actions avancées",
+        "services": "Services assignés",
+        "services_hint": "Services VUI sous supervision"
+      },
+      "fields": {
+        "name": "Nom complet",
+        "email": "Email",
+        "identifier": "Identifiant interne",
+        "identifier_hint": "Si vous le laissez vide, il sera généré automatiquement lors de la sauvegarde.",
+        "type": "Type d'utilisateur",
+        "status": "État",
+        "status_active": "Utilisateur actif : peut se connecter et opérer.",
+        "status_inactive": "Utilisateur inactif : ne pourra pas se connecter jusqu'à réactivation."
+      },
+      "danger_zone_description": "Supprimer cet utilisateur révoque son accès au panneau et efface ses permissions. L'action ne peut pas être annulée."
+    },
+    "errors": {
+      "name_required": "Le nom est obligatoire",
+      "email_invalid": "Entrez un email valide"
+    },
+    "toasts": {
+      "created": "Utilisateur \"{{name}}\" créé",
+      "updated": "Utilisateur \"{{name}}\" mis à jour",
+      "deleted_single": "Utilisateur \"{{name}}\" supprimé",
+      "deleted_bulk": "{{count}} utilisateurs supprimés",
+      "duplicated": "Utilisateur \"{{name}}\" dupliqué comme brouillon"
+    },
+    "empty": {
+      "title": "Pas encore d'utilisateurs",
+      "body": "Créez votre premier utilisateur pour donner accès au panneau.",
+      "title_filtered": "Aucun utilisateur trouvé",
+      "body_filtered": "Ajustez la recherche ou effacez les filtres pour voir plus de résultats."
+    },
+    "entity_plural": "utilisateurs",
+    "export": {
+      "code": "Code",
+      "name": "Nom",
+      "email": "Email",
+      "identifier": "Identifiant",
+      "type": "Type",
+      "status": "État",
+      "created_at": "Créé",
+      "sheet": "Utilisateurs"
+    }
+  },
+  "groups": {
+    "page_title": "Groupes",
+    "create_button": "Nouveau groupe",
+    "search_placeholder": "Rechercher un groupe par nom, code, téléphone ou stratégie...",
+    "no_results": "Aucun groupe trouvé",
+    "entity_singular": "groupe",
+    "table": {
+      "code": "Code",
+      "name": "Nom",
+      "phone": "Téléphone",
+      "channels": "Canaux",
+      "priority": "Priorité",
+      "strategy": "Stratégie",
+      "agents": "Agents"
+    },
+    "priority": {
+      "low": "Basse",
+      "medium": "Moyenne",
+      "high": "Haute",
+      "max": "Maximale"
+    },
+    "channel": {
+      "phone": "Téléphone",
+      "chat": "Chat",
+      "email": "Email"
+    },
+    "form": {
+      "create_title": "Nouveau groupe",
+      "create_breadcrumb": "Nouveau groupe",
+      "edit_breadcrumb": "Éditer le groupe",
+      "section": {
+        "identity": "Identité",
+        "identity_hint": "Données basiques et priorité",
+        "channels": "Canaux",
+        "channels_hint": "Types de contact",
+        "strategy": "Stratégie",
+        "strategy_hint": "Distribution d'appels et chats",
+        "agents": "Agents assignés",
+        "agents_hint": "Canaux par agent"
+      },
+      "assigned": {
+        "query_placeholder": "Rechercher un agent…",
+        "query_aria": "Rechercher un agent assigné ou en ajouter un nouveau",
+        "add_suggest": "Ajouter au groupe :",
+        "add_suggest_aria": "Ajouter {{name}} au groupe",
+        "counter": "{{assigned}} assignés · {{zero}} sans canaux",
+        "empty_title": "Aucun agent assigné",
+        "empty": "Utilisez la recherche ci-dessus pour assigner le premier agent à ce groupe.",
+        "no_results": "Aucun agent assigné ne correspond au filtre.",
+        "col_agent": "Agent",
+        "col_active": "Actif",
+        "toggle_all_channel": "Activer/désactiver {{channel}} sur tous les visibles",
+        "active_aria": "Mettre en pause {{name}} dans ce groupe",
+        "remove_aria": "Retirer {{name}} du groupe",
+        "warn_no_channels": "Actif mais sans canaux assignés",
+        "bulk_count": "{{count}} sélectionnés",
+        "bulk_pause": "Pauser",
+        "bulk_unassign": "Retirer du groupe"
+      },
+      "fields": {
+        "name": "Nom",
+        "phone": "Téléphone principal",
+        "priority": "Priorité",
+        "typification": "Typification obligatoire",
+        "typification_hint": "L'agent doit catégoriser la conversation avant de la clôturer",
+        "phone_strategy": "Stratégie (téléphone)",
+        "chat_strategy": "Stratégie (chat)",
+        "capacity": "Capacité simultanée",
+        "capacity_hint": "Appels que chaque agent peut traiter en parallèle"
+      },
+      "assigned_count": "Assignés ({{count}})",
+      "available_agents": "Disponibles",
+      "no_agents_assigned": "Pas encore d'agents assignés",
+      "all_assigned": "Tous les agents sont assignés",
+      "add_agent": "Ajouter un agent",
+      "remove_agent": "Retirer un agent",
+      "cascade": {
+        "title": "Vous allez retirer des canaux",
+        "body": "Cela désactivera {{channels}} pour {{count}} agents assignés à ce groupe. Continuer ?",
+        "confirm": "Oui, retirer"
+      },
+      "danger_zone_description": "Supprimer ce groupe le retire des règles et routes qui le référencent. L'action ne peut pas être annulée."
+    },
+    "errors": {
+      "name_required": "Le nom est obligatoire",
+      "channels_required": "Sélectionnez au moins un canal"
+    },
+    "toasts": {
+      "created": "Groupe \"{{name}}\" créé",
+      "updated": "Groupe \"{{name}}\" mis à jour",
+      "deleted_single": "Groupe \"{{name}}\" supprimé",
+      "deleted_bulk": "{{count}} groupes supprimés",
+      "duplicated": "Groupe \"{{name}}\" dupliqué comme brouillon"
+    },
+    "empty": {
+      "title": "Pas encore de groupes",
+      "body": "Créez votre premier groupe pour commencer à router les interactions.",
+      "title_filtered": "Aucun groupe trouvé",
+      "body_filtered": "Ajustez la recherche ou effacez les filtres pour voir plus de résultats."
+    },
+    "entity_plural": "groupes",
+    "export": {
+      "code": "Code",
+      "name": "Nom",
+      "phone": "Téléphone",
+      "priority": "Priorité",
+      "strategy": "Stratégie",
+      "channels": "Canaux",
+      "agent_count": "Nb agents",
+      "sheet": "Groupes"
+    }
+  },
+  "agents": {
+    "page_title": "Agents",
+    "create_button": "Nouvel agent",
+    "search_placeholder": "Rechercher un agent par nom, code, extension ou email...",
+    "no_results": "Aucun agent trouvé",
+    "entity_singular": "agent",
+    "table": {
+      "code": "Code",
+      "name": "Nom",
+      "extension": "Extension",
+      "channels": "Canaux",
+      "type": "Type",
+      "presence": "État",
+      "status": "Activation",
+      "groups": "Groupes"
+    },
+    "type": {
+      "normal": "Normal",
+      "cuscare": "CusCare",
+      "cuscare_carrier": "CusCare Carrier",
+      "admin_cuscare": "Admin CusCare"
+    },
+    "channel": {
+      "phone": "Téléphone",
+      "chat": "Chat",
+      "email": "Email"
+    },
+    "ext": {
+      "phone": "Tél",
+      "webrtc": "WebRTC"
+    },
+    "presence": {
+      "available": "Disponible",
+      "unavailable": "Indisponible",
+      "bathroom": "Toilettes",
+      "lunch": "Déjeuner",
+      "training": "Formation"
+    },
+    "status": {
+      "active": "Actif",
+      "inactive": "Inactif"
+    },
+    "permission": {
+      "recording": "Enregistrement activé"
+    },
+    "form": {
+      "create_title": "Nouvel agent",
+      "create_breadcrumb": "Nouvel agent",
+      "edit_breadcrumb": "Éditer l'agent",
+      "section": {
+        "identification": "Identification",
+        "identification_hint": "Photo, contact et extension",
+        "channels": "Canaux",
+        "recording": "Enregistrement",
+        "recording_hint": "Les appels de l'agent sont enregistrés si activé",
+        "languages": "Langues",
+        "languages_hint": "Langues que l'agent maîtrise pour le routage",
+        "labels": "Étiquettes",
+        "labels_hint": "Catégories qui aident à filtrer et organiser les agents",
+        "groups": "Groupes assignés",
+        "groups_hint": "Groupes et canaux par groupe",
+        "permissions": "Permissions",
+        "permissions_hint": "Capacités de l'agent",
+        "advanced": "Configuration avancée",
+        "advanced_hint": "Étiquettes, comportement, langue"
+      },
+      "advanced": {
+        "labels": {
+          "title": "Étiquettes",
+          "count_one": "1 assignée",
+          "count_many": "{{count}} assignées"
+        },
+        "agendas": {
+          "title": "Carnets",
+          "count_one": "1 assigné",
+          "count_many": "{{count}} assignés",
+          "search_placeholder": "Rechercher un carnet…",
+          "footnote": "Référentiels > Carnets"
+        },
+        "plantillas": {
+          "title": "Modèles",
+          "count_one": "1 assigné",
+          "count_many": "{{count}} assignés",
+          "search_placeholder": "Rechercher un modèle…",
+          "tab_chat": "Chat",
+          "tab_email": "Email",
+          "col_title": "Titre",
+          "col_preview": "Aperçu",
+          "select_all": "Sélectionner tous les modèles visibles",
+          "empty": "Aucun modèle de {{tab}} trouvé"
+        },
+        "comportamiento": {
+          "title": "Comportement",
+          "pickup_call": "Décrochage — Appel",
+          "pickup_chat": "Décrochage — Chat",
+          "max_chats": "Chats simultanés",
+          "random_order": "Ordre aléatoire",
+          "random_order_hint": "Afficher les agents en ordre aléatoire dans le groupe"
+        },
+        "integracion": {
+          "title": "Intégration",
+          "url_iframe": "URL iframe",
+          "dispositivos_externos": "Appareils externes",
+          "dispositivos_externos_hint": "Permet à l'agent de se connecter depuis des appareils hors du réseau d'entreprise"
+        },
+        "regional": {
+          "title": "Régional"
+        },
+        "sesion": {
+          "title": "Session",
+          "login_ext_override": "Mettre à jour le téléphone à la connexion",
+          "login_ext_override_hint": "Si l'agent se connecte depuis un autre appareil, son extension est mise à jour automatiquement",
+          "security": "Sécurité",
+          "expire_pwd": "Expirer le mot de passe",
+          "expire_pwd_hint": "Force l'agent à définir un nouveau mot de passe à sa prochaine connexion",
+          "expire_title": "Expirer le mot de passe ?",
+          "expire_body": "{{name}} devra définir un nouveau mot de passe à sa prochaine connexion. L'action ne peut pas être annulée.",
+          "expire_accept": "Expirer le mot de passe",
+          "expire_toast": "Mot de passe de {{name}} marqué pour expirer"
+        }
+      },
+      "fields": {
+        "name": "Nom",
+        "type": "Type d'agent",
+        "extension": "Extension",
+        "extension_placeholder": "Sélectionnez une extension disponible",
+        "extension_empty": "Sans extension",
+        "email_empty": "Sans email",
+        "pickup": "Type de décrochage",
+        "pickup_auto": "Automatique",
+        "pickup_manual": "Manuel",
+        "presence": "Présence initiale",
+        "status": "État",
+        "status_active": "Agent actif : peut recevoir appels et chats.",
+        "status_inactive": "Agent inactif : ne reçoit pas de nouvelles interactions.",
+        "phone": "Téléphone mobile",
+        "email": "Email",
+        "pin": "PIN",
+        "pin_hint": "3-6 chiffres. Utilisé pour l'auto-activation depuis le téléphone.",
+        "labels": "Étiquettes assignées"
+      },
+      "labels_placeholder": "Ajouter une étiquette…",
+      "labels_empty": "Pas encore d'étiquettes. Créez-en une depuis la section Étiquettes.",
+      "assigned": {
+        "picker_placeholder": "Rechercher ou ajouter un groupe…",
+        "picker_aria": "Ajouter un groupe à l'agent",
+        "counter": "{{count}} groupes",
+        "empty_title": "Aucun groupe assigné",
+        "empty": "Utilisez la recherche ci-dessus pour assigner le premier groupe à cet agent.",
+        "col_group": "Groupe",
+        "col_channels_here": "Canaux dans ce groupe",
+        "col_active": "Actif",
+        "active_aria": "Mettre en pause l'agent dans {{name}}",
+        "remove_aria": "Retirer l'agent de {{name}}"
+      },
+      "permissions": {
+        "manage_devices": "Gestion d'appareils",
+        "manage_devices_hint": "L'agent peut administrer ses appareils assignés",
+        "self_activate": "Activation par groupe",
+        "self_activate_hint": "L'agent peut s'activer ou se désactiver dans chaque groupe",
+        "calls_section": "Appels",
+        "destino": "Destination",
+        "col_llamada": "Appels",
+        "col_transferencia": "Transferts",
+        "toggle_all_llamada": "Activer/désactiver tous les appels",
+        "toggle_all_transferencia": "Activer/désactiver tous les transferts",
+        "row_fijos": "Fixes",
+        "row_moviles": "Mobiles",
+        "row_internacionales": "Internationaux",
+        "row_especial": "Numérotation spéciale"
+      },
+      "danger_zone_description": "Supprimer cet agent le désassigne de tous les groupes auxquels il participe. L'action ne peut pas être annulée."
+    },
+    "toasts": {
+      "created": "Agent \"{{name}}\" créé",
+      "updated": "Agent \"{{name}}\" mis à jour",
+      "deleted_single": "Agent \"{{name}}\" supprimé",
+      "deleted_bulk": "{{count}} agents supprimés",
+      "duplicated": "Agent \"{{name}}\" dupliqué comme brouillon"
+    },
+    "errors": {
+      "name_required": "Le nom est obligatoire",
+      "extension_required": "Sélectionnez une extension",
+      "channels_required": "Sélectionnez au moins un canal",
+      "email_invalid": "Entrez un email valide",
+      "pin_invalid": "Le PIN doit avoir entre 3 et 6 chiffres"
+    },
+    "empty": {
+      "title": "Pas encore d'agents",
+      "body": "Créez votre premier agent pour commencer à recevoir appels et conversations.",
+      "title_filtered": "Aucun agent trouvé",
+      "body_filtered": "Ajustez la recherche ou effacez les filtres pour voir plus de résultats."
+    },
+    "entity_plural": "agents",
+    "export": {
+      "code": "Code",
+      "name": "Nom",
+      "extension": "Extension",
+      "type": "Type",
+      "email": "Email",
+      "status": "État",
+      "groups": "Groupes",
+      "sheet": "Agents"
+    }
+  },
+  "config": {
+    "sidebar": {
+      "title": "Configuration AED",
+      "subtitle": "Paramètres de la plateforme",
+      "version": "SmartContact · v2.4.0",
+      "servicio_label": "Service",
+      "servicio_hint": "États et conversations",
+      "agentes_label": "Agents",
+      "agentes_hint": "Paramètres par défaut",
+      "grupos_label": "Groupes",
+      "grupos_hint": "Paramètres par défaut"
+    },
+    "aed": {
+      "title": "AED",
+      "heading": "Configuration AED",
+      "subtitle": "Paramètres globaux du distributeur automatique",
+      "section": {
+        "title": "Numérotation spéciale",
+        "hint": "Préfixes internationaux autorisés"
+      },
+      "info": "Sélectionnez les préfixes des pays autorisés à être marqués comme numérotation spéciale. Tous les préfixes sont désactivés par défaut.",
+      "search_placeholder": "Rechercher pays, préfixe ou code ISO...",
+      "no_results": "Aucun pays trouvé pour \"{{query}}\"",
+      "selected_chips": "Préfixes activés",
+      "discard": "Annuler",
+      "save": "Sauvegarder les modifications",
+      "saving": "Sauvegarde...",
+      "toast": {
+        "saved_one": "Numérotation spéciale sauvegardée (1 pays)",
+        "saved_many": "Numérotation spéciale sauvegardée ({{count}} pays)"
+      },
+      "subpages": {
+        "servicio": {
+          "heading": "Service",
+          "subtitle": "États des agents, paramètres de conversations et configuration opérationnelle.",
+          "estados": {
+            "title": "États",
+            "hint": "Personnalisez les états d'indisponibilité et configurez la visibilité des états entre agents.",
+            "tags_label": "États d'indisponibilité personnalisés",
+            "tags_hint": "Ces états seront disponibles pour que les agents les sélectionnent quand ils sont indisponibles.",
+            "tag_placeholder": "Appuyez sur Entrée ou cliquez sur le bouton ajouter.",
+            "add": "Ajouter",
+            "visibilidad_title": "Visibilité des états des autres agents",
+            "visibilidad_hint": "Sélectionnez quels états sont visibles pour le reste de l'équipe.",
+            "state_postConversando": "Post-conversation",
+            "state_conversando": "En conversation",
+            "state_administrativo": "Administratif",
+            "state_noDisponible": "Indisponible",
+            "state_desconectado": "Déconnecté",
+            "permisos_title": "Permissions des agents",
+            "permisos_hint": "Ces permissions servent à configurer divers paramètres.",
+            "filtrar_label": "Permettre de filtrer les états possibles",
+            "filtrar_hint": "Les agents pourront voir et filtrer les états disponibles selon leur configuration.",
+            "admin_label": "Permettre le travail administratif",
+            "admin_hint": "Les agents pourront activer l'état administratif pendant leur journée.",
+            "pausa_title": "Pause par inactivité",
+            "pausa_hint": "Définissez les temps de blocage automatique par manque de réponse.",
+            "standard_label": "Standard",
+            "standard_hint": "Temps de blocage pour chaque refus ou manque de réponse.",
+            "navegador_label": "Navigateur (multicanal)",
+            "navegador_hint": "Nombre maximum d'alertings non répondus.",
+            "alertings": "alertings",
+            "learn_more": "En savoir plus sur la gestion des états"
+          },
+          "conv": {
+            "title": "Conversations",
+            "hint": "Définissez le comportement par défaut dans la gestion des conversations et appels sortants.",
+            "descuelgue_label": "Type de décrochage par défaut",
+            "alerting_label": "Alerting du service",
+            "alerting_nombre": "Nom",
+            "alerting_telefono": "Numéro de téléphone",
+            "callblending_title": "Callblending",
+            "callblending_hint": "Configurez l'intégration de notifications pour appels sortants.",
+            "url_label": "URL de notification",
+            "url_placeholder": "https://exemple.com/webhook",
+            "timeout_label": "Timeout en appel sortant",
+            "eventos_label": "Événements de notification",
+            "evento_emision": "Émission",
+            "evento_llamadaEnCurso": "Appel en cours",
+            "evento_llamadaNoAtendida": "Appel non répondu",
+            "evento_llamadaAtendida": "Appel répondu par agent",
+            "evento_llamadaFinalizada": "Appel terminé",
+            "evento_llamadaRechazada": "Appel rejeté",
+            "learn_more": "En savoir plus sur la configuration des conversations"
+          },
+          "toast": {
+            "estados_saved": "États sauvegardés",
+            "conversaciones_saved": "Configuration de conversations sauvegardée"
+          }
+        },
+        "agentes": {
+          "heading": "Agents",
+          "subtitle": "Permissions et valeurs prédéterminées appliquées à tous les agents.",
+          "card_title": "Paramètres par défaut pour agents",
+          "card_hint": "Établissez les permissions et valeurs prédéterminées qui s'appliqueront à tous les agents de la plateforme.",
+          "llamadas": {
+            "title": "Appels",
+            "destino": "Destination",
+            "col_llamada": "Appel",
+            "col_transferencias": "Transferts",
+            "toggle_all_llamada": "Marquer toutes les destinations en Appel",
+            "toggle_all_transfer": "Marquer toutes les destinations en Transferts",
+            "row_fijos": "Fixes",
+            "row_moviles": "Mobiles",
+            "row_internacionales": "Internationaux",
+            "row_especial": "Numérotation spéciale"
+          },
+          "dispositivos": {
+            "title": "Permissions d'appareils",
+            "gestion_label": "Gestion d'appareils",
+            "gestion_hint": "Les agents pourront ajouter et supprimer leurs propres appareils.",
+            "activacion_label": "Activation par groupe de service AED",
+            "activacion_hint": "Permet aux agents de s'activer ou se désactiver par groupe de service.",
+            "externos_label": "Appareils externes",
+            "externos_hint": "Les agents pourront utiliser des terminaux physiques externes comme appareil actif."
+          },
+          "visualizacion": {
+            "title": "Visualisation",
+            "orden_label": "Ordre aléatoire des agents",
+            "orden_hint": "Les agents seront affichés en ordre aléatoire dans les listes et panneaux."
+          },
+          "iframe": {
+            "title": "Iframe configurable",
+            "hint": "Permet d'intégrer des URLs externes dans le panneau de l'agent.",
+            "activate_label": "Activer l'iframe configurable",
+            "activate_hint": "Les agents pourront avoir une URL fixe chargée dans un iframe à l'intérieur de leur interface.",
+            "url_label": "URL de l'iframe",
+            "url_placeholder": "https://exemple.com",
+            "titulo_label": "Titre (optionnel)",
+            "titulo_placeholder": "Mon outil"
+          },
+          "learn_more": "En savoir plus sur les paramètres d'agents",
+          "toast": {
+            "saved": "Paramètres d'agents sauvegardés"
+          }
+        },
+        "grupos": {
+          "heading": "Groupes",
+          "subtitle": "Capacité, temps et routage pour les groupes de service.",
+          "card_title": "Paramètres par défaut pour groupes",
+          "card_hint": "Définissez la capacité, les temps de gestion et la stratégie de routage pour les groupes de service.",
+          "capacidad": {
+            "title": "Capacité maximale",
+            "hint": "Définit comment la limite de conversations en file est calculée.",
+            "fija": "Fixe",
+            "variable": "Variable",
+            "limite_label": "Limite de file",
+            "limite_info": "Nombre maximum de conversations qui peuvent être en attente en même temps.",
+            "limite_suffix": "conversations en file"
+          },
+          "tiempos": {
+            "title": "Temps de gestion",
+            "hint": "Valeurs par défaut appliquées au traitement des appels du groupe.",
+            "transferencia": "Temps de transfert",
+            "max_cola": "Temps max. attente en file"
+          },
+          "voz": {
+            "title": "Voix et débordement",
+            "tipo_label": "Type de voix",
+            "desbordar_llamadas": "Déborder les appels",
+            "desbordar_llamadas_hint": "Redirige les appels lors du dépassement de la capacité du groupe.",
+            "desbordar_sesion": "Déborder la session",
+            "desbordar_sesion_hint": "Redirige les sessions actives lors du dépassement de la limite de concurrence."
+          },
+          "enrutamiento": {
+            "title": "Routage",
+            "hint": "Configurez la priorité et la stratégie de distribution de conversations.",
+            "prioridad": "Priorité",
+            "estrategia": "Stratégie de distribution"
+          },
+          "apertura": {
+            "title": "Ouverture de fiche",
+            "hint": "Définit quand la fiche du contact s'ouvre pendant une conversation.",
+            "automatica": "Automatique",
+            "manual": "Manuel",
+            "ninguna": "Aucune"
+          },
+          "learn_more": "En savoir plus sur les paramètres de groupes",
+          "toast": {
+            "saved": "Paramètres de groupes sauvegardés"
+          }
+        }
+      }
+    },
+    "seguridad": {
+      "title": "Sécurité",
+      "heading": "Sécurité",
+      "subtitle": "Politiques de sécurité et identifiants de la plateforme",
+      "subtitle_empty": "Section préparée pour futures configurations de sécurité",
+      "empty": {
+        "title": "Aucune option pour l'instant",
+        "body": "Les politiques de mots de passe et la régénération en masse ont été déplacées vers les paramètres système. Cette section est prête pour des configurations futures spécifiques à la sécurité."
+      },
+      "policies": {
+        "title": "Politiques de mots de passe",
+        "min_length": "Longueur minimale",
+        "min_length_hint": "Nombre minimum de caractères requis",
+        "expiration": "Expiration des mots de passe",
+        "expiration_hint": "Temps après lequel les mots de passe expirent",
+        "expiration_options": {
+          "never": "Sans expiration",
+          "days_30": "30 jours",
+          "days_60": "60 jours",
+          "days_90": "90 jours"
+        },
+        "special_chars": "Caractères spéciaux obligatoires",
+        "special_chars_hint": "Requiert au moins un caractère non alphanumérique"
+      },
+      "regen": {
+        "title": "Régénération de mots de passe",
+        "hint_collapsed": "(action administrative avancée)",
+        "warning_title": "Action irréversible",
+        "warning_body": "Régénérer les mots de passe invalide immédiatement les identifiants actuels des agents sélectionnés. Chaque agent devra utiliser le mot de passe temporaire fourni dans le fichier de téléchargement pour récupérer l'accès et définir un nouveau mot de passe.",
+        "use_case": "Utilisez cet outil pour récupérer l'accès d'agents ayant oublié leur mot de passe, ou face à un incident de sécurité (cyberattaque) requérant l'invalidation massive d'identifiants. Vous pouvez sélectionner des agents individuels ou utiliser \"Tout sélectionner\" pour une réinitialisation globale.",
+        "search_placeholder": "Rechercher un agent par nom, code, extension ou email...",
+        "selected_count": "{{count}} sélectionnés",
+        "active_count": "{{count}} agents actifs",
+        "no_active_agents": "Aucun agent actif dans le système",
+        "no_results": "Aucun résultat",
+        "confirm_title": "Confirmer la régénération",
+        "confirm_body": "Tapez {{confirm}} pour confirmer l'action sur {{count}} agents.",
+        "confirm_placeholder": "Tapez {{confirm}}...",
+        "execute": "Régénérer les mots de passe",
+        "processing": "Traitement...",
+        "result_count": "{{count}} mots de passe régénérés",
+        "download_csv": "Télécharger CSV"
+      },
+      "toast": {
+        "regenerated_one": "1 mot de passe a été régénéré. Téléchargez le fichier avec l'identifiant temporaire.",
+        "regenerated_many": "{{count}} mots de passe ont été régénérés. Téléchargez le fichier avec les identifiants temporaires.",
+        "csv_downloaded": "Fichier CSV téléchargé"
+      }
+    },
+    "sistema": {
+      "title": "Système",
+      "heading": "Système",
+      "subtitle": "Préférences générales de l'application",
+      "appearance": {
+        "title": "Apparence",
+        "hint": "(affecte ce navigateur)",
+        "theme_label": "Thème",
+        "theme_hint": "Choisissez comment l'interface s'affiche. L'option Système suit la préférence de votre système d'exploitation.",
+        "theme_light": "Clair",
+        "theme_dark": "Sombre",
+        "theme_system": "Système"
+      },
+      "language": {
+        "title": "Langue",
+        "hint": "(affecte ce navigateur)",
+        "label": "Langue de l'interface",
+        "lang_hint": "Choisissez la langue dans laquelle l'interface s'affiche. Le changement s'applique immédiatement.",
+        "es": "Espagnol",
+        "en": "Anglais",
+        "fr": "Français",
+        "pt": "Portugais"
+      },
+      "data": {
+        "title": "Données",
+        "hint": "(prototype)",
+        "reset_label": "Restaurer les données d'usine",
+        "reset_hint": "Efface les modifications que vous avez faites sur agents, groupes, utilisateurs, étiquettes, modèles et référentiels, et remet l'application à son état initial. Les préférences de thème et de colonnes sont conservées.",
+        "reset_button": "Restaurer",
+        "confirm_title": "Restaurer les données d'usine ?",
+        "confirm_body": "Cette action effacera toutes les modifications que vous avez faites sur agents, groupes, utilisateurs, étiquettes, modèles et référentiels. La page se rechargera."
+      }
+    }
+  }
+}

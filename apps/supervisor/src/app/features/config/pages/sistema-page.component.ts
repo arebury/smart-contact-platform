@@ -16,6 +16,7 @@ import {
   Download,
   Info,
   Key,
+  Globe,
   Loader2,
   LucideAngularModule,
   Monitor,
@@ -30,7 +31,13 @@ import {
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
-import { ConfirmHostService, ThemeService, type ThemeMode } from '@core/services';
+import {
+  ConfirmHostService,
+  LanguageService,
+  ThemeService,
+  type AppLanguage,
+  type ThemeMode,
+} from '@core/services';
 import { PageHeaderService } from '@core/services';
 import { ToggleSwitchComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
@@ -41,6 +48,12 @@ interface ThemeOption {
   readonly value: ThemeMode;
   readonly labelKey: string;
   readonly icon: typeof Sun;
+}
+
+interface LanguageOption {
+  readonly value: AppLanguage;
+  readonly labelKey: string;
+  readonly flag: string;
 }
 
 interface RegenerationResult {
@@ -90,6 +103,7 @@ const APP_DATA_PREFIX = 'smartcontact_';
 })
 export class SistemaPageComponent {
   protected readonly theme = inject(ThemeService);
+  protected readonly language = inject(LanguageService);
   private readonly confirm = inject(ConfirmHostService);
   private readonly translate = inject(TranslateService);
   private readonly doc = inject(DOCUMENT);
@@ -124,6 +138,15 @@ export class SistemaPageComponent {
     { value: 'light', labelKey: 'config.sistema.appearance.theme_light', icon: Sun },
     { value: 'dark', labelKey: 'config.sistema.appearance.theme_dark', icon: Moon },
     { value: 'system', labelKey: 'config.sistema.appearance.theme_system', icon: Monitor },
+  ];
+
+  protected readonly globeIcon = Globe;
+
+  protected readonly languageOptions: readonly LanguageOption[] = [
+    { value: 'es', labelKey: 'config.sistema.language.es', flag: '🇪🇸' },
+    { value: 'en', labelKey: 'config.sistema.language.en', flag: '🇬🇧' },
+    { value: 'fr', labelKey: 'config.sistema.language.fr', flag: '🇫🇷' },
+    { value: 'pt', labelKey: 'config.sistema.language.pt', flag: '🇵🇹' },
   ];
 
   protected readonly confirmPhraseToken = CONFIRM_PHRASE;

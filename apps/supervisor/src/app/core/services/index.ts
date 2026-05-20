@@ -22,6 +22,9 @@ export { CrossTabLockService } from './cross-tab-lock.service';
 export { ThemeService } from './theme.service';
 export type { ThemeMode } from './theme.service';
 
+export { LanguageService } from './language.service';
+export type { AppLanguage } from './language.service';
+
 export { KeyboardShortcutsService } from './keyboard-shortcuts.service';
 
 export { PageHeaderService } from './page-header.service';
