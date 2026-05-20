@@ -4,8 +4,8 @@ import { GROUP_AGENT_LINKS_SEED } from './group-agent-links.seed';
 import { GroupAgentLinksStore } from './group-agent-links.store';
 import { GroupAgentLink } from './group-agent-links.types';
 
-const STORAGE_KEY = 'smartcontact_group_agent_links';
-const VERSION_KEY = 'smartcontact_group_agent_links_v';
+const STORAGE_KEY = 'sc-group-agent-links';
+const VERSION_KEY = 'sc-group-agent-links-v';
 
 describe('GroupAgentLinksStore', () => {
   beforeEach(() => {

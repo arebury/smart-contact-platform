@@ -72,7 +72,7 @@ interface PendingBulkEdit {
 /* v2 — schema bumped from a Set<string> to an ordered string[] when the
  * ColumnSelector gained drag-to-reorder + per-column defaultVisible.
  * Older `_v1` caches no longer parse and are silently ignored. */
-const COLUMN_PREF_KEY = 'sc_agents_columns_v2';
+const COLUMN_PREF_KEY = 'sc-agents-columns-v2';
 const AGENT_TYPES: readonly AgentType[] = ['normal', 'cuscare', 'cuscare_carrier', 'admin_cuscare'];
 const PRESENCE_STATES: readonly PresenceStatus[] = [
   'disponible',

@@ -89,8 +89,8 @@ const SEED: readonly Intencion[] = [
 @Injectable({ providedIn: 'root' })
 export class IntencionesStore implements RepoStore<Intencion> {
   private readonly store: LocalStore<Intencion> = createLocalStore<Intencion>({
-    storageKey: 'smartcontact_intenciones_repo',
-    versionKey: 'smartcontact_intenciones_repo_v',
+    storageKey: 'sc-intenciones-repo',
+    versionKey: 'sc-intenciones-repo-v',
     currentVersion: 1,
     defaults: SEED,
   });

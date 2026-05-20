@@ -17,8 +17,8 @@ function nextCode(items: readonly Group[]): string {
 @Injectable({ providedIn: 'root' })
 export class GroupsStore {
   private readonly store: LocalStore<Group> = createLocalStore<Group>({
-    storageKey: 'smartcontact_groups',
-    versionKey: 'smartcontact_groups_v',
+    storageKey: 'sc-groups',
+    versionKey: 'sc-groups-v',
     currentVersion: 1,
     defaults: GROUPS_SEED,
   });

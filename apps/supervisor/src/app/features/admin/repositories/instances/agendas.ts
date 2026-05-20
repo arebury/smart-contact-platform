@@ -75,8 +75,8 @@ const SEED: readonly Agenda[] = [
 @Injectable({ providedIn: 'root' })
 export class AgendasStore implements RepoStore<Agenda> {
   private readonly store: LocalStore<Agenda> = createLocalStore<Agenda>({
-    storageKey: 'smartcontact_agendas_repo',
-    versionKey: 'smartcontact_agendas_repo_v',
+    storageKey: 'sc-agendas-repo',
+    versionKey: 'sc-agendas-repo-v',
     currentVersion: 1,
     defaults: SEED,
   });

@@ -2,7 +2,7 @@ import { computed, effect, inject, Injectable, signal, DOCUMENT } from '@angular
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
-const STORAGE_KEY = 'sc_theme';
+const STORAGE_KEY = 'sc-theme';
 const DARK_CLASS = 'sc-dark';
 
 /**
@@ -14,7 +14,7 @@ const DARK_CLASS = 'sc-dark';
  *
  * `system` follows `prefers-color-scheme: dark` and reacts live to the
  * OS-level switch. The chosen mode is persisted to `localStorage` under
- * `sc_theme`; missing or invalid values fall back to `system`.
+ * `sc-theme`; missing or invalid values fall back to `system`.
  */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {

@@ -63,12 +63,22 @@ interface RegenerationResult {
 
 const CONFIRM_PHRASE = 'REGENERAR';
 
-/* All app data lives under the `smartcontact_*` localStorage namespace
- * (see every store's `storageKey` / `versionKey`). Resetting wipes only
- * those keys — `sc_theme`, column visibility prefs, and any other UX
- * state stays intact. After clearing we reload so each store re-seeds
- * from its `defaults`. */
-const APP_DATA_PREFIX = 'smartcontact_';
+/* All app data lives bajo `sc-*` (post-S47 namespace normalization). El
+ * factory reset borra los stores de admin y repositorios pero PRESERVA
+ * preferencias UX (theme, language, column prefs, migration marker).
+ *
+ * Whitelist explícita en vez de prefix match: tras la normalization todo
+ * vive bajo `sc-*`, así que un prefix match borraría también theme + idioma.
+ * La whitelist es cero-ambigüedad y reportable.
+ */
+const APP_DATA_PRESERVE_KEYS: ReadonlySet<string> = new Set([
+  'sc-theme',
+  'sc-language',
+  'sc-storage-migration-v1',
+]);
+/** Sufijos que preservamos (column prefs admin list-pages `sc-X-columns-vN`). */
+const APP_DATA_PRESERVE_SUFFIXES: readonly string[] = ['-columns-v1', '-columns-v2'];
+const APP_DATA_PREFIX = 'sc-';
 
 /**
  * Sistema page (`/config/sistema`).
@@ -207,7 +217,10 @@ export class SistemaPageComponent {
     const toRemove: string[] = [];
     for (let i = 0; i < storage.length; i++) {
       const key = storage.key(i);
-      if (key && key.startsWith(APP_DATA_PREFIX)) toRemove.push(key);
+      if (!key || !key.startsWith(APP_DATA_PREFIX)) continue;
+      if (APP_DATA_PRESERVE_KEYS.has(key)) continue;
+      if (APP_DATA_PRESERVE_SUFFIXES.some((suffix) => key.endsWith(suffix))) continue;
+      toRemove.push(key);
     }
     for (const key of toRemove) storage.removeItem(key);
 

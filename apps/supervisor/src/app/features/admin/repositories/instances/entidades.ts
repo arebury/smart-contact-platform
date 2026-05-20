@@ -75,8 +75,8 @@ const SEED: readonly Entidad[] = [
 @Injectable({ providedIn: 'root' })
 export class EntidadesStore implements RepoStore<Entidad> {
   private readonly store: LocalStore<Entidad> = createLocalStore<Entidad>({
-    storageKey: 'smartcontact_entidades_repo',
-    versionKey: 'smartcontact_entidades_repo_v',
+    storageKey: 'sc-entidades-repo',
+    versionKey: 'sc-entidades-repo-v',
     currentVersion: 1,
     defaults: SEED,
   });

@@ -100,8 +100,8 @@ const SEED: readonly RepoVariable[] = [
 @Injectable({ providedIn: 'root' })
 export class VariablesStore implements RepoStore<RepoVariable> {
   private readonly store: LocalStore<RepoVariable> = createLocalStore<RepoVariable>({
-    storageKey: 'smartcontact_variables_repo',
-    versionKey: 'smartcontact_variables_repo_v',
+    storageKey: 'sc-variables-repo',
+    versionKey: 'sc-variables-repo-v',
     currentVersion: 1,
     defaults: SEED,
   });

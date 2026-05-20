@@ -69,7 +69,7 @@ interface PendingBulkEdit {
 
 /* v2 — bumped when ColumnSelector schema changed (set → ordered array)
  * and when `code` started shipping hidden by default. */
-const COLUMN_PREF_KEY = 'sc_groups_columns_v2';
+const COLUMN_PREF_KEY = 'sc-groups-columns-v2';
 
 @Component({
   selector: 'sc-groups-list-page',

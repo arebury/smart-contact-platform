@@ -12,8 +12,8 @@ function today(): string {
 @Injectable({ providedIn: 'root' })
 export class TemplatesStore {
   private readonly store: LocalStore<Template> = createLocalStore<Template>({
-    storageKey: 'smartcontact_templates',
-    versionKey: 'smartcontact_templates_v',
+    storageKey: 'sc-templates',
+    versionKey: 'sc-templates-v',
     currentVersion: 1,
     defaults: TEMPLATES_SEED,
   });

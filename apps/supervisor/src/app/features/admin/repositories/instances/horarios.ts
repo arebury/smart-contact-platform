@@ -84,8 +84,8 @@ const SEED: readonly Horario[] = [
 @Injectable({ providedIn: 'root' })
 export class HorariosStore implements RepoStore<Horario> {
   private readonly store: LocalStore<Horario> = createLocalStore<Horario>({
-    storageKey: 'smartcontact_horarios_repo',
-    versionKey: 'smartcontact_horarios_repo_v',
+    storageKey: 'sc-horarios-repo',
+    versionKey: 'sc-horarios-repo-v',
     currentVersion: 1,
     defaults: SEED,
   });

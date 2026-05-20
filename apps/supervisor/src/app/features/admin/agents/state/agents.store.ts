@@ -17,8 +17,8 @@ function nextCode(items: readonly Agent[]): string {
 @Injectable({ providedIn: 'root' })
 export class AgentsStore {
   private readonly store: LocalStore<Agent> = createLocalStore<Agent>({
-    storageKey: 'smartcontact_agents',
-    versionKey: 'smartcontact_agents_v',
+    storageKey: 'sc-agents',
+    versionKey: 'sc-agents-v',
     /** Bumped to 2 when the slim Agent type was expanded with the full schema. */
     currentVersion: 2,
     defaults: AGENTS_SEED,

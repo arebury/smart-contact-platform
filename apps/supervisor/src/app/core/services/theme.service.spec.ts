@@ -20,13 +20,13 @@ describe('ThemeService', () => {
   });
 
   it('reads a persisted "dark" value on init', () => {
-    localStorage.setItem('sc_theme', 'dark');
+    localStorage.setItem('sc-theme', 'dark');
     const svc = TestBed.inject(ThemeService);
     expect(svc.mode()).toBe('dark');
   });
 
   it('falls back to "system" when the persisted value is invalid', () => {
-    localStorage.setItem('sc_theme', 'banana');
+    localStorage.setItem('sc-theme', 'banana');
     const svc = TestBed.inject(ThemeService);
     expect(svc.mode()).toBe('system');
   });
@@ -44,14 +44,14 @@ describe('ThemeService', () => {
       // The effect that writes localStorage runs on the next microtask;
       // flush by awaiting `Promise.resolve()` so the assertion sees the write.
       TestBed.flushEffects();
-      expect(localStorage.getItem('sc_theme')).toBe('dark');
+      expect(localStorage.getItem('sc-theme')).toBe('dark');
     });
 
     it('persists "system" as a deliberate choice (does NOT clear)', () => {
       const svc = TestBed.inject(ThemeService);
       svc.set('system');
       TestBed.flushEffects();
-      expect(localStorage.getItem('sc_theme')).toBe('system');
+      expect(localStorage.getItem('sc-theme')).toBe('system');
     });
   });
 

@@ -18,8 +18,8 @@ function today(): string {
 @Injectable({ providedIn: 'root' })
 export class UsersStore {
   private readonly store: LocalStore<User> = createLocalStore<User>({
-    storageKey: 'smartcontact_users',
-    versionKey: 'smartcontact_users_v',
+    storageKey: 'sc-users',
+    versionKey: 'sc-users-v',
     currentVersion: 1,
     defaults: USERS_SEED,
   });

@@ -33,7 +33,7 @@ import {
 import { USER_TYPE_LABEL_KEYS, USER_TYPES, User, UserType } from '../data/users-data';
 import { UsersStore } from '../state/users.store';
 
-const COLUMN_PREF_KEY = 'sc_users_columns_v1';
+const COLUMN_PREF_KEY = 'sc-users-columns-v1';
 
 type SortField = 'name' | 'email' | 'type' | 'identifier' | 'status';
 

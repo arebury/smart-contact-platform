@@ -22,8 +22,8 @@ describe('LabelsPageComponent', () => {
   });
 
   it('shows the empty state when there are no labels', () => {
-    localStorage.setItem('smartcontact_labels', JSON.stringify([]));
-    localStorage.setItem('smartcontact_labels_v', '1');
+    localStorage.setItem('sc-labels', JSON.stringify([]));
+    localStorage.setItem('sc-labels-v', '1');
     const fixture = TestBed.createComponent(LabelsPageComponent);
     fixture.detectChanges();
     expect(fixture.nativeElement.querySelector('.empty')).not.toBeNull();

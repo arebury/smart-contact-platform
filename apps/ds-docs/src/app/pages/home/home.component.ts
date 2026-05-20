@@ -466,7 +466,7 @@ export class HomeComponent {
       name: 'Form section nav',
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
-      aedUses: 3,
+      aedUses: 5,
       memoryUses: 0,
       pageRoute: '/components/form-section-nav',
       whatItDoes:
@@ -619,7 +619,7 @@ export class HomeComponent {
       name: 'Sticky form header',
       type: 'pure-sc',
       parity: 'no-figma-equivalent',
-      aedUses: 3,
+      aedUses: 6,
       memoryUses: 0,
       pageRoute: '/components/sticky-form-header',
       whatItDoes:

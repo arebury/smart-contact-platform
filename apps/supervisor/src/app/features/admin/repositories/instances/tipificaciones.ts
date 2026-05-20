@@ -103,8 +103,8 @@ const SEED: readonly Tipificacion[] = [
 @Injectable({ providedIn: 'root' })
 export class TipificacionesStore implements RepoStore<Tipificacion> {
   private readonly store: LocalStore<Tipificacion> = createLocalStore<Tipificacion>({
-    storageKey: 'smartcontact_tipificaciones_repo',
-    versionKey: 'smartcontact_tipificaciones_repo_v',
+    storageKey: 'sc-tipificaciones-repo',
+    versionKey: 'sc-tipificaciones-repo-v',
     currentVersion: 1,
     defaults: SEED,
   });

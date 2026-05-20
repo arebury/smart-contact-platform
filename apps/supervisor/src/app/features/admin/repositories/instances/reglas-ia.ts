@@ -84,8 +84,8 @@ const SEED: readonly ReglaIA[] = [
 @Injectable({ providedIn: 'root' })
 export class ReglasIAStore implements RepoStore<ReglaIA> {
   private readonly store: LocalStore<ReglaIA> = createLocalStore<ReglaIA>({
-    storageKey: 'smartcontact_reglas_ia_repo',
-    versionKey: 'smartcontact_reglas_ia_repo_v',
+    storageKey: 'sc-reglas-ia-repo',
+    versionKey: 'sc-reglas-ia-repo-v',
     currentVersion: 1,
     defaults: SEED,
   });

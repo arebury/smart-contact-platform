@@ -6,8 +6,8 @@ import { Label, LABELS_SEED } from '../data/labels-data';
 @Injectable({ providedIn: 'root' })
 export class LabelsStore {
   private readonly store: LocalStore<Label> = createLocalStore<Label>({
-    storageKey: 'smartcontact_labels',
-    versionKey: 'smartcontact_labels_v',
+    storageKey: 'sc-labels',
+    versionKey: 'sc-labels-v',
     currentVersion: 1,
     defaults: LABELS_SEED,
   });

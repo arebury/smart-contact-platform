@@ -75,8 +75,8 @@ const SEED: readonly ClasificacionIA[] = [
 @Injectable({ providedIn: 'root' })
 export class ClasificacionIAStore implements RepoStore<ClasificacionIA> {
   private readonly store: LocalStore<ClasificacionIA> = createLocalStore<ClasificacionIA>({
-    storageKey: 'smartcontact_clasificacion_ia_repo',
-    versionKey: 'smartcontact_clasificacion_ia_repo_v',
+    storageKey: 'sc-clasificacion-ia-repo',
+    versionKey: 'sc-clasificacion-ia-repo-v',
     currentVersion: 1,
     defaults: SEED,
   });
