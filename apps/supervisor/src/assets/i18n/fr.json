@@ -142,7 +142,9 @@
         "aria_player": "Lecteur multi-tronçons",
         "aria_seek": "Chercher position dans le tronçon actif",
         "aria_radiogroup": "Sélectionnez un tronçon",
-        "leg_transcribed": "Tronçon transcrit"
+        "leg_transcribed": "Tronçon transcrit",
+        "leg_default_label": "Enregistrement {{idx}}",
+        "leg_aria": "Tronçon {{idx}} : {{label}}, {{duration}}, commence à {{startTime}}"
       },
       "download_audio_toast": "Téléchargement de l'audio",
       "download_chat_toast": "Téléchargement de la conversation",

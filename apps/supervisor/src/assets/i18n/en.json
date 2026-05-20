@@ -142,7 +142,9 @@
         "aria_player": "Multi-leg player",
         "aria_seek": "Seek position in the active leg",
         "aria_radiogroup": "Select a leg",
-        "leg_transcribed": "Leg transcribed"
+        "leg_transcribed": "Leg transcribed",
+        "leg_default_label": "Recording {{idx}}",
+        "leg_aria": "Leg {{idx}}: {{label}}, {{duration}}, starts at {{startTime}}"
       },
       "download_audio_toast": "Downloading audio",
       "download_chat_toast": "Downloading conversation",

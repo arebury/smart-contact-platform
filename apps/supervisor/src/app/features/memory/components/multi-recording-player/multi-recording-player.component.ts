@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { TranslateModule } from '@ngx-translate/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Check, LucideAngularModule, Pause, Play, RotateCcw, RotateCw } from 'lucide-angular';
 
 import type { Recording } from '../../data/conversation.types';
@@ -35,6 +35,8 @@ import type { Recording } from '../../data/conversation.types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MultiRecordingPlayerComponent {
+  private readonly translate = inject(TranslateService);
+
   readonly recordings = input.required<readonly Recording[]>();
   readonly selectedId = input.required<string>();
   readonly isPlaying = input.required<boolean>();
@@ -138,11 +140,18 @@ export class MultiRecordingPlayerComponent {
   }
 
   protected labelText(rec: Recording, idx: number): string {
-    return rec.label ?? `Grabación ${idx + 1}`;
+    return (
+      rec.label ?? this.translate.instant('memory.player.multi.leg_default_label', { idx: idx + 1 })
+    );
   }
 
   protected ariaLabel(rec: Recording, idx: number): string {
-    return `Tramo ${idx + 1}: ${this.labelText(rec, idx)}, ${rec.duration}, comienza a las ${rec.startTime}`;
+    return this.translate.instant('memory.player.multi.leg_aria', {
+      idx: idx + 1,
+      label: this.labelText(rec, idx),
+      duration: rec.duration,
+      startTime: rec.startTime,
+    });
   }
 }
 

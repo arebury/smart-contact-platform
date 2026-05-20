@@ -142,7 +142,9 @@
         "aria_player": "Reproductor multi-tramo",
         "aria_seek": "Buscar posición en el tramo activo",
         "aria_radiogroup": "Selecciona un tramo",
-        "leg_transcribed": "Tramo transcrito"
+        "leg_transcribed": "Tramo transcrito",
+        "leg_default_label": "Grabación {{idx}}",
+        "leg_aria": "Tramo {{idx}}: {{label}}, {{duration}}, comienza a las {{startTime}}"
       },
       "download_audio_toast": "Descargando audio",
       "download_chat_toast": "Descargando conversación",

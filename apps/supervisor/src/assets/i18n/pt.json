@@ -142,7 +142,9 @@
         "aria_player": "Reprodutor multi-trecho",
         "aria_seek": "Buscar posição no trecho ativo",
         "aria_radiogroup": "Selecione um trecho",
-        "leg_transcribed": "Trecho transcrito"
+        "leg_transcribed": "Trecho transcrito",
+        "leg_default_label": "Gravação {{idx}}",
+        "leg_aria": "Trecho {{idx}}: {{label}}, {{duration}}, começa às {{startTime}}"
       },
       "download_audio_toast": "Baixando áudio",
       "download_chat_toast": "Baixando conversa",
