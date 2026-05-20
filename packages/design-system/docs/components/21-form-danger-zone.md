@@ -105,4 +105,4 @@ Pendiente — gallery `/components/form-danger-zone` con basic, disabled, custom
 
 ## Figma reference
 
-**No aplica** — pattern in-house. Visual inspiración: GitHub settings danger zone, Stripe organization delete. Si Marta lo modela, anotar URL.
+**No aplica** — pattern in-house. Visual inspiración: GitHub settings danger zone, Stripe organization delete. Si el equipo de diseño lo modela, anotar URL.

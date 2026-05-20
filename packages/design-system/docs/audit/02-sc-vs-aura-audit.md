@@ -170,7 +170,7 @@ Aura tiene su propia `yellow` scale con valores distintos.
 **Veredicto**: ✅ valores idénticos a Aura `amber`. 🔴 naming
 ("yellow" cuando es amber) sin justificación. La GUIA usa "amber"
 informalmente (L43-45 `--sc-label-amber-*`) pero el primitive
-layer dice "yellow". **Fricción potencial**: cuando Marta exporte
+layer dice "yellow". **Fricción potencial**: cuando el equipo de diseño exporte
 Figma con `amber/*`, no matcheará el nombre del primitive.
 
 **Decisión pendiente**: ¿renombrar `--sc-color-yellow-*` →

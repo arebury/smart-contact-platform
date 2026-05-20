@@ -156,7 +156,7 @@ requiere notación libre.
 | Figma nodeId | `229:10217` |
 | Figma componentKey | `ea4945599408e7c3b41a232b03f51c24baa35b59` |
 | Variant default | _Verificar al primer uso real_ |
-| **Estado actual** | **DECLINE** mapping directo. Ver `inconsistencies-backlog.md §S34` — `❖ Panel` vive en library externa PrimeOne no auditada desde SC file. Riesgo visual silencioso. Re-evaluar cuando Marta audite Panel en SC. |
+| **Estado actual** | **DECLINE** mapping directo. Ver `inconsistencies-backlog.md §S34` — `❖ Panel` vive en library externa PrimeOne no auditada desde SC file. Riesgo visual silencioso. Re-evaluar cuando el equipo de diseño audite Panel en SC. |
 
 ---
 
@@ -201,7 +201,7 @@ Pares "token Angular ↔ Variable Figma" verificados en S41:
 **Pendiente**: 6 divergencias Custom SC documentadas en
 `inconsistencies-backlog.md` esperan a tener su Variable propia
 cuando se haga el bootstrap Custom collection (eje 4 punto 1 del
-mapa estratégico, dormido hasta que Marta + Rafa se pongan):
+mapa estratégico, dormido hasta que el equipo de diseño + Rafa se pongan):
 
 - Navy primary (`#1B273D`)
 - Electric blue info (`#48B8C9` aprox, el teal-info del prototipo)
@@ -238,7 +238,7 @@ mapa estratégico, dormido hasta que Marta + Rafa se pongan):
 S48 evaluamos publicar Code Connect oficial (`@figma/code-connect` CLI + `*.figma.ts`
 con `parser: "html"`, Angular soportado desde oct/2024). **Decisión: posponer**.
 
-Razón principal: **este repo es del equipo de diseño (Rafa + Marta + Claude). Los devs
+Razón principal: **este repo es del equipo de diseño (equipo de diseño + Claude). Los devs
 de producción que aplicarán SCDS NO tienen acceso a este repo**. Publicar Code Connect
 hoy generaría:
 
@@ -256,7 +256,7 @@ válido para Shopify/GitHub-style equipos compartiendo codebase) **no aplica aqu
 los devs prod no tienen PrimeNG ni SCDS, tienen su propio stack.
 
 Mientras tanto, este `code-connect-mapping.md` cubre el rol de source-of-truth interno
-del mapping Angular↔Figma para sparring entre Rafa/Marta/Claude. Suficiente.
+del mapping Angular↔Figma para sparring entre el equipo/Claude. Suficiente.
 
 ### Trigger de reapertura
 
@@ -361,7 +361,7 @@ Más los pre-existentes:
 
 - Si renombramos un wrapper SCDS, **actualizar este doc también** (regla DD-8 ya cubre
   naming portable, pero conviene re-leer este doc al hacer rename).
-- Si Marta re-publica el Kit Pro con nuevos nodeIds, los IDs documentados arriba pueden
+- Si el equipo de diseño re-publica el Kit Pro con nuevos nodeIds, los IDs documentados arriba pueden
   obsolescer. No crítico mientras esté dormido — se re-verifican al reabrir.
 - Si sale `@figma/code-connect@2.x` con breaking changes en parser html, este setup
   puede quedar obsoleto. Re-validar al reabrir.

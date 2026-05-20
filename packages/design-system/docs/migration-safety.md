@@ -227,7 +227,7 @@ Documentado en `customs-catalog.md §5` para futura referencia.
 
 ### Bajo riesgo
 
-- **Drift Figma ↔ código**: si Marta cambia un valor en Figma SC sin pasar por customs-catalog → no rompe runtime, pero el design system se desincroniza. Mitigación: auditorías periódicas (S30, S31 hechas).
+- **Drift Figma ↔ código**: si el equipo de diseño cambia un valor en Figma SC sin pasar por customs-catalog → no rompe runtime, pero el design system se desincroniza. Mitigación: auditorías periódicas (S30, S31 hechas).
 - **PrimeNG patches sin breaking changes** (21.x → 21.y): el bridge protege.
 
 ### Medio riesgo

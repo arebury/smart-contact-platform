@@ -205,7 +205,7 @@ Idéntico a sc-inputtext/sc-select. Reuso 100% del bridge `--p-inputtext-*`.
 
 ## Divergencias documentadas
 
-- **Sizes sm / md / lg**: añadidos por consistencia con `sc-inputtext` / `sc-select`. **NO existen en Figma** — el Figma solo modela densidad Normal. Las clases `--sm / --lg` modulan font-size + padding-y vía sc-preset (mismo escalado que sc-inputtext). Si en algún momento Marta define densidades específicas, ajustar.
+- **Sizes sm / md / lg**: añadidos por consistencia con `sc-inputtext` / `sc-select`. **NO existen en Figma** — el Figma solo modela densidad Normal. Las clases `--sm / --lg` modulan font-size + padding-y vía sc-preset (mismo escalado que sc-inputtext). Si en algún momento el equipo de diseño define densidades específicas, ajustar.
 - **Hover state**: no es un variant Figma separado; preset CSS lo pinta a `slate-400` border. Mismo patrón que sc-inputtext/sc-select.
 - **Invalid state**: no es variant Figma; preset pinta `--sc-border-error` cuando hay `aria-invalid`. Activado por `[error]` o por FormControl invalid+touched.
 - **Inline Time / Inline Month / Inline Year**: el componente acepta `[view]="month"|"year"` pero NO expone time-picker en v1 (`[showTime]` no implementado). Cuando llegue caso real, las medidas ya están extraídas arriba — solo flag toggle.

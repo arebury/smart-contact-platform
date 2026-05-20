@@ -61,7 +61,7 @@ export class ToastGalleryComponent {
     this.messages.add({
       severity: 'info',
       summary: 'Nuevo agente conectado',
-      detail: 'Marta acaba de iniciar sesión.',
+      detail: 'Una persona acaba de iniciar sesión.',
       life: 3000,
     });
   }

@@ -7,7 +7,7 @@ import type { Conversation } from './conversation.types';
  * Cada sample es una re-shaping del mock base `MOCK_CONVERSATIONS` que
  * demuestra un estado distinto del prototipo. La `ConversationsPage`
  * expone un switcher arriba a la derecha (clase demo) para que Rafa,
- * Marta o un stakeholder cycle entre escenarios sin recargar mock
+ * el equipo de diseño o un stakeholder cycle entre escenarios sin recargar mock
  * manualmente.
  *
  * Réplica del prototipo React `data/mockSamples.ts` adaptado al mock

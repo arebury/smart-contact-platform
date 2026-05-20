@@ -139,7 +139,7 @@ describe('DeleteEntityDialogComponent', () => {
 
       // Caller swaps to a different target — typed text must clear so
       // the previous "match" doesn't accidentally enable confirm.
-      host.items = [{ id: 99, name: 'Marta Recio' }];
+      host.items = [{ id: 99, name: 'Inés Recio' }];
       fixture.detectChanges();
 
       const confirmBtn = findInside<HTMLButtonElement>(

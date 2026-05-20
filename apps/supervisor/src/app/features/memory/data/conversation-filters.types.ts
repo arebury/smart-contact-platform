@@ -14,7 +14,7 @@
  *     pasan). Al menos uno activado = solo las que cumplan.
  *
  * `date` migrado simplificado desde `dateRange: string` del prototipo:
- * `sc-datepicker` v1 solo soporta single date. Si Marta pide rangos,
+ * `sc-datepicker` v1 solo soporta single date. Si el equipo de diseño pide rangos,
  * escalamos en iter futura (anotado en `docs/memory-migration-inventory.md §10`).
  */
 export interface MemoryConversationFilters {

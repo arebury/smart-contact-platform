@@ -52,7 +52,7 @@
 ┌──────────────────────────────────────────────────────┐
 │ Eliminar usuario                              [✕]    │
 ├──────────────────────────────────────────────────────┤
-│ Vas a eliminar el usuario "Marta López".             │
+│ Vas a eliminar el usuario "Inés López".             │
 │ Esta acción no se puede deshacer.                    │
 │                                                      │
 │ Escribe el nombre para confirmar:                    │
@@ -64,7 +64,7 @@
 └──────────────────────────────────────────────────────┘
 ```
 
-El usuario tiene que tipear "Marta López" para activar Eliminar (case-sensitive). El button **📋 Copiar** es un Fitts shortcut: copia el name al clipboard + emite toast, así el usuario puede pegar (Cmd+V) en vez de tipear.
+El usuario tiene que tipear "Inés López" para activar Eliminar (case-sensitive). El button **📋 Copiar** es un Fitts shortcut: copia el name al clipboard + emite toast, así el usuario puede pegar (Cmd+V) en vez de tipear.
 
 ### `bulk` — chip pruning
 
@@ -76,7 +76,7 @@ El usuario tiene que tipear "Marta López" para activar Eliminar (case-sensitive
 │ Esta acción no se puede deshacer.                      │
 │                                                        │
 │ ┌─────────────────────────────────────────────────┐   │
-│ │ Marta López                              ×      │   │
+│ │ Inés López                              ×      │   │
 │ │ Carlos Ruiz                              ×      │   │
 │ │ Ana Soto                                 ×      │   │
 │ └─────────────────────────────────────────────────┘   │

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 /**
  * ds-docs smoke tests — valida que el sitio independiente carga + las
- * galleries clave funcionan (las que más visitadas son por Marta).
+ * galleries clave funcionan (las que más visitadas son por el equipo de diseño).
  */
 
 const DS_DOCS = 'http://localhost:4201';

@@ -29,7 +29,7 @@ type FigmaParity = 'audited-full' | 'audited-partial' | 'no-figma-equivalent';
  * Agrupación visual del catálogo. Inspirado en Polaris / Carbon — los
  * componentes viven por función, no por orden de creación. El tracker
  * agrupa las cards y la lista filtrable por estas categorías para que
- * Marta encuentre piezas relacionadas juntas sin scrollear toda la lista.
+ * el equipo de diseño encuentre piezas relacionadas juntas sin scrollear toda la lista.
  */
 type ComponentCategory =
   | 'form'
@@ -778,7 +778,7 @@ export class HomeComponent {
   }
 
   /**
-   * Copy corto para el chip de paridad. El label debe ser legible para Marta
+   * Copy corto para el chip de paridad. El label debe ser legible paral equipo de diseño
    * (diseño), sin jargon técnico. La distinción es: ¿se parece el código a lo
    * que hay en Figma SC?
    */

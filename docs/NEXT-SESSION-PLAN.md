@@ -133,8 +133,8 @@ Ver [`memory-migration-inventory.md §10`](./memory-migration-inventory.md). Ite
 - **#31 modular theme PrimeNG** — el proyecto NO va a producción real con backend (decisión Rafa S47). Sin trigger Web Vitals real → trabajo en vacío.
 - **§10 #3 `<sc-audio-player>` wrapper SCDS** — declinado S46 (DM-7).
 - **`<sc-data-table>`, `<sc-select-button>`, `<sc-tag>`, `<sc-toggle-button>`** — gaps documentados sin caso real.
-- **#44/#45 off-scale spacing/radius con tokens nuevos** — decisión Marta+Rafa (S47 forzado a tokens existentes).
-- **#48 Icon size tokens** — esperando que Marta cree iconset Figma.
+- **#44/#45 off-scale spacing/radius con tokens nuevos** — decisión el equipo (S47 forzado a tokens existentes).
+- **#48 Icon size tokens** — esperando que el equipo de diseño cree iconset Figma.
 - **#50 Duration tokens** — descartado conscientemente (Figma no exporta variables duration).
 - **#51 i18n duplicates (107 restantes)** — esperar traductor profesional para validar contextos.
 - **localStorage keys legacy migration** — ya hecha S47 con marker idempotente.

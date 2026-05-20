@@ -132,4 +132,4 @@ Pendiente — gallery `/components/confirm-host` con:
 
 ## Figma reference
 
-**No aplica** — composición sobre `<sc-dialog>` (que sí tiene Figma reference). Si Marta modela el flujo confirm específicamente, anotar URL.
+**No aplica** — composición sobre `<sc-dialog>` (que sí tiene Figma reference). Si el equipo de diseño modela el flujo confirm específicamente, anotar URL.

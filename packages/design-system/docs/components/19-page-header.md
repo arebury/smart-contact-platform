@@ -119,4 +119,4 @@ Pendiente — gallery `/components/page-header` con:
 
 ## Figma reference
 
-**No aplica** — pattern in-house. La consistencia visual con sticky-form-header está validada en código (mismos tokens). Si Marta modela ambos como un solo "Header" component family en Figma, anotar URL.
+**No aplica** — pattern in-house. La consistencia visual con sticky-form-header está validada en código (mismos tokens). Si el equipo de diseño modela ambos como un solo "Header" component family en Figma, anotar URL.

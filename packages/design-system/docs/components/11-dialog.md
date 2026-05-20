@@ -181,7 +181,7 @@ ConfirmPopup (canvas `6738:50208`) es un popup anclado a un trigger button. **No
 - Border color: blue-100 → **slate-200** (fix — el azul claro era un legado pre-audit).
 - Padding header / body / footer: mixed (24/20) → **17.5 uniforme** con scheme top:0 en body y footer (evita doble padding en costuras).
 - Header gap: 12px → **7px**.
-- Footer gap: 32px (`spacing-600`) → **7px**. ⚠ El gap previo era una decisión SC ("opposing choices breathing room"). Si Marta prefiere mantener wider gap, se puede sobreescribir vía `[modal-actions]` wrapper CSS o reintroducir como prop opcional.
+- Footer gap: 32px (`spacing-600`) → **7px**. ⚠ El gap previo era una decisión SC ("opposing choices breathing room"). Si el equipo de diseño prefiere mantener wider gap, se puede sobreescribir vía `[modal-actions]` wrapper CSS o reintroducir como prop opcional.
 - Title font: tokens `h4` → **17.5px / weight 600** (raw Figma decimals).
 - Shadow single 24px → **double layer** matching Figma reference (more elevated).
 - Removed border-bottom from header + border-top from footer — Figma no tiene dividers internos. El padding scheme + tipografía dan la jerarquía sin necesidad de líneas.

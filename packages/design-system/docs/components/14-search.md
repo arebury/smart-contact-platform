@@ -227,9 +227,9 @@ Página dedicada `❖ Search` en Smart Contact Prime UI Kit Pro:
 [`node-id=11861-55210`](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=11861-55210).
 
 **Estado al cierre Session 31**: la página existe vacía, pendiente de que
-Marta la complete con los variants. Mientras tanto, los building blocks
+el equipo de diseño la complete con los variants. Mientras tanto, los building blocks
 del Kit (`❖ InputText` + `❖ IconField` + `❖ InputIcon`) cubren la
-composición — Marta puede arrastrarlos hasta que tenga ratio para
+composición — el equipo de diseño puede arrastrarlos hasta que tenga ratio para
 crear el componente dedicado.
 
 **Variants a documentar en Figma** (siguiendo el spec del código):
@@ -241,6 +241,6 @@ crear el componente dedicado.
 | `Focused empty` | icon-left + input + (sin hint, sin clear) | cualquier consumer en foco sin texto |
 | `Size sm` | mismo shape, font 12.25 / padding decimal | pickers dentro de sub-sections |
 
-Cuando Marta complete la página Figma, actualizar este spec doc con
+Cuando el equipo de diseño complete la página Figma, actualizar este spec doc con
 los node-ids puntuales de cada variant y los boundVariables de cada
 slot.

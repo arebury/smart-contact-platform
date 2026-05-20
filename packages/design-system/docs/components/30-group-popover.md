@@ -34,7 +34,7 @@ interface GroupRef { id: number; name: string; }
 
 ```
 ┌──────────────────┐
-│ Marta · 3 grupos │    ← cell resting: count
+│ Diseño · 3 grupos │    ← cell resting: count
 └──────────────────┘
          │
          ▼ (hover / focus)
@@ -116,4 +116,4 @@ Pendiente — gallery `/components/group-popover` con:
 
 ## Figma reference
 
-**No aplica** — pattern in-house. Si Marta lo modela como un mini-tooltip, anotar.
+**No aplica** — pattern in-house. Si el equipo de diseño lo modela como un mini-tooltip, anotar.

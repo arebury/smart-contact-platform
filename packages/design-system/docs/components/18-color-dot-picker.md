@@ -96,4 +96,4 @@ Pendiente — gallery `/components/color-dot-picker` con:
 
 ## Figma reference
 
-**No aplica** — pattern app-specific. Smart Contact Prime kit no tiene picker de colores discreto. Si Marta lo modela, anotar URL y promocionar a 🟢 Extended.
+**No aplica** — pattern app-specific. Smart Contact Prime kit no tiene picker de colores discreto. Si el equipo de diseño lo modela, anotar URL y promocionar a 🟢 Extended.

@@ -370,7 +370,7 @@ los archivos staged.
 - Mantenibilidad (no SVG custom que mantener cuando lucide-angular se actualiza).
 - Menos código (4 icons importados vs 6 SVG inline con paths de 1KB cada uno).
 
-**Lección portable**: cuando migras de un sistema custom a uno con design system establecido, la fidelidad 1:1 visual no es siempre la mejor decisión. Pregunta primero: ¿la elegancia visual del custom **se sostiene** cuando añades nuevos estados al modelo? Si la respuesta es "necesitaría N SVGs nuevos", probablemente la composición modular del DS canonical es mejor. Reversible: si en una review Marta dice "el cluster de iconos pierde la lectura inmediata del glyph compuesto", replicas los SVG custom — pero parte de la decisión basada en restricciones de mantenimiento, no de gusto.
+**Lección portable**: cuando migras de un sistema custom a uno con design system establecido, la fidelidad 1:1 visual no es siempre la mejor decisión. Pregunta primero: ¿la elegancia visual del custom **se sostiene** cuando añades nuevos estados al modelo? Si la respuesta es "necesitaría N SVGs nuevos", probablemente la composición modular del DS canonical es mejor. Reversible: si en una review el equipo de diseño dice "el cluster de iconos pierde la lectura inmediata del glyph compuesto", replicas los SVG custom — pero parte de la decisión basada en restricciones de mantenimiento, no de gusto.
 
 > "Pixel-perfect con el prototipo" no es siempre el objetivo correcto cuando el prototipo se hizo sin las constraints del shell de producción.
 

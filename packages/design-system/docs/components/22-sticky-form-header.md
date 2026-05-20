@@ -65,8 +65,8 @@ El name es un `<input>` con `[placeholder]` de `namePlaceholderKey`. Save disabl
 ```
 ┌────────────────────────────────────────────────────────┐
 │  [avatar]  USUARIO                                     │
-│            Marta López ✏️  [pill] [pill]    [💾 Save]  │
-│            ✉️ marta@empresa.com  📞 +34 ...            │
+│            Inés López ✏️  [pill] [pill]    [💾 Save]  │
+│            ✉️ ines@empresa.com  📞 +34 ...            │
 └────────────────────────────────────────────────────────┘
 ```
 
@@ -161,7 +161,7 @@ Pendiente — gallery `/components/sticky-form-header` con:
 
 ## Figma reference
 
-**No aplica** — pattern in-house. Mirror visual con `<sc-page-header>`. Si Marta modela ambos como una familia, anotar URL.
+**No aplica** — pattern in-house. Mirror visual con `<sc-page-header>`. Si el equipo de diseño modela ambos como una familia, anotar URL.
 
 ## Deuda
 

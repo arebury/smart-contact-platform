@@ -46,11 +46,11 @@ La inconsistencia complicaba (a) audits Figma manuales (matching por concepto en
 
 ## DD-7 · 2026-05-20 (S46) — Política tokens: toda primitive nueva entra en customs-catalog
 
-**Contexto**: en S46 cociné `--sc-font-family-mono` en `01-primitive.css` sin entry en `customs-catalog.md` ni ping a Marta. Rafa detectó que esto puede crear drift entre código y Figma SC (si Marta no sabe que el token existe, no puede referenciarlo al construir specs).
+**Contexto**: en S46 cociné `--sc-font-family-mono` en `01-primitive.css` sin entry en `customs-catalog.md` ni ping al equipo de diseño. Rafa detectó que esto puede crear drift entre código y Figma SC (si el equipo de diseño no sabe que el token existe, no puede referenciarlo al construir specs).
 
-**Decisión**: **toda primitive nueva añadida al SCDS requiere entry en `customs-catalog.md`** con: razón concreta, valor, consumers actuales, plan para Figma SC Variables collection, decisión pendiente Rafa+Marta si aplica.
+**Decisión**: **toda primitive nueva añadida al SCDS requiere entry en `customs-catalog.md`** con: razón concreta, valor, consumers actuales, plan para Figma SC Variables collection, decisión pendiente el equipo si aplica.
 
-**Razón**: el customs-catalog es la fuente única que Marta consulta al actualizar el Kit Pro de Figma. Si un token vive solo en código, se desalinea silenciosamente.
+**Razón**: el customs-catalog es la fuente única que el equipo de diseño consulta al actualizar el Kit Pro de Figma. Si un token vive solo en código, se desalinea silenciosamente.
 
 **Consecuencia**: el checklist anti-divergencia (`customs-catalog §0`) ahora aplica también a primitives nuevas, no solo a overrides de Aura.
 
@@ -89,7 +89,7 @@ La inconsistencia complicaba (a) audits Figma manuales (matching por concepto en
 
 **Decisión**: un componente entra al package SCDS cuando:
 - (a) se usa en ≥2 lugares de AED, **O**
-- (b) es parte explícita de SCDS por decisión de diseño (Marta).
+- (b) es parte explícita de SCDS por decisión de diseño (equipo de diseño).
 
 **Razón**: minimizar surface area. Patrón usado solo 1 vez = vive donde se usa.
 

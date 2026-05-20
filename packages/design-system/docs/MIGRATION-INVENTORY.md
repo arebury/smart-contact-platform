@@ -80,15 +80,15 @@ Capa | Archivo | Status
 | `<sc-inputtext>` | 2026-05-15 | S30 | 240 variants Nivel-2, padding decimal raw |
 | `<p-tabs>` | 2026-05-15 | S30 | Padding tab 14/15.75 |
 | `<p-tooltip>` | 2026-05-15 | S30 | bg slate-700, padding 10.5/7 |
-| `<sc-multiselect>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory `/conversaciones` ConversationFilters top-bar). Variants `size: sm/md/lg` aplicadas correctamente en `sm` (height 36px) sin override custom. **Pendiente Marta**: confirmar variants formales `sm/md/lg` en Kit Pro (S30 audit Nivel-2 cubrió size default, no las 3 variants size). |
+| `<sc-multiselect>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory `/conversaciones` ConversationFilters top-bar). Variants `size: sm/md/lg` aplicadas correctamente en `sm` (height 36px) sin override custom. **Pendiente equipo de diseño**: confirmar variants formales `sm/md/lg` en Kit Pro (S30 audit Nivel-2 cubrió size default, no las 3 variants size). |
 | `<sc-select>` | 2026-05-15 | S30 | 258 variants Nivel-2, Filled + Invalid |
-| `<sc-datepicker>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory ConversationFilters). Variants `size: sm/md/lg` aplicadas correctamente. **Pendiente Marta**: idem multi-select. |
+| `<sc-datepicker>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory ConversationFilters). Variants `size: sm/md/lg` aplicadas correctamente. **Pendiente equipo de diseño**: idem multi-select. |
 | `<sc-inputtext>` (re-check S46) | 2026-05-20 | S46 | Aplicado `size="sm"` en Memory filters origin/destination. Sin drift visual perceptible. Variants `sm/md/lg` ya estaban auditadas S30 (240 variants Nivel-2). |
 | `<sc-search>` | 2026-05-15 | S31 | Composición aditiva canvas Light+Dark+Components |
 | `<sc-toggleswitch>` | 2026-05-15 | S32 | Refactor a wrapper p-toggleswitch, Figma node 6738:22645 |
 | `<sc-label-chip>` | 2026-05-15 | S32 | Figma `❖ Chip` node 6738:55109 confirmado |
 
-**Verificación global variables Figma SC**: 2026-05-15 (S32). Subagent audit confirmó NO se han modificado variables base del kit PrimeOne. Política `audit/01-identity-recap.md §2.10` consistente. Próxima verificación recomendada: cuando Marta haga cambios en el file, o cada 3 meses (whichever first).
+**Verificación global variables Figma SC**: 2026-05-15 (S32). Subagent audit confirmó NO se han modificado variables base del kit PrimeOne. Política `audit/01-identity-recap.md §2.10` consistente. Próxima verificación recomendada: cuando el equipo de diseño haga cambios en el file, o cada 3 meses (whichever first).
 
 ## Lifecycle / Maturity
 

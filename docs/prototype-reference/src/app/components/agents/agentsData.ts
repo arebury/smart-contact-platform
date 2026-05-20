@@ -286,7 +286,7 @@ export const agentsData: Agent[] = [
   {
     id: 8,
     code: "10008",
-    name: "Marta Recio",
+    name: "Inés Recio",
     extension: "106",
     extensionType: "webrtc",
     agentType: "cuscare",

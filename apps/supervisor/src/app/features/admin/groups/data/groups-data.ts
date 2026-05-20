@@ -165,7 +165,7 @@ export const GROUPS_SEED: readonly Group[] = [
     strategy: 'Niveles',
     levels: [
       ['Agente AED 1', 'Agente AED 2', 'Agente demo', 'Agente Jose', 'Jose Barcala'],
-      ['Mario Perez', 'Marta Recio', 'Miguel Palacios', 'Miguel Palacios 3'],
+      ['Mario Perez', 'Inés Recio', 'Miguel Palacios', 'Miguel Palacios 3'],
     ],
     subStrategy: 'Balanceada',
     services: ['Pedidos online', 'Seguimiento envíos'],

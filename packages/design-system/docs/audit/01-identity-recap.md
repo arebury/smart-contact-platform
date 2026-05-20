@@ -258,7 +258,7 @@ GUIA didácticamente menciona `primary-500: #1B273D` (L272). Código
 real: `#1b273d` está en `blue-700`. Ambos sistemas son consistentes
 internamente; el alias `--sc-bg-primary = blue-700` resuelve.
 
-**Acción para Fase 5 (re-sync)**: cuando Marta exporte el JSON,
+**Acción para Fase 5 (re-sync)**: cuando el equipo de diseño exporte el JSON,
 verificar qué nivel de la paleta Figma marca como "primary" — si
 es 500, hay que decidir si renumerar el código o documentar el
 mismatch como decisión.

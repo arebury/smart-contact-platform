@@ -115,4 +115,4 @@ Pendiente — gallery `/components/inline-rename-cell` con:
 
 ## Figma reference
 
-**No aplica** — pattern in-house. Visual minimalista (input transparente + 2 icon buttons). Si Marta lo modela, anotar.
+**No aplica** — pattern in-house. Visual minimalista (input transparente + 2 icon buttons). Si el equipo de diseño lo modela, anotar.

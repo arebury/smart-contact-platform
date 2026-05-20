@@ -17,7 +17,7 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 export class BulkActionBarGalleryComponent {
   protected readonly selectedIds = signal<readonly number[]>([]);
   protected readonly availableRows: readonly { id: number; name: string }[] = [
-    { id: 1, name: 'Marta Ramírez' },
+    { id: 1, name: 'Inés Ramírez' },
     { id: 2, name: 'Lucas Vega' },
     { id: 3, name: 'Sofía Costa' },
     { id: 4, name: 'Daniel Pino' },

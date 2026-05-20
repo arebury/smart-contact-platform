@@ -129,4 +129,4 @@ Pendiente — gallery `/components/bulk-action-bar` con:
 
 ## Figma reference
 
-**No aplica** — pattern in-house. Visual inspiración Gmail / Linear. Si Marta lo modela, anotar URL.
+**No aplica** — pattern in-house. Visual inspiración Gmail / Linear. Si el equipo de diseño lo modela, anotar URL.

@@ -88,7 +88,7 @@ LAYOUT — Two-panel transfer list:
 │                     │          │                              │
 │ Ángel personal  📞🖥│   >>     │ ▾ Nivel 1 (5)           [—] │
 │ Agente demo    📞🖥 │   >      │   Miguel Palacios   📞🖥✉  │
-│ Marta Recio    📞🖥 │   <      │   Agente José       📞🖥   │
+│ Inés Recio    📞🖥 │   <      │   Agente José       📞🖥   │
 │                     │   <<     │   Mario Perez        📞🖥   │
 │                     │          │   Rafael             📞🖥✉  │
 │                     │          │   Jose Barcala       📞🖥   │

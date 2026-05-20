@@ -20,7 +20,7 @@ export class ImpactPreviewDialogGalleryComponent {
   protected readonly duplicateVisible = signal(false);
 
   protected readonly items: readonly ImpactItem[] = [
-    { id: 1, name: 'Marta Ramírez', hint: '(3 grupos)' },
+    { id: 1, name: 'Inés Ramírez', hint: '(3 grupos)' },
     { id: 2, name: 'Lucas Vega', hint: '(1 grupo)' },
     { id: 3, name: 'Sofía Costa', hint: '(2 grupos)' },
     { id: 4, name: 'Daniel Pino' },

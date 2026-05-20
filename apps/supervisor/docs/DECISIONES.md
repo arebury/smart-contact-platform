@@ -52,7 +52,7 @@ nombres** sin tocar la estructura:
   sistema para diseño. Coste enorme para cero beneficio
   arquitectónico.
 - Los nombres mal puestos (`yellow` siendo amber, `indigo` siendo
-  violet) son fricciones reales para diseño: si Marta exporta de
+  violet) son fricciones reales para diseño: si el equipo de diseño exporta de
   Figma con los nombres correctos de Aura, ahora el código habla
   el mismo idioma. Antes del rename, había que traducir
   mentalmente cada vez.

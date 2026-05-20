@@ -17,7 +17,7 @@
 
 **Opciones**:
 - (a) Cocinar `<sc-audio-player>` ahora.
-- (b) Declinar; esperar trigger real (2º consumer externo a Memory o Figma spec de Marta).
+- (b) Declinar; esperar trigger real (2º consumer externo a Memory o Figma spec del equipo de diseño).
 
 **Decisión**: **(b) declinar**.
 
@@ -26,7 +26,7 @@
 - No hay 2 consumers reales: solo Memory usa transport (single en player modal + multi-rec); el bar/scrub difiere entre ambos (single global vs active-segment overlay), solo se solaparían los 3 botones back10/play/fwd10.
 - Los 3 botones son demasiado simples para abstraer a SCDS component. Si llega 3ª duplicación, partial SCSS, no SCDS.
 
-**Re-abrir si**: consumer externo a Memory (audio preview en AED, recording playback en otra feature) **O** Figma spec de Marta.
+**Re-abrir si**: consumer externo a Memory (audio preview en AED, recording playback en otra feature) **O** Figma spec del equipo de diseño.
 
 ---
 
@@ -47,7 +47,7 @@
 - El bulk flow (transcribir/marcar leídas/analizar IA) es el caso de uso jugoso de Memory. 1 click selecciona, fricción mínima.
 - El status-icon como botón dedicado para abrir el player ya cumple su rol con affordance visual obvia.
 
-**Mitigación opcional** si user test con Marta valida que la inconsistencia molesta: tooltip on row-hover "Click para seleccionar · Click en icono de estado para abrir conversación". Coste en docs/tooltip, no en cambiar la mecánica.
+**Mitigación opcional** si user test con el equipo de diseño valida que la inconsistencia molesta: tooltip on row-hover "Click para seleccionar · Click en icono de estado para abrir conversación". Coste en docs/tooltip, no en cambiar la mecánica.
 
 ---
 

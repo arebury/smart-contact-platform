@@ -168,4 +168,4 @@ Pendiente Session 31 — gallery `/components/section-card` con basic, con hint,
 
 ## Figma reference
 
-**No aplica** — pattern in-house de SC. Si Marta lo modela en Smart Contact Prime, anotar URL y promocionar a 🟢 Extended con audit.
+**No aplica** — pattern in-house de SC. Si el equipo de diseño lo modela en Smart Contact Prime, anotar URL y promocionar a 🟢 Extended con audit.

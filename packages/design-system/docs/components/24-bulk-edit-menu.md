@@ -123,4 +123,4 @@ Pendiente — gallery `/components/bulk-edit-menu` con:
 
 ## Figma reference
 
-**No aplica** — pattern in-house. Vive dentro del slot de `<sc-bulk-action-bar>`. Si Marta modela bar+menu como un solo Figma component, anotar URL.
+**No aplica** — pattern in-house. Vive dentro del slot de `<sc-bulk-action-bar>`. Si el equipo de diseño modela bar+menu como un solo Figma component, anotar URL.

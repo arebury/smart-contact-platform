@@ -142,7 +142,7 @@ Pendiente — gallery `/components/photo-upload` con:
 
 ## Figma reference
 
-**No aplica** — pattern in-house. Si Marta lo modela en Smart Contact Prime, anotar URL.
+**No aplica** — pattern in-house. Si el equipo de diseño lo modela en Smart Contact Prime, anotar URL.
 
 ## Deuda
 

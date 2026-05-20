@@ -32,7 +32,7 @@ Es:
    `sticky-form-header` (deuda real, no load-bearing).
 6. Clasificar los 571 `px` literales en SCSS: dimensiones legítimas
    (icon sizes, fixed heights) vs spacings que deberían ser tokens.
-7. Establecer protocolo de re-sync para cuando Marta re-exporte el JSON.
+7. Establecer protocolo de re-sync para cuando el equipo de diseño re-exporte el JSON.
 
 ## Identidad visual SmartContact
 

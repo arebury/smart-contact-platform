@@ -131,7 +131,7 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
 - **SC**: overload — `severity='secondary'` en `MessageService.add()` mapea a **violeta** (no slate).
 - **Por qué**: AED usa `severity='secondary'` para "neutral notices" tipo `Borrador creado`, `Renombrado`. El slate de Figma queda demasiado apagado para esa categoría; violet da presencia sin sentirse celebratorio (como green success) ni urgente (como info azul).
 - **Implementación**: tokens `--sc-toast-violet-*` (separados de `--sc-toast-secondary-*` que también existen pero unused en AED). El selector `&[data-severity='secondary']` en el partial apunta a violet.
-- **Si Marta** quiere un slate real para algún caso, se puede añadir un mapping nuevo `severity='contrast'` → slate sin afectar el violet.
+- **Si el equipo de diseño** quiere un slate real para algún caso, se puede añadir un mapping nuevo `severity='contrast'` → slate sin afectar el violet.
 
 ---
 
@@ -141,7 +141,7 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
 
 - **Figma**: Input + Select + MultiSelect tienen Sizes Small / Normal / Large explícitas (con decimales raw 12.25 / 14 / 15.75 font, 8.75/5.25 / 10.5/7 / 12.25/8.75 padding).
 - **Datepicker / Checkbox**: Figma SOLO modela densidad Normal — no hay variants Small / Large.
-- **SC añade** `sm` y `lg` por consistency family con el resto. Mismo escalado proporcional. Si Marta en algún momento define densidades específicas para datepicker o checkbox, ajustar.
+- **SC añade** `sm` y `lg` por consistency family con el resto. Mismo escalado proporcional. Si el equipo de diseño en algún momento define densidades específicas para datepicker o checkbox, ajustar.
 - **Implementación**:
   - Input: `sc-inputtext.scss` `--sm/--lg` con valores Figma exactos.
   - Select / MultiSelect: idem en `.p-select-label / .p-multiselect-label`.
@@ -172,7 +172,7 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
 
 - **Figma SC**: 24 variants `Select (First/Second/Third/Fourth/Multiple) × OptionAmount (2/3/4) × Multiple (true/false) × Invalid (true/false)`.
 - **PrimeNG**: `<p-selectbutton>` (componente distinto a `<p-select>`).
-- **Composición**: el `❖ SelectButton` Figma **NO** referencia `❖ Button` — son nodes independientes. Si en algún momento Marta vincula los 2 en el Kit, este wrapper hereda automáticamente.
+- **Composición**: el `❖ SelectButton` Figma **NO** referencia `❖ Button` — son nodes independientes. Si en algún momento el equipo de diseño vincula los 2 en el Kit, este wrapper hereda automáticamente.
 - **Estado**: sin uso en AED hoy. Caso típico: filtros segmented horizontal ("Todos / Activos / Archivados"), choice radio visual.
 - **Cuándo crear**: primer filtro segmented real en AED.
 
@@ -197,7 +197,7 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
   con border merge (para botones de acción). Semánticas distintas — no
   intercambiables.
 - **Figma**: página `❖ Search` (node 11861:55210) creada por Rafa al cierre
-  de Session 31, pendiente de que Marta/Rafa compongan los variants (Size
+  de Session 31, pendiente de que el equipo compongan los variants (Size
   sm/md/lg × HasHint × Filled × Disabled). El spec doc 14-search.md tiene
   la receta detallada.
 
@@ -220,9 +220,9 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
 - **Valor**: system mono stack — `ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', monospace`. No mapea a font custom; es la heurística cross-OS estándar.
 - **Definición en código**: `01-primitive.css:208` (junto a `--sc-font-family-primary` / `--sc-font-family-secondary`).
 - **Consumers actuales**: `multi-recording-player.component.scss` (time + label-meta) + `retranscription-confirm-modal.component.scss` (gate label + gate input) + (futuro próximo) `conversation-player-modal.component.scss` single audio bar time labels (tiene `font-variant-numeric: tabular-nums` ya, pendiente alinear).
-- **🟡 Pendiente Figma SC**: añadir variable `font-family-mono` a la collection Variables SC con el mismo stack. Sin export → entry "Custom" en Figma SC que designer no podrá referenciar al construir specs. **Acción Marta**: importar token vía plugin Variables Importer cuando toque resync.
+- **🟡 Pendiente Figma SC**: añadir variable `font-family-mono` a la collection Variables SC con el mismo stack. Sin export → entry "Custom" en Figma SC que designer no podrá referenciar al construir specs. **Acción Diseño**: importar token vía plugin Variables Importer cuando toque resync.
 - **✅ Decisión Rafa S46 (Opción A)**: mantener system stack (no adoptar fuente mono custom como JetBrains/IBM Plex/Geist). Razón: cero webfont weight, look nativo cada OS, los usos (time labels, gate input "CONFIRMAR", ID labels) son contextos invisible-a-ojo donde la diferencia entre system mono y custom no aporta valor de marca. Reabrir si surge razón concreta (branding tech-fuerte / consistencia con doc pública).
-- **Cuándo borrar**: nunca (es primitive permanente). Si Marta decide custom font, solo cambia el valor del primitive — los consumers no se enteran.
+- **Cuándo borrar**: nunca (es primitive permanente). Si el equipo de diseño decide custom font, solo cambia el valor del primitive — los consumers no se enteran.
 
 ### 5.7 Refactors de consistencia Session 32 (pure-sc → Extended)
 

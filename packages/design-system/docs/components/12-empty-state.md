@@ -116,4 +116,4 @@ Pendiente Session 31 — gallery `/components/empty-state` con basic, sin CTA, c
 
 ## Figma reference
 
-**No aplica** — pattern in-house de SC. Si en algún momento Marta lo modela en Smart Contact Prime, anotar URL aquí y promocionar a 🟢 Extended con audit.
+**No aplica** — pattern in-house de SC. Si en algún momento el equipo de diseño lo modela en Smart Contact Prime, anotar URL aquí y promocionar a 🟢 Extended con audit.

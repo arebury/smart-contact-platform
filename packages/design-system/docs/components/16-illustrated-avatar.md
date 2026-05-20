@@ -4,7 +4,7 @@
 
 > Avatar circular que renderiza una ilustración SVG hasheada determinísticamente del nombre de la entidad. Mismo nombre → mismo avatar siempre (en todas las páginas, recargas, dark mode). Si se pasa `[photo]`, la foto subida prevalece.
 >
-> Categoría ⚪ **Pure SC** — pattern custom, NO existe en Smart Contact Prime ni en PrimeOne. Inspiración: avatares hash-based de GitHub / Linear, pero con SVG ilustrados curados por Marta (no identicons).
+> Categoría ⚪ **Pure SC** — pattern custom, NO existe en Smart Contact Prime ni en PrimeOne. Inspiración: avatares hash-based de GitHub / Linear, pero con SVG ilustrados curados por el equipo de diseño (no identicons).
 
 ## TL;DR
 
@@ -63,7 +63,7 @@ function hashName(name: string, modulo: number): number {
 }
 ```
 
-DJB2 hash bien distribuido. Garantiza que "Marta" siempre cae en el mismo avatar, sin necesidad de almacenar el índice en el modelo. Idempotente entre reloads.
+DJB2 hash bien distribuido. Garantiza que "Inés" siempre cae en el mismo avatar, sin necesidad de almacenar el índice en el modelo. Idempotente entre reloads.
 
 ## Tokens consumidos
 
@@ -96,4 +96,4 @@ Pendiente — gallery `/components/illustrated-avatar` con grid de los 24 ilustr
 
 ## Figma reference
 
-**No aplica** — los SVG vienen del set propio de Marta (`apps/supervisor/src/assets/avatars/`). Si en algún momento se publican en Figma como library, anotar URL aquí.
+**No aplica** — los SVG vienen del set propio del equipo de diseño (`apps/supervisor/src/assets/avatars/`). Si en algún momento se publican en Figma como library, anotar URL aquí.

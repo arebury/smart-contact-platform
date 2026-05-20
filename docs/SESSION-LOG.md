@@ -212,7 +212,7 @@ locales, 0 mismatches). Pre-commit hook husky+lint-staged+i18n-audit activo.
    son `.figma.ts` con template strings). Premisa inicial mía ("worst case sin
    Code Connect = devs prod importan PrimeNG directo") era válida para
    Shopify/GitHub pero **no aplica aquí**: este repo es del equipo de diseño SC
-   (Rafa + Marta + Claude); los devs prod no acceden a este código. Publicar
+   (equipo de diseño + Claude); los devs prod no acceden a este código. Publicar
    snippets `<sc-inputtext>` + import `@sc/design-system/...` desde aquí generaría
    referencias rotas en Dev Mode Figma + imposición unilateral de naming + riesgo
    de reverso. Decisión: **NO instalar dep, NO publicar**. Setup completo cuando
@@ -307,7 +307,7 @@ locales, 0 mismatches). Pre-commit hook husky+lint-staged+i18n-audit activo.
 
 ### Extensión bloques N-P
 
-12. **Bloque N — Border-radius hardcoded → tokens** — 62 sustituciones en 29 archivos: `4px` → `--sc-radius-100`, `6px` → `--sc-radius-200`, `999px`/`9999px` → `--sc-radius-full`, etc. Cero cambio visual. Skipped: 36 hits `3px` (off-token, requiere decisión Marta — registrado #45). Commit `3c69fce`.
+12. **Bloque N — Border-radius hardcoded → tokens** — 62 sustituciones en 29 archivos: `4px` → `--sc-radius-100`, `6px` → `--sc-radius-200`, `999px`/`9999px` → `--sc-radius-full`, etc. Cero cambio visual. Skipped: 36 hits `3px` (off-token, requiere decisión del equipo — registrado #45). Commit `3c69fce`.
 13. **Bloque O — Rename `aedClickOutside` + `aedSortable` → `sc*`** — 10 archivos. Post-DD-8 directive prefix consistency (las únicas excepciones legítimas `aed-*` son las routes/folders `features/config/aed/`, donde `aed` es feature name). Commit `1ce6b78`.
 14. **Bloque P — Backlog updates #44-#48** — registradas deudas no-atacadas: off-scale spacing 6px (24), off-scale radius 3px (36), edge cases radius 1/10px (3), hardcoded text Memory (12), icon size hardcoded (208). Todas P3, no atacar sin trigger externo/decisión humana. Commit `7380b3d`.
 15. **Audit final post-N/O/P** — 0 z-index >= 1000 literal (solo comments). 0 aria-label missing en icon buttons (a11y OK). 0 TODO/FIXME. localStorage keys inconsistency detectada (`sc_theme` snake_case vs `smartcontact_*` legacy vs `sc-ds-validated` kebab) — NO renombrar sin invalidar storage usuarios (deuda registrada conscientemente: cambiar key rompe persistencia). 11 `::ng-deep` restantes son load-bearing en SCDS chrome reset (dialog/toast/popover). 9 `!important` restantes idem.
@@ -315,8 +315,8 @@ locales, 0 mismatches). Pre-commit hook husky+lint-staged+i18n-audit activo.
     - 0 unused imports reales (3 falsos positivos del scan: `Users as UsersIcon` alias + types usados vía `model.required<T>()`).
     - 0 god-class (`agent-form-page.component.ts` con 903 líneas es el más grande pero arquitectónicamente coherente, no fragmentar sin trigger feature).
     - 0 `$any()` problemáticos (los 10 hits son patrón estándar Angular para `event.target.value` sin formControl).
-    - **#49** Box-shadow custom 5 hits divergentes con `--sc-shadow-xs` → Marta decide.
-    - **#50** Transition durations 200ms × 23 + 120ms × 5 sin tokens `--sc-duration-*` → Rafa+Marta sistema escala.
+    - **#49** Box-shadow custom 5 hits divergentes con `--sc-shadow-xs` → el equipo de diseño decide.
+    - **#50** Transition durations 200ms × 23 + 120ms × 5 sin tokens `--sc-duration-*` → el equipo sistema escala.
     - **#51** i18n duplicate values 115 strings (`Estado` × 11, `Fecha` × 5) → traductor dependent (consolidar puede romper contexto).
     - **#52** SCDS barrel 13 type aliases sin consumer en `apps/` → public API defensiva, decisión consciente mantener.
     - APIs SCDS wrappers `[size]`/`[disabled]` 100% consistentes (model<boolean> en CVA wrappers, input<boolean> en non-CVA — diferencia justificada).
@@ -376,7 +376,7 @@ locales, 0 mismatches). Pre-commit hook husky+lint-staged+i18n-audit activo.
 6. **Tokens cleanup global** — cocinado `--sc-font-family-mono` (system stack, Opción A decisión Rafa) + sweep 0 drift residual cross-monorepo: 30+ archivos · 22 fallbacks + 13 `999px` literales removidos. Customs-catalog §5.8 nuevo. Commits `f4ce8bd`, `0e32fe6`, `894e6b7`.
 7. **Jerarquía docs sentada** (gap cazado por Rafa) — cada tipo de info tiene UN source canonical; los demás son punteros. Docs nuevos: `docs/DOCS-INDEX.md`, `apps/supervisor/docs/memory/DECISIONS.md` (DM-1 a DM-7), `packages/design-system/docs/DECISIONS.md` (DD-1 a DD-7) — incluye DD-7 nueva: toda primitive nueva → entry customs-catalog. Refactor 3 `CLAUDE.md` → punteros. Refactor `NEXT-SESSION-PLAN.md` 777→145 líneas. Memoria persistente nueva `reference_docs_index_entry_point.md`. Commits `9058d72`, `14cd2bd`.
 
-8. **Protocolo INDEX obligatorio** (segundo gap cazado por Rafa) — la jerarquía no sirve si el protocolo de consulta es opcional. Ejemplo: lancé 4 queries `search_design_system` MCP antes de descubrir que `MIGRATION-INVENTORY.md` ya tenía Figma node IDs auditados al 100% parity (S30). Formalizado protocolo "al recibir tarea nueva, ANTES de tocar herramientas, identificar doc canonical en INDEX y leerlo primero". Updates: DOCS-INDEX con keywords "audit Figma alignment" → MIGRATION-INVENTORY; case-study-notes con lección portable; backlog #37 nuevo (Marta valida variants formales sm/md/lg Kit Pro). Commit `af53858`.
+8. **Protocolo INDEX obligatorio** (segundo gap cazado por Rafa) — la jerarquía no sirve si el protocolo de consulta es opcional. Ejemplo: lancé 4 queries `search_design_system` MCP antes de descubrir que `MIGRATION-INVENTORY.md` ya tenía Figma node IDs auditados al 100% parity (S30). Formalizado protocolo "al recibir tarea nueva, ANTES de tocar herramientas, identificar doc canonical en INDEX y leerlo primero". Updates: DOCS-INDEX con keywords "audit Figma alignment" → MIGRATION-INVENTORY; case-study-notes con lección portable; backlog #37 nuevo (equipo de diseño valida variants formales sm/md/lg Kit Pro). Commit `af53858`.
 
 9. **Filtros Memory size=sm + fix overlay** — Rafa reporta filtros enormes en `/conversaciones`. Aplicado `size="sm"` a los 6 inputs del top-bar (commit `cb2082b`). Después cazó visualmente: trigger compacto OK pero overlay del dropdown se renderizaba en tamaño default (PrimeNG `[size]` solo afecta trigger; el overlay vive en `<body>` fuera del view encapsulation). Fix: `panelStyleClass` computed en `<sc-multi-select>` + `<sc-select>` + `<sc-datepicker>` que propaga clase al overlay; partial global SCDS nuevo `_sc-overlay-sizes.scss` con selectores para los 3 panels (font 12.25/15.75, padding 5.25/8.75 vs 8.75/12.25 según escala Figma S30). Patrón análogo a `_sc-toast.scss`. Importado desde Supervisor `main.scss`. Commit `8870e06`.
 
@@ -779,7 +779,7 @@ con **componentes y tokens lincados** (no screenshot). Resultado:
   escenarios MockSampleSwitcher + light/dark/hover.
 - **Herramientas**: Playwright via npx (Chromium headless),
   `tsc --noEmit -p apps/supervisor/tsconfig.app.json`, `ng lint`.
-- **Riesgo pendiente**: si Marta detecta que algún kind del SVG no
+- **Riesgo pendiente**: si el equipo de diseño detecta que algún kind del SVG no
   corresponde a la intención de diseño (ej. mezcla call_recorded vs
   call_transcribed que comparten path IconPhone en el legacy), revisar
   `resolveStatus()` con ella. Hoy idéntico al React 1:1.
@@ -1090,7 +1090,7 @@ i18n consistency). Resultado: codebase saludable, 2 ítems accionables.
 4. **Sentiment palette tokens SCDS** (no hex prototipo). Refuerza
    `feedback_migration_safety`: SCDS gana siempre.
 5. **§11 nueva**: tabla viva de inconsistencias entre docs Memory
-   que requieren decisión Rafa+Marta. Entry A documenta interpretación
+   que requieren decisión el equipo. Entry A documenta interpretación
    divergente sobre filtrado items en proceso.
 6. **Iter 9 partido en 9a-d**: alcance real 8-10h, partición
    pragmática. 9a (listado) + 9b (drag-drop+delete) + 9c (constructor
@@ -1161,7 +1161,7 @@ operativas con CRUD básico vía rutas Memory dentro del shell Supervisor:
    - Synonyms granulares por valor list (EntityFormModal).
    - CategoryRuleLinking interactivo bidireccional (refactor 3-piezas).
    - Templates predefinidos en CategoryFormModal.
-3. **Decisión Rafa+Marta** (§11 inventory):
+3. **Decisión el equipo** (§11 inventory):
    - Entry A: filtrado items en proceso — `logica-de-conteo.md` dice
      "deseleccionar antes del modal" vs `decisiones.md` dice "modal
      muestra 'Excluye K'". Hoy seguimos logica-de-conteo.
@@ -1169,7 +1169,7 @@ operativas con CRUD básico vía rutas Memory dentro del shell Supervisor:
    Memory pase a producción (ya configurado el deploy).
 5. **Mapa estratégico vigente** (eje 1-2-2b-6-7 del plan):
    - Bootstrap Variables Custom collection en Figma SC (6 divergencias).
-   - Workflow Figma ↔ código con Marta.
+   - Workflow Figma ↔ código con el equipo de diseño.
    - Figma Code Connect Kit Pro ↔ SCDS.
    - Audit `❖ Panel` Figma SC → desbloquea section-card refactor.
    - PrimeOne upgrade dry-run cuando salga release.
@@ -1208,7 +1208,7 @@ operativas con CRUD básico vía rutas Memory dentro del shell Supervisor:
   - **Decisión: 3 icons Lucide separados** en lugar de los 6 SVG custom
     del prototipo React (Phone/PhoneTranscription/PhoneTranscriptionAnalysis
     × chat). Razones: consistencia con AED (Lucide canonical), modularidad
-    (cada eje boolean independiente), maintainability. Si Marta pide
+    (cada eje boolean independiente), maintainability. Si el equipo de diseño pide
     fidelidad 1:1 visual, replicamos los SVG custom.
   - Sticky header: `thead th { position: sticky; top: 0; z-index: 5;
     background; box-shadow inset bottom 1px }`. Scrollport es `.page`
@@ -1240,7 +1240,7 @@ operativas con CRUD básico vía rutas Memory dentro del shell Supervisor:
     botón search (filtrado reactivo). Botón reset usa `RotateCcw` Lucide.
   - **Decisión: filter por fecha single en lugar de date range**. El
     prototipo usaba `dateRange: string` (labels), `sc-datepicker` v1
-    solo single. Pivot pragmático — si Marta pide range, escalamos.
+    solo single. Pivot pragmático — si el equipo de diseño pide range, escalamos.
   - Page integration: tabla recibe `filteredConversations` (no
     `conversations`), filters bound al store via `(filtersChange)`.
   - Imports SCDS directos al archivo (no barrel) en
@@ -1285,7 +1285,7 @@ operativas con CRUD básico vía rutas Memory dentro del shell Supervisor:
 
 1. **3 icons Lucide separados ≠ 6 SVG custom del prototipo**. Pierde
    fidelidad pixel-perfect pero gana modularidad, consistencia con AED
-   y mantenibilidad. Reversible si Marta pide replicar.
+   y mantenibilidad. Reversible si el equipo de diseño pide replicar.
 2. **Filter por fecha single (no range)** en iter 3 porque
    `sc-datepicker` v1 solo soporta single. Pragmático — escalable si
    trigger real lo pide.
@@ -1689,7 +1689,7 @@ cierre tras este SESSION-LOG entry.
 3. **Verificación visual obligatoria post-migración mecánica**: el grep `apps/aed/src` reveló 38 usos, pero el visual Playwright reveló 3 más DENTRO de `packages/design-system/components/`. El grep no es la realidad.
 4. **Dead code puede tener intención válida**. El selector `.page__actions > .btn--primary { min-width: 144px }` era huérfano (clase no existía en HTML), pero su comment documentaba un problema real (shift inter-pages 134-153px). Borrar el código no borra el problema — rescaté la intención al selector real.
 5. **Refactor a Figma 1:1 NO es decisión por defecto** — pregunta "¿es el mismo concepto?" caso por caso. Inplace ≠ inline-rename-cell. Avatar ≠ illustrated-avatar. Forzar el match con nombre parecido cambia UX sin ganar paridad.
-6. **Cuando refactor SÍ aplica** (confirm-host + group-popover): single source of truth Figma → tokens → PrimeNG → SC consume directamente. Marta puede tocar Figma sin pedir cambios al dev.
+6. **Cuando refactor SÍ aplica** (confirm-host + group-popover): single source of truth Figma → tokens → PrimeNG → SC consume directamente. el equipo de diseño puede tocar Figma sin pedir cambios al dev.
 
 ### Decisiones de cierre S34 (post-sweep)
 
@@ -1697,8 +1697,8 @@ Sweep extendido cerró la sesión con 3 commits adicionales: `609bd46` (audit Fa
 
 Conversación final con Rafa cerró el **mapa de actuación estratégico** del proyecto en 7 ejes + Memory:
 
-- **Eje 1 — Variables Custom collection Figma SC** ↔ `sc-preset.ts` = contrato bidireccional diseño↔código. Bootstrap pendiente cuando Rafa+Marta se pongan. Threshold ya cumplido (6 divergencias: navy primary, electric-blue info, amber warn, button padding 10.5/7, tabs padding 14/15.75, tooltip chrome).
-- **Eje 2 — Workflow pantallas Figma ↔ código**: Marta+Rafa diseñan con instances Kit Pro, devs leen Figma Dev Mode y traducen 1:1. Pendiente formalizar convenciones próximas 1-2 semanas.
+- **Eje 1 — Variables Custom collection Figma SC** ↔ `sc-preset.ts` = contrato bidireccional diseño↔código. Bootstrap pendiente cuando el equipo se pongan. Threshold ya cumplido (6 divergencias: navy primary, electric-blue info, amber warn, button padding 10.5/7, tabs padding 14/15.75, tooltip chrome).
+- **Eje 2 — Workflow pantallas Figma ↔ código**: el equipo diseñan con instances Kit Pro, devs leen Figma Dev Mode y traducen 1:1. Pendiente formalizar convenciones próximas 1-2 semanas.
 - **Eje 2b — Figma Code Connect** (añadido durante sparring): mapear cada componente Figma del Kit Pro a su counterpart en código. Permite que Dev Mode muestre snippet real. Pendiente cuando Rafa dé luz verde.
 - **Eje 3 — Memory migración al monorepo**: Rafa decidió **opción (a) Memory entra al monorepo como feature module** del shell Supervisor (no app standalone). Sidebar compartido con AED. Probable rename `apps/aed/` → `apps/supervisor/`. Stack target: Angular 21 + PrimeNG + SCDS (mismo que AED). Inventario features Memory = scan rápido inicial 15-30 min + migración incremental. Backup completo (tag `v0-prototype-react-pre-scds` + branch `prototype-react-archive` + carpeta `legacy-react/` en repo) preserva el prototipo React vivo para referencia.
 - **Eje 4 — Case-study-notes** arrancado (`docs/case-study-notes.md`) con 8 momentos S34. Patrón: progresivo, no batch, filtrar señal vs morralla.
@@ -2035,7 +2035,7 @@ dedicada futura — componente por componente.
 
 Aprendizaje arquitectónico: `sc-search` en código es Extended (composición p-iconfield + pInputText + chrome funcional), pero en el Kit Figma SC es representado como **preset del `❖ InputText`** existente (con icon search default + placeholder "Buscar…"). NO necesita component set propio del 0 — el InputText del Kit ya expone los 8 booleans/slots necesarios (Show Left Icon, Left Icon swap, Show Text, etc.). Documentado en SESSION-LOG + 14-search.md.
 
-Refinement minor pendiente (TBD próxima sesión): el variant "With value + clear icon" muestra search icon en ambos slots (left + right) porque el Right Icon default del Kit es `search`. En AED el clear es un X (Lucide X) — Marta puede swap manual el right icon a un X cuando lo trabaje en pantallas reales.
+Refinement minor pendiente (TBD próxima sesión): el variant "With value + clear icon" muestra search icon en ambos slots (left + right) porque el Right Icon default del Kit es `search`. En AED el clear es un X (Lucide X) — el equipo de diseño puede swap manual el right icon a un X cuando lo trabaje en pantallas reales.
 
 ### Commits Session 31 (21 total)
 

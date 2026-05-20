@@ -13,7 +13,7 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 })
 export class StickyFormHeaderGalleryComponent {
   protected readonly newName = signal('');
-  protected readonly savedName = signal('Marta Ramírez');
+  protected readonly savedName = signal('Inés Ramírez');
   protected readonly saving = signal(false);
   protected readonly lastAction = signal<string | null>(null);
 

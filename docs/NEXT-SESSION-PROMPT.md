@@ -20,7 +20,7 @@ Tono y memorias activas (verifica MEMORY.md):
   defecto, ofrece counterpoints. Para tareas mecánicas ejecuta sin
   ceremonia.
 - Español llano, sin jerga, frases cortas. Sin subheaders rellenos.
-- Rafa Y Marta editan Figma SC — no adjudicar tareas Figma solo a Marta.
+- El equipo y Rafa editan Figma SC — no adjudicar tareas Figma solo al equipo de diseño.
 - Memory comparte shell con AED (ahora apps/supervisor/). Memory =
   feature module en apps/supervisor/src/app/features/memory/.
 - No deudas escondidas: verificación visual obligatoria post-migración
@@ -120,7 +120,7 @@ Acceso al repo Memory legacy:
 
 **No prioridades para próxima sesión (no atacar sin trigger):**
 
-- Items 1, 2, 6 esperan a sesión Figma con Rafa+Marta.
+- Items 1, 2, 6 esperan a sesión Figma con el equipo.
 - Items 5 (gap `<sc-tag>`, `<sc-select-button>`, `<sc-toggle-button>`),
   7 trigger-dependent.
 - Item 2b (Code Connect) cuando Rafa dé luz verde explícita.
