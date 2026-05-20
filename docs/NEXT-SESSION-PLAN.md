@@ -5,6 +5,362 @@
 
 ---
 
+## Estado al cerrar (Session 53.5, 2026-05-21)
+
+Iter de polish post-S53 (commit `a1e6bba`). 5 pedidos del user
+ejecutados en un commit:
+
+- Thumbnails 160×80 en cada fila del tracker home ds-docs, linkando
+  a la gallery (PNG renombrados slug-based + asset config sin
+  duplicar archivos).
+- Menú contextual click-derecho en filas Memory con 2 acciones
+  dinámicas (Procesar / Analizar) + Marcar como leída solo si la
+  fila está en rojo. Espejo del patrón AED labels/agents/groups.
+- Toolbar conversations: icono ayuda eliminado, botón Marcar
+  leídas solo visible si hay filas fallidas.
+- Header `<sc-sticky-form-header>` con más espacio (padding 20px,
+  gaps de chunks 20px, gap interior 10px). Propaga a los 7
+  consumers SCDS.
+
+**Estado salud**: tsc / lint / build verdes · Playwright cross-app
+14/14 verde (40.9s) · i18n 1487 paths × 4 locales · husky pre-commit
+con prettier + i18n-audit + lint.
+
+---
+
+## 🎯 Briefing S54 — Preguntas pendientes del user (leer al arrancar)
+
+> Rafa pidió al cerrar S53.5 que la próxima sesión arranque con
+> respuestas llanas (no jargon, no soy dev) para 2 grandes bloques:
+>
+> 1. **Cómo atacar los items dormidos por falta de trigger** — 4
+>    grupos con implicaciones y caminos viables.
+> 2. **Comprar BeyondUI Figma kit (beyondui.design): ¿ortogonal al
+>    enfoque actual o conflicto?**
+>
+> Toda la sección siguiente está escrita en plano para que la lea
+> antes de empezar a tocar código.
+
+---
+
+### Bloque 1 · Items dormidos — cómo atacarlos y qué implica
+
+#### Grupo A · Memory §10 #3-#11 + §11 A · esperan dispatch backend / Figma input
+
+**Qué son**: la lista en [`memory-migration-inventory.md §10`](./memory-migration-inventory.md)
+recoge funcionalidades del prototipo React Memory que decidimos
+NO implementar todavía durante la migración a Angular. Cada una
+tiene un trigger explícito para reabrirla.
+
+Los 9 vivos hoy:
+- **#3 `<sc-audio-player>` como wrapper SCDS** — un player de
+  audio reutilizable. Pendiente porque (1) no hay segundo
+  consumer fuera de Memory (regla del DS: 2+ consumers antes
+  de promover) y (2) el equipo de diseño no ha entregado spec
+  Figma del player.
+- **#4 Modal Download GDPR real** — la modal con checkboxes ya
+  está cocinada (S47), pero el botón solo enseña un toast porque
+  no hay endpoint real de descarga. Espera backend.
+- **#5 Sticky toast persistente "Generando…"** — el toast que
+  acompaña al procesamiento masivo, que se queda en pantalla
+  hasta que el batch termine y se actualiza in-place. Necesita
+  pipeline real de procesamiento (hoy es mock síncrono).
+- **#6 Hint "Excluye N en proceso"** en el bulk modal — solo
+  tiene sentido cuando hay un dispatch real que mantiene IDs
+  en estado "procesando".
+- **#7 Hint multi-tramo** — separar contadores por tramo de
+  llamada vs por conversación. Necesita dispatcher que distinga
+  los dos niveles.
+- **#8 Eyebrow "ACCIÓN MASIVA"** en el header del bulk modal —
+  pequeña etiqueta encima del título. Pendiente porque tocar
+  el `sc-dialog` SCDS por una sola línea cosmética sería sobre-
+  ingeniería; espera un segundo consumer que pida lo mismo.
+- **#9 Toast de error + chip "Solo fallidas"** — el flujo cuando
+  el dispatch real responde con errores parciales. Sin backend
+  real no hay errores que tratar.
+- **#11 DataExportImport JSON config Memory** — pantalla del
+  prototipo para exportar/importar la config Memory completa
+  (reglas + categorías + entidades) en JSON. Espera caso real
+  de migración bulk entre instancias.
+- **§11 A · Filtrado de filas en proceso (decisión doc canonical)** —
+  hay 2 docs Memory con interpretaciones distintas. Hoy seguimos
+  una; cuando el dispatch sea real, el equipo decide cuál gana.
+
+**Cómo atacar (caminos viables)**:
+- **Camino mock (corto, riesgo bajo)**: en vez de esperar backend
+  real, simular el pipeline completo con `setTimeout` y un set
+  de IDs in-flight, así pintamos toasts persistentes, errores,
+  hints multi-tramo, etc. Pros: avanzamos UX completa, el usuario
+  ve cómo se siente el sistema en producción. Contras: pega
+  espuma sobre un mock — cuando llegue backend real puede no
+  comportarse igual y habrá que re-tocar. Estimación: 1-2
+  sesiones para mocks #5/#6/#7/#9.
+- **Camino "esperar backend" (largo, riesgo nulo)**: dejarlo
+  todo dormido hasta que haya endpoint real. Pros: 0 trabajo
+  tirado. Contras: la UX queda incompleta visiblemente.
+- **Camino híbrido (recomendado, respeta filosofía)**: simular
+  SOLO los hints sin estado persistido (#6/#7 fáciles, son
+  derivados de `processingIds`), dejar dormidos los que
+  requieren mecanismo nuevo (#5 sticky toast con update
+  in-place, #9 chip permanente "Solo fallidas"). Estimación:
+  30-45 min, gana 2 hints útiles del COA Memory sin sobre-
+  ingeniería.
+
+**Implicaciones**: cualquier camino mock tiene que documentarse
+en el doc canónico (§11 A) para que cuando llegue backend real
+la decisión esté tomada. **El equipo de diseño puede no haber
+escrito spec Figma del audio player todavía**: confirmar antes
+de meternos con #3.
+
+**Filosofía respetada**: regla "no devaluar lo ya hecho" — el
+trabajo S46 cerró #1 (re-transcribir desde player), #2 (multi-
+recording player). Antes de tocar #3-#11, leer §10 entero por
+si algo más cerró por inercia de otros iters.
+
+#### Grupo B · SCDS 7 gaps consumers · DD-4 requiere ≥N consumers
+
+**Qué son**: en [`packages/design-system/docs/inconsistencies-backlog.md`](../packages/design-system/docs/inconsistencies-backlog.md)
+hay 7 componentes que están documentados como "falta este
+wrapper SCDS" pero no se han cocinado porque solo hay 1 consumer
+(o cero). La regla DD-4 dice: 2+ consumers antes de promover
+algo al SCDS, si no es trabajo en vacío.
+
+Los 7:
+- **#2 `<sc-inline-rename-cell>`** — celda editable inline ya
+  existe en AED. Si Memory u otra feature la usa, se promueve.
+- **#4 `<sc-label-chip>`** — gap declinado conscientemente
+  (S32) porque modelar el chip de color custom dentro de
+  PrimeNG complicaría más que mantener el actual. Probable
+  que se quede como Pure SC para siempre.
+- **#6 `<sc-data-table>`** — wrapper de tabla densa Memory.
+  Hoy hay 1 consumer (Memory `/conversaciones`). Cuando AED
+  refactorice alguna list-page a la densidad Memory, se
+  promueve.
+- **#7 `<sc-select-button>`** — chips segmented toggle (estilo
+  iOS Settings). Sin caso real todavía.
+- **#8 `<sc-tag>`** — etiquetas severity-style (success/warn/
+  danger). NO confundir con label-chip. Sin caso real.
+- **#32 `.table-card` + `.table` chrome partial SCDS** — el
+  border + radius + thead background. Patrón duplicado en 4
+  consumers (3 AED + Memory). Trigger: 5º consumer.
+- **#33 `.page` + `.page__inner` chrome partial SCDS** — el
+  wrapper de página con max-width + padding. Duplicado en 8
+  consumers. Trigger: 9º consumer.
+
+**Cómo atacar**:
+- **No atacar proactivamente** — DD-4 es regla. Si forzamos
+  promoción ahora cocinamos componentes "por si acaso" que
+  pueden quedar mal diseñados (sin caso real que los valide).
+- **Reaccionar cuando aparezca el consumer**: cuando Memory
+  necesite editar inline (no parece próximo) o AED rediseñe
+  una list-page con densidad Memory, ahí se evalúa la promoción.
+- **#32/#33 son partial SCSS, no componentes** — el coste de
+  promoverlos es bajo (1 archivo `.scss` shared). Cuando el
+  trigger se cumpla, ataque en 1 sesión.
+
+**Implicaciones**: si Rafa quiere un componente "porque sí lo
+veo útil", chequear primero cuántos consumers hay reales. Si
+es 0-1, **NO cocinar** — la deuda no es real todavía.
+
+**Filosofía respetada**: DD-4 + memoria `feedback_minimal_customization`
++ regla "trigger real o nada" del package CLAUDE.md.
+
+#### Grupo C · SCDS 8 Figma-dependent · "no inventar tokens"
+
+**Qué son**: 8 items que requieren input del equipo de diseño
+en Figma antes de tocar código. Inventar tokens sin spec del
+Kit Pro es regla NO violar (memoria `feedback_figma_specs_thorough`).
+
+Los 8:
+- **#14 `sc-search` clear icon X** — hoy es ícono de búsqueda
+  default. El equipo de diseño debe decidir si en estado "con
+  valor" se cambia a X (clear). Pregunta al equipo.
+- **#15 `sc-search` variants formales sm/md/lg** — hoy hay 1
+  main component en Figma. Falta crear los 3 variants formales.
+- **#37 Variants sm/md/lg de 5 wrappers form (multiselect,
+  datepicker, inputtext, inputnumber, select)** — el código ya
+  los implementa, falta validar que el Figma SC Kit Pro los
+  tenga modelados.
+- **#44 Off-scale spacing 6px (24 hits)** — valores 6px que
+  caen entre `--sc-spacing-50` (4px) y `--sc-spacing-100` (8px).
+  Decisión: ¿añadir token `--sc-spacing-75 = 6px`? ¿O consolidar
+  a 4/8? Requiere visto bueno del equipo.
+- **#45 Off-scale radius 3px (36 hits)** — mismo problema entre
+  2px y 4px.
+- **#48 Icon size tokens (208 hits literales lucide)** — hoy
+  los tamaños de ícono son números literales (13, 14, 16…).
+  Tokenizar requiere que el equipo defina escala en Figma.
+- **#49 Box-shadow custom 5 hits divergentes** — sombras inline
+  custom. Decisión: ¿añadir token `--sc-shadow-card-soft`? ¿O
+  forzar a token existente? Espera el equipo.
+- **#50 Transition duration tokens (23+5 hits sin escala)** —
+  hoy duraciones literales 200ms / 120ms. Tokenizar requiere
+  escala definida (instant/fast/base/slow).
+
+**Cómo atacar**:
+- **Preparar paquete único de preguntas al equipo de diseño**:
+  hacer una sesión de revisión con el equipo donde se les
+  presenta los 8 items con screenshots/casos reales del código
+  + tres opciones (token nuevo / consolidar / mantener custom).
+  Por cada item, el equipo decide.
+- **Sin esa sesión, NO atacar** — la regla "no inventar tokens"
+  es estricta (memoria `feedback_migration_safety` § blindaje
+  upgrades PrimeNG).
+- **Coste de la sesión equipo**: ~1h de su tiempo + 30 min mío
+  preparando el dossier. Es la única ruta limpia.
+
+**Implicaciones**: si Rafa fuerza una decisión hoy (ej. "añade
+token spacing-75"), corremos riesgo de drift con Figma Variables
+cuando el equipo lo importe en su workflow. Es deuda futura
+disfrazada de progreso.
+
+**Filosofía respetada**: memoria `feedback_figma_link_before_component`
++ `feedback_figma_specs_thorough` + DD-7 (toda primitive nueva
+→ entry customs-catalog).
+
+#### Grupo D · Sin trigger funcional · conversation-player-modal + Code Connect
+
+**Qué son**: dos items defensivos sin urgencia ni trigger.
+
+- **conversation-player-modal split (Eje 3 #1)** — el componente
+  tiene 476 líneas y mezcla 4 sub-responsabilidades (audio
+  transport, tab body, retrans gate, dispatch wiring). Es un
+  "god-component" que conviene partir EN CUANTO alguien tenga
+  que añadirle feature nueva. Hoy nadie le toca → no atacar.
+- **Code Connect oficial** — sistema de Figma que mapea
+  components Figma a componentes de código. Dormido S48 con
+  3 condiciones explícitas (en [`code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md)):
+  (1) producción adopta SCDS, (2) wrappers `<sc-*>` existen en
+  codebase producción, (3) ≥1 dev producción consume DS desde
+  Figma. Ninguna cumplida hoy.
+
+**Cómo atacar**:
+- **conversation-player-modal**: no atacar a no ser que un
+  iter nuevo lo requiera. Si surge feature (ej. transcripción
+  parcial editable), aprovechar para refactorizar como parte
+  del feature. ~1.5h estimadas si se ataca.
+- **Code Connect**: NO setup hasta cumplir las 3 condiciones.
+  Si Rafa pregunta "por qué no lo hacemos hoy" → snippets
+  serían referencias rotas para devs producción que no tienen
+  acceso a este repo. Esfuerzo en vacío.
+
+**Implicaciones**: ambos son tareas "que vendrá su día". La
+filosofía "no devaluar lo ya hecho" + "trigger real o nada"
+del CLAUDE.md aplica directo aquí.
+
+**Filosofía respetada**: memoria `feedback_devaluation_existing_work`
++ `feedback_code_connect_dormant`.
+
+---
+
+### Bloque 2 · ¿Comprar BeyondUI (beyondui.design)?
+
+**Qué es BeyondUI exactamente** (según su web hoy):
+- Archivo **Figma premium** (UI kit) con 9.000+ componentes,
+  500+ secciones de landing, 6 templates SaaS completos
+  (AI, Healthcare, Fintech, CRM, Project Management, Crypto),
+  650+ variables de diseño y modo oscuro.
+- **NO incluye código** React/Vue/Angular. Solo Figma + tokens
+  CSS sueltos + config Tailwind + reglas para AI editors
+  (Cursor / Claude Code).
+- **Pricing**: one-time purchase (tiers Standard y Premium).
+  Licencia comercial implícita (apunta a freelancers y agencias).
+
+**¿Es ortogonal o conflicto con nuestro enfoque?**
+
+El proyecto Smart Contact tiene:
+- Stack Angular 21 + PrimeNG 21 + SCDS propio (--sc-* tokens).
+- Figma SC Prime UI Kit Pro como source-of-truth visual.
+- Identidad SC ya auditada 1:1 contra PrimeOne 4.0 (Sesiones
+  S30-S47).
+
+BeyondUI sería **complementario solo como inspiración**, NO
+como reemplazo. Razones:
+
+1. **No ships Angular** — sus componentes Figma no se
+   convierten automáticamente a `<sc-button>` etc. Habría que
+   re-implementar cada uno como wrapper PrimeNG con el preset
+   SC. Drift garantizado si copiamos visualmente.
+
+2. **Tokens distintos** — BeyondUI tiene SUS variables (650+).
+   El SCDS tiene LAS SUYAS (auditadas 1:1 con PrimeOne). Si
+   el equipo de diseño empieza a usar tokens BeyondUI en
+   Figma SC, todo el sistema --sc-* propio queda invalidado.
+   Resync con identidad SC actual = horas de trabajo perdidas.
+
+3. **No estamos en Tailwind** — los assets bonus (Tailwind
+   config + tokens CSS) no aplican. PrimeNG es nuestro
+   sistema. Migrar a Tailwind sería refactor estructural
+   mayor (mes+ de trabajo).
+
+**Riesgos concretos si compras**:
+- **Drift identidad**: el equipo de diseño, viendo un kit
+  más rico, puede ir a tomar componentes de BeyondUI en Figma
+  SC sin pasarlos por el filtro PrimeNG. Implementación ruda:
+  llegan diseños imposibles de implementar con PrimeNG y hay
+  que cocinar Pure SC custom (que es exactamente lo que
+  evitamos con la regla "minimal customization sobre PrimeNG").
+- **Coste cognitivo**: 9.000 componentes Figma es muchísimo
+  más de lo que SC consume (~34 wrappers). El equipo puede
+  perderse explorando vs trabajar en lo que toca.
+- **Coste de oportunidad**: el dinero/tiempo invertido es
+  dinero que NO se invierte en spec sessions con el equipo
+  para cerrar los 8 items Figma-dependent (Grupo C arriba).
+  Esos sí desbloquean trabajo real.
+
+**Ventajas si compras**:
+- **Inspiración**: 6 templates SaaS completos con patrones
+  modernos (AI, fintech, etc.). Útil si el equipo busca
+  referencias para landing del marketing site Smart Contact
+  o pantallas nuevas.
+- **Variables/tokens estructura**: aunque no se usen
+  directamente, ver cómo BeyondUI organiza sus 650+ variables
+  puede dar ideas para optimizar nuestras 7 capas SCDS.
+
+**Precauciones**:
+- Si compras, marca CLARO al equipo: "esto es referencia
+  visual, NO source-of-truth. Source-of-truth sigue siendo
+  Smart Contact Prime UI Kit Pro (PrimeOne 4.0)".
+- NO importar tokens BeyondUI a Figma SC. Aislar como Figma
+  separado.
+- Si surge tentación de "usar este componente BeyondUI tal
+  cual" → pasarlo por checklist customs-catalog §0.
+
+**Veredicto sincero** (memoria `feedback_critical_sparring_partner`,
+no agree por defecto):
+
+**Mi recomendación**: **NO comprar todavía**. Razones:
+1. El proyecto ya tiene un kit Figma propio (Smart Contact
+   Prime UI Kit Pro) que el equipo de diseño usa. Comprar
+   otro kit duplica fuente sin reducir trabajo significativo.
+2. Los 8 items Figma-dependent del Grupo C son MÁS valiosos
+   de cerrar que un kit nuevo. Si invertimos las horas que
+   gastarías estudiando BeyondUI en una spec session con el
+   equipo, desbloqueamos trabajo real (tokens spacing/radius/
+   icon-size/shadow/duration).
+3. BeyondUI brilla para quien empieza desde cero. SC NO
+   empieza desde cero — tiene 47 sesiones de identidad SCDS
+   auditada.
+
+**Si aún quieres comprar** (porque quieres inspiración para
+el marketing site SC, o para descansar la mente de PrimeOne):
+compra el tier Standard, NO el Premium. Y úsalo solo como
+biblioteca de referencias visuales, no como kit a importar.
+Documenta esta decisión en `docs/DECISIONS.md` para que
+quede claro al próximo dev que mire por qué hay 2 kits en
+el proyecto.
+
+---
+
+### Cómo arrancar S54
+
+1. Leer este briefing entero (10-15 min) — bloques 1 y 2.
+2. Decidir prioridad: ¿atacamos algún grupo dormido este iter?
+   ¿o primero hablamos con el equipo de diseño para spec
+   session de los 8 Figma-dependent?
+3. Sobre BeyondUI: decisión sí/no y, si compra, abrir entry
+   en DECISIONS.md para registrar el por qué.
+
 ## Estado al cerrar (Session 53, 2026-05-21)
 
 **Sesión autónoma** (Rafa pidió "ejecuta plan que acoja todo, sin
