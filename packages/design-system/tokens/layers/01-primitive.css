@@ -205,6 +205,11 @@
   /* ---------- Typography ---------- */
   --sc-font-family-primary: 'Inter', system-ui, -apple-system, sans-serif;
   --sc-font-family-secondary: 'Open Sans', sans-serif;
+  /* Monospace stack — usado por time labels del player (multi-rec + single
+   * audio bar) y por el gate input "CONFIRMAR" del retranscription modal.
+   * Cocinado S46 al detectar que múltiples consumers ya lo usaban como
+   * fallback hardcoded. No mapea a fuente custom — system mono stack. */
+  --sc-font-family-mono: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', monospace;
 
   /* Font size scale (px). Names match the JSON 1:1. */
   --sc-font-size-50: 10px;

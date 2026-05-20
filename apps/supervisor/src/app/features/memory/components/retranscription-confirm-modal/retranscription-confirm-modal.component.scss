@@ -18,7 +18,7 @@
     padding: var(--sc-spacing-300);
     background: var(--sc-bg-danger-subtle);
     border: 1px solid var(--sc-border-danger);
-    border-radius: var(--sc-radius-200, 6px);
+    border-radius: var(--sc-radius-200);
   }
 
   &__warning-icon {
@@ -44,16 +44,16 @@
 
   &__warning-body {
     margin: 0;
-    font-size: var(--sc-font-size-body-3, 13px);
+    font-size: var(--sc-font-size-body-3);
     line-height: 1.45;
     color: var(--sc-text-secondary);
   }
 
   &__warning-cost {
     margin: 0;
-    font-size: var(--sc-font-size-body-3, 13px);
+    font-size: var(--sc-font-size-body-3);
     line-height: 1.45;
-    color: var(--sc-text-warning, var(--sc-color-amber-700));
+    color: var(--sc-text-warning);
   }
 
   &__gate {
@@ -63,12 +63,12 @@
   }
 
   &__gate-label {
-    font-size: var(--sc-font-size-body-3, 13px);
+    font-size: var(--sc-font-size-body-3);
     color: var(--sc-text-secondary);
   }
 
   &__gate-token {
-    font-family: var(--sc-font-family-mono, ui-monospace, monospace);
+    font-family: var(--sc-font-family-mono);
     font-weight: 600;
     letter-spacing: 0.1em;
     color: var(--sc-text-primary);
@@ -78,12 +78,12 @@
     /* SC input baseline (mismo height/padding que sc-input) */
     height: 36px;
     padding: 0 var(--sc-spacing-200);
-    font-family: var(--sc-font-family-mono, ui-monospace, monospace);
+    font-family: var(--sc-font-family-mono);
     font-size: var(--sc-font-size-body-2);
     letter-spacing: 0.05em;
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
-    border-radius: var(--sc-radius-200, 6px);
+    border-radius: var(--sc-radius-200);
     color: var(--sc-text-primary);
     outline: none;
     transition:
@@ -96,7 +96,7 @@
     }
 
     &:focus-visible {
-      border-color: var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+      border-color: var(--sc-color-electric-blue-500);
       box-shadow: 0 0 0 3px var(--sc-color-blue-100);
     }
 
@@ -107,7 +107,7 @@
 
     &.is-valid {
       border-color: var(--sc-color-green-500);
-      background: color-mix(in srgb, var(--sc-color-green-100) 50%, transparent);
+      background: var(--sc-bg-success-subtle);
     }
   }
 }

@@ -17,6 +17,12 @@
   background: var(--sc-bg-default);
   border-bottom: 1px solid var(--sc-border-default);
 
+  /* Mid-tone info derivada — equivalent al React `text-sc-info-strong/80`
+   * (Tailwind alpha modifier). No hay token semántico para "info-strong
+   * softened" en SCDS hoy; si aparece 2º consumer del patrón, promover a
+   * `--sc-text-info-subtle` en 02-semantic.css. */
+  --multi-rec-active-meta: color-mix(in srgb, var(--sc-color-electric-blue-700) 80%, transparent);
+
   &__transport {
     display: flex;
     align-items: center;
@@ -32,7 +38,7 @@
     justify-content: center;
     padding: 0;
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--sc-radius-full);
     background: transparent;
     color: var(--sc-text-secondary);
     cursor: pointer;
@@ -46,7 +52,7 @@
     }
 
     &:focus-visible {
-      outline: 2px solid var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+      outline: 2px solid var(--sc-color-electric-blue-500);
       outline-offset: 2px;
     }
 
@@ -60,7 +66,7 @@
       height: 40px;
       background: var(--sc-bg-primary);
       color: var(--sc-text-on-primary);
-      box-shadow: var(--sc-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.06));
+      box-shadow: var(--sc-shadow-sm);
 
       &:hover:not(:disabled) {
         background: var(--sc-bg-primary-hover);
@@ -75,8 +81,8 @@
 
   &__time {
     margin-left: auto;
-    font-family: var(--sc-font-family-mono, ui-monospace, monospace);
-    font-size: var(--sc-font-size-body-3, 13px);
+    font-family: var(--sc-font-family-mono);
+    font-size: var(--sc-font-size-body-3);
     color: var(--sc-text-secondary);
   }
 
@@ -94,7 +100,7 @@
     display: flex;
     transform: translateY(-50%);
     overflow: hidden;
-    border-radius: 999px;
+    border-radius: var(--sc-radius-full);
   }
 
   &__seg {
@@ -103,7 +109,7 @@
     background: var(--sc-border-default);
 
     &--active {
-      background: color-mix(in srgb, var(--sc-color-blue-100) 70%, transparent);
+      background: var(--sc-bg-info-subtle);
     }
 
     &--divider {
@@ -116,7 +122,7 @@
     inset-block: 0;
     left: 0;
     transform-origin: left;
-    background: var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+    background: var(--sc-color-electric-blue-500);
     transition: width 150ms ease;
     will-change: width;
   }
@@ -128,10 +134,10 @@
     border: 0;
     background: transparent;
     cursor: pointer;
-    border-radius: 999px;
+    border-radius: var(--sc-radius-full);
 
     &:focus-visible {
-      outline: 2px solid var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+      outline: 2px solid var(--sc-color-electric-blue-500);
       outline-offset: 2px;
     }
 
@@ -148,9 +154,9 @@
     width: 12px;
     height: 12px;
     transform: translate(-50%, -50%);
-    background: var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
-    border-radius: 999px;
-    box-shadow: var(--sc-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.08));
+    background: var(--sc-color-electric-blue-500);
+    border-radius: var(--sc-radius-full);
+    box-shadow: var(--sc-shadow-sm);
     opacity: 0;
     transition: opacity 140ms ease;
 
@@ -175,7 +181,7 @@
     padding: var(--sc-spacing-100) var(--sc-spacing-200);
     background: transparent;
     border: 0;
-    border-radius: var(--sc-radius-100, 4px);
+    border-radius: var(--sc-radius-100);
     text-align: left;
     cursor: pointer;
     transition: background var(--sc-transition-fast) var(--sc-easing-default);
@@ -185,12 +191,12 @@
     }
 
     &--active {
-      background: color-mix(in srgb, var(--sc-color-blue-100) 50%, transparent);
+      background: var(--sc-bg-info-subtle);
       cursor: default;
     }
 
     &:focus-visible {
-      outline: 2px solid var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+      outline: 2px solid var(--sc-color-electric-blue-500);
       outline-offset: 2px;
     }
   }
@@ -200,13 +206,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    font-size: var(--sc-font-size-body-3, 13px);
+    font-size: var(--sc-font-size-body-3);
     font-weight: 500;
     line-height: 1.25;
     color: var(--sc-text-primary);
 
     .multi-rec__label--active & {
-      color: var(--sc-color-electric-blue-700, var(--sc-color-blue-700));
+      color: var(--sc-color-electric-blue-700);
     }
   }
 
@@ -214,16 +220,12 @@
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    font-family: var(--sc-font-family-mono, ui-monospace, monospace);
+    font-family: var(--sc-font-family-mono);
     font-size: 11px;
     color: var(--sc-text-subtle);
 
     .multi-rec__label--active & {
-      color: color-mix(
-        in srgb,
-        var(--sc-color-electric-blue-700, var(--sc-color-blue-700)) 80%,
-        transparent
-      );
+      color: var(--multi-rec-active-meta);
     }
   }
 
@@ -231,11 +233,7 @@
     color: var(--sc-color-green-600);
 
     .multi-rec__label--active & {
-      color: color-mix(
-        in srgb,
-        var(--sc-color-electric-blue-700, var(--sc-color-blue-700)) 80%,
-        transparent
-      );
+      color: var(--multi-rec-active-meta);
     }
   }
 }

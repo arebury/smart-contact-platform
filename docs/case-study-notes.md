@@ -16,6 +16,48 @@
 
 ---
 
+## 2026-05-20 · S46 — Jerarquía de docs (single source of truth)
+
+**Contexto**: tras 11 sesiones de migración Memory + 5 commits hoy
+solos, el proyecto acumula docs en muchas carpetas (root `docs/`,
+`apps/supervisor/docs/`, `packages/design-system/docs/`, +
+`MEMORY.md` auto en `~/.claude/`). Rafa preocupado de que cada doc
+se actualice por separado y se desalineen.
+
+**Premisa equivocada del impulso natural**: "hay que sweep todos los
+docs para alinearlos cada sesión". Coste alto, valor concreto bajo;
+te dispersa del trabajo real.
+
+**Descubrimiento**: la causa raíz no es "no se actualizan", sino
+**no hay jerarquía clara de qué doc es source of truth para qué**.
+Si hay 4 docs hablando del mismo tema, cualquier update parcial los
+desalinea automáticamente. Si solo hay 1, no hay drift posible.
+
+**Jerarquía establecida S46** (sentada como patrón):
+
+| Tipo de información | Source of truth | Quién consume |
+|---|---|---|
+| Decisiones arquitectónicas AED | `apps/supervisor/docs/DECISIONS.md` | Claude + devs futuros |
+| Backlog deuda DS | `packages/design-system/docs/inconsistencies-backlog.md` | Claude (audita antes de commits) |
+| Memory roadmap + diferidos | `docs/memory-migration-inventory.md` | Claude (consulta al tocar Memory) |
+| Log histórico sesiones | `docs/SESSION-LOG.md` | Claude (lee al arrancar) |
+| Plan próxima sesión | `docs/NEXT-SESSION-PLAN.md` | Claude (lee al arrancar) |
+| Customs Figma divergencias | `packages/design-system/docs/customs-catalog.md` | Claude (antes de añadir override) |
+| Comportamiento Claude (preferencias Rafa) | `~/.claude/projects/.../MEMORY.md` | Solo Claude |
+| Apuntes pedagógicos progresivos | `docs/case-study-notes.md` | Rafa (presentación futura) |
+| `CLAUDE.md` root + subcarpetas | **Punteros breves** a los anteriores | Claude al arrancar |
+
+**Regla de actualización**: al cerrar trabajo, **solo se tocan los
+docs cuyo contenido cambió esa sesión**. El resto queda estable.
+Resistir el impulso de "tocar todos por si acaso".
+
+**Lección portable**: si te preocupa la desalineación cross-docs, la
+respuesta NO es sweep periódico (coste alto). Es definir una única
+source of truth por tipo de información y que los demás docs sean
+punteros, no copias. Un doc puede ser puntero o source — nunca ambos.
+
+---
+
 ## 2026-05-19 · S41 — `getComputedStyle` revela que el "gris" del icono no es lo que parecía
 
 **Contexto**: durante el audit periódico S41, encontré 2 archivos
