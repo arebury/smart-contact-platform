@@ -6,7 +6,7 @@
 
 /* Limita el ancho del input-group de estados — el wrapper es block fluid
  * por defecto, lo que en formularios de configuración queda demasiado ancho. */
-sc-input-group.tag-input {
+sc-inputgroup.tag-input {
   display: block;
   max-width: 420px;
 }

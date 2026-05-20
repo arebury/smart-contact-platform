@@ -81,14 +81,14 @@
   /* `--sc-btn-*` removed S34 (light + dark) — see comment in 04-component.css */
 
   /* ---------- Component · Modal ---------- */
-  --sc-modal-bg: var(--sc-color-gray-900);
-  --sc-modal-border: var(--sc-color-gray-800);
-  --sc-modal-divider: var(--sc-color-gray-800);
-  --sc-modal-title: var(--sc-color-gray-50);
-  --sc-modal-subtitle: var(--sc-color-gray-300);
-  --sc-modal-close-fg: var(--sc-color-gray-300);
-  --sc-modal-close-bg-hover: var(--sc-color-gray-800);
-  --sc-modal-shadow: 0 24px 48px rgb(0 0 0 / 0.5);
+  --sc-dialog-bg: var(--sc-color-gray-900);
+  --sc-dialog-border: var(--sc-color-gray-800);
+  --sc-dialog-divider: var(--sc-color-gray-800);
+  --sc-dialog-title: var(--sc-color-gray-50);
+  --sc-dialog-subtitle: var(--sc-color-gray-300);
+  --sc-dialog-close-fg: var(--sc-color-gray-300);
+  --sc-dialog-close-bg-hover: var(--sc-color-gray-800);
+  --sc-dialog-shadow: 0 24px 48px rgb(0 0 0 / 0.5);
 
   /* ---------- Component · Toast ---------- */
   --sc-toast-title: var(--sc-color-gray-50);

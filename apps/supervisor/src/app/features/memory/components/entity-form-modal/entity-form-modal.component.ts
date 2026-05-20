@@ -29,7 +29,7 @@ interface EntityTypeOption {
  * EntityFormModal · Crear + Editar entidades user · iter 10b.
  *
  * Unifica `CreateEntityModal` (288 líneas) + `EditEntitySidepanel`
- * (575 líneas) del prototipo React. Usa `sc-modal` SCDS — no
+ * (575 líneas) del prototipo React. Usa `sc-dialog` SCDS — no
  * sidepanel separado: el modal con form es suficiente y consistente
  * con el patrón Memory (BulkTranscriptionModal, ConversationPlayerModal).
  *

@@ -11,7 +11,7 @@ import { Label } from '../../data/labels-data';
  * Confirmation dialog for deleting one or many labels. Renders as a single
  * sentence in single mode, or a stack of chips with totals in bulk mode.
  *
- * Renders through the canonical `sc-modal` shell (Figma 1037:34069) — same
+ * Renders through the canonical `sc-dialog` shell (Figma 1037:34069) — same
  * focus trap, ESC handling, header chrome and footer geometry as every other
  * dialog in the app.
  */

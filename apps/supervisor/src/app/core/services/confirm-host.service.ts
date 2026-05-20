@@ -31,7 +31,7 @@ export interface ConfirmRequest {
  * boolean.
  *
  * Plumbing is PrimeNG (since S34); the API is unchanged from the previous
- * sc-modal-based implementation, so existing callers compile and behave
+ * sc-dialog-based implementation, so existing callers compile and behave
  * identically.
  */
 @Injectable({ providedIn: 'root' })
@@ -48,7 +48,7 @@ export class ConfirmHostService {
       const emphasizeReject = req.emphasis === 'reject';
 
       // Build per-button props so each variant matches the previous
-      // sc-modal-based design exactly.
+      // sc-dialog-based design exactly.
       //
       // emphasis=accept (default) → accept gets weight:
       //   primary tone → accept=primary solid, reject=secondary outline

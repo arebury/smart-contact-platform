@@ -23,7 +23,7 @@ let scSelectIdCounter = 0;
 /**
  * Smart Contact select / dropdown. Wraps PrimeNG `<p-select>` with the
  * SCDS field-pattern chrome (label + required + helper + error). Mirrors
- * `sc-input` so the field family reads consistent.
+ * `sc-inputtext` so the field family reads consistent.
  *
  * Aligned 1:1 with Figma `Smart Contact Prime → ❖ Select` (node
  * 6738:22642): border slate-300, radius 6px, padding 10.5/7, dropdown
@@ -59,7 +59,7 @@ let scSelectIdCounter = 0;
   },
 })
 export class SelectComponent implements ControlValueAccessor {
-  // ─── Chrome (mirrors sc-input) ─────────────────────────────────────
+  // ─── Chrome (mirrors sc-inputtext) ─────────────────────────────────────
   readonly size = input<ScSelectSize>('md');
   readonly label = input<string>();
   readonly required = input<boolean>(false);

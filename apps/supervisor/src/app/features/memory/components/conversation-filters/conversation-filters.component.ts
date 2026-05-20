@@ -25,8 +25,8 @@ import { TypeFilterButtonComponent } from '../type-filter-button/type-filter-but
  * Iter 3 (S37): grid 6 columnas con pickers:
  *   - Servicios (sc-multiselect)
  *   - Fecha (sc-datepicker single)
- *   - Origen (sc-input)
- *   - Destino (sc-input)
+ *   - Origen (sc-inputtext)
+ *   - Destino (sc-inputtext)
  *   - Grupos ACD (sc-multiselect)
  *   - Agentes (sc-multiselect)
  *

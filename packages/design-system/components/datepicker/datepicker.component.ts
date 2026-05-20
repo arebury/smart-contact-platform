@@ -24,7 +24,7 @@ let scDatepickerIdCounter = 0;
  *
  * Aligned 1:1 with Figma `Smart Contact Prime → ❖ Datepicker` (node
  * 6738:20817):
- *  - input chrome same as sc-input/sc-select (slate-300 border, 6px
+ *  - input chrome same as sc-inputtext/sc-select (slate-300 border, 6px
  *    radius, drop shadow #1212170D)
  *  - panel: white bg, slate-200 border, padding 10.5, double-layer
  *    shadow, anchor-gutter 2

@@ -20,7 +20,7 @@ let scInputNumberIdCounter = 0;
 /**
  * Smart Contact numeric input. Wraps a native `<input type="number">`
  * with the SCDS field-pattern chrome (label + required mark + helper
- * + error + optional suffix unit). Mirrors `sc-input` shape so the
+ * + error + optional suffix unit). Mirrors `sc-inputtext` shape so the
  * two read as a family.
  *
  * Emits `number | null` (null when the field is empty). Pairs with
@@ -59,7 +59,7 @@ let scInputNumberIdCounter = 0;
   },
 })
 export class InputNumberComponent implements ControlValueAccessor {
-  // ─── Chrome inputs (mirror sc-input) ───────────────────────────────
+  // ─── Chrome inputs (mirror sc-inputtext) ───────────────────────────────
   readonly size = input<ScInputNumberSize>('md');
   readonly label = input<string>();
   readonly required = input<boolean>(false);

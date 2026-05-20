@@ -1,14 +1,14 @@
 /*
  * sc-inputnumber — Smart Contact numeric input.
  *
- * Mirrors sc-input's chrome (label / input / helper-or-error) so the
+ * Mirrors sc-inputtext's chrome (label / input / helper-or-error) so the
  * two read as a family. Differences:
  *   - text-align: right by default (numeric reading convention)
  *   - optional suffix slot (unit label inside the field, right side)
  *   - hides native browser spinners (they're inconsistent + ugly)
  *
  * The actual border/radius/padding/focus/disabled colors come from
- * sc-preset → semantic.formField.*, same as sc-input.
+ * sc-preset → semantic.formField.*, same as sc-inputtext.
  */
 
 .sc-inputnumber {
@@ -83,7 +83,7 @@
 }
 
 /* ────────────────────────────────────────────────────────────────────
- * Size variants — same scale as sc-input.
+ * Size variants — same scale as sc-inputtext.
  * ────────────────────────────────────────────────────────────────────
  */
 .sc-inputnumber--sm .sc-inputnumber__control {

@@ -69,7 +69,7 @@ export class SearchComponent implements ControlValueAccessor {
   readonly inputId = input<string>();
   readonly name = input<string>();
   readonly autoFocus = input<boolean>(false);
-  /** Background "filled" variant (bg slate-50, alineado con sc-input). */
+  /** Background "filled" variant (bg slate-50, alineado con sc-inputtext). */
   readonly filled = input<boolean>(false);
 
   // ─── Search-specific ───────────────────────────────────────────────

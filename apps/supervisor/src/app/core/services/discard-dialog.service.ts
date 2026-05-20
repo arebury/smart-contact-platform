@@ -8,7 +8,7 @@ import { ConfirmHostService } from './confirm-host.service';
  * route guard and by anything else that needs to ask the user before
  * throwing away unsaved work.
  *
- * Renders through the canonical `sc-modal` shell via `ConfirmHostService`
+ * Renders through the canonical `sc-dialog` shell via `ConfirmHostService`
  * — same look as every other dialog (Figma 1037:34069).
  */
 @Injectable({ providedIn: 'root' })

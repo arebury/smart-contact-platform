@@ -4,7 +4,7 @@
  * Compone <p-iconfield> + <p-inputicon> + <input pInputText> + clear button
  * + opcional ⌘K hint. La chrome del input (border, radius, padding, focus
  * ring) hereda de sc-preset → semantic.formField.* (mismo bridge que
- * sc-input).
+ * sc-inputtext).
  *
  * Figma reference: el Kit SC NO tiene un componente "Search" dedicado.
  * Search es una composición del Input principal (`❖ InputText`,
@@ -96,7 +96,7 @@
 }
 
 /* ────────────────────────────────────────────────────────────────────
- * Size variants — replicar los del sc-input (chrome consistency).
+ * Size variants — replicar los del sc-inputtext (chrome consistency).
  * ────────────────────────────────────────────────────────────────────
  */
 .sc-search--sm .sc-search__control {
@@ -115,7 +115,7 @@
   font-size: 15.75px;
 }
 
-/* Filled variant — slate-50 bg, alineado con sc-input. */
+/* Filled variant — slate-50 bg, alineado con sc-inputtext. */
 .sc-search--filled .sc-search__control {
   background: var(--sc-color-gray-50);
 

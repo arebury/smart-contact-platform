@@ -15,7 +15,7 @@ export type ScInputGroupSize = 'sm' | 'md' | 'lg';
  * radio). PrimeNG ya hace el border-merge entre el input y los addons; el
  * wrapper aquí solo añade:
  *   - selector brand-prefijado `sc-inputgroup` (consistencia DS).
- *   - prop `size` que matchea `sc-input` (sm/md/lg) para combinar alturas
+ *   - prop `size` que matchea `sc-inputtext` (sm/md/lg) para combinar alturas
  *     cuando el input-group convive con otros campos.
  *
  * Patrón de uso (content projection):

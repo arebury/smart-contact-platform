@@ -3,7 +3,7 @@
  *
  * PrimeNG se encarga del border-merge entre input y addons (los addons
  * absorben el borde compartido). Lo único que añadimos aquí son:
- *   - size variants que matchean sc-input (sm/md/lg) ajustando padding
+ *   - size variants que matchean sc-inputtext (sm/md/lg) ajustando padding
  *     vertical del addon y la altura percibida.
  *   - layout block del host para que el grupo se comporte como bloque
  *     en formularios.
@@ -27,10 +27,10 @@
   display: flex;
 }
 
-/* ───── Size variants — alinear con sc-input padding decimal (10.5/7) ───── */
+/* ───── Size variants — alinear con sc-inputtext padding decimal (10.5/7) ───── */
 
 .sc-inputgroup--sm .sc-inputgroup__inner {
-  /* sc-input sm: padding 8.75/5.25, font-size 12.25 — replicamos en addon. */
+  /* sc-inputtext sm: padding 8.75/5.25, font-size 12.25 — replicamos en addon. */
   .p-inputgroup-addon {
     padding: 5.25px 8.75px;
     font-size: 12.25px;
@@ -45,7 +45,7 @@
 }
 
 .sc-inputgroup--lg .sc-inputgroup__inner {
-  /* sc-input lg: padding 12.25/8.75, font-size 15.75. */
+  /* sc-inputtext lg: padding 12.25/8.75, font-size 15.75. */
   .p-inputgroup-addon {
     padding: 8.75px 12.25px;
     font-size: 15.75px;

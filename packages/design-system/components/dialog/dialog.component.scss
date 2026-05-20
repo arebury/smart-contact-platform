@@ -6,10 +6,10 @@
 .sc-dialog {
   display: flex;
   flex-direction: column;
-  background: var(--sc-modal-bg);
-  border: 1px solid var(--sc-modal-border);
-  border-radius: var(--sc-modal-radius);
-  box-shadow: var(--sc-modal-shadow);
+  background: var(--sc-dialog-bg);
+  border: 1px solid var(--sc-dialog-border);
+  border-radius: var(--sc-dialog-radius);
+  box-shadow: var(--sc-dialog-shadow);
   /* Cap height so very long body content scrolls inside the modal */
   max-height: min(85vh, 720px);
 
@@ -19,8 +19,8 @@
      * sin necesidad de divider lines (Figma reference). */
     display: flex;
     align-items: flex-start;
-    gap: var(--sc-modal-header-gap);
-    padding: var(--sc-modal-padding);
+    gap: var(--sc-dialog-header-gap);
+    padding: var(--sc-dialog-padding);
   }
 
   &__head-icon {
@@ -28,7 +28,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--sc-modal-head-icon-fg);
+    color: var(--sc-dialog-head-icon-fg);
     /* Reserve a fixed slot so adding/removing the icon never shifts the
      * title baseline. */
     width: 16px;
@@ -47,10 +47,10 @@
     /* Figma `dialog/title/font/size: 17.5` (raw), `font/weight: 600`. */
     margin: 0;
     font-family: var(--sc-font-family-primary);
-    font-weight: var(--sc-modal-title-font-weight);
-    font-size: var(--sc-modal-title-font-size);
+    font-weight: var(--sc-dialog-title-font-weight);
+    font-size: var(--sc-dialog-title-font-size);
     line-height: 1.4;
-    color: var(--sc-modal-title);
+    color: var(--sc-dialog-title);
     /* Long titles wrap; never truncate (the user needs to read what
      * they're confirming). */
     word-break: break-word;
@@ -62,7 +62,7 @@
     font-weight: var(--sc-font-weight-body-2);
     font-size: var(--sc-font-size-body-2);
     line-height: var(--sc-line-height-body-2);
-    color: var(--sc-modal-subtitle);
+    color: var(--sc-dialog-subtitle);
   }
 
   &__close {
@@ -76,11 +76,11 @@
     border: 0;
     border-radius: 4px;
     background: transparent;
-    color: var(--sc-modal-close-fg);
+    color: var(--sc-dialog-close-fg);
     cursor: pointer;
 
     &:hover {
-      background: var(--sc-modal-close-bg-hover);
+      background: var(--sc-dialog-close-bg-hover);
     }
 
     &:focus-visible {
@@ -93,13 +93,13 @@
     /* Figma `dialog/content/padding`: 17.5 lados/abajo, top:0
      * (el header ya pone 17.5 abajo — sin top el doble padding desaparece
      * en la costura). Acepta cualquier contenido stackeado via <ng-content>:
-     * párrafos, formularios, sc-input, sc-select, listas, lo que sea.
+     * párrafos, formularios, sc-inputtext, sc-select, listas, lo que sea.
      * El contenedor es scrollable (overflow-y: auto) si el cap de
      * max-height del modal se supera. */
     flex: 1 1 auto;
     overflow-y: auto;
-    padding: 0 var(--sc-modal-padding) var(--sc-modal-padding);
-    color: var(--sc-modal-title);
+    padding: 0 var(--sc-dialog-padding) var(--sc-dialog-padding);
+    color: var(--sc-dialog-title);
     display: flex;
     flex-direction: column;
     gap: var(--sc-spacing-300); /* gap default entre elementos directos del body */
@@ -111,8 +111,8 @@
     flex: 0 0 auto;
     display: flex;
     justify-content: flex-end;
-    gap: var(--sc-modal-footer-gap);
-    padding: 0 var(--sc-modal-padding) var(--sc-modal-padding);
+    gap: var(--sc-dialog-footer-gap);
+    padding: 0 var(--sc-dialog-padding) var(--sc-dialog-padding);
     border-top: 0;
   }
 
