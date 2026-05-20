@@ -63,6 +63,12 @@
   font-size: 15.75px;
 }
 
+/* Overlay panel size: PrimeNG renderea el panel en <body>, fuera del
+ * scope encapsulado del componente. Los styles del panel viven en el
+ * partial global `packages/design-system/styles/_sc-overlay-sizes.scss`
+ * (importado desde main.scss del consumer). Aquí solo declaramos la
+ * clase que el template aplica al panel via `panelStyleClass`. */
+
 /* ────────────────────────────────────────────────────────────────────
  * Filled variant — Figma `Filled=True` node 6220:7054.
  *   `multiselect/filled/background = #f8fafc` (slate-50).

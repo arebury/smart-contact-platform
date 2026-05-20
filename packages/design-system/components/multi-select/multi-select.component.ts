@@ -113,6 +113,15 @@ export class MultiSelectComponent implements ControlValueAccessor {
     return s === 'sm' ? 'small' : s === 'lg' ? 'large' : undefined;
   });
 
+  /** PrimeNG `[size]` no propaga al overlay (solo afecta al trigger). Para
+   *  que los items del dropdown también respeten la variante size, pasamos
+   *  una clase al panel (`<p-multiselect>` la aplica al overlay raíz). El
+   *  SCSS hookea esa clase para ajustar padding/font de los items. */
+  protected readonly panelStyleClass = computed(() => {
+    const s = this.size();
+    return s === 'sm' ? 'sc-multi-select-panel--sm' : s === 'lg' ? 'sc-multi-select-panel--lg' : '';
+  });
+
   protected readonly optionsMutable = computed(() => this.options() as unknown[]);
 
   // ─── ControlValueAccessor ──────────────────────────────────────────

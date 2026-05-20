@@ -113,6 +113,13 @@ export class DatepickerComponent implements ControlValueAccessor {
     return s === 'sm' ? 'small' : s === 'lg' ? 'large' : undefined;
   });
 
+  /** Clase propagada al overlay panel para que los items hereden el size.
+   *  Ver `packages/design-system/styles/_sc-overlay-sizes.scss`. */
+  protected readonly panelStyleClass = computed(() => {
+    const s = this.size();
+    return s === 'sm' ? 'sc-datepicker-panel--sm' : s === 'lg' ? 'sc-datepicker-panel--lg' : '';
+  });
+
   // ─── ControlValueAccessor ──────────────────────────────────────────
   private _onChange: (v: Date | null) => void = () => {};
   private _onTouched: () => void = () => {};

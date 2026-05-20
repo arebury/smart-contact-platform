@@ -131,6 +131,13 @@ export class SelectComponent implements ControlValueAccessor {
     return s === 'sm' ? 'small' : s === 'lg' ? 'large' : undefined;
   });
 
+  /** Clase propagada al overlay panel (`<body>`) para que los items
+   *  hereden el size. Ver `packages/design-system/styles/_sc-overlay-sizes.scss`. */
+  protected readonly panelStyleClass = computed(() => {
+    const s = this.size();
+    return s === 'sm' ? 'sc-select-panel--sm' : s === 'lg' ? 'sc-select-panel--lg' : '';
+  });
+
   /** PrimeNG's `[options]` is typed `any[]` (mutable); cast our readonly array. */
   protected readonly optionsMutable = computed(() => this.options() as unknown[]);
 

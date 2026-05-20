@@ -8,6 +8,12 @@
 @use 'forms';
 @use 'table-elements';
 
+/* SCDS overlay sizes — partial global porque PrimeNG renderea overlays
+ * en <body>, fuera del scope encapsulado de los wrappers SCDS. Aplica a
+ * multi-select / select / datepicker panels cuando el wrapper propaga
+ * size=sm|lg via `panelStyleClass`. Patrón análogo a `_sc-toast.scss`. */
+@use '../../../../packages/design-system/styles/sc-overlay-sizes';
+
 /* Design tokens — layered system (primitive → semantic → palette →
  * component → extensions → PrimeNG bridge → dark). Single source of
  * truth lives in `packages/design-system/tokens/`; the orchestrator
