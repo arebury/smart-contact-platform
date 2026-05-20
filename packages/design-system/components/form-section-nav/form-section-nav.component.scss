@@ -49,14 +49,14 @@
   color: inherit;
   text-decoration: none;
   cursor: pointer;
-  transition: background var(--sc-transition-fast, 120ms) ease;
+  transition: background var(--sc-transition-fast) ease;
 
   &:hover {
     background: var(--sc-bg-secondary-subtle);
   }
 
   &:focus-visible {
-    outline: 2px solid var(--sc-border-focus, var(--sc-color-blue-500));
+    outline: 2px solid var(--sc-border-focus);
     outline-offset: 2px;
   }
 
@@ -85,19 +85,19 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--sc-radius-200);
-  background: var(--sc-color-gray-100, var(--sc-bg-secondary-subtle));
+  background: var(--sc-color-gray-100);
   color: var(--sc-text-secondary);
   border: 1px solid transparent;
   transition:
-    background var(--sc-transition-fast, 120ms) ease,
-    color var(--sc-transition-fast, 120ms) ease;
+    background var(--sc-transition-fast) ease,
+    color var(--sc-transition-fast) ease;
 }
 
 .form-nav__label {
-  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  font-family: var(--sc-font-family-primary);
   font-size: var(--sc-font-size-100);
   line-height: 20px;
-  font-weight: var(--sc-font-weight-medium, 500);
+  font-weight: var(--sc-font-weight-medium);
   color: var(--sc-text-secondary);
   white-space: nowrap;
   overflow: hidden;

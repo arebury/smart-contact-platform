@@ -14,7 +14,7 @@
   display: block;
   position: sticky;
   top: 0;
-  z-index: var(--sc-z-sticky-form-header, 5);
+  z-index: var(--sc-z-sticky-form-header);
 }
 
 .page-header {
@@ -35,7 +35,7 @@
   width: 44px;
   height: 44px;
   border-radius: var(--sc-radius-200);
-  background: var(--sc-color-gray-100, var(--sc-bg-secondary-subtle));
+  background: var(--sc-color-gray-100);
   color: var(--sc-text-secondary);
 }
 

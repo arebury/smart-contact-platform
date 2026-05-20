@@ -21,14 +21,14 @@
     border: 0;
     cursor: pointer;
     text-align: left;
-    transition: background var(--sc-transition-fast, 120ms) ease;
+    transition: background var(--sc-transition-fast) ease;
 
     &:hover {
       background: var(--sc-bg-secondary-hover);
     }
 
     &:focus-visible {
-      outline: 2px solid var(--sc-border-focus, var(--sc-color-blue-500));
+      outline: 2px solid var(--sc-border-focus);
       outline-offset: -2px;
     }
 
@@ -39,7 +39,7 @@
 
   &__title {
     font-size: var(--sc-font-size-100);
-    font-weight: var(--sc-font-weight-medium, 500);
+    font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
   }
 

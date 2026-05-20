@@ -22,7 +22,7 @@
 
   &__title {
     margin: 0;
-    font-size: var(--sc-font-size-h2, 24px);
+    font-size: var(--sc-font-size-h2);
     line-height: 36px;
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
@@ -30,7 +30,7 @@
 
   &__subtitle {
     margin: 4px 0 0;
-    font-size: var(--sc-font-size-200, 14px);
+    font-size: var(--sc-font-size-200);
     line-height: 24px;
     color: var(--sc-text-subtle);
   }
@@ -51,7 +51,7 @@
   &__head {
     display: flex;
     align-items: baseline;
-    gap: var(--sc-spacing-150, 12px);
+    gap: var(--sc-spacing-150);
     padding: var(--sc-spacing-300) var(--sc-spacing-500);
     background: var(--sc-bg-surface);
     border-bottom: 1px solid var(--sc-border-subtle);

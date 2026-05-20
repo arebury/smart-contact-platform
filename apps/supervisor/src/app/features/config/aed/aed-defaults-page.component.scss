@@ -22,7 +22,7 @@
 
   &__title {
     margin: 0;
-    font-size: var(--sc-font-size-h2, 24px);
+    font-size: var(--sc-font-size-h2);
     line-height: 36px;
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
@@ -30,7 +30,7 @@
 
   &__subtitle {
     margin: 4px 0 0;
-    font-size: var(--sc-font-size-200, 14px);
+    font-size: var(--sc-font-size-200);
     line-height: 24px;
     color: var(--sc-text-subtle);
   }
@@ -53,9 +53,9 @@
 
   &__title {
     margin: 0;
-    font-size: var(--sc-font-size-200, 14px);
+    font-size: var(--sc-font-size-200);
     line-height: 22px;
-    font-weight: var(--sc-font-weight-medium, 500);
+    font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
   }
 
@@ -116,9 +116,9 @@
 
   &__title {
     margin: 0;
-    font-size: var(--sc-font-size-200, 14px);
+    font-size: var(--sc-font-size-200);
     line-height: 22px;
-    font-weight: var(--sc-font-weight-medium, 500);
+    font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
   }
 
@@ -156,7 +156,7 @@
     gap: var(--sc-spacing-100);
     font-size: var(--sc-font-size-50);
     line-height: 18px;
-    font-weight: var(--sc-font-weight-medium, 500);
+    font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
   }
 
@@ -175,13 +175,13 @@
     height: 36px;
     padding: 0 var(--sc-spacing-200);
     font-family: inherit;
-    font-size: var(--sc-font-size-100, 13px);
+    font-size: var(--sc-font-size-100);
     color: var(--sc-text-primary);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-200);
     outline: none;
-    transition: border-color var(--sc-transition-fast, 120ms) ease;
+    transition: border-color var(--sc-transition-fast) ease;
 
     &::placeholder {
       color: var(--sc-text-subtle);
@@ -255,7 +255,7 @@ select.field__input {
   align-items: center;
   gap: var(--sc-spacing-100);
   cursor: pointer;
-  font-size: var(--sc-font-size-100, 13px);
+  font-size: var(--sc-font-size-100);
   color: var(--sc-text-primary);
 
   > input[type='radio'] {
@@ -266,7 +266,7 @@ select.field__input {
   }
 
   &:focus-within > span {
-    outline: 2px solid var(--sc-border-focus, var(--sc-color-blue-500));
+    outline: 2px solid var(--sc-border-focus);
     outline-offset: 3px;
     border-radius: 2px;
   }
@@ -290,7 +290,7 @@ select.field__input {
   &__label {
     font-size: var(--sc-font-size-100);
     line-height: 22px;
-    font-weight: var(--sc-font-weight-medium, 500);
+    font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
   }
 

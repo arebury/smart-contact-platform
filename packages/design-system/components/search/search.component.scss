@@ -41,7 +41,7 @@
  * search del iconfield para que el cluster lea balanceado. */
 .sc-search__clear {
   position: absolute;
-  right: var(--sc-spacing-150, 8px);
+  right: var(--sc-spacing-150);
   top: 50%;
   transform: translateY(-50%);
   display: inline-flex;
@@ -52,12 +52,12 @@
   padding: 0;
   background: transparent;
   border: 0;
-  border-radius: var(--sc-radius-100, 4px);
+  border-radius: var(--sc-radius-100);
   color: var(--sc-text-subtle);
   cursor: pointer;
   transition:
-    background var(--sc-transition-fast, 100ms) var(--sc-easing-default, ease),
-    color var(--sc-transition-fast, 100ms) var(--sc-easing-default, ease);
+    background var(--sc-transition-fast) var(--sc-easing-default),
+    color var(--sc-transition-fast) var(--sc-easing-default);
 
   &:hover {
     background: var(--sc-bg-secondary-hover);
@@ -65,7 +65,7 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+    outline: 2px solid var(--sc-color-electric-blue-500);
     outline-offset: 1px;
   }
 }
@@ -75,10 +75,10 @@
  * texto (para no robar atención del clear button). */
 .sc-search__kbd {
   position: absolute;
-  right: var(--sc-spacing-200, 12px);
+  right: var(--sc-spacing-200);
   top: 50%;
   transform: translateY(-50%);
-  font-family: var(--sc-font-family-mono, ui-monospace, monospace);
+  font-family: var(--sc-font-family-mono);
   font-size: 11px;
   font-weight: 500;
   line-height: 1;

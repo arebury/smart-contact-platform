@@ -28,7 +28,7 @@ sc-input-group.tag-input {
   padding: 0 var(--sc-spacing-200);
   background: var(--sc-bg-secondary-subtle);
   border: 1px solid var(--sc-border-default);
-  border-radius: 999px;
+  border-radius: var(--sc-radius-full);
   font-size: var(--sc-font-size-50);
   color: var(--sc-text-secondary);
 
@@ -44,7 +44,7 @@ sc-input-group.tag-input {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    transition: color var(--sc-transition-fast, 120ms) ease;
+    transition: color var(--sc-transition-fast) ease;
 
     &:hover {
       color: var(--sc-text-secondary);
@@ -66,7 +66,7 @@ sc-input-group.tag-input {
   align-items: center;
   gap: var(--sc-spacing-200);
   cursor: pointer;
-  font-size: var(--sc-font-size-100, 13px);
+  font-size: var(--sc-font-size-100);
 
   > input[type='checkbox'] {
     accent-color: var(--sc-bg-primary);
@@ -118,7 +118,7 @@ sc-input-group.tag-input {
   align-items: center;
   gap: var(--sc-spacing-100);
   cursor: pointer;
-  font-size: var(--sc-font-size-100, 13px);
+  font-size: var(--sc-font-size-100);
   color: var(--sc-text-secondary);
 
   > input[type='checkbox'] {

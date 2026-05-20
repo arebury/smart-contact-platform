@@ -35,11 +35,11 @@
   width: 256px;
   position: sticky;
   /* Same offset the /admin form rails use to sit below `sticky-form-header`. */
-  top: var(--sc-form-panel-top, 80px);
+  top: var(--sc-form-panel-top);
   align-self: stretch;
   /* Sticky needs an explicit height. We subtract the header offset so
    * the rail's scroll area doesn't extend past the visible viewport. */
-  height: calc(100dvh - var(--sc-form-panel-top, 80px));
+  height: calc(100dvh - var(--sc-form-panel-top));
   z-index: 1;
 }
 

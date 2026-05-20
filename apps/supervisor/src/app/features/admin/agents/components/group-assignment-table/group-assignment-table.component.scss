@@ -203,7 +203,7 @@
 
     td {
       padding: var(--sc-spacing-150) var(--sc-spacing-200);
-      border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
+      border-bottom: 1px solid var(--sc-border-subtle);
       vertical-align: middle;
     }
   }
@@ -272,7 +272,7 @@
     &--off {
       background: transparent;
       border-style: dashed;
-      border-color: var(--sc-border-subtle, var(--sc-border-default));
+      border-color: var(--sc-border-subtle);
       color: var(--sc-text-subtle);
     }
     &--disabled {

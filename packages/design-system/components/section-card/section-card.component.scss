@@ -13,11 +13,11 @@
   box-shadow: var(--sc-shadow-card);
   overflow: hidden;
   transition:
-    border-color var(--sc-transition-fast, 120ms) ease,
-    box-shadow var(--sc-transition-fast, 120ms) ease;
+    border-color var(--sc-transition-fast) ease,
+    box-shadow var(--sc-transition-fast) ease;
   /* Anchor offset for `sc-form-section-nav` jump-to-anchor — clears the
    * StickyFormHeader when scrolling into view. */
-  scroll-margin-top: var(--sc-form-anchor-offset, 80px);
+  scroll-margin-top: var(--sc-form-anchor-offset);
 
   &__head {
     padding: var(--sc-spacing-300) var(--sc-spacing-400);
@@ -40,7 +40,7 @@
       border-right: 0;
       text-align: left;
       cursor: pointer;
-      transition: background var(--sc-transition-fast, 120ms) ease;
+      transition: background var(--sc-transition-fast) ease;
 
       &:hover {
         background: var(--sc-bg-secondary-subtle);

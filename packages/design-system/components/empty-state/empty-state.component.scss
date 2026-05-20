@@ -23,7 +23,7 @@
 
   &__title {
     margin: 0;
-    font-size: var(--sc-font-size-300, 16px);
+    font-size: var(--sc-font-size-300);
     font-weight: 600;
     color: var(--sc-text-primary);
   }
@@ -31,7 +31,7 @@
   &__body {
     margin: 0;
     max-width: 420px;
-    font-size: var(--sc-font-size-100, 13px);
+    font-size: var(--sc-font-size-100);
     line-height: 1.5;
     color: var(--sc-text-subtle);
   }
@@ -45,13 +45,13 @@
     border: 1px solid transparent;
     background: var(--sc-bg-primary);
     color: var(--sc-text-on-primary);
-    font-size: var(--sc-font-size-100, 13px);
+    font-size: var(--sc-font-size-100);
     font-weight: 500;
     cursor: pointer;
     transition: background 150ms ease;
 
     &:hover {
-      background: var(--sc-bg-primary-hover, var(--sc-bg-primary));
+      background: var(--sc-bg-primary-hover);
     }
 
     &:focus-visible {
