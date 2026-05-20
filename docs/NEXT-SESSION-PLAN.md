@@ -352,14 +352,85 @@ el proyecto.
 
 ---
 
+### Bloque 3 · Verificación visual de los cambios S53.5
+
+> Al cerrar S53.5, Rafa reportó que NO veía los cambios en Netlify.
+> Tras revisar: ambos sites estaban deployados correctamente
+> (ds-smartcontact en `a1e6bba`, aedmigration en `ee771b2`), HTTP
+> 200 en assets clave. Causa probable: caché del navegador.
+>
+> Al arrancar S54: hard refresh en las 4 URLs y verificar uno a uno.
+
+| Cambio | URL | Cómo verlo |
+|---|---|---|
+| Thumbnails tracker | https://ds-smartcontact.netlify.app/ | Scroll a "Mi seguimiento". Cada fila tiene mini-captura derecha que linkea a la gallery del componente. |
+| Espaciado header agente | https://aedmigration.netlify.app/admin/agentes/editar/1 | Header con avatar + AGENTE + nombre + pill verde. Más aire vertical y entre chunks "Sin email" / "Extensión 122" / "WebRTC". |
+| Marcar leída condicional | https://aedmigration.netlify.app/conversaciones | El icono toolbar solo aparece cuando hay filas rojas. Cambiar mock sample a "Solo fallidas" desde el switcher arriba a la derecha. |
+| Right-click en filas | https://aedmigration.netlify.app/conversaciones | Click derecho sobre cualquier fila. Menú con Procesar/Analizar (según estado) + Marcar como leída (solo si la fila está roja). |
+
+Si tras hard refresh (⌘/Ctrl + Shift + R) algo NO se ve: capturar
+pantalla, abrir DevTools → Network → Disable cache, hard refresh
+otra vez. La API REST de Netlify no expone logs raw — si hay
+sospecha de build roto, mirar el log en la UI del dashboard de
+cada site.
+
+---
+
+### Bloque 4 · Atajos de teclado — auditar legacy + documentar
+
+> Pedido del user al cerrar S53.5. El prototipo React Memory
+> (y AED por inercia) tenía atajos como Escape para salir de
+> modales, cerrar dropdowns, etc. Hay que auditar qué hay
+> implementado vs qué espera el legacy, y dejarlo documentado
+> en ambos proyectos (AED + Memory).
+
+**Qué hacer en S54**:
+
+1. **Auditar el código legacy**:
+   - Memory React: `arebury/Memory/legacy-react/src/app/` —
+     buscar `KeyboardEvent`, `Escape`, `onKeyDown`, hotkeys.
+   - Listar atajos previstos: Escape (close modal/dropdown),
+     ⌘K (command palette ya implementado), `/` (focus search
+     ya implementado en tracker home ds-docs), arrow keys
+     (radio group multi-rec ya implementado).
+
+2. **Auditar el código Angular actual**:
+   - Buscar handlers `(keydown)` / `@HostListener` / `Escape` en
+     `apps/supervisor/src/app/features/` y `packages/design-system/`.
+   - Cruzar con la lista del legacy: ¿qué está, qué falta?
+
+3. **Documentar resultado**:
+   - Entry nueva en [`apps/supervisor/docs/DECISIONS.md`](../apps/supervisor/docs/DECISIONS.md) —
+     "Atajos de teclado canonical AED + Memory".
+   - Update [`packages/design-system/components/keyboard-shortcuts/`](../packages/design-system/components/keyboard-shortcuts/) —
+     el panel "Pulsa ?" ya existe pero quizás incompleto.
+   - Si falta un atajo crítico (ej. Escape cierra modales),
+     implementarlo en el wrapper SCDS correspondiente
+     (`<sc-dialog>` ya debería tener Escape via PrimeNG, verificar).
+
+4. **Filosofía respetada**: este bloque es trabajo de auditoría +
+   doc, NO sweep masivo. Solo implementar lo que claramente
+   esté roto o ausente. El resto queda registrado como deuda
+   en `inconsistencies-backlog.md` con severidad apropiada.
+
+**Estimación**: 1 sesión completa (audit + doc + fixes
+puntuales si los hay). Si aparecen muchos gaps, partir en 2
+sesiones (audit primero, fixes después).
+
+---
+
 ### Cómo arrancar S54
 
-1. Leer este briefing entero (10-15 min) — bloques 1 y 2.
-2. Decidir prioridad: ¿atacamos algún grupo dormido este iter?
-   ¿o primero hablamos con el equipo de diseño para spec
-   session de los 8 Figma-dependent?
-3. Sobre BeyondUI: decisión sí/no y, si compra, abrir entry
-   en DECISIONS.md para registrar el por qué.
+1. Leer este briefing entero (15-20 min) — bloques 1 al 4.
+2. **Empezar por bloque 3** (verificación visual S53.5) — es
+   rápido, descarta dudas de "está roto" antes de avanzar.
+3. Decidir prioridad de bloques 1 / 2 / 4:
+   - ¿Atacamos algún grupo dormido del bloque 1?
+   - ¿Spec session con el equipo (bloque 1 grupo C)?
+   - ¿Decisión BeyondUI (bloque 2)?
+   - ¿Audit atajos teclado (bloque 4)?
+4. Si BeyondUI: decisión sí/no y, si compra, entry en
+   DECISIONS.md para registrar el por qué.
 
 ## Estado al cerrar (Session 53, 2026-05-21)
 
