@@ -32,6 +32,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import type { Conversation, Recording, TranscriptionLine } from '../../data/conversation.types';
+import { DownloadModalComponent } from '../download-modal/download-modal.component';
 import { MultiRecordingPlayerComponent } from '../multi-recording-player/multi-recording-player.component';
 
 /**
@@ -76,6 +77,7 @@ import { MultiRecordingPlayerComponent } from '../multi-recording-player/multi-r
     ButtonModule,
     LucideAngularModule,
     DialogComponent,
+    DownloadModalComponent,
     MultiRecordingPlayerComponent,
     TranslateModule,
   ],
@@ -105,6 +107,8 @@ export class ConversationPlayerModalComponent {
   readonly requestRetranscriptionConfirm = output<string>();
 
   protected readonly activeTab = signal<'transcription' | 'analysis'>('transcription');
+  /** Estado del modal de descarga (S47 §10 #4). NULL/false = oculto. */
+  protected readonly downloadModalVisible = signal<boolean>(false);
   protected readonly isPlaying = signal(false);
   protected readonly currentTime = signal(0);
   protected readonly searchTerm = signal('');
@@ -354,15 +358,41 @@ export class ConversationPlayerModalComponent {
     this.requestRetranscriptionConfirm.emit(c.id);
   }
 
+  /**
+   * Abre el modal de descarga (DownloadModalComponent) para que el usuario
+   * elija qué descargar (grabaciones / chats) con aviso GDPR explícito.
+   * Pre-S47 esto era toast directo — el modal añade la confirmación de
+   * scope + el aviso de privacidad antes del trigger backend.
+   */
   protected onDownload(): void {
-    const titleKey = this.isChat()
-      ? 'memory.player.download_chat_toast'
-      : 'memory.player.download_audio_toast';
-    this.messages.add({
-      severity: 'info',
-      summary: this.translate.instant(titleKey),
-      life: 2500,
-    });
+    this.downloadModalVisible.set(true);
+  }
+
+  protected onDownloadConfirmed(opts: {
+    readonly recordings: boolean;
+    readonly chats: boolean;
+  }): void {
+    this.downloadModalVisible.set(false);
+    // Mock: dispara toasts según las opciones elegidas. En producción real
+    // backend, este handler llama al endpoint con `opts` como payload.
+    if (opts.recordings) {
+      this.messages.add({
+        severity: 'info',
+        summary: this.translate.instant('memory.player.download_audio_toast'),
+        life: 2500,
+      });
+    }
+    if (opts.chats) {
+      this.messages.add({
+        severity: 'info',
+        summary: this.translate.instant('memory.player.download_chat_toast'),
+        life: 2500,
+      });
+    }
+  }
+
+  protected onDownloadCancelled(): void {
+    this.downloadModalVisible.set(false);
   }
 
   protected isAgentSpeaker(speaker: string): boolean {

@@ -462,3 +462,13 @@
     </p-button>
   </div>
 </sc-dialog>
+
+<!-- Modal de descarga (S47 §10 #4). hasRecordings/hasChats derivados de la
+     conversación activa: chat sin audio → recordings disabled. -->
+<sc-memory-download-modal
+  [visible]="downloadModalVisible()"
+  [hasRecordings]="!isChat() && !!conversation()?.hasRecording"
+  [hasChats]="isChat()"
+  (confirm)="onDownloadConfirmed($event)"
+  (cancelled)="onDownloadCancelled()"
+/>

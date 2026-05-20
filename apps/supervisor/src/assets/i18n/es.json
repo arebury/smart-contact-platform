@@ -186,6 +186,16 @@
         "neutral_summary": "sin sesgo emocional",
         "negative": "Negativo",
         "negative_summary": "fricción detectada"
+      },
+      "download": {
+        "title": "Descargar conversación",
+        "subtitle": "Selecciona qué descargar",
+        "recordings": "Grabaciones",
+        "chats": "Chats",
+        "no_recordings_hint": "Esta conversación no tiene audio.",
+        "no_chats_hint": "Esta conversación no tiene mensajes de chat.",
+        "gdpr_hint": "Las conversaciones eliminadas o vacías no se incluyen en la descarga.",
+        "confirm_btn": "Descargar"
       }
     },
     "bulk": {
