@@ -80,9 +80,10 @@ Capa | Archivo | Status
 | `<sc-input>` | 2026-05-15 | S30 | 240 variants Nivel-2, padding decimal raw |
 | `<p-tabs>` | 2026-05-15 | S30 | Padding tab 14/15.75 |
 | `<p-tooltip>` | 2026-05-15 | S30 | bg slate-700, padding 10.5/7 |
-| `<sc-multi-select>` | 2026-05-15 | S30 | Tokens idénticos a select |
+| `<sc-multi-select>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory `/conversaciones` ConversationFilters top-bar). Variants `size: sm/md/lg` aplicadas correctamente en `sm` (height 36px) sin override custom. **Pendiente Marta**: confirmar variants formales `sm/md/lg` en Kit Pro (S30 audit Nivel-2 cubrió size default, no las 3 variants size). |
 | `<sc-select>` | 2026-05-15 | S30 | 258 variants Nivel-2, Filled + Invalid |
-| `<sc-datepicker>` | 2026-05-15 | S30 | input slate-300/6px, dates 28×28 |
+| `<sc-datepicker>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory ConversationFilters). Variants `size: sm/md/lg` aplicadas correctamente. **Pendiente Marta**: idem multi-select. |
+| `<sc-input>` (re-check S46) | 2026-05-20 | S46 | Aplicado `size="sm"` en Memory filters origin/destination. Sin drift visual perceptible. Variants `sm/md/lg` ya estaban auditadas S30 (240 variants Nivel-2). |
 | `<sc-search>` | 2026-05-15 | S31 | Composición aditiva canvas Light+Dark+Components |
 | `<sc-toggle-switch>` | 2026-05-15 | S32 | Refactor a wrapper p-toggleswitch, Figma node 6738:22645 |
 | `<sc-label-chip>` | 2026-05-15 | S32 | Figma `❖ Chip` node 6738:55109 confirmado |

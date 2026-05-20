@@ -16,6 +16,26 @@
 
 ---
 
+## 2026-05-20 · S46 — La jerarquía de docs no sirve si el protocolo de consulta es opcional
+
+**Contexto**: en la misma sesión donde Rafa y yo establecimos `DOCS-INDEX.md` como mapa source-of-truth, recibí la tarea "audit Figma alignment SCDS ↔ Kit Pro". Reacción automática: lancé 4 queries `search_design_system` MCP buscando MultiSelect / DatePicker / Input / Select. **Llegué tarde** a descubrir que `MIGRATION-INVENTORY.md` ya tenía los Figma node IDs documentados con parity 100% auditado en S30. Coste real: ~10 min + 4 calls MCP innecesarias.
+
+**Premisa equivocada**: "tengo el DOCS-INDEX, basta con que exista para usarlo cuando lo necesite". Falso. La jerarquía existe pero el **protocolo de consulta** no era obligatorio en mi flujo. Lo trataba como referencia opcional, no como primer paso obligatorio.
+
+**Descubrimiento (cazado por Rafa)**: "deberíamos prevenir que tengas que darte cuenta tarde de que ese documento existe. Eso es lo que hablaba de alineación de docs: que sepas en cada sesión dónde encontrar qué información, para mejorar la eficiencia". El valor del INDEX no es "saber dónde está", es **prevenir trabajo redundante**.
+
+**Lección portable**: tener un mapa source-of-truth no basta — el protocolo de uso tiene que ser parte del workflow obligatorio. Al recibir cualquier tarea nueva, **antes** de lanzar herramientas o tocar código:
+1. Identificar qué tipo de información necesito (audit, decisión, backlog, roadmap, spec componente, etc.).
+2. Buscar en el INDEX qué doc canonical lo cubre.
+3. Leer ese doc primero.
+4. Solo después decidir si la tarea está ya resuelta, parcialmente cubierta o requiere acción nueva.
+
+Aplicado a este proyecto: `MIGRATION-INVENTORY.md` con keywords "audit Figma alignment · Figma node IDs · parity %" añadido al INDEX explícitamente. Protocolo formalizado en `reference_docs_index_entry_point.md` (memoria persistente).
+
+**Patrón industria**: este es el principio detrás de los "ADR catalogs" (Architecture Decision Records con índice obligatorio) en grandes orgs (Spotify, GitHub). Sin protocolo de consulta, el catálogo es decorativo.
+
+---
+
 ## 2026-05-20 · S46 — Jerarquía de docs (single source of truth)
 
 **Contexto**: tras 11 sesiones de migración Memory + 5 commits hoy

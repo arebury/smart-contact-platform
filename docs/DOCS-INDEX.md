@@ -23,6 +23,7 @@
 | Roadmap SCDS (componentes pendientes) | [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../packages/design-system/docs/MIGRATION-INVENTORY.md) | Claude (al cocinar componente nuevo) |
 | Backlog deuda DS (inconsistencias, gaps, refactors) | [`packages/design-system/docs/inconsistencies-backlog.md`](../packages/design-system/docs/inconsistencies-backlog.md) | Claude (audita antes de commit) |
 | Brand divergences (tokens custom vs Aura) | [`packages/design-system/docs/customs-catalog.md`](../packages/design-system/docs/customs-catalog.md) | Claude (antes de añadir override / token nuevo) + Marta (sync Figma) |
+| Audit Figma alignment SCDS · Figma node IDs · parity % por componente · última verificación | [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../packages/design-system/docs/MIGRATION-INVENTORY.md) | Claude (PRIMERO al auditar drift SCDS↔Figma) |
 | Log histórico de sesiones | [`docs/SESSION-LOG.md`](./SESSION-LOG.md) | Claude (lee al arrancar sesión) |
 | Plan próxima sesión | [`docs/NEXT-SESSION-PLAN.md`](./NEXT-SESSION-PLAN.md) | Claude (lee al arrancar sesión) |
 | Apuntes pedagógicos progresivos (case study) | [`docs/case-study-notes.md`](./case-study-notes.md) | Rafa (presentación futura) |
