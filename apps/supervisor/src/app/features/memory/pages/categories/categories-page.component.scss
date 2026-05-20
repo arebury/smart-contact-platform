@@ -132,7 +132,7 @@
   }
 
   &__group {
-    margin-left: 4px;
+    margin-left: var(--sc-spacing-50);
     color: var(--sc-text-secondary);
     font-size: 0.75rem;
     font-weight: 400;

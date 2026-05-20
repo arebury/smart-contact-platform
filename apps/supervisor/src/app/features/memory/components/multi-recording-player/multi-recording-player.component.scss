@@ -219,7 +219,7 @@
   &__label-meta {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--sc-spacing-50);
     font-family: var(--sc-font-family-mono);
     font-size: 11px;
     color: var(--sc-text-subtle);

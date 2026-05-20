@@ -14,7 +14,7 @@
 .mock-sample-switcher__trigger {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--sc-spacing-100);
   height: 36px;
   padding: 0 12px;
   border: 1px dashed color-mix(in srgb, var(--sc-color-amber-500) 40%, transparent);
@@ -108,14 +108,14 @@
   letter-spacing: 0.05em;
   color: var(--sc-text-subtle);
   border-bottom: 1px solid var(--sc-border-default);
-  margin-bottom: 4px;
+  margin-bottom: var(--sc-spacing-50);
 }
 
 .mock-sample-switcher__item {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  padding: 10px 10px;
+  padding: var(--sc-spacing-150) var(--sc-spacing-150);
   border: 0;
   border-radius: var(--sc-radius-100);
   background: transparent;
@@ -141,7 +141,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 8px;
+  gap: var(--sc-spacing-100);
 }
 
 .mock-sample-switcher__item-title {

@@ -55,7 +55,7 @@
     background: transparent;
     border: 0;
     border-radius: var(--sc-radius-100);
-    padding: 4px;
+    padding: var(--sc-spacing-50);
     color: var(--sc-text-subtle);
     cursor: pointer;
     display: inline-flex;
@@ -109,7 +109,7 @@
 
   &__picker-meta {
     display: inline-flex;
-    gap: 4px;
+    gap: var(--sc-spacing-50);
     flex: 0 0 auto;
   }
 
@@ -235,8 +235,8 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    padding: 4px 10px 4px 8px;
+    gap: var(--sc-spacing-50);
+    padding: var(--sc-spacing-50) var(--sc-spacing-150) var(--sc-spacing-50) var(--sc-spacing-100);
     border-radius: var(--sc-radius-full);
     border: 1px solid var(--sc-border-default);
     background: var(--sc-bg-surface);
@@ -299,7 +299,7 @@
     background: transparent;
     border: 0;
     border-radius: var(--sc-radius-100);
-    padding: 4px;
+    padding: var(--sc-spacing-50);
     color: var(--sc-text-subtle);
     cursor: pointer;
     display: inline-flex;

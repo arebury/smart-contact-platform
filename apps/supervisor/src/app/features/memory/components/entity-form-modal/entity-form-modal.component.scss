@@ -9,7 +9,7 @@
   &__row {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--sc-spacing-50);
 
     &--double {
       display: grid;
@@ -31,7 +31,7 @@
   }
 
   &__optional {
-    margin-left: 4px;
+    margin-left: var(--sc-spacing-50);
     color: var(--sc-text-secondary);
     font-weight: 400;
     font-size: 0.6875rem;

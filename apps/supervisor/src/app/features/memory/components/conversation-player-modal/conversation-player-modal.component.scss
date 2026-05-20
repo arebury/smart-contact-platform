@@ -199,7 +199,7 @@
   margin-left: auto;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--sc-spacing-50);
   padding: var(--sc-spacing-200) 0;
 }
 
@@ -303,7 +303,7 @@
   justify-content: center;
   gap: 6px;
   min-width: 200px;
-  padding: 8px 16px;
+  padding: var(--sc-spacing-100) var(--sc-spacing-300);
   border: 0;
   border-radius: 6px;
   background: var(--sc-bg-primary);
@@ -431,7 +431,7 @@
 .player-bubble {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--sc-spacing-50);
   max-width: 78%;
 
   &--agent {
@@ -518,7 +518,7 @@
 .player-section__aside {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: var(--sc-spacing-50);
   font-size: 0.6875rem;
   color: var(--sc-color-gray-500);
 

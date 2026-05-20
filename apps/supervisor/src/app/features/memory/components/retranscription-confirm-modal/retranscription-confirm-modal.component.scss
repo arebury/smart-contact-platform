@@ -30,7 +30,7 @@
   &__warning-text {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--sc-spacing-50);
     min-width: 0;
   }
 

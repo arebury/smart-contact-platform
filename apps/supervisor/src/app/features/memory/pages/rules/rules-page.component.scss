@@ -221,7 +221,7 @@
 
 .rules-actions-chips {
   display: inline-flex;
-  gap: 4px;
+  gap: var(--sc-spacing-50);
 }
 
 .rules-action-chip {

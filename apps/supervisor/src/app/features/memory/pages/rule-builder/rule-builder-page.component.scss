@@ -242,7 +242,7 @@
 
     input[type='number'] {
       width: 80px;
-      padding: 8px 10px;
+      padding: var(--sc-spacing-100) var(--sc-spacing-150);
       border: 1px solid var(--sc-border-default);
       border-radius: var(--sc-radius-200);
       background: var(--sc-bg-surface);
@@ -285,7 +285,7 @@
   &__ai-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--sc-spacing-100);
     margin-top: var(--sc-spacing-200);
     padding-left: 48px;
   }
@@ -293,7 +293,7 @@
   &__ai-chip {
     display: inline-flex;
     align-items: center;
-    padding: 4px 10px;
+    padding: var(--sc-spacing-50) var(--sc-spacing-150);
     border-radius: var(--sc-radius-full);
     background: var(--sc-color-teal-50);
     border: 1px solid var(--sc-color-teal-200);
@@ -305,7 +305,7 @@
     display: flex;
     gap: var(--sc-spacing-300);
     margin-top: var(--sc-spacing-200);
-    margin-left: 24px;
+    margin-left: var(--sc-spacing-500);
 
     label {
       display: inline-flex;
@@ -412,7 +412,7 @@
   &__source {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--sc-spacing-50);
     margin: 2px 0 0 0;
     font-size: 0.6875rem;
     color: var(--sc-text-secondary);
@@ -425,7 +425,7 @@
   &__link {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
+    gap: var(--sc-spacing-50);
     font-size: 0.6875rem;
     color: var(--sc-text-link);
     text-decoration: none;
