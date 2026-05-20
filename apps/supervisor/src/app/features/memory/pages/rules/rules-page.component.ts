@@ -178,12 +178,12 @@ export class RulesPageComponent {
     const toggleDisabled = !!rule.isDraft;
     return [
       {
-        label: this.translate.instant('memory.rules.menu.edit'),
+        label: this.translate.instant('common.edit'),
         icon: 'pi pi-pencil',
         command: () => this.router.navigate(['/conversaciones/reglas', rule.id]),
       },
       {
-        label: this.translate.instant('memory.rules.menu.duplicate'),
+        label: this.translate.instant('common.duplicate'),
         icon: 'pi pi-copy',
         command: () => this.duplicateRule(rule),
       },
@@ -200,7 +200,7 @@ export class RulesPageComponent {
         command: toggleDisabled ? undefined : () => this.rulesStore.toggleActive(rule.id),
       },
       {
-        label: this.translate.instant('memory.rules.menu.delete'),
+        label: this.translate.instant('common.delete'),
         icon: 'pi pi-trash',
         styleClass: 'rules-menu-item--danger',
         command: () => this.confirmDelete(rule),

@@ -56,7 +56,7 @@ export class EntitiesPageComponent {
   protected buildMenuItems(entity: Entity): MenuItem[] {
     return [
       {
-        label: this.translate.instant('memory.entities.menu.edit'),
+        label: this.translate.instant('common.edit'),
         icon: 'pi pi-pencil',
         command: () => this.openEditForm(entity),
       },
@@ -64,7 +64,7 @@ export class EntitiesPageComponent {
         separator: true,
       },
       {
-        label: this.translate.instant('memory.entities.menu.delete'),
+        label: this.translate.instant('common.delete'),
         icon: 'pi pi-trash',
         styleClass: 'rules-menu-item--danger',
         command: () => this.confirmDelete(entity),

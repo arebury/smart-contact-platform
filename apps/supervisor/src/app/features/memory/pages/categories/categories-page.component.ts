@@ -56,12 +56,12 @@ export class CategoriesPageComponent {
   protected buildMenuItems(cat: Category): MenuItem[] {
     return [
       {
-        label: this.translate.instant('memory.categories.menu.edit'),
+        label: this.translate.instant('common.edit'),
         icon: 'pi pi-pencil',
         command: () => this.openEditForm(cat),
       },
       {
-        label: this.translate.instant('memory.categories.menu.duplicate'),
+        label: this.translate.instant('common.duplicate'),
         icon: 'pi pi-copy',
         command: () => this.duplicateCategory(cat),
       },
@@ -69,7 +69,7 @@ export class CategoriesPageComponent {
         separator: true,
       },
       {
-        label: this.translate.instant('memory.categories.menu.delete'),
+        label: this.translate.instant('common.delete'),
         icon: 'pi pi-trash',
         styleClass: 'rules-menu-item--danger',
         command: () => this.confirmDelete(cat),

@@ -238,11 +238,8 @@
         "conflict": "En conflicto"
       },
       "menu": {
-        "edit": "Editar",
-        "duplicate": "Duplicar",
         "activate": "Activar",
         "deactivate": "Desactivar",
-        "delete": "Eliminar",
         "activate_draft_tooltip": "Edita al menos un campo para poder activar esta regla."
       },
       "order_updated": "Orden actualizado",
@@ -367,10 +364,7 @@
         "phone_number": "Teléfono",
         "temperature": "Temperatura"
       },
-      "menu": {
-        "edit": "Editar",
-        "delete": "Eliminar"
-      },
+      "menu": {},
       "delete_title": "Eliminar entidad",
       "delete_body": "Vas a eliminar la entidad «{{name}}». Las reglas que la referencian dejarán de extraerla.",
       "deleted_toast": "Entidad «{{name}}» eliminada",
@@ -420,11 +414,7 @@
         "active": "Activa",
         "inactive": "Inactiva"
       },
-      "menu": {
-        "edit": "Editar",
-        "duplicate": "Duplicar",
-        "delete": "Eliminar"
-      },
+      "menu": {},
       "delete_title": "Eliminar categoría",
       "delete_body": "Vas a eliminar la categoría «{{name}}». Las reglas que la referencian quedarán sin esta etiqueta.",
       "deleted_toast": "Categoría «{{name}}» eliminada",
