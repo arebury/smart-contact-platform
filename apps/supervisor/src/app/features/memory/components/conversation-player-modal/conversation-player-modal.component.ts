@@ -31,7 +31,8 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { ModalComponent } from '@shared/components/modal/modal.component';
-import type { Conversation, TranscriptionLine } from '../../data/conversation.types';
+import type { Conversation, Recording, TranscriptionLine } from '../../data/conversation.types';
+import { MultiRecordingPlayerComponent } from '../multi-recording-player/multi-recording-player.component';
 
 /**
  * Modal por conversación · Memory iter 5.
@@ -48,23 +49,36 @@ import type { Conversation, TranscriptionLine } from '../../data/conversation.ty
  *     └ Tab body con state machine: Decision / Processing / Terminal / Active.
  *   Footer  ─ "Cerrar".
  *
- * Cocinado S46 (§10 #1):
+ * Cocinado S46 (§10 #1 + #2):
  *  - Botón RotateCcw "Re-transcribir" en `.player-tabs__actions` (visible
  *    solo cuando `c.hasTranscription === true`).
  *  - `<sc-memory-retranscription-confirm-modal>` con type-CONFIRMAR gate
  *    (destructivo: reemplaza transcripción + análisis derivados).
  *  - Parent reusa `dispatchTranscription` existente (S39): los IDs entran
  *    a `processingIds` y el modal se cierra.
+ *  - `<sc-memory-multi-recording-player>` cuando `recordings.length > 1`
+ *    (multi-leg IVR). El player gestiona `selectedRecordingId`,
+ *    `totalDuration` deriva del tramo activo, `currentTime` se resetea al
+ *    cambiar de tramo.
  *
  * Diferidos restantes (ver `docs/memory-migration-inventory.md §10`):
- *  - MultiRecordingPlayer (multi-leg IVR). Iter 5 renderiza single con la
- *    primera grabación cuando hay >1.
- *  - Wrapper `<sc-audio-player>` SCDS (esperando 2º consumer).
+ *  - Wrapper `<sc-audio-player>` SCDS (esperando 2º consumer real fuera
+ *    de Memory — multi-rec ya consume parte del transport).
  *  - Modal "Download" heredado SC (v1 toast).
+ *
+ * MOCK ONLY: la app no conecta backend. El audio NO se reproduce — los
+ * controles play/pause/seek son demostradores UX (setInterval simula
+ * progresión del time). Dispatch transcripción/análisis usa setTimeout.
  */
 @Component({
   selector: 'sc-memory-conversation-player-modal',
-  imports: [ButtonModule, LucideAngularModule, ModalComponent, TranslateModule],
+  imports: [
+    ButtonModule,
+    LucideAngularModule,
+    ModalComponent,
+    MultiRecordingPlayerComponent,
+    TranslateModule,
+  ],
   templateUrl: './conversation-player-modal.component.html',
   styleUrl: './conversation-player-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -96,6 +110,9 @@ export class ConversationPlayerModalComponent {
   protected readonly searchTerm = signal('');
   protected readonly requestingTranscription = signal(false);
   protected readonly requestingAnalysis = signal(false);
+  /** ID del tramo activo cuando multi-recording. Reset al abrir el modal
+   *  o cambiar de conversación al primer recording disponible. */
+  protected readonly selectedRecordingId = signal<string | null>(null);
 
   private playbackTimer: ReturnType<typeof setInterval> | null = null;
 
@@ -123,12 +140,31 @@ export class ConversationPlayerModalComponent {
     return !!c && !this.isChat() && !!c.hasRecording;
   });
 
+  protected readonly isMultiRecording = computed(() => {
+    const c = this.conversation();
+    return !this.isChat() && (c?.recordings?.length ?? 0) > 1;
+  });
+
+  protected readonly activeRecording = computed<Recording | null>(() => {
+    const c = this.conversation();
+    if (!c?.recordings || c.recordings.length === 0) return null;
+    const id = this.selectedRecordingId();
+    return c.recordings.find((r) => r.id === id) ?? c.recordings[0];
+  });
+
   protected readonly canRequestAnalysis = computed(() => {
     const c = this.conversation();
     return !!c && (c.hasTranscription === true || this.isChat());
   });
 
   protected readonly totalDuration = computed(() => {
+    // Multi-rec: el total es el tramo activo (cada tramo se reproduce
+    // independiente). Single-rec o sin recordings: total de la conversación.
+    if (this.isMultiRecording()) {
+      const active = this.activeRecording();
+      const segTotal = parseDurationSeconds(active?.duration);
+      if (segTotal > 0) return segTotal;
+    }
     const c = this.conversation();
     return parseDurationSeconds(c?.duration) || 103;
   });
@@ -211,6 +247,8 @@ export class ConversationPlayerModalComponent {
       this.searchTerm.set('');
       this.requestingTranscription.set(false);
       this.requestingAnalysis.set(false);
+      // Resetear tramo activo al primer recording disponible al abrir.
+      this.selectedRecordingId.set(c?.recordings?.[0]?.id ?? null);
       if (c && !c.hasTranscription && c.hasAnalysis) {
         this.activeTab.set('analysis');
       } else {
@@ -262,6 +300,19 @@ export class ConversationPlayerModalComponent {
     const rect = target.getBoundingClientRect();
     const ratio = (event.clientX - rect.left) / rect.width;
     this.currentTime.set(Math.max(0, Math.min(this.totalDuration(), ratio * this.totalDuration())));
+  }
+
+  protected onMultiSeek(t: number): void {
+    if (!this.playerEnabled()) return;
+    this.currentTime.set(Math.max(0, Math.min(this.totalDuration(), t)));
+  }
+
+  protected onMultiSelectRecording(id: string): void {
+    // Cambio de tramo: pausa, resetea currentTime y actualiza el ID activo.
+    // totalDuration recomputa automáticamente vía signal-chain.
+    this.isPlaying.set(false);
+    this.currentTime.set(0);
+    this.selectedRecordingId.set(id);
   }
 
   protected onSearchInput(event: Event): void {

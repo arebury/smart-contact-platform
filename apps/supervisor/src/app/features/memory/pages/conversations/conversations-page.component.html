@@ -42,6 +42,9 @@
   [isTranscribing]="playerIsTranscribing()"
   [isAnalyzing]="playerIsAnalyzing()"
   (closed)="onPlayerClose()"
+  (requestTranscription)="onPlayerRequestTranscription($event)"
+  (requestAnalysis)="onPlayerRequestAnalysis($event)"
+  (requestTranscriptionAndAnalysis)="onPlayerRequestTranscriptionAndAnalysis($event)"
   (requestRetranscriptionConfirm)="onPlayerRequestRetransConfirm($event)"
 />
 

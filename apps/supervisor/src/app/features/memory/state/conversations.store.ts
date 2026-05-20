@@ -224,6 +224,43 @@ export class ConversationsStore {
   }
 
   /**
+   * Mock dispatch de análisis-solo (sin re-transcribir). Para conversaciones
+   * que ya tienen `hasTranscription === true` y queremos generar el análisis
+   * sin pasar por la fase 1 (procesando transcripción).
+   *
+   * Réplica de `handleRequestAnalysis` del React parent (ConversationsView).
+   * Filtra IDs no eligibles (sin transcripción) silenciosamente.
+   */
+  dispatchAnalysisOnly(ids: readonly string[]): Promise<DispatchResult> {
+    return new Promise((resolve) => {
+      const conversations = this._conversations();
+      const eligible = ids.filter((id) => {
+        if (this._analyzingIds().has(id)) return false;
+        const c = conversations.find((x) => x.id === id);
+        return c?.hasTranscription === true && !c.hasAnalysis;
+      });
+      if (eligible.length === 0) {
+        resolve({ successIds: [], failedIds: [] });
+        return;
+      }
+
+      this._analyzingIds.update((curr) => new Set([...curr, ...eligible]));
+
+      setTimeout(() => {
+        this._conversations.update((all) =>
+          all.map((c) => (eligible.includes(c.id) ? { ...c, hasAnalysis: true } : c)),
+        );
+        this._analyzingIds.update((curr) => {
+          const next = new Set(curr);
+          for (const id of eligible) next.delete(id);
+          return next;
+        });
+        resolve({ successIds: [...eligible], failedIds: [] });
+      }, MOCK_DISPATCH_DELAY_MS);
+    });
+  }
+
+  /**
    * Heurística mock para simular fallos. Hoy: si el ID contiene "FAIL"
    * o si la conversación ya estaba marcada como `hasFailedTranscription`
    * (re-intento que vuelve a fallar — caso edge para demostrar el filtro

@@ -274,4 +274,48 @@ export class ConversationsPageComponent {
     if (!id) return;
     await this.dispatchWithStickyToast([id], false);
   }
+
+  /**
+   * Handlers unitarios desde el player modal (deuda micro cerrada S46).
+   *
+   * Hasta hoy las outputs `requestTranscription` / `requestAnalysis` /
+   * `requestTranscriptionAndAnalysis` del player no estaban wireadas — los
+   * CTAs internos del tab body se quedaban sin efecto. Ahora reusan el
+   * pipeline:
+   *  - Transcription / Both: `dispatchWithStickyToast` con flag.
+   *  - Analysis only (transcript ya existe): `dispatchAnalysisOnly` nuevo,
+   *    salta la fase 1 (processingIds) y va directo a analyzingIds.
+   */
+  protected async onPlayerRequestTranscription(id: string): Promise<void> {
+    await this.dispatchWithStickyToast([id], false);
+  }
+
+  protected async onPlayerRequestTranscriptionAndAnalysis(id: string): Promise<void> {
+    await this.dispatchWithStickyToast([id], true);
+  }
+
+  protected async onPlayerRequestAnalysis(id: string): Promise<void> {
+    const progressKey = 'dispatch-progress';
+    this.messages.clear(progressKey);
+    this.messages.add({
+      key: progressKey,
+      severity: 'info',
+      summary: this.translate.instant('memory.dispatch.analyzing', { n: 1 }),
+      sticky: true,
+      closable: true,
+    });
+
+    const result = await this.conversationsStore.dispatchAnalysisOnly([id]);
+
+    this.messages.clear(progressKey);
+    if (result.successIds.length > 0) {
+      this.messages.add({
+        severity: 'success',
+        summary: this.translate.instant('memory.dispatch.success', {
+          n: result.successIds.length,
+        }),
+        life: 3500,
+      });
+    }
+  }
 }

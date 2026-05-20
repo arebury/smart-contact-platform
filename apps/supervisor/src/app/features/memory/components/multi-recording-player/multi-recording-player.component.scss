@@ -1,0 +1,241 @@
+/*
+ * MultiRecordingPlayer · prototipo React port (S46 §10 #2).
+ *
+ * Surface bordered apilando transport + segmented bar + labels.
+ * Geometría proporcional preservada del audit React 15.29.
+ */
+
+:host {
+  display: block;
+}
+
+.multi-rec {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-300);
+  padding: var(--sc-spacing-400) var(--sc-spacing-600);
+  background: var(--sc-bg-default);
+  border-bottom: 1px solid var(--sc-border-default);
+
+  &__transport {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-300);
+  }
+
+  &__btn {
+    flex: 0 0 auto;
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--sc-text-secondary);
+    cursor: pointer;
+    transition:
+      background var(--sc-transition-fast) var(--sc-easing-default),
+      color var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover:not(:disabled) {
+      background: var(--sc-bg-secondary-hover);
+      color: var(--sc-text-primary);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.4;
+    }
+
+    &--primary {
+      width: 40px;
+      height: 40px;
+      background: var(--sc-bg-primary);
+      color: var(--sc-text-on-primary);
+      box-shadow: var(--sc-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.06));
+
+      &:hover:not(:disabled) {
+        background: var(--sc-bg-primary-hover);
+        color: var(--sc-text-on-primary);
+      }
+
+      &:active:not(:disabled) {
+        transform: scale(0.97);
+      }
+    }
+  }
+
+  &__time {
+    margin-left: auto;
+    font-family: var(--sc-font-family-mono, ui-monospace, monospace);
+    font-size: var(--sc-font-size-body-3, 13px);
+    color: var(--sc-text-secondary);
+  }
+
+  &__bar-wrap {
+    position: relative;
+    width: 100%;
+    height: 12px;
+  }
+
+  &__bar {
+    position: absolute;
+    inset-inline: 0;
+    top: 50%;
+    height: 6px;
+    display: flex;
+    transform: translateY(-50%);
+    overflow: hidden;
+    border-radius: 999px;
+  }
+
+  &__seg {
+    position: relative;
+    height: 100%;
+    background: var(--sc-border-default);
+
+    &--active {
+      background: color-mix(in srgb, var(--sc-color-blue-100) 70%, transparent);
+    }
+
+    &--divider {
+      border-left: 2px solid var(--sc-bg-default);
+    }
+  }
+
+  &__fill {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    transform-origin: left;
+    background: var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+    transition: width 150ms ease;
+    will-change: width;
+  }
+
+  &__scrub {
+    position: absolute;
+    inset-block: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 999px;
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+
+  &__playhead {
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    width: 12px;
+    height: 12px;
+    transform: translate(-50%, -50%);
+    background: var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+    border-radius: 999px;
+    box-shadow: var(--sc-shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.08));
+    opacity: 0;
+    transition: opacity 140ms ease;
+
+    &--visible {
+      opacity: 1;
+    }
+  }
+
+  &__labels {
+    display: flex;
+    width: 100%;
+    gap: var(--sc-spacing-100);
+  }
+
+  &__label {
+    flex-basis: 0;
+    min-width: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    background: transparent;
+    border: 0;
+    border-radius: var(--sc-radius-100, 4px);
+    text-align: left;
+    cursor: pointer;
+    transition: background var(--sc-transition-fast) var(--sc-easing-default);
+
+    &:hover:not(.multi-rec__label--active) {
+      background: var(--sc-bg-secondary-hover);
+    }
+
+    &--active {
+      background: color-mix(in srgb, var(--sc-color-blue-100) 50%, transparent);
+      cursor: default;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--sc-color-electric-blue-500, var(--sc-color-blue-500));
+      outline-offset: 2px;
+    }
+  }
+
+  &__label-name {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: var(--sc-font-size-body-3, 13px);
+    font-weight: 500;
+    line-height: 1.25;
+    color: var(--sc-text-primary);
+
+    .multi-rec__label--active & {
+      color: var(--sc-color-electric-blue-700, var(--sc-color-blue-700));
+    }
+  }
+
+  &__label-meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: var(--sc-font-family-mono, ui-monospace, monospace);
+    font-size: 11px;
+    color: var(--sc-text-subtle);
+
+    .multi-rec__label--active & {
+      color: color-mix(
+        in srgb,
+        var(--sc-color-electric-blue-700, var(--sc-color-blue-700)) 80%,
+        transparent
+      );
+    }
+  }
+
+  &__label-check {
+    color: var(--sc-color-green-600);
+
+    .multi-rec__label--active & {
+      color: color-mix(
+        in srgb,
+        var(--sc-color-electric-blue-700, var(--sc-color-blue-700)) 80%,
+        transparent
+      );
+    }
+  }
+}

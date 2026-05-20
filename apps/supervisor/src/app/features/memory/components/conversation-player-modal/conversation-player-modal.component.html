@@ -11,73 +11,87 @@
   @if (c) {
     <div class="player-body">
       @if (!isChat()) {
-        <div class="player-audio" [class.player-audio--disabled]="!playerEnabled()">
-          <button
-            type="button"
-            class="player-audio__btn"
-            [disabled]="!playerEnabled()"
-            [attr.aria-label]="'memory.player.audio.back10' | translate"
-            (click)="onBack10()"
-          >
-            <lucide-icon [img]="back10Icon" [size]="16" aria-hidden="true" />
-          </button>
+        @if (isMultiRecording()) {
+          <sc-memory-multi-recording-player
+            [recordings]="c.recordings ?? []"
+            [selectedId]="selectedRecordingId() ?? ''"
+            [isPlaying]="isPlaying()"
+            [currentTime]="currentTime()"
+            [totalDuration]="totalDuration()"
+            [playerEnabled]="playerEnabled()"
+            (togglePlay)="onTogglePlay()"
+            (seek)="onMultiSeek($event)"
+            (selectRecording)="onMultiSelectRecording($event)"
+          />
+        } @else {
+          <div class="player-audio" [class.player-audio--disabled]="!playerEnabled()">
+            <button
+              type="button"
+              class="player-audio__btn"
+              [disabled]="!playerEnabled()"
+              [attr.aria-label]="'memory.player.audio.back10' | translate"
+              (click)="onBack10()"
+            >
+              <lucide-icon [img]="back10Icon" [size]="16" aria-hidden="true" />
+            </button>
 
-          <button
-            type="button"
-            class="player-audio__btn player-audio__btn--primary"
-            [disabled]="!playerEnabled()"
-            [attr.aria-label]="
-              (isPlaying() ? 'memory.player.audio.pause' : 'memory.player.audio.play') | translate
-            "
-            (click)="onTogglePlay()"
-          >
-            <lucide-icon
-              [img]="isPlaying() ? pauseIcon : playIcon"
-              [size]="18"
-              aria-hidden="true"
-            />
-          </button>
-
-          <button
-            type="button"
-            class="player-audio__btn"
-            [disabled]="!playerEnabled()"
-            [attr.aria-label]="'memory.player.audio.fwd10' | translate"
-            (click)="onFwd10()"
-          >
-            <lucide-icon [img]="fwd10Icon" [size]="16" aria-hidden="true" />
-          </button>
-
-          <span class="player-audio__time">{{ currentTimeLabel() }}</span>
-
-          <button
-            type="button"
-            class="player-audio__scrub"
-            role="slider"
-            [disabled]="!playerEnabled()"
-            [attr.aria-label]="'memory.player.audio.seek' | translate"
-            [attr.aria-valuemin]="0"
-            [attr.aria-valuemax]="totalDuration()"
-            [attr.aria-valuenow]="currentTime()"
-            (click)="onScrubClick($event)"
-          >
-            <span class="player-audio__track">
-              <span
+            <button
+              type="button"
+              class="player-audio__btn player-audio__btn--primary"
+              [disabled]="!playerEnabled()"
+              [attr.aria-label]="
+                (isPlaying() ? 'memory.player.audio.pause' : 'memory.player.audio.play') | translate
+              "
+              (click)="onTogglePlay()"
+            >
+              <lucide-icon
+                [img]="isPlaying() ? pauseIcon : playIcon"
+                [size]="18"
                 aria-hidden="true"
-                class="player-audio__fill"
-                [style.transform]="'scaleX(' + progressPct() / 100 + ')'"
-              ></span>
-              <span
-                aria-hidden="true"
-                class="player-audio__thumb"
-                [class.player-audio__thumb--visible]="isPlaying()"
-                [style.left.%]="progressPct()"
-              ></span>
-            </span>
-          </button>
+              />
+            </button>
 
-          <span class="player-audio__time">{{ totalDurationLabel() }}</span>
-        </div>
+            <button
+              type="button"
+              class="player-audio__btn"
+              [disabled]="!playerEnabled()"
+              [attr.aria-label]="'memory.player.audio.fwd10' | translate"
+              (click)="onFwd10()"
+            >
+              <lucide-icon [img]="fwd10Icon" [size]="16" aria-hidden="true" />
+            </button>
+
+            <span class="player-audio__time">{{ currentTimeLabel() }}</span>
+
+            <button
+              type="button"
+              class="player-audio__scrub"
+              role="slider"
+              [disabled]="!playerEnabled()"
+              [attr.aria-label]="'memory.player.audio.seek' | translate"
+              [attr.aria-valuemin]="0"
+              [attr.aria-valuemax]="totalDuration()"
+              [attr.aria-valuenow]="currentTime()"
+              (click)="onScrubClick($event)"
+            >
+              <span class="player-audio__track">
+                <span
+                  aria-hidden="true"
+                  class="player-audio__fill"
+                  [style.transform]="'scaleX(' + progressPct() / 100 + ')'"
+                ></span>
+                <span
+                  aria-hidden="true"
+                  class="player-audio__thumb"
+                  [class.player-audio__thumb--visible]="isPlaying()"
+                  [style.left.%]="progressPct()"
+                ></span>
+              </span>
+            </button>
+
+            <span class="player-audio__time">{{ totalDurationLabel() }}</span>
+          </div>
+        }
       }
 
       <div class="player-tabs">
