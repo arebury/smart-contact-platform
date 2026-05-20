@@ -30,30 +30,30 @@ let scInputIdCounter = 0;
  * (gap conocido del catálogo: customs-catalog.md §5.1).
  */
 @Component({
-  selector: 'sc-input',
+  selector: 'sc-inputtext',
   standalone: true,
   imports: [InputTextModule],
-  templateUrl: './input.component.html',
-  styleUrl: './input.component.scss',
+  templateUrl: './inputtext.component.html',
+  styleUrl: './inputtext.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InputComponent),
+      useExisting: forwardRef(() => InputTextComponent),
       multi: true,
     },
   ],
   host: {
-    class: 'sc-input',
-    '[class.sc-input--sm]': "size() === 'sm'",
-    '[class.sc-input--lg]': "size() === 'lg'",
-    '[class.sc-input--invalid]': 'isInvalid()',
-    '[class.sc-input--disabled]': 'disabled()',
-    '[class.sc-input--filled]': 'filled()',
+    class: 'sc-inputtext',
+    '[class.sc-inputtext--sm]': "size() === 'sm'",
+    '[class.sc-inputtext--lg]': "size() === 'lg'",
+    '[class.sc-inputtext--invalid]': 'isInvalid()',
+    '[class.sc-inputtext--disabled]': 'disabled()',
+    '[class.sc-inputtext--filled]': 'filled()',
   },
 })
-export class InputComponent implements ControlValueAccessor {
+export class InputTextComponent implements ControlValueAccessor {
   // ─── Inputs ────────────────────────────────────────────────────────
   readonly size = input<ScInputSize>('md');
   readonly label = input<string>();
@@ -81,7 +81,7 @@ export class InputComponent implements ControlValueAccessor {
 
   // ─── Internal ──────────────────────────────────────────────────────
   protected readonly resolvedId = computed(
-    () => this.inputId() ?? `sc-input-${++scInputIdCounter}`,
+    () => this.inputId() ?? `sc-inputtext-${++scInputIdCounter}`,
   );
 
   /** Whether `<input>` is in invalid state — driven by `[error]` first, then ControlValueAccessor's touched+invalid. */

@@ -15,7 +15,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertTriangle, LucideAngularModule } from 'lucide-angular';
 import { PrimeTemplate } from 'primeng/api';
 
-import { InputComponent, SelectComponent } from '@shared/components';
+import { InputTextComponent, SelectComponent } from '@shared/components';
 import { RepoEntity, RepoFieldDef } from './repo-types';
 
 export type RepoFormSubmission = Readonly<Record<string, string>>;
@@ -30,7 +30,7 @@ export type RepoFormSubmission = Readonly<Record<string, string>>;
   selector: 'sc-repo-form-panel',
   imports: [
     FormsModule,
-    InputComponent,
+    InputTextComponent,
     LucideAngularModule,
     PrimeTemplate,
     SelectComponent,

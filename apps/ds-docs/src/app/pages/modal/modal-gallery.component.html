@@ -88,7 +88,7 @@
     <h2 class="gallery__h2">4 · Form dentro del body slot (stacking)</h2>
     <p class="gallery__hint">
       El body slot acepta cualquier markup. Los hijos directos se apilan verticalmente con gap 16px
-      por defecto. Aquí: 2 inputs sc-input apilados con stacking automático.
+      por defecto. Aquí: 2 inputs sc-inputtext apilados con stacking automático.
     </p>
     <div class="gallery__row">
       <p-button
@@ -106,8 +106,8 @@
       [width]="'520px'"
       (cancelled)="formOpen.set(false)"
     >
-      <sc-input label="Nombre" [(value)]="agentName" />
-      <sc-input label="Email" type="email" [(value)]="agentEmail" />
+      <sc-inputtext label="Nombre" [(value)]="agentName" />
+      <sc-inputtext label="Email" type="email" [(value)]="agentEmail" />
 
       <div modal-actions>
         <p-button label="Cancelar" severity="secondary" (click)="formOpen.set(false)" />

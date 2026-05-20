@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { AlertTriangle, LucideAngularModule, Mail, MessageSquare } from 'lucide-angular';
 
-import { InputComponent } from '@shared/components';
+import { InputTextComponent } from '@shared/components';
 import { Template, TemplateType } from '../../data/templates-data';
 
 export interface TemplateFormSubmission {
@@ -32,7 +32,7 @@ export interface TemplateFormSubmission {
  */
 @Component({
   selector: 'sc-template-form-panel',
-  imports: [FormsModule, InputComponent, LucideAngularModule, TranslateModule],
+  imports: [FormsModule, InputTextComponent, LucideAngularModule, TranslateModule],
   templateUrl: './template-form-panel.component.html',
   styleUrl: './template-form-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

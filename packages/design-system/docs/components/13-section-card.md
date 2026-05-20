@@ -16,8 +16,8 @@
   [icon]="userIcon"
 >
   <!-- body slot: any fields -->
-  <sc-input label="Email" type="email" [(value)]="email" />
-  <sc-input label="Teléfono" type="tel" [(value)]="phone" />
+  <sc-inputtext label="Email" type="email" [(value)]="email" />
+  <sc-inputtext label="Teléfono" type="tel" [(value)]="phone" />
 </sc-section-card>
 ```
 
@@ -71,15 +71,15 @@ interface ScSectionCardProps {
 
 ## Body slot
 
-Free projection (`<ng-content>`). Pinta cualquier markup dentro: campos `<sc-input>`, `<sc-select>`, grids con `.grid--2`, etc.
+Free projection (`<ng-content>`). Pinta cualquier markup dentro: campos `<sc-inputtext>`, `<sc-select>`, grids con `.grid--2`, etc.
 
 ```html
 <sc-section-card titleKey="agents.form.section.identity">
   <div class="grid grid--2">
-    <sc-input label="Nombre" [(value)]="name" />
-    <sc-input label="DNI" [(value)]="dni" />
+    <sc-inputtext label="Nombre" [(value)]="name" />
+    <sc-inputtext label="DNI" [(value)]="dni" />
   </div>
-  <sc-input label="Email" type="email" [(value)]="email" />
+  <sc-inputtext label="Email" type="email" [(value)]="email" />
   <sc-select label="Idioma" [options]="langs" optionLabel="label" optionValue="code" [(value)]="lang" />
 </sc-section-card>
 ```

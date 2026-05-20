@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { LucideAngularModule, Trash2, AlertTriangle, Pencil, Info } from 'lucide-angular';
 import { ModalComponent } from '@sc/design-system/components/modal/modal.component';
-import { InputComponent } from '@sc/design-system/components/input/input.component';
+import { InputTextComponent } from '@sc/design-system/components/inputtext/inputtext.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
@@ -11,7 +11,7 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
   standalone: true,
   imports: [
     ModalComponent,
-    InputComponent,
+    InputTextComponent,
     ButtonModule,
     LucideAngularModule,
     FormsModule,

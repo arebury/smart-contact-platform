@@ -37,7 +37,7 @@
 
 ```typescript
 interface ScSelectProps<T = unknown> {
-  // Chrome (mirrors sc-input)
+  // Chrome (mirrors sc-inputtext)
   size?: 'sm' | 'md' | 'lg';   // default 'md'
   label?: string;
   required?: boolean;
@@ -206,14 +206,14 @@ Auditado Session 30. Tokens verificados vía MCP en cada variant del Figma `Smar
 ### Hover / Focus / Disabled
 
 - **Hover (`6195:7769`)**: preset CSS `hoverBorderColor: --sc-border-strong` (slate-400).
-- **Focus (`6195:7777`)**: preset CSS `focusBorderColor: --sc-bg-primary` (SC navy). Figma muestra azure `#3b82f6` — divergencia de brand documentada (mismo trade-off que sc-input).
+- **Focus (`6195:7777`)**: preset CSS `focusBorderColor: --sc-bg-primary` (SC navy). Figma muestra azure `#3b82f6` — divergencia de brand documentada (mismo trade-off que sc-inputtext).
 - **Disabled (`6195:7761`)**: `disabled/opacity: 60%` (token global) + chrome del preset.
 
 ## Divergencias documentadas
 
-- **Padding decimal (10.5/7, 8.75/5.25, 12.25/8.75)**: heredado del preset.formField. Compartido con sc-input / sc-datepicker.
+- **Padding decimal (10.5/7, 8.75/5.25, 12.25/8.75)**: heredado del preset.formField. Compartido con sc-inputtext / sc-datepicker.
 - **Focus border color**: preset usa SC navy en vez del azure Figma (focus ring electric-blue suple el accent).
-- **Ifta Label / Float Label variants**: 4 valores × 2 booleanos en Figma. NO implementados como props del `<sc-select>`. Composición Float Label = `<p-floatlabel>` por fuera, igual que con sc-input.
+- **Ifta Label / Float Label variants**: 4 valores × 2 booleanos en Figma. NO implementados como props del `<sc-select>`. Composición Float Label = `<p-floatlabel>` por fuera, igual que con sc-inputtext.
 - **Group=True (option groups)**: Figma muestra group headers. PrimeNG p-select lo soporta nativamente con `[group]="true"` + `optionGroupLabel`. NO expuesto aún en el wrapper — añadir cuando aparezca caso real.
 
 ## Migración desde `<select>` nativo

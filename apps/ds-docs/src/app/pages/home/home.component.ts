@@ -59,11 +59,11 @@ const CATEGORY_META: readonly CategoryMeta[] = [
 
 const CATEGORY_BY_SLUG: Record<string, ComponentCategory> = {
   // Formularios y entrada
-  input: 'form',
-  'input-number': 'form',
+  inputtext: 'form',
+  inputnumber: 'form',
   'input-group': 'form',
   select: 'form',
-  'multi-select': 'form',
+  multiselect: 'form',
   datepicker: 'form',
   checkbox: 'form',
   'toggle-switch': 'form',
@@ -193,13 +193,13 @@ export class HomeComponent {
         'Memory → /conversaciones → bulk action bar (Marcar leídas / Transcribir) + en cada modal del módulo (Player, Categorías, Entidades, Reglas).',
     },
     {
-      slug: 'input',
-      name: 'Input',
+      slug: 'inputtext',
+      name: 'InputText',
       type: 'extended',
       parity: 'audited-full',
       aedUses: 15,
       memoryUses: 7,
-      pageRoute: '/components/input',
+      pageRoute: '/components/inputtext',
       whatItDoes:
         'Campo de texto para formularios: nombre, email, contraseña, teléfono… Incluye label, texto de ayuda y mensaje de error.',
       whereToSee:

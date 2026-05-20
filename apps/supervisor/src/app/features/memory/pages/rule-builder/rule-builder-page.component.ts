@@ -25,7 +25,7 @@ import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
-import { InputComponent } from '@shared/components/input/input.component';
+import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { MultiSelectComponent } from '@shared/components/multi-select/multi-select.component';
 
 import {
@@ -61,7 +61,7 @@ import { RulesStore } from '../../state/rules.store';
   imports: [
     ButtonModule,
     FormsModule,
-    InputComponent,
+    InputTextComponent,
     LucideAngularModule,
     MultiSelectComponent,
     RouterLink,

@@ -36,7 +36,7 @@
 - Search bar con icono lupa decorativo → usa [`<sc-search>`](14-search.md). Ese
   patrón compone `<p-iconfield>` + `<p-inputicon>` y NO funde el borde — el icono
   va overlay dentro del input.
-- Campo de texto con label arriba + helper abajo → usa [`<sc-input>`](02-input.md).
+- Campo de texto con label arriba + helper abajo → usa [`<sc-inputtext>`](02-inputtext.md).
   El input-group está pensado para usar input nativo `<input pInputText>` por
   dentro, sin chrome de field (label/error). Si necesitas label, ponlo en el
   `<header>` exterior de la sección.
@@ -59,7 +59,7 @@ del input.
 
 | Prop      | Tipo                       | Default | Descripción                                       |
 | --------- | -------------------------- | ------- | ------------------------------------------------- |
-| `size`    | `'sm' \| 'md' \| 'lg'`     | `'md'`  | Matchea las alturas de `sc-input` para combinar.  |
+| `size`    | `'sm' \| 'md' \| 'lg'`     | `'md'`  | Matchea las alturas de `sc-inputtext` para combinar.  |
 | `fluid`   | `boolean`                  | `true`  | El grupo ocupa todo el ancho disponible.          |
 
 No tiene Outputs ni ControlValueAccessor — el componente es puramente layout.
@@ -84,13 +84,13 @@ La interacción la llevan el `<input pInputText>` y los `<p-button>` proyectados
    `InputGroupAddonModule` directamente.
 
 2. **Dentro de `sc-input-group` se usa `<input pInputText>` nativo**, NO
-   `<sc-input>`. Razón: `sc-input` arrastra chrome de campo-en-formulario
+   `<sc-inputtext>`. Razón: `sc-inputtext` arrastra chrome de campo-en-formulario
    (label, helper, error) que rompería el merge visual del grupo. Para el
    label, ponerlo en el `<header>` exterior de la sub-section.
 
-3. **`size` matchea `sc-input`** (sm/md/lg con padding decimal 8.75/5.25 ·
+3. **`size` matchea `sc-inputtext`** (sm/md/lg con padding decimal 8.75/5.25 ·
    10.5/7 · 12.25/8.75) para que un input-group pueda convivir en una fila
-   con `sc-input` sueltos sin desnivel.
+   con `sc-inputtext` sueltos sin desnivel.
 
 4. **Botón addon**: usar `<p-button>` (no `<button class="btn">`). El CSS de
    merge en `<p-inputgroup>` apunta a `.p-button` específicamente — un botón

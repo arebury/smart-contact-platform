@@ -1,4 +1,4 @@
-# 02 · Input (`<sc-input>`)
+# 02 · Input (`<sc-inputtext>`)
 
 > **Type**: Extended · **AED uses**: 21 · **Figma parity**: 1:1 con Figma
 
@@ -10,7 +10,7 @@
 ## TL;DR
 
 ```html
-<sc-input
+<sc-inputtext
   label="Email"
   type="email"
   placeholder="tu@empresa.com"
@@ -48,7 +48,7 @@ interface ScInputProps {
   placeholder?: string;
   disabled?: boolean;
   readonly?: boolean;
-  inputId?: string;             // si no se pasa, se auto-genera 'sc-input-N'
+  inputId?: string;             // si no se pasa, se auto-genera 'sc-inputtext-N'
   name?: string;
   autocomplete?: string;        // ej. 'email', 'current-password', 'tel'
   maxlength?: number;
@@ -66,7 +66,7 @@ interface ScInputProps {
 ### Signals (recomendado para código nuevo)
 
 ```html
-<sc-input [(value)]="emailSignal" />
+<sc-inputtext [(value)]="emailSignal" />
 ```
 
 ```typescript
@@ -76,13 +76,13 @@ emailSignal = signal('');
 ### ngModel (forms-driven legacy)
 
 ```html
-<sc-input [(ngModel)]="email" />
+<sc-inputtext [(ngModel)]="email" />
 ```
 
 ### Reactive Forms
 
 ```html
-<sc-input
+<sc-inputtext
   [formControl]="emailControl"
   [error]="emailControl.touched && emailControl.invalid ? 'Inválido' : undefined"
 />
@@ -127,7 +127,7 @@ Todos decimales raw (off-scale en `--sc-spacing-*` / `--sc-font-size-*`). Ver ta
 
 ## Float Label (composición con `<p-floatlabel>`)
 
-`<sc-input>` está pensado para el patrón **label encima del input** (gestiona el `<label>` por dentro). Para el patrón **label flotante** — el que entra/sale del campo al hacer focus — usar el wrapper nativo de PrimeNG `<p-floatlabel>` envolviendo un `pInputText`, sin `<sc-input>`. Los tokens visuales (border, focus ring, paleta) se aplican igual porque `pInputText` lee de `sc-preset.formField.*`.
+`<sc-inputtext>` está pensado para el patrón **label encima del input** (gestiona el `<label>` por dentro). Para el patrón **label flotante** — el que entra/sale del campo al hacer focus — usar el wrapper nativo de PrimeNG `<p-floatlabel>` envolviendo un `pInputText`, sin `<sc-inputtext>`. Los tokens visuales (border, focus ring, paleta) se aplican igual porque `pInputText` lee de `sc-preset.formField.*`.
 
 Tres variantes según dónde aparece el label cuando el campo está enfocado:
 
@@ -169,7 +169,7 @@ export class FormWithFloatLabel {
 }
 ```
 
-**No-goal actual**: integrar `[floatLabel]="'in' | 'on' | 'over'"` como prop de `<sc-input>`. Cocinar sólo cuando aparezca un caso real en AED que necesite combinar float label con la API de `<sc-input>` (helper, error, iconos). De momento, los dos patrones coexisten.
+**No-goal actual**: integrar `[floatLabel]="'in' | 'on' | 'over'"` como prop de `<sc-inputtext>`. Cocinar sólo cuando aparezca un caso real en AED que necesite combinar float label con la API de `<sc-inputtext>` (helper, error, iconos). De momento, los dos patrones coexisten.
 
 ## Migración desde el patrón AED viejo
 
@@ -194,7 +194,7 @@ export class FormWithFloatLabel {
 
 **Después**:
 ```html
-<sc-input
+<sc-inputtext
   inputId="agent-email"
   type="email"
   [label]="'agents.form.email.label' | translate"
@@ -231,27 +231,27 @@ Auditado Session 30. Tokens verificados vía `mcp__claude_ai_Figma__get_variable
 
 | Token Figma | Valor | Mapeo SC |
 |-------------|-------|----------|
-| `inputtext/sm/font/size` | `12.25` | sc-input.scss `.sc-input--sm` raw px |
+| `inputtext/sm/font/size` | `12.25` | sc-inputtext.scss `.sc-inputtext--sm` raw px |
 | `inputtext/sm/padding/x` | `8.75` | raw px |
 | `inputtext/sm/padding/y` | `5.25` | raw px |
-| `iconfield/figma/sm/icon/size` | `12.25` | sc-input.scss `.sc-input--sm .sc-input__icon` raw |
+| `iconfield/figma/sm/icon/size` | `12.25` | sc-inputtext.scss `.sc-inputtext--sm .sc-input__icon` raw |
 
 ### Size = Large — node `7039:74791`
 
 | Token Figma | Valor | Mapeo SC |
 |-------------|-------|----------|
-| `inputtext/lg/font/size` | `15.75` | sc-input.scss `.sc-input--lg` raw px |
+| `inputtext/lg/font/size` | `15.75` | sc-inputtext.scss `.sc-inputtext--lg` raw px |
 | `inputtext/lg/padding/x` | `12.25` | raw px |
 | `inputtext/lg/padding/y` | `8.75` | raw px |
-| `iconfield/figma/lg/icon/size` | `15.75` | sc-input.scss `.sc-input--lg .sc-input__icon` raw |
+| `iconfield/figma/lg/icon/size` | `15.75` | sc-inputtext.scss `.sc-inputtext--lg .sc-input__icon` raw |
 
 ### Filled = True — node `1729:42481`
 
 | Token Figma | Valor | Mapeo SC |
 |-------------|-------|----------|
-| `inputtext/filled/background` | `#f8fafc` | `--sc-color-gray-50` via `.sc-input--filled` |
+| `inputtext/filled/background` | `#f8fafc` | `--sc-color-gray-50` via `.sc-inputtext--filled` |
 | (border, padding, shadow, focus) | iguales que Default | hereda preset |
-| (hover en filled) | `--sc-color-gray-100` (slate-100 brightness step) | sc-input.scss hover override |
+| (hover en filled) | `--sc-color-gray-100` (slate-100 brightness step) | sc-inputtext.scss hover override |
 
 ### Invalid = True
 
@@ -275,7 +275,7 @@ Auditado Session 30. Tokens verificados vía `mcp__claude_ai_Figma__get_variable
 
 ## Divergencias documentadas
 
-- **Padding decimal (10.5 / 7, 8.75 / 5.25, 12.25 / 8.75)**: valores raw px porque caen off-scale en `--sc-spacing-*`. Honesto 1:1 con Figma > tokens "limpios". Aplica a sc-input y, vía preset, a sc-select / sc-datepicker / cualquier formField PrimeNG.
+- **Padding decimal (10.5 / 7, 8.75 / 5.25, 12.25 / 8.75)**: valores raw px porque caen off-scale en `--sc-spacing-*`. Honesto 1:1 con Figma > tokens "limpios". Aplica a sc-inputtext y, vía preset, a sc-select / sc-datepicker / cualquier formField PrimeNG.
 - **Focus border color**: preset usa `--sc-bg-primary` (brand navy) en vez del Figma `#3b82f6` (azure). Decisión SC: el accent visible (electric blue) lo aplica el focusRing CSS, mientras el border respeta la primary. Cambio TBD si la audit visual dice que falta accent.
 - **Sin slots de icon** (ni `leftIcon` ni `rightIcon`): el componente Figma `❖ InputText` no contempla iconos internos. Para casos input+icon el Kit ofrece `❖ InputGroup` como componente separado (8 variants left/right/secondLeft/secondRight). Cuando aparezca el primer caso real en AED, usar `<p-inputgroup>` directo o crear `sc-input-group` wrapper.
-- **Float Label / Ifta Label variants** (4 valores × 2 booleans en Figma): NO implementados como props del `<sc-input>`. La composición Float Label se hace afuera vía `<p-floatlabel>` envolviendo `<sc-input>` (ver sección 9 de la página demo). Ifta Label sin caso real en AED.
+- **Float Label / Ifta Label variants** (4 valores × 2 booleans en Figma): NO implementados como props del `<sc-inputtext>`. La composición Float Label se hace afuera vía `<p-floatlabel>` envolviendo `<sc-inputtext>` (ver sección 9 de la página demo). Ifta Label sin caso real en AED.

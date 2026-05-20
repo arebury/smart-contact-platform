@@ -7,7 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 
 import { PageHeaderService } from '@core/services';
 import {
-  InputComponent,
+  InputTextComponent,
   InputGroupComponent,
   InputNumberComponent,
   ToggleSwitchComponent,
@@ -106,7 +106,7 @@ const EVENTOS_LABELS: readonly (keyof EventosNotificacion)[] = [
   selector: 'sc-aed-servicio-page',
   imports: [
     ButtonModule,
-    InputComponent,
+    InputTextComponent,
     InputGroupComponent,
     InputNumberComponent,
     InputTextModule,
@@ -258,7 +258,7 @@ export class AedServicioPageComponent {
     this.conversacionesDirty.set(true);
   }
 
-  /** Adapter para `<sc-input>` (emite `string`). */
+  /** Adapter para `<sc-inputtext>` (emite `string`). */
   protected onCallblendingUrlValue(value: string): void {
     this.form.update((f) => ({ ...f, callblendingUrl: value }));
     this.conversacionesDirty.set(true);

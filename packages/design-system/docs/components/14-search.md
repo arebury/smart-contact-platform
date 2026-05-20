@@ -29,10 +29,10 @@
 
 ## Cuándo NO usarlo
 
-- Para input de texto regular (formulario) → `<sc-input>` con `[label]`,
+- Para input de texto regular (formulario) → `<sc-inputtext>` con `[label]`,
   `[helperText]`, `[error]`.
 - Para input + addon button con border merge (ej. "+ Añadir") →
-  `<p-inputgroup>` directo + `<sc-input>` dentro (caso del tag-input en
+  `<p-inputgroup>` directo + `<sc-inputtext>` dentro (caso del tag-input en
   aed-servicio).
 - Para input numérico → `<sc-input-number>`.
 
@@ -43,7 +43,7 @@ interface ScSearchProps {
   // Visual
   size?: 'sm' | 'md' | 'lg';     // default 'md'
   placeholder?: string;
-  filled?: boolean;               // variant slate-50 bg (alineado con sc-input)
+  filled?: boolean;               // variant slate-50 bg (alineado con sc-inputtext)
   disabled?: boolean;
 
   // HTML
@@ -111,7 +111,7 @@ addons con border merge — distinta semántica).
 ## Tokens consumidos
 
 Hereda de `sc-preset.ts → semantic.formField.*` (border, radius, padding,
-focus ring) — mismo bridge que `sc-input`. NO redefine tokens propios.
+focus ring) — mismo bridge que `sc-inputtext`. NO redefine tokens propios.
 
 Específicos del componente:
 - `--sc-spacing-200/150` — padding right reservado para clear/kbd slot.
@@ -127,7 +127,7 @@ Específicos del componente:
   toolbars / pickers donde el label es contextual (header de la página
   ya dice "Agentes" → el search no necesita label "Buscar"). Si llega
   caso de search dentro de un formulario que requiera label/error,
-  usar `<sc-input type="search">` directo con `[leftIcon]` cuando
+  usar `<sc-inputtext type="search">` directo con `[leftIcon]` cuando
   exista `sc-input-group` (gap §5.1 customs-catalog).
 - **shortcutHint desaparece al focus**: no es prop, es comportamiento
   hardcoded. Patrón GitHub / Linear / Slack. Si llegara caso de "hint

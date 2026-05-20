@@ -131,7 +131,7 @@ Los chips dentro del input usan los mismos tokens base. La visualización (pills
 
 - **Idéntico chrome a sc-select**: el patrón visual es 100% el mismo. Diferencia conceptual = un dropdown que puede tener 0+ valores en vez de 0/1.
 - **Padding decimal** (10.5/7, 8.75/5.25, 12.25/8.75): heredado del preset.formField.
-- **Focus border navy**: divergencia documentada (mismo trade-off que sc-input/sc-select).
+- **Focus border navy**: divergencia documentada (mismo trade-off que sc-inputtext/sc-select).
 - **Mode=Chips vs comma**: ambos disponibles vía `[display]` prop. Default `comma`.
 - **`Group=True`**: Figma muestra option groups. PrimeNG p-multiselect lo soporta nativamente con `[group]="true"` + `optionGroupLabel`. NO expuesto aún en el wrapper.
 

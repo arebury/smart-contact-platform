@@ -32,7 +32,7 @@
 
 ```typescript
 interface ScDatepickerProps {
-  // Chrome (mirrors sc-input)
+  // Chrome (mirrors sc-inputtext)
   size?: 'sm' | 'md' | 'lg';   // default 'md'
   label?: string;
   required?: boolean;
@@ -64,10 +64,10 @@ interface ScDatepickerProps {
 
 | Estado | Visual |
 |--------|--------|
-| Idle (input cerrado) | mismo chrome que sc-input/sc-select: slate-300 border, 6px radius, drop shadow `#1212170D` |
+| Idle (input cerrado) | mismo chrome que sc-inputtext/sc-select: slate-300 border, 6px radius, drop shadow `#1212170D` |
 | Focus (panel abierto) | border azul, panel con shadow doble debajo |
 | Disabled | opacidad 60% |
-| Invalid | border danger (mismo que sc-input/sc-select) |
+| Invalid | border danger (mismo que sc-inputtext/sc-select) |
 
 ## Panel (calendario popup)
 
@@ -105,7 +105,7 @@ Nodos verificados: `109:12493` (Idle Default), `128:4810` (Idle Month), `130:580
 | `inputtext/focus/border/color` | `#3b82f6` | `--p-inputtext-focus-border-color` ← `--sc-color-azure-500` |
 | `inputtext/shadow` | drop-shadow `#1212170D` offset(0,1) r2 | `--p-inputtext-shadow` |
 
-Idéntico a sc-input/sc-select. Reuso 100% del bridge `--p-inputtext-*`.
+Idéntico a sc-inputtext/sc-select. Reuso 100% del bridge `--p-inputtext-*`.
 
 ### Panel (común a todos los picker types)
 
@@ -205,8 +205,8 @@ Idéntico a sc-input/sc-select. Reuso 100% del bridge `--p-inputtext-*`.
 
 ## Divergencias documentadas
 
-- **Sizes sm / md / lg**: añadidos por consistencia con `sc-input` / `sc-select`. **NO existen en Figma** — el Figma solo modela densidad Normal. Las clases `--sm / --lg` modulan font-size + padding-y vía sc-preset (mismo escalado que sc-input). Si en algún momento Marta define densidades específicas, ajustar.
-- **Hover state**: no es un variant Figma separado; preset CSS lo pinta a `slate-400` border. Mismo patrón que sc-input/sc-select.
+- **Sizes sm / md / lg**: añadidos por consistencia con `sc-inputtext` / `sc-select`. **NO existen en Figma** — el Figma solo modela densidad Normal. Las clases `--sm / --lg` modulan font-size + padding-y vía sc-preset (mismo escalado que sc-inputtext). Si en algún momento Marta define densidades específicas, ajustar.
+- **Hover state**: no es un variant Figma separado; preset CSS lo pinta a `slate-400` border. Mismo patrón que sc-inputtext/sc-select.
 - **Invalid state**: no es variant Figma; preset pinta `--sc-border-error` cuando hay `aria-invalid`. Activado por `[error]` o por FormControl invalid+touched.
 - **Inline Time / Inline Month / Inline Year**: el componente acepta `[view]="month"|"year"` pero NO expone time-picker en v1 (`[showTime]` no implementado). Cuando llegue caso real, las medidas ya están extraídas arriba — solo flag toggle.
 

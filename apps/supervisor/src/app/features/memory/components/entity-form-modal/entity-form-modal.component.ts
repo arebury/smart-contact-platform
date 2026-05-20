@@ -14,7 +14,7 @@ import { Database, LucideAngularModule, Plus, Trash2 } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { SelectModule } from 'primeng/select';
 
-import { InputComponent } from '@shared/components/input/input.component';
+import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { ModalComponent } from '@shared/components/modal/modal.component';
 
 import type { Entity, EntityListValue, EntityType } from '../../data/entity.types';
@@ -50,7 +50,7 @@ interface EntityTypeOption {
   imports: [
     ButtonModule,
     FormsModule,
-    InputComponent,
+    InputTextComponent,
     LucideAngularModule,
     ModalComponent,
     SelectModule,

@@ -10,7 +10,7 @@
   </h3>
 
   <div class="panel__field">
-    <sc-input
+    <sc-inputtext
       #nameInput
       inputId="label-name"
       type="text"
@@ -40,7 +40,7 @@
       {{ 'labels.form.description' | translate }}
       <span class="panel__hint">({{ 'common.optional' | translate }})</span>
     </label>
-    <sc-input
+    <sc-inputtext
       inputId="label-desc"
       type="text"
       [value]="description()"

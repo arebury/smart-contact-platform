@@ -1,5 +1,5 @@
 /*
- * sc-input — Smart Contact text input.
+ * sc-inputtext — Smart Contact text input.
  *
  * La chrome real (border, radius, padding, focus, hover, disabled,
  * invalid colors) vive en el `<input pInputText>` interno y hereda
@@ -13,14 +13,14 @@
  *   - filled variant (bg slate-50)
  */
 
-.sc-input {
+.sc-inputtext {
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-50);
   min-width: 0;
 }
 
-.sc-input__label {
+.sc-inputtext__label {
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
@@ -31,18 +31,18 @@
   margin-bottom: 2px;
 }
 
-.sc-input__required {
+.sc-inputtext__required {
   color: var(--sc-text-danger);
   font-weight: var(--sc-font-weight-medium);
 }
 
-.sc-input__field {
+.sc-inputtext__field {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-.sc-input__control {
+.sc-inputtext__control {
   width: 100%;
   font-family: inherit;
 }
@@ -59,7 +59,7 @@
  * y `--sc-spacing-*`. Esta es la cota 1:1 que pide la audit con Figma.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-input--sm .sc-input__control {
+.sc-inputtext--sm .sc-inputtext__control {
   padding-top: 5.25px;
   padding-bottom: 5.25px;
   padding-left: 8.75px;
@@ -67,7 +67,7 @@
   font-size: 12.25px;
 }
 
-.sc-input--lg .sc-input__control {
+.sc-inputtext--lg .sc-inputtext__control {
   padding-top: 8.75px;
   padding-bottom: 8.75px;
   padding-left: 12.25px;
@@ -81,10 +81,10 @@
  * Border y demás tokens permanecen igual; solo cambia el background.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-input--filled .sc-input__control {
+.sc-inputtext--filled .sc-inputtext__control {
   background: var(--sc-color-gray-50);
 }
-.sc-input--filled .sc-input__control:hover {
+.sc-inputtext--filled .sc-inputtext__control:hover {
   background: var(--sc-color-gray-100);
 }
 
@@ -95,7 +95,7 @@
  * where the consumer uses `[error]` without a FormControl behind it.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-input--invalid .sc-input__control {
+.sc-inputtext--invalid .sc-inputtext__control {
   border-color: var(--sc-border-error);
 
   &:hover,
@@ -110,7 +110,7 @@
  * doesn't shift layout (DD#16, "no layout shift" feedback).
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-input__msg {
+.sc-inputtext__msg {
   display: block;
   min-height: 1.25em;
   margin-top: var(--sc-spacing-50);
@@ -120,7 +120,7 @@
   color: var(--sc-text-subtle);
 }
 
-.sc-input__msg--error {
+.sc-inputtext__msg--error {
   color: var(--sc-text-danger);
 }
 
@@ -129,6 +129,6 @@
  * the whole field reads as inert.
  * ────────────────────────────────────────────────────────────────────
  */
-.sc-input--disabled .sc-input__label {
+.sc-inputtext--disabled .sc-inputtext__label {
   color: var(--sc-text-disabled);
 }

@@ -41,15 +41,15 @@
 | 23 | Impact preview dialog | ✓ | ⚪ Pure SC | `<sc-impact-preview-dialog>` | n/a (composición sobre sc-modal, hereda) | n/a | `docs/components/25-impact-preview-dialog.md` |
 | 24 | Page header | ✓ | ⚪ Pure SC | `<sc-page-header>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/19-page-header.md` |
 | 25 | Sticky form header | ✓ | ⚪ Pure SC | `<sc-sticky-form-header>` | n/a (pattern in-house, no Figma) | n/a | `docs/components/22-sticky-form-header.md` |
-| 26 | Input (text/email/password/tel/url/search) | ✓ | 🟢 Extended | `<sc-input>` | [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | **100%** — Session 30 audit Nivel-2 contra los 240 variants Figma. Padding 10.5/7 (default), 8.75/5.25 (sm), 12.25/8.75 (lg) raw decimal. Variant `[filled]` añadida (slate-50 bg) | `docs/components/02-input.md` |
-| 27 | Input number | ✓ | 🟢 Extended | `<sc-input-number>` | hereda de [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) (sc-input) | **100%** — chrome 1:1 vía sc-input auditado S30. Extensiones SC (suffix unit + right-align numérico) NO modeladas en Figma kit. S34: TODO cerrado. | `docs/components/03-input-number.md` |
+| 26 | Input (text/email/password/tel/url/search) | ✓ | 🟢 Extended | `<sc-inputtext>` | [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) | **100%** — Session 30 audit Nivel-2 contra los 240 variants Figma. Padding 10.5/7 (default), 8.75/5.25 (sm), 12.25/8.75 (lg) raw decimal. Variant `[filled]` añadida (slate-50 bg) | `docs/components/02-inputtext.md` |
+| 27 | Input number | ✓ | 🟢 Extended | `<sc-input-number>` | hereda de [6738:46804](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-46804) (sc-inputtext) | **100%** — chrome 1:1 vía sc-inputtext auditado S30. Extensiones SC (suffix unit + right-align numérico) NO modeladas en Figma kit. S34: TODO cerrado. | `docs/components/03-input-number.md` |
 | 28 | Select / dropdown | ✓ | 🟢 Extended | `<sc-select>` | [6738:22642](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22642) | **100%** — Session 30 audit Nivel-2 contra los 258 variants. Padding decimal 8.75/5.25 (sm), 10.5/7 (md), 12.25/8.75 (lg). Variants Filled + Invalid añadidos / verificados. | `docs/components/04-select.md` |
 | 29 | Datepicker | ✓ | 🟢 Extended | `<sc-datepicker>` | [6738:20817](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-20817) | **~100%** — input chrome slate-300/6px/shadow, panel slate-200 bg white + dates 28×28 circulares, anchor-gutter 2 | `docs/components/05-datepicker.md` |
 | 30 | Tabs | ✓ | 🟣 Custom-preset | `<p-tabs>` | [6738:49740](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-49740) | **100%** — Session 30 audit Nivel-2. Padding tab 14/15.75, tabpanel 12.25/15.75/15.75/15.75 overrides en `components.tabs`. Active = navy (brand divergence vs azure). | `docs/components/06-tabs.md` |
 | 31 | Tooltip | ✓ | 🟦 Full PrimeNG | `[pTooltip]` | [6738:50212](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50212) | **100%** — Session 30 audit. bg slate-700, padding 10.5/7, radius 6, max-width 175. Overrides en `components.tooltip.root`. Shadow heredado de overlay.popover. | `docs/components/07-tooltip.md` |
 | 32 | MultiSelect | ✓ | 🟢 Extended | `<sc-multi-select>` | [6738:22651](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22651) | **100%** — Session 30. Tokens `multiselect/*` idénticos a `select/*` (mismo chrome). Display `comma` o `chip`, selectionLimit, filter. | `docs/components/08-multi-select.md` |
 | 33 | Search | ✓ | 🟢 Extended | `<sc-search>` | [11861:55210](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=11861-55210) | **100%** — S31 cocinado. Composición `<p-iconfield>` + `<p-inputicon>` + `pInputText` + clear button auto + opcional kbd hint `⌘K`/`/`. Figma canvas compuesto (Light + Dark + Components frame). | `docs/components/14-search.md` |
-| 34 | Input group | ✓ | 🟢 Extended | `<sc-input-group>` | [6738:22644](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22644) | **100%** — S33 cocinado. Wrapper minimal de `<p-inputgroup>` + `<p-inputgroup-addon>` (PrimeNG nativo). `size` matchea `sc-input`. Trigger real: tag-input aed-servicio. Tokens fluyen via `formField.*` sin overrides propios. | `docs/components/34-input-group.md` |
+| 34 | Input group | ✓ | 🟢 Extended | `<sc-input-group>` | [6738:22644](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22644) | **100%** — S33 cocinado. Wrapper minimal de `<p-inputgroup>` + `<p-inputgroup-addon>` (PrimeNG nativo). `size` matchea `sc-inputtext`. Trigger real: tag-input aed-servicio. Tokens fluyen via `formField.*` sin overrides propios. | `docs/components/34-input-group.md` |
 
 ## Tokens
 
@@ -77,13 +77,13 @@ Capa | Archivo | Status
 | `<sc-modal>` | 2026-05-15 | S30 | Border slate-200, radius 12, padding 17.5 |
 | `<p-toast>` | 2026-05-15 | S30 | Width 350, severity-200 tinted borders |
 | `<sc-tri-state-checkbox>` | 2026-05-15 | S30 | 60 variants Nivel-2, navy primary |
-| `<sc-input>` | 2026-05-15 | S30 | 240 variants Nivel-2, padding decimal raw |
+| `<sc-inputtext>` | 2026-05-15 | S30 | 240 variants Nivel-2, padding decimal raw |
 | `<p-tabs>` | 2026-05-15 | S30 | Padding tab 14/15.75 |
 | `<p-tooltip>` | 2026-05-15 | S30 | bg slate-700, padding 10.5/7 |
 | `<sc-multi-select>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory `/conversaciones` ConversationFilters top-bar). Variants `size: sm/md/lg` aplicadas correctamente en `sm` (height 36px) sin override custom. **Pendiente Marta**: confirmar variants formales `sm/md/lg` en Kit Pro (S30 audit Nivel-2 cubrió size default, no las 3 variants size). |
 | `<sc-select>` | 2026-05-15 | S30 | 258 variants Nivel-2, Filled + Invalid |
 | `<sc-datepicker>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory ConversationFilters). Variants `size: sm/md/lg` aplicadas correctamente. **Pendiente Marta**: idem multi-select. |
-| `<sc-input>` (re-check S46) | 2026-05-20 | S46 | Aplicado `size="sm"` en Memory filters origin/destination. Sin drift visual perceptible. Variants `sm/md/lg` ya estaban auditadas S30 (240 variants Nivel-2). |
+| `<sc-inputtext>` (re-check S46) | 2026-05-20 | S46 | Aplicado `size="sm"` en Memory filters origin/destination. Sin drift visual perceptible. Variants `sm/md/lg` ya estaban auditadas S30 (240 variants Nivel-2). |
 | `<sc-search>` | 2026-05-15 | S31 | Composición aditiva canvas Light+Dark+Components |
 | `<sc-toggle-switch>` | 2026-05-15 | S32 | Refactor a wrapper p-toggleswitch, Figma node 6738:22645 |
 | `<sc-label-chip>` | 2026-05-15 | S32 | Figma `❖ Chip` node 6738:55109 confirmado |
@@ -106,7 +106,7 @@ Capa | Archivo | Status
 |---|---|---|
 | `<p-button>` | 38 (incluye `.btn` class) | Top usage del catálogo |
 | `<sc-toggle-switch>` | 21 | Refactor S32 a wrapper p-toggleswitch |
-| `<sc-input>` | 21 | Migración 100% en S31+S32 |
+| `<sc-inputtext>` | 21 | Migración 100% en S31+S32 |
 | `<sc-select>` | 16 | Migración 100% en S31+S32 |
 | `<sc-section-card>` | 12 | Patrón canónico form long |
 | `<sc-search>` | 8 | Cocinado S31, migrado consumers |

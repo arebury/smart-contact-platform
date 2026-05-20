@@ -6,7 +6,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { PageHeaderService } from '@core/services';
 import {
-  InputComponent,
+  InputTextComponent,
   ToggleSwitchComponent,
   TriStateCheckboxComponent,
   type TriState,
@@ -70,7 +70,7 @@ const DEFAULT_FORM: FormState = {
   selector: 'sc-aed-agentes-page',
   imports: [
     ButtonModule,
-    InputComponent,
+    InputTextComponent,
     LucideAngularModule,
     ToggleSwitchComponent,
     TranslateModule,

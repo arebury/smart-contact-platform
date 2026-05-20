@@ -43,8 +43,8 @@ export type {
 
 export { InlineRenameCellComponent } from './inline-rename-cell/inline-rename-cell.component';
 
-export { InputComponent } from './input/input.component';
-export type { ScInputSize, ScInputType } from './input/input.component';
+export { InputTextComponent } from './inputtext/inputtext.component';
+export type { ScInputSize, ScInputType } from './inputtext/inputtext.component';
 
 export { InputNumberComponent } from './input-number/input-number.component';
 export type { ScInputNumberSize } from './input-number/input-number.component';

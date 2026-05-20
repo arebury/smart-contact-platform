@@ -3,7 +3,7 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Input</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-input&gt;</code> envuelve PrimeNG <code>pInputText</code> con el patrón SCDS
+      <code>&lt;sc-inputtext&gt;</code> envuelve PrimeNG <code>pInputText</code> con el patrón SCDS
       (label + required + helper + error + iconos). Soporta <code>[(ngModel)]</code>, Reactive Forms
       y signals via <code>[(value)]</code>.
     </p>
@@ -13,7 +13,7 @@
   <section class="gallery__section">
     <h2 class="gallery__h2">0 · Snippet de uso</h2>
     <p class="gallery__hint">
-      Copia este snippet para arrancar con <code>&lt;sc-input&gt;</code> en tu form.
+      Copia este snippet para arrancar con <code>&lt;sc-inputtext&gt;</code> en tu form.
     </p>
     <pre class="code-block">
       <header class="code-block__head">
@@ -34,7 +34,7 @@
     <h2 class="gallery__h2">1 · Basic</h2>
     <p class="gallery__hint">Sin label, sin helper. Solo placeholder. El caso más simple.</p>
     <div class="gallery__row">
-      <sc-input placeholder="Escribe algo…" [(value)]="textValue" />
+      <sc-inputtext placeholder="Escribe algo…" [(value)]="textValue" />
     </div>
     <p class="gallery__output">
       Valor: <code>{{ textValue() || '(vacío)' }}</code>
@@ -49,7 +49,7 @@
       debajo.
     </p>
     <div class="gallery__row">
-      <sc-input
+      <sc-inputtext
         label="Email"
         type="email"
         placeholder="tu@empresa.com"
@@ -67,9 +67,9 @@
       Tres tamaños via <code>[size]</code>. <code>md</code> es el default.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-input label="Small" size="sm" placeholder="32px alto" />
-      <sc-input label="Medium (default)" placeholder="40px alto" />
-      <sc-input label="Large" size="lg" placeholder="48px alto" />
+      <sc-inputtext label="Small" size="sm" placeholder="32px alto" />
+      <sc-inputtext label="Medium (default)" placeholder="40px alto" />
+      <sc-inputtext label="Large" size="lg" placeholder="48px alto" />
     </div>
   </section>
 
@@ -80,14 +80,14 @@
       Disabled, readonly, error con mensaje. El error sobreescribe al helper.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-input
+      <sc-inputtext
         label="Disabled"
         placeholder="No editable"
         [disabled]="true"
         [(value)]="disabledValue"
       />
-      <sc-input label="Readonly" [readonly]="true" [(value)]="disabledValue" />
-      <sc-input
+      <sc-inputtext label="Readonly" [readonly]="true" [(value)]="disabledValue" />
+      <sc-inputtext
         label="Email (con error)"
         type="email"
         [(value)]="errorValue"
@@ -104,7 +104,7 @@
       Compatible con FormsModule. Útil para forms no-Reactive existentes en AED.
     </p>
     <div class="gallery__row">
-      <sc-input label="Vía ngModel" [(ngModel)]="ngModelValue" />
+      <sc-inputtext label="Vía ngModel" [(ngModel)]="ngModelValue" />
     </div>
     <p class="gallery__output">
       Valor: <code>{{ ngModelValue() }}</code>
@@ -118,7 +118,7 @@
       El input se pinta como inválido cuando el FormControl tiene errores Y ha sido touched.
     </p>
     <div class="gallery__row">
-      <sc-input
+      <sc-inputtext
         label="Email (Reactive Form)"
         type="email"
         placeholder="Requerido + formato email"
@@ -143,17 +143,17 @@
       autocomplete del navegador.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-input label="text (default)" type="text" placeholder="Cualquier texto" />
-      <sc-input label="email" type="email" placeholder="tu@empresa.com" autocomplete="email" />
-      <sc-input
+      <sc-inputtext label="text (default)" type="text" placeholder="Cualquier texto" />
+      <sc-inputtext label="email" type="email" placeholder="tu@empresa.com" autocomplete="email" />
+      <sc-inputtext
         label="password"
         type="password"
         placeholder="••••••••"
         autocomplete="current-password"
       />
-      <sc-input label="tel" type="tel" placeholder="+34 600 000 000" autocomplete="tel" />
-      <sc-input label="url" type="url" placeholder="https://…" />
-      <sc-input label="search" type="search" placeholder="Buscar…" />
+      <sc-inputtext label="tel" type="tel" placeholder="+34 600 000 000" autocomplete="tel" />
+      <sc-inputtext label="url" type="url" placeholder="https://…" />
+      <sc-inputtext label="search" type="search" placeholder="Buscar…" />
     </div>
   </section>
 
@@ -166,9 +166,9 @@
       visualmente del canvas blanco. Hover sube a slate-100.
     </p>
     <div class="gallery__row gallery__row--grid">
-      <sc-input label="Filled (sm)" size="sm" placeholder="Texto…" [filled]="true" />
-      <sc-input label="Filled (md)" placeholder="Texto…" [filled]="true" />
-      <sc-input label="Filled (lg)" size="lg" placeholder="Texto…" [filled]="true" />
+      <sc-inputtext label="Filled (sm)" size="sm" placeholder="Texto…" [filled]="true" />
+      <sc-inputtext label="Filled (md)" placeholder="Texto…" [filled]="true" />
+      <sc-inputtext label="Filled (lg)" size="lg" placeholder="Texto…" [filled]="true" />
     </div>
   </section>
 
@@ -179,8 +179,8 @@
       Patrón alternativo: la label flota dentro del campo y se reduce al hacer focus o cuando hay
       valor. Se compone con
       <code>&lt;p-floatlabel&gt;</code> envolviendo un <code>pInputText</code> — NO se usa
-      <code>&lt;sc-input&gt;</code> aquí porque <code>&lt;sc-input&gt;</code> gestiona su propia
-      label arriba. Tokens visuales y focus ring siguen siendo los de SCDS.
+      <code>&lt;sc-inputtext&gt;</code> aquí porque <code>&lt;sc-inputtext&gt;</code> gestiona su
+      propia label arriba. Tokens visuales y focus ring siguen siendo los de SCDS.
     </p>
     <div class="gallery__row gallery__row--grid">
       <p-floatlabel variant="over">

@@ -4,7 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AlertCircle, LucideAngularModule, RotateCcw, Search } from 'lucide-angular';
 
 import { DatepickerComponent } from '@shared/components/datepicker/datepicker.component';
-import { InputComponent } from '@shared/components/input/input.component';
+import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { MultiSelectComponent } from '@shared/components/multi-select/multi-select.component';
 
 import {
@@ -50,7 +50,7 @@ import { TypeFilterButtonComponent } from '../type-filter-button/type-filter-but
     LucideAngularModule,
     MultiSelectComponent,
     DatepickerComponent,
-    InputComponent,
+    InputTextComponent,
     TypeFilterButtonComponent,
     CategoryFilterButtonComponent,
   ],

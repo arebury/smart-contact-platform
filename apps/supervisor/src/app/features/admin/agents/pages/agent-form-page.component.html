@@ -86,7 +86,7 @@
             <!-- Email + Phone -->
             <div class="grid grid--2">
               <div class="field">
-                <sc-input
+                <sc-inputtext
                   inputId="agent-email"
                   type="email"
                   autocomplete="email"
@@ -102,7 +102,7 @@
                   {{ 'agents.form.fields.phone' | translate }}
                   <span class="field__hint">({{ 'common.optional' | translate }})</span>
                 </label>
-                <sc-input
+                <sc-inputtext
                   inputId="agent-phone"
                   type="tel"
                   autocomplete="tel"
@@ -224,7 +224,7 @@
                 {{ 'agents.form.fields.pin' | translate }}
                 <span class="field__hint">({{ 'common.optional' | translate }})</span>
               </label>
-              <sc-input
+              <sc-inputtext
                 inputId="agent-pin"
                 type="text"
                 inputmode="numeric"
@@ -786,7 +786,7 @@
                   <label class="field__label" for="agent-iframe-url">
                     {{ 'agents.form.advanced.integracion.url_iframe' | translate }}
                   </label>
-                  <sc-input
+                  <sc-inputtext
                     inputId="agent-iframe-url"
                     type="url"
                     autocomplete="url"

@@ -2,7 +2,7 @@
 
 > **Type**: Extended · **AED uses**: 7 · **Figma parity**: 1:1 con Figma
 
-> Numeric input para formularios SC. Misma chrome que `<sc-input>` pero con valor tipado `number | null`, sufijo de unidad opcional y texto right-aligned. Cubre los casos de contadores, capacidades, segundos, porcentajes.
+> Numeric input para formularios SC. Misma chrome que `<sc-inputtext>` pero con valor tipado `number | null`, sufijo de unidad opcional y texto right-aligned. Cubre los casos de contadores, capacidades, segundos, porcentajes.
 
 ## TL;DR
 
@@ -26,7 +26,7 @@
 
 ## Cuándo NO usarlo
 
-- Para texto, email, etc. → `<sc-input>`.
+- Para texto, email, etc. → `<sc-inputtext>`.
 - Para currency con formato local (`1.234,56 €`) → `<p-inputNumber>` directo (Custom-preset, TBD). `sc-input-number` deliberadamente NO incluye formatting/locale porque AED no lo usa hoy.
 - Para spinner buttons (+/−) → `<p-inputNumber>` directo. Misma razón.
 - Para sliders / rangos → `<sc-slider>` (TBD).
@@ -35,7 +35,7 @@
 
 ```typescript
 interface ScInputNumberProps {
-  // Chrome (mirrors sc-input)
+  // Chrome (mirrors sc-inputtext)
   size?: 'sm' | 'md' | 'lg';   // default 'md'
   label?: string;
   required?: boolean;
@@ -129,9 +129,9 @@ Específicos del componente:
 - **No locale formatting**. `1234` se muestra como `1234`, no `1.234`. PrimeNG `p-inputNumber` lo hace; deliberadamente fuera de scope aquí. Si llega un caso real, escalar a `p-inputNumber` Custom-preset.
 - **Padding-right del suffix se calcula automáticamente** según `suffix().length` (Inter ≈ 0.6em por carácter + 0.5em safety, mínimo 2.3em para preservar suffixes cortos). Se expone como CSS custom property `--sc-input-number-suffix-pad` en el host. Si el cálculo falla por una fuente custom, override la variable en el consumer.
 
-## Comparativa con `<sc-input>`
+## Comparativa con `<sc-inputtext>`
 
-| Aspecto | `<sc-input>` | `<sc-input-number>` |
+| Aspecto | `<sc-inputtext>` | `<sc-input-number>` |
 |---------|--------------|---------------------|
 | Tipo de valor | `string` | `number \| null` |
 | Alineación texto | left | right |

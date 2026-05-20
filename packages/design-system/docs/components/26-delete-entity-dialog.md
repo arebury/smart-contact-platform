@@ -121,7 +121,7 @@ interface ScDeleteEntityDialogProps {
 | `--sc-bg-danger-hover` | Eliminar hover |
 | `--sc-text-danger` | alert icon + danger button text |
 | `--sc-border-subtle` | dividers + input border |
-| Copy button | matches `sc-input` height para alinear |
+| Copy button | matches `sc-inputtext` height para alinear |
 | Chip dimensions | ~40px height, full-width rows |
 
 ## Decisiones de diseño SC

@@ -57,11 +57,11 @@
 
 ---
 
-### Input text — `<sc-input>` ↔ `❖ inputtext`
+### Input text — `<sc-inputtext>` ↔ `❖ inputtext`
 
 | Campo | Valor |
 |---|---|
-| Angular | `<sc-input>` (wrapper SCDS de `<p-inputtext>`, CVA-bound) |
+| Angular | `<sc-inputtext>` (wrapper SCDS de `<p-inputtext>`, CVA-bound) |
 | Figma name | `inputtext` |
 | Figma nodeId | `23:835` |
 | Figma componentKey | `245effb4f5a577b32eb06587f12759052ef7892f` |
@@ -69,7 +69,7 @@
 
 **Property mapping**:
 
-| `<sc-input>` input | Figma prop | Notas |
+| `<sc-inputtext>` input | Figma prop | Notas |
 |---|---|---|
 | `[label]` (sc spec) | `🏷️ Show Label = true` + `↳ Label#5662:83` (TEXT) | Label arriba del input |
 | `[placeholder]` | **text node interno "Placeholder"** (direct edit) | `↳ Float Label#4275:152` NO está conectado al placeholder real cuando `🏷️ Float Label=False`. Hay que editar el text node `Placeholder` directamente (walk children, characters set) |
@@ -78,7 +78,7 @@
 | `[disabled]` | `🚫 Disabled=True` (VARIANT) | Estado deshabilitado |
 | Icon left | `⬅️ Show Left Icon = true` + `↳ Left Icon#1729:0` (INSTANCE_SWAP) | |
 | Icon right | `➡️ Show Right Icon = true` + `↳ Right Icon#1729:577` (INSTANCE_SWAP) | |
-| Size | `🤏 Size=Small|Normal|Large` (VARIANT) | sc-input default a Normal |
+| Size | `🤏 Size=Small|Normal|Large` (VARIANT) | sc-inputtext default a Normal |
 
 **Gotcha S41**: el property `↳ Float Label#4275:152` SOLO controla el
 texto cuando `🏷️ Float Label=True`. Si el componente está en modo

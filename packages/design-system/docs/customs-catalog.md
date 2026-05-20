@@ -108,7 +108,7 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 - **Figma**: el body es un free slot sin layout opinionado.
 - **SC**: el body es `display: flex; flex-direction: column; gap: var(--sc-spacing-300)` por defecto. Los hijos directos quedan apilados con gap 16px automático.
 - **Implementación**: `sc-modal.scss` `.sc-modal__body` block.
-- **Para qué**: el caso 95% de uso del modal en AED es forms verticales (2-5 inputs). Sin gap por defecto, cada consumer reinventaba un wrapper. Ahora `<sc-input>`, `<sc-select>` etc. proyectados directamente quedan separados.
+- **Para qué**: el caso 95% de uso del modal en AED es forms verticales (2-5 inputs). Sin gap por defecto, cada consumer reinventaba un wrapper. Ahora `<sc-inputtext>`, `<sc-select>` etc. proyectados directamente quedan separados.
 
 ### 2.5 Modal `[bodyless]` mode
 
@@ -139,7 +139,7 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 - **Datepicker / Checkbox**: Figma SOLO modela densidad Normal — no hay variants Small / Large.
 - **SC añade** `sm` y `lg` por consistency family con el resto. Mismo escalado proporcional. Si Marta en algún momento define densidades específicas para datepicker o checkbox, ajustar.
 - **Implementación**:
-  - Input: `sc-input.scss` `--sm/--lg` con valores Figma exactos.
+  - Input: `sc-inputtext.scss` `--sm/--lg` con valores Figma exactos.
   - Select / MultiSelect: idem en `.p-select-label / .p-multiselect-label`.
   - Datepicker: `sc-datepicker.scss` (extiende formField via [size]).
   - Checkbox: `tri-state-checkbox.scss` `&--sm / &--lg` con 14/21 px box.
@@ -148,7 +148,7 @@ Sobre Figma SC: pedir el link del componente ANTES de tocar nada. Replicar 1:1 l
 
 - **Figma**: muchos paddings caen en 0.5/0.25 px (10.5, 7, 8.75, 5.25, 12.25, 14, 15.75, 17.5).
 - **SC**: `--sc-spacing-*` scale es entera (4, 8, 12, 16, 24, 32…). NO añadimos tokens decimales para evitar inflar la API.
-- **Solución**: los valores raw px se escriben directamente en el SCSS (sin token) cuando el Figma así lo manda. Comentados con "raw decimal (off-scale)". Aplica a sc-input sizes, sc-select sizes, sc-multi-select sizes, sc-checkbox sizes, formField.paddingX/Y, dialog padding 17.5, tabs padding 14/15.75, tooltip padding 10.5/7.
+- **Solución**: los valores raw px se escriben directamente en el SCSS (sin token) cuando el Figma así lo manda. Comentados con "raw decimal (off-scale)". Aplica a sc-inputtext sizes, sc-select sizes, sc-multi-select sizes, sc-checkbox sizes, formField.paddingX/Y, dialog padding 17.5, tabs padding 14/15.75, tooltip padding 10.5/7.
 
 ---
 
@@ -225,7 +225,7 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
 - **No son divergencias** — al revés, son **alineaciones con PrimeNG** que reducen el custom innecesario. Se documentan aquí como reseña para Memory / futuros contributors:
   - `sc-toggle-switch`: era CSS sobre `<input type="checkbox">`; ahora wrapper de `<p-toggleswitch>`. Misma API pública, 21 consumers AED no se enteraron.
   - `sc-bulk-edit-menu`: internamente usa `<sc-select>` × 2 (era `<select>` HTML nativo).
-- **Declines documentados**: `inline-rename-cell` y `label-chip` evaluados en S32 — declinados con justificación (ver `docs/inconsistencies-backlog.md` items #2 y #4). El `<sc-input>` rompería la metáfora "flat cell" de rename-cell; el modelo `LabelColor` de label-chip no encaja con `<p-tag>` ni `<p-chip>`.
+- **Declines documentados**: `inline-rename-cell` y `label-chip` evaluados en S32 — declinados con justificación (ver `docs/inconsistencies-backlog.md` items #2 y #4). El `<sc-inputtext>` rompería la metáfora "flat cell" de rename-cell; el modelo `LabelColor` de label-chip no encaja con `<p-tag>` ni `<p-chip>`.
 - **Política**: post-S32, prioridad clara — **minimizar custom sobre PrimeNG** (memoria `feedback_minimal_customization`). Antes de cualquier nuevo pure-sc, las 4 preguntas del checklist §0 son obligatorias.
 
 ---

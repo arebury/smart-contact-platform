@@ -12,9 +12,11 @@ export const appRoutes: Routes = [
       import('./pages/button/buttons-gallery.component').then((m) => m.ButtonsGalleryComponent),
   },
   {
-    path: 'components/input',
+    path: 'components/inputtext',
     loadComponent: () =>
-      import('./pages/input/inputs-gallery.component').then((m) => m.InputsGalleryComponent),
+      import('./pages/inputtext/inputtext-gallery.component').then(
+        (m) => m.InputTextGalleryComponent,
+      ),
   },
   {
     path: 'components/input-number',

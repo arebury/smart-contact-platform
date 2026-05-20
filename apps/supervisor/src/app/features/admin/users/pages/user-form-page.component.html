@@ -61,7 +61,7 @@
             titleKey="users.form.section.identity"
           >
             <div class="grid grid--2">
-              <sc-input
+              <sc-inputtext
                 inputId="user-email"
                 type="email"
                 autocomplete="email"
@@ -72,7 +72,7 @@
                 [error]="errors()['email'] ? (errors()['email']! | translate) : undefined"
               />
 
-              <sc-input
+              <sc-inputtext
                 inputId="user-identifier"
                 type="text"
                 [label]="'users.form.fields.identifier' | translate"

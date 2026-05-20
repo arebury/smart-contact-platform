@@ -1,16 +1,16 @@
 @if (label()) {
-  <label class="sc-input__label" [attr.for]="resolvedId()">
+  <label class="sc-inputtext__label" [attr.for]="resolvedId()">
     {{ label() }}
     @if (required()) {
-      <span class="sc-input__required" aria-hidden="true">*</span>
+      <span class="sc-inputtext__required" aria-hidden="true">*</span>
     }
   </label>
 }
 
-<div class="sc-input__field">
+<div class="sc-inputtext__field">
   <input
     pInputText
-    class="sc-input__control"
+    class="sc-inputtext__control"
     [id]="resolvedId()"
     [type]="type()"
     [placeholder]="placeholder() ?? ''"
@@ -30,7 +30,11 @@
 </div>
 
 @if (footerText()) {
-  <span class="sc-input__msg" [class.sc-input__msg--error]="!!error()" [id]="resolvedId() + '-msg'">
+  <span
+    class="sc-inputtext__msg"
+    [class.sc-inputtext__msg--error]="!!error()"
+    [id]="resolvedId() + '-msg'"
+  >
     {{ footerText() }}
   </span>
 }

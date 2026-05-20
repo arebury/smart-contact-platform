@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LucideAngularModule, AlertTriangle } from 'lucide-angular';
 
-import { InputComponent } from '@shared/components';
+import { InputTextComponent } from '@shared/components';
 import {
   ColorDotOption,
   ColorDotPickerComponent,
@@ -40,7 +40,7 @@ export interface LabelFormSubmission {
   imports: [
     ColorDotPickerComponent,
     FormsModule,
-    InputComponent,
+    InputTextComponent,
     LucideAngularModule,
     TranslateModule,
   ],

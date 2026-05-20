@@ -20,7 +20,7 @@
 >
   <!-- Body slot: cualquier markup. Stacking natural. -->
   <p>El agente y todos sus mensajes serán eliminados permanentemente.</p>
-  <sc-input label="Escribe el nombre para confirmar" [(value)]="confirmName" />
+  <sc-inputtext label="Escribe el nombre para confirmar" [(value)]="confirmName" />
 
   <!-- Footer slot (proyectado vía [modal-actions]): action row -->
   <div modal-actions>
@@ -67,8 +67,8 @@ Cualquier markup. **Stacking natural**: el body es `display: flex; flex-directio
 ```html
 <sc-modal title="Editar agente" [visible]="...">
   <!-- elementos se apilan verticalmente con gap automático -->
-  <sc-input label="Nombre" [(value)]="name" />
-  <sc-input label="Email" type="email" [(value)]="email" />
+  <sc-inputtext label="Nombre" [(value)]="name" />
+  <sc-inputtext label="Email" type="email" [(value)]="email" />
   <sc-select label="Grupo" [options]="groups" [(value)]="groupId" />
   <sc-toggle-switch [checked]="active" label="Activo" />
 

@@ -9,7 +9,7 @@ Este documento captura las reglas, riesgos y pro tips para que **upgrades de Pri
 ## TL;DR — 3 reglas blindaje
 
 1. **`--sc-*` es la única source of truth de tokens** — viven en código (`tokens/layers/*.css`). Los componentes consumen `--sc-*`, nunca `--p-*` directo.
-2. **Wrappers SCDS encapsulan PrimeNG** — AED usa `<sc-input>`, nunca `<p-inputtext>` directo. Single point of adaptation cuando PrimeNG cambie.
+2. **Wrappers SCDS encapsulan PrimeNG** — AED usa `<sc-inputtext>`, nunca `<p-inputtext>` directo. Single point of adaptation cuando PrimeNG cambie.
 3. **`customs-catalog.md` registra TODA divergence** — cualquier override de PrimeOne debe tener entry. Sin entry, no es divergencia permitida — es deuda invisible.
 
 ---
@@ -92,7 +92,7 @@ Cualquier cambio upstream PrimeNG SOLO afecta la última capa. El bridge contien
 
 ### Sesión 31 — Migraciones AED a SCDS
 
-- 24 commits, ~25 inputs/selects nativos AED migrados a `<sc-input>` / `<sc-select>` / `<sc-input-number>`.
+- 24 commits, ~25 inputs/selects nativos AED migrados a `<sc-inputtext>` / `<sc-select>` / `<sc-input-number>`.
 - Componente `<sc-search>` nuevo (Extended sobre `p-iconfield` + `pInputText` + clear button).
 - Auditoría profunda pure-sc: 0 issues nivel-1.
 - Figma SC `❖ Search` canvas compuesto (Light + Dark + Components frames) — composición aditiva, **NO se modificaron variables Figma base**.
@@ -112,7 +112,7 @@ Cualquier cambio upstream PrimeNG SOLO afecta la última capa. El bridge contien
 
 **Pregunta en este orden**:
 
-1. ¿PrimeNG ya lo tiene? → wrapper Extended SCDS (e.g. `<sc-input>` → `<p-inputtext>`).
+1. ¿PrimeNG ya lo tiene? → wrapper Extended SCDS (e.g. `<sc-inputtext>` → `<p-inputtext>`).
 2. ¿PrimeNG tiene similar con `pTemplate` slots? → usar el slot, no reescribir el componente.
 3. ¿PrimeNG tiene la lógica pero quiero customizar el render? → headless mode si existe (componentes con `[unstyled]`).
 4. ¿PrimeNG NO lo tiene? → pure-sc, pero documentar en `customs-catalog.md` por qué (idealmente con referencia a patrón industry: GitHub danger zone, Linear command palette, etc.).
@@ -215,7 +215,7 @@ Verificado S32 para toggle-switch (refactor CSS-checkbox → p-toggleswitch wrap
 
 **Refactored en S32 (consistencia)**:
 - `bulk-edit-menu` ahora usa `<sc-select>` interno (era `<select>` nativo).
-- `inline-rename-cell` ahora usa `<sc-input>` interno (era `<input>` nativo).
+- `inline-rename-cell` ahora usa `<sc-inputtext>` interno (era `<input>` nativo).
 - `toggle-switch` ahora envuelve `<p-toggleswitch>` (era CSS sobre checkbox nativo).
 - `label-chip` ahora envuelve `<p-tag>` con brand tokens (era CSS puro).
 
