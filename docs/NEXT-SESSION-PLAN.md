@@ -19,35 +19,96 @@ ready · 14/14 Playwright · i18n 1472 paths × 4 locales 0 mismatches.
 
 ## Próximas tareas (priorizadas)
 
-### 🎯 Pendiente top S53 — Capturas componente por componente
+### 🎯 TOP S53 (pedidos directos del user)
 
-User pidió generar referencia visual por componente para añadir a cada
-checklist `packages/design-system/docs/components/NN-*.md`. Idea:
-script Playwright que itera las 33 rutas `/components/<name>` del
-ds-docs, captura el componente principal (no la página entera) y
-guarda en `packages/design-system/docs/components/screenshots/<name>.png`.
-Después: añadir `![<name>](./screenshots/<name>.png)` al header de
-cada doc.
+1. **Capturas componente por componente** — referencia visual para
+   añadir a cada checklist `packages/design-system/docs/components/NN-*.md`.
+   Script Playwright itera las 33 rutas `/components/<name>` del ds-docs,
+   captura el componente principal (no la página entera) y guarda en
+   `packages/design-system/docs/components/screenshots/<name>.png`.
+   Después sweep de 33 docs md con `![<name>](./screenshots/<name>.png)`
+   en el header. ~1.5h. Requiere convención CSS selector `.gallery__hero`
+   o `data-testid="component-instance"` en cada gallery.
 
-Trabajo definido: ~1-1.5h. Requiere:
-- Convención CSS selector `.gallery__hero` (o data-testid) en cada
-  gallery para identificar el componente focal vs la página entera.
-- Script `scripts/capture-components.mjs` que arranca ds-docs +
-  Playwright + itera.
-- Sweep 33 docs.
+2. **/impeccable rework container filtros+toolbar+tabla** — user reportó
+   gestalt extraña: el container separa visualmente la tabla del resto
+   cuando deberían sentirse UN bloque conectado. Aplicar /impeccable
+   como dirección de diseño moderno SaaS respetando normas (tokens
+   existentes, wrappers SCDS, 0 tokens nuevos). Target: filtros + toolbar
+   + tabla como UNA card continua, no 2 elementos con aire vertical
+   entre ellos. Reversible si no convence.
 
-### 🎯 Pendiente top S53 — /impeccable rework container filtros+toolbar+tabla
+### 🎯 Memory §10 dormidos (8 items vivos, esperan trigger)
 
-User reportó: el container actual hace **gestalt extraña** — visualmente
-separa la tabla del resto cuando deberían sentirse UN bloque conectado.
+Detalle completo en [`memory-migration-inventory.md §10`](./memory-migration-inventory.md).
 
-Aplicar /impeccable como dirección de diseño moderna SaaS, respetando
-las normas (tokens existentes, wrappers SCDS, sin tokens nuevos). El
-target es que filtros + toolbar + tabla se lean como **una sola card
-continua**, no 2 elementos separados con aire vertical entre ellos.
+| # | Item | Trigger reapertura |
+|---|---|---|
+| §10 #3 | `<sc-audio-player>` wrapper SCDS | Consumer EXTERNO Memory **O** Figma spec |
+| §10 #4 | Modal Download GDPR (real backend) | Producción real |
+| §10 #5 | Sticky toast persistente "Generando…" | Pipeline real (no mock) |
+| §10 #6 | Hint "Excluye K en proceso" bulk modal | `processingIds` con dispatch real |
+| §10 #7 | Hint multi-tramo bulk modal | Dispatcher por tramo (no conversación) |
+| §10 #8 | Eyebrow "ACCIÓN MASIVA" header bulk modal | Refactor SCDS si >1 consumer pide eyebrow |
+| §10 #9 | Toast error + chip "Solo fallidas" + filtro permanente | Dispatch backend real |
+| §10 #11 | `DataExportImport` config Memory JSON | Migración bulk config Memory |
+| §11 A | Filtrado filas en proceso (decisión doc canonical) | Dispatch real |
 
-Si la propuesta /impeccable no nos convence al revisarla, volvemos a
-la anterior. Es exploración.
+### 🎯 SCDS inconsistencies backlog (22 items abiertos)
+
+Detalle en [`packages/design-system/docs/inconsistencies-backlog.md`](../packages/design-system/docs/inconsistencies-backlog.md).
+Resumen por trigger:
+
+**Esperan el equipo de diseño** (Figma input):
+- #14 `sc-search` clear icon X vs default search
+- #15 `sc-search` variants formales sm/md/lg en Kit Pro
+- #37 multiselect/datepicker/inputtext/inputnumber/select variants sm/md/lg en Kit Pro
+- #44 off-scale spacing 6px (24 hits) — decisión: token nuevo vs consolidar
+- #45 off-scale border-radius 3px (36 hits) — idem
+- #48 Icon size tokens (208 hits literal lucide) — esperar iconset Figma
+- #49 box-shadow custom 5 hits divergentes
+- #50 transition duration tokens (23+5 hits sin escala)
+
+**Esperan ≥N consumers** (DD-4 promoción al SCDS):
+- #2 `inline-rename-cell` — segundo consumer
+- #4 `label-chip` — gap documentado
+- #6 `<sc-data-table>` — gap nuevo
+- #7 `<sc-select-button>` — gap
+- #8 `<sc-tag>` — gap
+- #32 `.table-card` + `.table` chrome partial SCDS — 5º consumer
+- #33 `.page` + `.page__inner` chrome partial SCDS — 9º consumer
+
+**Esperan otro trigger**:
+- #27 Netlify config staging cuando equipo crezca
+- #28 Repo Memory + monorepo CI (Memory active threshold)
+- #31 Modular theme PrimeNG — sin trigger Web Vitals
+- #42 AED es.json optimization 1152 keys — P3
+- #46 3 hits residuales border-radius post-N audit
+- #47 12 strings sin i18n en Memory iter
+- #51 i18n duplicates (115 strings) — traductor profesional
+
+### 🎯 Eje 3 — Refactor god-components Memory (defensivo)
+
+Sin trigger funcional. Atacar SOLO cuando alguien tenga que tocar esos
+componentes para feature nueva (memoria `feedback_devaluation_existing_work`).
+
+| # | Item | Tamaño |
+|---|---|---|
+| 1 | `conversation-player-modal.component.ts` (476 líneas) — split sub-components | ~1.5h |
+| 2 | `multi-recording-player.component.ts` — review patrones React mal traducidos (S51 ya hizo i18n aria, resto OK) | ~1h |
+
+### 🎯 Eje 4 — PrimeOne upgrade vigilance (defensivo)
+
+| # | Item | Cuándo |
+|---|---|---|
+| 1 | Vigilar nuevos minors PrimeNG (estamos 21.1.7) | cada 2-3 sesiones |
+| 2 | Dry-run próximo major PrimeNG (22.x) | trigger upstream release |
+
+### 🎯 Eje 5 — Code Connect oficial DORMIDO con trigger
+
+Detalle setup en [`packages/design-system/docs/code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md).
+**NO atacar** sin 3 condiciones: (1) prod adopta SCDS, (2) wrappers `<sc-*>` existen
+en codebase prod con mismo naming, (3) ≥1 dev prod consume DS desde Figma.
 
 ## Estado al cerrar S50/S51 (referencia)
 
@@ -93,71 +154,6 @@ items #38–#52 todos resueltos o registrados con dependencia humana.
 ---
 
 ## Próximos jugosos (priorizados)
-
-### 🎯 Eje 1 — Memory polish UX (resto del §10)
-
-| # | Item | Tamaño | Trigger |
-|---|---|---|---|
-| §10 #4 | ~~Modal Download heredado SC~~ | ✅ Cerrado S47 | — |
-| §10 #12 | ~~**Synonyms granulares per-value en EntityFormModal**~~ | ✅ Cerrado S48 | — |
-| §10 #13 | ~~**CategoryRuleLinking interactivo bidireccional**~~ | ✅ Cerrado S49 | — |
-
-Todo §10 vivo está cerrado o en limbo con trigger explícito (#4 producción real,
-#5/#6/#7/#9 dispatch real, #8 refactor SCDS, #11 producción real). Siguiente eje
-post-§10 depende de qué priorice Rafa.
-
-### 🎯 Eje sweep — AED bulk-toolbar i18n ✅ CERRADO S51
-
-5/6 migrados S50 + repos S51. Todos los consumers `<sc-bulk-action-bar>`
-reactivos al cambio de idioma. Schema `RepoConfig` purgado de
-`entityNameSpanish/Plural` (deuda hardcoded ES).
-
-### 🎯 Eje 2 — Code Connect mapping (Figma ↔ SCDS) — DORMIDO con trigger (decisión S48)
-
-**Estado**: pospuesto en S48 tras sparring. **NO atacar sin trigger explícito**.
-
-Razón corta: los devs de producción que aplicarán SCDS NO tienen acceso a este repo.
-Publicar Code Connect hoy generaría snippets con referencias rotas (`<sc-inputtext>`,
-import `@sc/design-system/...`) en su Dev Mode Figma. Imposición unilateral de naming
-+ riesgo de reverso si su naming difiere.
-
-**Trigger reapertura** (los 3 deben ser verdad):
-1. Equipo producción ha adoptado SCDS (npm package, copia, lo que sea).
-2. Wrappers `<sc-*>` existen en codebase prod con mismo naming (validado, no asumido).
-3. Hay al menos 1 dev prod consumiendo el DS desde Figma activamente.
-
-**Setup completo cuando se reabra** (comandos exactos, archivo `*.figma.ts` ejemplo,
-checklist, lista wrappers candidatos): ver
-[`packages/design-system/docs/code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md)
-§ "Estado dormido + setup futuro".
-
-**Aclaración técnica vigente** (de S47, mantener para futuras sesiones):
-- **Figma MCP** (operativo en mis tools) = lectura Figma → Claude. `mcp__figma__*` y
-  `mcp__claude_ai_Figma__*`.
-- **Figma Code Connect** = producto distinto. CLI + lib NPM `@figma/code-connect`. NO
-  es plugin Figma. Para Angular usa `parser: "html"` (no `.figma.tsx`, son `.figma.ts`
-  con template strings Angular). Soportado oct/2024.
-- **NO confrontan**. Complementarios.
-
-### 🎯 Eje 3 — Refactor god-components Memory (defensivo)
-
-| # | Item | Tamaño |
-|---|---|---|
-| 1 | `conversation-player-modal.component.ts` (446 líneas) — split en sub-components o cleanup signal-idiomatic Angular | ~1.5h |
-| 2 | `multi-recording-player.component.ts` — review patrones React 1:1 mal traducidos | ~1h |
-
-NO crítico, ROI técnico medio. Atacar cuando alguien tenga que tocar esos componentes para feature nueva.
-
-### 🎯 Eje 4 — PrimeOne upgrade vigilance (defensivo)
-
-| # | Item | Cuándo |
-|---|---|---|
-| 1 | Vigilar nuevos minors PrimeNG (estamos 21.1.7) | cada 2-3 sesiones |
-| 2 | Dry-run próximo major PrimeNG (22.x cuando salga estable) | trigger upstream release |
-
-### 🎯 Eje 5 — Memory roadmap dormidos (esperan trigger)
-
-Ver [`memory-migration-inventory.md §10`](./memory-migration-inventory.md). Items diferidos con trigger claro (#5/#6/#9 ya cableados S39, #4 cerrado S47, resto esperan backend real o decisión producto).
 
 ### ⏸️ NO atacar sin trigger explícito
 
