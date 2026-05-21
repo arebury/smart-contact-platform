@@ -777,12 +777,30 @@ si ves uno nuevo, lo arreglamos al momento.
   teclado no distingue qué control tiene el foco. La decisión está
   en `aed-preset.ts → semantic.focusRing.width`.
 
-- **Escala de grises propia (no Aura slate).** Los `--sc-color-gray-*`
-  son una rampa custom de SmartContact, sistemáticamente más clara
-  y desaturada que el `slate` de Aura. Es decisión de marca: una
-  herramienta operacional que se mira 8h al día necesita un gris
-  más cálido y menos contrastado. Si en algún sitio el gris se siente
-  "incorrecto", reportar — no asumir que hay drift contra Aura.
+- **Escala de grises alineada a PrimeOne slate (S54).** Los
+  `--sc-color-gray-*` antes eran Tailwind slate (rampa más fría y
+  contrastada). En S54 se migraron a la slate custom de PrimeOne 4.0
+  (Smart Contact Prime UI Kit Pro Figma Variables) — tono más cálido
+  y azulado oscuro, alineado 1:1 con lo que el equipo de diseño usa
+  en Figma. Si en algún sitio el gris se siente "incorrecto", reportar
+  — no asumir que hay drift contra PrimeOne.
+
+- **Escala de tamaños de iconos (S54).** El proyecto usa Lucide
+  para iconos. Los tamaños están en dos sitios sincronizados a mano:
+  (a) tokens CSS `--sc-icon-size-*` en `01-primitive.css` para SCSS,
+  (b) constants TS en `packages/design-system/utils/icon-size.ts`
+  (`SC_ICON_SIZE_*`) para templates Angular (Lucide `[size]` espera
+  number, no CSS variables — por eso la duplicación consciente). La
+  escala viene de PrimeOne 4.0: 7 / 10.5 / 12.25 / 14 / 15.75 / 17.5
+  / 21 / 28 px (+ 4 display sizes 32/44/56/64 para hero/avatar).
+  Cuando PrimeOne actualice (5.0), tocar ambos archivos y propagar.
+
+- **Spacing + font-size + line-height = escala decimal PrimeOne
+  (S54).** Antes: aditiva (4/8/12/16/24/32/...). Ahora: multiplicativa
+  base 14 (3.5/7/10.5/14/15.75/21/24.5/28/...). Naming SCDS conservado
+  (`--sc-spacing-100` sigue siendo el nombre, solo el VALOR cambia
+  de 8 a 7px). Razón: alinear 1:1 con el Kit Pro Figma. Si una pantalla
+  se ve "más apretada" que antes, es esto y es intencional.
 
 - **Dark mode activo con default `'system'`.** Versiones tempranas
   de esta guía decían que AED era light-only por marca; el código
