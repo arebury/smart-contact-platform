@@ -12,11 +12,11 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { AlertCircle, AlignLeft, ListChecks, Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { FormsModule } from '@angular/forms';
 import { map, startWith } from 'rxjs';
 
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
+import { ToggleSwitchComponent } from '@shared/components/toggleswitch/toggleswitch.component';
 
 import type { Conversation } from '../../data/conversation.types';
 
@@ -58,7 +58,7 @@ import type { Conversation } from '../../data/conversation.types';
     FormsModule,
     LucideAngularModule,
     DialogComponent,
-    ToggleSwitchModule,
+    ToggleSwitchComponent,
     TranslateModule,
   ],
   templateUrl: './bulk-transcription-modal.component.html',

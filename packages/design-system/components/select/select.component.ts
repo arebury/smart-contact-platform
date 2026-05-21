@@ -89,6 +89,12 @@ export class SelectComponent implements ControlValueAccessor {
   readonly emptyMessage = input<string>('Sin opciones');
   /** Background "filled" variant (Figma node 6195:7785): bg slate-50. */
   readonly filled = input<boolean>(false);
+  /**
+   * Target del overlay panel del dropdown. Útil cuando el `<sc-select>` vive
+   * dentro de un `<sc-dialog>` con `overflow: hidden` — `appendTo="body"`
+   * monta el panel en `<body>` y evita el clip. Default null = inline.
+   */
+  readonly appendTo = input<'body' | null>(null);
 
   // ─── Two-way value binding ─────────────────────────────────────────
   readonly value = model<unknown>(undefined);

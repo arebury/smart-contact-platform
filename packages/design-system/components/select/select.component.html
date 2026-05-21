@@ -22,6 +22,7 @@
   [emptyMessage]="emptyMessage()"
   [size]="pSize()"
   [panelStyleClass]="panelStyleClass()"
+  [appendTo]="appendTo() ?? undefined"
   [ngModel]="value()"
   (ngModelChange)="onModelChange($event)"
   (onBlur)="onBlur()"

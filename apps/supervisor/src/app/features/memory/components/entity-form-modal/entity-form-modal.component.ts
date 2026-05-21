@@ -12,10 +12,10 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { Database, LucideAngularModule, Plus, Trash2 } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
 
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
+import { SelectComponent } from '@shared/components/select/select.component';
 
 import type { Entity, EntityListValue, EntityType } from '../../data/entity.types';
 import { EntitiesStore } from '../../state/entities.store';
@@ -60,7 +60,7 @@ interface ListValueDraft {
     InputTextComponent,
     LucideAngularModule,
     DialogComponent,
-    SelectModule,
+    SelectComponent,
     TranslateModule,
   ],
   templateUrl: './entity-form-modal.component.html',

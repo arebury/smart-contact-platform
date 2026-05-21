@@ -35,10 +35,18 @@ export class ToggleSwitchComponent {
   readonly disabled = input<boolean>(false);
   readonly ariaLabel = input<string | null>(null);
   readonly ariaLabelledBy = input<string | null>(null);
+  /**
+   * Override del id interno del `<input>` real renderizado por PrimeNG. Útil
+   * cuando un `<label for="X">` externo necesita enlazar el toggle para
+   * click-to-toggle. Si se omite, el wrapper genera id único `sc-toggle-N`
+   * (default a11y safe).
+   */
+  readonly inputId = input<string | null>(null);
 
   readonly checkedChange = output<boolean>();
 
-  protected readonly inputId = `sc-toggle-${++toggleIdCounter}`;
+  private readonly internalInputId = `sc-toggle-${++toggleIdCounter}`;
+  protected readonly effectiveInputId = (): string => this.inputId() ?? this.internalInputId;
 
   protected onChange(value: boolean): void {
     this.checkedChange.emit(value);

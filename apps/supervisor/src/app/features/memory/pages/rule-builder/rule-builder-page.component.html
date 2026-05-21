@@ -50,7 +50,11 @@
       <header class="rule-block__head">
         <h2>{{ 'memory.rules.builder.metadata' | translate }}</h2>
         <div class="rule-block__active-toggle">
-          <p-toggleswitch inputId="active-toggle" [(ngModel)]="active" />
+          <sc-toggleswitch
+            [inputId]="'active-toggle'"
+            [checked]="active()"
+            (checkedChange)="active.set($event)"
+          />
           <label for="active-toggle">
             {{
               (active()
@@ -219,13 +223,12 @@
           <label for="rule-direction" class="rule-builder__field-label">
             {{ 'memory.rules.builder.direction_label' | translate }}
           </label>
-          <p-select
-            inputId="rule-direction"
+          <sc-select
+            [inputId]="'rule-direction'"
             [options]="directionOptions"
-            [(ngModel)]="direction"
+            [(value)]="direction"
             optionLabel="labelKey"
             optionValue="value"
-            styleClass="rule-builder__select"
           >
             <ng-template let-opt pTemplate="selectedItem">
               {{ opt.labelKey | translate }}
@@ -233,7 +236,7 @@
             <ng-template let-opt pTemplate="item">
               {{ opt.labelKey | translate }}
             </ng-template>
-          </p-select>
+          </sc-select>
         </div>
 
         <div class="rule-block__row">
@@ -286,13 +289,12 @@
           <label for="rule-direction-trans" class="rule-builder__field-label">
             {{ 'memory.rules.builder.direction_label' | translate }}
           </label>
-          <p-select
-            inputId="rule-direction-trans"
+          <sc-select
+            [inputId]="'rule-direction-trans'"
             [options]="directionOptions"
-            [(ngModel)]="direction"
+            [(value)]="direction"
             optionLabel="labelKey"
             optionValue="value"
-            styleClass="rule-builder__select"
           >
             <ng-template let-opt pTemplate="selectedItem">
               {{ opt.labelKey | translate }}
@@ -300,7 +302,7 @@
             <ng-template let-opt pTemplate="item">
               {{ opt.labelKey | translate }}
             </ng-template>
-          </p-select>
+          </sc-select>
         </div>
 
         <div class="rule-block__row">
@@ -315,9 +317,9 @@
               [value]="durationMin()"
               (input)="durationMin.set(+$any($event.target).value || 0)"
             />
-            <p-select
+            <sc-select
               [options]="durationUnitOptions"
-              [(ngModel)]="durationUnit"
+              [(value)]="durationUnit"
               optionLabel="labelKey"
               optionValue="value"
             >
@@ -327,7 +329,7 @@
               <ng-template let-opt pTemplate="item">
                 {{ opt.labelKey | translate }}
               </ng-template>
-            </p-select>
+            </sc-select>
           </div>
           <p class="rule-builder__field-hint">
             {{ 'memory.rules.builder.duration_hint' | translate }}
@@ -365,7 +367,12 @@
               </p>
             </div>
           </div>
-          <p-toggleswitch inputId="ai-toggle" [(ngModel)]="aiAnalysis" />
+          <sc-toggleswitch
+            [inputId]="'ai-toggle'"
+            [checked]="aiAnalysis()"
+            (checkedChange)="aiAnalysis.set($event)"
+            [ariaLabel]="'memory.rules.builder.ai_analysis' | translate"
+          />
         </header>
 
         @if (aiAnalysis()) {

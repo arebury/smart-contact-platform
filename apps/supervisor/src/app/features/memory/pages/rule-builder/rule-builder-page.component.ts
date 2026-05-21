@@ -22,11 +22,11 @@ import {
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { MultiSelectComponent } from '@shared/components/multiselect/multiselect.component';
+import { SelectComponent } from '@shared/components/select/select.component';
+import { ToggleSwitchComponent } from '@shared/components/toggleswitch/toggleswitch.component';
 
 import {
   AGENT_OPTIONS,
@@ -66,8 +66,8 @@ import { RulesStore } from '../../state/rules.store';
     LucideAngularModule,
     MultiSelectComponent,
     RouterLink,
-    SelectModule,
-    ToggleSwitchModule,
+    SelectComponent,
+    ToggleSwitchComponent,
     TranslateModule,
   ],
   templateUrl: './rule-builder-page.component.html',

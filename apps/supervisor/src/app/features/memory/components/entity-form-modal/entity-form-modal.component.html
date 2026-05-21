@@ -41,14 +41,13 @@
         <label for="entity-type" class="entity-form__label">
           {{ 'memory.entities.form.type_label' | translate }}
         </label>
-        <p-select
-          inputId="entity-type"
+        <sc-select
+          [inputId]="'entity-type'"
           [options]="typeOptions"
-          [(ngModel)]="type"
+          [(value)]="type"
           optionLabel="labelKey"
           optionValue="value"
           [disabled]="isEditMode()"
-          styleClass="entity-form__select"
         >
           <ng-template let-opt pTemplate="selectedItem">
             {{ opt.labelKey | translate }}
@@ -56,7 +55,7 @@
           <ng-template let-opt pTemplate="item">
             {{ opt.labelKey | translate }}
           </ng-template>
-        </p-select>
+        </sc-select>
         @if (isEditMode()) {
           <p class="entity-form__hint">
             {{ 'memory.entities.form.type_locked_hint' | translate }}

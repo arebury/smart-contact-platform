@@ -62,11 +62,11 @@
           >
             {{ 'memory.bulk_transcription.include_analysis' | translate }}
           </span>
-          <p-toggleswitch
-            [ngModel]="toggleOn()"
-            (ngModelChange)="onToggleChange($event)"
+          <sc-toggleswitch
+            [checked]="toggleOn()"
+            (checkedChange)="onToggleChange($event)"
             [disabled]="toggleDisabled()"
-            [attr.aria-label]="'memory.bulk_transcription.include_analysis' | translate"
+            [ariaLabel]="'memory.bulk_transcription.include_analysis' | translate"
           />
         </div>
 

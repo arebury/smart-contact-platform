@@ -61,7 +61,11 @@
       />
 
       <div class="category-form__toggle">
-        <p-toggleswitch inputId="cat-active-toggle" [(ngModel)]="isActive" />
+        <sc-toggleswitch
+          [inputId]="'cat-active-toggle'"
+          [checked]="isActive()"
+          (checkedChange)="isActive.set($event)"
+        />
         <label for="cat-active-toggle">
           {{
             (isActive()
@@ -146,19 +150,18 @@
             <label for="cat-add-rule" class="category-form__link-add-label">
               {{ 'memory.categories.linking.add_to_existing' | translate }}
             </label>
-            <p-select
-              inputId="cat-add-rule"
+            <sc-select
+              [inputId]="'cat-add-rule'"
               [options]="availableRuleOptions()"
-              [ngModel]="selectedRuleToAdd()"
-              (ngModelChange)="onAddRule($event)"
+              [value]="selectedRuleToAdd()"
+              (valueChange)="onAddRule($any($event))"
               optionValue="value"
               optionLabel="label"
               [filter]="true"
               filterBy="label,hint"
               [placeholder]="'memory.categories.linking.select_rule_placeholder' | translate"
               [showClear]="false"
-              appendTo="body"
-              styleClass="category-form__link-select"
+              [appendTo]="'body'"
             >
               <ng-template let-rule pTemplate="item">
                 <div class="category-form__link-option">
@@ -174,7 +177,7 @@
                   {{ 'memory.categories.linking.no_available_rules' | translate }}
                 </span>
               </ng-template>
-            </p-select>
+            </sc-select>
           </div>
         } @else {
           <!-- Variantes C + D: linkedRules > 0 (alguna activa o todas inactivas) -->
@@ -243,18 +246,17 @@
           </ul>
 
           <div class="category-form__link-add">
-            <p-select
+            <sc-select
               [options]="availableRuleOptions()"
-              [ngModel]="selectedRuleToAdd()"
-              (ngModelChange)="onAddRule($event)"
+              [value]="selectedRuleToAdd()"
+              (valueChange)="onAddRule($any($event))"
               optionValue="value"
               optionLabel="label"
               [filter]="true"
               filterBy="label,hint"
               [placeholder]="'memory.categories.linking.add_another_placeholder' | translate"
               [showClear]="false"
-              appendTo="body"
-              styleClass="category-form__link-select"
+              [appendTo]="'body'"
             >
               <ng-template let-rule pTemplate="item">
                 <div class="category-form__link-option">
@@ -270,7 +272,7 @@
                   {{ 'memory.categories.linking.no_available_rules' | translate }}
                 </span>
               </ng-template>
-            </p-select>
+            </sc-select>
           </div>
         }
       </div>

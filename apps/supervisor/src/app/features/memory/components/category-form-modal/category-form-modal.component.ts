@@ -27,12 +27,12 @@ import {
   X,
 } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
-import { SelectModule } from 'primeng/select';
-import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
+import { SelectComponent } from '@shared/components/select/select.component';
+import { ToggleSwitchComponent } from '@shared/components/toggleswitch/toggleswitch.component';
 
 import type { Category } from '../../data/category.types';
 import type { Rule } from '../../data/rule.types';
@@ -123,8 +123,8 @@ const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
     LucideAngularModule,
     DialogComponent,
     RouterLink,
-    SelectModule,
-    ToggleSwitchModule,
+    SelectComponent,
+    ToggleSwitchComponent,
     TooltipModule,
     TranslateModule,
   ],
