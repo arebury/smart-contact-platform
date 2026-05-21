@@ -469,11 +469,12 @@
                 }
               </div>
 
-              @if (item.pageRoute) {
-                <a
+              @if (item.pageRoute; as pageRoute) {
+                <button
+                  type="button"
                   class="tracker-item__thumb"
-                  [routerLink]="item.pageRoute"
-                  [attr.aria-label]="'Ver gallery de ' + item.name"
+                  [attr.aria-label]="'Ampliar vista previa de ' + item.name"
+                  (click)="openLightbox({ slug: item.slug, name: item.name, pageRoute })"
                 >
                   <img
                     [src]="'/component-screenshots/' + item.slug + '.png'"
@@ -481,7 +482,7 @@
                     loading="lazy"
                     decoding="async"
                   />
-                </a>
+                </button>
               }
             </li>
           }
@@ -490,3 +491,40 @@
     }
   }
 </section>
+
+<!-- ═══ Lightbox · ampliar foto del tracker sin perder el flujo ═══
+     Open state via `lightboxItem` signal. Backdrop click + Esc cierran
+     (Esc nativo del <dialog>). Link "Ver gallery →" interno permite saltar
+     al detalle si tras ver la foto ampliada quiero entrar al componente. -->
+@if (lightboxItem(); as item) {
+  <div
+    class="lightbox-overlay"
+    role="dialog"
+    aria-modal="true"
+    [attr.aria-label]="'Vista ampliada de ' + item.name"
+    (click)="onLightboxBackdropClick($event)"
+    (keydown.escape)="closeLightbox()"
+    tabindex="-1"
+  >
+    <div class="lightbox-card">
+      <button
+        type="button"
+        class="lightbox-card__close"
+        aria-label="Cerrar vista ampliada"
+        (click)="closeLightbox()"
+        autofocus
+      >
+        <lucide-icon [img]="closeIcon" [size]="20" aria-hidden="true" />
+      </button>
+      <img
+        class="lightbox-card__img"
+        [src]="'/component-screenshots/' + item.slug + '.png'"
+        [alt]="item.name + ' — vista ampliada'"
+        decoding="async"
+      />
+      <a class="lightbox-card__link" [routerLink]="item.pageRoute" (click)="closeLightbox()">
+        Ver gallery completa de {{ item.name }} →
+      </a>
+    </div>
+  </div>
+}

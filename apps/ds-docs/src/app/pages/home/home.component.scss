@@ -1020,10 +1020,12 @@
   width: 160px;
   height: 80px;
   margin-top: 2px;
+  padding: 0; /* reset <button> default padding */
   border-radius: var(--sc-radius-100);
   border: 1px solid var(--sc-border-default);
   background: var(--sc-bg-elevated);
   overflow: hidden;
+  cursor: pointer; /* <button> en hover no muestra cursor:pointer por defecto en algunos browsers */
   transition:
     transform 200ms var(--sc-easing-default, ease),
     border-color 200ms var(--sc-easing-default, ease),
@@ -1160,4 +1162,114 @@
   border: 1px dashed var(--sc-border-default);
   /* Compensa el border para mantener altura visual con los demás chips. */
   padding: 1px 8px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+ * Lightbox · ampliar thumbnails del tracker sin perder el flujo
+ * ═══════════════════════════════════════════════════════════════════
+ * Decisión S58 (bloque G): el thumbnail del tracker era un <a routerLink>
+ * que navegaba a la gallery. Ahora es un <button> que abre overlay con
+ * la imagen ampliada. Cierre con Esc, click backdrop, o botón X. Link
+ * interno "Ver gallery" para conservar el atajo a la página detallada
+ * sin saltar entre flujos de forma brusca.
+ */
+
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--sc-z-modal-backdrop);
+  display: grid;
+  place-items: center;
+  padding: var(--sc-spacing-1-75);
+  background: rgb(0 0 0 / 72%);
+  backdrop-filter: blur(2px);
+  /* Fade-in suave, sin animación perpetua */
+  animation: lightbox-fade-in 150ms ease-out;
+}
+
+@keyframes lightbox-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.lightbox-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sc-spacing-1-125);
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.lightbox-card__img {
+  display: block;
+  max-width: 100%;
+  max-height: calc(90vh - 80px); /* deja sitio para el link inferior */
+  object-fit: contain;
+  border-radius: var(--sc-radius-md);
+  box-shadow: 0 12px 40px rgb(0 0 0 / 40%);
+  background: var(--sc-bg-elevated);
+}
+
+.lightbox-card__close {
+  position: absolute;
+  top: calc(var(--sc-spacing-1-75) * -1);
+  right: calc(var(--sc-spacing-1-75) * -1);
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 16%);
+  border-radius: var(--sc-radius-full);
+  background: rgb(0 0 0 / 60%);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    transform 100ms ease;
+
+  &:hover,
+  &:focus-visible {
+    background: rgb(0 0 0 / 80%);
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-electric-blue-500);
+    outline-offset: 2px;
+  }
+}
+
+.lightbox-card__link {
+  font-family: var(--dsd-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: rgb(255 255 255 / 88%);
+  text-decoration: none;
+  padding: var(--sc-spacing-0-5) var(--sc-spacing-1);
+  border-radius: var(--sc-radius-sm);
+  transition:
+    color 150ms ease,
+    background 150ms ease;
+
+  &:hover,
+  &:focus-visible {
+    color: #fff;
+    background: rgb(255 255 255 / 8%);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-electric-blue-500);
+    outline-offset: 2px;
+  }
 }

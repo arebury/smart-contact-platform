@@ -416,6 +416,112 @@ valor literal es self-evident en contexto y NO contamina el pool global.
 **Reabrir**: si aparece confusión cross-feature ("¿por qué este z=5 no domina ese
 dropdown?") → probablemente es un caso que SÍ necesita pool global. Re-evaluar.
 
+### 5.9 Preset-native tokens — `formField`, `overlay color`, `text.hover` (S58 audit B)
+
+Audit S58 bloque B cruzó la capa `semantic.*` SCDS vs Kit Pro Variables JSON
+(`aura/semantic.form.field.*`, `aura/semantic.overlay.*`, `aura/semantic.text.*`,
+`aura/semantic.surface.*`, `aura/semantic.focus.ring.*`, `aura/semantic.disabled.opacity`)
+buscando desalineaciones tipo S57 (spacing→scale, radius→sm/md/lg).
+
+**Resultado**:
+
+| Categoría Kit Pro | SCDS cobertura | Naming 1:1 | Estructura 1:1 | Acción |
+|---|---|---|---|---|
+| `surface.{0-950}` (12 stops) | `--sc-color-gray-*` mapping vía `colorScheme.light.surface` | ✅ | ✅ | OK — sin cambios |
+| `focus.ring.*` | N/A en Kit Pro | N/A | Custom legítimo (electric-blue a11y) | Ya documentado §1.1 |
+| `disabled.opacity` | N/A en Kit Pro | N/A | Custom legítimo (defensive 0.6) | Ya documentado en `sc-preset.ts` §2 |
+| `form.field.*` (11 paths) | Vive en `sc-preset.ts` colorScheme.light.formField (10/11 paths) | ❌ camelCase TS vs JSON nested | ⚠️ Subset, no expone CSS `--sc-form-field-*` | **Documentar como preset-native** ↓ |
+| `overlay.{select,popover,modal}.{background,color,border}` | Geometría (radius/shadow) en CSS; colores en `sc-preset.ts` colorScheme | ⚠️ parcial | ⚠️ Color tokens no expuestos como CSS | **Documentar como preset-native** ↓ |
+| `text.{color, hover.color, hover.muted.color, muted.color}` | 19+ semantic roles SCDS (primary, secondary, subtle, accent, success, danger, etc.) **SIN** `text.hover.*` | ⚠️ parcial | ⚠️ SCDS extended; falta `text.hover.*` | **Postergar** (sin consumer real, DD-4) |
+
+**Decisión S58 (NO tokenizar `--sc-form-field-*`, `--sc-overlay-*-color`, `--sc-text-hover-*`)**:
+
+Motivación:
+
+1. **DD-5 minimal customization**: `sc-preset.ts` ES el bridge a PrimeNG. Los tokens
+   PrimeNG-internal (`formField`, `overlay color`) viven en TS porque PrimeNG consume
+   el preset, no CSS variables directas. Crear `--sc-form-field-*` en `02-semantic.css`
+   y luego inyectarlas en el preset TS sería **wrap-around redundante** sin consumer
+   real.
+2. **Memoria `feedback_migration_safety`**: cada token `--sc-*` nuevo SIN Figma Variables
+   matching es carga futura. Kit Pro NO expone `form.field` / `overlay color` como
+   variables flat — viven nested. Crear el CSS shadow sería divergencia naming
+   contraria a la política S57 Kit Pro 1:1.
+3. **DD-4 trigger real**: ningún consumer SCDS / AED / Memory consume `formField` o
+   `overlay color` directamente como CSS variable. Todo el wiring va por preset TS →
+   `--p-formField-*` → componente PrimeNG. Tokenizar sería trabajo en vacío.
+
+**Política implícita establecida** (S58): los tokens **PrimeNG-internal** (`formField`,
+`overlay color`, `disabled.opacity`) son **preset-native**. Viven en `sc-preset.ts`
+colorScheme (TS), NO se duplican como CSS variables `--sc-*`.
+
+Los tokens **brand-visible** (paletas, spacing, radius, scale, surface, shadows propios)
+sí viven en CSS layers (`01-primitive.css` ... `05-extensions.css`) y son consumibles
+desde código SCSS de componentes.
+
+**Cuándo reabrir**:
+
+- **`form.field` / `overlay color`**: si aparece consumer SCDS / AED / Memory que
+  necesite `var(--sc-form-field-background)` directo en SCSS (no via componente PrimeNG).
+  Hoy 0 consumers — promover sería prematuro.
+- **`text.hover`**: si Kit Pro formaliza `text.hover.*` como variable flat exportable
+  Y aparece consumer que pida hover de texto tokenizado. Hoy hover se maneja inline
+  en SCSS de componentes.
+- **PrimeNG 22+ migration**: si el shape de `formField` cambia upstream, evaluar si
+  conviene tokenizar como CSS shadow para aislar del cambio. Trigger formal migración.
+
+**Acción S58**: NO crear tokens nuevos. Esta entry documenta la decisión.
+
+### 5.10 Modal legacy custom — descartado a favor del Kit Pro Dialog (S58)
+
+**Origen**: el DS viejo de Smart Contact (file `Dle87qs0Pjq0OjIaaCfmm7`) tenía un
+**Modal custom** ([`node 906:2763`](https://www.figma.com/design/Dle87qs0Pjq0OjIaaCfmm7/Smart-Contact---Design-System?node-id=906-2763))
+pre-existente a la adopción del Kit Pro PrimeOne. Audit S58 vía Figma MCP confirma su
+estructura:
+
+| Pieza | Legacy custom (`Dle87...906:2763`) | Kit Pro Dialog (`khNq9...6738:50209`) |
+|---|---|---|
+| `Header` prop text | ✅ | ✅ |
+| `Subheader` prop text separado | ✅ default "Subheader" | ❌ (Kit Pro usa `Content` TEXT) |
+| Body como SLOT apilable | ✅ tipo SLOT real | ❌ (Kit Pro usa `Content` TEXT, no slot) |
+| `Show icon` + `Swap icon` (INSTANCE_SWAP) | ✅ icon-swap = drag handle visible | ❌ |
+| Dividers hairline header/body/foot | ✅ visibles | ❌ NO los pinta |
+| `Show Footer` / `Closable` / `Show 1st-2nd Button` toggles | ❌ no individuales | ✅ todos |
+| `[Confirm Dialog] Show Icon` boolean | ❌ | ✅ |
+| Border color | `#D3D5DA` aprox | `#DBDFE6` aprox |
+| Drop shadow | 1 layer y:16 b:40 sp:-8 alpha:0.12 | 2 layers y:8 b:10 + y:20 b:25 alpha:0.10 |
+| Corner radius | (no medido) | 12px = `--sc-radius-xl` |
+
+**Decisión S58** (audit cruzado con MCP): **adoptar el Kit Pro Dialog como canonical**.
+Descartar el legacy custom completo. Razones:
+
+1. **El Kit Pro tampoco tiene drag handle ni dividers** — el descarte de esos 2 elementos
+   visuales en `<sc-dialog>` (decisión silenciosa pre-S58) resulta estar **alineado con
+   el Kit Pro nuevo**, no era arbitrario. El legacy custom representaba una iteración
+   anterior del DS.
+2. **Toggles individuales del Kit Pro** (`Show Footer`, `Closable`, `1st/2nd Button`)
+   son mejor API que el legacy custom (que tenía todo on/off). `<sc-dialog>` ya replica
+   parte vía `[closable]`, `[hasFooter]` inputs; el footer projected resuelve el caso
+   "cuántos botones" sin necesidad de toggles individuales.
+3. **Shadow del Kit Pro** (double layer y:8 + y:20) es más refinado que el legacy single
+   layer.
+
+**Lo que SÍ preserva `<sc-dialog>` del legacy** (y mejora vs Kit Pro):
+- `Subheader` como prop separado (`[subtitle]` input) — el Kit Pro tiene `Content` TEXT,
+  perdiendo la semántica title+subtitle.
+- Body como SLOT real apilable (`<ng-content>` con `gap: var(--sc-spacing-1-125)`) — el
+  Kit Pro lo modela como `Content` TEXT. La SCDS recupera el modelo legacy aquí.
+
+**Mapping final 3 wrappers PrimeNG ↔ Kit Pro** (S58 audit):
+
+- `<sc-dialog>` → `<p-dialog>` → Kit Pro `❖ Dialog` (`6738:50209`) ✅
+- `<sc-confirm-host>` → `<p-confirmdialog>` → Kit Pro `❖ ConfirmDialog` (`6738:50207`) ✅
+- **gap reservado** → `<p-confirmpopup>` → Kit Pro `❖ ConfirmPopup` (`6738:50208`) → entry
+  backlog #56 (P3, sin trigger consumer real, common-in-SaaS reservado).
+
+**Acción S58**: NO se toca código. Esta entry + las actualizaciones en `11-dialog.md`
++ `inconsistencies-backlog.md #56` cierran el debate "¿adoptamos el custom legacy?".
+
 ---
 
 ## Cómo añadir una divergencia nueva a este catálogo

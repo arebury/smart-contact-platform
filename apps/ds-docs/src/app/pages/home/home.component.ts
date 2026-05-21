@@ -8,7 +8,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, Sparkles } from 'lucide-angular';
+import { LucideAngularModule, Sparkles, X } from 'lucide-angular';
 
 type ComponentType = 'full-primeng' | 'custom-preset' | 'extended' | 'pure-sc';
 
@@ -642,6 +642,33 @@ export class HomeComponent {
   /** Ref al input de búsqueda para autofocus con "/" (shortcut tipo GitHub). */
   private readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
 
+  /**
+   * Lightbox preview state — null = closed, ítem = abierto con esa imagen.
+   * Mantiene también `pageRoute` para el enlace "Ver gallery" interno del overlay,
+   * por si tras ampliar el usuario quiere entrar al detalle del componente.
+   */
+  protected readonly lightboxItem = signal<{
+    readonly slug: string;
+    readonly name: string;
+    readonly pageRoute: string;
+  } | null>(null);
+  protected readonly closeIcon = X;
+
+  protected openLightbox(item: { slug: string; name: string; pageRoute: string }): void {
+    this.lightboxItem.set({ slug: item.slug, name: item.name, pageRoute: item.pageRoute });
+  }
+
+  protected closeLightbox(): void {
+    this.lightboxItem.set(null);
+  }
+
+  /** Click sobre el backdrop del <dialog>: cierra. Click sobre la card interior NO propaga. */
+  protected onLightboxBackdropClick(event: MouseEvent): void {
+    if (event.target === event.currentTarget) {
+      this.closeLightbox();
+    }
+  }
+
   protected readonly tracked = computed(() =>
     this.catalog.map((entry) => ({
       ...entry,
@@ -833,9 +860,15 @@ export class HomeComponent {
   /**
    * Shortcut "/" foca el search (mismo patrón que GitHub / Linear / Slack).
    * Ignorado cuando el usuario ya está tecleando en otro input o textarea.
+   * Escape cierra el lightbox si está abierto (precedencia sobre el search).
    */
   @HostListener('document:keydown', ['$event'])
   protected onKeydown(event: KeyboardEvent): void {
+    if (event.key === 'Escape' && this.lightboxItem() !== null) {
+      event.preventDefault();
+      this.closeLightbox();
+      return;
+    }
     if (event.key !== '/') return;
     const target = event.target as HTMLElement | null;
     const tag = target?.tagName;

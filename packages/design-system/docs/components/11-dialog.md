@@ -5,10 +5,47 @@
 > **Type**: Extended · **AED uses**: 2 · **Figma parity**: 1:1 con Figma
 
 > Shell modal canónico con header + body slot + footer. Envuelve `<p-dialog>` de PrimeNG con focus trap / ESC / mask / animación, pero la chrome visual es 100% SC.
->
-> **Auditado 1:1 con Figma `Smart Contact Prime → ❖ ConfirmDialog` (canvas `6738:50207`) — Session 30.** Tokens `dialog/*` extraídos vía MCP (Dialog y ConfirmDialog comparten el mismo set de tokens — son el spec del shell, ConfirmDialog es solo un caso de uso típico).
->
-> Las URLs Figma que dio el usuario (ConfirmDialog `6738:50207` y ConfirmPopup `6738:50208`) son patrones específicos. El componente `<sc-dialog>` es el SHELL general que cubre cualquier caso de uso (confirm, form, info, picker, etc.) — el body es free-slot.
+
+## Mapping a Figma Smart Contact Prime UI Kit Pro
+
+Tres componentes del Kit Pro mapean al mismo shell SCDS con diferentes wrappers:
+
+| Figma Kit Pro | Node ID | PrimeNG | Wrapper SCDS | Estado |
+|---|---|---|---|---|
+| `❖ Dialog` | [`6738:50209`](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50209) | `<p-dialog>` | `<sc-dialog>` | ✅ canonical (este doc) |
+| `❖ ConfirmDialog` | [`6738:50207`](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50207) | `<p-confirmdialog>` | `<sc-confirm-host>` | ✅ service-driven (ver `27-confirm-host.md`) |
+| `❖ ConfirmPopup` | [`6738:50208`](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50208) | `<p-confirmpopup>` | — | 🚧 gap reservado (backlog #56) |
+
+**Auditado vía Figma MCP Session 58** — props del component-set `dialog` (`243:9556`):
+`Header`, `Content`, `Show Footer`, `Closable`, `Show 1st Button`, `Show 2nd Button`,
+`[Confirm Dialog] Show Icon`, variant `Dialog: False/True`. Card: border `#DBDFE6`,
+radius `12px` (= `--sc-radius-xl`), double drop-shadow (y:8 + y:20).
+
+## Decisiones de diseño (lo que NO está en el wrapper)
+
+El modal SCDS no replica 1:1 dos features que SÍ tenía el **modal custom legacy** del DS viejo
+([`Dle87qs0Pjq0OjIaaCfmm7?node-id=906-2763`](https://www.figma.com/design/Dle87qs0Pjq0OjIaaCfmm7/Smart-Contact---Design-System?node-id=906-2763)):
+
+1. **Drag handle visible** (icono `=` izquierda del header). El legacy lo expone via prop
+   `Swap icon` (INSTANCE_SWAP). Descartado: el Kit Pro Dialog YA NO LO TIENE — el
+   descarte alinea con el Kit Pro nuevo, no es decisión arbitraria. Los modales SC no
+   son movibles (lectura → decisión → cerrar). `[draggable]="false"` hard-coded.
+
+2. **Dividers hairline** entre header/body y body/foot. El legacy los pinta visibles.
+   Descartado: el Kit Pro Dialog también los omite — la jerarquía sale del padding scheme
+   + tipografía. Coherente con la dirección actual del Kit.
+
+3. **Toggle individual `Show 1st Button` / `Show 2nd Button`** (Kit Pro). Sin paralelo
+   en SCDS — el footer es slot proyectado (`<ng-content select="[modal-actions]">`),
+   el consumer decide cuántos `<button>` mete. API distinta pero más flexible.
+
+Tres preservaciones del legacy custom que SÍ están en `<sc-dialog>` y NO en Kit Pro Dialog:
+- `Subheader` como **prop separado** (Kit Pro usa `Content` TEXT, no slot). SCDS lo expone
+  como `[subtitle]` input → matchea el patrón legacy.
+- **Body slot real apilable** (Kit Pro lo modela como `Content` TEXT). SCDS lo expone como
+  `<ng-content>` con `display: flex; gap: var(--sc-spacing-1-125)` → matchea legacy slot.
+- `[icon]` leading (Lucide programático). Equivalente al `Swap icon` del legacy pero
+  desacoplado del drag handle.
 
 ## TL;DR
 

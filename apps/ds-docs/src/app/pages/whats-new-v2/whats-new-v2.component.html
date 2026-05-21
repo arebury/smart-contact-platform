@@ -224,10 +224,15 @@
             <dd>SCDS primitive</dd>
           </div>
         </dl>
-        <div class="whats-new__download-cta whats-new__download-cta--coming">
-          <span>Próximamente</span>
-          <span class="whats-new__download-cta-meta">Script export pendiente</span>
-        </div>
+        <a
+          class="whats-new__download-cta"
+          href="/sc-tokens.json"
+          download="sc-tokens.json"
+          rel="noopener"
+        >
+          <span>Descargar</span>
+          <lucide-icon [img]="downloadIcon" [size]="14" aria-hidden="true" />
+        </a>
       </aside>
     </div>
   </section>
