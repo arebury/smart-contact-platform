@@ -138,6 +138,40 @@
 - Rafa S58 ratificó: experimentación visual es SECUNDARIA, main es
   prioridad. Solo cuando hay tiempo.
 
+### Bonus cierre · Figma "Crear agente — Rafael Areses" (7 frames)
+
+Tras cerrar S58 técnicamente, Rafa pidió pintar en Figma el flujo
+end-to-end de creación de agente en la página `Flujos` (`12074:5332`)
+del Smart Contact Prime Kit Pro. Vía Figma MCP Desktop Bridge.
+
+**Primer intento** (wireframes esquemáticos, rectángulos + texto a mano):
+descartado tras feedback Rafa "se ve diferente del oficial". Borrado
+los 4 frames + labels (12 nodos).
+
+**Segundo intento B-completo** (instances Kit Pro reales):
+- Frame 1 · Lista agentes (button + tag + avatar + inputtext)
+- Frame 2 · Form vacío Identificación (inputtext × 3 + select + toggleswitch + button)
+- Frame 3 · Identificación rellena Rafael Areses (mismos + values)
+- Frame 4 · Grupos (search + checkbox × 5 + tag prioridad)
+- Frame 5 · Permisos (toggleswitch × 5 + descripciones)
+- Frame 6 · Avanzado (multiselect + select + inputtext + toggleswitch × 3)
+- Frame 7 · Submit + toast success + Rafael NUEVO en lista
+
+8 component sets Kit Pro auditados + instanciados: button (655 variants),
+inputtext (240), select (8), multiselect (6), toggleswitch (18),
+checkbox (60), avatar (18), tag (14).
+
+Componentes pure-sc dibujados a mano (no Kit Pro components):
+sc-page-header, sc-sticky-form-header, sc-form-section-nav,
+sc-section-card, photo upload placeholder, sidebar nav AED.
+
+**Connectors horizontales** entre los 7 frames con labels acción.
+
+**Pendiente de pulido S59+**: overrides TEXT en Tag (siguen diciendo
+"Tag" default) y Select (muestra "Albania" del default dropdown options).
+Tokens del Kit Pro NO vinculados como variables — hex hard-coded.
+Ajustes 10-15 min cada uno.
+
 ---
 
 ## 2026-05-21 · Session 57 — Convergencia Kit Pro 1:1 (refactor estructural primitive)
