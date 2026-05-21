@@ -13,6 +13,7 @@ import { LucideAngularModule, Search } from 'lucide-angular';
 
 import { NAV_ICONS } from '@core/icons/nav-icons';
 import { CommandPaletteService, PaletteCommand } from '@core/services/command-palette.service';
+import { isTypingTarget } from '@shared/utils/is-typing-target';
 
 interface GroupedCommands {
   readonly category: PaletteCommand['category'];
@@ -92,6 +93,18 @@ export class CommandPaletteComponent {
       event.preventDefault();
       this.host.toggle();
       return;
+    }
+    /* `/` enfoca el primer <sc-search> visible de la página (patrón GitHub /
+     * Linear / Slack). Se suprime cuando el usuario está tipeando para no
+     * robar la barra. Cuando la paleta ya está abierta tampoco aplica:
+     * Esc/Enter/Arrows manejan la paleta. */
+    if (event.key === '/' && !isTypingTarget(event.target) && !this.host.visible()) {
+      const searchInput = document.querySelector<HTMLInputElement>('sc-search input');
+      if (searchInput && searchInput.offsetParent !== null) {
+        event.preventDefault();
+        searchInput.focus();
+        return;
+      }
     }
     if (!this.host.visible()) return;
     switch (event.key) {

@@ -3,6 +3,7 @@ import { LucideAngularModule, X } from 'lucide-angular';
 
 import { CommandPaletteService } from '@core/services/command-palette.service';
 import { KeyboardShortcutsService } from '@core/services/keyboard-shortcuts.service';
+import { isTypingTarget } from '@shared/utils/is-typing-target';
 
 interface ShortcutGroup {
   readonly title: string;
@@ -40,6 +41,7 @@ export class KeyboardShortcutsComponent {
       items: [
         { label: 'Abrir paleta de comandos', keys: ['⌘', 'K'] },
         { label: 'Abrir paleta de comandos (Win/Linux)', keys: ['Ctrl', 'K'] },
+        { label: 'Enfocar buscador de la página', keys: ['/'] },
         { label: 'Mostrar atajos', keys: ['?'] },
       ],
     },
@@ -54,8 +56,8 @@ export class KeyboardShortcutsComponent {
     {
       title: 'En cualquier parte',
       items: [
+        { label: 'Guardar formulario', keys: ['⌘', 'S'] },
         { label: 'Cerrar diálogo / panel', keys: ['Esc'] },
-        { label: 'Deshacer última acción', keys: ['⌘', 'Z'] },
       ],
     },
   ];
@@ -88,12 +90,4 @@ export class KeyboardShortcutsComponent {
   protected onClose(): void {
     this.shortcuts.close();
   }
-}
-
-function isTypingTarget(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) return false;
-  const tag = target.tagName;
-  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true;
-  if (target.isContentEditable) return true;
-  return false;
 }
