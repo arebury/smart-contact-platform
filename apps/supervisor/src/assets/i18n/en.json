@@ -241,7 +241,7 @@
       "cost_hint": "incurs cost",
       "analysis_label": "Analysis",
       "include_analysis": "Include analysis",
-      "all_processed": "all processed",
+      "all_processed": "Nothing to transcribe",
       "close_btn": "Close",
       "process_btn": "Process"
     },

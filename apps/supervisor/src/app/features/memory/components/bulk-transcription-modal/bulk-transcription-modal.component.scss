@@ -135,6 +135,69 @@
   color: var(--sc-text-subtle);
 }
 
+/* ─── experiment/beyondui-patterns S58 · Mixed-state badges ─────
+ * Skill redesign-existing-projects: replace single dense hint string with
+ * iconographic chips. 3 kinds: include (verde), warn (amber), exclude
+ * (gray). Patrón SaaS premium (Linear / Vercel / Stripe).
+ */
+.bulkv26__hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-0-5);
+  /* Reservar altura mínima para evitar CLS si no hay badges (e.g. isAllProcessed). */
+  min-height: 22px;
+  align-items: center;
+}
+
+.bulkv26__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: var(--sc-radius-full);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.2;
+  border: 1px solid;
+  background: transparent;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+
+  &.is-include {
+    color: var(--sc-color-green-700);
+    border-color: color-mix(in srgb, var(--sc-color-green-500) 30%, transparent);
+    background: color-mix(in srgb, var(--sc-color-green-500) 8%, transparent);
+  }
+
+  &.is-warn {
+    color: var(--sc-color-amber-800);
+    border-color: color-mix(in srgb, var(--sc-color-amber-500) 35%, transparent);
+    background: color-mix(in srgb, var(--sc-color-amber-500) 10%, transparent);
+  }
+
+  &.is-exclude {
+    color: var(--sc-text-subtle);
+    border-color: var(--sc-border-default);
+    background: var(--sc-bg-elevated);
+  }
+}
+
+.bulkv26__badge-icon {
+  flex: 0 0 auto;
+  opacity: 0.85;
+}
+
+.bulkv26__badge-count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.bulkv26__badge-label {
+  opacity: 0.92;
+}
+
 /* ─── Decision ──────────────────────────────────────────────── */
 
 .bulkv26__decision-stack {

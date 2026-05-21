@@ -12,10 +12,11 @@
 @import 'primeicons/primeicons.css';
 
 :root {
-  /* experiment/beyondui-patterns: display font ahora Urbanist (más calmado y
-   * editorial que Space Grotesk, mejor encaje con tono Smart Contact). */
+  /* experiment/beyondui-patterns: Urbanist como display + body en ds-docs
+   * (scoped — NO inherita de `--sc-font-family-primary` para que AED siga con
+   * Inter). El sitio docs tiene tono editorial, AED tono producto. */
   --dsd-font-display: 'Urbanist', 'Inter', -apple-system, system-ui, sans-serif;
-  --dsd-font-sans: var(--sc-font-family-primary, 'Urbanist', 'Inter', system-ui, sans-serif);
+  --dsd-font-sans: 'Urbanist', 'Inter', system-ui, -apple-system, sans-serif;
   --dsd-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Local accent — single electric-blue, no multi-color noise. */

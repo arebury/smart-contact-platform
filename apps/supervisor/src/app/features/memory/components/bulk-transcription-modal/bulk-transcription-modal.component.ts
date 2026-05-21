@@ -10,7 +10,16 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AlertCircle, AlignLeft, ListChecks, Loader2, LucideAngularModule } from 'lucide-angular';
+import {
+  AlertCircle,
+  AlignLeft,
+  Check,
+  CircleSlash,
+  Layers,
+  ListChecks,
+  Loader2,
+  LucideAngularModule,
+} from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { map, startWith } from 'rxjs';
@@ -193,6 +202,77 @@ export class BulkTranscriptionModalComponent {
     if (includes.length > 0) parts.push(`Incluye ${includes.join(' · ')}`);
     if (excludes.length > 0) parts.push(`Excluye ${excludes.join(' · ')}`);
     return parts.length > 0 ? parts.join('. ') + '.' : null;
+  });
+
+  /**
+   * experiment/beyondui-patterns S58 — Skill redesign-existing-projects:
+   * "Mixed-state communication should be layered with iconografía
+   * diferenciada, no texto denso". Reemplaza `heroDeltaHint` (single
+   * string) con array de viñetas estructuradas — cada una es un chip
+   * visible con icono + count + label. Patrón Linear/Vercel/Stripe.
+   *
+   * Tipos:
+   *  - 'include' (verde): elegibles para procesar.
+   *  - 'warn' (amber): atención — multi-tramo, parciales (no se excluyen,
+   *    pero el usuario debe saber que cuenta como N audios).
+   *  - 'exclude' (gray): se excluyen del batch (en proceso ya).
+   */
+  protected readonly heroBadges = computed<
+    ReadonlyArray<{
+      readonly kind: 'include' | 'warn' | 'exclude';
+      readonly count: number;
+      readonly label: string;
+      readonly icon: typeof Check;
+    }>
+  >(() => {
+    if (this.isAllProcessed()) return [];
+    const badges: Array<{
+      kind: 'include' | 'warn' | 'exclude';
+      count: number;
+      label: string;
+      icon: typeof Check;
+    }> = [];
+
+    const elegibles = this.nTrans() + (this.toggleOn() ? this.nAnBase() : 0);
+    if (elegibles > 0) {
+      badges.push({
+        kind: 'include',
+        count: elegibles,
+        label: this.toggleOn() ? 'a procesar + analizar' : 'a transcribir',
+        icon: Check,
+      });
+    }
+
+    const nMR = this.nMultiRec();
+    const nPMR = this.nPartialMultiRec();
+    if (nMR > 0 && !this.toggleOn()) {
+      badges.push({
+        kind: 'warn',
+        count: nMR,
+        label: nMR === 1 ? 'con varios tramos' : 'con varios tramos',
+        icon: Layers,
+      });
+    }
+    if (nPMR > 0) {
+      badges.push({
+        kind: 'warn',
+        count: nPMR,
+        label: 'con tramos ya iniciados',
+        icon: Layers,
+      });
+    }
+
+    const nIP = this.nInProgress();
+    if (nIP > 0) {
+      badges.push({
+        kind: 'exclude',
+        count: nIP,
+        label: nIP === 1 ? 'en proceso · excluida' : 'en proceso · excluidas',
+        icon: CircleSlash,
+      });
+    }
+
+    return badges;
   });
 
   protected readonly captionLabel = computed(() => {

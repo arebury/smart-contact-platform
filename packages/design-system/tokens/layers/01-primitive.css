@@ -206,11 +206,7 @@
   --sc-color-azure-950: #172554;
 
   /* ---------- Typography ---------- */
-  /* experiment/beyondui-patterns S58: Urbanist como primary (Fix Priority #1
-   * skill redesign-existing-projects — "browser default fonts or Inter
-   * everywhere → replace with a font that has character"). Inter retenido como
-   * fallback inmediato. Cambio aislado a esta branch, NO mergea a main. */
-  --sc-font-family-primary: 'Urbanist', 'Inter', system-ui, -apple-system, sans-serif;
+  --sc-font-family-primary: 'Inter', system-ui, -apple-system, sans-serif;
   --sc-font-family-secondary: 'Open Sans', sans-serif;
   /* Monospace stack — usado por time labels del player (multi-rec + single
    * audio bar) y por el gate input "CONFIRMAR" del retranscription modal.

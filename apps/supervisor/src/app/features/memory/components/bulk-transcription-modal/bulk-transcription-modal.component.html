@@ -40,11 +40,32 @@
             {{ 'memory.bulk_transcription.cost_hint' | translate }}
           </span>
         </div>
-        <!-- Delta hint slot — min-height reservado, evita CLS al cambiar
-             multi-rec / in-progress mid-modal. -->
-        <span class="bulkv26__hero-hint" aria-live="polite">
-          {{ heroDeltaHint() ?? ' ' }}
-        </span>
+        <!-- experiment/beyondui-patterns S58 · Mixed-state badges (Skill
+             redesign-existing-projects). Reemplaza el texto denso por
+             chips iconográficos diferenciados:
+             - verde (include): elegibles
+             - amber (warn): atención multi-tramo
+             - gray (exclude): excluidas en proceso
+             Min-height reservado para evitar CLS. -->
+        <div class="bulkv26__hero-badges" aria-live="polite">
+          @for (b of heroBadges(); track b.kind + b.label) {
+            <span
+              class="bulkv26__badge"
+              [class.is-include]="b.kind === 'include'"
+              [class.is-warn]="b.kind === 'warn'"
+              [class.is-exclude]="b.kind === 'exclude'"
+            >
+              <lucide-icon
+                [img]="b.icon"
+                [size]="12"
+                class="bulkv26__badge-icon"
+                aria-hidden="true"
+              />
+              <span class="bulkv26__badge-count">{{ b.count }}</span>
+              <span class="bulkv26__badge-label">{{ b.label }}</span>
+            </span>
+          }
+        </div>
       </div>
     </section>
 
