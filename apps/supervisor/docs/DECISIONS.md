@@ -7,6 +7,113 @@
 
 ---
 
+## 64 — Keyboard shortcuts canonical AED + Memory: cobertura Angular ≥ React legacy (2026-05-21)
+
+**Decision.** El conjunto canonical de atajos de teclado AED + Memory está
+**completo y documentado** en `<sc-keyboard-shortcuts>` (panel `?`). El
+audit S55 contra el código React Memory legacy (`/Users/rafareses/dev/memory/legacy-react/src/`)
+confirma que Angular cubre TODOS los patrones del legacy + añade 5 atajos
+globales que React Memory no tenía. **No hay gap. No se añaden atajos
+nuevos hasta que aparezca trigger funcional concreto** (no diseño-driven).
+
+**Coverage Angular AED + Memory (cierre S55)**:
+
+Globales (`document:keydown` HostListener):
+
+- `⌘K` / `Ctrl+K` — paleta de comandos (command-palette.component.ts:95)
+- `/` — focus al primer `<sc-search>` visible (command-palette.component.ts:104, S54)
+- `?` — abrir panel atajos (keyboard-shortcuts.component.ts:81)
+- `⌘Z` / `Ctrl+Z` — undo última acción (app.component.ts:69, DD#18)
+- `⌘S` / `Ctrl+S` — guardar form (agent-form-page :627, group-form-page :312, user-form-page :267, S54)
+
+Scoped a contexto:
+
+- `Esc` — cerrar overlay-tracked (click-outside.directive.ts:41), keyboard-shortcuts panel
+  (:72), group-popover (:73), command palette (búltin PrimeNG), label-form-panel (:109),
+  template-form-panel (:97), repo-form-panel (:96), labels-page (:253), inline-rename-cell
+  (:69), sticky-form-header (:109), group-assignment-table (:161), agent-channel-table (:261)
+- `Enter` — submit form / commit rename (mismos componentes que Esc, conceptualmente parejo)
+- `Enter` / `Space` — activate row en conversation-table Memory (3 listeners)
+- `↑` / `↓` — navegar paleta de comandos (PrimeNG nativo)
+- `←` / `→` / `↑` / `↓` — track navigation en multi-recording-player Memory (S46)
+
+**Coverage React Memory legacy (auditado)**:
+
+- Component-scoped Escape close en filtros: RecordingFilter / DurationFilter / TimeRangeFilter
+  / MultiSelectWithSearch (4 components)
+- EditEntitySidepanel rename Enter/Escape
+- MultiRecordingPlayer arrow keys
+- Repository row Enter/Space activate
+- stopPropagation en modals (Category linking, Edit/Create category)
+
+**Gap analysis (React → Angular)**:
+
+| Patrón React legacy | Equivalente Angular | Status |
+|---|---|---|
+| Filtros Escape close (×4) | PrimeNG built-in Escape close en `<p-popover>` + `scClickOutside` | ✅ cubierto |
+| EditEntity rename Enter/Esc | `<sc-inline-rename-cell>` (mismo behavior) | ✅ cubierto |
+| MultiRecordingPlayer arrow nav | `<sc-memory-multi-recording-player>` (S46 ya tenía arrow nav) | ✅ cubierto |
+| Repository row Enter/Space | `<sc-memory-conversation-table>` row keyboard activate (×3) | ✅ cubierto |
+| stopPropagation en modales | PrimeNG dialog wrap nativo + Angular event modifiers | ✅ cubierto |
+
+**Extras Angular que React legacy NO tenía** (S54 + DD#18):
+
+- ⌘K paleta global (mejora pattern Linear / Slack)
+- ⌘Z undo (DD#18 S46)
+- ⌘S save (S54)
+- `/` focus search (S54)
+- `?` panel atajos (mejora discoverability vs React)
+
+**Why.**
+
+Auditar antes de añadir respeta `feedback_devaluation_existing_work`
+(memoria): no devaluar trabajo previo sin leerlo. La hipótesis original
+"Memory React tenía atajos sofisticados que perdimos al migrar" resultó
+ser FALSA — Angular tiene MÁS atajos que React legacy. El trabajo S54
+(`/`, `⌘S`, `⌘Z` re-add tras audit) cerró exactamente los gaps reales.
+
+**What was discarded.**
+
+- **Añadir `g a` / `g u` / `g g` style Linear-shortcuts** ("Go to agentes /
+  usuarios / grupos") — discarted. El `⌘K` cubre navegación por search;
+  añadir multi-key sequences duplica el modelo mental para el mismo
+  outcome. Las multi-key sequences requieren state machine custom (vs
+  PrimeNG built-ins) y entrenamiento del usuario. Coste-beneficio
+  negativo para una app interna de equipo pequeño.
+- **`⌘1` / `⌘2` para switchear tabs en agent-form-page** — discarted.
+  Solo 4 secciones (Identidad / Grupos / Permisos / Avanzado) y el
+  `<sc-form-section-nav>` está siempre visible al lado izquierdo. Click
+  rápido bastará — no hay caso real "el usuario itera tan rápido entre
+  secciones que necesita atajo numérico".
+- **`?` siempre listed even when typing** — discarted. Suprimir `?`
+  cuando `isTypingTarget(event.target)` es correcto: dentro de un input
+  el `?` debe ser literal char, no abrir cheatsheet. Pattern industria
+  (Stripe / Linear / GitHub).
+
+**Cuándo reabrir.**
+
+- Si un usuario reporta "no encuentro el atajo X que tenía en producto Y"
+  (trigger real, no especulativo).
+- Si SC añade vistas con +6 modos donde tab numérica tendría sentido
+  (dashboard / multiscreen monitorización).
+- Si el equipo crece más allá del trio dev/diseñer + power-users y la
+  cheatsheet panel se vuelve insuficiente como discoverability tool.
+
+**Files relevantes auditados** (S55):
+
+- `packages/design-system/components/keyboard-shortcuts/keyboard-shortcuts.component.ts:40-66`
+  — panel listing source-of-truth.
+- `packages/design-system/components/command-palette/command-palette.component.ts:92-108`
+  — ⌘K + `/` handlers.
+- `apps/supervisor/src/app/app.component.ts:63-77` — global ⌘Z handler.
+- `apps/supervisor/src/app/features/admin/{agents,groups,users}/pages/*form-page.component.ts`
+  — ⌘S save handlers (3 archivos).
+- `apps/supervisor/src/app/core/services/undo-stack.service.ts` — UndoStackService
+  (DD#18 S46).
+- `apps/supervisor/src/app/core/directives/click-outside.directive.ts:41` — Escape filter.
+
+---
+
 ## 63 — Keep the `--sc-*` system as source of truth; align names with Aura/Figma (2026-05-14)
 
 **Decision.** The 7-layer `--sc-*` cascade under
