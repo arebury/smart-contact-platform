@@ -10,6 +10,117 @@
 
 ---
 
+## 2026-05-21 · Session 57 — Convergencia Kit Pro 1:1 (refactor estructural primitive)
+
+> Sesión grande. Empezó con audit cross-app de drift no documentado
+> (font-size/line-height/z-index hits residuales) y derivó en refactor
+> estructural masivo de la primitive layer SCDS para hablar el mismo
+> idioma que el Smart Contact Prime UI Kit. Critical sparring del user
+> 2 veces (push-back sobre "crear tokens nuevos" + push-back sobre
+> "categorías separadas vs scale única") guió la dirección.
+
+### Hitos por bloque
+
+**1 · SCDS bypass Memory** (commit `a75469d`, backlog #53):
+- Audit detectó 11 hits `<p-toggleswitch>` + `<p-select>` directos en
+  Memory cuando existen wrappers `<sc-*>` desde S31/S32. Violación
+  silenciosa de memoria `migration_safety`.
+- Wrappers extendidos aditivamente (cero breaking):
+  `sc-toggleswitch` ahora acepta `[inputId]` opcional · `sc-select`
+  acepta `[appendTo]` opcional para overlays dentro de dialog.
+- Migración 11 hits en 4 archivos Memory (rule-builder, category-form,
+  entity-form, bulk-transcription).
+- Cleanup: 5 `styleClass` huérfanos eliminados (legacy React proto).
+
+**2 · Tokenización font-size/line-height exact-match** (commit `dc9b5b2`,
+backlog #54 + customs §5.8):
+- 16 hits exact-match en wrappers SCDS migrados de literal decimal
+  (12.25/15.75/17.5/24.5) a tokens existing `--sc-font-size-*` /
+  `--sc-line-height-*`.
+- Outliers documentados: backlog #54 (25+ hits integer pre-S54 en
+  features Memory + AED config, diseño-dependent).
+- z-index local stacking (1-5) documentado en customs §5.8 como
+  legítimo NO tokenizar — distinto del pool global `--sc-z-*` (1000+).
+
+**3 · Convergencia spacing scale Kit Pro 1:1** (commit `cf7d7fc`,
+~1127 hits, 127 archivos):
+- Push-back user: "que hablen el mismo idioma" → naming SCDS renombrado
+  1:1 con Kit Pro Variables.
+- `--sc-spacing-50/100/.../900` → `--sc-spacing-0-25/0-5/.../5`.
+- 10 tokens missing añadidos (escala completa Kit Pro): 0-125, 0-375,
+  0-625, 1-143, 1-25, 1-625, 2, 2-5, 3.
+- Sweep cross-app via sed regex ordenado desc.
+- Tokenización adicional 5.25/8.75/17.5/12.25 en wrappers SCDS.
+
+**4 · Refactor estructural primitive layer** (commit `af324f8`):
+- Push-back user 2: "no parar de llamar --sc-, sino que sea --sc-scale
+  por ejemplo" → refactor estructural completo.
+- Descubrimiento clave: Kit Pro usa UNA escala numérica única
+  `aura/primitive.scale.*` que sirve a TODO (font-size, padding,
+  icon-size, border-radius). SCDS tenía 5 categorías primitive
+  separadas — divergencia estructural conceptual, no solo naming.
+- Primitive layer reorganizada:
+  - `--sc-scale-*` (34 valores: 24 positivos + 10 negativos) ← Kit Pro
+  - `--sc-radius-{none/xs/sm/md/lg/xl}` ← Kit Pro border.radius.*
+- Semantic-derived aliases (preservan API pública):
+  - `--sc-spacing-*` → `var(--sc-scale-*)`
+  - `--sc-font-size-*` → `var(--sc-scale-*)`
+  - `--sc-line-height-*` → `var(--sc-scale-*)`
+  - `--sc-icon-size-*` → `var(--sc-scale-*)`
+  - `--sc-radius-{0/50/.../500}` legacy → `var(--sc-radius-{none/.../xl})`
+- Custom column Figma identificada (no en Kit Pro): brand colors
+  navy/electric-blue, shadows custom, z-index pool, font-family-mono,
+  radius-2xl/full, toast-undo extensions.
+
+**5 · ds-docs v2.0 banner + página release notes** (commit `ce53cf7`):
+- Home stat Version: v0.1 → v2.0 con link a `/whats-new-v2`.
+- CTA hero "Novedades v2.0 · Kit Pro 1:1".
+- Página `/whats-new-v2` editorial style (Swiss Modernism alineado con
+  home). Hero asymmetric + 4 sections (qué cambió + beneficios +
+  tokens JSON + roadmap). Diseño usando skill `design-taste-frontend`.
+- Botón JSON download dejado como "Próximamente" — script export 7
+  capas → sc-tokens.json DTCG queda pending S58.
+
+### Diálogo crítico BeyondUI (sin código)
+
+User pasó 3 screenshots BeyondUI Kit (Companies CRM, Clinical Notes
+list, Add New Note wizard). Critical sparring identificó:
+- AED chrome ~80% equivalente a BeyondUI = SC implementó pattern
+  industry correcto (no comprar kit, validación).
+- 3 patterns atacables sin comprar:
+  - `<sc-tag>` con dot indicator (backlog #7 — 3 evidencias uso
+    Companies + Clinical Notes 2 status types).
+  - Sidebar section headers (`HEADING / MANAGEMENT / ...` uppercase).
+  - Page header 2-rows (title+CTAs row 1, toolbar row 2).
+- UX bug user identificado: wizard con back duplicado (inline + footer)
+  → ambigüedad. Pattern correcto: breadcrumb = exit wizard, footer =
+  previous step (oculto en step 1).
+- Audit AED wizards para back duplicado pendiente S58.
+
+### Estado salud cierre S57
+
+- tsc · lint · build supervisor · build ds-docs · husky · i18n: verdes.
+- Playwright cross-app: **28/28 verde** (14 smoke + 14 visual regression).
+- Baselines visual regression `ds-docs-home` regenerados (CTA hero nuevo).
+- Backlog #53 + #54 + customs §5.8 (z-index local) actualizados.
+- 5 commits a main pusheados.
+
+### Lecciones operativas portables
+
+- **Naming primitive 1:1 con Kit Pro** (S57 política nueva): NUNCA
+  añadir `--sc-scale-*` / `--sc-radius-*` sin matching exact en Kit Pro
+  Variables JSON. Custom (sin Kit Pro origen) → collection "Custom"
+  Figma + `customs-catalog.md`.
+- **Aliases semantic preservan API**: 1127 consumers no se enteran del
+  refactor primitive. Pattern: cambiar internals, mantener external API.
+- **Critical sparring real**: user push-back 2 veces guió a solución
+  estructural correcta — NO ejecutar primera idea sin validar.
+- **Angular templates + `{...}` literal**: Angular interpreta llaves
+  como ICU message. Para mostrar `--sc-spacing-{0-25,...,5}` literal en
+  template, usar slash-separated o `&#123;`.
+
+---
+
 ## 2026-05-21 · Session 56 — Dossier diseño + visual regression expansion (A+B)
 
 > Tras critical-sparring de menu S56+ (la mayoría de bloques tienen

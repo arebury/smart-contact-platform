@@ -5,6 +5,147 @@
 
 ---
 
+## Estado al cerrar (Session 57, 2026-05-21)
+
+Sesión grande con refactor estructural primitive layer SCDS → Kit Pro
+1:1. Critical sparring del user 2 veces guió la dirección (matrix
+"hablar el mismo idioma"). 5 commits a `main`.
+
+- **SCDS bypass Memory** (`a75469d`) — backlog #53 cerrado. 11 hits
+  `<p-toggleswitch>` + `<p-select>` directos → wrappers SCDS. Wrappers
+  extendidos aditivamente con `[inputId]` y `[appendTo]` opcionales.
+- **Tokenización font-size/line-height exact-match** (`dc9b5b2`) —
+  backlog #54 + customs §5.8. 16 hits wrappers SCDS tokenizados.
+  z-index local stacking documentado como legítimo.
+- **Convergencia spacing scale Kit Pro 1:1** (`cf7d7fc`) — ~1127 hits
+  en 127 archivos. Naming SCDS `--sc-spacing-50/100/.../900` →
+  `--sc-spacing-0-25/0-5/.../5` + 10 tokens missing añadidos.
+- **Refactor estructural primitive** (`af324f8`) — UNA escala
+  `--sc-scale-*` (34 valores Kit Pro) sirve a font-size/padding/
+  icon-size. `--sc-radius-*` escala dedicada Kit Pro 1:1. Semantic
+  aliases preservan API pública.
+- **ds-docs v2.0** (`ce53cf7`) — banner v2.0 en home + página
+  `/whats-new-v2` editorial release notes. Skill `design-taste-frontend`
+  usado para diseño página.
+
+**Diálogo crítico BeyondUI** (sin código): user pasó 3 screenshots
+(Companies CRM + Clinical Notes list + Add New Note wizard). 3 patterns
+identificados atacables sin comprar kit. UX bug del wizard (back
+duplicado) registrado para audit S58.
+
+**Estado salud**: tsc / lint / build supervisor / build ds-docs /
+husky / i18n: verde. Playwright cross-app **28/28 verde**.
+
+---
+
+## 🎯 Bloques S58 (batería grande — priorizar al arrancar)
+
+> Rafa avisó: S58 será sesión con batería grande. Mezcla 5 frentes:
+> branch experimentación + audit catalog cross-language + audit legacy
+> flujos para encontrar "oro" perdido + bloque modal + objetivo final
+> llevarlo todo a Figma con flujos conectados.
+
+### Bloque A · Branch experimentación BeyondUI + Netlify previews
+
+**Objetivo**: aislar experimentos BeyondUI sin tocar main + URL preview
+compartible.
+
+**Plan operacional**:
+1. Crear branch `experiment/beyondui-patterns` desde main reciente.
+2. Push branch placeholder a origin.
+3. Rafa activa branch deploys en Netlify dashboard UI (manual):
+   - Cada site (`aedmigration` + `ds-smartcontact`) →
+     Settings → Build & deploy → Continuous deployment → Branches
+   - Cambiar "Deploy only production" → "Let me add individual branches"
+   - Añadir `experiment/beyondui-patterns` (o glob `experiment/*`)
+4. URLs preview automáticas tras push:
+   - `https://experiment-beyondui-patterns--aedmigration.netlify.app`
+   - `https://experiment-beyondui-patterns--ds-smartcontact.netlify.app`
+
+**Posible skill**: Rafa mencionó https://www.tasteskill.dev/ →
+`npx skills add Leonxlnx/taste-skill` para experimentación visual.
+Evaluar si aporta vs `design-taste-frontend` ya disponible.
+
+### Bloque B · Audit customs-catalog cross-language (más desalineaciones tipo spacing→scale)
+
+**Objetivo**: el refactor S57 cerró spacing/scale + radius naming Kit Pro
+1:1. Hay que verificar que NO quedan más desalineaciones de naming/
+estructura entre SCDS y Kit Pro Variables.
+
+**Verificar**:
+- `aura/semantic.form.field.*` vs SCDS `formField.*` (sc-preset)
+- `aura/semantic.overlay.*` vs SCDS overlay tokens
+- `aura/semantic.text.*` vs SCDS text tokens
+- `aura/semantic.surface.*` vs SCDS surface tokens
+- `aura/semantic.focus.ring.*` vs SCDS focus tokens
+- `aura/semantic.disabled.opacity` vs SCDS disabled
+
+Si hay divergencias estructurales: documentar en customs-catalog +
+proponer convergencia o decisión consciente brand.
+
+### Bloque C · Audit legacy flujos AED + Memory ("buscar oro")
+
+**Objetivo**: Rafa cree que hay funcionalidades en los prototipos
+originales (legacy React Memory + posiblemente AED viejo) que se
+quedaron sin portar y "podrían ser oro" — features útiles olvidadas
+en la migración.
+
+**Plan**:
+1. Inventariar flujos AED actuales vs React legacy original (si existe).
+2. Inventariar Memory prototipo React vs Memory Angular actual.
+3. Por cada flujo: comparar features prototipo vs implementación →
+   gaps documentados → priorización.
+4. Output: lista findings con severidad + propuesta acción.
+
+Memoria `feedback_memory_docs_complete_set` aplica: leer TODOS los
+docs Memory (no solo `/docs/`) — README, guidelines, audit/,
+memory-archive/, .impeccable.md.
+
+### Bloque D · Modal — Rafa explayará al arrancar S58
+
+**Objetivo**: Rafa pidió **AVISO al arrancar S58**: tiene preocupación
+sobre el modal SCDS. Quiere explayarse al detalle entonces.
+
+**Acción obligatoria al arrancar S58**: en algún bloque mientras se
+trabaja, Claude DEBE preguntar a Rafa "cuéntame lo del modal" para
+que se explaye.
+
+Contexto técnico actual: `<sc-dialog>` SCDS wrapper de `<p-dialog>`
+PrimeNG (rename S47). Tokens `--sc-dialog-*` audited S30. 6+ consumers
+AED + Memory.
+
+### Bloque E · Llevar todo a Figma (objetivo final)
+
+**Objetivo**: el objetivo final del trabajo S57 + S58 es **llevar SCDS
+completo a Figma con flujos definidos**. Conectar:
+- Tokens SCDS ↔ Figma SC Kit Pro Variables (1:1 post-S57)
+- Componentes SCDS ↔ Figma `❖` components (paridad documentada)
+- Flujos AED + Memory ↔ Figma frames + prototyping
+
+Trigger Code Connect (memoria `feedback_code_connect_dormant`): si
+prod adopta SCDS + wrappers existen en codebase prod + dev prod
+consume DS desde Figma → activar setup.
+
+Para S58 esto es **dirección estratégica**, no bloque ejecutable
+directo. Cada bloque A-D suma a este objetivo.
+
+### Bloque F · JSON export sc-tokens.json DTCG (S57 pending)
+
+**Objetivo**: script export 7 capas CSS → JSON formato Design Tokens
+Community Group (DTCG). Pending del S57 cierre.
+
+**Plan**:
+1. Crear `scripts/export-sc-tokens.mjs` que parsea
+   `packages/design-system/tokens/layers/*.css`.
+2. Resolver aliases (`var(--sc-scale-X)` → valor real).
+3. Output `apps/ds-docs/src/assets/sc-tokens.json` formato DTCG.
+4. Activar botón download en home + whats-new-v2.
+
+Trigger consumer: el JSON es para devs (no Figma) — terceras apps,
+Memory active futuro, case study showcase.
+
+---
+
 ## Estado al cerrar (Session 56, 2026-05-21)
 
 Sesión doble bloque tras critical-sparring de menu S56+ (la mayoría
