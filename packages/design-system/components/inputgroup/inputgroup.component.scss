@@ -33,14 +33,14 @@
   /* sc-inputtext sm: padding 8.75/5.25, font-size 12.25 — replicamos en addon. */
   .p-inputgroup-addon {
     padding: 5.25px 8.75px;
-    font-size: 12.25px;
+    font-size: var(--sc-font-size-100);
   }
 
   .p-inputtext,
   input[pInputText] {
     padding-top: 5.25px;
     padding-bottom: 5.25px;
-    font-size: 12.25px;
+    font-size: var(--sc-font-size-100);
   }
 }
 
@@ -48,13 +48,13 @@
   /* sc-inputtext lg: padding 12.25/8.75, font-size 15.75. */
   .p-inputgroup-addon {
     padding: 8.75px 12.25px;
-    font-size: 15.75px;
+    font-size: var(--sc-font-size-300);
   }
 
   .p-inputtext,
   input[pInputText] {
     padding-top: 8.75px;
     padding-bottom: 8.75px;
-    font-size: 15.75px;
+    font-size: var(--sc-font-size-300);
   }
 }

@@ -64,7 +64,7 @@
   padding-bottom: 5.25px;
   padding-left: 8.75px;
   padding-right: 8.75px;
-  font-size: 12.25px;
+  font-size: var(--sc-font-size-100);
 }
 
 .sc-inputtext--lg .sc-inputtext__control {
@@ -72,7 +72,7 @@
   padding-bottom: 8.75px;
   padding-left: 12.25px;
   padding-right: 12.25px;
-  font-size: 15.75px;
+  font-size: var(--sc-font-size-300);
 }
 
 /* ────────────────────────────────────────────────────────────────────

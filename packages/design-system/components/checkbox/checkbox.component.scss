@@ -88,8 +88,8 @@
    * ──────────────────────────────────────────────────────────────
    */
   &--sm {
-    font-size: 12.25px;
-    line-height: 17.5px;
+    font-size: var(--sc-font-size-100);
+    line-height: var(--sc-line-height-100);
     .tri-checkbox__input,
     .tri-checkbox__box {
       width: 14px;
@@ -102,8 +102,8 @@
   }
 
   &--lg {
-    font-size: 15.75px;
-    line-height: 24.5px;
+    font-size: var(--sc-font-size-300);
+    line-height: var(--sc-line-height-300);
     .tri-checkbox__input,
     .tri-checkbox__box {
       width: 21px;

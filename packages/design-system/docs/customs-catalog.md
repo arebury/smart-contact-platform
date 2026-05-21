@@ -307,6 +307,34 @@ dialog/toast) cubren el 95% canonical. Los 5 hits divergentes son **casos legít
 Sin decisión activa, el statu-quo (literales + convención implícita) es la opción más
 mantenible para un proyecto de este tamaño.
 
+**Convención z-index local stacking** (12 hits audit S56-ext):
+
+El SCDS expone tokens globales `--sc-z-*` para el **pool de overlays compartidos**
+(dropdown 1000, sticky 1020, sticky-form-header 1030, fixed 1040, bulk-action-bar 1050,
+sidebar 1055, modal-backdrop 1060). Sin embargo, hay 12 hits literales `z-index: N` con
+`N ∈ [1, 5]` que NO son candidatos a token global.
+
+| Pattern | Valor | Hits | Justificación |
+|---|---|---|---|
+| Sticky table header thead | `5` | 6 (admin lists × 4 + Memory conversation × 1 + agent-form group-assignment × 1) | Stacking local DENTRO del `<table>` container con `position: relative`. Z=5 > z=0 default = thead encima rows scrolleadas. `var(--sc-z-sticky) = 1020` sería overkill (z global afectaría composición fuera del table). |
+| Drop drag-hover row indicator | `4` | 1 (agent-channel-table:350) | Stacking local dentro de drag-drop list, capa ↑ que filas hermanas pero ↓ que sticky header del padre. |
+| Settings shell layer ordering | `1-2` | 4 (settings-shell:23/43 + sistema-page:382 + rule-builder:509) | Stacking local dentro de panel/section container para resolver overlap subtle (e.g., scrim sobre body, hero sobre decorative). |
+
+**Decisión**: NO tokenizar `z-index: 1-5`. Son **stacking context LOCAL** confined a un
+contenedor `position: relative` ancestor. Convertir a token global sería
+contradictorio — promovería el valor al pool overlay 1000+ y rompería la composición.
+
+**Cuándo aplica `--sc-z-*` global**: cuando el elemento sale del flujo normal y compite
+con overlays de OTROS componentes/features (modal vs dropdown vs toast). Ahí sí, escala
+sticky/fixed/modal-backdrop discrimina semánticamente.
+
+**Cuándo aplica `z-index: 1-5` literal**: cuando el elemento solo necesita orden DENTRO
+de su contenedor padre (table thead sobre rows; hero sobre body within section). El
+valor literal es self-evident en contexto y NO contamina el pool global.
+
+**Reabrir**: si aparece confusión cross-feature ("¿por qué este z=5 no domina ese
+dropdown?") → probablemente es un caso que SÍ necesita pool global. Re-evaluar.
+
 ---
 
 ## Cómo añadir una divergencia nueva a este catálogo

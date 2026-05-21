@@ -104,7 +104,7 @@
   padding-bottom: 5.25px;
   padding-left: calc(8.75px + 22px); /* icon slot */
   padding-right: calc(8.75px + 22px); /* clear slot */
-  font-size: 12.25px;
+  font-size: var(--sc-font-size-100);
 }
 
 .sc-search--lg .sc-search__control {
@@ -112,7 +112,7 @@
   padding-bottom: 8.75px;
   padding-left: calc(12.25px + 26px);
   padding-right: calc(12.25px + 26px);
-  font-size: 15.75px;
+  font-size: var(--sc-font-size-300);
 }
 
 /* Filled variant — slate-50 bg, alineado con sc-inputtext. */

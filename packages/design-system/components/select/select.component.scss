@@ -55,16 +55,17 @@
  *   Small:  font 12.25 / padding 8.75x / 5.25y
  *   Normal: font 14    / padding 10.5x / 7y   (heredado del preset)
  *   Large:  font 15.75 / padding 12.25x / 8.75y
- * Decimales raw (off-scale en `--sc-spacing-*` / `--sc-font-size-*`).
+ * Padding decimales raw (off-scale en `--sc-spacing-*`); font-size sí
+ * tokenizado (`--sc-font-size-100` / `--sc-font-size-300` exact match).
  * ────────────────────────────────────────────────────────────────────
  */
 .sc-select--sm .sc-select__control .p-select-label {
   padding: 5.25px 8.75px;
-  font-size: 12.25px;
+  font-size: var(--sc-font-size-100);
 }
 .sc-select--lg .sc-select__control .p-select-label {
   padding: 8.75px 12.25px;
-  font-size: 15.75px;
+  font-size: var(--sc-font-size-300);
 }
 
 /* ────────────────────────────────────────────────────────────────────
