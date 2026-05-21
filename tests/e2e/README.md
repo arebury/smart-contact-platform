@@ -54,13 +54,42 @@ automáticamente con `--no-hmr` (requerido en Angular 21 de este repo).
 `reuseExistingServer: !CI` permite que en local los servers ya levantados
 se reutilicen — más rápido en dev.
 
-## Tests existentes (14 smoke en 3 archivos)
+## Tests existentes (22 tests en 4 archivos)
 
 | Archivo | Cubre | Tests |
 |---|---|---|
 | `smoke-aed.spec.ts` | AED list-pages + config sistema | 5 |
 | `smoke-memory.spec.ts` | 4 páginas Memory + shell compartido | 4 |
 | `smoke-ds-docs.spec.ts` | ds-docs home + 4 galleries post-rename | 5 |
+| `visual-regression.spec.ts` | 4 screens canonical × 2 themes baseline pixel-diff | 8 |
+
+## Visual regression (S55 E)
+
+`visual-regression.spec.ts` arma un baseline pixel-diff de 4 pantallas
+canonical en light + dark. Detecta drift visual silencioso (token tuning,
+refactor SCSS, sweep tokens) sin que nadie tenga que mirar a ojo.
+
+**Operativa**:
+```bash
+npm run e2e -- visual-regression.spec.ts                      # check vs baseline
+npm run e2e -- visual-regression.spec.ts --update-snapshots   # regenerar baseline
+```
+
+**Decisión al fallar un test**:
+- ¿El cambio era intencional? → `--update-snapshots` + commit baseline nueva.
+- ¿Es regresión? → fix antes de seguir.
+
+**Screens cubiertos**:
+- `aed-agentes-list` — list-page chrome (table + page-header + toolbar)
+- `aed-agentes-edit` — form-page chrome (sticky-form-header + section-cards)
+- `ds-docs-inputtext` — gallery (wrapper sizes/variants)
+- `memory-categorias` — Memory shell + list chrome
+
+**Detalle técnico**:
+- Theme aplicado POST-bootstrap (`page.evaluate` tras `goto`) — ds-docs limpia
+  clases inyectadas pre-bootstrap, evitamos esa race.
+- Animations + transitions off via `addStyleTag` para evitar flicker.
+- Tolerancia `maxDiffPixelRatio: 0.02` (2%) para acomodar antialias.
 
 ## Protocolo cuando algún test falla
 
