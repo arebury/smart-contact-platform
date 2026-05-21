@@ -214,36 +214,64 @@
    * fallback hardcoded. No mapea a fuente custom — system mono stack. */
   --sc-font-family-mono: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', monospace;
 
-  /* Font size scale (px). Names match the JSON 1:1. */
-  --sc-font-size-50: 10px;
-  --sc-font-size-75: 11px; /* off-scale chrome value used by pills + sidebar items */
-  --sc-font-size-100: 12px;
+  /* Font size scale (px). Mapped 1:1 a PrimeOne 4.0 `scale*` (base 14,
+   * multiplicativa). Naming SCDS conservado; valores migrados S54
+   * contra tokensprime.json:
+   *   50  →  scale075  (10.5)
+   *   75  →  scale075  (10.5)  (era 11, off-scale chrome)
+   *   100 →  scale0875 (12.25)
+   *   200 →  scale1    (14)    ← exacto
+   *   300 →  scale1125 (15.75)
+   *   400 →  scale125  (17.5)
+   *   450 →  scale15   (21)
+   *   500 →  scale175  (24.5)
+   *   600 →  scale2    (28)    ← exacto
+   *   650 →  scale225  (31.5)
+   *   700 →  scale275  (38.5)
+   *   800 →  scale4    (56)
+   *   900 →  scale5    (70) */
+  --sc-font-size-50: 10.5px;
+  --sc-font-size-75: 10.5px;
+  --sc-font-size-100: 12.25px;
   --sc-font-size-200: 14px;
-  --sc-font-size-300: 16px;
-  --sc-font-size-400: 18px;
-  --sc-font-size-450: 20px;
-  --sc-font-size-500: 24px;
+  --sc-font-size-300: 15.75px;
+  --sc-font-size-400: 17.5px;
+  --sc-font-size-450: 21px;
+  --sc-font-size-500: 24.5px;
   --sc-font-size-600: 28px;
-  --sc-font-size-650: 32px;
-  --sc-font-size-700: 36px;
-  --sc-font-size-800: 48px;
-  --sc-font-size-900: 64px;
+  --sc-font-size-650: 31.5px;
+  --sc-font-size-700: 38.5px;
+  --sc-font-size-800: 56px;
+  --sc-font-size-900: 70px;
 
-  /* Line height scale (px) — paired with same-numbered font-size step
-   * where possible (e.g. font-size-450 / line-height-450 → 20 / 30). */
-  --sc-line-height-50: 15px;
-  --sc-line-height-100: 18px;
+  /* Line height scale (px) — mapped al PrimeOne `scale*` más cercano
+   * preservando proporción harmónica respecto a font-size:
+   *   50  →  scale125  (17.5)  appSmLineHeight
+   *   100 →  scale125  (17.5)
+   *   200 →  scale15   (21)    ← exacto
+   *   220 →  scale1625 (22.75)
+   *   300 →  scale175  (24.5)  appLgLineHeight
+   *   400 →  scale2    (28)    ← exacto
+   *   450 →  scale225  (31.5)
+   *   500 →  scale275  (38.5)
+   *   600 →  scale3    (42)    ← exacto
+   *   650 →  scale4    (56)
+   *   700 →  scale4    (56)
+   *   800 →  scale5    (70)
+   *   900 →  scale5    (70) */
+  --sc-line-height-50: 17.5px;
+  --sc-line-height-100: 17.5px;
   --sc-line-height-200: 21px;
-  --sc-line-height-220: 22px;
-  --sc-line-height-300: 24px;
+  --sc-line-height-220: 22.75px;
+  --sc-line-height-300: 24.5px;
   --sc-line-height-400: 28px;
-  --sc-line-height-450: 30px;
-  --sc-line-height-500: 36px;
+  --sc-line-height-450: 31.5px;
+  --sc-line-height-500: 38.5px;
   --sc-line-height-600: 42px;
-  --sc-line-height-650: 48px;
-  --sc-line-height-700: 52px;
-  --sc-line-height-800: 72px;
-  --sc-line-height-900: 96px;
+  --sc-line-height-650: 56px;
+  --sc-line-height-700: 56px;
+  --sc-line-height-800: 70px;
+  --sc-line-height-900: 70px;
 
   /* Font weights */
   --sc-font-weight-regular: 400;
@@ -251,20 +279,38 @@
   --sc-font-weight-semibold: 600;
   --sc-font-weight-bold: 700;
 
-  /* ---------- Spacing ---------- */
+  /* ---------- Spacing ----------
+   * Escala MULTIPLICATIVA base 14 (PrimeOne 4.0 `scale*`). Cada step
+   * mapea al PrimeOne más cercano:
+   *   50  → scale025  (3.5)
+   *   100 → scale05   (7)
+   *   150 → scale075  (10.5)
+   *   200 → scale0875 (12.25)
+   *   250 → scale1    (14)    ← exacto
+   *   300 → scale1125 (15.75)
+   *   400 → scale15   (21)
+   *   500 → scale175  (24.5)
+   *   600 → scale225  (31.5)
+   *   700 → scale275  (38.5)
+   *   800 → scale4    (56)
+   *   900 → scale5    (70)
+   * Anterior: escala aditiva 4/8/10/12/14/16/20/24/32/40/48/64 (custom SC).
+   * Migrado S54 contra tokensprime.json para cerrar drift con Figma SC
+   * Prime UI Kit Pro Variables oficiales. Naming SCDS conservado para no
+   * romper 100% de consumers; solo los valores cambian. */
   --sc-spacing-0: 0;
-  --sc-spacing-50: 4px;
-  --sc-spacing-100: 8px;
-  --sc-spacing-150: 10px;
-  --sc-spacing-200: 12px;
+  --sc-spacing-50: 3.5px;
+  --sc-spacing-100: 7px;
+  --sc-spacing-150: 10.5px;
+  --sc-spacing-200: 12.25px;
   --sc-spacing-250: 14px;
-  --sc-spacing-300: 16px;
-  --sc-spacing-400: 20px;
-  --sc-spacing-500: 24px;
-  --sc-spacing-600: 32px;
-  --sc-spacing-700: 40px;
-  --sc-spacing-800: 48px;
-  --sc-spacing-900: 64px;
+  --sc-spacing-300: 15.75px;
+  --sc-spacing-400: 21px;
+  --sc-spacing-500: 24.5px;
+  --sc-spacing-600: 31.5px;
+  --sc-spacing-700: 38.5px;
+  --sc-spacing-800: 56px;
+  --sc-spacing-900: 70px;
 
   /* ---------- Radius ---------- */
   --sc-radius-0: 0;
