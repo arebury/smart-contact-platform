@@ -38,9 +38,21 @@ html,
 body {
   height: 100%;
   margin: 0;
-  font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  font-family: var(--sc-font-family-primary, 'Urbanist', 'Inter', system-ui, sans-serif);
   background: var(--sc-bg-default);
   color: var(--sc-text-primary);
+}
+
+/* experiment/beyondui-patterns S58 — Skill redesign-existing-projects:
+ * "Numbers in proportional font → Use tabular figures for data-heavy
+ * interfaces". Aplicado globalmente a celdas de tabla, badges con count,
+ * y stats. Mejora la columna alineation visual en list-pages AED + Memory. */
+table,
+.tabular-nums,
+.sc-bulk-action-bar__count,
+.tracker-item__usage,
+.hero__stat dd {
+  font-variant-numeric: tabular-nums;
 }
 
 /*

@@ -12,8 +12,10 @@
 @import 'primeicons/primeicons.css';
 
 :root {
-  --dsd-font-display: 'Space Grotesk', 'Inter', -apple-system, system-ui, sans-serif;
-  --dsd-font-sans: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  /* experiment/beyondui-patterns: display font ahora Urbanist (más calmado y
+   * editorial que Space Grotesk, mejor encaje con tono Smart Contact). */
+  --dsd-font-display: 'Urbanist', 'Inter', -apple-system, system-ui, sans-serif;
+  --dsd-font-sans: var(--sc-font-family-primary, 'Urbanist', 'Inter', system-ui, sans-serif);
   --dsd-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Local accent — single electric-blue, no multi-color noise. */

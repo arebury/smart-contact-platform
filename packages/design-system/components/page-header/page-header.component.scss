@@ -60,6 +60,10 @@
   font-size: var(--sc-font-size-subtitle-1);
   line-height: var(--sc-line-height-subtitle-1);
   font-weight: var(--sc-font-weight-subtitle-1);
+  /* experiment/beyondui-patterns: tracking negativo para títulos display (skill
+   * redesign-existing-projects — "negative tracking for large headers"). Solo
+   * efecto visible cuando Urbanist está cargado (display variable). */
+  letter-spacing: -0.02em;
   color: var(--sc-text-primary);
   margin: 0;
   overflow: hidden;
