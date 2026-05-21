@@ -98,10 +98,12 @@ const ENTRIES: readonly Entry[] = [
   },
   {
     name: 'tabs',
-    url: `${SUPERVISOR}/admin/agentes/editar/1`,
-    waitFor: '.sticky-header',
-    cropSelector: '.sub-section, .tabs, p-tabs, .p-tabs',
-    padding: 24,
+    // <p-tabs> = Custom-preset SCDS, 0 consumers AED hoy (doc 06-tabs.md
+    // dice "esperando caso"). Fallback a la gallery ds-docs.
+    url: `${DS_DOCS}/components/tabs`,
+    waitFor: 'p-tabs, .p-tabs',
+    cropSelector: 'p-tabs, .p-tabs',
+    padding: 32,
   },
 
   // ─── Form chrome ──────────────────────────────────────────────────────
@@ -136,15 +138,28 @@ const ENTRIES: readonly Entry[] = [
   {
     name: 'inputtext',
     url: `${SUPERVISOR}/admin/agentes/editar/1`,
-    waitFor: 'sc-inputtext',
-    cropSelector: 'sc-inputtext:nth-of-type(1)',
+    waitFor: 'sc-form-section-nav',
+    trigger: async (page) => {
+      // En edit mode la sección Identificación está al final del nav.
+      // Click para activar @switch a 'agent-section-identity' donde viven
+      // los inputtext/select del form.
+      await page.locator('sc-form-section-nav a:has-text("Identificación")').click().catch(() => {});
+      await page.waitForSelector('sc-inputtext', { timeout: 4_000 }).catch(() => {});
+      await page.waitForTimeout(200);
+    },
+    cropSelector: 'sc-inputtext',
     padding: 40,
   },
   {
     name: 'select',
     url: `${SUPERVISOR}/admin/agentes/editar/1`,
-    waitFor: 'sc-select',
-    cropSelector: 'sc-select:nth-of-type(1)',
+    waitFor: 'sc-form-section-nav',
+    trigger: async (page) => {
+      await page.locator('sc-form-section-nav a:has-text("Identificación")').click().catch(() => {});
+      await page.waitForSelector('sc-select', { timeout: 4_000 }).catch(() => {});
+      await page.waitForTimeout(200);
+    },
+    cropSelector: 'sc-select',
     padding: 40,
   },
   {
@@ -157,30 +172,33 @@ const ENTRIES: readonly Entry[] = [
   {
     name: 'form-danger-zone',
     url: `${SUPERVISOR}/admin/agentes/editar/1`,
-    waitFor: 'sc-form-danger-zone',
+    waitFor: 'sc-form-section-nav',
     trigger: async (page) => {
-      // Scroll al final del form para que la danger zone esté visible
-      await page.locator('sc-form-danger-zone').scrollIntoViewIfNeeded();
+      // Danger-zone vive AL FINAL de la sección Identificación (@switch case).
+      // Click nav → render sección → scroll al danger-zone.
+      await page.locator('sc-form-section-nav a:has-text("Identificación")').click().catch(() => {});
+      await page.waitForSelector('sc-form-danger-zone', { timeout: 4_000 }).catch(() => {});
+      await page.locator('sc-form-danger-zone').scrollIntoViewIfNeeded({ timeout: 4_000 }).catch(() => {});
       await page.waitForTimeout(400);
     },
     cropSelector: 'sc-form-danger-zone',
     padding: 32,
   },
 
-  // ─── Config sistema (inputs numéricos / grupos) ───────────────────────
+  // ─── Config (inputs numéricos / grupos) ───────────────────────────────
   {
     name: 'inputnumber',
-    url: `${SUPERVISOR}/config/sistema`,
+    url: `${SUPERVISOR}/config/aed/grupos`,
     waitFor: 'sc-inputnumber',
-    cropSelector: 'sc-inputnumber:nth-of-type(1)',
+    cropSelector: 'sc-inputnumber',
     padding: 40,
   },
   {
     name: 'inputgroup',
-    url: `${SUPERVISOR}/config/sistema`,
-    waitFor: 'sc-inputgroup, p-inputgroup',
-    cropSelector: 'sc-inputgroup, p-inputgroup',
-    padding: 40,
+    url: `${SUPERVISOR}/config/aed/servicio`,
+    waitFor: 'sc-inputgroup',
+    cropSelector: 'sc-inputgroup',
+    padding: 24,
   },
 
   // ─── Memory (datepicker / multiselect / dialog / tooltip) ─────────────
@@ -200,13 +218,22 @@ const ENTRIES: readonly Entry[] = [
   },
   {
     name: 'tooltip',
-    url: `${SUPERVISOR}/conversaciones/categorias`,
-    waitFor: '[pTooltip]',
+    url: `${SUPERVISOR}/conversaciones`,
+    // pTooltip vive en el sidebar collapsed AED (icons rail). Abrir un
+    // tooltip del nav siempre funciona porque el sidebar está montado.
+    waitFor: '.sidebar a, .sidebar [pTooltip], aside [pTooltip]',
     trigger: async (page) => {
-      // Hover sobre el primer elemento con pTooltip
-      const target = page.locator('[pTooltip]').first();
-      await target.hover();
-      await page.waitForTimeout(600); // tooltip show-delay
+      // Forzar sidebar collapsed (toggle) para que aparezcan tooltips de iconos
+      await page.evaluate(() => {
+        const sidebar = document.querySelector('aside, .sidebar');
+        if (sidebar) sidebar.classList.add('collapsed');
+      });
+      await page.waitForTimeout(300);
+      const target = page
+        .locator('aside [pTooltip], .sidebar [pTooltip], aside a[ng-reflect-p-tooltip]')
+        .first();
+      await target.hover().catch(() => {});
+      await page.waitForTimeout(800);
     },
     cropSelector: '.p-tooltip',
     padding: 32,
@@ -229,11 +256,13 @@ const ENTRIES: readonly Entry[] = [
   {
     name: 'command-palette',
     url: `${SUPERVISOR}/admin/agentes`,
-    waitFor: 'sc-command-palette',
+    // sc-command-palette LIVE en app shell pero el `.palette` overlay
+    // solo aparece tras ⌘K. waitFor un elemento estático del shell.
+    waitFor: 'sc-page-header',
     trigger: async (page) => {
-      // ⌘K para abrir la paleta
       await page.keyboard.press('Meta+k');
-      await page.waitForTimeout(400);
+      await page.waitForSelector('.palette', { timeout: 4_000 }).catch(() => {});
+      await page.waitForTimeout(200);
     },
     cropSelector: '.palette',
     padding: 24,
@@ -241,10 +270,12 @@ const ENTRIES: readonly Entry[] = [
   {
     name: 'keyboard-shortcuts',
     url: `${SUPERVISOR}/admin/agentes`,
-    waitFor: 'sc-keyboard-shortcuts',
+    // Mismo patrón: sheet solo aparece tras Shift+?
+    waitFor: 'sc-page-header',
     trigger: async (page) => {
       await page.keyboard.press('Shift+?');
-      await page.waitForTimeout(400);
+      await page.waitForSelector('.kbd-sheet', { timeout: 4_000 }).catch(() => {});
+      await page.waitForTimeout(200);
     },
     cropSelector: '.kbd-sheet',
     padding: 24,
@@ -252,26 +283,31 @@ const ENTRIES: readonly Entry[] = [
   {
     name: 'dialog',
     url: `${SUPERVISOR}/admin/agentes/editar/1`,
-    waitFor: 'sc-form-danger-zone',
+    waitFor: 'sc-form-section-nav',
     trigger: async (page) => {
-      // Scroll a la danger zone y click "Eliminar agente"
-      await page.locator('sc-form-danger-zone').scrollIntoViewIfNeeded();
-      await page.locator('sc-form-danger-zone p-button button').click();
-      await page.waitForTimeout(500);
+      await page.locator('sc-form-section-nav a:has-text("Identificación")').click().catch(() => {});
+      await page.waitForSelector('sc-form-danger-zone', { timeout: 4_000 }).catch(() => {});
+      await page.locator('sc-form-danger-zone').scrollIntoViewIfNeeded({ timeout: 4_000 }).catch(() => {});
+      await page.locator('sc-form-danger-zone p-button button').first().click({ timeout: 4_000 }).catch(() => {});
+      await page.waitForSelector('sc-delete-entity-dialog, .p-dialog', { timeout: 4_000 }).catch(() => {});
+      await page.waitForTimeout(400);
     },
-    cropSelector: '.sc-dialog, sc-delete-entity-dialog',
+    cropSelector: 'sc-delete-entity-dialog, .p-dialog',
     padding: 24,
   },
   {
     name: 'delete-entity-dialog',
     url: `${SUPERVISOR}/admin/agentes/editar/1`,
-    waitFor: 'sc-form-danger-zone',
+    waitFor: 'sc-form-section-nav',
     trigger: async (page) => {
-      await page.locator('sc-form-danger-zone').scrollIntoViewIfNeeded();
-      await page.locator('sc-form-danger-zone p-button button').click();
-      await page.waitForTimeout(500);
+      await page.locator('sc-form-section-nav a:has-text("Identificación")').click().catch(() => {});
+      await page.waitForSelector('sc-form-danger-zone', { timeout: 4_000 }).catch(() => {});
+      await page.locator('sc-form-danger-zone').scrollIntoViewIfNeeded({ timeout: 4_000 }).catch(() => {});
+      await page.locator('sc-form-danger-zone p-button button').first().click({ timeout: 4_000 }).catch(() => {});
+      await page.waitForSelector('sc-delete-entity-dialog', { timeout: 4_000 }).catch(() => {});
+      await page.waitForTimeout(400);
     },
-    cropSelector: 'sc-delete-entity-dialog .sc-dialog',
+    cropSelector: 'sc-delete-entity-dialog',
     padding: 24,
   },
   {
@@ -365,12 +401,13 @@ const ENTRIES: readonly Entry[] = [
     url: `${SUPERVISOR}/admin/agentes`,
     waitFor: 'table.table',
     trigger: async (page) => {
-      // Filtrar para forzar empty state
-      await page.locator('sc-search input').first().fill('zzz-no-existe-xxx');
-      await page.waitForTimeout(500);
+      // Filtrar para forzar empty state (search debounce ~300ms)
+      await page.locator('sc-search input').first().fill('zzzz-not-found-xxxx');
+      await page.waitForSelector('sc-empty-state', { timeout: 4_000 }).catch(() => {});
+      await page.waitForTimeout(400);
     },
     cropSelector: 'sc-empty-state',
-    padding: 32,
+    padding: 40,
   },
 
   // ─── Sin consumer real → placeholders ────────────────────────────────
