@@ -15,6 +15,16 @@
 @use '../../../../packages/design-system/styles/sc-overlay-sizes';
 @use '../../../../packages/design-system/styles/sc-animations';
 
+/* SCDS list-table chrome — partial global unscoped. Promovido S55 cuando
+ * cruzó trigger DD-4 (.table-card: 7 consumers consistentes). Los component
+ * SCSS solo mantienen sus deltas. Ver doc en el propio partial.
+ *
+ * NOTA: el .page__inner partial NO se promovió pese a 15 consumers — audit
+ * S55 detectó drift max-width (1600/1400/1200/832 según tipo página) que
+ * NO es safe consolidar sin decisión equipo de diseño. Trigger reabrir:
+ * spec session diseño para definir escala max-width canonical. */
+@use '../../../../packages/design-system/styles/sc-list-table';
+
 /* Design tokens — layered system (primitive → semantic → palette →
  * component → extensions → PrimeNG bridge → dark). Single source of
  * truth lives in `packages/design-system/tokens/`; the orchestrator

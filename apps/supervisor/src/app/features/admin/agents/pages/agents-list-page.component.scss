@@ -78,11 +78,10 @@
   }
 }
 
+/* Base `.table-card` chrome promovido a SCDS partial S55
+ * (`packages/design-system/styles/_sc-list-table.scss`). Delta scoped:
+ * overflow-x:auto para tablas anchas con scroll horizontal. */
 .table-card {
-  background: var(--sc-bg-surface);
-  border: 1px solid var(--sc-border-default);
-  border-radius: var(--sc-radius-200);
-  overflow: hidden;
   overflow-x: auto;
 }
 

@@ -114,12 +114,7 @@
 }
 
 /* ─────────── Table ─────────── */
-.table-card {
-  background: var(--sc-bg-surface);
-  border: 1px solid var(--sc-border-default);
-  border-radius: var(--sc-radius-200);
-  overflow: hidden;
-}
+/* `.table-card` chrome promovido a SCDS partial S55. Sin delta scoped. */
 
 .table {
   width: 100%;

@@ -58,14 +58,13 @@
  * + Memory. Cuando aparezca un 5º consumer, extraer a partial compartido
  * (entry en `inconsistencies-backlog.md`).
  * ------------------------------------------------------------------ */
-/* S53 stitched-card: continua del .memory-conversation-filters arriba.
- * Solo radius en las esquinas inferiores; el `border-top` actúa como
- * hairline divisor compartido con el panel de filtros. */
+/* Base `.table-card` chrome promovido a SCDS partial S55
+ * (`packages/design-system/styles/_sc-list-table.scss`). Delta scoped:
+ * S53 stitched-card pattern — solo radius en esquinas inferiores; el
+ * `border-top` (que viene del partial) actúa como hairline divisor
+ * compartido con el panel de filtros arriba. */
 .table-card {
-  background: var(--sc-bg-surface);
-  border: 1px solid var(--sc-border-default);
   border-radius: 0 0 var(--sc-radius-200) var(--sc-radius-200);
-  overflow: hidden;
 }
 
 .memory-conversations-table {
