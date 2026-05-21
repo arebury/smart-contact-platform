@@ -5,6 +5,112 @@
 
 ---
 
+## Estado al cerrar (Session 58, 2026-05-21)
+
+Sesión maratón con 7 bloques cerrados en main + 4 en branch experiment.
+Hito operativo: instalación skills Leonxlnx/taste-skill + branch experimentación
+aislada. Memoria nueva `feedback_skills_usage_s58` documenta usage.
+
+**Main producción (2 commits)**:
+- `acddb29` — bloques B (audit cross-language), C (audit legacy buscar oro),
+  D (modal Kit Pro audit), F (DTCG export sc-tokens.json), G (lightbox
+  thumbnails ds-docs home).
+- `a3f51ee` — Urbanist 500+600 para títulos display ds-docs (scoped, no AED).
+
+**Branch experiment/beyondui-patterns (5 commits)**:
+- `094d2ba` taste-skill install
+- `c257631` empty trigger Netlify
+- `f64ab1e` Urbanist global + chips badges
+- `583faac` Urbanist scoped ds-docs + chips badges
+- `213ec45` SaaS dashboard moderno /conversaciones (reintento post-Vogue)
+
+**Operativa nueva**:
+- Netlify upgrade a paid €9/mo (free tier agotado S57). Branch deploys
+  activos en ambos sites — `experiment-*--<site>.netlify.app`.
+- MCP Figma autenticado (`plugin:figma:figma` + `figma` console-mcp). Acceso
+  a Kit Pro Variables + componentes via REST API.
+- Skills `Leonxlnx/taste-skill` paquete instalado en branch (12 skills en
+  `.agents/skills/`).
+
+**Estado salud**: tsc/lint/build/husky/i18n verde. Playwright 28/28 verde.
+Backlog updates: #55 (audit cross-language) + #56 (`<sc-confirmpopup>` gap
+reservado). Memory inventory #23 (Help popover toolbar).
+
+---
+
+## 🎯 Bloques S59+ (priorizados — main es PRIORIDAD)
+
+> Rafa S58 ratificó: experimentación visual es SECUNDARIA. El proyecto main
+> tiene la prioridad. Branch experiment se ataca SOLO cuando hay tiempo libre
+> tras cerrar lo de main.
+
+### Main · Pendientes funcionales
+
+**Help popover toolbar `/conversaciones`** (entry inventory #23, P2):
+- Patrón legacy React con 4 enlaces documentación (Calculator/Palette tier-1 +
+  BookOpen/ExternalLink tier-2). Trigger: UX research valida discoverability
+  docs O onboarding stakeholders nuevos.
+- Implementación estimada: 1h (`<p-popover>` + 4 botones + URLs actualizadas
+  post-monorepo).
+
+**Spec session equipo diseño** (dossier S56 preparado, intacto):
+- 6 items dormidos (#14 sc-search clear X, #15 variants formales, #37 form
+  variants, #33 escala `.page__inner` max-width, #49-ext shadows, #50-ext
+  durations). Cuando Rafa convoque, copy-paste dossier desde chat S56.
+
+**Próximo audit token sweep**:
+- Cuando equipo diseño exporte nueva versión `design-tokens.json` del Kit Pro,
+  reabrir audit cruzado vs SCDS. Flujo S54+S58 establecido.
+
+**Backlog deuda SCDS sin trigger reciente**:
+- #6 `<sc-data-table>` / #7 `<sc-select-button>` / #8 `<sc-tag>` — sin consumer
+  real, DD-4 estricto, NO atacar proactivamente.
+- #56 `<sc-confirmpopup>` (S58) — reservado, sin trigger.
+- §10 Memory items #5/#6/#7/#9 (dispatch real backend) — esperar pipeline IA
+  real.
+
+### Branch experiment · solo si hay tiempo
+
+**Re-evaluar /conversaciones SaaS dashboard moderno**:
+- Preview live en `experiment-beyondui-patterns--aedmigration.netlify.app/
+  conversaciones` (commit `213ec45`).
+- Si Rafa lo ve y le gusta dirección: posibles next steps cuando se retome:
+  - Conversation table redesign con status dots prominentes
+  - Bulk modal layout más editorial (sin caer en Vogue)
+  - Player modal redesign
+- Memoria `feedback_skills_usage_s58`: regla "validar con `ui-ux-pro-max`
+  ANTES de codear" + "rediseños grandes en branch, no main".
+
+**Si experimento no cuaja**: branch experiment se mantiene en GitHub como
+referencia visual, pero NO se mergea. Drop merge button hasta que la
+dirección sea clara.
+
+### Dirección estratégica vigente
+
+**Llevar SCDS completo a Figma con flujos conectados** (memoria
+`project_figma_flujos_objetivo_final`):
+- Tokens 1:1 ✅ post-S57 (refactor estructural primitive).
+- Componentes paridad documentada (MIGRATION-INVENTORY).
+- Flujos AED + Memory prototypados en Figma (acción equipo diseño).
+- Code Connect oficial (memoria `feedback_code_connect_dormant`) dormido —
+  trigger pending.
+
+---
+
+## Cómo arrancar S59
+
+1. Leer este doc + entry S58 en [`SESSION-LOG.md`](./SESSION-LOG.md).
+2. **Foco main**, no experiment (Rafa S58 ratificó).
+3. Si Rafa pide trabajo en branch experiment → primero `ui-ux-pro-max
+   --design-system` query para validar dirección visual ANTES de codear
+   (memoria `feedback_skills_usage_s58`).
+4. Si Rafa pasa screenshots referencia visual → usar como ground truth, NO
+   derivar de descripción solo.
+5. Playwright cross-app por inercia tras sweeps grandes (memoria
+   `feedback_playwright_cross_app_inertia`).
+
+---
+
 ## Estado al cerrar (Session 57, 2026-05-21)
 
 Sesión grande con refactor estructural primitive layer SCDS → Kit Pro

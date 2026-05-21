@@ -10,6 +10,136 @@
 
 ---
 
+## 2026-05-21 · Session 58 — Batería grande: audits + lightbox + DTCG + Figma MCP + branch experiment
+
+> Sesión maratón con 7 bloques cerrados (B, C, D, F, G, K en main + A, H, I.1,
+> J en branch experiment). Marcó hito operativo importante: instalación skills
+> Leonxlnx/taste-skill + branch experimentación aislada de main. Memoria nueva
+> `feedback_skills_usage_s58` documenta qué skills funcionaron y cuáles no.
+
+### Hitos por bloque (main)
+
+**B · Audit customs-catalog cross-language** (commit dentro de `acddb29`):
+- Audit cruzado capa semantic SCDS vs Kit Pro JSON (`form.field`, `overlay`,
+  `text.hover`, `surface`, `focus.ring`, `disabled.opacity`).
+- **Decisión NO tokenizar** `--sc-form-field-*` / `--sc-overlay-*-color` /
+  `--sc-text-hover-*` — son preset-native, viven en `sc-preset.ts` (TS), no
+  CSS shadows. Política implícita establecida.
+- `customs-catalog §5.9` + backlog #55 entries.
+
+**C · Audit legacy React Memory vs Angular ("buscar oro")**:
+- 1 gap nuevo detectado: Help popover toolbar `/conversaciones` (4 links
+  documentación tier-1/2, sin equivalente Angular).
+- `memory-migration-inventory §10 #23` con trigger reapertura.
+- Resto items ya catalogados en §10.
+
+**D · Modal Kit Pro audit + decisiones documentadas** (vía Figma MCP):
+- 3 modales Kit Pro extraídos: Dialog (`6738:50209`) + ConfirmDialog
+  (`6738:50207`) + ConfirmPopup (`6738:50208`).
+- Legacy custom modal (`Dle87...906:2763`) auditado — descartado: el Kit Pro
+  NO tiene drag handle ni dividers tampoco. Descarte sc-dialog actual
+  ESTABA ALINEADO con Kit Pro, no era arbitrario.
+- `customs-catalog §5.10` + `11-dialog.md` mapping + backlog #56
+  (`<sc-confirmpopup>` reservado, P3, sin consumer real).
+
+**F · JSON export sc-tokens.json DTCG**:
+- `scripts/export-sc-tokens.mjs` parsea `01-primitive.css` y emite DTCG
+  (260 tokens, 31KB). Resuelve aliases, marca brand custom con
+  `$extensions.sc.custom`.
+- `apps/ds-docs/public/sc-tokens.json` wired a `build:ds-docs`.
+- Botón "Próximamente" del whats-new-v2 → download real `/sc-tokens.json`.
+
+**G · Lightbox thumbnails tracker home ds-docs**:
+- Thumbnails dejan de navegar a la gallery; ahora abren overlay con imagen
+  ampliada (90vw × 90vh, object-fit contain). Cierre con Esc / click backdrop
+  / botón X. Link interno "Ver gallery completa" para conservar atajo.
+
+**K · Urbanist 500+600 para títulos display ds-docs** (commit `a3f51ee`):
+- Cambio scoped solo a ds-docs site (no AED). Cascada a hero title, gallery
+  section titles, footer title via `--dsd-font-display` único.
+- Body sigue Inter, eyebrows mono siguen JetBrains Mono.
+- Skill `ui-ux-pro-max` consultado para typography pairing — devolvió
+  validación Urbanist como elección sólida vs alternativas (Satoshi, Plus
+  Jakarta Sans, Cabinet Grotesk).
+
+### Hitos por bloque (branch experiment/beyondui-patterns)
+
+**A · Branch creada + taste-skill instalado**:
+- `git checkout -b experiment/beyondui-patterns` + `npx skills add
+  Leonxlnx/taste-skill` instaló 12 skills en `.agents/skills/`.
+- Activación branch deploys Netlify (manual dashboard Rafa).
+- URLs preview: `experiment-beyondui-patterns--<site>.netlify.app`.
+
+**H · Urbanist scoped solo a ds-docs en branch** (revertido AED a Inter):
+- Tras intento Urbanist global, Rafa pidió scope. `--dsd-font-sans` ahora
+  hard-coded a Urbanist standalone (no inherita `--sc-font-family-primary`).
+  AED queda con Inter.
+
+**I.1 · BulkTranscriptionModal mixed-state badges**:
+- Audit detectó `heroDeltaHint` string denso difícil parsear.
+- Reescrito a 3 chips iconográficos con `heroBadges` computed:
+  include (verde + Check) / warn (amber + Layers) / exclude (gray +
+  CircleSlash). Patrón Linear/Vercel/Stripe.
+- Copy contextual "Nada para transcribir" en 4 locales (es/en/fr/pt).
+
+**J · /conversaciones reintento SaaS dashboard moderno** (commit `213ec45`):
+- Primer intento (commit `30553b4`) salió "Vogue magazine vibe" (Fraunces
+  italic 112px + warm cream + hero gigante editorial). Skill
+  `redesign-existing-projects` demasiado genérico para SaaS-specific.
+- Reset hard a `583faac` + reintento dirigido: cool grays slate
+  (#f6f8fb bg), Inter throughout (NO Urbanist en AED), surface cards
+  border 1px hairline + radius 12px subtle, glass bulk action bar.
+  Tabla 12-14px row padding, tabular nums, status icon hover scale 1.05.
+- Solo SCSS (cero HTML/TS), scoped via :host del component.
+- Force-push descartó commit Vogue del remote.
+
+### Diálogos críticos S58
+
+**Netlify free tier agotado**:
+- 7 deploys consecutivos en `error+skipped` ambos sites desde commit
+  `a75469d` (S57). Cuota mensual build minutes agotada.
+- Rafa upgradeó al plan paid €9/mo Starter.
+- Empty commit `c257631` triggered re-build branch experiment (Netlify NO
+  recoge pushes retroactivos cuando habilitas branch deploys).
+
+**MCP Figma authentication**:
+- Plugin oficial `plugin:figma:figma` requería OAuth no expuesto como tool
+  Claude Code.
+- Workaround: Rafa abre terminal externo + `claude` + `/mcp` + auth browser.
+- Tras auth: 3 nodos Kit Pro extraídos correctamente (corrección de los
+  node-id que Rafa había confundido inicialmente).
+
+**Modal — preocupación abierta cerrada**:
+- Rafa explayó: tenía modal Figma legacy custom con `Slot` body apilable +
+  `Subheader` separate prop + drag handle visible + hairline dividers. Le
+  preocupaba si replicar lo perdido al adoptar `<sc-dialog>` Kit Pro.
+- Audit MCP confirmó: el Kit Pro tampoco tiene drag handle ni dividers. El
+  descarte de sc-dialog actual estaba alineado con Kit Pro, no era
+  arbitrario. Preocupación disipada.
+
+### Estado salud cierre S58
+
+- main: 2 commits a producción (`acddb29` audits/lightbox/DTCG + `a3f51ee`
+  Urbanist ds-docs).
+- branch `experiment/beyondui-patterns`: 5 commits aislados.
+- tsc · lint · build supervisor · build ds-docs · husky · i18n: verdes.
+- Playwright cross-app **28/28 verde** pre-commit S58.
+- Netlify post-upgrade: deploys retomados. Branch deploys activos.
+
+### Lecciones operativas portables (memoria `feedback_skills_usage_s58`)
+
+- `ui-ux-pro-max` ⭐ usar ANTES de codear para validar dirección visual.
+- `redesign-existing-projects` para piezas concretas (chips OK), NO para
+  reinventar páginas enteras (caso Vogue fail).
+- `gpt-taste` solo landing pages, NO dashboard tool apps.
+- SaaS dashboard ≠ editorial magazine: Inter + cool grays + dense + status
+  dots vs Fraunces + warm cream + hero gigante.
+- Rediseños grandes en branch experiment, NO main.
+- Rafa S58 ratificó: experimentación visual es SECUNDARIA, main es
+  prioridad. Solo cuando hay tiempo.
+
+---
+
 ## 2026-05-21 · Session 57 — Convergencia Kit Pro 1:1 (refactor estructural primitive)
 
 > Sesión grande. Empezó con audit cross-app de drift no documentado
