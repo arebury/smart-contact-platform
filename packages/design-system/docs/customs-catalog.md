@@ -148,7 +148,54 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
   - Datepicker: `sc-datepicker.scss` (extiende formField via [size]).
   - Checkbox: `checkbox.scss` `&--sm / &--lg` con 14/21 px box.
 
-### 4.2 Spacing scale — ✅ Kit Pro 1:1 naming convergence (S57)
+### 4.2 Primitive layer — ✅ Kit Pro 1:1 estructural + naming (S57)
+
+**Refactor final S57**: primitive layer reorganizada para reflejar Kit Pro tal cual. Una sola escala primitive numérica (`--sc-scale-*`) sirve a spacing, padding, font-size, line-height, icon-size (igual que `aura/primitive.scale` en Kit Pro). Border-radius tiene escala dedicada (Kit Pro `aura/primitive.border.radius`).
+
+| Primitive SCDS | Kit Pro origen | Notas |
+|---|---|---|
+| `--sc-scale-*` (34 valores: 24 positivos + 10 negativos) | `aura/primitive.scale.*` | Escala numérica única — base 14 |
+| `--sc-radius-{none/xs/sm/md/lg/xl}` | `aura/primitive.border.radius.*` | Escala dedicada border-radius |
+| `--sc-color-{paleta}-*` (24 paletas) | `aura/primitive.{slate/blue/...}.*` | Colores primitive |
+| `--sc-font-family-*`, `--sc-font-weight-*` | (Kit Pro semantic) | Tipográficos primitive |
+
+**Tokens semantic-derived (alias de primitive)** — preservan API public SCDS:
+
+- `--sc-spacing-*` → `var(--sc-scale-*)` con sufijo idéntico (`--sc-spacing-0-25` = `var(--sc-scale-0-25)`)
+- `--sc-font-size-*` → `var(--sc-scale-*)` (legacy naming 50/75/100/.../900 preservado)
+- `--sc-line-height-*` → `var(--sc-scale-*)` (idem)
+- `--sc-icon-size-{xs/sm/md/default/lg/xl/2xl/3xl}` → `var(--sc-scale-*)` (idem)
+- `--sc-radius-{0/50/100/200/300/400/500}` → `var(--sc-radius-{none/xs/sm/md/lg/xl/2xl})` (legacy numérico preservado)
+
+**Beneficios del refactor estructural**:
+
+1. **Single source of truth numeric**: cambiar `--sc-scale-1` (14px → 16px) propaga automáticamente a font-size, padding, icon-size sin tocar consumers.
+2. **Mapping mecánico Kit Pro JSON ↔ SCDS**: cuando `design-tokens.json` referencia `{scale.0-875}`, SCDS lo expone como `--sc-scale-0-875` literal — sin traducción.
+3. **Cero divergencia naming**: equipo de diseño + devs hablan el mismo idioma.
+4. **API public preservada**: los 1127+ consumers de `--sc-spacing-*`/`--sc-font-size-*` siguen funcionando sin sweep cross-app.
+
+**Política post-S57**:
+- Tokens primitive → SOLO matching exact con Kit Pro Variables (categoría + sufijo).
+- Tokens semantic → naming SCDS libre (`--sc-text-primary`, `--sc-bg-elevated`, `--sc-shadow-card`) — son decisiones de marca SC.
+- Tokens custom (no en Kit Pro) → entry en customs-catalog + collection "Custom" en Figma Variables (acción equipo de diseño).
+
+**Tokens "Custom column" Figma** (a mantener fuera del primitive layer canonical Kit Pro):
+
+| Token | Razón |
+|---|---|
+| `--sc-color-navy-*` (5 steps) | Brand primary SC (vs azure Aura) — §1.1 |
+| `--sc-color-electric-blue-*` (5 steps) | Brand info SC (vs sky Aura) — §1.2 |
+| `--sc-shadow-card-soft`, `--sc-shadow-toast-*` | Brand chrome SC — §2.x |
+| `--sc-z-{sticky-form-header,bulk-action-bar,modal-backdrop,...}` | Pool overlay SC (no en Kit Pro) — §5.8 |
+| `--sc-font-family-mono` | System mono stack (no exportado por Kit Pro) — §5.8 |
+| `--sc-toast-undo-*` | Extension pattern undo SC — §2.1 |
+| `--sc-radius-2xl` (16px), `--sc-radius-full` (9999px) | Steps custom SC fuera escala Kit Pro |
+
+Equipo de diseño formaliza estos en collection "Custom" cuando vincule Figma SC Kit Pro con Variables Importer.
+
+---
+
+### 4.2.legacy Spacing scale — historial (referencia, no acción)
 
 **Histórico**:
 - Hasta S54: `--sc-spacing-*` SCDS usaba escala aditiva entera (4/8/12/16/24/32…); sub-pixel paddings Figma (5.25/8.75/10.5/12.25/15.75/17.5) se escribían raw decimal con comment "off-scale".

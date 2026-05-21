@@ -230,19 +230,22 @@
    *   700 →  scale275  (38.5)
    *   800 →  scale4    (56)
    *   900 →  scale5    (70) */
-  --sc-font-size-50: 10.5px;
-  --sc-font-size-75: 10.5px;
-  --sc-font-size-100: 12.25px;
-  --sc-font-size-200: 14px;
-  --sc-font-size-300: 15.75px;
-  --sc-font-size-400: 17.5px;
-  --sc-font-size-450: 21px;
-  --sc-font-size-500: 24.5px;
-  --sc-font-size-600: 28px;
-  --sc-font-size-650: 31.5px;
-  --sc-font-size-700: 38.5px;
-  --sc-font-size-800: 56px;
-  --sc-font-size-900: 70px;
+  /* Font-size es alias semantic de `--sc-scale-*` (Kit Pro `font.size`
+   * referencia `{scale.X}` directo en design-tokens.json). Naming SCDS
+   * preservado (50/75/100/.../900) — public API. */
+  --sc-font-size-50: var(--sc-scale-0-75);
+  --sc-font-size-75: var(--sc-scale-0-75);
+  --sc-font-size-100: var(--sc-scale-0-875);
+  --sc-font-size-200: var(--sc-scale-1);
+  --sc-font-size-300: var(--sc-scale-1-125);
+  --sc-font-size-400: var(--sc-scale-1-25);
+  --sc-font-size-450: var(--sc-scale-1-5);
+  --sc-font-size-500: var(--sc-scale-1-75);
+  --sc-font-size-600: var(--sc-scale-2);
+  --sc-font-size-650: var(--sc-scale-2-25);
+  --sc-font-size-700: var(--sc-scale-2-75);
+  --sc-font-size-800: var(--sc-scale-4);
+  --sc-font-size-900: var(--sc-scale-5);
 
   /* Line height scale (px) — mapped al PrimeOne `scale*` más cercano
    * preservando proporción harmónica respecto a font-size:
@@ -259,19 +262,21 @@
    *   700 →  scale4    (56)
    *   800 →  scale5    (70)
    *   900 →  scale5    (70) */
-  --sc-line-height-50: 17.5px;
-  --sc-line-height-100: 17.5px;
-  --sc-line-height-200: 21px;
-  --sc-line-height-220: 22.75px;
-  --sc-line-height-300: 24.5px;
-  --sc-line-height-400: 28px;
-  --sc-line-height-450: 31.5px;
-  --sc-line-height-500: 38.5px;
-  --sc-line-height-600: 42px;
-  --sc-line-height-650: 56px;
-  --sc-line-height-700: 56px;
-  --sc-line-height-800: 70px;
-  --sc-line-height-900: 70px;
+  /* Line-height alias semantic de `--sc-scale-*` (Kit Pro `line.height`
+   * referencia `{scale.X}` directo). Naming SCDS preservado. */
+  --sc-line-height-50: var(--sc-scale-1-25);
+  --sc-line-height-100: var(--sc-scale-1-25);
+  --sc-line-height-200: var(--sc-scale-1-5);
+  --sc-line-height-220: var(--sc-scale-1-625);
+  --sc-line-height-300: var(--sc-scale-1-75);
+  --sc-line-height-400: var(--sc-scale-2);
+  --sc-line-height-450: var(--sc-scale-2-25);
+  --sc-line-height-500: var(--sc-scale-2-75);
+  --sc-line-height-600: var(--sc-scale-3);
+  --sc-line-height-650: var(--sc-scale-4);
+  --sc-line-height-700: var(--sc-scale-4);
+  --sc-line-height-800: var(--sc-scale-5);
+  --sc-line-height-900: var(--sc-scale-5);
 
   /* Font weights */
   --sc-font-weight-regular: 400;
@@ -279,89 +284,136 @@
   --sc-font-weight-semibold: 600;
   --sc-font-weight-bold: 700;
 
-  /* ---------- Spacing ----------
-   * Escala MULTIPLICATIVA base 14 (PrimeOne 4.0 `scale*`). Naming 1:1
-   * con Figma SC Prime UI Kit Pro Variables (`scale.0-25`, `scale.0-5`,
-   * etc.) — hablamos el mismo idioma que el equipo de diseño cuando
-   * exporta `design-tokens.json`. Sin mapping mental "scale.X equivale
-   * a --sc-spacing-Y": el sufijo ES el multiplicador.
+  /* ---------- Scale (Kit Pro `aura/primitive.scale`) ----------
+   * Escala PRIMITIVE ÚNICA base 14 (PrimeOne 4.0). Naming 1:1 con Figma
+   * SC Prime UI Kit Pro Variables — sufijo = multiplicador exacto. Esta
+   * escala es la fuente de verdad para spacing/padding/gap/font-size/
+   * line-height/icon-size: en Kit Pro TODO valor numérico referencia
+   * `scale.*` (verificado en design-tokens.json — `font.size`, `padding.x`,
+   * `icon.size`, etc. apuntan a `{scale.X}`).
    *
-   * Mapping → `apps/supervisor/src/assets/tokens/design-tokens.json` §scale:
-   *   0      = 0
-   *   0-125  = 1.75   (focus ring offset / minimal gap)
-   *   0-25   = 3.5
-   *   0-375  = 5.25   (S57 ← cubre paddings sub-pixel Figma exact)
-   *   0-5    = 7
-   *   0-625  = 8.75   (S57 ← cubre paddings sub-pixel Figma exact)
-   *   0-75   = 10.5
-   *   0-875  = 12.25
-   *   1      = 14     ← base
-   *   1-125  = 15.75
-   *   1-143  = 16     (S57 ← Tailwind-aware step)
-   *   1-25   = 17.5   (S57 ← cubre dialog padding Figma exact)
-   *   1-5    = 21
-   *   1-625  = 22.75  (S57)
-   *   1-75   = 24.5
-   *   2      = 28     (S57)
-   *   2-25   = 31.5
-   *   2-5    = 35     (S57)
-   *   2-75   = 38.5
-   *   3      = 42     (S57)
-   *   4      = 56
-   *   5      = 70
+   * Las categorías semánticas (`--sc-spacing-*`, `--sc-font-size-*`,
+   * `--sc-line-height-*`, `--sc-icon-size-*`) viven en 02-semantic.css
+   * como ALIASES de estos primitives. Cero divergencia naming SCDS ↔
+   * Kit Pro JSON.
    *
-   * Migración S54: aditiva 4/8/10/12/16/20/24/32/40/48/64 → decimal
-   * multiplicativa. Migración S57: naming SCDS `--sc-spacing-{50/100/.../900}`
-   * → naming Kit Pro 1:1 `--sc-spacing-{0-25/0-5/.../5}` + 10 tokens
-   * missing añadidos (escala completa Kit Pro). */
-  --sc-spacing-0: 0;
-  --sc-spacing-0-125: 1.75px;
-  --sc-spacing-0-25: 3.5px;
-  --sc-spacing-0-375: 5.25px;
-  --sc-spacing-0-5: 7px;
-  --sc-spacing-0-625: 8.75px;
-  --sc-spacing-0-75: 10.5px;
-  --sc-spacing-0-875: 12.25px;
-  --sc-spacing-1: 14px;
-  --sc-spacing-1-125: 15.75px;
-  --sc-spacing-1-143: 16px;
-  --sc-spacing-1-25: 17.5px;
-  --sc-spacing-1-5: 21px;
-  --sc-spacing-1-625: 22.75px;
-  --sc-spacing-1-75: 24.5px;
-  --sc-spacing-2: 28px;
-  --sc-spacing-2-25: 31.5px;
-  --sc-spacing-2-5: 35px;
-  --sc-spacing-2-75: 38.5px;
-  --sc-spacing-3: 42px;
-  --sc-spacing-4: 56px;
-  --sc-spacing-5: 70px;
+   * Migración S57 (final): `--sc-spacing-*` → primitive `--sc-scale-*`
+   * + aliases derivados. Refactor estructural Kit Pro 1:1 estructural
+   * + naming.
+   *
+   * Mapping completo verificado contra captura Figma SC Prime UI Kit
+   * Pro Variables (34 entries: 24 positivos + 10 negativos):
+   */
+  --sc-scale-0: 0;
 
-  /* ---------- Radius ---------- */
-  --sc-radius-0: 0;
-  --sc-radius-50: 2px;
-  --sc-radius-100: 4px;
-  --sc-radius-200: 6px;
-  --sc-radius-300: 8px;
-  --sc-radius-400: 12px;
-  --sc-radius-500: 16px;
+  /* Positivos */
+  --sc-scale-0-125: 1.75px;
+  --sc-scale-0-25: 3.5px;
+  --sc-scale-0-375: 5.25px;
+  --sc-scale-0-5: 7px;
+  --sc-scale-0-625: 8.75px;
+  --sc-scale-0-75: 10.5px;
+  --sc-scale-0-875: 12.25px;
+  --sc-scale-1: 14px;
+  --sc-scale-1-125: 15.75px;
+  --sc-scale-1-143: 16px;
+  --sc-scale-1-25: 17.5px;
+  --sc-scale-1-5: 21px;
+  --sc-scale-1-625: 22.75px;
+  --sc-scale-1-75: 24.5px;
+  --sc-scale-2: 28px;
+  --sc-scale-2-25: 31.5px;
+  --sc-scale-2-5: 35px;
+  --sc-scale-2-75: 38.5px;
+  --sc-scale-3: 42px;
+  --sc-scale-4: 56px;
+  --sc-scale-5: 70px;
+  --sc-scale-12-5: 175px;
+  --sc-scale-18: 252px;
+  --sc-scale-25: 350px;
+
+  /* Negativos (margins negativos, transform offsets) */
+  --sc-scale-neg-0-25: -3.5px;
+  --sc-scale-neg-0-375: -5.25px;
+  --sc-scale-neg-0-5: -7px;
+  --sc-scale-neg-0-625: -8.75px;
+  --sc-scale-neg-0-75: -10.5px;
+  --sc-scale-neg-0-875: -12.25px;
+  --sc-scale-neg-1: -14px;
+  --sc-scale-neg-1-125: -15.75px;
+  --sc-scale-neg-1-25: -17.5px;
+  --sc-scale-neg-1-5: -21px;
+
+  /* ---------- Spacing (semantic alias de scale) ----------
+   * API public preservada. `--sc-spacing-X` = `var(--sc-scale-X)`.
+   * Cero sweep cross-app necesario tras refactor S57 estructural — los
+   * 1127 hits existentes siguen resolviendo al mismo valor px. */
+  --sc-spacing-0: var(--sc-scale-0);
+  --sc-spacing-0-125: var(--sc-scale-0-125);
+  --sc-spacing-0-25: var(--sc-scale-0-25);
+  --sc-spacing-0-375: var(--sc-scale-0-375);
+  --sc-spacing-0-5: var(--sc-scale-0-5);
+  --sc-spacing-0-625: var(--sc-scale-0-625);
+  --sc-spacing-0-75: var(--sc-scale-0-75);
+  --sc-spacing-0-875: var(--sc-scale-0-875);
+  --sc-spacing-1: var(--sc-scale-1);
+  --sc-spacing-1-125: var(--sc-scale-1-125);
+  --sc-spacing-1-143: var(--sc-scale-1-143);
+  --sc-spacing-1-25: var(--sc-scale-1-25);
+  --sc-spacing-1-5: var(--sc-scale-1-5);
+  --sc-spacing-1-625: var(--sc-scale-1-625);
+  --sc-spacing-1-75: var(--sc-scale-1-75);
+  --sc-spacing-2: var(--sc-scale-2);
+  --sc-spacing-2-25: var(--sc-scale-2-25);
+  --sc-spacing-2-5: var(--sc-scale-2-5);
+  --sc-spacing-2-75: var(--sc-scale-2-75);
+  --sc-spacing-3: var(--sc-scale-3);
+  --sc-spacing-4: var(--sc-scale-4);
+  --sc-spacing-5: var(--sc-scale-5);
+
+  /* ---------- Border radius (Kit Pro `aura/primitive.border.radius`) ----------
+   * Kit Pro tiene escala dedicada border-radius (none/xs/sm/md/lg/xl)
+   * INDEPENDIENTE de `scale.*`. Valores: 0/2/4/6/8/12. SCDS naming Kit
+   * Pro 1:1 + aliases legacy preservar API. `--sc-radius-500` (16px) y
+   * `--sc-radius-full` (9999px) son custom SC sin equivalente Kit Pro. */
+  --sc-radius-none: 0;
+  --sc-radius-xs: 2px;
+  --sc-radius-sm: 4px;
+  --sc-radius-md: 6px;
+  --sc-radius-lg: 8px;
+  --sc-radius-xl: 12px;
+
+  /* Custom SC (no en Kit Pro Variables) */
+  --sc-radius-2xl: 16px;
   --sc-radius-full: 9999px;
 
-  /* ---------- Icon size ----------
-   * Escala extraída de PrimeOne 4.0 (Smart Contact Prime UI Kit Pro,
-   * S54). Cubre los 8 step usados internamente por PrimeNG: radio sm,
-   * checkbox sm/default/lg, datatable sort, toast/message default/lg/xl,
-   * image action/preview, confirm dialog. Para Lucide-angular sigue
-   * funcionando `[size]="14"` literal (Lucide acepta number, no CSS
-   * var) — estos tokens son para SCSS donde algo escala via `width:`. */
-  --sc-icon-size-xs: 7px;
-  --sc-icon-size-sm: 10.5px;
-  --sc-icon-size-md: 12.25px;
-  --sc-icon-size: 14px;
-  --sc-icon-size-lg: 15.75px;
-  --sc-icon-size-xl: 17.5px;
-  --sc-icon-size-2xl: 21px;
-  --sc-icon-size-3xl: 28px;
+  /* Aliases legacy numéricos (preservar API public — cero sweep) */
+  --sc-radius-0: var(--sc-radius-none);
+  --sc-radius-50: var(--sc-radius-xs);
+  --sc-radius-100: var(--sc-radius-sm);
+  --sc-radius-200: var(--sc-radius-md);
+  --sc-radius-300: var(--sc-radius-lg);
+  --sc-radius-400: var(--sc-radius-xl);
+  --sc-radius-500: var(--sc-radius-2xl);
+
+  /* ---------- Icon size (alias semantic de `--sc-scale-*`) ----------
+   * En Kit Pro `icon.size` referencia `{scale.X}` directo (verificado
+   * en chip.icon.size, navigation.submenu.icon.size, etc.). SCDS hereda
+   * el patrón: icon-size NO tiene primitive propia, mapea a scale.
+   * Naming SCDS preservado (xs/sm/md/default/lg/xl/2xl/3xl).
+   *
+   * Para Lucide-angular sigue funcionando `[size]="14"` literal (Lucide
+   * acepta number, no CSS var) — estos tokens son para SCSS donde algo
+   * escala via `width:`. */
+  --sc-icon-size-xs: var(--sc-scale-0-5);
+  --sc-icon-size-sm: var(--sc-scale-0-75);
+  --sc-icon-size-md: var(--sc-scale-0-875);
+  --sc-icon-size: var(--sc-scale-1);
+  --sc-icon-size-default: var(--sc-scale-1);
+  --sc-icon-size-lg: var(--sc-scale-1-125);
+  --sc-icon-size-xl: var(--sc-scale-1-25);
+  --sc-icon-size-2xl: var(--sc-scale-1-5);
+  --sc-icon-size-3xl: var(--sc-scale-2);
 
   /* ---------- Focus ring ----------
    * PrimeOne 4.0 semanticCommon `focusRingWidth: 1`, `focusRingOffset: 2`.
