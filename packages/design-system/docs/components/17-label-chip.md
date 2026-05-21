@@ -88,8 +88,8 @@ Los 4 tokens se inyectan al chip via CSS vars (`--chip-bg`, `--chip-text`, `--ch
 | Token | Uso |
 |-------|-----|
 | `--sc-label-<color>-*` | familia completa por color (bg / text / border / dot) |
-| `--sc-spacing-50` | gap interno y padding xs |
-| `--sc-spacing-100` | padding sm |
+| `--sc-spacing-0-25` | gap interno y padding xs |
+| `--sc-spacing-0-5` | padding sm |
 | `--sc-radius-full` | border-radius (pill) |
 | `--sc-font-size-50` | text xs |
 | `--sc-font-size-100` | text sm |

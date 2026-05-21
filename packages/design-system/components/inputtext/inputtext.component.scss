@@ -16,7 +16,7 @@
 .sc-inputtext {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-50);
+  gap: var(--sc-spacing-0-25);
   min-width: 0;
 }
 
@@ -60,18 +60,18 @@
  * ────────────────────────────────────────────────────────────────────
  */
 .sc-inputtext--sm .sc-inputtext__control {
-  padding-top: 5.25px;
-  padding-bottom: 5.25px;
-  padding-left: 8.75px;
-  padding-right: 8.75px;
+  padding-top: var(--sc-spacing-0-375);
+  padding-bottom: var(--sc-spacing-0-375);
+  padding-left: var(--sc-spacing-0-625);
+  padding-right: var(--sc-spacing-0-625);
   font-size: var(--sc-font-size-100);
 }
 
 .sc-inputtext--lg .sc-inputtext__control {
-  padding-top: 8.75px;
-  padding-bottom: 8.75px;
-  padding-left: 12.25px;
-  padding-right: 12.25px;
+  padding-top: var(--sc-spacing-0-625);
+  padding-bottom: var(--sc-spacing-0-625);
+  padding-left: var(--sc-spacing-0-875);
+  padding-right: var(--sc-spacing-0-875);
   font-size: var(--sc-font-size-300);
 }
 
@@ -113,7 +113,7 @@
 .sc-inputtext__msg {
   display: block;
   min-height: 1.25em;
-  margin-top: var(--sc-spacing-50);
+  margin-top: var(--sc-spacing-0-25);
   /* Figma spec: 12px / Inter Regular / line-height 21px. */
   font-size: var(--sc-font-size-100);
   line-height: 1.45;

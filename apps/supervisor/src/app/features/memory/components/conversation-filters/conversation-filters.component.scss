@@ -10,8 +10,8 @@
 .memory-conversation-filters {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-300);
-  padding: var(--sc-spacing-300);
+  gap: var(--sc-spacing-1-125);
+  padding: var(--sc-spacing-1-125);
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
   border-bottom: 0;
@@ -20,7 +20,7 @@
   &__grid {
     display: grid;
     grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
   }
 
   /* S50 toolbar inline (legacy parity): row de actions con left
@@ -30,22 +30,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--sc-spacing-300);
-    padding-top: var(--sc-spacing-200);
+    gap: var(--sc-spacing-1-125);
+    padding-top: var(--sc-spacing-0-875);
     border-top: 1px solid var(--sc-border-default);
   }
 
   &__actions-left {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
     flex-wrap: wrap;
   }
 
   &__actions-right {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
   }
 
   &__divider {
@@ -53,7 +53,7 @@
     width: 1px;
     height: 24px;
     background: var(--sc-border-default);
-    margin: 0 var(--sc-spacing-100);
+    margin: 0 var(--sc-spacing-0-5);
   }
 
   &__results {
@@ -70,7 +70,7 @@
   }
 
   &__results-sep {
-    margin: 0 var(--sc-spacing-100);
+    margin: 0 var(--sc-spacing-0-5);
     color: var(--sc-text-subtle);
   }
 }
@@ -78,7 +78,7 @@
 @media (max-width: 1280px) {
   .memory-conversation-filters__grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    row-gap: var(--sc-spacing-200);
+    row-gap: var(--sc-spacing-0-875);
   }
 }
 
@@ -164,7 +164,7 @@
 .memory-failed-chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-50);
+  gap: var(--sc-spacing-0-25);
   height: 32px;
   padding: 0 11px;
   border: 1px solid var(--sc-color-red-300);
@@ -205,7 +205,7 @@
   align-items: center;
   justify-content: center;
   min-width: 18px;
-  padding: 0 var(--sc-spacing-100);
+  padding: 0 var(--sc-spacing-0-5);
   height: 18px;
   border-radius: var(--sc-radius-full);
   background: color-mix(in srgb, var(--sc-color-red-200) 80%, transparent);

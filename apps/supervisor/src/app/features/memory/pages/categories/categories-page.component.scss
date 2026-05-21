@@ -13,10 +13,10 @@
   &__inner {
     max-width: 1600px;
     margin: 0 auto;
-    padding: var(--sc-spacing-500) var(--sc-spacing-600);
+    padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25);
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-400);
+    gap: var(--sc-spacing-1-5);
   }
 }
 
@@ -24,8 +24,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sc-spacing-200);
-  padding: var(--sc-spacing-600);
+  gap: var(--sc-spacing-0-875);
+  padding: var(--sc-spacing-2-25);
   background: var(--sc-bg-surface);
   border: 1px dashed var(--sc-border-default);
   border-radius: var(--sc-radius-300);
@@ -65,7 +65,7 @@
 
   thead th {
     text-align: left;
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     border-bottom: 1px solid var(--sc-border-default);
     background: var(--sc-bg-default);
     font-size: var(--sc-font-size-50);
@@ -86,7 +86,7 @@
   }
 
   tbody td {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     vertical-align: middle;
@@ -132,7 +132,7 @@
   }
 
   &__group {
-    margin-left: var(--sc-spacing-50);
+    margin-left: var(--sc-spacing-0-25);
     color: var(--sc-text-secondary);
     font-size: 0.75rem;
     font-weight: 400;

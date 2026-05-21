@@ -560,7 +560,7 @@ make the two action buttons fill the footer 50/50, while
 `<aed-modal>`'s default footer stays flush-right. Implemented by
 wrapping the projected buttons in a single
 `<div modal-actions class="confirm-host__actions">` with
-`display: flex; flex: 1 1 auto; gap: var(--sc-spacing-600)` and
+`display: flex; flex: 1 1 auto; gap: var(--sc-spacing-2-25)` and
 `flex: 1 1 0` on each child `.btn`. The `:host ::ng-deep` rule lives
 at the top of `confirm-host.component.scss` (not nested under
 `.aed-modal {}` — `:host` cannot be a descendant of an arbitrary

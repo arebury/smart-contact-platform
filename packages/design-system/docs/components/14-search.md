@@ -116,7 +116,7 @@ Hereda de `sc-preset.ts → semantic.formField.*` (border, radius, padding,
 focus ring) — mismo bridge que `sc-inputtext`. NO redefine tokens propios.
 
 Específicos del componente:
-- `--sc-spacing-200/150` — padding right reservado para clear/kbd slot.
+- `--sc-spacing-0-875/150` — padding right reservado para clear/kbd slot.
 - `--sc-bg-elevated` — fondo del kbd hint.
 - `--sc-text-subtle` — color del kbd + icon search.
 - `--sc-color-electric-blue-500` — focus ring del clear button.

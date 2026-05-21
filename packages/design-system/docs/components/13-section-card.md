@@ -95,9 +95,9 @@ Free projection (`<ng-content>`). Pinta cualquier markup dentro: campos `<sc-inp
 | `--sc-border-subtle` | divider header / body |
 | `--sc-radius-300` | border-radius (8px) |
 | `--sc-shadow-card` | sombra de elevación |
-| `--sc-spacing-300/400` | paddings header / body |
-| `--sc-spacing-200` | gap entre icon / title / hint |
-| `--sc-spacing-400` | margin-bottom entre sections consecutivas |
+| `--sc-spacing-1-125/400` | paddings header / body |
+| `--sc-spacing-0-875` | gap entre icon / title / hint |
+| `--sc-spacing-1-5` | margin-bottom entre sections consecutivas |
 | `--sc-text-primary` | title color |
 | `--sc-text-secondary` | hint color |
 | `--sc-form-anchor-offset` | scroll-margin-top para anchor jumps (default 80px) |

@@ -12,8 +12,8 @@
 .multi-rec {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-300);
-  padding: var(--sc-spacing-400) var(--sc-spacing-600);
+  gap: var(--sc-spacing-1-125);
+  padding: var(--sc-spacing-1-5) var(--sc-spacing-2-25);
   background: var(--sc-bg-default);
   border-bottom: 1px solid var(--sc-border-default);
 
@@ -26,7 +26,7 @@
   &__transport {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-300);
+    gap: var(--sc-spacing-1-125);
   }
 
   &__btn {
@@ -168,7 +168,7 @@
   &__labels {
     display: flex;
     width: 100%;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
   }
 
   &__label {
@@ -178,7 +178,7 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 2px;
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     background: transparent;
     border: 0;
     border-radius: var(--sc-radius-100);
@@ -219,7 +219,7 @@
   &__label-meta {
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-50);
+    gap: var(--sc-spacing-0-25);
     font-family: var(--sc-font-family-mono);
     font-size: 11px;
     color: var(--sc-text-subtle);

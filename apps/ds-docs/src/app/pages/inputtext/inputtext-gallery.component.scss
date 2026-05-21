@@ -2,14 +2,14 @@
   max-width: 840px;
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-700);
+  gap: var(--sc-spacing-2-75);
 }
 
 .gallery__head {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-200);
-  padding-bottom: var(--sc-spacing-500);
+  gap: var(--sc-spacing-0-875);
+  padding-bottom: var(--sc-spacing-1-75);
   border-bottom: 1px solid var(--sc-border-default);
 }
 
@@ -55,7 +55,7 @@
     font-family: var(--dsd-font-mono);
     background: var(--sc-bg-elevated);
     border: 1px solid var(--sc-border-default);
-    padding: 1px var(--sc-spacing-100);
+    padding: 1px var(--sc-spacing-0-5);
     border-radius: var(--sc-radius-100);
     font-size: 12px;
   }
@@ -64,7 +64,7 @@
 .gallery__section {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-300);
+  gap: var(--sc-spacing-1-125);
 }
 
 .gallery__h2 {
@@ -87,7 +87,7 @@
     font-family: var(--dsd-font-mono);
     background: var(--sc-bg-elevated);
     border: 1px solid var(--sc-border-default);
-    padding: 1px var(--sc-spacing-100);
+    padding: 1px var(--sc-spacing-0-5);
     border-radius: var(--sc-radius-100);
     font-size: 12px;
   }
@@ -126,7 +126,7 @@
 .gallery__row--grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: var(--sc-spacing-400);
+  gap: var(--sc-spacing-1-5);
 }
 
 .gallery__output {
@@ -136,7 +136,7 @@
 
   code {
     background: var(--sc-bg-secondary-hover);
-    padding: 2px var(--sc-spacing-100);
+    padding: 2px var(--sc-spacing-0-5);
     border-radius: var(--sc-radius-100);
     font-family: ui-monospace, SFMono-Regular, monospace;
     color: var(--sc-text-primary);

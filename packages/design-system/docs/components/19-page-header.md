@@ -79,8 +79,8 @@ Todas las keys pasan por `| translate` internamente — el consumer pasa la i18n
 | `--sc-bg-secondary-subtle` | icon chip background |
 | `--sc-text-primary` | title |
 | `--sc-text-secondary` | subtitle + entity eyebrow |
-| `--sc-spacing-400/500` | padding del header |
-| `--sc-spacing-300` | gap entre icon y title block |
+| `--sc-spacing-1-5/500` | padding del header |
+| `--sc-spacing-1-125` | gap entre icon y title block |
 | `--sc-font-size-300` | title |
 | `--sc-font-size-100` | entity eyebrow (uppercase) |
 | `--sc-font-size-50` | subtitle |

@@ -66,7 +66,7 @@ interface ScToggleSwitchProps {
 | `--sc-bg-primary` | track on (navy) |
 | `--sc-bg-surface` | thumb |
 | `--sc-shadow-card` | thumb elevation |
-| `--sc-spacing-50` | track padding interior |
+| `--sc-spacing-0-25` | track padding interior |
 | Track size | 36×20 px |
 | Thumb size | 16×16 px |
 | Transition | 150ms cubic-bezier |

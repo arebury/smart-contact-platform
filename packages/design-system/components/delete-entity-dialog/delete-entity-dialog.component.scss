@@ -3,8 +3,8 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-300) var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
+    padding: var(--sc-spacing-1-125) var(--sc-spacing-0-875);
     color: var(--sc-text-subtle);
     font-size: 13px;
     line-height: 1.5;
@@ -16,7 +16,7 @@
 
   &__reset {
     align-self: flex-start;
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-100);
     background: transparent;
@@ -44,18 +44,18 @@
   }
 
   &__detail {
-    margin: var(--sc-spacing-200) 0 0;
+    margin: var(--sc-spacing-0-875) 0 0;
     font-size: var(--sc-font-size-100);
     color: var(--sc-text-secondary);
     text-align: center;
   }
 
   &__confirm {
-    margin-top: var(--sc-spacing-400);
+    margin-top: var(--sc-spacing-1-5);
   }
 
   &__confirm-label {
-    margin: 0 0 var(--sc-spacing-100);
+    margin: 0 0 var(--sc-spacing-0-5);
     font-size: var(--sc-font-size-100);
     color: var(--sc-text-secondary);
   }
@@ -63,9 +63,9 @@
   &__copy-name {
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-100);
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
-    margin-bottom: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
+    margin-bottom: var(--sc-spacing-0-5);
     font-size: var(--sc-font-size-100);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
@@ -90,7 +90,7 @@
 
   &__confirm-input {
     width: 100%;
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     font-family: inherit;
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);
@@ -107,17 +107,17 @@
   &__chips {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--sc-spacing-50);
+    gap: var(--sc-spacing-0-25);
     justify-content: center;
-    margin-top: var(--sc-spacing-200);
+    margin-top: var(--sc-spacing-0-875);
     min-height: 28px;
   }
 
   &__chip {
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-50);
-    padding: 2px var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-25);
+    padding: 2px var(--sc-spacing-0-5);
     font-size: var(--sc-font-size-100);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
@@ -127,8 +127,8 @@
   }
 
   &__chip-remove {
-    width: 14px;
-    height: 14px;
+    width: var(--sc-icon-size-default);
+    height: var(--sc-icon-size-default);
     padding: 0;
     background: transparent;
     border: 0;

@@ -6,8 +6,8 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sc-spacing-500);
-  padding: var(--sc-spacing-400) var(--sc-spacing-500);
+  gap: var(--sc-spacing-1-75);
+  padding: var(--sc-spacing-1-5) var(--sc-spacing-1-75);
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-color-red-200);
   border-radius: var(--sc-radius-300);
@@ -16,7 +16,7 @@
   &__copy {
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-50);
+    gap: var(--sc-spacing-0-25);
     min-width: 0;
     flex: 1 1 auto;
   }

@@ -121,8 +121,8 @@ The runtime entry points are:
 --sc-card-bg: var(--sc-bg-surface);
 --sc-card-border: var(--sc-border-subtle);
 --sc-card-radius: var(--sc-radius-300);
---sc-card-padding-x: var(--sc-spacing-400);
---sc-card-padding-y: var(--sc-spacing-300);
+--sc-card-padding-x: var(--sc-spacing-1-5);
+--sc-card-padding-y: var(--sc-spacing-1-125);
 --sc-card-shadow: var(--sc-shadow-card);
 ```
 

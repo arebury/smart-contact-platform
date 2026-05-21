@@ -280,37 +280,62 @@
   --sc-font-weight-bold: 700;
 
   /* ---------- Spacing ----------
-   * Escala MULTIPLICATIVA base 14 (PrimeOne 4.0 `scale*`). Cada step
-   * mapea al PrimeOne más cercano:
-   *   50  → scale025  (3.5)
-   *   100 → scale05   (7)
-   *   150 → scale075  (10.5)
-   *   200 → scale0875 (12.25)
-   *   250 → scale1    (14)    ← exacto
-   *   300 → scale1125 (15.75)
-   *   400 → scale15   (21)
-   *   500 → scale175  (24.5)
-   *   600 → scale225  (31.5)
-   *   700 → scale275  (38.5)
-   *   800 → scale4    (56)
-   *   900 → scale5    (70)
-   * Anterior: escala aditiva 4/8/10/12/14/16/20/24/32/40/48/64 (custom SC).
-   * Migrado S54 contra tokensprime.json para cerrar drift con Figma SC
-   * Prime UI Kit Pro Variables oficiales. Naming SCDS conservado para no
-   * romper 100% de consumers; solo los valores cambian. */
+   * Escala MULTIPLICATIVA base 14 (PrimeOne 4.0 `scale*`). Naming 1:1
+   * con Figma SC Prime UI Kit Pro Variables (`scale.0-25`, `scale.0-5`,
+   * etc.) — hablamos el mismo idioma que el equipo de diseño cuando
+   * exporta `design-tokens.json`. Sin mapping mental "scale.X equivale
+   * a --sc-spacing-Y": el sufijo ES el multiplicador.
+   *
+   * Mapping → `apps/supervisor/src/assets/tokens/design-tokens.json` §scale:
+   *   0      = 0
+   *   0-125  = 1.75   (focus ring offset / minimal gap)
+   *   0-25   = 3.5
+   *   0-375  = 5.25   (S57 ← cubre paddings sub-pixel Figma exact)
+   *   0-5    = 7
+   *   0-625  = 8.75   (S57 ← cubre paddings sub-pixel Figma exact)
+   *   0-75   = 10.5
+   *   0-875  = 12.25
+   *   1      = 14     ← base
+   *   1-125  = 15.75
+   *   1-143  = 16     (S57 ← Tailwind-aware step)
+   *   1-25   = 17.5   (S57 ← cubre dialog padding Figma exact)
+   *   1-5    = 21
+   *   1-625  = 22.75  (S57)
+   *   1-75   = 24.5
+   *   2      = 28     (S57)
+   *   2-25   = 31.5
+   *   2-5    = 35     (S57)
+   *   2-75   = 38.5
+   *   3      = 42     (S57)
+   *   4      = 56
+   *   5      = 70
+   *
+   * Migración S54: aditiva 4/8/10/12/16/20/24/32/40/48/64 → decimal
+   * multiplicativa. Migración S57: naming SCDS `--sc-spacing-{50/100/.../900}`
+   * → naming Kit Pro 1:1 `--sc-spacing-{0-25/0-5/.../5}` + 10 tokens
+   * missing añadidos (escala completa Kit Pro). */
   --sc-spacing-0: 0;
-  --sc-spacing-50: 3.5px;
-  --sc-spacing-100: 7px;
-  --sc-spacing-150: 10.5px;
-  --sc-spacing-200: 12.25px;
-  --sc-spacing-250: 14px;
-  --sc-spacing-300: 15.75px;
-  --sc-spacing-400: 21px;
-  --sc-spacing-500: 24.5px;
-  --sc-spacing-600: 31.5px;
-  --sc-spacing-700: 38.5px;
-  --sc-spacing-800: 56px;
-  --sc-spacing-900: 70px;
+  --sc-spacing-0-125: 1.75px;
+  --sc-spacing-0-25: 3.5px;
+  --sc-spacing-0-375: 5.25px;
+  --sc-spacing-0-5: 7px;
+  --sc-spacing-0-625: 8.75px;
+  --sc-spacing-0-75: 10.5px;
+  --sc-spacing-0-875: 12.25px;
+  --sc-spacing-1: 14px;
+  --sc-spacing-1-125: 15.75px;
+  --sc-spacing-1-143: 16px;
+  --sc-spacing-1-25: 17.5px;
+  --sc-spacing-1-5: 21px;
+  --sc-spacing-1-625: 22.75px;
+  --sc-spacing-1-75: 24.5px;
+  --sc-spacing-2: 28px;
+  --sc-spacing-2-25: 31.5px;
+  --sc-spacing-2-5: 35px;
+  --sc-spacing-2-75: 38.5px;
+  --sc-spacing-3: 42px;
+  --sc-spacing-4: 56px;
+  --sc-spacing-5: 70px;
 
   /* ---------- Radius ---------- */
   --sc-radius-0: 0;

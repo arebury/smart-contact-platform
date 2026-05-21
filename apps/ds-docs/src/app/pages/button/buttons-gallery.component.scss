@@ -7,16 +7,16 @@
 .gallery {
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--sc-spacing-600) var(--sc-spacing-700);
+  padding: var(--sc-spacing-2-25) var(--sc-spacing-2-75);
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-700);
+  gap: var(--sc-spacing-2-75);
 
   &__head {
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-200);
-    padding-bottom: var(--sc-spacing-500);
+    gap: var(--sc-spacing-0-875);
+    padding-bottom: var(--sc-spacing-1-75);
     border-bottom: 1px solid var(--sc-border-default);
   }
 
@@ -49,7 +49,7 @@
   &__section {
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-300);
+    gap: var(--sc-spacing-1-125);
   }
 
   &__h2 {
@@ -82,9 +82,9 @@
   &__row {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--sc-spacing-300);
+    gap: var(--sc-spacing-1-125);
     align-items: center;
-    padding: var(--sc-spacing-400);
+    padding: var(--sc-spacing-1-5);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-200);

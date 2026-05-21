@@ -109,7 +109,7 @@ Lectura tolerante:
 | `--sc-shadow-popover` | popover elevation |
 | `--sc-text-primary` | label |
 | `--sc-icon-subtle` | grip + lock icons |
-| `--sc-spacing-100/200` | gaps + paddings |
+| `--sc-spacing-0-5/200` | gaps + paddings |
 | Row height | ~32px |
 | Grip + lock icon size | 14px |
 

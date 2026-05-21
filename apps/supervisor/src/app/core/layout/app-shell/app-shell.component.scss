@@ -46,10 +46,10 @@
    */
   &__skip-link {
     position: absolute;
-    top: var(--sc-spacing-200);
-    left: var(--sc-spacing-200);
+    top: var(--sc-spacing-0-875);
+    left: var(--sc-spacing-0-875);
     z-index: var(--sc-z-toast);
-    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    padding: var(--sc-spacing-0-875) var(--sc-spacing-1-125);
     background: var(--sc-bg-primary);
     color: var(--sc-text-on-primary);
     font-size: var(--sc-font-size-100);

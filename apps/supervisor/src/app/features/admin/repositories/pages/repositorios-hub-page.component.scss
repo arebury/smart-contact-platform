@@ -11,11 +11,11 @@
   &__inner {
     max-width: 960px;
     margin: 0 auto;
-    padding: var(--sc-spacing-700) var(--sc-spacing-600);
+    padding: var(--sc-spacing-2-75) var(--sc-spacing-2-25);
   }
 
   &__header {
-    margin-bottom: var(--sc-spacing-700);
+    margin-bottom: var(--sc-spacing-2-75);
   }
 
   &__title {
@@ -29,11 +29,11 @@
   &__categories {
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-700);
+    gap: var(--sc-spacing-2-75);
   }
 
   &__category-title {
-    margin: 0 0 var(--sc-spacing-200);
+    margin: 0 0 var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-50);
     font-weight: var(--sc-font-weight-semibold);
     text-transform: uppercase;
@@ -54,8 +54,8 @@
 .hub-item {
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-300);
-  padding: var(--sc-spacing-300) var(--sc-spacing-400);
+  gap: var(--sc-spacing-1-125);
+  padding: var(--sc-spacing-1-125) var(--sc-spacing-1-5);
   background: var(--sc-bg-surface);
   border: 0;
   border-bottom: 1px solid var(--sc-border-subtle);

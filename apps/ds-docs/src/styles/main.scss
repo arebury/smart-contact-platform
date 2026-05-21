@@ -103,7 +103,7 @@ body {
 /* Anchor headings — when navigating to #anchor in long pages, clear the
  * sticky header. Set per-component when needed; safe global default. */
 :target {
-  scroll-margin-top: calc(var(--sc-spacing-700) + var(--sc-spacing-500));
+  scroll-margin-top: calc(var(--sc-spacing-2-75) + var(--sc-spacing-1-75));
 }
 
 /* ════════════════════════════════════════════════════════════════════
@@ -174,7 +174,7 @@ body {
   }
 
   &__body {
-    padding: var(--sc-spacing-300) 18px;
+    padding: var(--sc-spacing-1-125) 18px;
     overflow-x: auto;
     white-space: pre;
     color: var(--sc-text-primary);

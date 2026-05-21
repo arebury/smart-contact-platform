@@ -9,7 +9,7 @@
    * carries a hover-ring + presence dot that visually extend ~3px past
    * its nominal circle — without the extra room the cluster looks
    * jammed against the viewport edge. */
-  padding: 0 var(--sc-spacing-500) 0 var(--sc-spacing-400);
+  padding: 0 var(--sc-spacing-1-75) 0 var(--sc-spacing-1-5);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -19,7 +19,7 @@
   &__lead {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
     min-width: 0;
   }
 
@@ -91,7 +91,7 @@
     padding: 0;
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
     font-size: var(--sc-font-size-200);
     line-height: var(--sc-line-height-200);
   }
@@ -99,7 +99,7 @@
   &__crumb {
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
   }
 
   &__crumb-sep {
@@ -213,15 +213,15 @@
     /* Drop the popover a touch off the avatar's right edge so it
      * doesn't crowd the topbar's right padding — we want the menu
      * to feel deliberately placed, not jammed under the trigger. */
-    right: calc(-1 * var(--sc-spacing-100));
-    top: calc(100% + var(--sc-spacing-200));
+    right: calc(-1 * var(--sc-spacing-0-5));
+    top: calc(100% + var(--sc-spacing-0-875));
     width: 296px;
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-300);
     box-shadow: var(--sc-shadow-popover);
     z-index: var(--sc-z-popover);
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     /* Spring-feeling enter via cubic-bezier — no library, no JS. */
     animation: top-bar__menu-in 200ms cubic-bezier(0.16, 1, 0.3, 1);
     transform-origin: top right;
@@ -230,8 +230,9 @@
   &__menu-identity {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-200) var(--sc-spacing-300) var(--sc-spacing-200) var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
+    padding: var(--sc-spacing-0-875) var(--sc-spacing-1-125) var(--sc-spacing-0-875)
+      var(--sc-spacing-0-875);
     border-radius: var(--sc-radius-200);
     background: var(--sc-bg-default);
   }
@@ -260,7 +261,7 @@
   }
 
   &__menu-sep {
-    margin: 0 var(--sc-spacing-50);
+    margin: 0 var(--sc-spacing-0-25);
     color: var(--sc-color-gray-300);
   }
 
@@ -298,8 +299,8 @@
   }
 
   &__menu-actions {
-    padding-top: var(--sc-spacing-200);
-    margin-top: var(--sc-spacing-200);
+    padding-top: var(--sc-spacing-0-875);
+    margin-top: var(--sc-spacing-0-875);
     border-top: 1px solid var(--sc-border-subtle);
     display: flex;
     flex-direction: column;
@@ -310,8 +311,8 @@
     width: 100%;
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    gap: var(--sc-spacing-0-875);
+    padding: var(--sc-spacing-0-875) var(--sc-spacing-1-125);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     background: transparent;

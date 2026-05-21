@@ -92,7 +92,7 @@ Ejemplos:
 | `--sc-text-primary` | summary text |
 | `--sc-shadow-popover` | sombra hacia arriba |
 | `--sc-sidebar-width` | left offset (alinea con main column) |
-| `--sc-spacing-300/400` | paddings |
+| `--sc-spacing-1-125/400` | paddings |
 | `--sc-z-overlay` | z-index sobre tabla |
 | Slide-in transition | 200ms ease-out |
 

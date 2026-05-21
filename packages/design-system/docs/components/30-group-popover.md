@@ -79,7 +79,7 @@ Sin outputs. Component view-only.
 | `--sc-shadow-popover` | panel elevation |
 | `--sc-text-primary` | nombres + count |
 | `--sc-text-secondary` | "+N más" |
-| `--sc-spacing-100/200` | gaps + paddings |
+| `--sc-spacing-0-5/200` | gaps + paddings |
 | Panel position | absolute, top + left calculated del trigger |
 | Z-index | popover layer |
 

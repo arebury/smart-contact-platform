@@ -27,10 +27,10 @@
    * every depth onto the same icon column so the column reads as a
    * single, clean strip of icons.
    */
-  --sidebar-pad-l-0: var(--sc-spacing-200);
-  --sidebar-pad-l-1: var(--sc-spacing-600);
-  --sidebar-pad-l-2: var(--sc-spacing-800);
-  --sidebar-pad-l-3: var(--sc-spacing-900);
+  --sidebar-pad-l-0: var(--sc-spacing-0-875);
+  --sidebar-pad-l-1: var(--sc-spacing-2-25);
+  --sidebar-pad-l-2: var(--sc-spacing-4);
+  --sidebar-pad-l-3: var(--sc-spacing-5);
   --sidebar-label-opacity: 0;
 
   position: fixed;
@@ -70,10 +70,10 @@
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
     /* Padding-left is calculated to center the 40 px isotype inside
      * the 64 px collapsed gutter: (64 - 40) / 2 = 12 = spacing-200. */
-    padding: 0 var(--sc-spacing-200);
+    padding: 0 var(--sc-spacing-0-875);
     border-bottom: 1px solid rgb(255 255 255 / 0.08);
     color: inherit;
     text-decoration: none;
@@ -117,10 +117,10 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: var(--sc-spacing-200) 0;
+    padding: var(--sc-spacing-0-875) 0;
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
     scrollbar-width: thin;
     scrollbar-color: rgb(255 255 255 / 0.16) transparent;
   }
@@ -155,7 +155,7 @@
   &__section-title {
     position: absolute;
     inset: 0;
-    padding: 0 var(--sc-spacing-300);
+    padding: 0 var(--sc-spacing-1-125);
     display: flex;
     align-items: center;
     font-size: var(--sc-font-size-50);
@@ -170,8 +170,8 @@
 
   &__section-divider {
     position: absolute;
-    left: var(--sc-spacing-200);
-    right: var(--sc-spacing-200);
+    left: var(--sc-spacing-0-875);
+    right: var(--sc-spacing-0-875);
     top: 50%;
     height: 1px;
     background: var(--sc-color-blue-500);
@@ -197,22 +197,22 @@
   }
 
   &__section-items {
-    margin-top: var(--sc-spacing-50);
+    margin-top: var(--sc-spacing-0-25);
   }
 
   /*
    * Collapsed-state padding overrides:
    *   - Every depth flattens onto a single icon column.
-   *   - The padding value is `--sc-spacing-500` (24 px) so a 16 px icon
+   *   - The padding value is `--sc-spacing-1-75` (24 px) so a 16 px icon
    *     lands centred in the 64 px gutter (24 + 8 = 32 = sidebar midline).
    *   - On hover, the locals revert to the depth-tiered defaults so the
    *     expanded view keeps its tree-like indentation.
    */
   &:not(:hover):not(:focus-within) {
-    --sidebar-pad-l-0: var(--sc-spacing-500);
-    --sidebar-pad-l-1: var(--sc-spacing-500);
-    --sidebar-pad-l-2: var(--sc-spacing-500);
-    --sidebar-pad-l-3: var(--sc-spacing-500);
+    --sidebar-pad-l-0: var(--sc-spacing-1-75);
+    --sidebar-pad-l-1: var(--sc-spacing-1-75);
+    --sidebar-pad-l-2: var(--sc-spacing-1-75);
+    --sidebar-pad-l-3: var(--sc-spacing-1-75);
   }
 
   /* -------- Foot -------- */
@@ -226,7 +226,7 @@
      * padding the icon was offset by `spacing-100` (8 px) and read as
      * misaligned in the collapsed state.
      */
-    padding: var(--sc-spacing-100) 0;
+    padding: var(--sc-spacing-0-5) 0;
     border-top: 1px solid rgb(255 255 255 / 0.08);
   }
 
@@ -234,11 +234,11 @@
     width: 100%;
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
     /* Padding-left flexes from the centred-icon offset (collapsed) to the
      * label-aligned offset (expanded), mirroring the nav items. */
-    padding: var(--sc-spacing-100) var(--sc-spacing-200) var(--sc-spacing-100)
-      var(--sidebar-pad-l-0, var(--sc-spacing-200));
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875) var(--sc-spacing-0-5)
+      var(--sidebar-pad-l-0, var(--sc-spacing-0-875));
     font-size: var(--sc-font-size-100);
     color: rgb(255 255 255 / 0.4);
     background: transparent;

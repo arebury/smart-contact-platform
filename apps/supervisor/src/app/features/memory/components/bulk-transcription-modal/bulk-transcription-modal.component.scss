@@ -36,7 +36,7 @@
   display: flex;
   flex-direction: column;
   /* 24px vertical / 32px horizontal — alineado con padding canonical del DS. */
-  padding: var(--sc-spacing-500) var(--sc-spacing-600);
+  padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25);
 
   &--hero {
     align-items: flex-start;
@@ -66,13 +66,13 @@
   width: 100%;
   flex-direction: column;
   justify-content: center;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-5);
 }
 
 .bulkv26__hero-row {
   display: flex;
   align-items: baseline;
-  gap: var(--sc-spacing-300);
+  gap: var(--sc-spacing-1-125);
 }
 
 .bulkv26__hero-number {
@@ -97,7 +97,7 @@
  * Posiciona absoluto sobre el lado del hero number, float-up + fade. */
 .bulkv26__hero-delta {
   position: absolute;
-  margin-left: var(--sc-spacing-200);
+  margin-left: var(--sc-spacing-0-875);
   font-size: 16px;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
@@ -143,7 +143,7 @@
   width: 100%;
   flex-direction: column;
   justify-content: center;
-  gap: var(--sc-spacing-300);
+  gap: var(--sc-spacing-1-125);
 }
 
 .bulkv26__decision-row {
@@ -151,7 +151,7 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
-  gap: var(--sc-spacing-300);
+  gap: var(--sc-spacing-1-125);
 }
 
 .bulkv26__decision-title {
@@ -173,7 +173,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-5);
   min-height: 1.4em;
   font-size: 14px;
   line-height: 1.4;
@@ -214,10 +214,10 @@
 .bulkv26__error {
   display: flex;
   align-items: flex-start;
-  gap: var(--sc-spacing-200);
+  gap: var(--sc-spacing-0-875);
   border-top: 1px solid var(--sc-color-red-300);
   background: color-mix(in srgb, var(--sc-color-red-100) 60%, transparent);
-  padding: var(--sc-spacing-300) var(--sc-spacing-600);
+  padding: var(--sc-spacing-1-125) var(--sc-spacing-2-25);
 }
 
 .bulkv26__error-icon {

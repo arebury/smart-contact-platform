@@ -21,7 +21,7 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-5);
   cursor: pointer;
   user-select: none;
   font-size: var(--sc-font-size-200);
@@ -36,8 +36,8 @@
   &__input {
     position: absolute;
     inset: 0;
-    width: 17.5px;
-    height: 17.5px;
+    width: var(--sc-spacing-1-25);
+    height: var(--sc-spacing-1-25);
     margin: 0;
     opacity: 0;
     cursor: inherit;
@@ -50,8 +50,8 @@
 
   &__box {
     /* Figma `checkbox/width/height: 17.5` (raw decimal). */
-    width: 17.5px;
-    height: 17.5px;
+    width: var(--sc-spacing-1-25);
+    height: var(--sc-spacing-1-25);
     flex: 0 0 auto;
     /* Figma `checkbox/border/radius: 4`. */
     border-radius: var(--sc-radius-100);
@@ -70,8 +70,8 @@
 
   &__mark {
     /* Figma `checkbox/icon/size: 12.25` (the ✓ glyph). */
-    width: 12.25px;
-    height: 12.25px;
+    width: var(--sc-spacing-0-875);
+    height: var(--sc-spacing-0-875);
     background: transparent;
     border-radius: 1px;
     pointer-events: none;
@@ -92,8 +92,8 @@
     line-height: var(--sc-line-height-100);
     .tri-checkbox__input,
     .tri-checkbox__box {
-      width: 14px;
-      height: 14px;
+      width: var(--sc-spacing-1);
+      height: var(--sc-spacing-1);
     }
     .tri-checkbox__mark {
       width: 9.8px;
@@ -106,8 +106,8 @@
     line-height: var(--sc-line-height-300);
     .tri-checkbox__input,
     .tri-checkbox__box {
-      width: 21px;
-      height: 21px;
+      width: var(--sc-spacing-1-5);
+      height: var(--sc-spacing-1-5);
     }
     .tri-checkbox__mark {
       width: 14.7px;

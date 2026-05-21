@@ -79,7 +79,7 @@ interface ScInlineRenameCellProps {
 | `--sc-icon-subtle` | check + close icons |
 | `--sc-bg-success-subtle` | check button hover |
 | `--sc-bg-secondary-hover` | close button hover |
-| `--sc-spacing-50` | gap input ↔ buttons |
+| `--sc-spacing-0-25` | gap input ↔ buttons |
 | Icon size | 14px |
 
 ## Decisiones de diseño SC

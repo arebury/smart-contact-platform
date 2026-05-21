@@ -50,7 +50,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    padding: var(--sc-spacing-0-875) var(--sc-spacing-1-125);
     border-bottom: 1px solid var(--sc-border-subtle);
     font-size: var(--sc-font-size-100);
     font-weight: var(--sc-font-weight-semibold);
@@ -62,8 +62,8 @@
   &__reset {
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-50);
-    padding: 2px var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-25);
+    padding: 2px var(--sc-spacing-0-5);
     background: transparent;
     border: 0;
     border-radius: var(--sc-radius-100);
@@ -87,7 +87,7 @@
   &__list {
     list-style: none;
     margin: 0;
-    padding: var(--sc-spacing-100) 0;
+    padding: var(--sc-spacing-0-5) 0;
     max-height: 320px;
     overflow-y: auto;
   }
@@ -96,8 +96,8 @@
 .row {
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
-  padding: var(--sc-spacing-50) var(--sc-spacing-200);
+  gap: var(--sc-spacing-0-5);
+  padding: var(--sc-spacing-0-25) var(--sc-spacing-0-875);
   font-size: var(--sc-font-size-200);
   color: var(--sc-text-primary);
   background: var(--sc-bg-surface);
@@ -152,11 +152,11 @@
   &__label-block {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-150);
+    gap: var(--sc-spacing-0-75);
     flex: 1 1 auto;
     min-width: 0;
     cursor: pointer;
-    padding: var(--sc-spacing-50) 0;
+    padding: var(--sc-spacing-0-25) 0;
   }
 
   input[type='checkbox'] {

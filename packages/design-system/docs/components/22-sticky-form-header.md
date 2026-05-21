@@ -118,7 +118,7 @@ Todos los slots aceptan `<span>` o cualquier content; el SCSS los colapsa via `:
 | `--sc-shadow-popover` | sombra sticky |
 | `--sc-text-primary` | name display |
 | `--sc-text-secondary` | entity eyebrow + meta |
-| `--sc-spacing-300/400` | paddings |
+| `--sc-spacing-1-125/400` | paddings |
 | Title font-size | 300 |
 | Eyebrow font-size | 100 (uppercase) |
 | Meta font-size | 50 |

@@ -110,7 +110,7 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
 ### 2.4 Modal body slot stacking
 
 - **Figma**: el body es un free slot sin layout opinionado.
-- **SC**: el body es `display: flex; flex-direction: column; gap: var(--sc-spacing-300)` por defecto. Los hijos directos quedan apilados con gap 16px automático.
+- **SC**: el body es `display: flex; flex-direction: column; gap: var(--sc-spacing-1-125)` por defecto. Los hijos directos quedan apilados con gap 16px automático.
 - **Implementación**: `sc-modal.scss` `.sc-modal__body` block.
 - **Para qué**: el caso 95% de uso del modal en AED es forms verticales (2-5 inputs). Sin gap por defecto, cada consumer reinventaba un wrapper. Ahora `<sc-inputtext>`, `<sc-select>` etc. proyectados directamente quedan separados.
 
@@ -148,11 +148,45 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
   - Datepicker: `sc-datepicker.scss` (extiende formField via [size]).
   - Checkbox: `checkbox.scss` `&--sm / &--lg` con 14/21 px box.
 
-### 4.2 Sub-pixel padding (raw decimals)
+### 4.2 Spacing scale — ✅ Kit Pro 1:1 naming convergence (S57)
 
-- **Figma**: muchos paddings caen en 0.5/0.25 px (10.5, 7, 8.75, 5.25, 12.25, 14, 15.75, 17.5).
-- **SC**: `--sc-spacing-*` scale es entera (4, 8, 12, 16, 24, 32…). NO añadimos tokens decimales para evitar inflar la API.
-- **Solución**: los valores raw px se escriben directamente en el SCSS (sin token) cuando el Figma así lo manda. Comentados con "raw decimal (off-scale)". Aplica a sc-inputtext sizes, sc-select sizes, sc-multiselect sizes, sc-checkbox sizes, formField.paddingX/Y, dialog padding 17.5, tabs padding 14/15.75, tooltip padding 10.5/7.
+**Histórico**:
+- Hasta S54: `--sc-spacing-*` SCDS usaba escala aditiva entera (4/8/12/16/24/32…); sub-pixel paddings Figma (5.25/8.75/10.5/12.25/15.75/17.5) se escribían raw decimal con comment "off-scale".
+- S54: escala SCDS → decimal multiplicativa (3.5/7/10.5/12.25/14/15.75/21/24.5/...) base 14, alineada con PrimeOne 4.0. Naming SCDS `--sc-spacing-{50/100/.../900}` mantenido para no romper consumers.
+- **S57**: naming SCDS renombrado 1:1 con Kit Pro Variables (`--sc-spacing-{0-25/0-5/.../5}`) + 10 tokens missing añadidos (escala completa Kit Pro). Cero divergencia naming SCDS ↔ `design-tokens.json`.
+
+**Principio post-S57**: el sufijo del token ES el multiplicador (× base 14). `scale.0-25` en Kit Pro = `--sc-spacing-0-25` en SCDS = `3.5px`. Sin mapping mental, sin traducción. Cuando el equipo exporta JSON, el matching string→token es mecánico.
+
+**Tabla referencia completa**:
+
+| Kit Pro Variables | SCDS post-S57 | Valor | Notas |
+|---|---|---|---|
+| `scale.0` | `--sc-spacing-0` | 0 | reset |
+| `scale.0-125` | `--sc-spacing-0-125` | 1.75 | focus ring offset (S57 new) |
+| `scale.0-25` | `--sc-spacing-0-25` | 3.5 | gap tight |
+| `scale.0-375` | `--sc-spacing-0-375` | 5.25 | **S57 new** — padding sm vertical |
+| `scale.0-5` | `--sc-spacing-0-5` | 7 | gap default |
+| `scale.0-625` | `--sc-spacing-0-625` | 8.75 | **S57 new** — padding sm horizontal |
+| `scale.0-75` | `--sc-spacing-0-75` | 10.5 | padding md vertical |
+| `scale.0-875` | `--sc-spacing-0-875` | 12.25 | padding md horizontal |
+| `scale.1` | `--sc-spacing-1` | 14 | base unit |
+| `scale.1-125` | `--sc-spacing-1-125` | 15.75 | padding lg horizontal |
+| `scale.1-143` | `--sc-spacing-1-143` | 16 | **S57 new** — Tailwind-aware step |
+| `scale.1-25` | `--sc-spacing-1-25` | 17.5 | **S57 new** — checkbox size, dialog padding |
+| `scale.1-5` | `--sc-spacing-1-5` | 21 | gap medium, checkbox lg size |
+| `scale.1-625` | `--sc-spacing-1-625` | 22.75 | **S57 new** |
+| `scale.1-75` | `--sc-spacing-1-75` | 24.5 | section gap |
+| `scale.2` | `--sc-spacing-2` | 28 | **S57 new** |
+| `scale.2-25` | `--sc-spacing-2-25` | 31.5 | hero spacing |
+| `scale.2-5` | `--sc-spacing-2-5` | 35 | **S57 new** |
+| `scale.2-75` | `--sc-spacing-2-75` | 38.5 | hero gap |
+| `scale.3` | `--sc-spacing-3` | 42 | **S57 new** |
+| `scale.4` | `--sc-spacing-4` | 56 | hero block |
+| `scale.5` | `--sc-spacing-5` | 70 | hero block lg |
+
+**Resultado verificable**: 0 hits literal raw decimal en wrappers SCDS (inputtext, multiselect, select, search, inputgroup, checkbox). Sweep cross-app: ~1127 hits migrados de naming OLD a naming Kit Pro 1:1.
+
+**Política post-S57**: NUNCA añadir tokens `--sc-spacing-*` sin matching `scale.*` en Kit Pro Variables. Si Figma evoluciona la escala, mapping SCDS sigue automático.
 
 ---
 

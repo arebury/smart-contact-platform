@@ -7,12 +7,12 @@
 .rename {
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-50);
+  gap: var(--sc-spacing-0-25);
   width: 100%;
   /* Subtle "edit mode" affordance: bottom underline grows from accent token. */
   background: var(--sc-bg-primary-subtle);
   border-radius: var(--sc-radius-100);
-  padding: 0 var(--sc-spacing-50);
+  padding: 0 var(--sc-spacing-0-25);
   animation: rename-in var(--sc-transition-base) var(--sc-easing-emphasized);
 
   &__input {

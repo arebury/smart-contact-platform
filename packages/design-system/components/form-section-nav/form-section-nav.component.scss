@@ -17,7 +17,7 @@
 .form-nav {
   display: flex;
   flex-direction: column;
-  padding: var(--sc-spacing-300) var(--sc-spacing-200);
+  padding: var(--sc-spacing-1-125) var(--sc-spacing-0-875);
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-200);
@@ -43,8 +43,8 @@
 .form-nav__item {
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-150);
-  padding: var(--sc-spacing-150) var(--sc-spacing-200);
+  gap: var(--sc-spacing-0-75);
+  padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
   border-radius: var(--sc-radius-200);
   color: inherit;
   text-decoration: none;
@@ -121,5 +121,5 @@
   height: 8px;
   border-radius: var(--sc-radius-full);
   background: var(--sc-bg-danger);
-  margin-left: var(--sc-spacing-100);
+  margin-left: var(--sc-spacing-0-5);
 }

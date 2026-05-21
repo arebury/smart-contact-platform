@@ -67,10 +67,10 @@ interface ScEmptyStateProps {
 
 | Token | Uso |
 |-------|-----|
-| `--sc-spacing-300` | gap entre icon / title / body / CTA |
-| `--sc-spacing-200` | margin-bottom adicional bajo el icono |
-| `--sc-spacing-600` | padding vertical del wrapper |
-| `--sc-spacing-400` | padding horizontal del wrapper |
+| `--sc-spacing-1-125` | gap entre icon / title / body / CTA |
+| `--sc-spacing-0-875` | margin-bottom adicional bajo el icono |
+| `--sc-spacing-2-25` | padding vertical del wrapper |
+| `--sc-spacing-1-5` | padding horizontal del wrapper |
 | `--sc-bg-subtle` | fondo del círculo del icono |
 | `--sc-text-subtle` | color del icono dentro del círculo |
 | `--sc-text-primary` | color del title |

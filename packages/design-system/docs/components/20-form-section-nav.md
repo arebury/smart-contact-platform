@@ -81,7 +81,7 @@ interface ScFormSectionNavProps {
 | `--sc-border-default` | borde del nav (no-compact) |
 | `--sc-text-secondary` | link inactive |
 | `--sc-text-primary` | link activo |
-| `--sc-spacing-100/200/300` | paddings + gaps |
+| `--sc-spacing-0-5/200/300` | paddings + gaps |
 | `--sc-radius-100/200` | radius del link + outer card |
 | Icon size | 15px |
 | Transition | 120ms ease |

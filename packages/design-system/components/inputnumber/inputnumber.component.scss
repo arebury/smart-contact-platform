@@ -14,7 +14,7 @@
 .sc-inputnumber {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-50);
+  gap: var(--sc-spacing-0-25);
   min-width: 0;
 }
 
@@ -64,7 +64,7 @@
  * Reserves space via padding-right so the number doesn't bleed under it. */
 .sc-inputnumber__suffix {
   position: absolute;
-  right: var(--sc-spacing-200);
+  right: var(--sc-spacing-0-875);
   top: 50%;
   transform: translateY(-50%);
   color: var(--sc-text-subtle);
@@ -79,7 +79,7 @@
   /* El host setea --sc-inputnumber-suffix-pad calculado del length del
    * suffix (ver suffixPad() en el TS). Fallback 32px ≈ 3 chars para
    * cubrir casos sin el binding aplicado. */
-  padding-right: calc(var(--sc-spacing-200) + var(--sc-inputnumber-suffix-pad));
+  padding-right: calc(var(--sc-spacing-0-875) + var(--sc-inputnumber-suffix-pad));
 }
 
 /* ────────────────────────────────────────────────────────────────────
@@ -130,7 +130,7 @@
 .sc-inputnumber__msg {
   display: block;
   min-height: 1.25em;
-  margin-top: var(--sc-spacing-50);
+  margin-top: var(--sc-spacing-0-25);
   font-size: var(--sc-font-size-100);
   line-height: 1.45;
   color: var(--sc-text-subtle);

@@ -399,7 +399,7 @@ que no se bridgean. Es decisión correcta:
 3. **Override `dialog.shadow` directo en preset** además de `overlay.modal.shadow`. Sólo importa si hay `<p-dialog>` sin wrap (raro en este código).
 4. **Override otras sombras de componentes** (autocomplete.overlay, menu, contextmenu, datepicker.panel) → `--sc-shadow-popover/dropdown` tinted. Coste 10-15 líneas en preset. Beneficio: sombras consistentemente tintadas en todos los popovers PrimeNG.
 5. **Override `disabled.opacity` a 1** (deshabilitar el 60% global) y forzar colores explícitos. Sólo si se quiere uniformidad estricta. Cuestionable.
-6. **Override `icon.size`** a 16 (= `--sc-spacing-300`). Sólo si los iconos internos a 14px chocan visualmente.
+6. **Override `icon.size`** a 16 (= `--sc-spacing-1-125`). Sólo si los iconos internos a 14px chocan visualmente.
 
 ### 7.3. No acciones (correcto como está)
 

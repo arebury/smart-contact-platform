@@ -12,20 +12,20 @@
   transition: padding-bottom var(--sc-transition-base) var(--sc-easing-default);
 
   &--has-selection {
-    padding-bottom: calc(var(--sc-bulk-action-bar-height) + var(--sc-spacing-300));
+    padding-bottom: calc(var(--sc-bulk-action-bar-height) + var(--sc-spacing-1-125));
   }
 
   &__inner {
     max-width: 1400px;
     margin: 0 auto;
-    padding: var(--sc-spacing-500) var(--sc-spacing-600);
+    padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25);
   }
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--sc-spacing-400);
+    margin-bottom: var(--sc-spacing-1-5);
   }
 
   &__title {
@@ -43,11 +43,11 @@
   &__panel-anchor {
     position: absolute;
     right: 0;
-    top: calc(100% + var(--sc-spacing-50));
+    top: calc(100% + var(--sc-spacing-0-25));
     z-index: var(--sc-z-dropdown);
 
     &--row {
-      left: var(--sc-spacing-200);
+      left: var(--sc-spacing-0-875);
       right: auto;
     }
   }
@@ -55,8 +55,8 @@
   &__action-bar {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    margin-bottom: var(--sc-spacing-400);
+    gap: var(--sc-spacing-0-875);
+    margin-bottom: var(--sc-spacing-1-5);
   }
 
   &__search {
@@ -69,7 +69,7 @@
   &__footer {
     display: flex;
     justify-content: flex-end;
-    margin-top: var(--sc-spacing-200);
+    margin-top: var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-100);
     color: var(--sc-text-subtle);
   }
@@ -82,7 +82,7 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--sc-spacing-900) var(--sc-spacing-600);
+  padding: var(--sc-spacing-5) var(--sc-spacing-2-25);
   border: 1px dashed var(--sc-border-default);
   border-radius: var(--sc-radius-200);
 
@@ -94,19 +94,19 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: var(--sc-spacing-500);
+    margin-bottom: var(--sc-spacing-1-75);
     border-radius: var(--sc-radius-200);
   }
 
   &__title {
-    margin: 0 0 var(--sc-spacing-100);
+    margin: 0 0 var(--sc-spacing-0-5);
     font-size: var(--sc-font-size-300);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
   }
 
   &__text {
-    margin: 0 0 var(--sc-spacing-500);
+    margin: 0 0 var(--sc-spacing-1-75);
     max-width: 360px;
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-subtle);
@@ -126,7 +126,7 @@
   }
 
   th {
-    padding: var(--sc-spacing-200) var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875) var(--sc-spacing-0-875);
     text-align: left;
     font-size: var(--sc-font-size-50);
     font-weight: var(--sc-font-weight-semibold);
@@ -158,18 +158,18 @@
   }
 
   &__td-check {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     width: 40px;
     cursor: pointer;
   }
 
   &__td-name {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     position: relative;
   }
 
   &__td-desc {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-subtle);
 
@@ -180,19 +180,19 @@
   }
 
   &__td-actions {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     text-align: right;
   }
 
   &__no-results {
-    padding: var(--sc-spacing-800) var(--sc-spacing-200);
+    padding: var(--sc-spacing-4) var(--sc-spacing-0-875);
     text-align: center;
     color: var(--sc-text-subtle);
 
     > lucide-icon {
       display: inline-block;
       color: var(--sc-icon-disabled);
-      margin-bottom: var(--sc-spacing-100);
+      margin-bottom: var(--sc-spacing-0-5);
     }
   }
 
@@ -203,7 +203,7 @@
   }
 
   &__no-results-text {
-    margin-top: var(--sc-spacing-50);
+    margin-top: var(--sc-spacing-0-25);
     font-size: var(--sc-font-size-100);
     color: var(--sc-text-subtle);
   }
@@ -215,7 +215,7 @@
   display: inline-block;
 
   &__btn {
-    padding: var(--sc-spacing-100);
+    padding: var(--sc-spacing-0-5);
     background: transparent;
     border: 0;
     color: var(--sc-icon-subtle);
@@ -239,12 +239,12 @@
   &__panel {
     position: absolute;
     right: 0;
-    top: calc(100% + var(--sc-spacing-50));
+    top: calc(100% + var(--sc-spacing-0-25));
     width: 176px;
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-200);
-    padding: var(--sc-spacing-50) 0;
+    padding: var(--sc-spacing-0-25) 0;
     box-shadow: var(--sc-shadow-popover);
     z-index: var(--sc-z-dropdown);
 
@@ -252,8 +252,8 @@
       width: 100%;
       display: flex;
       align-items: center;
-      gap: var(--sc-spacing-200);
-      padding: var(--sc-spacing-100) var(--sc-spacing-200);
+      gap: var(--sc-spacing-0-875);
+      padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
       font-size: var(--sc-font-size-200);
       color: var(--sc-text-secondary);
       background: transparent;
@@ -279,7 +279,7 @@
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-200);
-  padding: var(--sc-spacing-50) 0;
+  padding: var(--sc-spacing-0-25) 0;
   box-shadow: var(--sc-shadow-popover);
   z-index: var(--sc-z-popover);
 
@@ -287,8 +287,8 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     background: transparent;
@@ -308,8 +308,8 @@
 
 /* Native checkbox styling — keep low-fi look */
 input[type='checkbox'] {
-  width: var(--sc-spacing-300);
-  height: var(--sc-spacing-300);
+  width: var(--sc-spacing-1-125);
+  height: var(--sc-spacing-1-125);
   accent-color: var(--sc-bg-primary);
   cursor: pointer;
   vertical-align: middle;

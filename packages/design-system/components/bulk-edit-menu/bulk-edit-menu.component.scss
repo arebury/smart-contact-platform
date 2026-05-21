@@ -5,13 +5,13 @@
 .bulk-edit {
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-300);
+  gap: var(--sc-spacing-1-125);
   flex-wrap: wrap;
 
   &__pair {
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
   }
 
   &__lead {
@@ -29,6 +29,6 @@
   &__apply {
     flex-shrink: 0;
     height: 36px;
-    padding: 0 var(--sc-spacing-300);
+    padding: 0 var(--sc-spacing-1-125);
   }
 }

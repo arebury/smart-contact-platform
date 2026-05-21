@@ -5,8 +5,8 @@
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-50);
-  padding: 2px var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-25);
+  padding: 2px var(--sc-spacing-0-5);
   font-size: var(--sc-font-size-100);
   font-weight: var(--sc-font-weight-medium);
   background: var(--chip-bg);
@@ -17,7 +17,7 @@
 
   &--xs {
     font-size: var(--sc-font-size-50);
-    padding: 0 var(--sc-spacing-50);
+    padding: 0 var(--sc-spacing-0-25);
   }
 
   &__dot {
@@ -37,7 +37,7 @@
     background: transparent;
     border: 0;
     padding: 0;
-    margin-left: var(--sc-spacing-50);
+    margin-left: var(--sc-spacing-0-25);
     color: inherit;
     cursor: pointer;
     display: inline-flex;

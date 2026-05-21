@@ -64,7 +64,7 @@ NO hay líneas divisorias entre header / body / footer — la jerarquía sale de
 
 ### Body — free projection (`<ng-content>`)
 
-Cualquier markup. **Stacking natural**: el body es `display: flex; flex-direction: column; gap: var(--sc-spacing-300)` por defecto, así que los elementos directos quedan apilados con 16px de gap. Override en el wrapper si necesitas otro layout (grid, horizontal, etc.).
+Cualquier markup. **Stacking natural**: el body es `display: flex; flex-direction: column; gap: var(--sc-spacing-1-125)` por defecto, así que los elementos directos quedan apilados con 16px de gap. Override en el wrapper si necesitas otro layout (grid, horizontal, etc.).
 
 ```html
 <sc-modal title="Editar agente" [visible]="...">

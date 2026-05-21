@@ -21,10 +21,10 @@
   background: var(--sc-bg-surface);
   border-bottom: 1px solid var(--sc-border-default);
   box-shadow: var(--sc-shadow-xs);
-  padding: var(--sc-spacing-300) var(--sc-spacing-600);
+  padding: var(--sc-spacing-1-125) var(--sc-spacing-2-25);
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-400);
+  gap: var(--sc-spacing-1-5);
 }
 
 .page-header__icon {
@@ -81,7 +81,7 @@
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-200);
+  gap: var(--sc-spacing-0-875);
 
   &:empty {
     display: none;

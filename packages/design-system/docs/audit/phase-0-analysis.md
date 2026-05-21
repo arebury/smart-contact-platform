@@ -265,16 +265,16 @@ Se exportan **TODAS** las escalas. Patrón de naming: `--sc-color-<scale>-<step>
 | `--sc-*` | JSON ref | Valor px |
 |---|---|---|
 | `--sc-spacing-0` | spacing-0 | 0 |
-| `--sc-spacing-50` | spacing-50 | 4 |
-| `--sc-spacing-100` | spacing-100 | 8 |
-| `--sc-spacing-200` | spacing-200 | 12 |
-| `--sc-spacing-300` | spacing-300 | 16 |
-| `--sc-spacing-400` | spacing-400 | 20 |
-| `--sc-spacing-500` | spacing-500 | 24 |
-| `--sc-spacing-600` | spacing-600 | 32 |
-| `--sc-spacing-700` | spacing-700 | 40 |
-| `--sc-spacing-800` | spacing-800 | 48 |
-| `--sc-spacing-900` | spacing-900 | 64 |
+| `--sc-spacing-0-25` | spacing-50 | 4 |
+| `--sc-spacing-0-5` | spacing-100 | 8 |
+| `--sc-spacing-0-875` | spacing-200 | 12 |
+| `--sc-spacing-1-125` | spacing-300 | 16 |
+| `--sc-spacing-1-5` | spacing-400 | 20 |
+| `--sc-spacing-1-75` | spacing-500 | 24 |
+| `--sc-spacing-2-25` | spacing-600 | 32 |
+| `--sc-spacing-2-75` | spacing-700 | 40 |
+| `--sc-spacing-4` | spacing-800 | 48 |
+| `--sc-spacing-5` | spacing-900 | 64 |
 
 ### 4.5 Radio
 

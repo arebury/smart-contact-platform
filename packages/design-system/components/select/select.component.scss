@@ -60,11 +60,11 @@
  * ────────────────────────────────────────────────────────────────────
  */
 .sc-select--sm .sc-select__control .p-select-label {
-  padding: 5.25px 8.75px;
+  padding: var(--sc-spacing-0-375) var(--sc-spacing-0-625);
   font-size: var(--sc-font-size-100);
 }
 .sc-select--lg .sc-select__control .p-select-label {
-  padding: 8.75px 12.25px;
+  padding: var(--sc-spacing-0-625) var(--sc-spacing-0-875);
   font-size: var(--sc-font-size-300);
 }
 

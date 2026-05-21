@@ -4,14 +4,14 @@
 
 .bulk-bar {
   position: fixed;
-  bottom: var(--sc-spacing-400);
-  left: calc(var(--sc-sidebar-width) + var(--sc-spacing-500));
-  right: var(--sc-spacing-500);
-  padding: var(--sc-spacing-300);
+  bottom: var(--sc-spacing-1-5);
+  left: calc(var(--sc-sidebar-width) + var(--sc-spacing-1-75));
+  right: var(--sc-spacing-1-75);
+  padding: var(--sc-spacing-1-125);
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--sc-spacing-300) var(--sc-spacing-500);
+  gap: var(--sc-spacing-1-125) var(--sc-spacing-1-75);
   background: var(--sc-bg-surface);
   color: var(--sc-text-primary);
   z-index: var(--sc-z-bulk-action-bar);
@@ -21,7 +21,7 @@
   &__summary {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
     font-size: var(--sc-font-size-200);
     line-height: var(--sc-line-height-220);
     font-weight: var(--sc-font-weight-medium);
@@ -35,8 +35,8 @@
     background: transparent;
     border: 0;
     color: var(--sc-icon-secondary);
-    padding: var(--sc-spacing-50);
-    margin-left: var(--sc-spacing-50);
+    padding: var(--sc-spacing-0-25);
+    margin-left: var(--sc-spacing-0-25);
     cursor: pointer;
     border-radius: var(--sc-radius-100);
     transition:
@@ -61,7 +61,7 @@
   &__actions {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-300);
+    gap: var(--sc-spacing-1-125);
     flex: 1 1 auto;
     min-width: 0;
     justify-content: flex-end;

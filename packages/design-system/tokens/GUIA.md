@@ -120,7 +120,7 @@ nunca:
 Son los valores absolutos sin contexto. Como decir "azul 500" sin
 explicar para qué.
 
-Ejemplos: `--sc-color-blue-500`, `--sc-spacing-300`,
+Ejemplos: `--sc-color-blue-500`, `--sc-spacing-1-125`,
 `--sc-radius-200`.
 
 **Planta 2 — semántica**
@@ -798,7 +798,7 @@ si ves uno nuevo, lo arreglamos al momento.
 - **Spacing + font-size + line-height = escala decimal PrimeOne
   (S54).** Antes: aditiva (4/8/12/16/24/32/...). Ahora: multiplicativa
   base 14 (3.5/7/10.5/14/15.75/21/24.5/28/...). Naming SCDS conservado
-  (`--sc-spacing-100` sigue siendo el nombre, solo el VALOR cambia
+  (`--sc-spacing-0-5` sigue siendo el nombre, solo el VALOR cambia
   de 8 a 7px). Razón: alinear 1:1 con el Kit Pro Figma. Si una pantalla
   se ve "más apretada" que antes, es esto y es intencional.
 

@@ -14,18 +14,18 @@ sc-inputgroup.tag-input {
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-5);
   list-style: none;
-  margin: var(--sc-spacing-200) 0 0;
+  margin: var(--sc-spacing-0-875) 0 0;
   padding: 0;
 }
 
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-5);
   height: 26px;
-  padding: 0 var(--sc-spacing-200);
+  padding: 0 var(--sc-spacing-0-875);
   background: var(--sc-bg-secondary-subtle);
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-full);
@@ -58,13 +58,13 @@ sc-inputgroup.tag-input {
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-5);
 }
 
 .visibility {
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-200);
+  gap: var(--sc-spacing-0-875);
   cursor: pointer;
   font-size: var(--sc-font-size-100);
 
@@ -106,17 +106,17 @@ sc-inputgroup.tag-input {
 
 .events-list {
   list-style: none;
-  margin: var(--sc-spacing-100) 0 0;
+  margin: var(--sc-spacing-0-5) 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-5);
 }
 
 .event {
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-5);
   cursor: pointer;
   font-size: var(--sc-font-size-100);
   color: var(--sc-text-secondary);
@@ -130,7 +130,7 @@ sc-inputgroup.tag-input {
 }
 
 .field__caption {
-  margin: 0 0 var(--sc-spacing-100);
+  margin: 0 0 var(--sc-spacing-0-5);
   font-size: var(--sc-font-size-50);
   line-height: 18px;
   color: var(--sc-text-subtle);

@@ -88,7 +88,7 @@ interface ShortcutGroup {
 | `--sc-text-secondary` | group title (uppercase) |
 | `--sc-shadow-popover-lg` | dialog elevation |
 | `--sc-radius-300` | corners |
-| `--sc-spacing-200/300/400` | paddings |
+| `--sc-spacing-0-875/300/400` | paddings |
 | `<kbd>` typography | monospace, 11px |
 
 ## Decisiones de diseño SC

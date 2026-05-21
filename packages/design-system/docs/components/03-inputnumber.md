@@ -118,8 +118,8 @@ agentsCtrl = new FormControl<number | null>(null, [
 Hereda de `sc-preset.ts → semantic.formField.*` (border, radius, padding, focus ring) y de `--sc-color-gray-*` (text colors).
 
 Específicos del componente:
-- `--sc-spacing-50` — gap label/input/helper
-- `--sc-spacing-200` — padding horizontal interno
+- `--sc-spacing-0-25` — gap label/input/helper
+- `--sc-spacing-0-875` — padding horizontal interno
 - `--sc-font-size-100/200/300` — escala suffix por size
 - `--sc-text-subtle` — color suffix
 - `--sc-text-danger` — color error

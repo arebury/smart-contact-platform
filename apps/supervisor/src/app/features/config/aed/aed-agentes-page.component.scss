@@ -15,8 +15,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--sc-spacing-100);
-    padding: var(--sc-spacing-200) var(--sc-spacing-300);
+    gap: var(--sc-spacing-0-5);
+    padding: var(--sc-spacing-0-875) var(--sc-spacing-1-125);
     background: var(--sc-bg-secondary-subtle);
     border: 0;
     cursor: pointer;
@@ -49,7 +49,7 @@
   }
 
   &__body {
-    padding: var(--sc-spacing-300);
+    padding: var(--sc-spacing-1-125);
     background: var(--sc-bg-surface);
   }
 }

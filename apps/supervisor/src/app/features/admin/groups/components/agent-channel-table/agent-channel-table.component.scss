@@ -1,13 +1,13 @@
 .actbl {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-300);
+  gap: var(--sc-spacing-1-125);
 
   // ---- head: unified query input + counter ----
   &__head {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-300);
+    gap: var(--sc-spacing-1-125);
     flex-wrap: wrap;
   }
 
@@ -21,15 +21,15 @@
 
   &__query-icon {
     position: absolute;
-    left: var(--sc-spacing-200);
+    left: var(--sc-spacing-0-875);
     color: var(--sc-text-subtle);
     pointer-events: none;
   }
 
   &__query-input {
     width: 100%;
-    padding: var(--sc-spacing-100) var(--sc-spacing-200) var(--sc-spacing-100)
-      calc(var(--sc-spacing-200) + 18px + var(--sc-spacing-100));
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875) var(--sc-spacing-0-5)
+      calc(var(--sc-spacing-0-875) + 18px + var(--sc-spacing-0-5));
     height: 32px;
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);
@@ -52,11 +52,11 @@
 
   &__query-clear {
     position: absolute;
-    right: var(--sc-spacing-100);
+    right: var(--sc-spacing-0-5);
     background: transparent;
     border: 0;
     border-radius: var(--sc-radius-100);
-    padding: var(--sc-spacing-50);
+    padding: var(--sc-spacing-0-25);
     color: var(--sc-text-subtle);
     cursor: pointer;
     display: inline-flex;
@@ -73,9 +73,9 @@
   &__suggest {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
     flex-wrap: wrap;
-    padding: var(--sc-spacing-150) var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
     background: var(--sc-bg-primary-subtle);
     border: 1px dashed var(--sc-color-blue-300);
     border-radius: var(--sc-radius-100);
@@ -90,14 +90,14 @@
   &__suggest-chips {
     display: inline-flex;
     flex-wrap: wrap;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
   }
 
   &__suggest-chip {
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-50);
-    padding: 4px var(--sc-spacing-150);
+    gap: var(--sc-spacing-0-25);
+    padding: 4px var(--sc-spacing-0-75);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-full);
@@ -133,8 +133,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-600) var(--sc-spacing-400);
+    gap: var(--sc-spacing-0-875);
+    padding: var(--sc-spacing-2-25) var(--sc-spacing-1-5);
     text-align: center;
     color: var(--sc-text-subtle);
     border: 1px dashed var(--sc-border-default);
@@ -153,7 +153,7 @@
   }
 
   &__empty-title {
-    margin: var(--sc-spacing-100) 0 0;
+    margin: var(--sc-spacing-0-5) 0 0;
     font-size: var(--sc-font-size-200);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
@@ -177,7 +177,7 @@
       font-weight: var(--sc-font-weight-medium);
       color: var(--sc-text-secondary);
       font-size: var(--sc-font-size-100);
-      padding: var(--sc-spacing-150) var(--sc-spacing-200);
+      padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
       border-bottom: 1px solid var(--sc-border-default);
       vertical-align: middle;
     }
@@ -208,7 +208,7 @@
     }
 
     td {
-      padding: var(--sc-spacing-150) var(--sc-spacing-200);
+      padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
       border-bottom: 1px solid var(--sc-border-subtle);
       vertical-align: middle;
     }
@@ -221,7 +221,7 @@
   &__td-name {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
     flex-wrap: wrap;
   }
 
@@ -238,15 +238,16 @@
     display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--sc-spacing-50);
+    gap: var(--sc-spacing-0-25);
   }
 
   &__chip {
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-50);
-    padding: var(--sc-spacing-50) var(--sc-spacing-150) var(--sc-spacing-50) var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-25);
+    padding: var(--sc-spacing-0-25) var(--sc-spacing-0-75) var(--sc-spacing-0-25)
+      var(--sc-spacing-0-5);
     border-radius: var(--sc-radius-full);
     border: 1px solid var(--sc-border-default);
     background: var(--sc-bg-surface);
@@ -310,7 +311,7 @@
     background: transparent;
     border: 0;
     border-radius: var(--sc-radius-100);
-    padding: var(--sc-spacing-50);
+    padding: var(--sc-spacing-0-25);
     color: var(--sc-text-subtle);
     cursor: pointer;
     display: inline-flex;
@@ -328,7 +329,7 @@
   }
 
   &__no-results {
-    padding: var(--sc-spacing-300);
+    padding: var(--sc-spacing-1-125);
     text-align: center;
     color: var(--sc-text-subtle);
   }
@@ -336,13 +337,13 @@
   // ---- bulk bar (overlay-style — doesn't push content per no-CLS rule) ----
   &__bulkbar {
     position: sticky;
-    bottom: var(--sc-spacing-300);
+    bottom: var(--sc-spacing-1-125);
     align-self: stretch;
-    margin-top: var(--sc-spacing-200);
+    margin-top: var(--sc-spacing-0-875);
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-150) var(--sc-spacing-300);
+    gap: var(--sc-spacing-0-875);
+    padding: var(--sc-spacing-0-75) var(--sc-spacing-1-125);
     background: var(--sc-color-blue-700);
     color: var(--sc-color-gray-0);
     border-radius: var(--sc-radius-200);

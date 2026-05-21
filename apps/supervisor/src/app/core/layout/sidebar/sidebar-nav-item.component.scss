@@ -6,8 +6,8 @@
   width: 100%;
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
-  padding: var(--sc-spacing-100) var(--sc-spacing-200);
+  gap: var(--sc-spacing-0-5);
+  padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
   font-size: var(--sc-font-size-200);
   line-height: var(--sc-line-height-200);
   text-align: left;
@@ -26,18 +26,18 @@
    * overrides these locals to flatten every depth onto the icon column.
    */
   &[data-depth='0'] {
-    padding-left: var(--sidebar-pad-l-0, var(--sc-spacing-200));
+    padding-left: var(--sidebar-pad-l-0, var(--sc-spacing-0-875));
   }
   &[data-depth='1'] {
-    padding-left: var(--sidebar-pad-l-1, var(--sc-spacing-600));
+    padding-left: var(--sidebar-pad-l-1, var(--sc-spacing-2-25));
   }
   &[data-depth='2'] {
-    padding-left: var(--sidebar-pad-l-2, var(--sc-spacing-800));
+    padding-left: var(--sidebar-pad-l-2, var(--sc-spacing-4));
   }
   &[data-depth='3'],
   &[data-depth='4'],
   &[data-depth='5'] {
-    padding-left: var(--sidebar-pad-l-3, var(--sc-spacing-900));
+    padding-left: var(--sidebar-pad-l-3, var(--sc-spacing-5));
     font-size: var(--sc-font-size-100);
     line-height: var(--sc-line-height-100);
   }

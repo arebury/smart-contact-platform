@@ -20,7 +20,7 @@
  * ------------------------------------------------------------------ */
 .grid {
   display: grid;
-  gap: var(--sc-spacing-300);
+  gap: var(--sc-spacing-1-125);
 
   &--2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -40,8 +40,8 @@
   &--inline {
     flex-direction: row;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    margin-top: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
+    margin-top: var(--sc-spacing-0-875);
   }
 
   &__label,
@@ -59,12 +59,12 @@
 
   &__hint {
     color: var(--sc-text-disabled);
-    margin-left: var(--sc-spacing-50);
+    margin-left: var(--sc-spacing-0-25);
     font-weight: var(--sc-font-weight-regular);
   }
 
   &__input {
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     font-family: inherit;
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);
@@ -94,7 +94,7 @@
   }
 
   &__help {
-    margin-top: var(--sc-spacing-50);
+    margin-top: var(--sc-spacing-0-25);
     font-size: var(--sc-font-size-50);
     color: var(--sc-text-subtle);
   }
@@ -103,7 +103,7 @@
     display: block;
     /* Reserve space so toggling validation doesn't shift layout (DD#16). */
     min-height: 1.25em;
-    margin-top: var(--sc-spacing-50);
+    margin-top: var(--sc-spacing-0-25);
     font-size: var(--sc-font-size-50);
     line-height: 1.25;
     color: var(--sc-text-danger);
@@ -120,7 +120,7 @@
 .checkbox-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: var(--sc-spacing-100) var(--sc-spacing-300);
+  gap: var(--sc-spacing-0-5) var(--sc-spacing-1-125);
 
   /* Tighter columns for service-list rows in user-form, where each
    * service name is short enough to fit comfortably at 180px. */
@@ -132,11 +132,11 @@
 .checkbox-row {
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
+  gap: var(--sc-spacing-0-5);
   font-size: var(--sc-font-size-200);
   color: var(--sc-text-secondary);
   cursor: pointer;
-  padding: var(--sc-spacing-50) 0;
+  padding: var(--sc-spacing-0-25) 0;
 
   > span {
     overflow: hidden;
@@ -161,9 +161,9 @@
 .label-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sc-spacing-150);
+  gap: var(--sc-spacing-0-75);
   min-height: 32px;
-  margin-top: var(--sc-spacing-200);
+  margin-top: var(--sc-spacing-0-875);
 }
 
 /* ------------------------------------------------------------------ *
@@ -179,14 +179,14 @@
 .perm-matrix {
   width: 100%;
   border-collapse: collapse;
-  margin-top: var(--sc-spacing-200);
+  margin-top: var(--sc-spacing-0-875);
 
   &__head {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-150);
-    margin-top: var(--sc-spacing-400);
-    padding-top: var(--sc-spacing-300);
+    gap: var(--sc-spacing-0-75);
+    margin-top: var(--sc-spacing-1-5);
+    padding-top: var(--sc-spacing-1-125);
     border-top: 1px solid var(--sc-border-default);
     color: var(--sc-text-secondary);
   }
@@ -207,7 +207,7 @@
     color: var(--sc-text-subtle);
     font-weight: var(--sc-font-weight-semibold);
     text-align: left;
-    padding: var(--sc-spacing-150) var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
     border-bottom: 1px solid var(--sc-border-default);
   }
 
@@ -240,7 +240,7 @@
 
   tbody th,
   tbody td {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     border-bottom: 1px solid var(--sc-border-subtle, var(--sc-border-default));
     vertical-align: middle;
   }
@@ -275,8 +275,8 @@
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: var(--sc-spacing-100);
-  padding: 3px var(--sc-spacing-200);
+  gap: var(--sc-spacing-0-5);
+  padding: 3px var(--sc-spacing-0-875);
   border-radius: var(--sc-radius-full);
   font-size: var(--sc-font-size-75);
   font-weight: var(--sc-font-weight-medium, 500);

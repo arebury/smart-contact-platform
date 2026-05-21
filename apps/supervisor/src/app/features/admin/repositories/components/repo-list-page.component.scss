@@ -11,26 +11,26 @@
   transition: padding-bottom var(--sc-transition-base) var(--sc-easing-default);
 
   &--has-selection {
-    padding-bottom: calc(var(--sc-bulk-action-bar-height) + var(--sc-spacing-300));
+    padding-bottom: calc(var(--sc-bulk-action-bar-height) + var(--sc-spacing-1-125));
   }
 
   &__inner {
     max-width: 960px;
     margin: 0 auto;
-    padding: var(--sc-spacing-500) var(--sc-spacing-600);
+    padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25);
   }
 
   &__header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: var(--sc-spacing-400);
+    margin-bottom: var(--sc-spacing-1-5);
   }
 
   &__title-block {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
   }
 
   &__icon {
@@ -48,7 +48,7 @@
   &__actions {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
   }
 
   &__create-anchor {
@@ -58,7 +58,7 @@
   &__panel-anchor {
     position: absolute;
     right: 0;
-    top: calc(100% + var(--sc-spacing-50));
+    top: calc(100% + var(--sc-spacing-0-25));
     z-index: var(--sc-z-dropdown);
 
     &--row {
@@ -70,8 +70,8 @@
   &__action-bar {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    margin-bottom: var(--sc-spacing-300);
+    gap: var(--sc-spacing-0-875);
+    margin-bottom: var(--sc-spacing-1-125);
   }
 
   &__search {
@@ -95,7 +95,7 @@
   }
 
   th {
-    padding: var(--sc-spacing-200) var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875) var(--sc-spacing-0-875);
     text-align: left;
     font-size: var(--sc-font-size-50);
     font-weight: var(--sc-font-weight-semibold);
@@ -131,7 +131,7 @@
   }
 
   &__td {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     vertical-align: middle;
@@ -161,19 +161,19 @@
   }
 
   &__td-check {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     width: 32px;
     cursor: pointer;
   }
 
   &__td-actions {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     width: 32px;
     text-align: right;
   }
 
   &__no-results {
-    padding: var(--sc-spacing-700) var(--sc-spacing-200);
+    padding: var(--sc-spacing-2-75) var(--sc-spacing-0-875);
     text-align: center;
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-subtle);
@@ -182,7 +182,7 @@
 
 .status-pill {
   display: inline-block;
-  padding: 2px var(--sc-spacing-100);
+  padding: 2px var(--sc-spacing-0-5);
   font-size: var(--sc-font-size-50);
   font-weight: var(--sc-font-weight-medium);
   border: 1px solid;
@@ -224,7 +224,7 @@
   display: inline-block;
 
   &__btn {
-    padding: var(--sc-spacing-50);
+    padding: var(--sc-spacing-0-25);
     background: transparent;
     border: 0;
     color: var(--sc-icon-subtle);
@@ -248,12 +248,12 @@
   &__panel {
     position: absolute;
     right: 0;
-    top: calc(100% + var(--sc-spacing-50));
+    top: calc(100% + var(--sc-spacing-0-25));
     width: 160px;
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-200);
-    padding: var(--sc-spacing-50) 0;
+    padding: var(--sc-spacing-0-25) 0;
     box-shadow: var(--sc-shadow-popover);
     z-index: var(--sc-z-dropdown);
 
@@ -261,8 +261,8 @@
       width: 100%;
       display: flex;
       align-items: center;
-      gap: var(--sc-spacing-200);
-      padding: var(--sc-spacing-100) var(--sc-spacing-200);
+      gap: var(--sc-spacing-0-875);
+      padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
       font-size: var(--sc-font-size-100);
       color: var(--sc-text-secondary);
       background: transparent;
@@ -287,7 +287,7 @@
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-200);
-  padding: var(--sc-spacing-50) 0;
+  padding: var(--sc-spacing-0-25) 0;
   box-shadow: var(--sc-shadow-popover);
   z-index: var(--sc-z-popover);
 
@@ -295,8 +295,8 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-100);
     color: var(--sc-text-secondary);
     background: transparent;
@@ -315,8 +315,8 @@
 }
 
 input[type='checkbox'] {
-  width: var(--sc-spacing-300);
-  height: var(--sc-spacing-300);
+  width: var(--sc-spacing-1-125);
+  height: var(--sc-spacing-1-125);
   accent-color: var(--sc-bg-primary);
   cursor: pointer;
   vertical-align: middle;

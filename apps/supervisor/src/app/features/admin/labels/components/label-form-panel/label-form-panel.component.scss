@@ -7,23 +7,23 @@
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-200);
-  padding: var(--sc-spacing-300);
+  padding: var(--sc-spacing-1-125);
   box-shadow: var(--sc-shadow-popover);
 
   &__title {
-    margin: 0 0 var(--sc-spacing-200);
+    margin: 0 0 var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-200);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
   }
 
   &__field {
-    margin-bottom: var(--sc-spacing-200);
+    margin-bottom: var(--sc-spacing-0-875);
   }
 
   &__label {
     display: block;
-    margin-bottom: var(--sc-spacing-50);
+    margin-bottom: var(--sc-spacing-0-25);
     font-size: var(--sc-font-size-100);
     color: var(--sc-text-secondary);
   }
@@ -33,28 +33,28 @@
   }
 
   &__error-slot {
-    min-height: var(--sc-spacing-300);
-    margin-top: var(--sc-spacing-50);
+    min-height: var(--sc-spacing-1-125);
+    margin-top: var(--sc-spacing-0-25);
   }
 
   &__error {
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-50);
+    gap: var(--sc-spacing-0-25);
     font-size: var(--sc-font-size-50);
     color: var(--sc-text-danger);
   }
 
   &__actions {
-    margin-top: var(--sc-spacing-300);
+    margin-top: var(--sc-spacing-1-125);
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--sc-spacing-100);
+    gap: var(--sc-spacing-0-5);
   }
 
   &__btn {
-    padding: var(--sc-spacing-100) var(--sc-spacing-300);
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-1-125);
     font-size: var(--sc-font-size-100);
     font-weight: var(--sc-font-weight-medium);
     border-radius: var(--sc-radius-100);

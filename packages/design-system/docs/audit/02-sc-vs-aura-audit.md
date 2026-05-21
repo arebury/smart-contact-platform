@@ -388,8 +388,8 @@ Muestra representativa (las ~30 entradas siguen el mismo patrón):
 
 | AED | Valor / token | Aura | Valor | Status |
 |---|---|---|---|---|
-| `--p-form-field-padding-x` (vía preset) | `--sc-spacing-300` = 16px | `form.field.padding.x = scale.0-75` | 10.5px | 🟠 |
-| `--p-form-field-padding-y` (vía preset) | `--sc-spacing-200` = 12px | `form.field.padding.y = scale.0-5` | 7px | 🟠 |
+| `--p-form-field-padding-x` (vía preset) | `--sc-spacing-1-125` = 16px | `form.field.padding.x = scale.0-75` | 10.5px | 🟠 |
+| `--p-form-field-padding-y` (vía preset) | `--sc-spacing-0-875` = 12px | `form.field.padding.y = scale.0-5` | 7px | 🟠 |
 | `--p-form-field-border-radius` (vía preset) | `--sc-radius-200` = 6px | `form.field.border.radius = md` = 6px | ✅ |
 | `--p-form-field-transition-duration` | `--sc-transition-base` = 200ms | (no equivalent) | 🟠 ⚪ |
 | `--p-form-field-focus-ring.width` | 2px (preset L114) | `form.field.focus.ring.width = 0` | 🔴 |
@@ -483,9 +483,9 @@ clasificó cada uno.
 Geometría (no-color):
 | AED | Valor | Comentario |
 |---|---|---|
-| `--sc-btn-padding-x` | `--sc-spacing-300` = 16px | 🟠 más generoso que Aura form-field-padding |
-| `--sc-btn-padding-y` | `--sc-spacing-200` = 12px | 🟠 idem |
-| `--sc-btn-gap` | `--sc-spacing-100` = 8px | 🟠 ⚪ (no Aura equivalent) |
+| `--sc-btn-padding-x` | `--sc-spacing-1-125` = 16px | 🟠 más generoso que Aura form-field-padding |
+| `--sc-btn-padding-y` | `--sc-spacing-0-875` = 12px | 🟠 idem |
+| `--sc-btn-gap` | `--sc-spacing-0-5` = 8px | 🟠 ⚪ (no Aura equivalent) |
 | `--sc-btn-radius` | `--sc-radius-200` = 6px | ✅ matchea Aura md |
 
 ---

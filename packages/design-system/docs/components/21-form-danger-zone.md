@@ -75,7 +75,7 @@ interface ScFormDangerZoneProps {
 | `--sc-text-danger` | title + button text |
 | `--sc-bg-danger` | button background (default state) |
 | `--sc-bg-danger-hover` | button hover |
-| `--sc-spacing-300/400` | paddings |
+| `--sc-spacing-1-125/400` | paddings |
 | `--sc-radius-200` | border-radius |
 | Trash icon | 14px (lucide Trash2) |
 

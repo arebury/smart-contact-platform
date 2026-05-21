@@ -3,10 +3,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--sc-spacing-300);
+  gap: var(--sc-spacing-1-125);
   /* Reserve tall area so header doesn't shift when list flips empty→populated */
   min-height: 320px;
-  padding: var(--sc-spacing-600) var(--sc-spacing-400);
+  padding: var(--sc-spacing-2-25) var(--sc-spacing-1-5);
   text-align: center;
 
   &__icon {
@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: var(--sc-spacing-200);
+    margin-bottom: var(--sc-spacing-0-875);
   }
 
   &__title {
@@ -37,11 +37,11 @@
   }
 
   &__cta {
-    margin-top: var(--sc-spacing-300);
+    margin-top: var(--sc-spacing-1-125);
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-150);
-    padding: var(--sc-spacing-200) var(--sc-spacing-400);
+    gap: var(--sc-spacing-0-75);
+    padding: var(--sc-spacing-0-875) var(--sc-spacing-1-5);
     border: 1px solid transparent;
     background: var(--sc-bg-primary);
     color: var(--sc-text-on-primary);

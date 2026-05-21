@@ -106,7 +106,7 @@ interface ScImpactPreviewDialogProps {
 | `--sc-icon-subtle` | × icon resting |
 | `--sc-border-subtle` | borde lista + dividers |
 | `--sc-radius-200` | radius lista |
-| `--sc-spacing-100/200/300` | gaps + paddings |
+| `--sc-spacing-0-5/200/300` | gaps + paddings |
 | Item row height | ~40px |
 | List max-height | 280px (scroll si más) |
 

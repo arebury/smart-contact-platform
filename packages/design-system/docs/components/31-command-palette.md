@@ -110,7 +110,7 @@ El componente NO tiene `@Input`s — toda la state vive en `CommandPaletteServic
 | `--sc-text-primary` | label |
 | `--sc-text-secondary` | category headers |
 | `--sc-radius-300` | dialog corners |
-| `--sc-spacing-200/300/400` | paddings + gaps |
+| `--sc-spacing-0-875/300/400` | paddings + gaps |
 | Z-index | top-most overlay |
 
 ## Decisiones de diseño SC

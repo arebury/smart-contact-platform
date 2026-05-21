@@ -12,7 +12,7 @@
   background: var(--sc-bg-surface);
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-200);
-  padding: var(--sc-spacing-50) 0;
+  padding: var(--sc-spacing-0-25) 0;
   box-shadow: var(--sc-shadow-popover);
   z-index: var(--sc-z-popover);
 
@@ -20,8 +20,8 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-200);
-    padding: var(--sc-spacing-100) var(--sc-spacing-200);
+    gap: var(--sc-spacing-0-875);
+    padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     background: transparent;
@@ -90,7 +90,7 @@
     top: 0;
     z-index: 5;
     background: var(--sc-bg-default);
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     text-align: left;
     font-size: var(--sc-font-size-50);
     font-weight: var(--sc-font-weight-semibold);
@@ -123,7 +123,7 @@
    * acababa siendo (0,2,2) > (0,1,1) de `.__id` en el cascade real.
    */
   :where(tbody td) {
-    padding: var(--sc-spacing-200);
+    padding: var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     vertical-align: middle;
@@ -145,7 +145,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    padding: var(--sc-spacing-50);
+    padding: var(--sc-spacing-0-25);
     margin: -4px;
   }
 
@@ -274,7 +274,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--sc-spacing-50) var(--sc-spacing-100);
+  padding: var(--sc-spacing-0-25) var(--sc-spacing-0-5);
   border: 0;
   border-radius: var(--sc-radius-200);
   background: transparent;

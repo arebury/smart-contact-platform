@@ -149,7 +149,7 @@ estilos de la app que no tengan ese contexto.
   Fase 2.
 - **`px` en SCSS partials globales**: `_buttons.scss` `height: 40px`
   (con comentario), `_buttons.scss --sm height: 32px`, `_buttons.scss
-  --icon 32×32`, `_forms.scss padding: 6px var(--sc-spacing-200)`
+  --icon 32×32`, `_forms.scss padding: 6px var(--sc-spacing-0-875)`
   (comentario: 6px off-scale), `_forms.scss min-height: 32px`
   (chip row). Todos comentados como decisiones conscientes off-scale.
 
@@ -159,7 +159,7 @@ estilos de la app que no tengan ese contexto.
 |---|---|---|
 | `var(--sc-color-blue-700)` | ✓ Existe (`#1b273d`, primitive 01) | Brand color real. Difiere 1-bit del `#1c273e` de CLAUDE.md (probablemente la misma decisión redondeada distinto). |
 | `var(--sc-bg-primary)` | ✓ Existe (semantic 02 → blue-700) | Alias correcto. |
-| `var(--sc-spacing-300)` | ✓ Existe (primitive 01 = 16px) | — |
+| `var(--sc-spacing-1-125)` | ✓ Existe (primitive 01 = 16px) | — |
 | `var(--sc-radius-200)` | ✓ Existe (primitive 01 = 6px) | — |
 | `var(--sc-shadow-dialog)` | ✓ Existe (extensions 05) | Tinted con `--sc-shadow-color-rgb`. |
 | `var(--sc-presence-available)` | ✓ Existe (palette 03) | — |

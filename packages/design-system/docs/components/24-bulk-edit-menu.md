@@ -88,7 +88,7 @@ interface ScBulkEditMenuProps {
 | `--sc-bg-surface` | menu background dentro de la bar |
 | `--sc-border-default` | borders de los selects |
 | `--sc-bg-primary` | Aplicar button |
-| `--sc-spacing-100/200` | gaps + paddings |
+| `--sc-spacing-0-5/200` | gaps + paddings |
 | Select height | matches `sc-select` size sm |
 | Chevron icon | 14px (lucide ChevronDown) |
 
