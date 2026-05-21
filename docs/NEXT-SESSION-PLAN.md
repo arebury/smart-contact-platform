@@ -5,6 +5,67 @@
 
 ---
 
+## Estado al cerrar (Session 56, 2026-05-21)
+
+Sesión doble bloque tras critical-sparring de menu S56+ (la mayoría
+"esperar trigger"). User eligió A+B cascada: dossier diseño preparation
++ visual regression expansion. 1 commit a `main` + dossier en chat.
+
+- **A** Dossier spec session equipo de diseño entregado en chat (no md
+  por memoria `feedback_no_audit_docs`). 6 items vivos: #14 sc-search
+  clear icon X · #15 sc-search variants formales sm/md/lg · #37 5
+  wrappers form variants · #33 `.page__inner` escala max-width canonical
+  · #49-ext apetito shadows · #50-ext apetito duration Figma Variables.
+  Por item: contexto + casos reales + 3 opciones + recomendación.
+  Coste sesión equipo: ~4-5h Figma + 1h decisión. Listo para copy-paste
+  cuando Rafa convoque.
+- **B** Visual regression 8→14 baselines (commit `0ebb7ca`). 3 screens
+  nuevos × 2 themes: memory-conversaciones (stitched-card), config-
+  sistema (settings cards), ds-docs-home (tracker thumbnails). agent-
+  form-page NO añadido (verificado: aed-agentes-edit ya cubre
+  Identificación default).
+
+**Estado salud**: tsc/lint/build/husky/i18n verde · Playwright cross-app
+**28/28 verde** (14 smoke + 14 visual regression).
+
+---
+
+## 🎯 Bloques S57+ (priorizados)
+
+### Convocar spec session equipo de diseño (acción Rafa)
+
+Dossier S56 listo en chat. Cuando Rafa convoque sesión con el equipo, 6
+items dormidos cierran de una vez:
+- #14, #15, #37 (Figma variants/icons en Kit Pro)
+- #33 (`.page__inner` escala canonical max-width — desbloquea promoción
+  partial SCDS)
+- #49-ext, #50-ext (apetitos shadows/duration cuando aparezca 2º consumer
+  o Figma evolucione)
+
+Decisiones esperadas del equipo desbloquean ~5h adicionales de trabajo
+SCDS post-sesión (implementación + customs-catalog updates).
+
+### Expandir visual regression baseline (próxima ola)
+
+14 baselines hoy cubren AED list/form + Memory × 2 chromes + Settings +
+ds-docs home/gallery. Candidatos próxima expansión:
+- `rule-builder-page` (Memory complex form chrome — multi-section).
+- `agent-form-page` con sección Grupos activa (form chrome alt-section).
+- AED `repos` list (única página con max-width 960 bucket distinto).
+
+Trigger: tras sweep estructural >10 archivos SCDS o cambio mayor tokens.
+
+### Backlog #6 / #7 / #8 (sc-data-table / sc-select-button / sc-tag)
+
+Sin consumer real. DD-4 estricto. NO atacar proactivamente.
+
+### Próximo audit token sweep
+
+Cuando el equipo pase versión actualizada de `tokensprime.json`, reabrir
+audit cruzado vs SCDS (flujo S54 establecido).
+
+---
+
 ## Estado al cerrar (Session 55, 2026-05-21)
 
 Marathon A+B+C+D+E+F (6 bloques cascada) tras "adelante A B C D E F en

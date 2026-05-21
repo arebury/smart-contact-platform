@@ -10,6 +10,64 @@
 
 ---
 
+## 2026-05-21 · Session 56 — Dossier diseño + visual regression expansion (A+B)
+
+> Tras critical-sparring de menu S56+ (la mayoría de bloques tienen
+> triggers no cumplidos — "esperar equipo", "esperar consumer"), el user
+> eligió A+B cascada: dossier preparation + ampliar red de seguridad
+> visual. Ejecución sin sorpresas, suite verde primer intento.
+
+### Hitos por bloque
+
+**A — Dossier spec session equipo de diseño** (entregado en chat, sin md):
+- 6 items vivos para sesión con el equipo: #14 sc-search clear icon X,
+  #15 sc-search variants formales sm/md/lg, #37 5 wrappers form variants,
+  #33 `.page__inner` escala canonical max-width (5 buckets), #49-ext
+  apetito shadows sticky-footer-top/drag-hover, #50-ext apetito escala
+  duration en Figma SC Variables.
+- Por item: contexto + casos reales (archivos:líneas) + 3 opciones + mi
+  recomendación.
+- No persistido a `docs/` por memoria `feedback_no_audit_docs` —
+  dossiers decay rápido tras sesión externa. User decide si copy-paste a
+  Notion/Slides/email al convocar al equipo.
+- Coste estimado sesión equipo: ~4-5h Figma + 1h decisión. Mi prep
+  completada.
+
+**B — Expandir visual regression baseline 8→14** (commit `0ebb7ca`):
+- 3 screens canonical nuevos × 2 themes = 6 baselines añadidos:
+  - `memory-conversaciones` (stitched-card + conversation-table)
+  - `config-sistema` (settings cards canonical)
+  - `ds-docs-home` (tracker thumbnails contextual)
+- agent-form-page NO añadido — verifiqué que `aed-agentes-edit` baseline
+  existing YA cubre Identificación (default `activeSection = 'agent-
+  section-identity'`). Evitada duplicación silenciosa.
+- Total suite cross-app: **28/28 verde** (14 smoke + 14 visual regression).
+  Tiempo full: 23.1s (vs 30s S55 — pattern serial deterministic).
+- README `tests/e2e/` actualizado con conteo + lista de screens.
+
+### Estado salud cierre S56
+
+- tsc · lint · build · husky · i18n: verdes (i18n 1488 paths × 4 locales).
+- Playwright cross-app: **28/28 verde**.
+- Backlog `inconsistencies-backlog.md`: sin entries nuevas (audit no
+  destapó deuda — todo lo activo ya estaba indexado).
+- Red de seguridad visual: 4 surfaces canonical cubiertas en ambos
+  themes (AED list/form, Memory list × 2 chromes distintos, Settings,
+  ds-docs home/gallery).
+
+### Lecciones operativas portables
+
+- **Verificar baseline existente antes de duplicar**: el plan listaba
+  4 screens nuevos, pero uno (agent-form Identificación) ya era el
+  default capturado por `aed-agentes-edit`. Verificación 30s ahorró
+  baseline redundante. Patrón portable: re-grep `activeSection.set` o
+  similar antes de añadir tests "obvios".
+- **Dossier en chat > md**: ahorra decay. Si Rafa quiere persistir,
+  copy-paste manual a su tool (Notion/Slides). El doc solo viviría hasta
+  cerrar la sesión externa.
+
+---
+
 ## 2026-05-21 · Session 55 — Maratón A+B+C+D+E+F: 6 bloques cascada
 
 > Marathon de 6 bloques tras "adelante A B C D E F en bloques masivos
