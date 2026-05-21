@@ -160,13 +160,24 @@ export const ScPreset = definePreset(Aura, {
     /* Focus ring — already covered by AED's button + form-field
      * styles, but PrimeNG components use this for their own focus
      * affordance. Electric-blue chosen to match the brand "info"
-     * tone — vibrant blue glow visible in Figma input focus state. */
+     * tone — vibrant blue glow visible in Figma input focus state.
+     *
+     * Drift consciente del JSON PrimeOne (que propone navy primary):
+     * a11y exige contraste vibrante vs el border primary enfocado.
+     * Documentado en `docs/customs-catalog.md §1.1`. */
     focusRing: {
       width: '2px',
       style: 'solid',
-      color: 'var(--sc-color-electric-blue-500)',
+      color: 'var(--sc-border-focus)',
       offset: '2px',
     },
+    /* Disabled opacity 0.6 — adopción 1:1 del JSON PrimeOne 4.0
+     * `semanticCommon.disabledOpacity: 60`. Aura default coincide pero
+     * lo declaramos explícito para defensa contra futuros minor updates
+     * que pudieran cambiar el default. NO requiere token CSS SCDS — los
+     * 24 hits `opacity: 0.4-0.6` cross-app son patterns locales
+     * (hover/paused/muted), no disabled canónicos. */
+    disabledOpacity: '0.6',
     formField: {
       /* Padding 10.5/7 — valor EXACTO Figma Smart Contact Prime
        * (`inputtext/padding/x = 10.5`, `inputtext/padding/y = 7`),

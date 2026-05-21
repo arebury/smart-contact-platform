@@ -123,10 +123,14 @@
   --sc-border-warning: var(--sc-color-amber-500);
   --sc-border-warning-subtle: var(--sc-color-amber-200);
   --sc-border-error: var(--sc-color-red-400);
-  /* Focus-ring border — matches the focus outline used by buttons +
-   * form fields (--sc-color-soft-blue-500). Consumed by PrimeNG via
-   * the preset's `focusRing.color`. */
-  --sc-border-focus: var(--sc-color-soft-blue-500);
+  /* Focus-ring border — electric-blue-500 (vibrante saturado). Decisión
+   * consciente DIVERGENTE del JSON PrimeOne (que propone navy primary
+   * #1b273d): el navy oscuro reduce contraste con el border primary del
+   * input enfocado, degradando a11y. Documentado en
+   * `docs/customs-catalog.md §1.1`. Antes apuntaba a `soft-blue-500`
+   * (drift interno con `sc-preset.ts.focusRing.color = electric-blue-500`);
+   * unificado S54 a electric-blue para single source of truth. */
+  --sc-border-focus: var(--sc-color-electric-blue-500);
   --sc-border-danger: var(--sc-color-red-600);
   --sc-border-danger-hover: var(--sc-color-red-700);
   --sc-border-danger-active: var(--sc-color-red-800);
