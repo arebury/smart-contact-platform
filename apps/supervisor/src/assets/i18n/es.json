@@ -153,6 +153,7 @@
       },
       "download_audio_toast": "Descargando audio",
       "download_chat_toast": "Descargando conversación",
+      "download_success": "Exportación lista — JSON descargado",
       "empty": {
         "no_recording_title": "No hay grabación de esta llamada",
         "no_recording_desc": "Sin audio no podemos transcribir. Revisa las reglas de grabación si esperabas que se hubiera guardado.",

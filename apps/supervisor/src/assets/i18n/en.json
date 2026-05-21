@@ -153,6 +153,7 @@
       },
       "download_audio_toast": "Downloading audio",
       "download_chat_toast": "Downloading conversation",
+      "download_success": "Export ready — JSON downloaded",
       "empty": {
         "no_recording_title": "No recording for this call",
         "no_recording_desc": "Without audio we can't transcribe. Review recording rules if you expected this to be saved.",

@@ -373,22 +373,63 @@ export class ConversationPlayerModalComponent {
     readonly chats: boolean;
   }): void {
     this.downloadModalVisible.set(false);
-    // Mock: dispara toasts según las opciones elegidas. En producción real
-    // backend, este handler llama al endpoint con `opts` como payload.
+    const conv = this.conversation();
+    if (!conv) return;
+    // Mock GDPR export: genera blob JSON con metadata + transcripción +
+    // análisis filtrado por `opts`. En producción real backend, este
+    // handler llama al endpoint con `opts` como payload y backend devuelve
+    // un ZIP con audios + transcripciones + análisis estructurado.
+    // Aquí simulamos descarga del JSON estructurado para que el usuario
+    // vea un fichero real bajado (no solo toast informativo).
+    const exportData: Record<string, unknown> = {
+      exported_at: new Date().toISOString(),
+      conversation: {
+        id: conv.id,
+        channel: conv.channel,
+        direction: conv.direction,
+        type: conv.type,
+        duration: conv.duration,
+        date: conv.date,
+        hour: conv.hour,
+        service: conv.service,
+        group: conv.group,
+        origin: conv.origin,
+        destination: conv.destination,
+      },
+      options_chosen: opts,
+    };
     if (opts.recordings) {
-      this.messages.add({
-        severity: 'info',
-        summary: this.translate.instant('memory.player.download_audio_toast'),
-        life: 2500,
-      });
+      exportData['recordings'] = (conv.recordings ?? []).map((r) => ({
+        id: r.id,
+        duration: r.duration,
+        start_time: r.startTime,
+        label: r.label ?? null,
+        has_transcription: r.hasTranscription ?? false,
+      }));
+      exportData['transcription'] = conv.transcription ?? null;
     }
-    if (opts.chats) {
-      this.messages.add({
-        severity: 'info',
-        summary: this.translate.instant('memory.player.download_chat_toast'),
-        life: 2500,
-      });
+    if (opts.chats && conv.channel === 'chat') {
+      exportData['chat_messages'] = conv.transcription ?? null;
     }
+    if (conv.hasAnalysis) exportData['analysis_available'] = true;
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], {
+      type: 'application/json;charset=utf-8',
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `memory-export-${conv.id}-${Date.now()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    this.messages.add({
+      severity: 'success',
+      summary: this.translate.instant('memory.player.download_success'),
+      life: 3000,
+    });
   }
 
   protected onDownloadCancelled(): void {

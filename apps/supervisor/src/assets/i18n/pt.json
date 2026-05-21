@@ -153,6 +153,7 @@
       },
       "download_audio_toast": "Baixando áudio",
       "download_chat_toast": "Baixando conversa",
+      "download_success": "Exportação pronta — JSON baixado",
       "empty": {
         "no_recording_title": "Sem gravação desta chamada",
         "no_recording_desc": "Sem áudio não podemos transcrever. Revise as regras de gravação se esperava que estivesse salva.",

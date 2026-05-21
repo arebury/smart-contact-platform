@@ -153,6 +153,7 @@
       },
       "download_audio_toast": "Téléchargement de l'audio",
       "download_chat_toast": "Téléchargement de la conversation",
+      "download_success": "Export prêt — JSON téléchargé",
       "empty": {
         "no_recording_title": "Aucun enregistrement de cet appel",
         "no_recording_desc": "Sans audio nous ne pouvons pas transcrire. Vérifiez les règles d'enregistrement si vous l'attendiez.",
