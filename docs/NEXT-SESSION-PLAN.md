@@ -5,6 +5,78 @@
 
 ---
 
+## Estado al cerrar (Session 55, 2026-05-21)
+
+Marathon A+B+C+D+E+F (6 bloques cascada) tras "adelante A B C D E F en
+bloques masivos sin problema". 5 commits a `main` + 1 audit no-op (F).
+Critical-sparring aplicado al arrancar (matrix ROI vs riesgo) + push-back
+en D (mutó a promoción partials DD-4 que entregó valor real).
+
+- **E** Visual regression baseline Playwright `toHaveScreenshot()`:
+  4 screens × 2 themes = 8 baselines deterministas. Red de seguridad
+  pixel-diff para detectar drift visual silencioso.
+- **C** Backlog #49 shadow + #50 duration ✅ cerrados sin token nuevo
+  (DD-7 + memoria migration_safety). Sweep drift 5 hits + convención
+  documentada en customs-catalog §5.8.
+- **A** 10 thumbnails tracker contextuales nuevos: form-page nav click
+  para activar @switch sección Identificación, URLs config corregidas,
+  trigger pre-waitFor para overlays, tabs → ds-docs gallery.
+- **B** Audit atajos teclado vs React legacy: hipótesis "perdidos en
+  migración" FALSA. Angular cubre TODOS + añade 5 globales. DD#64 nuevo
+  con coverage matrix completa.
+- **F** Audit obsoletos comments/TODO: codebase exceptionally clean,
+  zero cleanup necesario.
+- **D** `.table-card` promovido a SCDS partial — backlog #32 ✅ cerrado
+  (7 consumers cruzaron trigger ≥5). `.page__inner` NO promovido (drift
+  max-width 5 buckets intencional descubierto, requiere spec session).
+
+**Estado salud**: tsc/lint/build/husky/i18n verde · Playwright cross-app
+22/22 verde (14 smoke + 8 visual regression).
+
+---
+
+## 🎯 Bloques S56+ (priorizados)
+
+### Expandir visual regression baseline (cuando ROI exista)
+
+Hoy 4 screens × 2 themes = 8 baselines cubren list-page chrome canonical.
+Candidatos S56+:
+- `agent-form-page` con sección Identificación activa (form chrome canonical).
+- `memory/conversaciones` con tabla cargada (Memory list chrome con stitched-card).
+- `config/sistema` (settings cards) — para detectar drift en cards.
+- ds-docs `home` (tracker thumbnails contextual) — para detectar drift en home.
+
+Trigger: tras sweep estructural >10 archivos SCDS o cambio mayor de tokens.
+
+### Backlog #33 `.page__inner` consolidación
+
+Drift max-width 5 buckets descubierto S55 (960/1200/1400/1600/832 según
+tipo página). Acción equipo de diseño: spec session escala canonical
+max-width (e.g., narrow/default/wide/full + form/dashboard). Sin esa
+decisión, NO promover.
+
+### Backlog #6 / #7 / #8 (sc-data-table / sc-select-button / sc-tag)
+
+Sin consumer real. DD-4 estricto. NO atacar proactivamente.
+
+### Spec session equipo de diseño (paquete dossier)
+
+Acumulado desde S47-ext: 8 items "Diseño dependent" del backlog. S55
+añade 2 más:
+- #49 shadows (apetito por `--sc-shadow-sticky-footer-top` + `drag-hover`
+  cuando aparezca 2º consumer respectivo).
+- #50 durations (apetito por escala duration en Figma Variables).
+
+Coste sesión equipo: ~1h + 30 min preparando dossier. Ruta limpia para
+cerrar items dormidos por dependencia diseño.
+
+### Próximo audit token sweep
+
+Cuando equipo de diseño pase versión actualizada de `tokensprime.json`,
+reabrir audit cruzado vs SCDS (flujo S54 establecido).
+
+---
+
 ## Estado al cerrar (Session 54, 2026-05-21)
 
 Maratón con 6 commits a `main`. Bloques A/B/C/D/E/F cerrados; G postpone

@@ -10,6 +10,71 @@
 
 ---
 
+## 2026-05-21 · Session 55 — Maratón A+B+C+D+E+F: 6 bloques cascada
+
+> Marathon de 6 bloques tras "adelante A B C D E F en bloques masivos
+> sin problema". Critical-sparring aplicado: matrix ROI vs riesgo
+> arrancando + push-back en D (preparation-as-progress) → mutó a
+> "audit promoción partials DD-4" que sí entregó valor real (cierre #32).
+
+### Hitos por bloque
+
+**E — Visual regression baseline Playwright** (commit `97b8e97`):
+- 4 screens × 2 themes = 8 baselines deterministas (38s 2ª pasada).
+- aed-agentes-list, aed-agentes-edit, ds-docs-inputtext, memory-categorias.
+- Theme aplicado POST-bootstrap (race ds-docs strip clases inject pre-
+  bootstrap, documentada).
+- Tolerancia `maxDiffPixelRatio: 0.02` + animations off + caret transparent.
+- README actualizado con operativa.
+
+**C — Cerrar backlog #49 shadow + #50 duration sin token nuevo**
+(commit `822da09`):
+- Decisión critical-sparring: NO crear tokens — DD-7 + memoria
+  `feedback_migration_safety` (durations no se exportan en Figma Variables).
+- Sweep drift duraciones (5 hits): 220→200ms × 2, 140→150ms × 2, 160→150ms
+  × 3. 180ms top-bar mantenido (cubic-bezier elastic intencional).
+- customs-catalog §5.8: convenciones implícitas + dossier futuro equipo.
+
+**A — 10 thumbnails tracker contextuales** (commit `765c07d`):
+- Root cause: agent-form-page usa `@switch (activeSection())` —
+  inputtext/select/form-danger-zone/dialog viven en case
+  'agent-section-identity' que NO es default en edit mode.
+- Fixes: URLs corregidas (inputnumber/inputgroup), reorder trigger
+  pre-waitFor (palette/shortcuts), click nav "Identificación" pre-
+  screenshot (5 thumbnails form-page), tabs → ds-docs gallery (0
+  consumers AED).
+- 7 problemáticos restantes documentados (overlay PrimeNG complejos).
+
+**B — Audit atajos teclado vs React legacy** (commit `0837c36`):
+- Audit `/Users/rafareses/dev/memory/legacy-react/src/` (React Memory
+  prototype).
+- Hipótesis "Memory React tenía atajos perdidos en migración" RESULTÓ
+  FALSA. Angular cubre TODOS los patrones React + añade 5 globales
+  (⌘K, /, ?, ⌘Z, ⌘S) que React no tenía.
+- DD#64 nuevo con coverage matrix React→Angular completa.
+- Decisión: NO añadir atajos nuevos hasta trigger funcional concreto.
+
+**F — Audit obsoletos comments/TODO**: ZERO cleanup necesario.
+Codebase clean: 1 TODO intencional, 4 eslint-disables justificadas, 0
+console.log/debugger/stale removed-comments. NO commit — audit no-op.
+
+**D — Promover .table-card SCDS partial** (commit `af3f0e5`):
+- Audit cross-feature confirmó trigger backlog #32 cumplido (7 unique
+  consumers vs threshold ≥5).
+- Promoción a `packages/design-system/styles/_sc-list-table.scss`.
+- Sweep 7 archivos mantienen solo deltas scoped (overflow-x en agents,
+  border-radius bottom-only en Memory conversation-table S53).
+- Backlog #33 (.page__inner) AUDITADO pero NO promovido — drift max-
+  width intencional (5 buckets: 960/1200/1400/1600/832 según tipo
+  página). Requiere spec session equipo de diseño.
+- Visual regression baseline (Block E) validó zero pixel diff.
+
+**Estado salud cierre S55**: tsc/lint/build/husky/i18n verde · Playwright
+cross-app 22/22 verde (14 smoke + 8 visual regression) · i18n 1488 paths
+× 4 locales · 5 commits a main.
+
+---
+
 ## 2026-05-21 · Session 54 — Maratón: atajos + tokens PrimeOne + Memory mocks + audit Undo/mocks
 
 > Sesión maratón con 8 bloques planificados, 6 commits a `main`. Tres
