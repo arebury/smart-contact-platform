@@ -60,7 +60,7 @@
 .mock-sample-switcher__icon {
   display: inline-flex;
   color: var(--sc-color-amber-800);
-  transition: transform 160ms ease;
+  transition: transform 150ms ease;
 
   .mock-sample-switcher__trigger:hover & {
     transform: scale(1.1);
@@ -121,7 +121,7 @@
   background: transparent;
   text-align: left;
   cursor: pointer;
-  transition: background 140ms ease;
+  transition: background 150ms ease;
 
   &:hover {
     background: var(--sc-bg-secondary-hover);

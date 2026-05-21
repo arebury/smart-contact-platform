@@ -122,7 +122,7 @@
     background: transparent;
     color: var(--sc-text-secondary);
     cursor: pointer;
-    transition: color 160ms ease-out;
+    transition: color 150ms ease-out;
 
     &:hover {
       color: var(--sc-text-primary);
@@ -191,7 +191,7 @@
     font-size: 0.8125rem;
     font-weight: 500;
     text-decoration: none;
-    transition: background-color 160ms ease-out;
+    transition: background-color 150ms ease-out;
 
     &:hover {
       background: var(--sc-color-electric-blue-600);

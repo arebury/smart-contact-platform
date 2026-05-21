@@ -232,6 +232,81 @@ Componentes del Kit Figma SC que **NO** tienen wrapper SCDS todavía. Decisión 
 - **Declines documentados**: `inline-rename-cell` y `label-chip` evaluados en S32 — declinados con justificación (ver `docs/inconsistencies-backlog.md` items #2 y #4). El `<sc-inputtext>` rompería la metáfora "flat cell" de rename-cell; el modelo `LabelColor` de label-chip no encaja con `<p-tag>` ni `<p-chip>`.
 - **Política**: post-S32, prioridad clara — **minimizar custom sobre PrimeNG** (memoria `feedback_minimal_customization`). Antes de cualquier nuevo pure-sc, las 4 preguntas del checklist §0 son obligatorias.
 
+### 5.8 Convenciones implícitas duration + shadow (S55 #50 + #49 cerrado sin token)
+
+**Audit S47-ext detectó**: 50+ hits literales de `transition: X 200ms ease` (canonical) +
+drift menores (140/160/180/220ms) y 5 hits `box-shadow` divergentes fuera del set de
+tokens `--sc-shadow-*`. Tentación natural: cocinar escala `--sc-duration-*` y/o token
+`--sc-shadow-card-soft`.
+
+**Decisión S55 (NO crear tokens)**:
+
+Motivación de la decisión, no del valor:
+
+1. **Memoria `feedback_migration_safety` § blindaje upgrades PrimeNG**: cada primitive
+   nuevo `--sc-*` SIN equivalente en Figma Variables se vuelve carga futura — un día
+   PrimeNG 22 / Figma Variables Importer pasarán por encima y la "convención implícita"
+   queda como deuda invisible.
+2. **DD-7** (toda primitive nueva → entry customs-catalog + plan Figma): durations no se
+   exportan en Figma Variables como categoría de primer nivel; intentar tokenizar es
+   modelo prematuro.
+3. **Polaris / Carbon / Tailwind**: NINGUNO de los tres expone duration tokens como
+   semantic-named (`fast/base/slow`). Tailwind usa escala numérica (`duration-75/100/150/
+   200/300/500/700/1000`) que es literal-mapping disfrazado. La buena práctica industria
+   converge a "literal + convención documentada" sobre "token semántico".
+
+**Convención canonical (sweep S55 normalize drift)**:
+
+| Caso | Duración | Easing | Hits |
+|---|---|---|---|
+| State transitions (background, border, opacity primary) | `200ms` | `ease` / `var(--sc-easing-default)` | ~25 |
+| Hover micro-interactions (color, transform scale) | `150ms` | `ease` / `ease-out` | ~10 |
+| Focus rings (box-shadow grow) | `100-120ms` | `ease` / `cubic-bezier elastic` | ~9 |
+| Instant feedback (active state, tap) | `60-80ms` | `linear` / `ease-in` | ~3 |
+| Emphasis (modal slide-in) | `300ms` | `cubic-bezier(0.16, 1, 0.3, 1)` | ~1 |
+
+**Drift normalizado S55**: 220→200ms (column-selector drag), 140→150ms (multi-recording
+fill indicator + mock-switcher hover), 160→150ms (mock-switcher icon scale + category-
+form-modal modal close + link-create-btn hover). 5 hits → escala convergente. `180ms`
+mantenido como caso especial (top-bar elastic ring, cubic-bezier(0.16, 1, 0.3, 1)
+necesita timing más lento para el bounce — intencional).
+
+**Convención shadows** (5 hits divergentes audit S47-ext):
+
+1. `rule-builder-page:168` — `box-shadow: 0 -4px 12px rgb(0 0 0 / 0.04)`. TOP-inverse Y
+   para sticky footer (sombra hacia arriba). Patrón **único** en codebase. NO tokenizable.
+   Mantener inline con comment cuando aparezca 2º consumer.
+2. `group-assignment-table:81` + `agent-channel-table:349` — drops 12px / 16px blur con
+   12% / 18% opacity. Drag-hover effect en filas de tabla. Diferentes por **intensidad
+   semántica** (group = sutil suggestion, channel = active drop). NO consolidar a token;
+   son 2 contextos drag-hover con presence distinta. Documentar inline.
+3. `agent-form-page:247-250` — `0 0 0 0 currentColor` → `0 0 0 4px currentColor 0%`. Es
+   **keyframe focus-ring animation** load-bearing, no shadow estática. NO aplica al audit.
+4. `ds-docs/home:991` — tracker hover thumbnail `0 4px 12px color-mix(...)`. Scoped a
+   ds-docs (no SCDS core). NO aplica.
+
+**Decisión consolidada**: tokens `--sc-shadow-*` existentes (xs/sm/card/dropdown/popover/
+dialog/toast) cubren el 95% canonical. Los 5 hits divergentes son **casos legítimos
+únicos** que documentar inline supera a tokenizar.
+
+**Cuándo reabrir**:
+
+- **Durations**: si el equipo de diseño exporta variable category `duration` en Figma
+  SC Kit Pro (no existe hoy). Trigger formal Figma → token mapping mecánico.
+- **Shadows**: si el patrón `0 -4px 12px ...` aparece en 2º consumer (top-shadow sticky
+  footer en otra página) → crear `--sc-shadow-sticky-footer-top` y mover ambos.
+
+**Acción para el equipo de diseño** (paquete dossier futuro):
+
+- Decision A: ¿hay apetito para definir escala duration en Figma SC Variables (instant /
+  fast / base / slow / emphasis)? Beneficio: source-of-truth visible en kit. Coste:
+  mantenimiento + sync con consumers Angular/React.
+- Decision B: ¿hay apetito para tokens shadow "sticky-footer-top" + "drag-hover" si
+  aparecen 2+ consumers respectivos? Mismo coste-beneficio que A.
+
+Sin decisión activa, el statu-quo (literales + convención implícita) es la opción más
+mantenible para un proyecto de este tamaño.
+
 ---
 
 ## Cómo añadir una divergencia nueva a este catálogo
@@ -261,4 +336,4 @@ Recomendación cuando se active la Fase 4:
 
 ---
 
-Última actualización: 2026-05-15 (Session 31).
+Última actualización: 2026-05-21 (Session 55, §5.8 duration + shadow conventions).
