@@ -57,6 +57,7 @@ export class KeyboardShortcutsComponent {
       title: 'En cualquier parte',
       items: [
         { label: 'Guardar formulario', keys: ['⌘', 'S'] },
+        { label: 'Deshacer última acción', keys: ['⌘', 'Z'] },
         { label: 'Cerrar diálogo / panel', keys: ['Esc'] },
       ],
     },
