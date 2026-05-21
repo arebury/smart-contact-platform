@@ -19,7 +19,7 @@
     [disabled]="!value().trim()"
     aria-label="Confirmar"
   >
-    <lucide-icon [img]="checkIcon" [size]="13" aria-hidden="true" />
+    <lucide-icon [img]="checkIcon" [size]="iconSizeMd" aria-hidden="true" />
   </button>
   <button
     type="button"
@@ -27,6 +27,6 @@
     (click)="onCancel()"
     aria-label="Cancelar"
   >
-    <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
+    <lucide-icon [img]="closeIcon" [size]="iconSizeMd" aria-hidden="true" />
   </button>
 </div>

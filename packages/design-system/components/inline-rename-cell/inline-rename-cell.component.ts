@@ -11,6 +11,8 @@ import {
 import { FormsModule } from '@angular/forms';
 import { LucideAngularModule, Check, X } from 'lucide-angular';
 
+import { SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
+
 /**
  * In-place editable name cell. Used by the list pages immediately after a
  * duplicate so the freshly-created draft can be renamed without a router
@@ -45,6 +47,7 @@ export class InlineRenameCellComponent implements AfterViewInit {
 
   protected readonly checkIcon = Check;
   protected readonly closeIcon = X;
+  protected readonly iconSizeMd = SC_ICON_SIZE_MD;
 
   protected readonly value = signal('');
 

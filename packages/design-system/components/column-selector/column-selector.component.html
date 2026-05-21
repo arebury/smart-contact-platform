@@ -5,7 +5,7 @@
   [title]="buttonLabel()"
   (click)="popover.toggle($event)"
 >
-  <lucide-icon [img]="columnsIcon" [size]="16" aria-hidden="true" />
+  <lucide-icon [img]="columnsIcon" [size]="iconSizeLg" aria-hidden="true" />
 </button>
 
 <p-popover #popover [appendTo]="'body'" styleClass="sc-column-popover">
@@ -18,7 +18,7 @@
         (click)="reset(); popover.hide()"
         aria-label="Restablecer"
       >
-        <lucide-icon [img]="resetIcon" [size]="12" aria-hidden="true" />
+        <lucide-icon [img]="resetIcon" [size]="iconSizeMd" aria-hidden="true" />
         <span>Restablecer</span>
       </button>
     </div>
@@ -26,7 +26,7 @@
       @for (col of menuItems(); track col.key) {
         <li class="row" [class.row--locked]="col.locked" cdkDrag [cdkDragDisabled]="!!col.locked">
           <span class="row__grip" [class.row__grip--hidden]="col.locked" aria-hidden="true">
-            <lucide-icon [img]="gripIcon" [size]="13" aria-hidden="true" />
+            <lucide-icon [img]="gripIcon" [size]="iconSizeMd" aria-hidden="true" />
           </span>
           <label class="row__label-block">
             <input
@@ -40,7 +40,7 @@
               <lucide-icon
                 class="row__lock"
                 [img]="lockIcon"
-                [size]="11"
+                [size]="iconSizeSm"
                 [attr.aria-label]="'Columna fijada'"
               />
             }

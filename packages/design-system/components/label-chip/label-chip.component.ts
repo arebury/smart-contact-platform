@@ -1,6 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { LucideAngularModule, X } from 'lucide-angular';
 
+import { SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
+
 import type { LabelColor } from './label-chip.types';
 
 export interface LabelChipModel {
@@ -27,6 +29,7 @@ export class LabelChipComponent {
   readonly remove = output<void>();
 
   protected readonly closeIcon = X;
+  protected readonly iconSizeSm = SC_ICON_SIZE_SM;
 
   protected readonly cssVars = computed(() => {
     const color = this.label().color;

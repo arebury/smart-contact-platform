@@ -18,6 +18,8 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 
+import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
+
 export type ScSearchSize = 'sm' | 'md' | 'lg';
 
 let scSearchIdCounter = 0;
@@ -100,6 +102,8 @@ export class SearchComponent implements ControlValueAccessor {
   // ─── Derived / internal ────────────────────────────────────────────
   protected readonly searchIcon = Search;
   protected readonly clearIcon = X;
+  protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
+  protected readonly iconSizeMd = SC_ICON_SIZE_MD;
   protected readonly resolvedId = computed(
     () => this.inputId() ?? `sc-search-${++scSearchIdCounter}`,
   );

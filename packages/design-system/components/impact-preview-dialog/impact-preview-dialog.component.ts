@@ -11,6 +11,7 @@ import { LucideAngularModule, ArrowRight, Copy, X } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
 import { DialogComponent } from '../dialog/dialog.component';
+import { SC_ICON_SIZE_MD, SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
 
 export interface ImpactItem {
   readonly id: number;
@@ -55,6 +56,8 @@ export class ImpactPreviewDialogComponent {
   protected readonly arrowIcon = ArrowRight;
   protected readonly duplicateIcon = Copy;
   protected readonly closeIcon = X;
+  protected readonly iconSizeMd = SC_ICON_SIZE_MD;
+  protected readonly iconSizeSm = SC_ICON_SIZE_SM;
 
   protected readonly removedIds = signal<ReadonlySet<number>>(new Set());
 

@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Plus } from 'lucide-angular';
 
+import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_DISPLAY_SM } from '@shared/utils/icon-size';
+
 /**
  * Lucide icons are exported as constants of an internal `LucideIconData`
  * type that the package doesn't re-export from its main entry. Inferring
@@ -34,6 +36,8 @@ export class EmptyStateComponent {
   readonly cta = output<void>();
 
   protected readonly plusIcon = Plus;
+  protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
+  protected readonly iconSizeDisplay = SC_ICON_SIZE_DISPLAY_SM;
 
   protected onCtaClick(): void {
     this.cta.emit();

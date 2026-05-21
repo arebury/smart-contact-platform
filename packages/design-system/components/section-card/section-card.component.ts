@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, input, signal } from '@an
 import { TranslateModule } from '@ngx-translate/core';
 import { ChevronDown, ChevronRight, LucideAngularModule, Plus } from 'lucide-angular';
 
+import { SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
+
 type LucideIcon = typeof Plus;
 
 /**
@@ -34,6 +36,7 @@ export class SectionCardComponent {
 
   protected readonly chevronDownIcon = ChevronDown;
   protected readonly chevronRightIcon = ChevronRight;
+  protected readonly iconSizeLg = SC_ICON_SIZE_LG;
 
   private readonly userToggled = signal<boolean | null>(null);
 

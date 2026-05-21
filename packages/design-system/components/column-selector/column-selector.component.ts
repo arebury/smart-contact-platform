@@ -11,6 +11,8 @@ import {
 import { Columns3, GripVertical, Lock, LucideAngularModule, RotateCcw } from 'lucide-angular';
 import { PopoverModule } from 'primeng/popover';
 
+import { SC_ICON_SIZE_LG, SC_ICON_SIZE_MD, SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
+
 export interface ColumnDef {
   /** Stable key persisted in localStorage. */
   readonly key: string;
@@ -78,6 +80,9 @@ export class ColumnSelectorComponent {
   protected readonly resetIcon = RotateCcw;
   protected readonly gripIcon = GripVertical;
   protected readonly lockIcon = Lock;
+  protected readonly iconSizeLg = SC_ICON_SIZE_LG;
+  protected readonly iconSizeMd = SC_ICON_SIZE_MD;
+  protected readonly iconSizeSm = SC_ICON_SIZE_SM;
 
   /** Default = the column declaration order, filtered by `defaultVisible`. */
   private readonly defaultOrdered = computed<OrderedVisible>(() =>

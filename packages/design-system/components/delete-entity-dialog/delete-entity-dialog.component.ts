@@ -16,6 +16,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { ClipboardService } from '@core/services/clipboard.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { SC_ICON_SIZE_MD, SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
 
 export interface DeletableEntity {
   readonly id: number;
@@ -63,6 +64,8 @@ export class DeleteEntityDialogComponent {
   protected readonly copyIcon = Copy;
   protected readonly checkIcon = Check;
   protected readonly closeIcon = X;
+  protected readonly iconSizeMd = SC_ICON_SIZE_MD;
+  protected readonly iconSizeSm = SC_ICON_SIZE_SM;
 
   protected readonly confirmText = signal('');
   protected readonly copied = signal(false);

@@ -25,14 +25,14 @@
         @if (copied()) {
           <lucide-icon
             [img]="checkIcon"
-            [size]="12"
+            [size]="iconSizeMd"
             class="delete-entity__copy-check"
             aria-hidden="true"
           />
         } @else {
           <lucide-icon
             [img]="copyIcon"
-            [size]="12"
+            [size]="iconSizeMd"
             class="delete-entity__copy-icon"
             aria-hidden="true"
           />
@@ -73,7 +73,7 @@
               [attr.aria-label]="'common.remove_from_list' | translate: { name: item.name }"
               (click)="removeChip(item.id)"
             >
-              <lucide-icon [img]="closeIcon" [size]="10" aria-hidden="true" />
+              <lucide-icon [img]="closeIcon" [size]="iconSizeSm" aria-hidden="true" />
             </button>
           </span>
         }

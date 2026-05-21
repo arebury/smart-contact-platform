@@ -21,7 +21,7 @@
     <header class="sc-dialog__head">
       @if (icon(); as ic) {
         <div class="sc-dialog__head-icon" aria-hidden="true">
-          <lucide-icon [img]="ic" [size]="16" aria-hidden="true" />
+          <lucide-icon [img]="ic" [size]="iconSizeLg" aria-hidden="true" />
         </div>
       }
       <div class="sc-dialog__head-text">
@@ -37,7 +37,7 @@
           [attr.aria-label]="'common.close' | translate"
           (click)="onClose()"
         >
-          <lucide-icon [img]="closeIcon" [size]="16" aria-hidden="true" />
+          <lucide-icon [img]="closeIcon" [size]="iconSizeLg" aria-hidden="true" />
         </button>
       }
     </header>

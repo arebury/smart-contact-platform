@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Phone } from 'lucide-angular';
 
+import { SC_ICON_SIZE_2XL } from '@shared/utils/icon-size';
+
 type LucideIconRef = typeof Phone;
 
 /**
@@ -30,4 +32,6 @@ export class PageHeaderComponent {
   readonly subtitleKey = input<string | null>(null);
   /** Leading Lucide icon (rendered in a 44×44 chip). Optional. */
   readonly icon = input<LucideIconRef | null>(null);
+
+  protected readonly iconSize2xl = SC_ICON_SIZE_2XL;
 }

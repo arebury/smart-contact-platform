@@ -3,6 +3,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Plus, X } from 'lucide-angular';
 import { DialogModule } from 'primeng/dialog';
 
+import { SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
+
 type LucideIcon = typeof Plus;
 
 let modalIdCounter = 0;
@@ -62,6 +64,7 @@ export class DialogComponent {
   readonly cancelled = output<void>();
 
   protected readonly closeIcon = X;
+  protected readonly iconSizeLg = SC_ICON_SIZE_LG;
   /** Stable ids so `aria-labelledby` / `aria-describedby` resolve correctly. */
   protected readonly id = ++modalIdCounter;
   protected readonly titleId = computed(() => `sc-dialog-${this.id}-title`);

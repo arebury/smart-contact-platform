@@ -3,6 +3,7 @@ import { LucideAngularModule, X } from 'lucide-angular';
 
 import { CommandPaletteService } from '@core/services/command-palette.service';
 import { KeyboardShortcutsService } from '@core/services/keyboard-shortcuts.service';
+import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
 import { isTypingTarget } from '@shared/utils/is-typing-target';
 
 interface ShortcutGroup {
@@ -33,6 +34,7 @@ export class KeyboardShortcutsComponent {
   private readonly shortcuts = inject(KeyboardShortcutsService);
 
   protected readonly closeIcon = X;
+  protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
   protected readonly visible = this.shortcuts.visible;
 
   protected readonly groups: readonly ShortcutGroup[] = [

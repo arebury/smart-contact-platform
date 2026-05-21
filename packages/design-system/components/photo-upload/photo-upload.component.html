@@ -20,14 +20,14 @@
       } @else {
         <lucide-icon
           [img]="placeholderIcon"
-          [size]="28"
+          [size]="iconSize3xl"
           class="photo-upload__placeholder"
           aria-hidden="true"
         />
       }
     }
     <span class="photo-upload__overlay" [class.photo-upload__overlay--visible]="hovering()">
-      <lucide-icon [img]="cameraIcon" [size]="16" aria-hidden="true" />
+      <lucide-icon [img]="cameraIcon" [size]="iconSizeLg" aria-hidden="true" />
     </span>
   </button>
   <input

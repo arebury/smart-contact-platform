@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Phone } from 'lucide-angular';
 
+import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
+
 type LucideIconRef = typeof Phone;
 
 export interface FormNavSection {
@@ -50,6 +52,8 @@ export class FormSectionNavComponent {
   readonly sectionsWithErrors = input<ReadonlySet<string>>(new Set());
 
   readonly activeChange = output<string>();
+
+  protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
 
   protected hasError(id: string): boolean {
     return this.sectionsWithErrors().has(id);

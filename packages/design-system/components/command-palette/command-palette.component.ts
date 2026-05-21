@@ -13,6 +13,7 @@ import { LucideAngularModule, Search } from 'lucide-angular';
 
 import { NAV_ICONS } from '@core/icons/nav-icons';
 import { CommandPaletteService, PaletteCommand } from '@core/services/command-palette.service';
+import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
 import { isTypingTarget } from '@shared/utils/is-typing-target';
 
 interface GroupedCommands {
@@ -44,6 +45,8 @@ export class CommandPaletteComponent {
   protected readonly host = inject(CommandPaletteService);
 
   protected readonly searchIcon = Search;
+  protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
+  protected readonly iconSizeLg = SC_ICON_SIZE_LG;
   protected readonly query = signal('');
   protected readonly highlighted = signal(0);
 

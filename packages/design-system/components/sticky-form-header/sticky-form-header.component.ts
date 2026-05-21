@@ -14,6 +14,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ArrowLeft, Check, Loader2, LucideAngularModule, Pencil, X } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
+import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
+
 /**
  * Sticky bar at the top of every Create/Edit page (Users, Groups, Agents…).
  * Shows the entity title, optional editable name, plus Save / Cancel /
@@ -58,6 +60,8 @@ export class StickyFormHeaderComponent {
   protected readonly closeIcon = X;
   protected readonly loaderIcon = Loader2;
   protected readonly backIcon = ArrowLeft;
+  protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
+  protected readonly iconSizeMd = SC_ICON_SIZE_MD;
 
   protected readonly editing = signal(false);
   protected readonly draftName = signal('');

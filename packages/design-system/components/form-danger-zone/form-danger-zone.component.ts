@@ -3,6 +3,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LucideAngularModule, Trash2 } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
+import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
+
 /**
  * End-of-form section that hosts irreversible / sensitive actions
  * (delete, transfer, archive). Lives at the bottom of edit pages so the
@@ -27,4 +29,5 @@ export class FormDangerZoneComponent {
   readonly action = output<void>();
 
   protected readonly trashIcon = Trash2;
+  protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
 }

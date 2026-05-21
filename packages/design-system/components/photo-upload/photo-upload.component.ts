@@ -13,6 +13,7 @@ import { Camera, LucideAngularModule, UserCog } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { IllustratedAvatarComponent } from '../illustrated-avatar/illustrated-avatar.component';
+import { SC_ICON_SIZE_3XL, SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
 
 const MAX_BYTES = 800 * 1024;
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
@@ -60,6 +61,8 @@ export class PhotoUploadComponent {
 
   protected readonly cameraIcon = Camera;
   protected readonly placeholderIcon = UserCog;
+  protected readonly iconSize3xl = SC_ICON_SIZE_3XL;
+  protected readonly iconSizeLg = SC_ICON_SIZE_LG;
   protected readonly hovering = signal(false);
 
   private readonly fileInput = viewChild.required<ElementRef<HTMLInputElement>>('fileInput');

@@ -2,7 +2,12 @@
   <div class="palette-backdrop" (click)="onBackdropClick()" aria-hidden="true"></div>
   <div class="palette" role="dialog" aria-label="Buscar y ejecutar comandos" aria-modal="true">
     <div class="palette__head">
-      <lucide-icon class="palette__head-icon" [img]="searchIcon" [size]="16" aria-hidden="true" />
+      <lucide-icon
+        class="palette__head-icon"
+        [img]="searchIcon"
+        [size]="iconSizeLg"
+        aria-hidden="true"
+      />
       <input
         #searchInput
         type="text"
@@ -36,7 +41,7 @@
                   <lucide-icon
                     class="palette__item-icon"
                     [img]="ic"
-                    [size]="14"
+                    [size]="iconSizeDefault"
                     aria-hidden="true"
                   />
                 }

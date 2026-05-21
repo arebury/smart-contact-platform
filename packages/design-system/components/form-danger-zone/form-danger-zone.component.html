@@ -14,7 +14,7 @@
     [disabled]="disabled()"
     (onClick)="action.emit()"
   >
-    <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
+    <lucide-icon [img]="trashIcon" [size]="iconSizeDefault" aria-hidden="true" />
     <span>{{ actionKey() | translate }}</span>
   </p-button>
 </section>
