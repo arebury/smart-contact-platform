@@ -34,9 +34,18 @@
     </div>
     <div class="hero__stat">
       <dt>Version</dt>
-      <dd>v0.1</dd>
+      <dd>
+        <a routerLink="/whats-new-v2" class="hero__version-link">v2.0</a>
+      </dd>
     </div>
   </dl>
+
+  <div class="hero__cta">
+    <a routerLink="/whats-new-v2" class="hero__cta-link">
+      <lucide-icon [img]="sparklesIcon" [size]="14" aria-hidden="true" />
+      <span>Novedades v2.0 · Kit Pro 1:1</span>
+    </a>
+  </div>
 </section>
 
 <section class="components">

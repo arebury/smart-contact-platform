@@ -7,6 +7,11 @@ export const appRoutes: Routes = [
     loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
   {
+    path: 'whats-new-v2',
+    loadComponent: () =>
+      import('./pages/whats-new-v2/whats-new-v2.component').then((m) => m.WhatsNewV2Component),
+  },
+  {
     path: 'components/button',
     loadComponent: () =>
       import('./pages/button/buttons-gallery.component').then((m) => m.ButtonsGalleryComponent),

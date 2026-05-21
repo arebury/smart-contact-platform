@@ -1,0 +1,289 @@
+<article class="whats-new">
+  <!-- ═══ Hero · editorial ═══ -->
+  <header class="whats-new__hero">
+    <span class="whats-new__eyebrow">Release notes · SCDS</span>
+
+    <div class="whats-new__hero-title-row">
+      <h1 class="whats-new__title">
+        Primitive layer reorganizada<br />
+        para hablar el idioma del Kit Pro.
+      </h1>
+      <span class="whats-new__version-pill" aria-label="Versión 2.0">
+        <span class="whats-new__version-dot" aria-hidden="true"></span>
+        v2.0
+      </span>
+    </div>
+
+    <p class="whats-new__lede">
+      Smart Contact Design System pasa a una única escala numérica
+      <code>--sc-scale-*</code> que mapea 1:1 con <code>aura/primitive.scale</code> del Smart
+      Contact Prime UI Kit. Cero traducción entre el JSON de Figma Variables y el código.
+    </p>
+
+    <dl class="whats-new__meta" aria-label="Detalles del release">
+      <div class="whats-new__meta-item">
+        <dt>Released</dt>
+        <dd>21 Mayo 2026</dd>
+      </div>
+      <div class="whats-new__meta-item">
+        <dt>Scope</dt>
+        <dd>Foundation</dd>
+      </div>
+      <div class="whats-new__meta-item">
+        <dt>Breaking</dt>
+        <dd>None</dd>
+      </div>
+      <div class="whats-new__meta-item">
+        <dt>API public</dt>
+        <dd>Preservada</dd>
+      </div>
+    </dl>
+  </header>
+
+  <!-- ═══ Section 01 · What changed ═══ -->
+  <section class="whats-new__section">
+    <div class="whats-new__section-head">
+      <span class="whats-new__section-index">01</span>
+      <h2 class="whats-new__section-title">Qué cambió</h2>
+    </div>
+
+    <p class="whats-new__copy">
+      Hasta v1, el SCDS exponía cinco categorías primitive paralelas —<code>spacing</code>,
+      <code>font-size</code>, <code>line-height</code>, <code>icon-size</code>,
+      <code>radius</code>—, cada una con su propia escala numérica. El Kit Pro Figma SC, en cambio,
+      usa una sola escala <code>scale.*</code> que sirve a todos los valores numéricos (padding,
+      font-size, icon-size) más una escala dedicada <code>border.radius.*</code>. Esto generaba
+      traducción mental cada vez que diseño y código hablaban de un mismo valor.
+    </p>
+
+    <p class="whats-new__copy">
+      En v2 la primitive layer se reescribe para reflejar Kit Pro tal cual. El resto de categorías
+      sobreviven como alias semantic-derived —preservan la API pública sin romper a los 1.127
+      consumers existentes—.
+    </p>
+
+    <div class="whats-new__diff" role="group" aria-label="Comparativa v1 vs v2">
+      <div class="whats-new__diff-col whats-new__diff-col--before">
+        <header class="whats-new__diff-header">
+          <span class="whats-new__diff-tag">Antes · v1</span>
+          <span class="whats-new__diff-caption">5 primitives paralelos</span>
+        </header>
+        <ul class="whats-new__diff-list">
+          <li>
+            <code>--sc-spacing-50 / 100 / 900</code>
+            <span>Naming numérico custom SC</span>
+          </li>
+          <li>
+            <code>--sc-font-size-50 / 100 / 900</code>
+            <span>Valores propios decimales</span>
+          </li>
+          <li>
+            <code>--sc-line-height-50 / 100 / 900</code>
+            <span>Valores propios decimales</span>
+          </li>
+          <li>
+            <code>--sc-icon-size-xs / sm / md / 3xl</code>
+            <span>Valores propios px literales</span>
+          </li>
+          <li>
+            <code>--sc-radius-0 / 50 / 500</code>
+            <span>Naming numérico custom SC</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="whats-new__diff-arrow" aria-hidden="true">→</div>
+
+      <div class="whats-new__diff-col whats-new__diff-col--after">
+        <header class="whats-new__diff-header">
+          <span class="whats-new__diff-tag whats-new__diff-tag--after">Después · v2</span>
+          <span class="whats-new__diff-caption">1 primitive + 1 escala dedicada</span>
+        </header>
+        <ul class="whats-new__diff-list">
+          <li>
+            <code>--sc-scale-0-25 / 0-5 / 5</code>
+            <span>Kit Pro <code>scale.*</code> verbatim · 34 entries</span>
+          </li>
+          <li>
+            <code>--sc-font-size-*</code>
+            <span><em>alias</em> → <code>var(--sc-scale-*)</code></span>
+          </li>
+          <li>
+            <code>--sc-line-height-*</code>
+            <span><em>alias</em> → <code>var(--sc-scale-*)</code></span>
+          </li>
+          <li>
+            <code>--sc-icon-size-*</code>
+            <span><em>alias</em> → <code>var(--sc-scale-*)</code></span>
+          </li>
+          <li>
+            <code>--sc-radius-none / xs / sm / md / lg / xl</code>
+            <span>Kit Pro <code>border.radius.*</code> verbatim</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ Section 02 · Beneficios ═══ -->
+  <section class="whats-new__section">
+    <div class="whats-new__section-head">
+      <span class="whats-new__section-index">02</span>
+      <h2 class="whats-new__section-title">Por qué importa</h2>
+    </div>
+
+    <ol class="whats-new__benefits">
+      <li class="whats-new__benefit">
+        <span class="whats-new__benefit-marker" aria-hidden="true">A</span>
+        <div class="whats-new__benefit-body">
+          <h3>Single source of truth numeric</h3>
+          <p>
+            Cambiar <code>--sc-scale-1</code> (14px → 16px) propaga automáticamente a font-size,
+            padding e icon-size sin tocar consumers. La escala vive en un único sitio.
+          </p>
+        </div>
+      </li>
+
+      <li class="whats-new__benefit">
+        <span class="whats-new__benefit-marker" aria-hidden="true">B</span>
+        <div class="whats-new__benefit-body">
+          <h3>Mapping mecánico Figma ↔ código</h3>
+          <p>
+            Cuando el equipo de diseño exporta <code>design-tokens.json</code>, el string
+            <code>scale.0-875</code> matchea directo con <code>--sc-scale-0-875</code>. Sin
+            traducción, sin tabla de equivalencias mental.
+          </p>
+        </div>
+      </li>
+
+      <li class="whats-new__benefit">
+        <span class="whats-new__benefit-marker" aria-hidden="true">C</span>
+        <div class="whats-new__benefit-body">
+          <h3>API pública preservada</h3>
+          <p>
+            Los 1.127 usos existentes de <code>--sc-spacing-*</code>,
+            <code>--sc-font-size-*</code> y compañía siguen funcionando como aliases. Cero sweep
+            cross-app, cero breaking para AED + Memory + ds-docs.
+          </p>
+        </div>
+      </li>
+
+      <li class="whats-new__benefit">
+        <span class="whats-new__benefit-marker" aria-hidden="true">D</span>
+        <div class="whats-new__benefit-body">
+          <h3>Blindaje upgrades upstream</h3>
+          <p>
+            Cuando llegue PrimeOne 5.x con cambios en <code>scale.*</code>, el SCDS hereda sin
+            refactor. La identidad SC vive en la collection <em>Custom</em> de Figma Variables
+            —separada del primitive heredado—.
+          </p>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ═══ Section 03 · Tokens canonical JSON · split asymmetric ═══ -->
+  <section class="whats-new__section whats-new__section--tokens">
+    <div class="whats-new__section-head">
+      <span class="whats-new__section-index">03</span>
+      <h2 class="whats-new__section-title">Tokens canonical en JSON</h2>
+    </div>
+
+    <div class="whats-new__split">
+      <div class="whats-new__split-text">
+        <p class="whats-new__copy">
+          La primitive layer SCDS se exporta como
+          <code>sc-tokens.json</code> en formato Design Tokens Community Group (DTCG). Cualquier dev
+          de tercera app puede consumirlo sin clonar este monorepo —el JSON es el contrato de tokens
+          versionado—.
+        </p>
+        <p class="whats-new__copy">
+          Incluye la escala completa Kit Pro 1:1, las paletas brand SC (navy, electric-blue, amber)
+          marcadas como
+          <code>$extensions.sc.custom</code>, y los semantic-derived aliases para legibilidad
+          humana.
+        </p>
+      </div>
+
+      <aside class="whats-new__download-card">
+        <div class="whats-new__download-header">
+          <lucide-icon [img]="downloadIcon" [size]="16" aria-hidden="true" />
+          <span>sc-tokens.json</span>
+        </div>
+        <dl class="whats-new__download-meta">
+          <div>
+            <dt>Version</dt>
+            <dd>v2.0</dd>
+          </div>
+          <div>
+            <dt>Format</dt>
+            <dd>DTCG</dd>
+          </div>
+          <div>
+            <dt>Source</dt>
+            <dd>SCDS primitive</dd>
+          </div>
+        </dl>
+        <div class="whats-new__download-cta whats-new__download-cta--coming">
+          <span>Próximamente</span>
+          <span class="whats-new__download-cta-meta">Script export pendiente</span>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ═══ Section 04 · Roadmap ═══ -->
+  <section class="whats-new__section">
+    <div class="whats-new__section-head">
+      <span class="whats-new__section-index">04</span>
+      <h2 class="whats-new__section-title">Qué viene después</h2>
+    </div>
+
+    <ul class="whats-new__roadmap">
+      <li>
+        <span class="whats-new__roadmap-tag">Próximo</span>
+        <div>
+          <h3>Convergencia color</h3>
+          <p>
+            Alinear paletas brand SC (navy, electric-blue, amber) con la collection
+            <em>Custom</em> de Figma Variables. Las paletas permanecen custom-named —no se renombran
+            a Aura— pero quedan documentadas en el JSON.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="whats-new__roadmap-tag">Pendiente</span>
+        <div>
+          <h3>Spec session equipo de diseño</h3>
+          <p>
+            Seis items dormidos esperan decisión externa: sc-search clear icon, page__inner
+            max-width canonical, sm/md/lg variants form wrappers, shadows sticky-footer-top y
+            drag-hover, escala duration en Variables.
+          </p>
+        </div>
+      </li>
+      <li>
+        <span class="whats-new__roadmap-tag">Futuro</span>
+        <div>
+          <h3>Memory como primer consumer externo</h3>
+          <p>
+            Cuando Memory entre desarrollo activo post-v2, consumirá el JSON como source-of-truth.
+            Validará el contrato canonical en un consumer real fuera del monorepo Angular.
+          </p>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ═══ Footer back ═══ -->
+  <footer class="whats-new__footer">
+    <a routerLink="/" class="whats-new__back">
+      <lucide-icon [img]="arrowLeftIcon" [size]="14" aria-hidden="true" />
+      <span>Volver al catálogo</span>
+    </a>
+    <p class="whats-new__footer-meta">
+      Para contexto histórico ver
+      <code>packages/design-system/docs/customs-catalog.md §4.2</code>
+    </p>
+  </footer>
+</article>

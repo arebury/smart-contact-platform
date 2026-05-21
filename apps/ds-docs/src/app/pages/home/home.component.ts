@@ -8,6 +8,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { LucideAngularModule, Sparkles } from 'lucide-angular';
 
 type ComponentType = 'full-primeng' | 'custom-preset' | 'extended' | 'pure-sc';
 
@@ -166,7 +167,7 @@ function writeValidated(set: Set<string>): void {
 
 @Component({
   selector: 'sc-ds-docs-home',
-  imports: [RouterLink],
+  imports: [RouterLink, LucideAngularModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -735,6 +736,8 @@ export class HomeComponent {
   protected readonly galleriesCount = computed(
     () => this.catalog.filter((c) => !!c.pageRoute).length,
   );
+
+  protected readonly sparklesIcon = Sparkles;
 
   /**
    * Lista filtrada por search + tipo + validación.
