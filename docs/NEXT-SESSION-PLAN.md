@@ -5,6 +5,97 @@
 
 ---
 
+## Estado al cerrar (Session 54, 2026-05-21)
+
+Maratón con 6 commits a `main`. Bloques A/B/C/D/E/F cerrados; G postpone
+S55 con scope; H este doc.
+
+- **A** Atajos teclado: `/` focus search · ⌘S al panel · ⌘Z re-añadido
+  tras audit · util `is-typing-target` extraído.
+- **C** Tokens primitive alineados PrimeOne 4.0 vía `tokensprime.json`
+  oficial: gray slate · violet Tailwind · 8 tokens icon-size · 2 focus-
+  ring · spacing aditiva → decimal multiplicativa base 14 · idem
+  font-size + line-height. Naming SCDS conservado, valores cambiados.
+- **D** UndoStackService completo YA existía (S46 DD#18) con presence +
+  bulk update integrado. Falla mía de audit detectada, revertida.
+- **E** Memory §10: #4 modal Download → blob JSON real (no solo toast)
+  · #5/#6/#7 verificados ya implementados pre-S54 · #9 estado mixto
+  documentado (botón "Ver fallidas" aplazado sin trigger).
+- **F** Roadmap entry §10 #22 "Parar procesamiento IA" anotado.
+- **G** Thumbnails contextuales tracker — postpone, ver §"Bloques S55+"
+  abajo.
+
+**Estado salud**: tsc/lint/build verdes · Playwright cross-app 14/14
+verde (corrido 6× en la maratón) · i18n 1488 paths × 4 locales.
+
+---
+
+## 🎯 Bloques S55+ (priorizados)
+
+### G · Thumbnails contextuales tracker (postponed S54)
+
+**Qué es**: hoy los 34 PNG del tracker home ds-docs muestran cada
+componente SCDS **aislado sobre fondo neutro** (showcase gallery).
+Rafa pidió en S54 que pasen a mostrar el componente **en uso real
+dentro de AED o Memory** — evidencia visual que el sistema vive en
+producto.
+
+**Por qué se aplaza**: 2-3h serio. Requiere:
+1. Mapping manual de los 34 componentes → pantalla representativa
+   AED/Memory donde se ve cada uno.
+2. Selector CSS específico para cada uno (crop centrado 160×80).
+3. Criterio placeholder para componentes sin consumer real (Rafa
+   confirmó: opción B "Sin consumer real todavía" — refuerza presión
+   sana para promover, delata gaps reales del SCDS).
+4. Script Playwright que navegue + crop + genere los 34 PNG con
+   `addStyleTag` para ocultar chrome.
+
+**Decisiones tomadas S54**:
+- Crop centrado (b), una representativa por componente, placeholder
+  para gaps, generar local con Playwright.
+
+**Coste de NO hacerlo**: cero — los thumbnails actuales son útiles
+como showcase. Es upgrade, no critical.
+
+### SCDS deuda pendiente (sin trigger reciente)
+
+- §10 #8 eyebrow refactor `sc-dialog` — esperar ≥2 consumers que
+  pidan eyebrow en sus dialogs.
+- §10 #11 DataExportImport JSON config Memory — esperar caso real
+  migración bulk.
+- §10 #22 parar procesamiento IA — esperar pipeline backend real con
+  AbortController.
+- 7 SCDS gaps consumers `inconsistencies-backlog`:
+  #2 `inline-rename-cell` segundo consumer, #4 `label-chip` declinado,
+  #6 `<sc-data-table>`, #7 `<sc-select-button>`, #8 `<sc-tag>`,
+  #32 `.table-card` partial (5º consumer), #33 `.page__inner` partial
+  (9º consumer).
+- 8 SCDS Figma-dependent `inconsistencies-backlog`:
+  #14/#15 `sc-search` variants Figma, #37 form variants sm/md/lg,
+  #44/#45 off-scale spacing/radius (probablemente cierran con la
+  migración decimal S54 — auditar en S55 si quedan hits residuales),
+  #48 icon-size literales Lucide (208 hits — tokens C3 ya disponibles
+  pero migración mecánica pendiente), #49 box-shadow custom, #50
+  duration tokens.
+
+### Próximo audit token sweep
+
+Cuando el equipo de diseño pase una versión actualizada de
+`tokensprime.json` (export Figma Variables del Kit Pro), reabrir
+audit cruzado vs SCDS para detectar nuevas divergencias. La S54
+estableció el flujo: Rafa pasa el JSON, Claude cruza con `01-primitive.css`,
+report en chat, decisiones puntuales.
+
+### BeyondUI
+
+Sin acción inmediata. Rafa argumentó válidamente (settings/dashboard
+NO son solo marketing — encajan en monitorización futura Supervisor).
+Decisión cierre: NO comprar el kit; cuando llegue pantalla concreta
+(monitorización Supervisor, settings rico), Rafa pasa screenshots como
+referencia, implementamos con PrimeNG + SCDS sin importar nada del kit.
+
+---
+
 ## Estado al cerrar (Session 53.5, 2026-05-21)
 
 Iter de polish post-S53 (commit `a1e6bba`). 5 pedidos del user

@@ -10,6 +10,118 @@
 
 ---
 
+## 2026-05-21 · Session 54 — Maratón: atajos + tokens PrimeOne + Memory mocks + audit Undo/mocks
+
+> Sesión maratón con 8 bloques planificados, 6 commits a `main`. Tres
+> bloques (D, E parcial, G) resultaron tener trabajo ya hecho pre-S54
+> o coste real distinto al planeado — documentado el alcance restante
+> para S55+ con triggers claros. Aplicada memoria
+> `feedback_devaluation_existing_work` tras detectar que mi audit
+> inicial del Bloque A pifió quitando ⌘Z del panel asumiendo gap (en
+> realidad UndoStackService completo en main desde S46 DD#18).
+
+### Hitos por bloque
+
+**Bloque A — Atajos teclado quick wins** (commit `0038d2a`):
+- `/` focus primer `<sc-search>` visible (patrón GitHub/Linear/Slack).
+- ⌘S al panel (ya implementado, faltaba doc).
+- Cleanup ⌘Z del panel (luego revertido en Bloque D al ver UndoStack
+  funcional).
+- Util compartido `is-typing-target.ts` en packages/design-system/utils
+  — antes inline en keyboard-shortcuts.
+
+**Bloque B — Audit tokens SCDS vs PrimeOne 4.0**: cruce contra
+`tokensprime.json` (Smart Contact Prime UI Kit Pro Figma Variables
+export pasado por Rafa). Reporte ejecutivo en chat. 5 divergencias
+detectadas; 4 aplicadas (Bloque C), 1 estructural negociada.
+
+**Bloque C — Tokens primitive alineados a PrimeOne** (commits
+`f90d833` + `0d6ccf3`):
+- C1: `--sc-color-gray-*` Tailwind slate → PrimeOne slate custom (más
+  cálido/azulado oscuro). 11 hex en 1 archivo.
+- C2: `--sc-color-violet-*` ramp custom SC saturada → Tailwind violet
+  (base PrimeOne).
+- C3: 8 tokens nuevos `--sc-icon-size-{xs,sm,md,default,lg,xl,2xl,3xl}`
+  para uso en SCSS (Lucide [size] sigue literal porque no consume CSS
+  variables).
+- C4: `--sc-focus-ring-{width,offset}` tokens (1px / 2px).
+- C5: **migración estructural** spacing aditiva → escala decimal
+  PrimeOne (multiplicativa base 14). Naming SCDS conservado, solo
+  valores. Idem font-size + line-height. Confirmado explícitamente
+  por Rafa "actualiza todos los tokens cómo están en este archivo".
+
+**Bloque D — Undo Entity CRUD** (commit `8f38dcf`): hallazgo —
+`UndoStackService` + global ⌘Z handler en AppComponent + integración
+con agents-list-page (presence + bulk update) y groups-list-page
+(bulk) YA estaba en main desde S46 (DD#18). Mi audit inicial pifió.
+Revertido el cleanup del Bloque A: ⌘Z vuelve al panel. Cobertura
+actual respeta DD#18 (delete excluido a propósito, dialog gate es
+suficiente). Sin trabajo adicional.
+
+**Bloque E — Mocks Memory §10** (commit `b2af427`): tras audit
+descubierto que #5 (sticky toast), #6 (hint excluye), #7 (hint
+multi-tramo) YA implementados pre-S54. Sólo cerrado #4 (modal
+Download → genera blob JSON real con metadata + transcripción +
+análisis; click descarga `memory-export-{id}-{ts}.json`). #9 estado
+mixto: chip + toast ya están, botón "Ver fallidas" en toast aplazado
+(sobreingeniería sin trigger). i18n key nueva
+`memory.player.download_success` × 4 locales.
+
+**Bloque F — Roadmap entry §10 #22** (commit `8f38dcf`): "Parar
+procesamiento IA (transcripciones/análisis)" anotado con trigger
+backend real + endpoint abort + fase post-rollout IRL.
+
+**Bloque G — Thumbnails contextuales tracker**: postponed a S55.
+Coste real: 2-3h serio (mapping manual 34 componentes → pantallas
+AED/Memory + selectores CSS específicos + criterio placeholder para
+componentes sin consumer real + script Playwright reescrito). Decisión
+de cierre: los thumbnails S53 sobre la gallery siguen siendo útiles
+(showcase aislado). Upgrade a contextual es nice-to-have, no critical.
+Documentado en NEXT-SESSION-PLAN con scope.
+
+**Bloque H — Docs cierre**: este entry.
+
+### Decisiones nuevas
+
+- **#9 botón "Ver fallidas" en toast**: NO añadir (sobreingeniería
+  cross-component sin trigger). El chip rojo "Solo fallidas" en
+  toolbar ya provee affordance.
+- **Spacing decimal**: SCDS conserva naming aditivo
+  (`--sc-spacing-100`) pero valor pasa a decimal PrimeOne (7px en
+  lugar de 8px). Drift cierra con Figma Variables oficiales.
+- **BeyondUI**: sin acción. Argumento Rafa válido (no es solo
+  marketing — settings/dashboard sí encajan). Sin comprar: si llega
+  pantalla concreta, screenshots como referencia.
+
+### Estado salud cierre S54
+
+tsc verde · build supervisor verde · build ds-docs verde · lint verde ·
+husky+lint-staged+i18n-audit OK · Playwright cross-app 14/14 verde
+(corrido 6× en la maratón) · i18n 1488 paths × 4 locales (+1 key new).
+
+### Memorias activadas
+
+- `feedback_devaluation_existing_work` — Bloque A pifió audit. Antes
+  de quitar algo, leerlo entero.
+- `feedback_critical_sparring_partner` — varios momentos: spacing
+  decimal (defendí NO migrar, Rafa confirmó SÍ migrar todo), botón
+  "Ver fallidas" toast (sostuve scope mixto vs sobreingeniería).
+- `feedback_iter_closing_summary` — 4 puntos por bloque al cerrar.
+
+### Bloques restantes para S55+
+
+- Bloque G thumbnails contextuales — scope ya documentado.
+- §10 #8 eyebrow refactor sc-dialog — esperar ≥2 consumers.
+- §10 #11 DataExportImport — esperar caso real migración bulk.
+- §10 #22 parar procesamiento IA — esperar backend real.
+- 7 SCDS gaps consumers (#2/#4/#6/#7/#8/#32/#33 inconsistencies-backlog).
+- 8 SCDS Figma-dependent: si Rafa pasa Figma Variables actualizados
+  (modo S54 con tokensprime.json), reabrir audit para ver qué falta.
+- BeyondUI: sin acción. Si llega caso real (monitorización supervisor
+  / settings rico), screenshots como referencia sin comprar.
+
+---
+
 ## 2026-05-21 · Session 53.5 — Tracker thumbnails ds-docs + Memory context menu + agent header /impeccable
 
 > Iter de polish post-S53 con 5 pedidos del user: capturas en el tracker
