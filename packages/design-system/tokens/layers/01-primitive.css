@@ -40,23 +40,23 @@
   --sc-color-soft-blue-950: #0d262b;
 
   /* ---------- Color · Gray (neutrals) ----------
-   * Mirrors Aura `slate` 1:1 (Tailwind slate). Previously the ramp was
-   * a custom blue-tinted gray that ran ~10% lighter than Figma's Aura
-   * reference; aligning here closes that gap globally for all
-   * borders, text, surfaces and dark-mode chrome.
+   * Mirrors PrimeOne 4.0 `slate` 1:1 (Smart Contact Prime UI Kit Pro,
+   * tokensprime.json `primitive.slate*` S54). Tono más cálido/azulado
+   * que Tailwind slate (que era la ramp anterior). Aligned para cerrar
+   * drift con Figma Variables oficiales.
    * `gray-0` stays at pure white (used as inverted surface). */
   --sc-color-gray-0: #ffffff;
-  --sc-color-gray-50: #f8fafc;
-  --sc-color-gray-100: #f1f5f9;
-  --sc-color-gray-200: #e2e8f0;
-  --sc-color-gray-300: #cbd5e1;
-  --sc-color-gray-400: #94a3b8;
-  --sc-color-gray-500: #64748b;
-  --sc-color-gray-600: #475569;
-  --sc-color-gray-700: #334155;
-  --sc-color-gray-800: #1e293b;
-  --sc-color-gray-900: #0f172a;
-  --sc-color-gray-950: #020617;
+  --sc-color-gray-50: #f7f8fa;
+  --sc-color-gray-100: #eceff3;
+  --sc-color-gray-200: #dadfe6;
+  --sc-color-gray-300: #c6ccd6;
+  --sc-color-gray-400: #aeb6c2;
+  --sc-color-gray-500: #8f97a3;
+  --sc-color-gray-600: #6f7784;
+  --sc-color-gray-700: #4f5663;
+  --sc-color-gray-800: #2f3642;
+  --sc-color-gray-900: #181d26;
+  --sc-color-gray-950: #0b0f14;
 
   /* ---------- Color · Green (success) ---------- */
   --sc-color-green-50: #f0fdf4;
@@ -112,18 +112,21 @@
   --sc-color-electric-blue-900: #041840;
   --sc-color-electric-blue-950: #020c21;
 
-  /* ---------- Color · Violet ---------- */
-  --sc-color-violet-50: #f5f0ff;
-  --sc-color-violet-100: #ece0ff;
-  --sc-color-violet-200: #d9bbff;
-  --sc-color-violet-300: #c48fff;
-  --sc-color-violet-400: #a44cf5;
-  --sc-color-violet-500: #8a1fe6;
-  --sc-color-violet-600: #6e18b8;
-  --sc-color-violet-700: #52138a;
-  --sc-color-violet-800: #390d60;
-  --sc-color-violet-900: #210738;
-  --sc-color-violet-950: #11031d;
+  /* ---------- Color · Violet ----------
+   * Mirrors PrimeOne 4.0 `violet` 1:1 (= Tailwind violet). Antes era
+   * una ramp custom saturada SC (#8a1fe6 base). Aligned S54 con Smart
+   * Contact Prime UI Kit Pro tokens. */
+  --sc-color-violet-50: #f5f3ff;
+  --sc-color-violet-100: #ede9fe;
+  --sc-color-violet-200: #ddd6fe;
+  --sc-color-violet-300: #c4b5fd;
+  --sc-color-violet-400: #a78bfa;
+  --sc-color-violet-500: #8b5cf6;
+  --sc-color-violet-600: #7c3aed;
+  --sc-color-violet-700: #6d28d9;
+  --sc-color-violet-800: #5b21b6;
+  --sc-color-violet-900: #4c1d95;
+  --sc-color-violet-950: #2e1065;
 
   /* ---------- Color · Orange (label palette) ---------- */
   /* Values mirror Aura's `orange` scale exactly. Used by the label
@@ -272,4 +275,27 @@
   --sc-radius-400: 12px;
   --sc-radius-500: 16px;
   --sc-radius-full: 9999px;
+
+  /* ---------- Icon size ----------
+   * Escala extraída de PrimeOne 4.0 (Smart Contact Prime UI Kit Pro,
+   * S54). Cubre los 8 step usados internamente por PrimeNG: radio sm,
+   * checkbox sm/default/lg, datatable sort, toast/message default/lg/xl,
+   * image action/preview, confirm dialog. Para Lucide-angular sigue
+   * funcionando `[size]="14"` literal (Lucide acepta number, no CSS
+   * var) — estos tokens son para SCSS donde algo escala via `width:`. */
+  --sc-icon-size-xs: 7px;
+  --sc-icon-size-sm: 10.5px;
+  --sc-icon-size-md: 12.25px;
+  --sc-icon-size: 14px;
+  --sc-icon-size-lg: 15.75px;
+  --sc-icon-size-xl: 17.5px;
+  --sc-icon-size-2xl: 21px;
+  --sc-icon-size-3xl: 28px;
+
+  /* ---------- Focus ring ----------
+   * PrimeOne 4.0 semanticCommon `focusRingWidth: 1`, `focusRingOffset: 2`.
+   * El color sigue siendo `--sc-border-focus` (semantic layer 2 →
+   * soft-blue-500 SC brand). */
+  --sc-focus-ring-width: 1px;
+  --sc-focus-ring-offset: 2px;
 }
