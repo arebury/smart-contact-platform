@@ -12,11 +12,14 @@ import { test, expect } from '@playwright/test';
  * Cuando un test falla = pixel diff > 2%. Decisión humana: el cambio es
  * intencional (regenerar baseline + commit) o regresión (fix).
  *
- * Screens cubiertos (4 × 2 themes = 8 baselines):
+ * Screens cubiertos (7 × 2 themes = 14 baselines):
  *  - AED list-page (`/admin/agentes`) — table chrome + page header
- *  - AED form-page (`/admin/agentes/editar/1`) — sticky-form-header + section-cards
+ *  - AED form-page (`/admin/agentes/editar/1`) — sticky-form-header + section-cards (Identificación default)
  *  - ds-docs gallery (`/components/inputtext`) — wrapper sizes/variants
- *  - Memory list (`/conversaciones/categorias`) — Memory shell + list chrome
+ *  - Memory categorías (`/conversaciones/categorias`) — Memory shell + list chrome
+ *  - Memory conversaciones (`/conversaciones`) — stitched-card + conversation-table (S56)
+ *  - Config sistema (`/config/sistema`) — settings cards canonical (S56)
+ *  - ds-docs home (`/`) — tracker thumbnails contextual (S56)
  */
 
 const AED = 'http://localhost:4200';
@@ -27,6 +30,9 @@ const SCREENS: ReadonlyArray<{ name: string; url: string }> = [
   { name: 'aed-agentes-edit', url: `${AED}/admin/agentes/editar/1` },
   { name: 'ds-docs-inputtext', url: `${DS_DOCS}/components/inputtext` },
   { name: 'memory-categorias', url: `${AED}/conversaciones/categorias` },
+  { name: 'memory-conversaciones', url: `${AED}/conversaciones` },
+  { name: 'config-sistema', url: `${AED}/config/sistema` },
+  { name: 'ds-docs-home', url: `${DS_DOCS}/` },
 ];
 
 const THEMES = ['light', 'dark'] as const;
