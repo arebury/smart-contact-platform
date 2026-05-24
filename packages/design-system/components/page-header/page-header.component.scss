@@ -21,10 +21,13 @@
   background: var(--sc-bg-surface);
   border-bottom: 1px solid var(--sc-border-default);
   box-shadow: var(--sc-shadow-xs);
-  padding: var(--sc-spacing-1-125) var(--sc-spacing-2-25);
+  /* Bloque 4 · cabecera compacta (experiment S59, decisión Rafa "global"):
+   * banda más fina → los datos arrancan más arriba en TODAS las páginas.
+   * padding 15.75 → 10.5px · gap 21 → 14px · icono 44 → 36px. */
+  padding: var(--sc-spacing-0-75) var(--sc-spacing-2-25);
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-1-5);
+  gap: var(--sc-spacing-1);
 }
 
 .page-header__icon {
@@ -32,8 +35,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: var(--sc-radius-200);
   background: var(--sc-color-gray-100);
   color: var(--sc-text-secondary);
