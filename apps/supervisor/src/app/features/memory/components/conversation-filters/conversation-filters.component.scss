@@ -13,7 +13,9 @@
   gap: var(--sc-spacing-1-125);
   padding: var(--sc-spacing-1-125);
   background: var(--sc-bg-surface);
-  border: 1px solid var(--sc-border-default);
+  /* BeyondUI vibe (experiment S59): chrome hairline en vez de borde
+   * marcado — la card se siente más liviana, menos "boxed". */
+  border: 1px solid var(--sc-border-subtle);
   border-bottom: 0;
   border-radius: var(--sc-radius-200) var(--sc-radius-200) 0 0;
 

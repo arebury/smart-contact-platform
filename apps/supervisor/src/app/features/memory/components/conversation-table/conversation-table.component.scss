@@ -65,6 +65,9 @@
  * compartido con el panel de filtros arriba. */
 .table-card {
   border-radius: 0 0 var(--sc-radius-200) var(--sc-radius-200);
+  /* BeyondUI vibe (experiment S59): hairline subtle, scoped a Memory.
+   * El partial compartido sigue en --sc-border-default para AED. */
+  border-color: var(--sc-border-subtle);
 }
 
 .memory-conversations-table {
@@ -72,7 +75,7 @@
   border-collapse: collapse;
 
   thead tr {
-    background: var(--sc-bg-default);
+    background: var(--sc-bg-surface);
     border-bottom: 1px solid var(--sc-border-default);
   }
 
@@ -89,13 +92,14 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background: var(--sc-bg-default);
-    padding: var(--sc-spacing-0-875);
+    background: var(--sc-bg-surface);
+    padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
     text-align: left;
-    font-size: var(--sc-font-size-50);
-    font-weight: var(--sc-font-weight-semibold);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    /* BeyondUI vibe (experiment S59): header limpio sentence-case en gris,
+     * NO uppercase tracked diminuto. font-size 100 (12.25px) ≈ Companies. */
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    letter-spacing: 0;
     color: var(--sc-text-secondary);
     white-space: nowrap;
     box-shadow: inset 0 -1px 0 var(--sc-border-default);
