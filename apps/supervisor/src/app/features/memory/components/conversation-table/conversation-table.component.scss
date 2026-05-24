@@ -64,10 +64,11 @@
  * `border-top` (que viene del partial) actúa como hairline divisor
  * compartido con el panel de filtros arriba. */
 .table-card {
-  border-radius: 0 0 var(--sc-radius-200) var(--sc-radius-200);
-  /* BeyondUI vibe (experiment S59): hairline subtle, scoped a Memory.
-   * El partial compartido sigue en --sc-border-default para AED. */
-  border-color: var(--sc-border-subtle);
+  /* BeyondUI vibe (experiment S59): flush — sin caja. La tabla va sobre
+   * la página con solo divisores hairline entre filas (patrón Companies/
+   * Linear). Scoped a Memory; el partial compartido sigue con caja para AED. */
+  border: 0;
+  border-radius: 0;
 }
 
 .memory-conversations-table {
@@ -127,7 +128,9 @@
    * acababa siendo (0,2,2) > (0,1,1) de `.__id` en el cascade real.
    */
   :where(tbody td) {
-    padding: var(--sc-spacing-0-875);
+    /* BeyondUI vibe (experiment S59): un pelín más de aire vertical
+     * (14px vs 12.25px) → filas ~52px como Companies, más elegante. */
+    padding: var(--sc-spacing-1) var(--sc-spacing-0-875);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     vertical-align: middle;

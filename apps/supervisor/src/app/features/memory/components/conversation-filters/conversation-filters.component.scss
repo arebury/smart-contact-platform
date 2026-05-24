@@ -13,11 +13,11 @@
   gap: var(--sc-spacing-1-125);
   padding: var(--sc-spacing-1-125);
   background: var(--sc-bg-surface);
-  /* BeyondUI vibe (experiment S59): chrome hairline en vez de borde
-   * marcado — la card se siente más liviana, menos "boxed". */
-  border: 1px solid var(--sc-border-subtle);
-  border-bottom: 0;
-  border-radius: var(--sc-radius-200) var(--sc-radius-200) 0 0;
+  /* BeyondUI vibe (experiment S59): flush — sin caja. Solo un divisor
+   * hairline abajo separa la toolbar de la tabla (patrón Companies). */
+  border: 0;
+  border-bottom: 1px solid var(--sc-border-subtle);
+  border-radius: 0;
 
   &__grid {
     display: grid;
