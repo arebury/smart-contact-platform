@@ -1,165 +1,27 @@
-/*
- * /conversaciones — Skin SaaS dashboard moderno (experiment/beyondui-patterns S58).
- *
- * Reintento tras feedback "Vogue magazine vibe": esta vez Linear/Vercel/Height
- * style — cool grays neutros, Inter throughout, NO display serif, NO warm cream,
- * NO hero gigante editorial. Cards minimalistas, denso productivity, status dots.
- *
- * Reglas duras aplicadas:
- *  - Background slate-50 cool (NO cream warm)
- *  - Surface card: border 1px hairline + radius sutil. SIN drop shadow editorial.
- *  - Page-header SC se mantiene (no hero magazine).
- *  - Tabla densa pero más airy (52-60px row height, no claustrofóbica).
- *  - Bulk action bar: glass pill floating (mantener — era acertado).
- *  - Inter TODO el tiempo (NO Urbanist, NO Fraunces).
- *  - Status dots prominentes para mixed-state.
- *  - Tabular nums en columnas numéricas.
- *
- * Scoped via :host (component encapsulation) — NO afecta resto AED.
- */
-
+/* Page chrome alineado con AED list-pages (S41 consistency fix):
+ * max-width 1600 + padding spacing-500/600 evita que el contenido
+ * recorra el full-width del main-content. `padding-bottom` reserva
+ * espacio para el bulk-action-bar overlay sin causar layout shift. */
 :host {
   display: block;
   height: 100%;
-  /* Cool gray base, slightly tinted — slate-50. Sin gradient warm, sin cream. */
-  background: #f6f8fb;
-  /* Tokens locales del skin SaaS dashboard moderno */
-  --skin-surface: #ffffff;
-  --skin-border: rgba(15, 23, 42, 0.06);
-  --skin-border-strong: rgba(15, 23, 42, 0.1);
-  --skin-text-primary: #0f172a;
-  --skin-text-secondary: #475569;
-  --skin-text-muted: #64748b;
-  --skin-text-subtle: #94a3b8;
-  --skin-shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04);
-  --skin-shadow-floating: 0 4px 12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.05);
-  --skin-shadow-glass: 0 -4px 24px rgba(15, 23, 42, 0.06);
-  --skin-accent: var(--sc-color-electric-blue-500);
-  --skin-accent-soft: rgba(20, 100, 254, 0.08);
-}
-
-/* ─── Page chrome — sutil subir respiración del header ─────────────── */
-:host ::ng-deep sc-page-header {
-  /* Un poco más de aire arriba para que el header respire en el cool bg */
-  padding-top: 12px;
-  padding-bottom: 12px;
+  background: var(--sc-bg-surface);
 }
 
 .page {
   flex: 1;
-  background: transparent;
-  padding-bottom: calc(var(--sc-bulk-action-bar-height) + 24px);
+  background: var(--sc-bg-surface);
+  padding-bottom: calc(var(--sc-bulk-action-bar-height) + var(--sc-spacing-1-125));
 
   &__inner {
-    max-width: 1440px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 24px 32px 32px;
+    padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25);
     display: flex;
     flex-direction: column;
+    /* S53 gestalt fix: filtros+toolbar+tabla son UNA card continua
+     * (stitched-card pattern). El divisor visual es 1 hairline border
+     * compartido — sin gap, sin doble shadow, sin doble radius. */
     gap: 0;
   }
-}
-
-/* ─── Surface card · stitched filters + table ─────────────────────── */
-/* Wrap filters + table en card minimalist: border hairline + radius +
- * shadow card sutil (NO editorial dramático). Patrón Linear/Vercel. */
-:host ::ng-deep sc-memory-conversation-filters {
-  background: var(--skin-surface);
-  border: 1px solid var(--skin-border);
-  border-radius: 12px 12px 0 0;
-  border-bottom: 0;
-  box-shadow: var(--skin-shadow-card);
-}
-
-:host ::ng-deep sc-memory-conversation-table {
-  background: var(--skin-surface);
-  border: 1px solid var(--skin-border);
-  border-radius: 0 0 12px 12px;
-  box-shadow:
-    0 1px 0 var(--skin-border),
-    var(--skin-shadow-card);
-  overflow: hidden;
-  display: block;
-}
-
-/* ─── Tabla — denso productivity con status dots ─────────────────── */
-:host ::ng-deep sc-memory-conversation-table {
-  table {
-    background: transparent;
-  }
-
-  thead th {
-    background: #fafbfc !important;
-    color: var(--skin-text-muted) !important;
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    padding-top: 12px !important;
-    padding-bottom: 12px !important;
-    border-bottom: 1px solid var(--skin-border) !important;
-  }
-
-  tbody td {
-    padding-top: 14px !important;
-    padding-bottom: 14px !important;
-    font-variant-numeric: tabular-nums;
-    border-bottom-color: var(--skin-border) !important;
-    color: var(--skin-text-secondary);
-  }
-
-  tbody tr {
-    transition: background-color 120ms ease;
-
-    &:hover td {
-      background: #f8fafc !important;
-    }
-  }
-
-  /* Status icons más prominentes en hover de fila */
-  tbody tr:hover sc-memory-status-icon svg {
-    transform: scale(1.05);
-    transition: transform 120ms ease;
-  }
-}
-
-/* ─── Filters toolbar — más respiración ────────────────────────── */
-:host ::ng-deep sc-memory-conversation-filters {
-  padding: 16px 20px !important;
-}
-
-/* ─── Bulk action bar — glass pill floating ───────────────────── */
-:host ::ng-deep sc-bulk-action-bar {
-  background: rgba(255, 255, 255, 0.88) !important;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-top: 1px solid var(--skin-border) !important;
-  box-shadow: var(--skin-shadow-glass) !important;
-}
-
-/* ─── Mock sample switcher button refinado ─────────────────────── */
-:host ::ng-deep sc-memory-mock-sample-switcher {
-  button {
-    background: var(--skin-surface) !important;
-    border: 1px solid var(--skin-border-strong) !important;
-    box-shadow: var(--skin-shadow-card) !important;
-    font-weight: 500 !important;
-    font-variant-numeric: tabular-nums;
-    transition:
-      box-shadow 150ms ease,
-      border-color 150ms ease,
-      background 150ms ease;
-
-    &:hover {
-      box-shadow: var(--skin-shadow-floating) !important;
-      border-color: var(--skin-border-strong) !important;
-    }
-  }
-}
-
-/* ─── Numeric columns — tabular nums everywhere ────────────────── */
-:host ::ng-deep .conversation-table__count,
-:host ::ng-deep .sc-bulk-action-bar__count,
-:host ::ng-deep .conversation-filters__count {
-  font-variant-numeric: tabular-nums;
 }
