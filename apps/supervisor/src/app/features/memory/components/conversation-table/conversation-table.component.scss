@@ -128,12 +128,36 @@
    * acababa siendo (0,2,2) > (0,1,1) de `.__id` en el cascade real.
    */
   :where(tbody td) {
-    /* BeyondUI vibe (experiment S59): un pelín más de aire vertical
-     * (14px vs 12.25px) → filas ~52px como Companies, más elegante. */
-    padding: var(--sc-spacing-1) var(--sc-spacing-0-875);
+    /* BeyondUI vibe (experiment S59): aire vertical (14px) + más aire
+     * horizontal (15.75px) → columnas menos apretadas, layout más airy
+     * tipo Companies. */
+    padding: var(--sc-spacing-1) var(--sc-spacing-1-125);
     font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     vertical-align: middle;
+  }
+
+  /* th alineado al mismo aire horizontal que las celdas. */
+  thead th {
+    padding-left: var(--sc-spacing-1-125);
+    padding-right: var(--sc-spacing-1-125);
+  }
+
+  /* BeyondUI vibe (experiment S59): columnas categóricas (Servicio, Grupo)
+   * como pills redondeadas — eco de los dominios pill de Companies. Pastilla
+   * sutil: fondo gris claro + hairline, no compite con los datos. */
+  .memory-cell-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--sc-spacing-0-25) var(--sc-spacing-0-625);
+    border-radius: var(--sc-radius-full);
+    background: var(--sc-bg-default);
+    border: 1px solid var(--sc-border-subtle);
+    color: var(--sc-text-primary);
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    line-height: 1.3;
+    white-space: nowrap;
   }
 
   &__th-status,

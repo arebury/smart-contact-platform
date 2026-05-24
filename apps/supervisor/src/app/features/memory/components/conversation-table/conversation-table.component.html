@@ -127,9 +127,17 @@
           </td>
           <td>{{ conv.hour }}</td>
           <td>{{ conv.date }}</td>
-          <td>{{ conv.service }}</td>
+          <td>
+            @if (conv.service) {
+              <span class="memory-cell-pill">{{ conv.service }}</span>
+            }
+          </td>
           <td>{{ conv.origin }}</td>
-          <td>{{ conv.group }}</td>
+          <td>
+            @if (conv.group) {
+              <span class="memory-cell-pill">{{ conv.group }}</span>
+            }
+          </td>
           <td>{{ conv.destination }}</td>
           <td class="table__td-num">{{ conv.duration }}</td>
           <td class="table__td-num">{{ conv.waiting }}</td>
