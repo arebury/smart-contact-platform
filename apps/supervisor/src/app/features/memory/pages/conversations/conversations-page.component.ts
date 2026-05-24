@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  type OnDestroy,
+  type OnInit,
+  signal,
+} from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LucideAngularModule, MessagesSquare } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
@@ -18,6 +26,7 @@ import { MockSampleSwitcherComponent } from '../../components/mock-sample-switch
 import { RetranscriptionConfirmModalComponent } from '../../components/retranscription-confirm-modal/retranscription-confirm-modal.component';
 import type { Conversation } from '../../data/conversation.types';
 import { ConversationsStore } from '../../state/conversations.store';
+import { TopBarSlotService } from '../../../../core/layout/top-bar/top-bar-slot.service';
 
 /**
  * Pantalla principal del módulo Memory (`/conversaciones`).
@@ -56,10 +65,22 @@ import { ConversationsStore } from '../../state/conversations.store';
   styleUrl: './conversations-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConversationsPageComponent {
+export class ConversationsPageComponent implements OnInit, OnDestroy {
   private readonly conversationsStore = inject(ConversationsStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+
+  /** Sube el selector de datos demo a la TopBar mientras /conversaciones está
+   * activa (experiment S59), y lo retira al salir. El switcher lee el store
+   * root, así que funciona renderizado en el shell sin perder estado. */
+  ngOnInit(): void {
+    this.topBarSlot.set(MockSampleSwitcherComponent);
+  }
+
+  ngOnDestroy(): void {
+    this.topBarSlot.clear();
+  }
 
   protected readonly conversations = this.conversationsStore.filteredConversations;
   protected readonly filters = this.conversationsStore.filters;

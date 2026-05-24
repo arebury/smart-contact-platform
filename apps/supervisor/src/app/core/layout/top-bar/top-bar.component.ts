@@ -7,6 +7,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { NgComponentOutlet } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ArrowLeft, Keyboard, LucideAngularModule } from 'lucide-angular';
@@ -15,6 +16,7 @@ import { ClickOutsideDirective } from '../../directives/click-outside.directive'
 import { NAV_ICONS } from '../../icons/nav-icons';
 import { BreadcrumbService } from '../../services/breadcrumb.service';
 import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
+import { TopBarSlotService } from './top-bar-slot.service';
 import { IllustratedAvatarComponent } from '@shared/components/illustrated-avatar/illustrated-avatar.component';
 
 /**
@@ -32,6 +34,7 @@ import { IllustratedAvatarComponent } from '@shared/components/illustrated-avata
     ClickOutsideDirective,
     IllustratedAvatarComponent,
     LucideAngularModule,
+    NgComponentOutlet,
     TranslateModule,
   ],
   templateUrl: './top-bar.component.html',
@@ -42,8 +45,13 @@ export class TopBarComponent {
   private readonly router = inject(Router);
   private readonly breadcrumbs = inject(BreadcrumbService);
   private readonly shortcuts = inject(KeyboardShortcutsService);
+  private readonly topBarSlot = inject(TopBarSlotService);
 
   protected readonly trail = this.breadcrumbs.trail;
+
+  /** Componente contextual inyectado por la página activa (p.ej. el selector
+   * de datos demo de Memory). Vacío en la mayoría de rutas. */
+  protected readonly slotComponent = this.topBarSlot.component;
 
   /** Path to the previous breadcrumb (`null` when the current page is a
    *  top-level route, e.g. on the dashboard or admin root). */

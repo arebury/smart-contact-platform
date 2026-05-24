@@ -43,6 +43,15 @@
     </ol>
   </div>
 
+  <!-- Slot contextual: la página activa puede inyectar chrome propio aquí
+       (p.ej. el selector de datos demo de Memory). Vacío en la mayoría de
+       rutas. Se renderiza con NgComponentOutlet → cero acoplamiento al shell. -->
+  @if (slotComponent(); as slot) {
+    <div class="top-bar__slot">
+      <ng-container *ngComponentOutlet="slot" />
+    </div>
+  }
+
   <!--
     Wrapper hosts the keydown listener so Esc can close the menu from
     anywhere inside it (avatar trigger or menu items). The avatar

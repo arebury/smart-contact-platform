@@ -23,6 +23,17 @@
     min-width: 0;
   }
 
+  /* Slot contextual (experiment S59): empujado a la derecha con margin-left
+   * auto para sentarse junto al avatar. Separación a su izquierda del
+   * breadcrumb y a su derecha del avatar. */
+  &__slot {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: var(--sc-spacing-1);
+    min-width: 0;
+  }
+
   &__home {
     width: 28px;
     height: 28px;
