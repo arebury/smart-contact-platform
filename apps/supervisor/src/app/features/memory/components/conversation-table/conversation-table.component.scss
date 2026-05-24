@@ -133,7 +133,10 @@
      * tipo Companies. */
     padding: var(--sc-spacing-1) var(--sc-spacing-1-125);
     font-size: var(--sc-font-size-200);
-    color: var(--sc-text-secondary);
+    /* Bloque 1 · tipografía nítida BeyondUI: peso 500 (Medium) + texto
+     * primario (no secondary) → datos crujientes y legibles como Companies. */
+    font-weight: var(--sc-font-weight-medium);
+    color: var(--sc-text-primary);
     vertical-align: middle;
   }
 

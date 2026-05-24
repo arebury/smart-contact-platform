@@ -10,8 +10,11 @@
 .memory-conversation-filters {
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-1-125);
-  padding: var(--sc-spacing-1-125);
+  /* Bloque 2 · layout efficiency BeyondUI: chrome más compacto (gap +
+   * padding 15.75 → 10.5px) → la tabla arranca más arriba, menos vertical
+   * desperdiciado antes de los datos. */
+  gap: var(--sc-spacing-0-75);
+  padding: var(--sc-spacing-0-75) var(--sc-spacing-1-125);
   background: var(--sc-bg-surface);
   /* BeyondUI vibe (experiment S59): flush — sin caja. Solo un divisor
    * hairline abajo separa la toolbar de la tabla (patrón Companies). */
@@ -33,8 +36,8 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--sc-spacing-1-125);
-    padding-top: var(--sc-spacing-0-875);
-    border-top: 1px solid var(--sc-border-default);
+    padding-top: var(--sc-spacing-0-75);
+    border-top: 1px solid var(--sc-border-subtle);
   }
 
   &__actions-left {
