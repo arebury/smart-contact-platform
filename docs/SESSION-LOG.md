@@ -10,6 +10,35 @@
 
 ---
 
+## 2026-05-26 · Session 61 — Iconos Figma: fix SCALE librería + publish (saga, 0 código)
+
+> Sesión 100% Figma (sin cambios de repo). Rafa peleaba con tamaños de icono en
+> el Kit Pro. Diagnóstico + arreglo de fondo. Detalle en memoria
+> `project_figma_iconset_icon_scale_fix`.
+
+**El problema y el arreglo**:
+- **Gotcha 1 (se esquina)**: Material como vectores no escalan si el glifo está
+  en `MIN/MIN`; PrimeIcons escalaba por ser fuente. Arreglo: glifo a **`SCALE`**.
+  Mass-fix de la librería `Smart-Contact-Icons` (fichero aparte, editable):
+  **10.610 componentes → SCALE** (~13.574 glifos, 3 tandas Plugin API). Rafa
+  **publicó** + update en SC-Prime → iconos escalan en toda la app. Seguro: a
+  tamaño nativo no cambia nada (SCALE solo actúa al agrandar).
+- **Gotcha 2 (se ve grande)**: Material es "a sangre" (glifo llena la caja),
+  PrimeIcons traen ~40% de aire → mismo px se ve ~1.6× mayor. Regla: Material a
+  ~60-65% del px del PrimeIcon que sustituye.
+
+**IconSet (estilo SnowUI)**: explorado como banco de pruebas, **descartado** (es
+andamiaje de diseño; en código `<sc-icon>` ya lo hace). Auditado el "patrón B"
+(mismo componente, icono bloqueado, multi-size) → **raro**: el kit ya lo resuelve
+con variantes Size en el master (Select: chevron 12/14/16). Único caso real
+**InputNumber** (chevron vs +/-) → arreglado en local por Rafa. No llega a 3+ →
+IconSet NO se adopta a sistema. Trigger reapertura: badge de aviso o patrón 3+.
+
+**Pendiente real (sin tocar esta sesión)**: la **triple auditoría** sigue en cola
+(ver NEXT-SESSION-PLAN) — esta sesión fue un desvío Figma que arrancó Rafa.
+
+---
+
 ## 2026-05-25 · Session 59-60 — "Todo arriba" + la ficha + iconos Material → MERGED a main
 
 > Maratón. El experimento `beyondui-patterns` (estética BeyondUI/SnowUI) se

@@ -5,6 +5,22 @@
 
 ---
 
+## Estado al cerrar (Session 61, 2026-05-26) — iconos Figma (desvío, 0 código)
+
+Sesión 100% Figma, **sin cambios de repo**. Rafa peleaba con tamaños de icono en
+el Kit Pro; se diagnosticó y arregló de raíz (detalle en SESSION-LOG S61 +
+memoria `project_figma_iconset_icon_scale_fix`):
+- Librería `Smart-Contact-Icons`: **10.610 iconos `MIN/MIN` → `SCALE`** + Rafa
+  publicó → escalan en toda la app. Material es "a sangre" (se ve ~1.6× mayor que
+  PrimeIcons a igual px) → al migrar, ponerlo a ~60-65% del px viejo.
+- **IconSet** explorado y **descartado** (andamiaje de diseño; el código ya lo
+  cubre con `<sc-icon>`). El "patrón B" es raro (el kit usa variantes Size en el
+  master, ej. Select). Único caso InputNumber → arreglado en local.
+
+> ⚠️ **El foco principal NO cambió**: la **triple auditoría** de abajo sigue en
+> cola intacta (S60 la dejó lista; S61 fue un desvío Figma que arrancó Rafa).
+> Arrancar S62 por ahí salvo que Rafa redirija.
+
 ## Estado al cerrar (Session 60, 2026-05-25) — todo-arriba + la ficha + iconos Material → MERGED
 
 Sesión maratón. Todo el experimento consolidado y **mergeado a `main`** (PR #49):
