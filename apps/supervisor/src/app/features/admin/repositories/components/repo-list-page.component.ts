@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  input,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { map, startWith } from 'rxjs';
@@ -18,9 +29,9 @@ import { ButtonModule } from 'primeng/button';
 import { ClickOutsideDirective } from '@core/directives/click-outside.directive';
 import { XlsxExportService } from '@core/services/xlsx-export.service';
 import { clampToViewport } from '@core/utils/viewport';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
 import { DeleteEntityDialogComponent } from '@shared/components/delete-entity-dialog/delete-entity-dialog.component';
-import { PageHeaderComponent } from '@shared/components/page-header/page-header.component';
 import { SearchComponent } from '@shared/components/search/search.component';
 import { RepoFormPanelComponent, RepoFormSubmission } from './repo-form-panel.component';
 import { RepoEntity, RepoPageConfig, RepoStore } from './repo-types';
@@ -46,7 +57,6 @@ interface ContextMenuPos {
     ClickOutsideDirective,
     DeleteEntityDialogComponent,
     LucideAngularModule,
-    PageHeaderComponent,
     RepoFormPanelComponent,
     SearchComponent,
     TranslateModule,
@@ -59,9 +69,22 @@ export class RepoListPageComponent<T extends RepoEntity> {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly xlsx = inject(XlsxExportService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly config = input.required<RepoPageConfig<T>>();
   readonly store = input.required<RepoStore<T>>();
+
+  /** CTA + panel inline proyectados a la TopBar (modelo "todo arriba" S59). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   protected readonly plusIcon = Plus;
   protected readonly searchIcon = Search;

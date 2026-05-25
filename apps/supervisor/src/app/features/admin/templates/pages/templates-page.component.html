@@ -1,6 +1,8 @@
-<sc-page-header titleKey="templates.page_title" [icon]="fileStackIcon">
+<!-- Modelo "todo arriba" (experiment S59): sin banda de page-header. La
+     identidad la da el breadcrumb de la TopBar; el CTA (y su panel de creación
+     inline) se proyectan a la barra vía TopBarSlotService. -->
+<ng-template #topbarActions>
   <div
-    page-header-actions
     class="page__create-anchor"
     (scClickOutside)="closeCreatePanel()"
     [scClickOutsideEnabled]="creating()"
@@ -21,7 +23,7 @@
       </div>
     }
   </div>
-</sc-page-header>
+</ng-template>
 
 <div class="page" [class.page--has-selection]="selectedIds().size > 0">
   <div class="page__inner">

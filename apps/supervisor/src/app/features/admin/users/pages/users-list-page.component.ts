@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -18,6 +28,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { ClickOutsideDirective, SortableHeaderDirective } from '@core/directives';
 import { UndoStackService, XlsxExportService } from '@core/services';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { SelectionState } from '@core/utils/selection-state';
 import { clampToViewport } from '@core/utils/viewport';
 import {
@@ -28,7 +39,6 @@ import {
   DeleteEntityDialogComponent,
   EmptyStateComponent,
   InlineRenameCellComponent,
-  PageHeaderComponent,
   SearchComponent,
 } from '@shared/components';
 import { USER_TYPE_LABEL_KEYS, USER_TYPES, User, UserType } from '../data/users-data';
@@ -55,7 +65,6 @@ interface ContextMenuPos {
     EmptyStateComponent,
     InlineRenameCellComponent,
     LucideAngularModule,
-    PageHeaderComponent,
     SearchComponent,
     SortableHeaderDirective,
     TranslateModule,
@@ -71,6 +80,20 @@ export class UsersListPageComponent {
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
   private readonly undoStack = inject(UndoStackService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /** CTA proyectado a la TopBar (modelo "todo arriba" S59): la banda de
+   * page-header desaparece; identidad → breadcrumb, acción → barra. */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   protected readonly plusIcon = Plus;
   protected readonly searchIcon = Search;

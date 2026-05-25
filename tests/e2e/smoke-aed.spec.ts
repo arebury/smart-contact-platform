@@ -25,19 +25,23 @@ test.describe('AED smoke', () => {
 
   test('usuarios list-page carga', async ({ page }) => {
     await page.goto(`${AED}/admin/usuarios`, { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('sc-page-header')).toBeVisible();
+    // Modelo "todo arriba" (experiment S59): identidad + CTA en el TopBar.
+    await expect(page.locator('sc-top-bar')).toBeVisible();
+    await expect(page.locator('.top-bar__actions')).toBeVisible();
     await expect(page.locator('table.table, sc-empty-state')).toBeVisible();
   });
 
   test('grupos list-page carga', async ({ page }) => {
     await page.goto(`${AED}/admin/grupos`, { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('sc-page-header')).toBeVisible();
+    await expect(page.locator('sc-top-bar')).toBeVisible();
+    await expect(page.locator('.top-bar__actions')).toBeVisible();
     await expect(page.locator('table.table, .empty')).toBeVisible();
   });
 
   test('labels list-page carga', async ({ page }) => {
     await page.goto(`${AED}/admin/labels`, { waitUntil: 'domcontentloaded' });
-    await expect(page.locator('sc-page-header')).toBeVisible();
+    await expect(page.locator('sc-top-bar')).toBeVisible();
+    await expect(page.locator('.top-bar__actions')).toBeVisible();
     await expect(page.locator('table.table, .empty')).toBeVisible();
   });
 

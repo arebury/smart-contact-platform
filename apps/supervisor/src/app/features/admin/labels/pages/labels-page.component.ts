@@ -1,4 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -17,12 +27,12 @@ import { ButtonModule } from 'primeng/button';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { XlsxExportService } from '@core/services';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
   useBulkEntityI18n,
   LabelChipComponent,
-  PageHeaderComponent,
   SearchComponent,
 } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
@@ -52,7 +62,6 @@ interface ContextMenuPos {
     LabelChipComponent,
     LabelFormPanelComponent,
     LucideAngularModule,
-    PageHeaderComponent,
     SearchComponent,
     TranslateModule,
   ],
@@ -67,6 +76,21 @@ export class LabelsPageComponent {
   private readonly xlsx = inject(XlsxExportService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /** CTA + panel inline proyectados a la TopBar (modelo "todo arriba" S59):
+   * la banda de page-header desaparece; identidad → breadcrumb, acción → barra.
+   * El panel de creación cuelga del botón en la barra (mismo anclaje relativo). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   protected readonly plusIcon = Plus;
   protected readonly searchIcon = Search;
