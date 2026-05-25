@@ -10,13 +10,12 @@ import {
 import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Keyboard, LucideAngularModule } from 'lucide-angular';
 
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
-import { NAV_ICONS } from '../../icons/nav-icons';
 import { BreadcrumbService } from '../../services/breadcrumb.service';
 import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
 import { TopBarSlotService } from './top-bar-slot.service';
+import { IconComponent } from '@shared/components/icon/icon.component';
 import { IllustratedAvatarComponent } from '@shared/components/illustrated-avatar/illustrated-avatar.component';
 
 /**
@@ -32,8 +31,8 @@ import { IllustratedAvatarComponent } from '@shared/components/illustrated-avata
   selector: 'sc-top-bar',
   imports: [
     ClickOutsideDirective,
+    IconComponent,
     IllustratedAvatarComponent,
-    LucideAngularModule,
     NgComponentOutlet,
     NgTemplateOutlet,
     TranslateModule,
@@ -65,12 +64,6 @@ export class TopBarComponent {
   protected readonly userMenuOpen = signal(false);
   protected readonly lastIndex = computed(() => this.trail().length - 1);
   private readonly avatarBtn = viewChild<ElementRef<HTMLButtonElement>>('avatarBtn');
-
-  protected readonly phoneIcon = NAV_ICONS['phone'];
-  protected readonly helpIcon = NAV_ICONS['help-circle'];
-  protected readonly logoutIcon = NAV_ICONS['log-out'];
-  protected readonly dashboardIcon = NAV_ICONS['layout-dashboard'];
-  protected readonly shortcutsIcon = Keyboard;
 
   protected goToDashboard(): void {
     void this.router.navigateByUrl('/dashboard');

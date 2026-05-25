@@ -39,12 +39,23 @@ Symbols presente todavía.
 "sin Material". Confirmar con Rafa que eso era "sin Angular Material (componentes)",
 y que **Material Symbols como icon-set sí** es la dirección (decisión S58-59).
 
+**Progreso (rama `experiment/icons-material`)**:
+- ✅ **Foundation hecha**: Material Symbols Outlined (variable font) en
+  `apps/supervisor/src/index.html` + `<sc-icon name size [fill] [weight]>` en
+  `packages/design-system/components/icon/` (exportado del barrel).
+- ✅ **Pilot validado**: top-bar migrado 1:1 (home `space_dashboard`, shortcuts
+  `keyboard`, help `help`, logout `logout`) — renderiza, lint + build verde.
+- ⏳ **Pendiente bulk**: ~78 ficheros restantes (forms, listas, Memory, sidebar
+  nav, command-palette…). El sidebar nav + palette comparten `NAV_ICONS` →
+  migrar juntos. **GitHub** (icono de marca) NO tiene glifo Material → se queda
+  en Lucide. Regenerar baselines visual-regression al final (el top-bar cambia
+  TODAS las pantallas). Quitar `lucide-angular` cuando queden 0 usos.
+
 **Estrategia propuesta**:
 1. **Foundation**: Material Symbols Outlined (variable font). Self-host o Google
    Fonts CSS link en `index.html` de supervisor + ds-docs. NO es npm dep nuevo.
 2. **Wrapper SCDS `<sc-icon name size [fill] [weight]>`**: única API de icono,
    consume tokens `--sc-icon-size-*`. Renderiza `<span class="material-symbols-outlined">`.
-   (Cocinar SOLO al migrar — no scaffolding "por si acaso", DD no-goal.)
 3. **Mapping Lucide→Material** (lo delicado, a mano por icono): no es 1:1
    (`Trash2`→`delete`, `Users`→`group`, `Phone`→`call`/`phone`…). Tabla revisada
    icono por icono antes de tocar templates.
