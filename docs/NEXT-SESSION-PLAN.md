@@ -5,113 +5,144 @@
 
 ---
 
-## Estado al cerrar (Session 60, 2026-05-25) — consolidación "todo arriba" + plan iconos
+## Estado al cerrar (Session 60, 2026-05-25) — todo-arriba + la ficha + iconos Material → MERGED
 
-Rama `experiment/beyondui-patterns`. Cerrada la regresión que bloqueaba promover
-"todo arriba" a main: **la ficha** en los 3 formularios (commit `2b83e9c`).
+Sesión maratón. Todo el experimento consolidado y **mergeado a `main`** (PR #49):
 
-- **La ficha** (resumen de identidad solo-lectura en la cabeza del panel lateral):
-  avatar `<sc-illustrated-avatar>` + nombre + pill de estado + dato clave. Agentes
-  (presencia + ext) · Usuarios (tipo + email) · Grupos (estrategia + tel). Índice
-  reordenado **identidad-primero / Avanzado-último**, abre en Identificación.
-  **Eliminar** → enlace rojo discreto al pie del panel (`.ipanel__delete`),
-  sustituye `<sc-form-danger-zone>`. `.ficha` + `.ipanel__delete` promovidos a
-  `_forms.scss` (3 consumers, DD-4).
-- **Rollback documentado**: Supervisor **DD#65** (qué + por qué + cómo revertir).
-  `StickyFormHeaderComponent` + `PageHeaderComponent` retenidos (barrel + ds-docs
-  galleries). page-header compactado (icono 44→36, padding fino) documentado en
-  spec 19 + gallery. Sticky-form-header spec 22 marcado "retenido para rollback".
-- **Health**: tsc/build/lint/i18n verde · 14/14 smoke · 9 baselines
-  visual-regression regenerados al estado todo-arriba (light+dark).
+- **Modelo "todo arriba"** (listas + forms) + **la ficha** (resumen identidad
+  solo-lectura en el panel de los 3 forms) cerrando la regresión de contexto.
+  Índice **por modo**: crear=identidad-primero, editar=identidad-abajo (la ficha
+  da el contexto). Eliminar discreto al pie. Rollback en Supervisor **DD#65**
+  ("revierte el modelo todo-arriba" + receta).
+- **Iconos Lucide → Material Symbols** vía wrapper SCDS `<sc-icon>` (~140
+  ficheros, 4 áreas en paralelo + sistema NAV_ICONS). Contratos SCDS `[icon]`
+  → string. Excepciones en Lucide: **GitHub** (marca, sin glifo Material) +
+  **Loader2** (spinner animado). Font Material Symbols en index.html de
+  supervisor + ds-docs. Fix circular **NG0919** (import relativo del IconComponent
+  en componentes SCDS).
+- **Salud**: build supervisor + ds-docs · lint · i18n (1488×4) · **9/9 smoke** ·
+  runtime 0 errores · ~50 `<sc-icon>`/pantalla. Validado en :4300 (el :4200
+  estaba ocupado por un clon de SnowUI en `~/Downloads` — gotcha de entorno).
 
-### 🎯 Bloque PRÓXIMO (grande, dedicado): migración iconos Lucide → Material
+### 🎯 PRÓXIMO: triple auditoría (pedido Rafa S60)
 
-> Rafa pidió migrar todos los iconos a Material. Es un cambio **foundational de
-> 80 archivos** — merece pase propio y validado, NO un sweep a ciegas. Por eso
-> NO se hizo en S60 junto al merge (mezclaría 2 estilos de icono en main).
+Tras la consolidación, atacar con plan grande (sin escatimar):
+1. **Auditoría de consistencia UX** — flujos AED + Memory, patrones repetidos,
+   inconsistencias de interacción/copy/jerarquía tras todo-arriba + Material.
+2. **Auditoría de optimización de código** — bundle (hoy >1.6MB, sobre budget),
+   god-components (conversation-player-modal 476 líneas), dead code, lazy loading,
+   `lucide-angular` (¿quitable del bundle? quedan 8 keepers Loader2/GitHub).
+3. **Auditoría del design system** — `<sc-icon>` a customs-catalog, escalas de
+   iconos Material, los 2 Trash2 residuales en Lucide (entity-form, rule-builder),
+   tokens pendientes, deuda `inconsistencies-backlog`.
 
-**Scope real (medido S60)**: 63 usos `<lucide-icon>` en templates · **81 ficheros**
-importan de `lucide-angular` · solo 5 PrimeIcons · único registro central
-`core/icons/nav-icons.ts` (el resto importa iconos por componente). Sin Material
-Symbols presente todavía.
-
-**⚠️ Aclarar antes de arrancar**: el no-goal de `apps/ds-docs/CLAUDE.md` dice
-"sin Material". Confirmar con Rafa que eso era "sin Angular Material (componentes)",
-y que **Material Symbols como icon-set sí** es la dirección (decisión S58-59).
-
-**Progreso (rama `experiment/icons-material`)**:
-- ✅ **Foundation hecha**: Material Symbols Outlined (variable font) en
-  `apps/supervisor/src/index.html` + `<sc-icon name size [fill] [weight]>` en
-  `packages/design-system/components/icon/` (exportado del barrel).
-- ✅ **Pilot validado**: top-bar migrado 1:1 (home `space_dashboard`, shortcuts
-  `keyboard`, help `help`, logout `logout`) — renderiza, lint + build verde.
-- ⏳ **Pendiente bulk**: ~78 ficheros restantes (forms, listas, Memory, sidebar
-  nav, command-palette…). El sidebar nav + palette comparten `NAV_ICONS` →
-  migrar juntos. **GitHub** (icono de marca) NO tiene glifo Material → se queda
-  en Lucide. Regenerar baselines visual-regression al final (el top-bar cambia
-  TODAS las pantallas). Quitar `lucide-angular` cuando queden 0 usos.
-
-**Estrategia propuesta**:
-1. **Foundation**: Material Symbols Outlined (variable font). Self-host o Google
-   Fonts CSS link en `index.html` de supervisor + ds-docs. NO es npm dep nuevo.
-2. **Wrapper SCDS `<sc-icon name size [fill] [weight]>`**: única API de icono,
-   consume tokens `--sc-icon-size-*`. Renderiza `<span class="material-symbols-outlined">`.
-3. **Mapping Lucide→Material** (lo delicado, a mano por icono): no es 1:1
-   (`Trash2`→`delete`, `Users`→`group`, `Phone`→`call`/`phone`…). Tabla revisada
-   icono por icono antes de tocar templates.
-4. **Migración por superficie con validación visual** (Playwright diff cada una):
-   nav (sidebar+topbar via NAV_ICONS) → forms → listas → Memory → resto.
-   Material Symbols tiene métricas distintas a Lucide → revisar tamaño/alineación
-   en cada superficie, no asumir.
-5. Cuando 0 usos de `lucide-icon`: quitar `lucide-angular` del bundle.
-6. Regenerar baselines visual-regression al final (cambian todas).
-7. Cerrar backlog #48 (icon-size tokens) de paso.
-
-**Coste estimado**: sesión dedicada completa (foundation + mapping + 80 ficheros
-por tandas + validación). Reversible (rama).
-
-### Convergencia a main
-
-S60 abre PR `experiment/beyondui-patterns` → `main` con todo el resultado del
-experimento (todo-arriba listas+forms, ficha, pills categóricas, tabla Memory
-flush, header compacto, badges modal bulk, copy). Nota: la rama arrastra los
-skills de experimentación (`.agents/skills/*`, ~4900 líneas) — tooling, no
-producto; decidir si se quedan en main o se limpian.
+Output por auditoría: findings con severidad + plan de acción ejecutable.
 
 ---
 
-## Estado al cerrar (Session 58-59, 2026-05-25) — rama experimento + Figma
+## Estado al cerrar (Session 58, 2026-05-21)
 
-> ⚠️ Trabajo en **rama `experiment/beyondui-patterns`** (NO main). Estado vivo +
-> detalle técnico (ids de frames Figma, gotchas MCP) en la memoria
-> `project_figma_bulk_transcription_paint`.
+Sesión maratón con 7 bloques cerrados en main + 4 en branch experiment.
+Hito operativo: instalación skills Leonxlnx/taste-skill + branch experimentación
+aislada. Memoria nueva `feedback_skills_usage_s58` documenta usage.
 
-Rama pusheada (`693e4d8`). Explora estética BeyondUI/SnowUI sobre el DS sin tocar main.
+**Main producción (2 commits)**:
+- `acddb29` — bloques B (audit cross-language), C (audit legacy buscar oro),
+  D (modal Kit Pro audit), F (DTCG export sc-tokens.json), G (lightbox
+  thumbnails ds-docs home).
+- `a3f51ee` — Urbanist 500+600 para títulos display ds-docs (scoped, no AED).
 
-- **Barrido "todo arriba"** (4 commits): toda la app (Agentes, 5 listas AED, forms
-  user/group, 4 páginas Memory) pierde la banda `sc-page-header`/`sc-sticky-form-header`;
-  identidad → breadcrumb del TopBar, CTA/Guardar-Cancelar proyectados vía
-  `TopBarSlotService`. Back-arrow redundante quitado. Breadcrumbs Memory añadidos.
-  **14/14 smoke verde.** Visual-regression baselines desfasados a propósito
-  (regenerar cuando el modelo se fije).
-- **Composición SnowUI verificada token-por-token**: ya alineada (bg/cards/tipo/radius).
-  Única divergencia = texto gris-azulado `#2f3642` vs SnowUI `#1C1C1C` → **decisión:
-  se queda el nuestro** (no tocar canon).
-- **Decisión iconos**: migrar a **Material Icons (Google)** vía templating PrimeNG —
-  bloque futuro, NO arrancado.
-- **Figma — flujo "Transcripción masiva" pintado** (fichero `khNq9dJKNi13pNllrqm6dx`,
-  página *Flujos*): 6 pantallas × **dark + light**, **componentizado de verdad**
-  (Selects/checkbox/tags/toggleswitch/botones reales del Kit + variables del DS,
-  **cero imágenes** — Rafa rechazó el primer intento con fondos-captura). Flujo:
-  entrada → selección → modal → análisis ON → procesando → toast. Conectores + notas UX.
+**Branch experiment/beyondui-patterns (5 commits)**:
+- `094d2ba` taste-skill install
+- `c257631` empty trigger Netlify
+- `f64ab1e` Urbanist global + chips badges
+- `583faac` Urbanist scoped ds-docs + chips badges
+- `213ec45` SaaS dashboard moderno /conversaciones (reintento post-Vogue)
 
-**Siguiente al retomar:**
-- Polish Figma pendiente: iconos de canal (columna ESTADO) + iconos nav del sidebar +
-  filas con checkbox marcado → requieren re-clonar las 12 pantallas (mecánico, ids en memoria).
-- Decidir si el modelo "todo arriba" + aprendizajes se promueven a `main` (hoy solo en rama).
-- Gotchas Figma MCP en memoria: el `throw` para devolver datos hace **rollback de escrituras**;
-  tokens `surface/*` son rampa fija (no flipan), los que flipan son `content/*`/`text/*`/`tag/*`;
-  modos dark/light vía `setExplicitVariableModeForCollection`.
+**Operativa nueva**:
+- Netlify upgrade a paid €9/mo (free tier agotado S57). Branch deploys
+  activos en ambos sites — `experiment-*--<site>.netlify.app`.
+- MCP Figma autenticado (`plugin:figma:figma` + `figma` console-mcp). Acceso
+  a Kit Pro Variables + componentes via REST API.
+- Skills `Leonxlnx/taste-skill` paquete instalado en branch (12 skills en
+  `.agents/skills/`).
+
+**Estado salud**: tsc/lint/build/husky/i18n verde. Playwright 28/28 verde.
+Backlog updates: #55 (audit cross-language) + #56 (`<sc-confirmpopup>` gap
+reservado). Memory inventory #23 (Help popover toolbar).
+
+---
+
+## 🎯 Bloques S59+ (priorizados — main es PRIORIDAD)
+
+> Rafa S58 ratificó: experimentación visual es SECUNDARIA. El proyecto main
+> tiene la prioridad. Branch experiment se ataca SOLO cuando hay tiempo libre
+> tras cerrar lo de main.
+
+### Main · Pendientes funcionales
+
+**Help popover toolbar `/conversaciones`** (entry inventory #23, P2):
+- Patrón legacy React con 4 enlaces documentación (Calculator/Palette tier-1 +
+  BookOpen/ExternalLink tier-2). Trigger: UX research valida discoverability
+  docs O onboarding stakeholders nuevos.
+- Implementación estimada: 1h (`<p-popover>` + 4 botones + URLs actualizadas
+  post-monorepo).
+
+**Spec session equipo diseño** (dossier S56 preparado, intacto):
+- 6 items dormidos (#14 sc-search clear X, #15 variants formales, #37 form
+  variants, #33 escala `.page__inner` max-width, #49-ext shadows, #50-ext
+  durations). Cuando Rafa convoque, copy-paste dossier desde chat S56.
+
+**Próximo audit token sweep**:
+- Cuando equipo diseño exporte nueva versión `design-tokens.json` del Kit Pro,
+  reabrir audit cruzado vs SCDS. Flujo S54+S58 establecido.
+
+**Backlog deuda SCDS sin trigger reciente**:
+- #6 `<sc-data-table>` / #7 `<sc-select-button>` / #8 `<sc-tag>` — sin consumer
+  real, DD-4 estricto, NO atacar proactivamente.
+- #56 `<sc-confirmpopup>` (S58) — reservado, sin trigger.
+- §10 Memory items #5/#6/#7/#9 (dispatch real backend) — esperar pipeline IA
+  real.
+
+### Branch experiment · solo si hay tiempo
+
+**Re-evaluar /conversaciones SaaS dashboard moderno**:
+- Preview live en `experiment-beyondui-patterns--aedmigration.netlify.app/
+  conversaciones` (commit `213ec45`).
+- Si Rafa lo ve y le gusta dirección: posibles next steps cuando se retome:
+  - Conversation table redesign con status dots prominentes
+  - Bulk modal layout más editorial (sin caer en Vogue)
+  - Player modal redesign
+- Memoria `feedback_skills_usage_s58`: regla "validar con `ui-ux-pro-max`
+  ANTES de codear" + "rediseños grandes en branch, no main".
+
+**Si experimento no cuaja**: branch experiment se mantiene en GitHub como
+referencia visual, pero NO se mergea. Drop merge button hasta que la
+dirección sea clara.
+
+### Dirección estratégica vigente
+
+**Llevar SCDS completo a Figma con flujos conectados** (memoria
+`project_figma_flujos_objetivo_final`):
+- Tokens 1:1 ✅ post-S57 (refactor estructural primitive).
+- Componentes paridad documentada (MIGRATION-INVENTORY).
+- Flujos AED + Memory prototypados en Figma (acción equipo diseño).
+- Code Connect oficial (memoria `feedback_code_connect_dormant`) dormido —
+  trigger pending.
+
+---
+
+## Cómo arrancar S59
+
+1. Leer este doc + entry S58 en [`SESSION-LOG.md`](./SESSION-LOG.md).
+2. **Foco main**, no experiment (Rafa S58 ratificó).
+3. Si Rafa pide trabajo en branch experiment → primero `ui-ux-pro-max
+   --design-system` query para validar dirección visual ANTES de codear
+   (memoria `feedback_skills_usage_s58`).
+4. Si Rafa pasa screenshots referencia visual → usar como ground truth, NO
+   derivar de descripción solo.
+5. Playwright cross-app por inercia tras sweeps grandes (memoria
+   `feedback_playwright_cross_app_inertia`).
 
 ---
 

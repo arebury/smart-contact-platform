@@ -12,12 +12,18 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!-- experiment/beyondui-patterns: Urbanist como primary font (Fix Priority #1
-         del skill redesign-existing-projects — font swap = biggest instant
-         improvement, lowest risk). Inter sigue como fallback en el stack. -->
+    <!-- Urbanist solo para títulos display (`--dsd-font-display`). Body sigue
+         Inter via SCDS token, eyebrows mono siguen JetBrains Mono. Space Grotesk
+         retenido en el stack como fallback inmediato durante font swap. -->
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Urbanist:wght@500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    />
+    <!-- Material Symbols (Outlined) — icon set del SCDS (<sc-icon>). ds-docs
+         renderiza componentes con iconos Material en las galerías (S60). -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=block"
     />
   </head>
   <body>

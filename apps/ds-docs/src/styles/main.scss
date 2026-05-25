@@ -12,11 +12,13 @@
 @import 'primeicons/primeicons.css';
 
 :root {
-  /* experiment/beyondui-patterns: Urbanist como display + body en ds-docs
-   * (scoped — NO inherita de `--sc-font-family-primary` para que AED siga con
-   * Inter). El sitio docs tiene tono editorial, AED tono producto. */
-  --dsd-font-display: 'Urbanist', 'Inter', -apple-system, system-ui, sans-serif;
-  --dsd-font-sans: 'Urbanist', 'Inter', system-ui, -apple-system, sans-serif;
+  /* Display titles → Urbanist (geometric grotesque, más carácter editorial-premium
+   * que Space Grotesk). Recomendación skill ui-ux-pro-max + design-taste-frontend.
+   * Aplica al hero title del home, gallery section titles, footer title — todos los
+   * h1/h2 display del sitio docs. Body sigue Inter (--dsd-font-sans heredando
+   * de --sc-font-family-primary). Eyebrows mono uppercase NO cambian. */
+  --dsd-font-display: 'Urbanist', 'Space Grotesk', 'Inter', -apple-system, system-ui, sans-serif;
+  --dsd-font-sans: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
   --dsd-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* Local accent — single electric-blue, no multi-color noise. */
