@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, computed, input, output } from '@an
 import { TranslateModule } from '@ngx-translate/core';
 import { DialogModule } from 'primeng/dialog';
 
-import { IconComponent } from '@shared/components';
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
 
 let modalIdCounter = 0;

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { IconComponent } from '@shared/components';
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_DISPLAY_SM } from '@shared/utils/icon-size';
 
 /**

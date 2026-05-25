@@ -17,7 +17,7 @@ import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { IconComponent } from '@shared/components';
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
 
 export type ScSearchSize = 'sm' | 'md' | 'lg';

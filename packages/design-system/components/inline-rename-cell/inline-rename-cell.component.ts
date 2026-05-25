@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { IconComponent } from '@shared/components';
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
 
 /**

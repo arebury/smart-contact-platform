@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { PopoverModule } from 'primeng/popover';
 
-import { IconComponent } from '@shared/components';
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_LG, SC_ICON_SIZE_MD, SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
 
 export interface ColumnDef {

@@ -12,7 +12,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 
 import { IllustratedAvatarComponent } from '../illustrated-avatar/illustrated-avatar.component';
-import { IconComponent } from '@shared/components';
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_3XL, SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
 
 const MAX_BYTES = 800 * 1024;

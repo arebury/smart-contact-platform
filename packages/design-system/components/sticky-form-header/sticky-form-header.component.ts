@@ -14,7 +14,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
-import { IconComponent } from '@shared/components';
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
 
 /**

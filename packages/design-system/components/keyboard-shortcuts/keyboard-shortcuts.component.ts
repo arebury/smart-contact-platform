@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angul
 
 import { CommandPaletteService } from '@core/services/command-palette.service';
 import { KeyboardShortcutsService } from '@core/services/keyboard-shortcuts.service';
-import { IconComponent } from '@shared/components';
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
 import { isTypingTarget } from '@shared/utils/is-typing-target';
 

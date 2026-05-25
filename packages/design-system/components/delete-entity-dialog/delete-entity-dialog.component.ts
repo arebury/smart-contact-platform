@@ -15,7 +15,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { ClipboardService } from '@core/services/clipboard.service';
 import { DialogComponent } from '../dialog/dialog.component';
-import { IconComponent } from '@shared/components';
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_MD, SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
 
 export interface DeletableEntity {
