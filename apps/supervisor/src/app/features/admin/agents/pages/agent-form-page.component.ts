@@ -34,6 +34,7 @@ import {
   ShieldCheck,
   SlidersHorizontal,
   Tag,
+  Trash2,
   Users as UsersIcon,
   X,
 } from 'lucide-angular';
@@ -46,9 +47,9 @@ import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE, PIN_RE } from '@core/utils/validators';
 import {
   DeleteEntityDialogComponent,
-  FormDangerZoneComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  IllustratedAvatarComponent,
   InputTextComponent,
   LabelChipComponent,
   PhotoUploadComponent,
@@ -140,9 +141,9 @@ interface FormState {
   imports: [
     ButtonModule,
     DeleteEntityDialogComponent,
-    FormDangerZoneComponent,
     FormSectionNavComponent,
     GroupAssignmentTableComponent,
+    IllustratedAvatarComponent,
     InputTextComponent,
     LabelChipComponent,
     LucideAngularModule,
@@ -189,6 +190,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
 
   protected readonly mailIcon = Mail;
   protected readonly phoneIcon = Phone;
+  protected readonly trashIcon = Trash2;
   protected readonly phoneCallIcon = PhoneCall;
   protected readonly shieldIcon = ShieldCheck;
   protected readonly infoIcon = Info;
@@ -420,9 +422,9 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       labelKey: 'agents.form.section.advanced',
       icon: SlidersHorizontal,
     };
-    if (this.mode() === 'edit') {
-      return [groups, permissions, advanced, identity];
-    }
+    // Modelo "todo arriba" S59: orden fijo identidad-primero, Avanzado-último
+    // en ambos modos. La identidad ya no se esconde al final en edición —
+    // ahora la ficha del panel da el contexto de quién editas de un vistazo.
     return [identity, groups, permissions, advanced];
   });
 
@@ -579,7 +581,9 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         scheduleIds: new Set(agent.schedules ?? []),
         templateIds: new Set(agent.templates ?? []),
       });
-      this.activeSection.set('agent-section-groups');
+      // Aterriza en Identificación (1ª sección) — coherente con el orden
+      // fijo identidad-primero (S59). Antes saltaba a Grupos en edición.
+      this.activeSection.set('agent-section-identity');
       this.releaseLock = this.crossTab.acquire('agent', agent.id, () =>
         this.conflictWarning.set(true),
       );

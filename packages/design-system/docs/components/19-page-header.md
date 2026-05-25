@@ -2,9 +2,20 @@
 
 ![page-header](./screenshots/page-header.png)
 
-> **Type**: Pure SC · **AED uses**: 8 · **Figma parity**: Sin Figma equivalente
+> **Type**: Pure SC · **App uses**: 2 (settings-shell + repos-hub) · **Figma parity**: Sin Figma equivalente
 
-> Cabecera de página estática (no sticky) para rutas no-entity: `/config/*` y list pages. Visualmente espejo de `<sc-sticky-form-header>` (mismo leading icon 44×44, eyebrow uppercase, title grande, subtitle sutil) para que el conjunto de la app se lea como una misma familia.
+> ⚠️ **S59 — modelo "todo arriba" (ver Supervisor DD#65).** Las list pages y
+> form pages AED + Memory **ya NO usan** esta banda: su identidad vive en el
+> breadcrumb del TopBar y sus acciones se proyectan al TopBar vía
+> `TopBarSlotService`. `<sc-page-header>` queda como cabecera de las pocas
+> rutas que aún la quieren (`settings-shell`, `repositorios-hub`). El
+> componente **se conserva** (no deprecado del todo) como red de rollback del
+> "todo arriba". La banda se compactó: padding vertical 15.75→10.5px, icono
+> 44→36px (más fina, los datos arrancan más arriba).
+
+> Cabecera de página estática (no sticky) para rutas no-entity. Visualmente
+> espejo de `<sc-sticky-form-header>` (mismo eyebrow uppercase, title grande,
+> subtitle sutil) para que el conjunto se lea como una misma familia.
 >
 > Categoría ⚪ **Pure SC** — pattern propio. Lleno con un Lucide icon como leading (no avatar/photo como el sticky-form-header).
 

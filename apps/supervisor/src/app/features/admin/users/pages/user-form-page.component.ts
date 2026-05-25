@@ -13,7 +13,15 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { IdCard, Layers, LucideAngularModule, Mail, Network, ShieldCheck } from 'lucide-angular';
+import {
+  IdCard,
+  Layers,
+  LucideAngularModule,
+  Mail,
+  Network,
+  ShieldCheck,
+  Trash2,
+} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -23,9 +31,9 @@ import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE } from '@core/utils/validators';
 import {
   DeleteEntityDialogComponent,
-  FormDangerZoneComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  IllustratedAvatarComponent,
   InputTextComponent,
   PhotoUploadComponent,
   SectionCardComponent,
@@ -67,8 +75,8 @@ interface FormState {
   imports: [
     ButtonModule,
     DeleteEntityDialogComponent,
-    FormDangerZoneComponent,
     FormSectionNavComponent,
+    IllustratedAvatarComponent,
     InputTextComponent,
     LucideAngularModule,
     PhotoUploadComponent,
@@ -110,6 +118,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
    * (UserType union). Mismo patrón que agent-form-page. */
   protected readonly typeLabelKeys: Readonly<Record<string, string>> = USER_TYPE_LABEL_KEYS;
   protected readonly mailIcon = Mail;
+  protected readonly trashIcon = Trash2;
   protected readonly sectionDefs = SECTION_DEFS;
   protected readonly permissionDefs = PERMISSION_DEFS;
   protected readonly availableServices = AVAILABLE_SERVICES;
@@ -159,9 +168,9 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       labelKey: 'users.form.section.services',
       icon: Network,
     };
-    if (this.mode() === 'edit') {
-      return [sections, permissions, services, identity];
-    }
+    // Modelo "todo arriba" S59: orden fijo identidad-primero en ambos modos.
+    // La ficha del panel da el contexto de identidad, así que ya no se
+    // esconde la sección al final en edición.
     return [identity, sections, permissions, services];
   });
 
@@ -234,7 +243,9 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         services: new Set(user.assignedServices),
         photo: user.photo ?? null,
       });
-      this.activeSection.set('user-section-sections');
+      // Aterriza en Identidad (1ª sección) — coherente con el orden fijo
+      // identidad-primero (S59). Antes saltaba a Secciones en edición.
+      this.activeSection.set('user-section-identity');
       this.releaseLock = this.crossTab.acquire('user', user.id, () =>
         this.conflictWarning.set(true),
       );

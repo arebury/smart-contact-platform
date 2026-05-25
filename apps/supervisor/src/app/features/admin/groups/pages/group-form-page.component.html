@@ -19,6 +19,29 @@
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Índice del formulario">
+      <!-- La ficha: resumen de identidad (solo lectura) arriba del índice.
+           Modelo "todo arriba" S59 — qué grupo editas + su estrategia, de un
+           vistazo. Avatar abstracto generado del nombre. Solo en editar. -->
+      @if (mode() === 'edit') {
+        <div class="ficha">
+          <sc-illustrated-avatar
+            class="ficha__avatar"
+            [name]="(initial()?.name ?? form().name) || 'Grupo'"
+            pool="abstract"
+            [size]="40"
+          />
+          <div class="ficha__body">
+            <span class="ficha__name">{{ form().name }}</span>
+            @if (form().strategy) {
+              <span class="pill">{{ form().strategy }}</span>
+            }
+            @if (form().phone) {
+              <span class="ficha__ext">{{ form().phone }}</span>
+            }
+          </div>
+        </div>
+      }
+
       <sc-form-section-nav
         [sections]="navSections()"
         [activeId]="activeSection()"
@@ -26,6 +49,15 @@
         [compact]="true"
         (activeChange)="activeSection.set($event)"
       />
+
+      <!-- Zona de peligro: Eliminar al fondo del panel, enlace discreto y
+           apartado del índice → fuera del scan primario (S59). -->
+      @if (mode() === 'edit') {
+        <button type="button" class="ipanel__delete" (click)="requestDelete()">
+          <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
+          <span>{{ 'common.delete' | translate }}</span>
+        </button>
+      }
     </aside>
     <div class="page__form">
       @switch (activeSection()) {
@@ -106,13 +138,6 @@
               </div>
             </div>
           </sc-section-card>
-
-          @if (mode() === 'edit') {
-            <sc-form-danger-zone
-              descriptionKey="groups.form.danger_zone_description"
-              (action)="requestDelete()"
-            />
-          }
         }
 
         @case ('group-section-channels') {

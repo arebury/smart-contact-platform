@@ -3,10 +3,15 @@
     <span class="gallery__eyebrow">Component</span>
     <h1 class="gallery__title">Page Header</h1>
     <p class="gallery__lede">
-      <code>&lt;sc-page-header&gt;</code> es la cabecera estática de rutas no-entity (config + list
-      pages). Mirror visual de <code>&lt;sc-sticky-form-header&gt;</code> (mismo icon chip 44×44,
-      mismo title size) para que list y entity pages se sientan parte de la misma familia. Slot
-      <code>[page-header-actions]</code> a la derecha para CTAs / search / filtros.
+      <code>&lt;sc-page-header&gt;</code> es la cabecera estática de rutas no-entity. Banda compacta
+      (icon chip 36×36, padding fino) con slot <code>[page-header-actions]</code> a la derecha para
+      CTAs / search / filtros.
+    </p>
+    <p class="gallery__lede">
+      <strong>Nota S59 (modelo "todo arriba"):</strong> las list y form pages de AED + Memory ya no
+      usan esta banda — su identidad vive en el breadcrumb del TopBar y sus acciones se proyectan al
+      TopBar. <code>&lt;sc-page-header&gt;</code> queda para las rutas que aún la quieren (settings,
+      repos-hub) y se conserva como red de rollback del "todo arriba".
     </p>
   </header>
 

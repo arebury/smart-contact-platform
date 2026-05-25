@@ -55,7 +55,6 @@ import { TopBarSlotService } from '../../../../core/layout/top-bar/top-bar-slot.
     ConversationTableComponent,
     ConversationPlayerModalComponent,
     DownloadModalComponent,
-    MockSampleSwitcherComponent,
     RetranscriptionConfirmModalComponent,
   ],
   templateUrl: './conversations-page.component.html',

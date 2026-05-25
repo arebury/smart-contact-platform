@@ -2,7 +2,15 @@
 
 ![sticky-form-header](./screenshots/sticky-form-header.png)
 
-> **Type**: Pure SC · **AED uses**: 3 · **Figma parity**: Sin Figma equivalente
+> **Type**: Pure SC · **App uses**: 0 (retenido para rollback) · **Figma parity**: Sin Figma equivalente
+
+> ⚠️ **S59 — modelo "todo arriba" (ver Supervisor DD#65).** Los 3 form shells
+> (agentes / usuarios / grupos) **ya NO usan** esta banda: Guardar/Cancelar van
+> al TopBar vía `TopBarSlotService`, y la identidad (foto + nombre + estado) la
+> recupera **la ficha** del panel lateral (`.ficha` en `_forms.scss`). El
+> componente **se conserva intacto** (exportado del barrel + showcased aquí en
+> ds-docs) como red de rollback: si nos arrepentimos del "todo arriba", se
+> re-importa y se restaura el bloque `<sc-sticky-form-header>` en el form.
 
 > Cabecera sticky en el top de toda Create/Edit page (Users, Groups, Agents, etc.). Muestra entity eyebrow + name (display o editable inline) + slots para leading (avatar/photo) y meta (badges, info) + actions cluster (Save / Cancel / opcional Back). El "Save" muestra spinner mientras `[saving]`; disabled mientras `[canSave]` es false.
 >

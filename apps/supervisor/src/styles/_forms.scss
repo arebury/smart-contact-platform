@@ -346,3 +346,87 @@
     animation: none;
   }
 }
+
+/* ------------------------------------------------------------------ *
+ * La ficha + Eliminar del panel — patrón "todo arriba" (experiment S59).
+ *
+ * Shared aquí porque son idénticos en los 3 form shells (agents / users /
+ * groups). La ficha es el resumen de identidad (solo lectura) en la cabeza
+ * del panel; recupera el contexto que daba la banda sticky-form-header (a
+ * quién editas + su dato de estado) sin reintroducir la banda. Eliminar va
+ * al pie del panel, discreto y apartado del índice → fuera del scan primario.
+ *
+ * Variantes específicas (pill `--presence-*` del agente) se quedan en el
+ * SCSS del form; layeran sobre el `.pill` base por cascade.
+ * ------------------------------------------------------------------ */
+.ficha {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-1);
+  padding-bottom: var(--sc-spacing-1-25);
+  border-bottom: 1px solid var(--sc-border-subtle);
+
+  &__avatar {
+    flex: 0 0 auto;
+  }
+
+  &__body {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sc-spacing-0-5);
+  }
+
+  &__name {
+    max-width: 100%;
+    font-size: var(--sc-font-size-200);
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-text-primary);
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__ext {
+    font-size: var(--sc-font-size-75);
+    color: var(--sc-text-subtle);
+  }
+}
+
+.ipanel__delete {
+  margin-top: auto;
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-0-5);
+  padding: var(--sc-spacing-0-5) var(--sc-spacing-0-75);
+  border: 0;
+  background: transparent;
+  color: var(--sc-text-danger);
+  font-size: var(--sc-font-size-100);
+  font-weight: var(--sc-font-weight-medium);
+  border-radius: var(--sc-radius-100);
+  cursor: pointer;
+  transition: background var(--sc-transition-fast) var(--sc-easing-default);
+
+  > lucide-icon {
+    flex: 0 0 auto;
+  }
+
+  &:hover {
+    background: color-mix(in oklch, var(--sc-color-red-500) 10%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--sc-color-soft-blue-500);
+    outline-offset: 2px;
+  }
+
+  /* En móvil el rail es estático (sin altura extra) — no hay hueco que
+   * empujar, así que el enlace simplemente sigue al índice. */
+  @media (max-width: 1024px) {
+    margin-top: var(--sc-spacing-1);
+  }
+}

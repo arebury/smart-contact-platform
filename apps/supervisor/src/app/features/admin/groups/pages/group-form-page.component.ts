@@ -19,6 +19,7 @@ import {
   LucideAngularModule,
   MessageSquare,
   Phone,
+  Trash2,
   Users as UsersIcon,
 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
@@ -29,7 +30,6 @@ import { CrossTabLockService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import {
   DeleteEntityDialogComponent,
-  FormDangerZoneComponent,
   FormSectionNavComponent,
   type FormNavSection,
   IllustratedAvatarComponent,
@@ -81,7 +81,6 @@ interface FormState {
     AgentChannelTableComponent,
     ButtonModule,
     DeleteEntityDialogComponent,
-    FormDangerZoneComponent,
     FormSectionNavComponent,
     IllustratedAvatarComponent,
     InputTextComponent,
@@ -160,9 +159,9 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       labelKey: 'groups.form.section.agents',
       icon: UsersIcon,
     };
-    if (this.mode() === 'edit') {
-      return [channels, strategy, agents, identity];
-    }
+    // Modelo "todo arriba" S59: orden fijo identidad-primero en ambos modos.
+    // La ficha del panel da el contexto de identidad, así que ya no se
+    // esconde la sección al final en edición.
     return [identity, channels, strategy, agents];
   });
 
@@ -174,6 +173,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   });
 
   protected readonly phoneIcon = Phone;
+  protected readonly trashIcon = Trash2;
 
   protected readonly editingId = signal<number | null>(null);
   /** Source name si llegó vía Duplicar (?seedFromId). NULL en create vacío. */
@@ -276,7 +276,9 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       });
       this.initialChannels.set(new Set(group.channels));
       this.initialLinks.set(seedLinks);
-      this.activeSection.set('group-section-channels');
+      // Aterriza en Identidad (1ª sección) — coherente con el orden fijo
+      // identidad-primero (S59). Antes saltaba a Canales en edición.
+      this.activeSection.set('group-section-identity');
       this.releaseLock = this.crossTab.acquire('group', group.id, () =>
         this.conflictWarning.set(true),
       );

@@ -19,6 +19,36 @@
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Índice del formulario">
+      <!-- La ficha: resumen de identidad (solo lectura) arriba del índice.
+           Modelo "todo arriba" S59 — recupera el contexto que daba la banda
+           sticky-form-header (a quién editas + su estado) sin reintroducir
+           la banda. La edición de esos campos sigue en "Identificación".
+           Solo en modo editar; al crear no hay identidad todavía. -->
+      @if (mode() === 'edit') {
+        <div class="ficha">
+          <sc-illustrated-avatar
+            class="ficha__avatar"
+            [name]="form().name"
+            [photo]="form().photo"
+            [size]="40"
+          />
+          <div class="ficha__body">
+            <span class="ficha__name">
+              {{ form().name || ('agents.entity_singular' | translate) }}
+            </span>
+            <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
+              <span class="pill__dot" aria-hidden="true"></span>
+              {{ presenceKeys[form().presenceStatus] | translate }}
+            </span>
+            @if (form().extension) {
+              <span class="ficha__ext">
+                {{ 'agents.form.fields.extension' | translate }} {{ form().extension }}
+              </span>
+            }
+          </div>
+        </div>
+      }
+
       <sc-form-section-nav
         [sections]="navSections()"
         [activeId]="activeSection()"
@@ -26,6 +56,16 @@
         [compact]="true"
         (activeChange)="activeSection.set($event)"
       />
+
+      <!-- Zona de peligro: Eliminar al fondo del panel, enlace discreto y
+           apartado del índice → fuera del scan primario, difícil de pulsar
+           sin querer. Reemplaza la banda danger-zone del cuerpo (S59). -->
+      @if (mode() === 'edit') {
+        <button type="button" class="ipanel__delete" (click)="requestDelete()">
+          <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
+          <span>{{ 'common.delete' | translate }}</span>
+        </button>
+      }
     </aside>
 
     <div class="page__form">
@@ -212,13 +252,6 @@
               />
             </div>
           </sc-section-card>
-
-          @if (mode() === 'edit') {
-            <sc-form-danger-zone
-              descriptionKey="agents.form.danger_zone_description"
-              (action)="requestDelete()"
-            />
-          }
         }
 
         @case ('agent-section-groups') {

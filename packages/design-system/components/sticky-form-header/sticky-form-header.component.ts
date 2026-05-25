@@ -21,6 +21,13 @@ import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
  * Shows the entity title, optional editable name, plus Save / Cancel /
  * Delete actions. The "Save" button shows a spinner while `[saving]` is
  * true; "Save" is disabled while `[canSave]` is false.
+ *
+ * ⚠️ RETENIDO PARA ROLLBACK (S59, Supervisor DD#65). Ya NO lo usa ningún form
+ * de la app: los 3 form shells migraron al modelo "todo arriba" (acciones al
+ * TopBar vía TopBarSlotService + la ficha del panel para la identidad). Se
+ * conserva intacto —exportado del barrel + showcased en ds-docs— como red de
+ * seguridad por si se revierte el "todo arriba". NO borrar sin decisión
+ * explícita (ver DD#65 § "Cómo revertir").
  */
 @Component({
   selector: 'sc-sticky-form-header',

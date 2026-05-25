@@ -1279,7 +1279,7 @@
         "groups_hint": "Grupos e canais por grupo",
         "permissions": "Permissões",
         "permissions_hint": "Capacidades do agente",
-        "advanced": "Configuração avançada",
+        "advanced": "Avançado",
         "advanced_hint": "Etiquetas, comportamento, idioma"
       },
       "advanced": {

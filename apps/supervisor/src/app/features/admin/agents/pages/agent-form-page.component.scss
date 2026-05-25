@@ -90,6 +90,10 @@
   }
 }
 
+/* `.ficha` + `.ipanel__delete` (patrón "todo arriba") promovidos a
+ * `src/styles/_forms.scss` — 3 consumers (agents/users/groups). Aquí solo
+ * quedan las variantes específicas del agente (pill `--presence-*`). */
+
 /* Two-column form layout: Identificación (sticky) + settings (scroll).
  *
  * `padding-bottom: 30dvh` ensures the grid's containing block extends
