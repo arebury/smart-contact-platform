@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -7,14 +8,18 @@ import {
   OnDestroy,
   OnInit,
   signal,
+  type TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { IdCard, Layers, LucideAngularModule, Mail, Network, ShieldCheck } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { DirtyAware } from '@core/guards';
 import { CrossTabLockService } from '@core/services';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE } from '@core/utils/validators';
 import {
   DeleteEntityDialogComponent,
@@ -25,7 +30,6 @@ import {
   PhotoUploadComponent,
   SectionCardComponent,
   SelectComponent,
-  StickyFormHeaderComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
 import { PrimeTemplate } from 'primeng/api';
@@ -61,6 +65,7 @@ interface FormState {
 @Component({
   selector: 'sc-user-form-page',
   imports: [
+    ButtonModule,
     DeleteEntityDialogComponent,
     FormDangerZoneComponent,
     FormSectionNavComponent,
@@ -70,7 +75,6 @@ interface FormState {
     PrimeTemplate,
     SectionCardComponent,
     SelectComponent,
-    StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
   ],
@@ -85,6 +89,19 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly crossTab = inject(CrossTabLockService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+
+  /** Guardar/Cancelar proyectados a la TopBar (modelo "todo arriba" S59):
+   * fuera la banda sticky-form-header; identidad → breadcrumb + campos del
+   * cuerpo (foto/nombre re-alojados en Identidad). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+  }
 
   protected readonly userTypes = USER_TYPES;
   /* Widening intencional a `Record<string, string>` para que el `let-t`
@@ -257,6 +274,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.releaseLock?.();
     this.releaseLock = null;
+    this.topBarSlot.clearActions();
   }
 
   @HostListener('window:beforeunload', ['$event'])
