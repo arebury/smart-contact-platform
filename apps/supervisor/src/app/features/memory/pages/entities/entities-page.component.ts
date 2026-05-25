@@ -1,13 +1,22 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Database, LucideAngularModule, Lock, MoreVertical, Plus } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import type { MenuItem } from 'primeng/api';
 
+import { IconComponent } from '@shared/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
-import { PageHeaderComponent } from '@shared/components';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 
 import { EntityFormModalComponent } from '../../components/entity-form-modal/entity-form-modal.component';
 import type { Entity } from '../../data/entity.types';
@@ -23,14 +32,7 @@ import { EntitiesStore } from '../../state/entities.store';
  */
 @Component({
   selector: 'sc-memory-entities-page',
-  imports: [
-    ButtonModule,
-    EntityFormModalComponent,
-    LucideAngularModule,
-    MenuModule,
-    PageHeaderComponent,
-    TranslateModule,
-  ],
+  imports: [ButtonModule, EntityFormModalComponent, IconComponent, MenuModule, TranslateModule],
   templateUrl: './entities-page.component.html',
   styleUrl: './entities-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +42,19 @@ export class EntitiesPageComponent {
   private readonly confirm = inject(ConfirmHostService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /** CTA proyectado a la TopBar (modelo "todo arriba" S59). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   protected readonly userEntities = this.entitiesStore.userEntities;
   protected readonly systemEntities = this.entitiesStore.systemEntities;
@@ -48,10 +63,10 @@ export class EntitiesPageComponent {
   protected readonly formOpen = signal(false);
   protected readonly formEntity = signal<Entity | null>(null);
 
-  protected readonly databaseIcon = Database;
-  protected readonly plusIcon = Plus;
-  protected readonly kebabIcon = MoreVertical;
-  protected readonly lockIcon = Lock;
+  protected readonly databaseIcon = 'database';
+  protected readonly plusIcon = 'add';
+  protected readonly kebabIcon = 'more_vert';
+  protected readonly lockIcon = 'lock';
 
   protected buildMenuItems(entity: Entity): MenuItem[] {
     return [

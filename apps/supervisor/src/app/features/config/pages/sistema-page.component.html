@@ -34,7 +34,7 @@
                 [attr.aria-checked]="theme.mode() === option.value"
                 (click)="select(option.value)"
               >
-                <lucide-icon [img]="option.icon" [size]="14" aria-hidden="true" />
+                <sc-icon [name]="option.icon" [size]="14" />
                 <span>{{ option.labelKey | translate }}</span>
               </button>
             }
@@ -106,7 +106,7 @@
             </p>
           </div>
           <p-button type="button" severity="danger" (onClick)="resetData()">
-            <lucide-icon [img]="resetIcon" [size]="14" aria-hidden="true" />
+            <sc-icon [name]="resetIcon" [size]="14" />
             <span>{{ 'config.sistema.data.reset_button' | translate }}</span>
           </p-button>
         </div>
@@ -187,13 +187,12 @@
 
     <section class="card card--accordion">
       <button type="button" class="accordion__head" (click)="toggleAccordion()">
-        <lucide-icon
-          [img]="regenOpen() ? chevronDown : chevronRight"
+        <sc-icon
+          [name]="regenOpen() ? chevronDown : chevronRight"
           [size]="14"
           class="accordion__chevron"
-          aria-hidden="true"
         />
-        <lucide-icon [img]="keyIcon" [size]="14" class="accordion__icon" aria-hidden="true" />
+        <sc-icon [name]="keyIcon" [size]="14" class="accordion__icon" />
         <span class="accordion__title">
           {{ 'config.seguridad.regen.title' | translate }}
         </span>
@@ -207,12 +206,7 @@
       @if (regenOpen()) {
         <div class="card__body">
           <div class="warning-callout">
-            <lucide-icon
-              [img]="alertIcon"
-              [size]="15"
-              class="warning-callout__icon"
-              aria-hidden="true"
-            />
+            <sc-icon [name]="alertIcon" [size]="15" class="warning-callout__icon" />
             <div>
               <span class="warning-callout__title">
                 {{ 'config.seguridad.regen.warning_title' | translate }}
@@ -224,17 +218,12 @@
           </div>
 
           <div class="info-callout">
-            <lucide-icon
-              [img]="infoIcon"
-              [size]="14"
-              class="info-callout__icon"
-              aria-hidden="true"
-            />
+            <sc-icon [name]="infoIcon" [size]="14" class="info-callout__icon" />
             <p>{{ 'config.seguridad.regen.use_case' | translate }}</p>
           </div>
 
           <div class="search">
-            <lucide-icon [img]="searchIcon" [size]="14" class="search__icon" aria-hidden="true" />
+            <sc-icon [name]="searchIcon" [size]="14" class="search__icon" />
             <input
               type="text"
               class="search__input"
@@ -250,7 +239,7 @@
                 (click)="searchQuery.set('')"
                 [attr.aria-label]="'labels.clear_search' | translate"
               >
-                <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="closeIcon" [size]="13" />
               </button>
             }
           </div>
@@ -351,7 +340,7 @@
                     />
                     <span>{{ 'config.seguridad.regen.processing' | translate }}</span>
                   } @else {
-                    <lucide-icon [img]="keyIcon" [size]="14" aria-hidden="true" />
+                    <sc-icon [name]="keyIcon" [size]="14" />
                     <span>{{ 'config.seguridad.regen.execute' | translate }}</span>
                   }
                 </p-button>
@@ -362,12 +351,7 @@
           @if (result(); as r) {
             <div class="result">
               <div class="result__summary">
-                <lucide-icon
-                  [img]="checkIcon"
-                  [size]="15"
-                  class="result__check"
-                  aria-hidden="true"
-                />
+                <sc-icon [name]="checkIcon" [size]="15" class="result__check" />
                 <div>
                   <span class="result__count">
                     {{ 'config.seguridad.regen.result_count' | translate: { count: r.count } }}
@@ -376,7 +360,7 @@
                 </div>
               </div>
               <p-button type="button" severity="secondary" (onClick)="downloadCsv()">
-                <lucide-icon [img]="downloadIcon" [size]="14" aria-hidden="true" />
+                <sc-icon [name]="downloadIcon" [size]="14" />
                 <span>{{ 'config.seguridad.regen.download_csv' | translate }}</span>
               </p-button>
             </div>

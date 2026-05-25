@@ -1,26 +1,22 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  Copy,
-  Download,
-  Headphones,
-  LucideAngularModule,
-  Mail,
-  MessageSquare,
-  EllipsisVertical,
-  Pencil,
-  Phone,
-  Plus,
-  Search,
-  Trash2,
-  X,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { ClickOutsideDirective, SortableHeaderDirective } from '@core/directives';
 import { UndoStackService, XlsxExportService } from '@core/services';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { SelectionState } from '@core/utils/selection-state';
 import { clampToViewport } from '@core/utils/viewport';
 import {
@@ -33,13 +29,13 @@ import {
   ColumnSelectorComponent,
   DeleteEntityDialogComponent,
   EmptyStateComponent,
+  IconComponent,
   IllustratedAvatarComponent,
   GroupPopoverComponent,
   ImpactBadge,
   ImpactItem,
   ImpactPreviewDialogComponent,
   InlineRenameCellComponent,
-  PageHeaderComponent,
   SearchComponent,
 } from '@shared/components';
 import {
@@ -93,12 +89,11 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
     ColumnSelectorComponent,
     DeleteEntityDialogComponent,
     EmptyStateComponent,
+    IconComponent,
     IllustratedAvatarComponent,
     GroupPopoverComponent,
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
-    LucideAngularModule,
-    PageHeaderComponent,
     SearchComponent,
     SortableHeaderDirective,
     TranslateModule,
@@ -116,6 +111,20 @@ export class AgentsListPageComponent {
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
   private readonly undoStack = inject(UndoStackService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /** CTA "Nuevo agente" proyectado a la TopBar (modelo "todo arriba" S59):
+   * la banda de page-header desaparece; identidad → breadcrumb, acción → barra. */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   /** Derived: union of every active-link channel for the given agent. */
   protected channelsForAgent(agentId: number): readonly Channel[] {
@@ -142,19 +151,19 @@ export class AgentsListPageComponent {
       .filter((g): g is { id: number; name: string; active: boolean } => g !== null);
   }
 
-  protected readonly plusIcon = Plus;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly downloadIcon = Download;
-  protected readonly moreIcon = EllipsisVertical;
-  protected readonly editIcon = Pencil;
-  protected readonly trashIcon = Trash2;
-  protected readonly copyIcon = Copy;
-  protected readonly phoneIcon = Phone;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly emailIcon = Mail;
-  protected readonly emptyIcon = Headphones;
-  protected readonly pageIcon = Headphones;
+  protected readonly plusIcon = 'add';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly downloadIcon = 'download';
+  protected readonly moreIcon = 'more_vert';
+  protected readonly editIcon = 'edit';
+  protected readonly trashIcon = 'delete';
+  protected readonly copyIcon = 'content_copy';
+  protected readonly phoneIcon = 'call';
+  protected readonly chatIcon = 'chat_bubble';
+  protected readonly emailIcon = 'mail';
+  protected readonly emptyIcon = 'headphones';
+  protected readonly pageIcon = 'headphones';
 
   protected readonly typeKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;

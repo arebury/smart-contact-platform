@@ -1,13 +1,22 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, MoreVertical, Plus, Tags } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import type { MenuItem } from 'primeng/api';
 
+import { IconComponent } from '@shared/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
-import { PageHeaderComponent } from '@shared/components';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 
 import { CategoryFormModalComponent } from '../../components/category-form-modal/category-form-modal.component';
 import type { Category } from '../../data/category.types';
@@ -26,14 +35,7 @@ import { RulesStore } from '../../state/rules.store';
  */
 @Component({
   selector: 'sc-memory-categories-page',
-  imports: [
-    ButtonModule,
-    CategoryFormModalComponent,
-    LucideAngularModule,
-    MenuModule,
-    PageHeaderComponent,
-    TranslateModule,
-  ],
+  imports: [ButtonModule, CategoryFormModalComponent, IconComponent, MenuModule, TranslateModule],
   templateUrl: './categories-page.component.html',
   styleUrl: './categories-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,6 +46,19 @@ export class CategoriesPageComponent {
   private readonly confirm = inject(ConfirmHostService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /** CTA proyectado a la TopBar (modelo "todo arriba" S59). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   protected readonly categories = this.categoriesStore.categories;
   protected readonly isEmpty = this.categoriesStore.isEmpty;
@@ -57,9 +72,9 @@ export class CategoriesPageComponent {
   protected readonly formOpen = signal(false);
   protected readonly formCategory = signal<Category | null>(null);
 
-  protected readonly tagsIcon = Tags;
-  protected readonly plusIcon = Plus;
-  protected readonly kebabIcon = MoreVertical;
+  protected readonly tagsIcon = 'label';
+  protected readonly plusIcon = 'add';
+  protected readonly kebabIcon = 'more_vert';
 
   protected buildMenuItems(cat: Category): MenuItem[] {
     return [

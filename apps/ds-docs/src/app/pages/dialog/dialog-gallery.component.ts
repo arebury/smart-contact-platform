@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { LucideAngularModule, Trash2, AlertTriangle, Pencil, Info } from 'lucide-angular';
 import { DialogComponent } from '@sc/design-system/components/dialog/dialog.component';
 import { InputTextComponent } from '@sc/design-system/components/inputtext/inputtext.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
@@ -9,24 +8,17 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 @Component({
   selector: 'sc-ds-docs-dialog-gallery',
   standalone: true,
-  imports: [
-    DialogComponent,
-    InputTextComponent,
-    ButtonModule,
-    LucideAngularModule,
-    FormsModule,
-    GalleryFooterComponent,
-  ],
+  imports: [DialogComponent, InputTextComponent, ButtonModule, FormsModule, GalleryFooterComponent],
   templateUrl: './dialog-gallery.component.html',
   styleUrl: './dialog-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogGalleryComponent {
   protected readonly icons = {
-    trash: Trash2,
-    warning: AlertTriangle,
-    edit: Pencil,
-    info: Info,
+    trash: 'delete',
+    warning: 'warning',
+    edit: 'edit',
+    info: 'info',
   };
 
   protected readonly basicOpen = signal(false);

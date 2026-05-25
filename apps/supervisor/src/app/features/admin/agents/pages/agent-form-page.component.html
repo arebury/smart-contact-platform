@@ -1,66 +1,54 @@
-<sc-sticky-form-header
-  [mode]="headerMode()"
-  [entityKey]="mode() === 'create' ? 'agents.form.create_title' : 'agents.entity_singular'"
-  [name]="form().name"
-  [canSave]="canSave()"
-  [saving]="saving()"
-  namePlaceholderKey="agents.form.fields.name"
-  (nameChange)="onNameRename($event)"
-  (save)="save()"
-  (cancelled)="cancel()"
->
-  <span header-leading>
-    <sc-photo-upload
-      size="sm"
-      [photo]="form().photo"
-      [name]="form().name"
-      [ariaLabel]="'common.photo.change' | translate"
-      (photoChange)="onPhotoChange($event)"
-    />
-  </span>
-  <!--
-    Projection wrappers stay OUTSIDE the @if — Angular's content projection
-    resolves slot membership from the static template structure of the host,
-    and an attribute-selector slot inside an `@if` doesn't always register
-    (the slot renders empty even when the @if is true). The inner content
-    is `@if`-guarded so create mode renders empty wrappers, which the
-    sticky-header SCSS collapses via `:empty`.
-  -->
-  <span header-pills>
-    @if (mode() === 'edit') {
-      <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
-        <span class="pill__dot" aria-hidden="true"></span>
-        {{ presenceKeys[form().presenceStatus] | translate }}
-      </span>
-    }
-  </span>
-  <span header-meta>
-    @if (mode() === 'edit') {
-      <span class="header-meta__chunk">
-        <lucide-icon [img]="mailIcon" [size]="13" [attr.aria-hidden]="true" />
-        <span>{{ form().email || ('agents.form.fields.email_empty' | translate) }}</span>
-      </span>
-      <span class="header-meta__chunk">
-        <lucide-icon [img]="phoneIcon" [size]="13" [attr.aria-hidden]="true" />
-        @if (form().extension) {
-          <span>
-            {{ 'agents.form.fields.extension' | translate }}
-            {{ form().extension }}
-            @if (getExtensionType(form().extension); as t) {
-              <span class="header-meta__sub">· {{ 'agents.ext.' + t | translate }}</span>
-            }
-          </span>
-        } @else {
-          <span>{{ 'agents.form.fields.extension_empty' | translate }}</span>
-        }
-      </span>
-    }
-  </span>
-</sc-sticky-form-header>
+<!-- Modelo "todo arriba" (experiment S59): fuera la banda sticky-form-header.
+     Identidad → breadcrumb + campos del cuerpo (foto/nombre en Identificación);
+     Guardar/Cancelar → barra de arriba vía TopBarSlotService (ver el .ts). -->
+<ng-template #topbarActions>
+  <p-button type="button" severity="secondary" (onClick)="cancel()">
+    <span>{{ 'common.cancel' | translate }}</span>
+  </p-button>
+  <p-button
+    type="button"
+    severity="primary"
+    [disabled]="!canSave()"
+    [loading]="saving()"
+    (onClick)="save()"
+  >
+    <span>{{ 'common.save' | translate }}</span>
+  </p-button>
+</ng-template>
 
 <div class="page">
   <div class="page__inner page__inner--with-panel">
     <aside class="ipanel" aria-label="Índice del formulario">
+      <!-- La ficha: resumen de identidad (solo lectura) arriba del índice.
+           Modelo "todo arriba" S59 — recupera el contexto que daba la banda
+           sticky-form-header (a quién editas + su estado) sin reintroducir
+           la banda. La edición de esos campos sigue en "Identificación".
+           Solo en modo editar; al crear no hay identidad todavía. -->
+      @if (mode() === 'edit') {
+        <div class="ficha">
+          <sc-illustrated-avatar
+            class="ficha__avatar"
+            [name]="form().name"
+            [photo]="form().photo"
+            [size]="40"
+          />
+          <div class="ficha__body">
+            <span class="ficha__name">
+              {{ form().name || ('agents.entity_singular' | translate) }}
+            </span>
+            <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
+              <span class="pill__dot" aria-hidden="true"></span>
+              {{ presenceKeys[form().presenceStatus] | translate }}
+            </span>
+            @if (form().extension) {
+              <span class="ficha__ext">
+                {{ 'agents.form.fields.extension' | translate }} {{ form().extension }}
+              </span>
+            }
+          </div>
+        </div>
+      }
+
       <sc-form-section-nav
         [sections]="navSections()"
         [activeId]="activeSection()"
@@ -68,6 +56,16 @@
         [compact]="true"
         (activeChange)="activeSection.set($event)"
       />
+
+      <!-- Zona de peligro: Eliminar al fondo del panel, enlace discreto y
+           apartado del índice → fuera del scan primario, difícil de pulsar
+           sin querer. Reemplaza la banda danger-zone del cuerpo (S59). -->
+      @if (mode() === 'edit') {
+        <button type="button" class="ipanel__delete" (click)="requestDelete()">
+          <sc-icon [name]="trashIcon" [size]="14" />
+          <span>{{ 'common.delete' | translate }}</span>
+        </button>
+      }
     </aside>
 
     <div class="page__form">
@@ -78,11 +76,27 @@
             [icon]="activeIcon()"
             titleKey="agents.form.section.identification"
           >
-            <!-- Photo + name removed from the card body: both live in the
-                 sticky form header (rich header, DD#54 Session 20). Keeping
-                 a second photo/name picker here duplicated the controls and
-                 confused users. user-form and group-form already follow
-                 this pattern. -->
+            <!-- Foto + nombre re-homed al cuerpo (experiment S59 "todo arriba"):
+                 al quitar la banda sticky-form-header, la identidad vuelve a
+                 ser campos del form (+ el breadcrumb arriba la repite). -->
+            <div class="form-identity">
+              <sc-photo-upload
+                size="sm"
+                [photo]="form().photo"
+                [name]="form().name"
+                [ariaLabel]="'common.photo.change' | translate"
+                (photoChange)="onPhotoChange($event)"
+              />
+              <div class="field form-identity__name">
+                <sc-inputtext
+                  inputId="agent-name"
+                  [label]="'agents.form.fields.name' | translate"
+                  [value]="form().name"
+                  [error]="errors()['name'] ? (errors()['name'] | translate) : undefined"
+                  (valueChange)="onNameRename($event)"
+                />
+              </div>
+            </div>
 
             <!-- Email + Phone -->
             <div class="grid grid--2">
@@ -238,13 +252,6 @@
               />
             </div>
           </sc-section-card>
-
-          @if (mode() === 'edit') {
-            <sc-form-danger-zone
-              descriptionKey="agents.form.danger_zone_description"
-              (action)="requestDelete()"
-            />
-          }
         }
 
         @case ('agent-section-groups') {
@@ -282,7 +289,7 @@
                   [title]="'agents.form.permissions.manage_devices_hint' | translate"
                   [attr.aria-label]="'agents.form.permissions.manage_devices_hint' | translate"
                 >
-                  <lucide-icon [img]="infoIcon" [size]="13" aria-hidden="true" />
+                  <sc-icon [name]="infoIcon" [size]="13" />
                 </button>
               </div>
               <sc-toggleswitch
@@ -303,7 +310,7 @@
                   [title]="'agents.form.permissions.self_activate_hint' | translate"
                   [attr.aria-label]="'agents.form.permissions.self_activate_hint' | translate"
                 >
-                  <lucide-icon [img]="infoIcon" [size]="13" aria-hidden="true" />
+                  <sc-icon [name]="infoIcon" [size]="13" />
                 </button>
               </div>
               <sc-toggleswitch
@@ -315,7 +322,7 @@
 
             <!-- Matriz de Llamadas / Transferencias por destino -->
             <header class="perm-matrix__head">
-              <lucide-icon [img]="phoneCallIcon" [size]="14" aria-hidden="true" />
+              <sc-icon [name]="phoneCallIcon" [size]="14" />
               <h3 class="perm-matrix__title">
                 {{ 'agents.form.permissions.calls_section' | translate }}
               </h3>
@@ -400,12 +407,11 @@
                 aria-controls="agent-acc-labels-body"
                 (click)="toggleLabelsAcc()"
               >
-                <lucide-icon
-                  [img]="labelsAccOpen() ? chevronDownIcon : chevronRightIcon"
+                <sc-icon
+                  [name]="labelsAccOpen() ? chevronDownIcon : chevronRightIcon"
                   [size]="13"
-                  aria-hidden="true"
                 />
-                <lucide-icon [img]="tagIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="tagIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.labels.title' | translate }}
                 </span>
@@ -465,12 +471,11 @@
                 aria-controls="agent-acc-agendas-body"
                 (click)="toggleAgendasAcc()"
               >
-                <lucide-icon
-                  [img]="agendasAccOpen() ? chevronDownIcon : chevronRightIcon"
+                <sc-icon
+                  [name]="agendasAccOpen() ? chevronDownIcon : chevronRightIcon"
                   [size]="13"
-                  aria-hidden="true"
                 />
-                <lucide-icon [img]="phoneIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="phoneIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.agendas.title' | translate }}
                 </span>
@@ -525,12 +530,7 @@
                             [attr.aria-label]="sched.name"
                             tabindex="-1"
                           />
-                          <lucide-icon
-                            [img]="phoneIcon"
-                            [size]="13"
-                            class="picker-list__row-icon"
-                            aria-hidden="true"
-                          />
+                          <sc-icon [name]="phoneIcon" [size]="13" class="picker-list__row-icon" />
                           <span class="picker-list__row-label">{{ sched.name }}</span>
                           @if (sched.numbers) {
                             <span class="picker-list__row-meta">{{ sched.numbers }}</span>
@@ -572,12 +572,11 @@
                 aria-controls="agent-acc-templates-body"
                 (click)="toggleTemplatesAcc()"
               >
-                <lucide-icon
-                  [img]="templatesAccOpen() ? chevronDownIcon : chevronRightIcon"
+                <sc-icon
+                  [name]="templatesAccOpen() ? chevronDownIcon : chevronRightIcon"
                   [size]="13"
-                  aria-hidden="true"
                 />
-                <lucide-icon [img]="fileStackIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="fileStackIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.plantillas.title' | translate }}
                 </span>
@@ -604,11 +603,7 @@
                         [class.tabs__tab--active]="templateTab() === tab"
                         (click)="setTemplateTab(tab)"
                       >
-                        <lucide-icon
-                          [img]="tab === 'chat' ? chatIcon : mailIcon"
-                          [size]="12"
-                          aria-hidden="true"
-                        />
+                        <sc-icon [name]="tab === 'chat' ? chatIcon : mailIcon" [size]="12" />
                         {{ 'agents.form.advanced.plantillas.tab_' + tab | translate }}
                         <span class="tabs__count">
                           {{ templateTabCounts()[tab].assigned }}/{{
@@ -689,7 +684,7 @@
             <!-- Comportamiento (flat sub-section) -->
             <section class="sub-section">
               <div class="sub-section__head sub-section__head--flat">
-                <lucide-icon [img]="slidersIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="slidersIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.comportamiento.title' | translate }}
                 </span>
@@ -762,7 +757,7 @@
                       "
                       [title]="'agents.form.advanced.comportamiento.random_order_hint' | translate"
                     >
-                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                      <sc-icon [name]="infoIcon" [size]="14" />
                     </button>
                   </div>
                   <sc-toggleswitch
@@ -777,7 +772,7 @@
             <!-- Integración (flat sub-section) -->
             <section class="sub-section">
               <div class="sub-section__head sub-section__head--flat">
-                <lucide-icon [img]="plugIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="plugIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.integracion.title' | translate }}
                 </span>
@@ -812,7 +807,7 @@
                         'agents.form.advanced.integracion.dispositivos_externos_hint' | translate
                       "
                     >
-                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                      <sc-icon [name]="infoIcon" [size]="14" />
                     </button>
                   </div>
                   <sc-toggleswitch
@@ -829,7 +824,7 @@
             <!-- Regional (flat sub-section) -->
             <section class="sub-section">
               <div class="sub-section__head sub-section__head--flat">
-                <lucide-icon [img]="globeIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="globeIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.regional.title' | translate }}
                 </span>
@@ -868,7 +863,7 @@
             <!-- Sesión (flat sub-section) -->
             <section class="sub-section">
               <div class="sub-section__head sub-section__head--flat">
-                <lucide-icon [img]="logInIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="logInIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.sesion.title' | translate }}
                 </span>
@@ -887,7 +882,7 @@
                       "
                       [title]="'agents.form.advanced.sesion.login_ext_override_hint' | translate"
                     >
-                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                      <sc-icon [name]="infoIcon" [size]="14" />
                     </button>
                   </div>
                   <sc-toggleswitch
@@ -916,7 +911,7 @@
                         severity="secondary"
                         (onClick)="requestExpirePassword()"
                       >
-                        <lucide-icon [img]="keyIcon" [size]="14" aria-hidden="true" />
+                        <sc-icon [name]="keyIcon" [size]="14" />
                         <span>{{ 'agents.form.advanced.sesion.expire_pwd' | translate }}</span>
                       </p-button>
                     </div>

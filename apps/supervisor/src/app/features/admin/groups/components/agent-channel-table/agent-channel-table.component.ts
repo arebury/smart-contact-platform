@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { Check, Headphones, LucideAngularModule, Plus, Search, Trash2, X } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
 import {
+  IconComponent,
   IllustratedAvatarComponent,
   ToggleSwitchComponent,
   TriState,
@@ -52,8 +52,8 @@ interface VisibleRow {
   standalone: true,
   imports: [
     ButtonModule,
+    IconComponent,
     IllustratedAvatarComponent,
-    LucideAngularModule,
     ToggleSwitchComponent,
     TranslateModule,
     CheckboxComponent,
@@ -70,12 +70,12 @@ export class AgentChannelTableComponent {
 
   readonly linksChange = output<readonly GroupAgentLink[]>();
 
-  protected readonly plusIcon = Plus;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly trashIcon = Trash2;
-  protected readonly checkIcon = Check;
-  protected readonly emptyIcon = Headphones;
+  protected readonly plusIcon = 'add';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly trashIcon = 'delete';
+  protected readonly checkIcon = 'check';
+  protected readonly emptyIcon = 'headphones';
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;
 
   /**

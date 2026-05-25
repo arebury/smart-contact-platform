@@ -79,7 +79,7 @@
           [attr.aria-pressed]="filters().status.onlyFailed"
           [attr.title]="'memory.conversations.filters.only_failed_hint' | translate"
         >
-          <lucide-icon [img]="alertIcon" [size]="13" aria-hidden="true" />
+          <sc-icon [name]="alertIcon" [size]="13" />
           <span>{{ 'memory.conversations.filters.only_failed' | translate }}</span>
           <span class="memory-failed-chip__count">{{ failedCount() }}</span>
         </button>
@@ -102,7 +102,7 @@
         (click)="bulkTranscribeRequested.emit()"
         [disabled]="!bulkActionsEnabled()"
       >
-        <lucide-icon [img]="transcribeIcon" [size]="18" aria-hidden="true" />
+        <sc-icon [name]="transcribeIcon" [size]="18" />
         @if (bulkActionsEnabled()) {
           <span class="memory-toolbar-icon__badge">{{ selectedCount() }}</span>
         }
@@ -116,7 +116,7 @@
         (click)="downloadRequested.emit()"
         [disabled]="!bulkActionsEnabled()"
       >
-        <lucide-icon [img]="downloadIcon" [size]="18" aria-hidden="true" />
+        <sc-icon [name]="downloadIcon" [size]="18" />
       </button>
 
       @if (failedCount() > 0) {
@@ -130,7 +130,7 @@
           (click)="bulkMarkReadRequested.emit()"
           [disabled]="selectedCount() === 0"
         >
-          <lucide-icon [img]="markReadIcon" [size]="18" aria-hidden="true" />
+          <sc-icon [name]="markReadIcon" [size]="18" />
           @if (selectedCount() > 0) {
             <span class="memory-toolbar-icon__badge">{{ selectedCount() }}</span>
           }
@@ -155,7 +155,7 @@
         [attr.aria-label]="'memory.conversations.filters.reset' | translate"
         [attr.title]="'memory.conversations.filters.reset' | translate"
       >
-        <lucide-icon [img]="resetIcon" [size]="14" aria-hidden="true" />
+        <sc-icon [name]="resetIcon" [size]="14" />
       </button>
     </div>
   </div>

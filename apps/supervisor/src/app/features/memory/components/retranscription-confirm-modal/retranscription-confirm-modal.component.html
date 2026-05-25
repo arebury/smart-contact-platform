@@ -8,12 +8,7 @@
 >
   <div class="retrans-confirm">
     <div class="retrans-confirm__warning" role="alert">
-      <lucide-icon
-        class="retrans-confirm__warning-icon"
-        [img]="alertIcon"
-        [size]="14"
-        aria-hidden="true"
-      />
+      <sc-icon class="retrans-confirm__warning-icon" [name]="alertIcon" [size]="14" />
       <div class="retrans-confirm__warning-text">
         <p class="retrans-confirm__warning-headline">
           {{ 'memory.player.retranscribe.warn_headline' | translate }}

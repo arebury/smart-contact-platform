@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -7,34 +8,28 @@ import {
   OnDestroy,
   OnInit,
   signal,
+  type TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  GitBranch,
-  IdCard,
-  LucideAngularModule,
-  MessageSquare,
-  Phone,
-  Users as UsersIcon,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { DirtyAware } from '@core/guards';
 import { CrossTabLockService } from '@core/services';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import {
   DeleteEntityDialogComponent,
-  FormDangerZoneComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  IconComponent,
   IllustratedAvatarComponent,
   InputTextComponent,
   InputNumberComponent,
   DialogComponent,
   SectionCardComponent,
   SelectComponent,
-  StickyFormHeaderComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
 import { PrimeTemplate } from 'primeng/api';
@@ -78,17 +73,15 @@ interface FormState {
     AgentChannelTableComponent,
     ButtonModule,
     DeleteEntityDialogComponent,
-    FormDangerZoneComponent,
     FormSectionNavComponent,
+    IconComponent,
     IllustratedAvatarComponent,
     InputTextComponent,
     InputNumberComponent,
-    LucideAngularModule,
     DialogComponent,
     PrimeTemplate,
     SectionCardComponent,
     SelectComponent,
-    StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
   ],
@@ -105,6 +98,19 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly crossTab = inject(CrossTabLockService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+
+  /** Guardar/Cancelar proyectados a la TopBar (modelo "todo arriba" S59):
+   * fuera la banda sticky-form-header; identidad → breadcrumb + campos del
+   * cuerpo (avatar/nombre re-alojados en Identidad). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+  }
 
   protected readonly priorities = GROUP_PRIORITIES;
   /* Widening intencional a `Record<string, string>` para que el `let-p`
@@ -128,23 +134,26 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const identity: FormNavSection = {
       id: 'group-section-identity',
       labelKey: 'groups.form.section.identity',
-      icon: IdCard,
+      icon: 'badge',
     };
     const channels: FormNavSection = {
       id: 'group-section-channels',
       labelKey: 'groups.form.section.channels',
-      icon: MessageSquare,
+      icon: 'chat_bubble',
     };
     const strategy: FormNavSection = {
       id: 'group-section-strategy',
       labelKey: 'groups.form.section.strategy',
-      icon: GitBranch,
+      icon: 'account_tree',
     };
     const agents: FormNavSection = {
       id: 'group-section-agents',
       labelKey: 'groups.form.section.agents',
-      icon: UsersIcon,
+      icon: 'group',
     };
+    // Orden por modo (S60). En CREAR, identidad primero — es lo primero que se
+    // rellena. En EDITAR, identidad al fondo: apenas se toca tras crear, y la
+    // ficha del panel ya da su contexto siempre visible.
     if (this.mode() === 'edit') {
       return [channels, strategy, agents, identity];
     }
@@ -158,7 +167,8 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     return this.navSections().find((s) => s.id === id)?.icon ?? null;
   });
 
-  protected readonly phoneIcon = Phone;
+  protected readonly phoneIcon = 'call';
+  protected readonly trashIcon = 'delete';
 
   protected readonly editingId = signal<number | null>(null);
   /** Source name si llegó vía Duplicar (?seedFromId). NULL en create vacío. */
@@ -261,6 +271,8 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       });
       this.initialChannels.set(new Set(group.channels));
       this.initialLinks.set(seedLinks);
+      // En edición aterriza en Canales (1ª del orden de edición): identidad va
+      // al fondo porque casi no se toca tras crear; la ficha la resume (S60).
       this.activeSection.set('group-section-channels');
       this.releaseLock = this.crossTab.acquire('group', group.id, () =>
         this.conflictWarning.set(true),
@@ -302,6 +314,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.releaseLock?.();
     this.releaseLock = null;
+    this.topBarSlot.clearActions();
   }
 
   @HostListener('window:beforeunload', ['$event'])

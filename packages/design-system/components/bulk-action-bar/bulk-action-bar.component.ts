@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { LucideAngularModule, X } from 'lucide-angular';
 
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
 
 export interface BulkActionEntityLabels {
@@ -20,7 +20,7 @@ export interface BulkActionEntityLabels {
  */
 @Component({
   selector: 'sc-bulk-action-bar',
-  imports: [LucideAngularModule],
+  imports: [IconComponent],
   templateUrl: './bulk-action-bar.component.html',
   styleUrl: './bulk-action-bar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -31,7 +31,7 @@ export class BulkActionBarComponent {
 
   readonly clear = output<void>();
 
-  protected readonly closeIcon = X;
+  protected readonly closeIcon = 'close';
   protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
 
   protected readonly visible = computed(() => this.count() > 0);

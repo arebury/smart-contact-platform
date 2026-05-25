@@ -8,26 +8,7 @@ import {
 } from '@angular/core';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  AlertTriangle,
-  Check,
-  ChevronDown,
-  ChevronRight,
-  Download,
-  Info,
-  Key,
-  Globe,
-  Loader2,
-  LucideAngularModule,
-  Monitor,
-  Moon,
-  RotateCcw,
-  Search,
-  Settings,
-  Shield,
-  Sun,
-  X,
-} from 'lucide-angular';
+import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -39,7 +20,7 @@ import {
   type ThemeMode,
 } from '@core/services';
 import { PageHeaderService } from '@core/services';
-import { ToggleSwitchComponent } from '@shared/components';
+import { IconComponent, ToggleSwitchComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 
 import { NumeracionEspecialSectionComponent } from '../sections/numeracion-especial-section.component';
@@ -47,7 +28,7 @@ import { NumeracionEspecialSectionComponent } from '../sections/numeracion-espec
 interface ThemeOption {
   readonly value: ThemeMode;
   readonly labelKey: string;
-  readonly icon: typeof Sun;
+  readonly icon: string;
 }
 
 interface LanguageOption {
@@ -102,6 +83,7 @@ const APP_DATA_PREFIX = 'sc-';
   selector: 'sc-sistema-page',
   imports: [
     ButtonModule,
+    IconComponent,
     LucideAngularModule,
     NumeracionEspecialSectionComponent,
     ToggleSwitchComponent,
@@ -126,31 +108,35 @@ export class SistemaPageComponent {
       titleKey: 'config.sistema.heading',
       subtitleKey: 'config.sistema.subtitle',
       entityKey: 'config.sidebar.title',
-      icon: Settings,
+      icon: 'settings',
     });
   }
 
-  protected readonly settingsIcon = Settings;
-  protected readonly resetIcon = RotateCcw;
-  protected readonly shieldIcon = Shield;
-  protected readonly keyIcon = Key;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly alertIcon = AlertTriangle;
-  protected readonly infoIcon = Info;
-  protected readonly chevronDown = ChevronDown;
-  protected readonly chevronRight = ChevronRight;
-  protected readonly downloadIcon = Download;
-  protected readonly checkIcon = Check;
+  protected readonly settingsIcon = 'settings';
+  protected readonly resetIcon = 'rotate_left';
+  protected readonly shieldIcon = 'shield';
+  protected readonly keyIcon = 'key';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly alertIcon = 'warning';
+  protected readonly infoIcon = 'info';
+  protected readonly chevronDown = 'expand_more';
+  protected readonly chevronRight = 'chevron_right';
+  protected readonly downloadIcon = 'download';
+  protected readonly checkIcon = 'check';
   protected readonly loaderIcon = Loader2;
 
   protected readonly themeOptions: readonly ThemeOption[] = [
-    { value: 'light', labelKey: 'config.sistema.appearance.theme_light', icon: Sun },
-    { value: 'dark', labelKey: 'config.sistema.appearance.theme_dark', icon: Moon },
-    { value: 'system', labelKey: 'config.sistema.appearance.theme_system', icon: Monitor },
+    { value: 'light', labelKey: 'config.sistema.appearance.theme_light', icon: 'light_mode' },
+    { value: 'dark', labelKey: 'config.sistema.appearance.theme_dark', icon: 'dark_mode' },
+    {
+      value: 'system',
+      labelKey: 'config.sistema.appearance.theme_system',
+      icon: 'desktop_windows',
+    },
   ];
 
-  protected readonly globeIcon = Globe;
+  protected readonly globeIcon = 'public';
 
   protected readonly languageOptions: readonly LanguageOption[] = [
     { value: 'es', labelKey: 'config.sistema.language.es', flag: '🇪🇸' },

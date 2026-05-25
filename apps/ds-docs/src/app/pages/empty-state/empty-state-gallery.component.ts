@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Inbox, Search, Users } from 'lucide-angular';
 
 import { EmptyStateComponent } from '@sc/design-system/components/empty-state/empty-state.component';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
@@ -12,9 +11,9 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmptyStateGalleryComponent {
-  protected readonly inboxIcon = Inbox;
-  protected readonly searchIcon = Search;
-  protected readonly usersIcon = Users;
+  protected readonly inboxIcon = 'inbox';
+  protected readonly searchIcon = 'search';
+  protected readonly usersIcon = 'group';
 
   protected readonly lastCta = signal<string | null>(null);
 

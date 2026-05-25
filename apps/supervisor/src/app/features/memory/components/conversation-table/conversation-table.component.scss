@@ -64,7 +64,11 @@
  * `border-top` (que viene del partial) actúa como hairline divisor
  * compartido con el panel de filtros arriba. */
 .table-card {
-  border-radius: 0 0 var(--sc-radius-200) var(--sc-radius-200);
+  /* BeyondUI vibe (experiment S59): flush — sin caja. La tabla va sobre
+   * la página con solo divisores hairline entre filas (patrón Companies/
+   * Linear). Scoped a Memory; el partial compartido sigue con caja para AED. */
+  border: 0;
+  border-radius: 0;
 }
 
 .memory-conversations-table {
@@ -72,7 +76,7 @@
   border-collapse: collapse;
 
   thead tr {
-    background: var(--sc-bg-default);
+    background: var(--sc-bg-surface);
     border-bottom: 1px solid var(--sc-border-default);
   }
 
@@ -89,13 +93,14 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background: var(--sc-bg-default);
-    padding: var(--sc-spacing-0-875);
+    background: var(--sc-bg-surface);
+    padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
     text-align: left;
-    font-size: var(--sc-font-size-50);
-    font-weight: var(--sc-font-weight-semibold);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    /* BeyondUI vibe (experiment S59): header limpio sentence-case en gris,
+     * NO uppercase tracked diminuto. font-size 100 (12.25px) ≈ Companies. */
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    letter-spacing: 0;
     color: var(--sc-text-secondary);
     white-space: nowrap;
     box-shadow: inset 0 -1px 0 var(--sc-border-default);
@@ -123,10 +128,39 @@
    * acababa siendo (0,2,2) > (0,1,1) de `.__id` en el cascade real.
    */
   :where(tbody td) {
-    padding: var(--sc-spacing-0-875);
+    /* BeyondUI vibe (experiment S59): aire vertical (14px) + más aire
+     * horizontal (15.75px) → columnas menos apretadas, layout más airy
+     * tipo Companies. */
+    padding: var(--sc-spacing-1) var(--sc-spacing-1-125);
     font-size: var(--sc-font-size-200);
-    color: var(--sc-text-secondary);
+    /* Bloque 1 · tipografía nítida BeyondUI: peso 500 (Medium) + texto
+     * primario (no secondary) → datos crujientes y legibles como Companies. */
+    font-weight: var(--sc-font-weight-medium);
+    color: var(--sc-text-primary);
     vertical-align: middle;
+  }
+
+  /* th alineado al mismo aire horizontal que las celdas. */
+  thead th {
+    padding-left: var(--sc-spacing-1-125);
+    padding-right: var(--sc-spacing-1-125);
+  }
+
+  /* BeyondUI vibe (experiment S59): columnas categóricas (Servicio, Grupo)
+   * como pills redondeadas — eco de los dominios pill de Companies. Pastilla
+   * sutil: fondo gris claro + hairline, no compite con los datos. */
+  .memory-cell-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--sc-spacing-0-25) var(--sc-spacing-0-625);
+    border-radius: var(--sc-radius-full);
+    background: var(--sc-bg-default);
+    border: 1px solid var(--sc-border-subtle);
+    color: var(--sc-text-primary);
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    line-height: 1.3;
+    white-space: nowrap;
   }
 
   &__th-status,

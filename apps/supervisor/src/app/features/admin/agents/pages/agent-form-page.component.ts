@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -7,51 +8,31 @@ import {
   OnDestroy,
   OnInit,
   signal,
+  type TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  ChevronDown,
-  ChevronRight,
-  FileStack,
-  Globe,
-  IdCard,
-  Info,
-  Key,
-  LogIn,
-  LucideAngularModule,
-  Mail,
-  MessageSquare,
-  Phone,
-  PhoneCall,
-  Plug,
-  Search,
-  Settings,
-  ShieldCheck,
-  SlidersHorizontal,
-  Tag,
-  Users as UsersIcon,
-  X,
-} from 'lucide-angular';
 import { MessageService, PrimeTemplate } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { DirtyAware } from '@core/guards';
 import { ConfirmHostService, CrossTabLockService } from '@core/services';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE, PIN_RE } from '@core/utils/validators';
 import {
   DeleteEntityDialogComponent,
-  FormDangerZoneComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  IconComponent,
+  IllustratedAvatarComponent,
   InputTextComponent,
   LabelChipComponent,
   PhotoUploadComponent,
   SearchComponent,
   SectionCardComponent,
   SelectComponent,
-  StickyFormHeaderComponent,
   ToggleSwitchComponent,
   CheckboxComponent,
   type TriState,
@@ -137,18 +118,17 @@ interface FormState {
   imports: [
     ButtonModule,
     DeleteEntityDialogComponent,
-    FormDangerZoneComponent,
     FormSectionNavComponent,
     GroupAssignmentTableComponent,
+    IconComponent,
+    IllustratedAvatarComponent,
     InputTextComponent,
     LabelChipComponent,
-    LucideAngularModule,
     PhotoUploadComponent,
     PrimeTemplate,
     SearchComponent,
     SectionCardComponent,
     SelectComponent,
-    StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
     CheckboxComponent,
@@ -171,25 +151,39 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly templatesStore = inject(TemplatesStore);
   private readonly agendasStore = inject(AgendasStore);
   private readonly confirmHost = inject(ConfirmHostService);
+  private readonly topBarSlot = inject(TopBarSlotService);
 
-  protected readonly mailIcon = Mail;
-  protected readonly phoneIcon = Phone;
-  protected readonly phoneCallIcon = PhoneCall;
-  protected readonly shieldIcon = ShieldCheck;
-  protected readonly infoIcon = Info;
-  protected readonly tagIcon = Tag;
-  protected readonly slidersIcon = SlidersHorizontal;
-  protected readonly plugIcon = Plug;
-  protected readonly globeIcon = Globe;
-  protected readonly settingsIcon = Settings;
-  protected readonly chevronDownIcon = ChevronDown;
-  protected readonly chevronRightIcon = ChevronRight;
-  protected readonly searchIcon = Search;
-  protected readonly xIcon = X;
-  protected readonly fileStackIcon = FileStack;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly logInIcon = LogIn;
-  protected readonly keyIcon = Key;
+  /** Guardar/Cancelar proyectados a la TopBar (modelo "todo arriba" S59):
+   * fuera la banda sticky-form-header; identidad → breadcrumb + campos del
+   * cuerpo, acciones → barra de arriba. */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+  }
+
+  protected readonly mailIcon = 'mail';
+  protected readonly phoneIcon = 'call';
+  protected readonly trashIcon = 'delete';
+  protected readonly phoneCallIcon = 'phone_in_talk';
+  protected readonly shieldIcon = 'verified_user';
+  protected readonly infoIcon = 'info';
+  protected readonly tagIcon = 'label';
+  protected readonly slidersIcon = 'tune';
+  protected readonly plugIcon = 'power';
+  protected readonly globeIcon = 'public';
+  protected readonly settingsIcon = 'settings';
+  protected readonly chevronDownIcon = 'expand_more';
+  protected readonly chevronRightIcon = 'chevron_right';
+  protected readonly searchIcon = 'search';
+  protected readonly xIcon = 'close';
+  protected readonly fileStackIcon = 'file_copy';
+  protected readonly chatIcon = 'chat_bubble';
+  protected readonly logInIcon = 'login';
+  protected readonly keyIcon = 'key';
 
   /** Open state of each accordion sub-section inside "Configuración avanzada".
    * All start collapsed so the section reads as a quiet summary (count
@@ -388,23 +382,26 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const identity: FormNavSection = {
       id: 'agent-section-identity',
       labelKey: 'agents.form.section.identification',
-      icon: IdCard,
+      icon: 'badge',
     };
     const groups: FormNavSection = {
       id: 'agent-section-groups',
       labelKey: 'agents.form.section.groups',
-      icon: UsersIcon,
+      icon: 'group',
     };
     const permissions: FormNavSection = {
       id: 'agent-section-permissions',
       labelKey: 'agents.form.section.permissions',
-      icon: ShieldCheck,
+      icon: 'verified_user',
     };
     const advanced: FormNavSection = {
       id: 'agent-section-advanced',
       labelKey: 'agents.form.section.advanced',
-      icon: SlidersHorizontal,
+      icon: 'tune',
     };
+    // Orden por modo (S60). En CREAR, identidad primero — es lo primero que se
+    // rellena. En EDITAR, identidad al fondo: apenas se toca tras crear, y la
+    // ficha del panel ya da su contexto siempre visible.
     if (this.mode() === 'edit') {
       return [groups, permissions, advanced, identity];
     }
@@ -564,6 +561,8 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         scheduleIds: new Set(agent.schedules ?? []),
         templateIds: new Set(agent.templates ?? []),
       });
+      // En edición aterriza en Grupos (1ª del orden de edición): identidad va
+      // al fondo porque casi no se toca tras crear; la ficha ya la resume (S60).
       this.activeSection.set('agent-section-groups');
       this.releaseLock = this.crossTab.acquire('agent', agent.id, () =>
         this.conflictWarning.set(true),
@@ -617,6 +616,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.releaseLock?.();
     this.releaseLock = null;
+    this.topBarSlot.clearActions();
   }
 
   @HostListener('window:beforeunload', ['$event'])

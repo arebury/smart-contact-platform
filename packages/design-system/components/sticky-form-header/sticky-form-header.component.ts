@@ -11,9 +11,10 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { ArrowLeft, Check, Loader2, LucideAngularModule, Pencil, X } from 'lucide-angular';
+import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
 
 /**
@@ -21,10 +22,17 @@ import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
  * Shows the entity title, optional editable name, plus Save / Cancel /
  * Delete actions. The "Save" button shows a spinner while `[saving]` is
  * true; "Save" is disabled while `[canSave]` is false.
+ *
+ * ⚠️ RETENIDO PARA ROLLBACK (S59, Supervisor DD#65). Ya NO lo usa ningún form
+ * de la app: los 3 form shells migraron al modelo "todo arriba" (acciones al
+ * TopBar vía TopBarSlotService + la ficha del panel para la identidad). Se
+ * conserva intacto —exportado del barrel + showcased en ds-docs— como red de
+ * seguridad por si se revierte el "todo arriba". NO borrar sin decisión
+ * explícita (ver DD#65 § "Cómo revertir").
  */
 @Component({
   selector: 'sc-sticky-form-header',
-  imports: [ButtonModule, FormsModule, LucideAngularModule, TranslateModule],
+  imports: [ButtonModule, FormsModule, IconComponent, LucideAngularModule, TranslateModule],
   templateUrl: './sticky-form-header.component.html',
   styleUrl: './sticky-form-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -55,11 +63,11 @@ export class StickyFormHeaderComponent {
   readonly save = output<void>();
   readonly cancelled = output<void>();
 
-  protected readonly pencilIcon = Pencil;
-  protected readonly checkIcon = Check;
-  protected readonly closeIcon = X;
+  protected readonly pencilIcon = 'edit';
+  protected readonly checkIcon = 'check';
+  protected readonly closeIcon = 'close';
   protected readonly loaderIcon = Loader2;
-  protected readonly backIcon = ArrowLeft;
+  protected readonly backIcon = 'arrow_back';
   protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
   protected readonly iconSizeMd = SC_ICON_SIZE_MD;
 

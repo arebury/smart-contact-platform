@@ -11,7 +11,7 @@
       [attr.data-severity]="message.severity ?? 'info'"
     >
       <div class="sc-toast__icon" aria-hidden="true">
-        <lucide-icon [img]="iconFor(message.severity)" [size]="14" aria-hidden="true" />
+        <sc-icon [name]="iconFor(message.severity)" [size]="14" />
       </div>
       <div class="sc-toast__body">
         @if (message.summary) {
@@ -27,7 +27,7 @@
         </button>
       }
       <button type="button" class="sc-toast__close" aria-label="Cerrar" (click)="onClose()">
-        <lucide-icon [img]="icons.close" [size]="14" aria-hidden="true" />
+        <sc-icon [name]="icons.close" [size]="14" />
       </button>
     </div>
   </ng-template>

@@ -12,10 +12,9 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AlertTriangle, LucideAngularModule } from 'lucide-angular';
 import { PrimeTemplate } from 'primeng/api';
 
-import { InputTextComponent, SelectComponent } from '@shared/components';
+import { IconComponent, InputTextComponent, SelectComponent } from '@shared/components';
 import { RepoEntity, RepoFieldDef } from './repo-types';
 
 export type RepoFormSubmission = Readonly<Record<string, string>>;
@@ -30,8 +29,8 @@ export type RepoFormSubmission = Readonly<Record<string, string>>;
   selector: 'sc-repo-form-panel',
   imports: [
     FormsModule,
+    IconComponent,
     InputTextComponent,
-    LucideAngularModule,
     PrimeTemplate,
     SelectComponent,
     TranslateModule,
@@ -53,7 +52,7 @@ export class RepoFormPanelComponent<T extends RepoEntity> implements OnInit, Aft
   readonly save = output<RepoFormSubmission>();
   readonly cancelled = output<void>();
 
-  protected readonly alertIcon = AlertTriangle;
+  protected readonly alertIcon = 'warning';
   protected readonly values = signal<Record<string, string>>({});
   protected readonly error = signal('');
 

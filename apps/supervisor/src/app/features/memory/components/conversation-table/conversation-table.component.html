@@ -127,9 +127,17 @@
           </td>
           <td>{{ conv.hour }}</td>
           <td>{{ conv.date }}</td>
-          <td>{{ conv.service }}</td>
+          <td>
+            @if (conv.service) {
+              <span class="memory-cell-pill">{{ conv.service }}</span>
+            }
+          </td>
           <td>{{ conv.origin }}</td>
-          <td>{{ conv.group }}</td>
+          <td>
+            @if (conv.group) {
+              <span class="memory-cell-pill">{{ conv.group }}</span>
+            }
+          </td>
           <td>{{ conv.destination }}</td>
           <td class="table__td-num">{{ conv.duration }}</td>
           <td class="table__td-num">{{ conv.waiting }}</td>
@@ -152,7 +160,7 @@
     >
       @if (contextPrimaryAction(); as action) {
         <button type="button" role="menuitem" (click)="dispatchContext(action)">
-          <lucide-icon [img]="primaryActionIcon(action)" [size]="13" aria-hidden="true" />
+          <sc-icon [name]="primaryActionIcon(action) ?? ''" [size]="13" />
           <span>{{ primaryActionLabelKey(action) | translate }}</span>
         </button>
       }
@@ -161,7 +169,7 @@
           <div class="context-menu__separator" aria-hidden="true"></div>
         }
         <button type="button" role="menuitem" (click)="dispatchContext('mark-read')">
-          <lucide-icon [img]="markReadIcon" [size]="13" aria-hidden="true" />
+          <sc-icon [name]="markReadIcon" [size]="13" />
           <span>{{ 'memory.conversations.context.mark_read' | translate }}</span>
         </button>
       }

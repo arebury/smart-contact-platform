@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Plus, X } from 'lucide-angular';
 import { DialogModule } from 'primeng/dialog';
 
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
-
-type LucideIcon = typeof Plus;
 
 let modalIdCounter = 0;
 
@@ -29,7 +27,7 @@ let modalIdCounter = 0;
  *   [visible]="open()"
  *   title="¿Eliminar agente?"
  *   subtitle="Esta acción no se puede deshacer."
- *   [icon]="trashIcon"
+ *   [icon]="'delete'"
  *   (cancelled)="open.set(false)"
  * >
  *   <p>Body content goes here.</p>
@@ -42,7 +40,7 @@ let modalIdCounter = 0;
  */
 @Component({
   selector: 'sc-dialog',
-  imports: [DialogModule, LucideAngularModule, TranslateModule],
+  imports: [DialogModule, IconComponent, TranslateModule],
   templateUrl: './dialog.component.html',
   styleUrl: './dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,7 +49,7 @@ export class DialogComponent {
   readonly visible = input.required<boolean>();
   readonly title = input.required<string>();
   readonly subtitle = input<string | null>(null);
-  readonly icon = input<LucideIcon | null>(null);
+  readonly icon = input<string | null>(null);
   readonly width = input<string>('440px');
   readonly closable = input(true);
   /** When false, the footer slot stays empty; consumers can omit `<div modal-actions>`. */
@@ -63,7 +61,7 @@ export class DialogComponent {
 
   readonly cancelled = output<void>();
 
-  protected readonly closeIcon = X;
+  protected readonly closeIcon = 'close';
   protected readonly iconSizeLg = SC_ICON_SIZE_LG;
   /** Stable ids so `aria-labelledby` / `aria-describedby` resolve correctly. */
   protected readonly id = ++modalIdCounter;

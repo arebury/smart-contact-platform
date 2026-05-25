@@ -40,11 +40,27 @@
             {{ 'memory.bulk_transcription.cost_hint' | translate }}
           </span>
         </div>
-        <!-- Delta hint slot — min-height reservado, evita CLS al cambiar
-             multi-rec / in-progress mid-modal. -->
-        <span class="bulkv26__hero-hint" aria-live="polite">
-          {{ heroDeltaHint() ?? ' ' }}
-        </span>
+        <!-- experiment/beyondui-patterns S58 · Mixed-state badges (Skill
+             redesign-existing-projects). Reemplaza el texto denso por
+             chips iconográficos diferenciados:
+             - verde (include): elegibles
+             - amber (warn): atención multi-tramo
+             - gray (exclude): excluidas en proceso
+             Min-height reservado para evitar CLS. -->
+        <div class="bulkv26__hero-badges" aria-live="polite">
+          @for (b of heroBadges(); track b.kind + b.label) {
+            <span
+              class="bulkv26__badge"
+              [class.is-include]="b.kind === 'include'"
+              [class.is-warn]="b.kind === 'warn'"
+              [class.is-exclude]="b.kind === 'exclude'"
+            >
+              <sc-icon [name]="b.icon" [size]="12" class="bulkv26__badge-icon" />
+              <span class="bulkv26__badge-count">{{ b.count }}</span>
+              <span class="bulkv26__badge-label">{{ b.label }}</span>
+            </span>
+          }
+        </div>
       </div>
     </section>
 
@@ -101,7 +117,7 @@
        reflow al aparecer/desaparecer. -->
   @if (error(); as e) {
     <div class="bulkv26__error" role="alert">
-      <lucide-icon [img]="alertIcon" [size]="14" class="bulkv26__error-icon" aria-hidden="true" />
+      <sc-icon [name]="alertIcon" [size]="14" class="bulkv26__error-icon" />
       <p class="bulkv26__error-text">{{ e }}</p>
     </div>
   }

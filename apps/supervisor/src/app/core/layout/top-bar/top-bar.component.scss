@@ -23,6 +23,32 @@
     min-width: 0;
   }
 
+  /* Slot contextual (experiment S59): empujado a la derecha con margin-left
+   * auto para sentarse junto al avatar. Separación a su izquierda del
+   * breadcrumb y a su derecha del avatar. */
+  &__slot {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: var(--sc-spacing-1);
+    min-width: 0;
+  }
+
+  /* Acciones primarias de la página (modelo "todo arriba" S59). Empujadas a
+   * la derecha; si hay slot contextual antes, se empaquetan tras él. */
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-0-5);
+    margin-left: auto;
+    margin-right: var(--sc-spacing-1);
+
+    &:has(+ .top-bar__slot),
+    .top-bar__slot + & {
+      margin-left: var(--sc-spacing-1);
+    }
+  }
+
   &__home {
     width: 28px;
     height: 28px;
@@ -54,35 +80,6 @@
     height: 16px;
     background: var(--sc-border-default);
     flex-shrink: 0;
-  }
-
-  /* Back-to-parent affordance — same shape as `__home` so the lead block
-   * reads as a paired control set. Only renders when the breadcrumb trail
-   * has a parent crumb (top-bar.component.ts → backPath). */
-  &__back {
-    width: 28px;
-    height: 28px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--sc-icon-subtle);
-    background: transparent;
-    border: 0;
-    border-radius: var(--sc-radius-100);
-    cursor: pointer;
-    transition:
-      background var(--sc-transition-fast) var(--sc-easing-default),
-      color var(--sc-transition-fast) var(--sc-easing-default);
-
-    &:hover {
-      background: var(--sc-color-gray-100);
-      color: var(--sc-text-secondary);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--sc-color-soft-blue-500);
-      outline-offset: 2px;
-    }
   }
 
   &__crumbs {
@@ -127,11 +124,13 @@
   }
 
   &__crumb-current {
-    /* Active crumb uses the brand "extend 700" (soft-blue-700, #328a99)
-     * so the current page reads as accented rather than just a darker
-     * gray. Matches the Figma breadcrumb spec. */
-    color: var(--sc-color-soft-blue-700);
-    font-weight: var(--sc-font-weight-medium);
+    /* Modelo "todo arriba" (experiment S59): al quitar la banda de page-header,
+     * el crumb actual ES el título de la página → más prominente (14px
+     * semibold) pero conservando el acento de marca soft-blue-700 del spec
+     * Figma de breadcrumb. */
+    color: var(--sc-text-primary);
+    font-size: var(--sc-font-size-200);
+    font-weight: var(--sc-font-weight-semibold);
   }
 
   &__crumb-muted {

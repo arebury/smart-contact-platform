@@ -6,7 +6,7 @@
   [attr.aria-label]="'memory.category_filter.aria' | translate"
   (click)="panel.toggle($event)"
 >
-  <lucide-icon [img]="tagIcon" [size]="14" aria-hidden="true" />
+  <sc-icon [name]="tagIcon" [size]="14" />
   <span>{{ 'memory.category_filter.label' | translate }}</span>
   @if (hasActive()) {
     <span class="category-filter-trigger__badge">{{ selected().length }}</span>

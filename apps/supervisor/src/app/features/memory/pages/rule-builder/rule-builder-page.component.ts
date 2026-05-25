@@ -9,20 +9,11 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  AlertTriangle,
-  ArrowLeft,
-  Database,
-  ExternalLink,
-  FileText,
-  LucideAngularModule,
-  Mic,
-  Sparkles,
-  Trash2,
-} from 'lucide-angular';
+import { LucideAngularModule, Trash2 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
+import { IconComponent } from '@shared/components';
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { MultiSelectComponent } from '@shared/components/multiselect/multiselect.component';
 import { SelectComponent } from '@shared/components/select/select.component';
@@ -62,6 +53,7 @@ import { RulesStore } from '../../state/rules.store';
   imports: [
     ButtonModule,
     FormsModule,
+    IconComponent,
     InputTextComponent,
     LucideAngularModule,
     MultiSelectComponent,
@@ -92,13 +84,13 @@ export class RuleBuilderPageComponent {
     this.categoriesStore.activeCategories().map((c) => ({ value: c.id, label: c.name })),
   );
 
-  protected readonly backIcon = ArrowLeft;
-  protected readonly externalIcon = ExternalLink;
-  protected readonly micIcon = Mic;
-  protected readonly fileTextIcon = FileText;
-  protected readonly sparklesIcon = Sparkles;
-  protected readonly databaseIcon = Database;
-  protected readonly alertIcon = AlertTriangle;
+  protected readonly backIcon = 'arrow_back';
+  protected readonly externalIcon = 'open_in_new';
+  protected readonly micIcon = 'mic';
+  protected readonly fileTextIcon = 'description';
+  protected readonly sparklesIcon = 'auto_awesome';
+  protected readonly databaseIcon = 'database';
+  protected readonly alertIcon = 'warning';
   protected readonly trashIcon = Trash2;
 
   /**

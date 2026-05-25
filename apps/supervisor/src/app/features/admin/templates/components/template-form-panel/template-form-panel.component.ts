@@ -12,9 +12,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { AlertTriangle, LucideAngularModule, Mail, MessageSquare } from 'lucide-angular';
 
-import { InputTextComponent } from '@shared/components';
+import { IconComponent, InputTextComponent } from '@shared/components';
 import { Template, TemplateType } from '../../data/templates-data';
 
 export interface TemplateFormSubmission {
@@ -32,7 +31,7 @@ export interface TemplateFormSubmission {
  */
 @Component({
   selector: 'sc-template-form-panel',
-  imports: [FormsModule, InputTextComponent, LucideAngularModule, TranslateModule],
+  imports: [FormsModule, IconComponent, InputTextComponent, TranslateModule],
   templateUrl: './template-form-panel.component.html',
   styleUrl: './template-form-panel.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,9 +47,9 @@ export class TemplateFormPanelComponent implements OnInit, AfterViewInit {
   readonly save = output<TemplateFormSubmission>();
   readonly cancelled = output<void>();
 
-  protected readonly alertIcon = AlertTriangle;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly emailIcon = Mail;
+  protected readonly alertIcon = 'warning';
+  protected readonly chatIcon = 'chat_bubble';
+  protected readonly emailIcon = 'mail';
   protected readonly typeOptions: readonly TemplateType[] = ['chat', 'email'];
 
   protected readonly title = signal('');

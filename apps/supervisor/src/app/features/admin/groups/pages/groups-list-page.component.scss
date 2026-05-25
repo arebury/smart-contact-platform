@@ -80,17 +80,18 @@
   border-collapse: collapse;
 
   thead tr {
-    background: var(--sc-bg-default);
+    /* Header limpio BeyondUI/SnowUI (experiment S59): sin fondo gris. */
+    background: var(--sc-bg-surface);
     border-bottom: 1px solid var(--sc-border-default);
   }
 
   th {
     padding: var(--sc-spacing-0-875);
     text-align: left;
-    font-size: var(--sc-font-size-50);
-    font-weight: var(--sc-font-weight-semibold);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+    /* sentence-case gris medium, no UPPERCASE tracked. */
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    letter-spacing: 0;
     color: var(--sc-text-secondary);
   }
 

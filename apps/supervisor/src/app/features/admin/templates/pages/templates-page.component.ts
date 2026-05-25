@@ -1,28 +1,26 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
-  Download,
-  FileStack,
-  LucideAngularModule,
-  Mail,
-  MessageSquare,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  Search,
-  Trash2,
-  X,
-} from 'lucide-angular';
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { ClickOutsideDirective } from '@core/directives';
 import { clampToViewport } from '@core/utils/viewport';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import {
   BulkActionBarComponent,
   useBulkEntityI18n,
   DeleteEntityDialogComponent,
-  PageHeaderComponent,
+  IconComponent,
   SearchComponent,
 } from '@shared/components';
 import { Template, TemplateType } from '../data/templates-data';
@@ -45,8 +43,7 @@ interface ContextMenuPos {
     ButtonModule,
     ClickOutsideDirective,
     DeleteEntityDialogComponent,
-    LucideAngularModule,
-    PageHeaderComponent,
+    IconComponent,
     SearchComponent,
     TemplateFormPanelComponent,
     TranslateModule,
@@ -59,17 +56,30 @@ export class TemplatesPageComponent {
   private readonly templatesStore = inject(TemplatesStore);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  protected readonly plusIcon = Plus;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly downloadIcon = Download;
-  protected readonly fileStackIcon = FileStack;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly emailIcon = Mail;
-  protected readonly moreIcon = MoreHorizontal;
-  protected readonly editIcon = Pencil;
-  protected readonly trashIcon = Trash2;
+  /** CTA + panel inline proyectados a la TopBar (modelo "todo arriba" S59). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
+
+  protected readonly plusIcon = 'add';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly downloadIcon = 'download';
+  protected readonly fileStackIcon = 'file_copy';
+  protected readonly chatIcon = 'chat_bubble';
+  protected readonly emailIcon = 'mail';
+  protected readonly moreIcon = 'more_horiz';
+  protected readonly editIcon = 'edit';
+  protected readonly trashIcon = 'delete';
 
   protected readonly templates = this.templatesStore.templates;
 

@@ -1,8 +1,7 @@
 import { Signal } from '@angular/core';
-import type { Phone } from 'lucide-angular';
 
-/** Structural type for a lucide-angular icon constant (e.g. `Phone`, `Box`). */
-export type LucideIconData = typeof Phone;
+/** Material Symbols glyph name (e.g. `'call'`, `'inventory_2'`). */
+export type LucideIconData = string;
 
 export interface RepoEntity {
   readonly id: number;

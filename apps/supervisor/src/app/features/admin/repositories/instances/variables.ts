@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, Injectable } from '@angular/core';
-import { Variable } from 'lucide-angular';
 
 import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { RepoListPageComponent } from '../components/repo-list-page.component';
@@ -203,7 +202,7 @@ export class VariablesPageComponent {
     titleKey: 'repositories.variables.title',
     entitySingularKey: 'repositories.variables.singular',
     entityPluralKey: 'repositories.variables.plural',
-    icon: Variable,
+    icon: 'data_object',
     breadcrumbExtraKey: 'repositories.variables.title',
     columns: COLUMNS,
     fields: FIELDS,

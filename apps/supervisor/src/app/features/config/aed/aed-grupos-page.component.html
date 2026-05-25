@@ -52,8 +52,8 @@
           <div class="field">
             <label class="field__label" for="grupos-limite-cola">
               <span>{{ 'config.aed.subpages.grupos.capacidad.limite_label' | translate }}</span>
-              <lucide-icon
-                [img]="infoIcon"
+              <sc-icon
+                [name]="infoIcon"
                 [size]="12"
                 class="field__info"
                 [attr.aria-label]="'config.aed.subpages.grupos.capacidad.limite_info' | translate"
@@ -87,7 +87,7 @@
             <div class="field">
               <label class="field__label" for="grupos-tiempo-transfer">
                 <span>{{ 'config.aed.subpages.grupos.tiempos.transferencia' | translate }}</span>
-                <lucide-icon [img]="infoIcon" [size]="12" class="field__info" aria-hidden="true" />
+                <sc-icon [name]="infoIcon" [size]="12" class="field__info" />
               </label>
               <sc-inputnumber
                 inputId="grupos-tiempo-transfer"
@@ -101,7 +101,7 @@
             <div class="field">
               <label class="field__label" for="grupos-tiempo-cola">
                 <span>{{ 'config.aed.subpages.grupos.tiempos.max_cola' | translate }}</span>
-                <lucide-icon [img]="infoIcon" [size]="12" class="field__info" aria-hidden="true" />
+                <sc-icon [name]="infoIcon" [size]="12" class="field__info" />
               </label>
               <sc-inputnumber
                 inputId="grupos-tiempo-cola"

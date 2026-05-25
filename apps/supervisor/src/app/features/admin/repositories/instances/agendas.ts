@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, Injectable } from '@angular/core';
-import { Phone } from 'lucide-angular';
 
 import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { RepoListPageComponent } from '../components/repo-list-page.component';
@@ -167,7 +166,7 @@ export class AgendasPageComponent {
     titleKey: 'repositories.agendas.title',
     entitySingularKey: 'repositories.agendas.singular',
     entityPluralKey: 'repositories.agendas.plural',
-    icon: Phone,
+    icon: 'call',
     breadcrumbExtraKey: 'repositories.agendas.title',
     columns: COLUMNS,
     fields: FIELDS,

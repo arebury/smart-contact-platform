@@ -9,8 +9,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LucideAngularModule, Check, X } from 'lucide-angular';
 
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
 
 /**
@@ -32,7 +32,7 @@ import { SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
  */
 @Component({
   selector: 'sc-inline-rename-cell',
-  imports: [FormsModule, LucideAngularModule],
+  imports: [FormsModule, IconComponent],
   templateUrl: './inline-rename-cell.component.html',
   styleUrl: './inline-rename-cell.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,8 +45,8 @@ export class InlineRenameCellComponent implements AfterViewInit {
   readonly commit = output<string>();
   readonly cancelled = output<void>();
 
-  protected readonly checkIcon = Check;
-  protected readonly closeIcon = X;
+  protected readonly checkIcon = 'check';
+  protected readonly closeIcon = 'close';
   protected readonly iconSizeMd = SC_ICON_SIZE_MD;
 
   protected readonly value = signal('');

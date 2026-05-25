@@ -5,6 +5,41 @@
 
 ---
 
+## Estado al cerrar (Session 60, 2026-05-25) — todo-arriba + la ficha + iconos Material → MERGED
+
+Sesión maratón. Todo el experimento consolidado y **mergeado a `main`** (PR #49):
+
+- **Modelo "todo arriba"** (listas + forms) + **la ficha** (resumen identidad
+  solo-lectura en el panel de los 3 forms) cerrando la regresión de contexto.
+  Índice **por modo**: crear=identidad-primero, editar=identidad-abajo (la ficha
+  da el contexto). Eliminar discreto al pie. Rollback en Supervisor **DD#65**
+  ("revierte el modelo todo-arriba" + receta).
+- **Iconos Lucide → Material Symbols** vía wrapper SCDS `<sc-icon>` (~140
+  ficheros, 4 áreas en paralelo + sistema NAV_ICONS). Contratos SCDS `[icon]`
+  → string. Excepciones en Lucide: **GitHub** (marca, sin glifo Material) +
+  **Loader2** (spinner animado). Font Material Symbols en index.html de
+  supervisor + ds-docs. Fix circular **NG0919** (import relativo del IconComponent
+  en componentes SCDS).
+- **Salud**: build supervisor + ds-docs · lint · i18n (1488×4) · **9/9 smoke** ·
+  runtime 0 errores · ~50 `<sc-icon>`/pantalla. Validado en :4300 (el :4200
+  estaba ocupado por un clon de SnowUI en `~/Downloads` — gotcha de entorno).
+
+### 🎯 PRÓXIMO: triple auditoría (pedido Rafa S60)
+
+Tras la consolidación, atacar con plan grande (sin escatimar):
+1. **Auditoría de consistencia UX** — flujos AED + Memory, patrones repetidos,
+   inconsistencias de interacción/copy/jerarquía tras todo-arriba + Material.
+2. **Auditoría de optimización de código** — bundle (hoy >1.6MB, sobre budget),
+   god-components (conversation-player-modal 476 líneas), dead code, lazy loading,
+   `lucide-angular` (¿quitable del bundle? quedan 8 keepers Loader2/GitHub).
+3. **Auditoría del design system** — `<sc-icon>` a customs-catalog, escalas de
+   iconos Material, los 2 Trash2 residuales en Lucide (entity-form, rule-builder),
+   tokens pendientes, deuda `inconsistencies-backlog`.
+
+Output por auditoría: findings con severidad + plan de acción ejecutable.
+
+---
+
 ## Estado al cerrar (Session 58, 2026-05-21)
 
 Sesión maratón con 7 bloques cerrados en main + 4 en branch experiment.

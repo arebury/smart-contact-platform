@@ -9,7 +9,7 @@
   "
   (click)="panel.toggle($event)"
 >
-  <lucide-icon [img]="filterIcon" [size]="14" aria-hidden="true" />
+  <sc-icon [name]="filterIcon" [size]="14" />
   <span>{{ 'memory.type_filter.label' | translate }}</span>
   @if (hasActiveFilters()) {
     <span class="type-filter-trigger__dot" aria-hidden="true"></span>

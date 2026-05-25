@@ -1,17 +1,18 @@
-<sc-page-header titleKey="memory.categories.page_title" [icon]="tagsIcon">
-  <ng-container page-header-actions>
-    <p-button type="button" severity="primary" (onClick)="onNewCategory()">
-      <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
-      <span>{{ 'memory.categories.new_category' | translate }}</span>
-    </p-button>
-  </ng-container>
-</sc-page-header>
+<!-- Modelo "todo arriba" (experiment S59): sin banda de page-header. La
+     identidad la da el breadcrumb de la TopBar; el CTA se proyecta a la barra
+     vía TopBarSlotService (ver topbarActions en el .ts). -->
+<ng-template #topbarActions>
+  <p-button type="button" severity="primary" (onClick)="onNewCategory()">
+    <sc-icon [name]="plusIcon" [size]="14" />
+    <span>{{ 'memory.categories.new_category' | translate }}</span>
+  </p-button>
+</ng-template>
 
 <div class="page">
   <div class="page__inner">
     @if (isEmpty()) {
       <div class="categories-empty">
-        <lucide-icon [img]="tagsIcon" [size]="24" aria-hidden="true" />
+        <sc-icon [name]="tagsIcon" [size]="24" />
         <h2>{{ 'memory.categories.empty_title' | translate }}</h2>
         <p>{{ 'memory.categories.empty_desc' | translate }}</p>
       </div>
@@ -77,7 +78,7 @@
                   [attr.aria-label]="'memory.categories.cols.more' | translate"
                   (click)="kebabMenu.toggle($event)"
                 >
-                  <lucide-icon [img]="kebabIcon" [size]="14" aria-hidden="true" />
+                  <sc-icon [name]="kebabIcon" [size]="14" />
                 </button>
                 <p-menu #kebabMenu [model]="buildMenuItems(cat)" [popup]="true" appendTo="body" />
               </td>

@@ -11,24 +11,10 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
-import {
-  AlertCircle,
-  AlertTriangle,
-  Building2,
-  Check,
-  ExternalLink,
-  FileText,
-  Info,
-  LayoutTemplate,
-  LucideAngularModule,
-  Plus,
-  Tags,
-  Wrench,
-  X,
-} from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 
+import { IconComponent } from '@shared/components';
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { SelectComponent } from '@shared/components/select/select.component';
@@ -68,7 +54,7 @@ type CategoryTemplateId = 'complaint' | 'churn' | 'competitor' | 'incident';
 
 interface CategoryTemplate {
   readonly id: CategoryTemplateId;
-  readonly icon: typeof AlertCircle;
+  readonly icon: string;
   readonly title: string;
   readonly hint: string;
   readonly name: string;
@@ -78,7 +64,7 @@ interface CategoryTemplate {
 const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
   {
     id: 'complaint',
-    icon: AlertCircle,
+    icon: 'error',
     title: 'Queja',
     hint: 'Cliente expresa insatisfacción',
     name: 'Queja',
@@ -87,7 +73,7 @@ const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
   },
   {
     id: 'churn',
-    icon: AlertTriangle,
+    icon: 'warning',
     title: 'Intención de baja',
     hint: 'Cliente quiere cancelar servicio',
     name: 'Intención de baja',
@@ -96,7 +82,7 @@ const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
   },
   {
     id: 'competitor',
-    icon: Building2,
+    icon: 'business',
     title: 'Competencia',
     hint: 'Menciona otras empresas',
     name: 'Competencia',
@@ -105,7 +91,7 @@ const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
   },
   {
     id: 'incident',
-    icon: Wrench,
+    icon: 'build',
     title: 'Incidencia',
     hint: 'Reporta problemas técnicos',
     name: 'Incidencia',
@@ -119,8 +105,8 @@ const CATEGORY_TEMPLATES: readonly CategoryTemplate[] = [
   imports: [
     ButtonModule,
     FormsModule,
+    IconComponent,
     InputTextComponent,
-    LucideAngularModule,
     DialogComponent,
     RouterLink,
     SelectComponent,
@@ -142,15 +128,15 @@ export class CategoryFormModalComponent {
   readonly closed = output<void>();
   readonly saved = output<Category>();
 
-  protected readonly tagsIcon = Tags;
-  protected readonly externalIcon = ExternalLink;
-  protected readonly layoutTemplateIcon = LayoutTemplate;
-  protected readonly alertIcon = AlertTriangle;
-  protected readonly checkIcon = Check;
-  protected readonly infoIcon = Info;
-  protected readonly fileTextIcon = FileText;
-  protected readonly plusIcon = Plus;
-  protected readonly xIcon = X;
+  protected readonly tagsIcon = 'label';
+  protected readonly externalIcon = 'open_in_new';
+  protected readonly layoutTemplateIcon = 'dashboard';
+  protected readonly alertIcon = 'warning';
+  protected readonly checkIcon = 'check';
+  protected readonly infoIcon = 'info';
+  protected readonly fileTextIcon = 'description';
+  protected readonly plusIcon = 'add';
+  protected readonly xIcon = 'close';
 
   protected readonly name = signal('');
   protected readonly description = signal('');

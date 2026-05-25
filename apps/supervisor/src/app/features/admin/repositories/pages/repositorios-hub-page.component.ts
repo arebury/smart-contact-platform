@@ -1,22 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  Box,
-  ChevronRight,
-  Clock,
-  FileStack,
-  FolderTree,
-  LucideAngularModule,
-  MessageSquare,
-  Phone,
-  Sparkles,
-  Tag,
-  Tags,
-  Variable,
-} from 'lucide-angular';
 
-import { PageHeaderComponent } from '@shared/components';
+import { IconComponent, PageHeaderComponent } from '@shared/components';
 import type { LucideIconData } from '../components/repo-types';
 
 interface HubItem {
@@ -39,7 +25,7 @@ interface HubCategory {
  */
 @Component({
   selector: 'sc-repositorios-hub-page',
-  imports: [LucideAngularModule, PageHeaderComponent, TranslateModule],
+  imports: [IconComponent, PageHeaderComponent, TranslateModule],
   templateUrl: './repositorios-hub-page.component.html',
   styleUrl: './repositorios-hub-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,8 +33,8 @@ interface HubCategory {
 export class RepositoriosHubPageComponent {
   private readonly router = inject(Router);
 
-  protected readonly chevronIcon = ChevronRight;
-  protected readonly pageIcon = FolderTree;
+  protected readonly chevronIcon = 'chevron_right';
+  protected readonly pageIcon = 'account_tree';
 
   protected readonly categories: readonly HubCategory[] = [
     {
@@ -57,28 +43,28 @@ export class RepositoriosHubPageComponent {
         {
           labelKey: 'repositories.agendas.title',
           descriptionKey: 'repositories.hub.descriptions.agendas',
-          icon: Phone,
+          icon: 'call',
           path: '/admin/agendas',
           ready: true,
         },
         {
           labelKey: 'repositories.horarios.title',
           descriptionKey: 'repositories.hub.descriptions.horarios',
-          icon: Clock,
+          icon: 'schedule',
           path: '/admin/horarios',
           ready: true,
         },
         {
           labelKey: 'templates.page_title',
           descriptionKey: 'repositories.hub.descriptions.plantillas',
-          icon: FileStack,
+          icon: 'file_copy',
           path: '/admin/plantillas',
           ready: true,
         },
         {
           labelKey: 'repositories.tipificaciones.title',
           descriptionKey: 'repositories.hub.descriptions.tipificaciones',
-          icon: Tags,
+          icon: 'label',
           path: '/admin/tipificaciones',
           ready: true,
         },
@@ -90,14 +76,14 @@ export class RepositoriosHubPageComponent {
         {
           labelKey: 'labels.page_title',
           descriptionKey: 'repositories.hub.descriptions.labels',
-          icon: Tag,
+          icon: 'label',
           path: '/admin/labels',
           ready: true,
         },
         {
           labelKey: 'repositories.variables.title',
           descriptionKey: 'repositories.hub.descriptions.variables',
-          icon: Variable,
+          icon: 'data_object',
           path: '/admin/variables',
           ready: true,
         },
@@ -109,14 +95,14 @@ export class RepositoriosHubPageComponent {
         {
           labelKey: 'repositories.entidades.title',
           descriptionKey: 'repositories.hub.descriptions.entidades',
-          icon: Box,
+          icon: 'inventory_2',
           path: '/admin/entidades',
           ready: true,
         },
         {
           labelKey: 'repositories.intenciones.title',
           descriptionKey: 'repositories.hub.descriptions.intenciones',
-          icon: MessageSquare,
+          icon: 'chat_bubble',
           path: '/admin/intenciones',
           ready: true,
         },
@@ -129,21 +115,21 @@ export class RepositoriosHubPageComponent {
           // S38 decisión B fusión hubs: redirigir a vistas Memory reales.
           labelKey: 'repositories.reglas_ia.title',
           descriptionKey: 'repositories.hub.descriptions.reglas_ia',
-          icon: Sparkles,
+          icon: 'auto_awesome',
           path: '/conversaciones/reglas',
           ready: true,
         },
         {
           labelKey: 'repositories.entidades_ia.title',
           descriptionKey: 'repositories.hub.descriptions.entidades_ia',
-          icon: Box,
+          icon: 'inventory_2',
           path: '/conversaciones/entidades',
           ready: true,
         },
         {
           labelKey: 'repositories.clasificacion_ia.title',
           descriptionKey: 'repositories.hub.descriptions.clasificacion_ia',
-          icon: Tags,
+          icon: 'label',
           path: '/conversaciones/categorias',
           ready: true,
         },

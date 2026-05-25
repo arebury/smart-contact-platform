@@ -1,25 +1,25 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  AlertOctagon,
-  GripVertical,
-  LucideAngularModule,
-  Mic,
-  MoreVertical,
-  Plus,
-  Settings2,
-  Sparkles,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { PopoverModule } from 'primeng/popover';
 import type { MenuItem } from 'primeng/api';
 
+import { IconComponent } from '@shared/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
-import { PageHeaderComponent } from '@shared/components';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 
 import type { Rule } from '../../data/rule.types';
 import { RulesStore } from '../../state/rules.store';
@@ -39,9 +39,8 @@ import { RulesStore } from '../../state/rules.store';
     ButtonModule,
     CdkDrag,
     CdkDropList,
-    LucideAngularModule,
+    IconComponent,
     MenuModule,
-    PageHeaderComponent,
     PopoverModule,
     TranslateModule,
   ],
@@ -55,6 +54,19 @@ export class RulesPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /** CTA + menú "nueva regla" proyectados a la TopBar (modelo "todo arriba" S59). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   protected readonly activeRules = this.rulesStore.activeRules;
   protected readonly inactiveOrDraftRules = this.rulesStore.inactiveOrDraftRules;
@@ -64,13 +76,13 @@ export class RulesPageComponent {
 
   protected readonly menuTargetRule = signal<Rule | null>(null);
 
-  protected readonly settingsIcon = Settings2;
-  protected readonly plusIcon = Plus;
-  protected readonly gripIcon = GripVertical;
-  protected readonly micIcon = Mic;
-  protected readonly sparklesIcon = Sparkles;
-  protected readonly alertIcon = AlertOctagon;
-  protected readonly kebabIcon = MoreVertical;
+  protected readonly settingsIcon = 'tune';
+  protected readonly plusIcon = 'add';
+  protected readonly gripIcon = 'drag_indicator';
+  protected readonly micIcon = 'mic';
+  protected readonly sparklesIcon = 'auto_awesome';
+  protected readonly alertIcon = 'report';
+  protected readonly kebabIcon = 'more_vert';
 
   protected onNewRule(type: 'recording' | 'transcription' | 'classification' = 'recording'): void {
     this.router.navigate(['/conversaciones/reglas/nueva'], {

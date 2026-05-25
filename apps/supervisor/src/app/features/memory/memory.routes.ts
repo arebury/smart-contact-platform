@@ -19,6 +19,10 @@ import { Routes } from '@angular/router';
 export const memoryRoutes: Routes = [
   {
     path: '',
+    // Breadcrumb (experiment S59 "todo arriba"): al quitar la banda de
+    // page-header, la identidad de cada vista Memory la lleva el TopBar.
+    // Crumb único por página, como las listas AED ("Usuarios", "Grupos"…).
+    data: { breadcrumb: { labelKey: 'memory.conversations.page_title' } },
     loadComponent: () =>
       import('./pages/conversations/conversations-page.component').then(
         (m) => m.ConversationsPageComponent,
@@ -26,6 +30,7 @@ export const memoryRoutes: Routes = [
   },
   {
     path: 'reglas',
+    data: { breadcrumb: { labelKey: 'memory.rules.page_title' } },
     loadComponent: () =>
       import('./pages/rules/rules-page.component').then((m) => m.RulesPageComponent),
   },
@@ -45,11 +50,13 @@ export const memoryRoutes: Routes = [
   },
   {
     path: 'entidades',
+    data: { breadcrumb: { labelKey: 'memory.entities.page_title' } },
     loadComponent: () =>
       import('./pages/entities/entities-page.component').then((m) => m.EntitiesPageComponent),
   },
   {
     path: 'categorias',
+    data: { breadcrumb: { labelKey: 'memory.categories.page_title' } },
     loadComponent: () =>
       import('./pages/categories/categories-page.component').then((m) => m.CategoriesPageComponent),
   },

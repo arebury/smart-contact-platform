@@ -1,11 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ChevronDown, Info, LucideAngularModule, UsersRound } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { PageHeaderService } from '@core/services';
-import { InputNumberComponent, SelectComponent, ToggleSwitchComponent } from '@shared/components';
+import {
+  IconComponent,
+  InputNumberComponent,
+  SelectComponent,
+  ToggleSwitchComponent,
+} from '@shared/components';
 
 interface FormState {
   capacidadTipo: 'fija' | 'variable';
@@ -55,7 +59,7 @@ const DEFAULT_FORM: FormState = {
   selector: 'sc-aed-grupos-page',
   imports: [
     ButtonModule,
-    LucideAngularModule,
+    IconComponent,
     ToggleSwitchComponent,
     TranslateModule,
     InputNumberComponent,
@@ -75,13 +79,13 @@ export class AedGruposPageComponent {
       titleKey: 'config.aed.subpages.grupos.heading',
       subtitleKey: 'config.aed.subpages.grupos.subtitle',
       entityKey: 'config.sidebar.title',
-      icon: UsersRound,
+      icon: 'groups',
     });
   }
 
-  protected readonly groupsIcon = UsersRound;
-  protected readonly chevronIcon = ChevronDown;
-  protected readonly infoIcon = Info;
+  protected readonly groupsIcon = 'groups';
+  protected readonly chevronIcon = 'expand_more';
+  protected readonly infoIcon = 'info';
 
   protected readonly vozOptions = VOZ_OPTIONS;
   protected readonly prioridadOptions = PRIORIDAD_OPTIONS;

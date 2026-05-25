@@ -42,7 +42,7 @@
 
   <div class="hero__cta">
     <a routerLink="/whats-new-v2" class="hero__cta-link">
-      <lucide-icon [img]="sparklesIcon" [size]="14" aria-hidden="true" />
+      <sc-icon [name]="sparklesIcon" [size]="14" />
       <span>Novedades v2.0 · Kit Pro 1:1</span>
     </a>
   </div>
@@ -514,7 +514,7 @@
         (click)="closeLightbox()"
         autofocus
       >
-        <lucide-icon [img]="closeIcon" [size]="20" aria-hidden="true" />
+        <sc-icon [name]="closeIcon" [size]="20" />
       </button>
       <img
         class="lightbox-card__img"

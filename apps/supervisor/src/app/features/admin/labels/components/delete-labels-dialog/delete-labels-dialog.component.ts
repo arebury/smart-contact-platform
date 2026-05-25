@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Trash2 } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
 import { LabelChipComponent } from '@shared/components/label-chip/label-chip.component';
@@ -33,7 +32,7 @@ export class DeleteLabelsDialogComponent {
   readonly confirm = output<void>();
   readonly cancelled = output<void>();
 
-  protected readonly trashIcon = Trash2;
+  protected readonly trashIcon = 'delete';
 
   protected readonly isSingle = computed(() => this.labels().length === 1);
 

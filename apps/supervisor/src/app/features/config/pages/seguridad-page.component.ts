@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Shield } from 'lucide-angular';
 
 import { PageHeaderService } from '@core/services';
+import { IconComponent } from '@shared/components';
 
 /**
  * Seguridad page (`/config/seguridad`).
@@ -15,7 +15,7 @@ import { PageHeaderService } from '@core/services';
  */
 @Component({
   selector: 'sc-seguridad-page',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [IconComponent, TranslateModule],
   templateUrl: './seguridad-page.component.html',
   styleUrl: './seguridad-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,9 +28,9 @@ export class SeguridadPageComponent {
       titleKey: 'config.seguridad.heading',
       subtitleKey: 'config.seguridad.subtitle_empty',
       entityKey: 'config.sidebar.title',
-      icon: Shield,
+      icon: 'shield',
     });
   }
 
-  protected readonly shieldIcon = Shield;
+  protected readonly shieldIcon = 'shield';
 }

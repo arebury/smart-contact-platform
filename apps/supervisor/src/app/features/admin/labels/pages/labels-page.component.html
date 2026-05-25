@@ -1,12 +1,15 @@
-<sc-page-header titleKey="labels.page_title" [icon]="tagIcon">
+<!-- Modelo "todo arriba" (experiment S59): sin banda de page-header. La
+     identidad la da el breadcrumb de la TopBar; el CTA (y su panel de creación
+     inline) se proyectan a la barra vía TopBarSlotService. El panel sigue
+     anclado al botón (position relative en .page__create-anchor). -->
+<ng-template #topbarActions>
   <div
-    page-header-actions
     class="page__create-anchor"
     (scClickOutside)="closeCreatePanel()"
     [scClickOutsideEnabled]="creating()"
   >
     <p-button type="button" severity="primary" (onClick)="onCreateClick()">
-      <lucide-icon [img]="plusIcon" [size]="15" aria-hidden="true" />
+      <sc-icon [name]="plusIcon" [size]="15" />
       <span>{{ 'labels.create_button' | translate }}</span>
     </p-button>
 
@@ -20,7 +23,7 @@
       </div>
     }
   </div>
-</sc-page-header>
+</ng-template>
 
 <div class="page" [class.page--has-selection]="selectedIds().size > 0">
   <div class="page__inner">
@@ -36,7 +39,7 @@
       />
 
       <p-button type="button" severity="secondary" (onClick)="onExport()">
-        <lucide-icon [img]="downloadIcon" [size]="14" aria-hidden="true" />
+        <sc-icon [name]="downloadIcon" [size]="14" />
         <span>{{ 'labels.export_button' | translate }}</span>
       </p-button>
     </div>
@@ -44,12 +47,12 @@
     @if (labels().length === 0) {
       <div class="empty">
         <div class="empty__icon" aria-hidden="true">
-          <lucide-icon [img]="tagIcon" [size]="32" aria-hidden="true" />
+          <sc-icon [name]="tagIcon" [size]="32" />
         </div>
         <h2 class="empty__title">{{ 'labels.empty.title' | translate }}</h2>
         <p class="empty__text">{{ 'labels.empty.text' | translate }}</p>
         <p-button type="button" severity="primary" (onClick)="creating.set(true)">
-          <lucide-icon [img]="plusIcon" [size]="16" aria-hidden="true" />
+          <sc-icon [name]="plusIcon" [size]="16" />
           <span>{{ 'labels.empty.cta' | translate }}</span>
         </p-button>
       </div>
@@ -134,17 +137,17 @@
                       [attr.aria-expanded]="openMenuId() === label.id"
                       [attr.aria-label]="'labels.row_menu' | translate"
                     >
-                      <lucide-icon [img]="moreIcon" [size]="16" aria-hidden="true" />
+                      <sc-icon [name]="moreIcon" [size]="16" />
                     </button>
 
                     @if (openMenuId() === label.id) {
                       <div class="row-menu__panel" role="menu">
                         <button type="button" role="menuitem" (click)="onRowEdit(label)">
-                          <lucide-icon [img]="editIcon" [size]="13" aria-hidden="true" />
+                          <sc-icon [name]="editIcon" [size]="13" />
                           <span>{{ 'common.edit' | translate }}</span>
                         </button>
                         <button type="button" role="menuitem" (click)="onRowDelete(label)">
-                          <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
+                          <sc-icon [name]="trashIcon" [size]="13" />
                           <span>{{ 'common.delete' | translate }}</span>
                         </button>
                       </div>
@@ -157,7 +160,7 @@
             @if (sorted().length === 0) {
               <tr>
                 <td colspan="4" class="table__no-results">
-                  <lucide-icon [img]="searchIcon" [size]="20" aria-hidden="true" />
+                  <sc-icon [name]="searchIcon" [size]="20" />
                   <div class="table__no-results-title">
                     {{ 'labels.no_results.title' | translate }}
                   </div>
@@ -184,11 +187,11 @@
     role="menu"
   >
     <button type="button" role="menuitem" (click)="onContextEdit()">
-      <lucide-icon [img]="editIcon" [size]="13" aria-hidden="true" />
+      <sc-icon [name]="editIcon" [size]="13" />
       <span>{{ 'common.edit' | translate }}</span>
     </button>
     <button type="button" role="menuitem" (click)="onContextDelete()">
-      <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
+      <sc-icon [name]="trashIcon" [size]="13" />
       <span>{{ 'common.delete' | translate }}</span>
     </button>
   </div>

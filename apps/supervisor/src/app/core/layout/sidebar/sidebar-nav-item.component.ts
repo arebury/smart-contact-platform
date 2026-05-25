@@ -10,8 +10,8 @@ import {
   untracked,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule } from 'lucide-angular';
 
+import { IconComponent } from '@shared/components';
 import { NAV_ICONS } from '../../icons/nav-icons';
 import type { NavItem } from './nav-data';
 
@@ -27,7 +27,7 @@ import type { NavItem } from './nav-data';
  */
 @Component({
   selector: 'sc-sidebar-nav-item',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [IconComponent, TranslateModule],
   templateUrl: './sidebar-nav-item.component.html',
   styleUrl: './sidebar-nav-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

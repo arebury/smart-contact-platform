@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -7,25 +8,28 @@ import {
   OnDestroy,
   OnInit,
   signal,
+  type TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { IdCard, Layers, LucideAngularModule, Mail, Network, ShieldCheck } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
 
 import { DirtyAware } from '@core/guards';
 import { CrossTabLockService } from '@core/services';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE } from '@core/utils/validators';
 import {
   DeleteEntityDialogComponent,
-  FormDangerZoneComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  IconComponent,
+  IllustratedAvatarComponent,
   InputTextComponent,
   PhotoUploadComponent,
   SectionCardComponent,
   SelectComponent,
-  StickyFormHeaderComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
 import { PrimeTemplate } from 'primeng/api';
@@ -61,16 +65,16 @@ interface FormState {
 @Component({
   selector: 'sc-user-form-page',
   imports: [
+    ButtonModule,
     DeleteEntityDialogComponent,
-    FormDangerZoneComponent,
     FormSectionNavComponent,
+    IconComponent,
+    IllustratedAvatarComponent,
     InputTextComponent,
-    LucideAngularModule,
     PhotoUploadComponent,
     PrimeTemplate,
     SectionCardComponent,
     SelectComponent,
-    StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
   ],
@@ -85,6 +89,19 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly crossTab = inject(CrossTabLockService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+
+  /** Guardar/Cancelar proyectados a la TopBar (modelo "todo arriba" S59):
+   * fuera la banda sticky-form-header; identidad → breadcrumb + campos del
+   * cuerpo (foto/nombre re-alojados en Identidad). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+  }
 
   protected readonly userTypes = USER_TYPES;
   /* Widening intencional a `Record<string, string>` para que el `let-t`
@@ -92,7 +109,8 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
    * indexar sin TS7053. Seguro: las keys vienen siempre de `userTypes`
    * (UserType union). Mismo patrón que agent-form-page. */
   protected readonly typeLabelKeys: Readonly<Record<string, string>> = USER_TYPE_LABEL_KEYS;
-  protected readonly mailIcon = Mail;
+  protected readonly mailIcon = 'mail';
+  protected readonly trashIcon = 'delete';
   protected readonly sectionDefs = SECTION_DEFS;
   protected readonly permissionDefs = PERMISSION_DEFS;
   protected readonly availableServices = AVAILABLE_SERVICES;
@@ -125,23 +143,26 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const identity: FormNavSection = {
       id: 'user-section-identity',
       labelKey: 'users.form.section.identity',
-      icon: IdCard,
+      icon: 'badge',
     };
     const sections: FormNavSection = {
       id: 'user-section-sections',
       labelKey: 'users.form.section.sections',
-      icon: Layers,
+      icon: 'layers',
     };
     const permissions: FormNavSection = {
       id: 'user-section-permissions',
       labelKey: 'users.form.section.permissions',
-      icon: ShieldCheck,
+      icon: 'verified_user',
     };
     const services: FormNavSection = {
       id: 'user-section-services',
       labelKey: 'users.form.section.services',
-      icon: Network,
+      icon: 'hub',
     };
+    // Orden por modo (S60). En CREAR, identidad primero — es lo primero que se
+    // rellena. En EDITAR, identidad al fondo: apenas se toca tras crear, y la
+    // ficha del panel ya da su contexto siempre visible.
     if (this.mode() === 'edit') {
       return [sections, permissions, services, identity];
     }
@@ -217,6 +238,8 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         services: new Set(user.assignedServices),
         photo: user.photo ?? null,
       });
+      // En edición aterriza en Secciones (1ª del orden de edición): identidad
+      // va al fondo porque casi no se toca tras crear; la ficha la resume (S60).
       this.activeSection.set('user-section-sections');
       this.releaseLock = this.crossTab.acquire('user', user.id, () =>
         this.conflictWarning.set(true),
@@ -257,6 +280,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.releaseLock?.();
     this.releaseLock = null;
+    this.topBarSlot.clearActions();
   }
 
   @HostListener('window:beforeunload', ['$event'])

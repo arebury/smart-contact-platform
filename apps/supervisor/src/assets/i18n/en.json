@@ -241,7 +241,7 @@
       "cost_hint": "incurs cost",
       "analysis_label": "Analysis",
       "include_analysis": "Include analysis",
-      "all_processed": "all processed",
+      "all_processed": "Nothing to transcribe",
       "close_btn": "Close",
       "process_btn": "Process"
     },
@@ -1279,7 +1279,7 @@
         "groups_hint": "Groups and channels per group",
         "permissions": "Permissions",
         "permissions_hint": "Agent capabilities",
-        "advanced": "Advanced configuration",
+        "advanced": "Advanced",
         "advanced_hint": "Labels, behavior, language"
       },
       "advanced": {

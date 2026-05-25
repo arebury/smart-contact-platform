@@ -1,16 +1,5 @@
 <header class="top-bar">
   <div class="top-bar__lead">
-    @if (backPath(); as bp) {
-      <button
-        type="button"
-        class="top-bar__back"
-        (click)="goBack()"
-        [attr.aria-label]="'topbar.back_to' | translate: { name: backLabel() }"
-        [attr.title]="'topbar.back_to' | translate: { name: backLabel() }"
-      >
-        <lucide-icon [img]="backIcon" [size]="14" aria-hidden="true" />
-      </button>
-    }
     <button
       type="button"
       class="top-bar__home"
@@ -18,7 +7,7 @@
       [attr.aria-label]="'topbar.go_to_dashboard' | translate"
       [attr.title]="'topbar.go_to_dashboard' | translate"
     >
-      <lucide-icon [img]="dashboardIcon" [size]="15" aria-hidden="true" />
+      <sc-icon name="space_dashboard" [size]="15" />
     </button>
     @if (trail().length > 0) {
       <span class="top-bar__lead-divider" aria-hidden="true"></span>
@@ -42,6 +31,23 @@
       }
     </ol>
   </div>
+
+  <!-- Slot contextual: la página activa puede inyectar chrome propio aquí
+       (p.ej. el selector de datos demo de Memory). Vacío en la mayoría de
+       rutas. Se renderiza con NgComponentOutlet → cero acoplamiento al shell. -->
+  @if (slotComponent(); as slot) {
+    <div class="top-bar__slot">
+      <ng-container *ngComponentOutlet="slot" />
+    </div>
+  }
+
+  <!-- Acciones primarias de la página (CTA en listas, Guardar/Cancelar en
+       formularios) proyectadas vía template → modelo "todo arriba" (S59). -->
+  @if (slotActions(); as actions) {
+    <div class="top-bar__actions">
+      <ng-container [ngTemplateOutlet]="actions" />
+    </div>
+  }
 
   <!--
     Wrapper hosts the keydown listener so Esc can close the menu from
@@ -89,16 +95,16 @@
             [attr.aria-label]="'topbar.keyboard_shortcuts' | translate"
             [attr.title]="'topbar.keyboard_shortcuts' | translate"
           >
-            <lucide-icon [img]="shortcutsIcon" [size]="14" aria-hidden="true" />
+            <sc-icon name="keyboard" [size]="14" />
           </button>
         </div>
         <div class="top-bar__menu-actions">
           <button type="button" class="top-bar__menu-item" role="menuitem">
-            <lucide-icon [img]="helpIcon" [size]="14" aria-hidden="true" />
+            <sc-icon name="help" [size]="14" />
             <span>{{ 'topbar.user.help' | translate }}</span>
           </button>
           <button type="button" class="top-bar__menu-item" role="menuitem">
-            <lucide-icon [img]="logoutIcon" [size]="14" aria-hidden="true" />
+            <sc-icon name="logout" [size]="14" />
             <span>{{ 'topbar.user.logout' | translate }}</span>
           </button>
         </div>

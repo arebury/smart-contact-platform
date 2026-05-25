@@ -1,11 +1,12 @@
-<sc-page-header titleKey="memory.entities.page_title" [icon]="databaseIcon">
-  <ng-container page-header-actions>
-    <p-button type="button" severity="primary" (onClick)="onNewEntity()">
-      <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
-      <span>{{ 'memory.entities.new_entity' | translate }}</span>
-    </p-button>
-  </ng-container>
-</sc-page-header>
+<!-- Modelo "todo arriba" (experiment S59): sin banda de page-header. La
+     identidad la da el breadcrumb de la TopBar; el CTA se proyecta a la barra
+     vía TopBarSlotService (ver topbarActions en el .ts). -->
+<ng-template #topbarActions>
+  <p-button type="button" severity="primary" (onClick)="onNewEntity()">
+    <sc-icon [name]="plusIcon" [size]="14" />
+    <span>{{ 'memory.entities.new_entity' | translate }}</span>
+  </p-button>
+</ng-template>
 
 <div class="page">
   <div class="page__inner">
@@ -18,7 +19,7 @@
 
       @if (!hasUserEntities()) {
         <div class="entities-empty">
-          <lucide-icon [img]="databaseIcon" [size]="20" aria-hidden="true" />
+          <sc-icon [name]="databaseIcon" [size]="20" />
           <p>{{ 'memory.entities.empty_user' | translate }}</p>
         </div>
       } @else {
@@ -58,7 +59,7 @@
                     [attr.aria-label]="'memory.entities.cols.more' | translate"
                     (click)="kebabMenu.toggle($event)"
                   >
-                    <lucide-icon [img]="kebabIcon" [size]="14" aria-hidden="true" />
+                    <sc-icon [name]="kebabIcon" [size]="14" />
                   </button>
                   <p-menu
                     #kebabMenu
@@ -80,7 +81,7 @@
     <section class="entities-section entities-section--system">
       <header class="entities-section__head">
         <h2>
-          <lucide-icon [img]="lockIcon" [size]="13" aria-hidden="true" />
+          <sc-icon [name]="lockIcon" [size]="13" />
           {{ 'memory.entities.system_title' | translate }}
         </h2>
         <p>{{ 'memory.entities.system_desc' | translate }}</p>

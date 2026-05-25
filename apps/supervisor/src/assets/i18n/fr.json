@@ -241,7 +241,7 @@
       "cost_hint": "engendre un coût",
       "analysis_label": "Analyse",
       "include_analysis": "Inclure l'analyse",
-      "all_processed": "tout traité",
+      "all_processed": "Rien à transcrire",
       "close_btn": "Fermer",
       "process_btn": "Traiter"
     },
@@ -1279,7 +1279,7 @@
         "groups_hint": "Groupes et canaux par groupe",
         "permissions": "Permissions",
         "permissions_hint": "Capacités de l'agent",
-        "advanced": "Configuration avancée",
+        "advanced": "Avancé",
         "advanced_hint": "Étiquettes, comportement, langue"
       },
       "advanced": {

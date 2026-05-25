@@ -10,9 +10,10 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { Database, LucideAngularModule, Plus, Trash2 } from 'lucide-angular';
+import { LucideAngularModule, Trash2 } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
+import { IconComponent } from '@shared/components';
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { SelectComponent } from '@shared/components/select/select.component';
@@ -57,6 +58,7 @@ interface ListValueDraft {
   imports: [
     ButtonModule,
     FormsModule,
+    IconComponent,
     InputTextComponent,
     LucideAngularModule,
     DialogComponent,
@@ -79,8 +81,8 @@ export class EntityFormModalComponent {
   readonly closed = output<void>();
   readonly saved = output<Entity>();
 
-  protected readonly databaseIcon = Database;
-  protected readonly plusIcon = Plus;
+  protected readonly databaseIcon = 'database';
+  protected readonly plusIcon = 'add';
   protected readonly trashIcon = Trash2;
 
   protected readonly typeOptions: EntityTypeOption[] = [

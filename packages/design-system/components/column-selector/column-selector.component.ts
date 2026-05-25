@@ -8,9 +8,9 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { Columns3, GripVertical, Lock, LucideAngularModule, RotateCcw } from 'lucide-angular';
 import { PopoverModule } from 'primeng/popover';
 
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_LG, SC_ICON_SIZE_MD, SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
 
 export interface ColumnDef {
@@ -54,7 +54,7 @@ type OrderedVisible = readonly string[];
  */
 @Component({
   selector: 'sc-column-selector',
-  imports: [CdkDrag, CdkDropList, LucideAngularModule, PopoverModule],
+  imports: [CdkDrag, CdkDropList, IconComponent, PopoverModule],
   templateUrl: './column-selector.component.html',
   styleUrl: './column-selector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -76,10 +76,10 @@ export class ColumnSelectorComponent {
    *  instead — it carries order on top of visibility. */
   readonly visibilityChange = output<ReadonlySet<string>>();
 
-  protected readonly columnsIcon = Columns3;
-  protected readonly resetIcon = RotateCcw;
-  protected readonly gripIcon = GripVertical;
-  protected readonly lockIcon = Lock;
+  protected readonly columnsIcon = 'view_column';
+  protected readonly resetIcon = 'rotate_left';
+  protected readonly gripIcon = 'drag_indicator';
+  protected readonly lockIcon = 'lock';
   protected readonly iconSizeLg = SC_ICON_SIZE_LG;
   protected readonly iconSizeMd = SC_ICON_SIZE_MD;
   protected readonly iconSizeSm = SC_ICON_SIZE_SM;

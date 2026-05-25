@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Hash, Info, LucideAngularModule, Save, Search, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+
+import { IconComponent } from '@shared/components';
 
 import { COUNTRY_PREFIXES, type CountryPrefix } from '../data/country-prefixes';
 
@@ -20,7 +21,7 @@ import { COUNTRY_PREFIXES, type CountryPrefix } from '../data/country-prefixes';
  */
 @Component({
   selector: 'sc-numeracion-especial-section',
-  imports: [ButtonModule, LucideAngularModule, TranslateModule],
+  imports: [ButtonModule, IconComponent, TranslateModule],
   templateUrl: './numeracion-especial-section.component.html',
   styleUrl: './numeracion-especial-section.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,11 +30,11 @@ export class NumeracionEspecialSectionComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
 
-  protected readonly hashIcon = Hash;
-  protected readonly infoIcon = Info;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly saveIcon = Save;
+  protected readonly hashIcon = 'tag';
+  protected readonly infoIcon = 'info';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly saveIcon = 'save';
 
   protected readonly countries = COUNTRY_PREFIXES;
 

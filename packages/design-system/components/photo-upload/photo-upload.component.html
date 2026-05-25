@@ -18,16 +18,11 @@
           [size]="size() === 'sm' ? 44 : 64"
         />
       } @else {
-        <lucide-icon
-          [img]="placeholderIcon"
-          [size]="iconSize3xl"
-          class="photo-upload__placeholder"
-          aria-hidden="true"
-        />
+        <sc-icon [name]="placeholderIcon" [size]="iconSize3xl" class="photo-upload__placeholder" />
       }
     }
     <span class="photo-upload__overlay" [class.photo-upload__overlay--visible]="hovering()">
-      <lucide-icon [img]="cameraIcon" [size]="iconSizeLg" aria-hidden="true" />
+      <sc-icon [name]="cameraIcon" [size]="iconSizeLg" />
     </span>
   </button>
   <input

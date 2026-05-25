@@ -1,15 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Plus } from 'lucide-angular';
 
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_DISPLAY_SM } from '@shared/utils/icon-size';
-
-/**
- * Lucide icons are exported as constants of an internal `LucideIconData`
- * type that the package doesn't re-export from its main entry. Inferring
- * from `Plus` keeps the input typed without reaching into a private path.
- */
-type LucideIcon = typeof Plus;
 
 /**
  * Centered empty-state card shown by list pages when there are zero rows
@@ -21,13 +14,13 @@ type LucideIcon = typeof Plus;
  */
 @Component({
   selector: 'sc-empty-state',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [IconComponent, TranslateModule],
   templateUrl: './empty-state.component.html',
   styleUrl: './empty-state.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmptyStateComponent {
-  readonly icon = input.required<LucideIcon>();
+  readonly icon = input.required<string>();
   readonly titleKey = input.required<string>();
   readonly bodyKey = input.required<string>();
   /** When set, renders a primary action button labeled with this i18n key. */
@@ -35,7 +28,7 @@ export class EmptyStateComponent {
 
   readonly cta = output<void>();
 
-  protected readonly plusIcon = Plus;
+  protected readonly plusIcon = 'add';
   protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
   protected readonly iconSizeDisplay = SC_ICON_SIZE_DISPLAY_SM;
 

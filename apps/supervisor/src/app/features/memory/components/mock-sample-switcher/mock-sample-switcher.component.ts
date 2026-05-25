@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { Check, Database, LucideAngularModule } from 'lucide-angular';
 import { PopoverModule } from 'primeng/popover';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { IconComponent } from '@shared/components';
 
 import { ConversationsStore } from '../../state/conversations.store';
 
@@ -22,7 +23,7 @@ import { ConversationsStore } from '../../state/conversations.store';
  */
 @Component({
   selector: 'sc-memory-mock-sample-switcher',
-  imports: [LucideAngularModule, PopoverModule, TranslateModule],
+  imports: [IconComponent, PopoverModule, TranslateModule],
   templateUrl: './mock-sample-switcher.component.html',
   styleUrl: './mock-sample-switcher.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,8 +31,8 @@ import { ConversationsStore } from '../../state/conversations.store';
 export class MockSampleSwitcherComponent {
   private readonly store = inject(ConversationsStore);
 
-  protected readonly databaseIcon = Database;
-  protected readonly checkIcon = Check;
+  protected readonly databaseIcon = 'database';
+  protected readonly checkIcon = 'check';
   protected readonly samples = this.store.samples;
 
   protected readonly currentId = this.store.currentSampleId;

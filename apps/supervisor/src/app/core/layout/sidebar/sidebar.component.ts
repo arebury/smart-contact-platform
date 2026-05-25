@@ -9,9 +9,10 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule } from 'lucide-angular';
+import { Github, LucideAngularModule } from 'lucide-angular';
 import { filter, map, startWith } from 'rxjs/operators';
 
+import { IconComponent } from '@shared/components';
 import { NAV_ICONS } from '../../icons/nav-icons';
 import { NAV_SECTIONS } from './nav-data';
 import { normalizeRoutePath } from './path-utils';
@@ -24,7 +25,13 @@ import { SidebarNavItemComponent } from './sidebar-nav-item.component';
  */
 @Component({
   selector: 'sc-sidebar',
-  imports: [LucideAngularModule, RouterLink, SidebarNavItemComponent, TranslateModule],
+  imports: [
+    IconComponent,
+    LucideAngularModule,
+    RouterLink,
+    SidebarNavItemComponent,
+    TranslateModule,
+  ],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,7 +41,7 @@ export class SidebarComponent {
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
   protected readonly sections = NAV_SECTIONS;
-  protected readonly githubIcon = NAV_ICONS['github'];
+  protected readonly githubIcon = Github; // marca — sin glifo Material, sigue en Lucide
   protected readonly externalIcon = NAV_ICONS['arrow-up-right'];
 
   /**

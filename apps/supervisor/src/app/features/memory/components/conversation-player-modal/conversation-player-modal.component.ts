@@ -9,27 +9,11 @@ import {
   signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  AlertTriangle,
-  AlignLeft,
-  Download,
-  FileText,
-  FileX,
-  Loader2,
-  LucideAngularModule,
-  MessageSquare,
-  Pause,
-  Phone,
-  Play,
-  RotateCcw,
-  RotateCw,
-  Search,
-  Sparkles,
-  TrendingUp,
-} from 'lucide-angular';
+import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
+import { IconComponent } from '@shared/components';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import type { Conversation, Recording, TranscriptionLine } from '../../data/conversation.types';
 import { DownloadModalComponent } from '../download-modal/download-modal.component';
@@ -42,7 +26,7 @@ import { MultiRecordingPlayerComponent } from '../multi-recording-player/multi-r
  * React, alineada con la spec `docs/referencia-ui.md §2` del repo Memory.
  *
  * Anatomía:
- *   Header  ─ icon (Phone/MessageSquare) + "Llamada/Chat · #ID" + meta
+ *   Header  ─ icon ('call'/'chat_bubble') + "Llamada/Chat · #ID" + meta
  *   Body
  *     ├ Audio bar (solo llamadas; disabled si no hay recording)
  *     └ Tab row "Transcripción" / "Análisis" + acciones derecha
@@ -75,6 +59,7 @@ import { MultiRecordingPlayerComponent } from '../multi-recording-player/multi-r
   selector: 'sc-memory-conversation-player-modal',
   imports: [
     ButtonModule,
+    IconComponent,
     LucideAngularModule,
     DialogComponent,
     DownloadModalComponent,
@@ -222,21 +207,21 @@ export class ConversationPlayerModalComponent {
     return SENTIMENT_PALETTE[hashString(c.id) % SENTIMENT_PALETTE.length];
   });
 
-  protected readonly phoneIcon = Phone;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly playIcon = Play;
-  protected readonly pauseIcon = Pause;
-  protected readonly back10Icon = RotateCcw;
-  protected readonly fwd10Icon = RotateCw;
-  protected readonly searchIcon = Search;
-  protected readonly fileTextIcon = FileText;
-  protected readonly fileXIcon = FileX;
-  protected readonly sparklesIcon = Sparkles;
-  protected readonly downloadIcon = Download;
+  protected readonly phoneIcon = 'call';
+  protected readonly chatIcon = 'chat_bubble';
+  protected readonly playIcon = 'play_arrow';
+  protected readonly pauseIcon = 'pause';
+  protected readonly back10Icon = 'rotate_left';
+  protected readonly fwd10Icon = 'rotate_right';
+  protected readonly searchIcon = 'search';
+  protected readonly fileTextIcon = 'description';
+  protected readonly fileXIcon = 'scan_delete';
+  protected readonly sparklesIcon = 'auto_awesome';
+  protected readonly downloadIcon = 'download';
   protected readonly loaderIcon = Loader2;
-  protected readonly alignLeftIcon = AlignLeft;
-  protected readonly trendingUpIcon = TrendingUp;
-  protected readonly alertTriangleIcon = AlertTriangle;
+  protected readonly alignLeftIcon = 'notes';
+  protected readonly trendingUpIcon = 'trending_up';
+  protected readonly alertTriangleIcon = 'warning';
 
   constructor() {
     effect(() => {

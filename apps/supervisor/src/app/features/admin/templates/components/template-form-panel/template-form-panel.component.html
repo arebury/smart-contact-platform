@@ -35,10 +35,10 @@
           (click)="setType(option)"
         >
           @if (option === 'chat') {
-            <lucide-icon [img]="chatIcon" [size]="12" aria-hidden="true" />
+            <sc-icon [name]="chatIcon" [size]="12" />
             <span>{{ 'templates.type.chat' | translate }}</span>
           } @else {
-            <lucide-icon [img]="emailIcon" [size]="12" aria-hidden="true" />
+            <sc-icon [name]="emailIcon" [size]="12" />
             <span>{{ 'templates.type.email' | translate }}</span>
           }
         </button>
@@ -67,7 +67,7 @@
   <div class="panel__error-slot">
     @if (error()) {
       <div class="panel__error">
-        <lucide-icon [img]="alertIcon" [size]="10" aria-hidden="true" />
+        <sc-icon [name]="alertIcon" [size]="10" />
         <span>{{ error() | translate }}</span>
       </div>
     }

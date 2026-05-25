@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, Injectable } from '@angular/core';
-import { Tags } from 'lucide-angular';
 
 import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { RepoListPageComponent } from '../components/repo-list-page.component';
@@ -196,7 +195,7 @@ export class TipificacionesPageComponent {
     titleKey: 'repositories.tipificaciones.title',
     entitySingularKey: 'repositories.tipificaciones.singular',
     entityPluralKey: 'repositories.tipificaciones.plural',
-    icon: Tags,
+    icon: 'label',
     breadcrumbExtraKey: 'repositories.tipificaciones.title',
     columns: COLUMNS,
     fields: FIELDS,

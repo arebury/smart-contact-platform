@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
-import { LucideAngularModule, X } from 'lucide-angular';
 
+import { IconComponent } from '../icon/icon.component';
 import { SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
 
 import type { LabelColor } from './label-chip.types';
@@ -16,7 +16,7 @@ export interface LabelChipModel {
  */
 @Component({
   selector: 'sc-label-chip',
-  imports: [LucideAngularModule],
+  imports: [IconComponent],
   templateUrl: './label-chip.component.html',
   styleUrl: './label-chip.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,7 +28,7 @@ export class LabelChipComponent {
 
   readonly remove = output<void>();
 
-  protected readonly closeIcon = X;
+  protected readonly closeIcon = 'close';
   protected readonly iconSizeSm = SC_ICON_SIZE_SM;
 
   protected readonly cssVars = computed(() => {

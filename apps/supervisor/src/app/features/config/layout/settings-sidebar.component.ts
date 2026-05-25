@@ -1,13 +1,14 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Phone, UserRound, UsersRound } from 'lucide-angular';
+
+import { IconComponent } from '@shared/components';
 
 interface SettingsNavItem {
   readonly path: string;
   readonly labelKey: string;
   readonly hintKey: string;
-  readonly icon: typeof Phone;
+  readonly icon: string;
 }
 
 /**
@@ -23,7 +24,7 @@ interface SettingsNavItem {
  */
 @Component({
   selector: 'sc-settings-sidebar',
-  imports: [LucideAngularModule, RouterLink, RouterLinkActive, TranslateModule],
+  imports: [IconComponent, RouterLink, RouterLinkActive, TranslateModule],
   templateUrl: './settings-sidebar.component.html',
   styleUrl: './settings-sidebar.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,19 +35,19 @@ export class SettingsSidebarComponent {
       path: '/config/aed/servicio',
       labelKey: 'config.sidebar.servicio_label',
       hintKey: 'config.sidebar.servicio_hint',
-      icon: Phone,
+      icon: 'call',
     },
     {
       path: '/config/aed/agentes',
       labelKey: 'config.sidebar.agentes_label',
       hintKey: 'config.sidebar.agentes_hint',
-      icon: UserRound,
+      icon: 'person',
     },
     {
       path: '/config/aed/grupos',
       labelKey: 'config.sidebar.grupos_label',
       hintKey: 'config.sidebar.grupos_hint',
-      icon: UsersRound,
+      icon: 'groups',
     },
   ];
 }

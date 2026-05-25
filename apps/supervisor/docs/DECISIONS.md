@@ -7,6 +7,68 @@
 
 ---
 
+## 65 — Modelo "todo arriba" en list/form pages + la ficha de identidad (2026-05-25)
+
+**Decision.** Las páginas de lista y formulario (AED + Memory) abandonan la
+banda horizontal de cabecera: `<sc-page-header>` en listas y
+`<sc-sticky-form-header>` en formularios. La **identidad** de la página la
+lleva el breadcrumb del TopBar; las **acciones primarias** (CTA "Nuevo X" en
+listas, Guardar/Cancelar en formularios) se proyectan a la derecha del TopBar
+vía `TopBarSlotService` (`actions` = `TemplateRef`, `component` = slot
+contextual tipo el switcher de datos demo de Memory). Estética BeyondUI/SnowUI:
+más denso, los datos arrancan más arriba, la acción está siempre alcanzable.
+
+En los **formularios**, el contexto que daba la cabecera rica (foto, nombre,
+estado, dato clave) se recupera con **la ficha** — un resumen de **solo lectura**
+en la cabeza del panel lateral izquierdo (clase `.ficha` en `src/styles/_forms.scss`,
+3 consumers). **Orden del índice por modo** (refinado S60): en **crear**,
+Identificación primero (es lo primero que se rellena) y Avanzado al fondo; en
+**editar**, Identificación al **fondo** (apenas se toca una vez creado — la ficha
+ya da su contexto siempre visible), abriendo en la 1ª sección operativa
+(Grupos/Secciones/Canales). **Eliminar** baja al pie del panel como enlace rojo
+discreto (`.ipanel__delete`), apartado del scan primario para que una acción
+irreversible no se pulse sin querer.
+
+Aplica 1:1 a los 3 form shells:
+- **Agentes**: avatar ilustrado + nombre + pill de presencia (con color/dot) + extensión.
+- **Usuarios**: avatar + nombre + pill de tipo + email.
+- **Grupos**: avatar abstracto + nombre + pill de estrategia + teléfono.
+
+El avatar de la ficha usa `<sc-illustrated-avatar>` (mismo que lista y cuerpo),
+así un mismo registro se ve idéntico en lista, ficha y formulario.
+
+**Why.** "Todo arriba" en listas es limpio y aireado, pero en formularios la v1
+perdía contexto crítico: al abrir "Editar agente" no sabías a quién editabas ni
+su estado (la identidad se había metido como campo del cuerpo, en una sección
+que ni era la default). La ficha resuelve esa regresión sin reintroducir la
+banda: identidad siempre visible + acciones arriba + índice limpio. Reorden
+identidad-primero porque con la ficha ya no tiene sentido esconder la sección
+de identidad al final.
+
+**Componentes retenidos para rollback.** `StickyFormHeaderComponent` y
+`PageHeaderComponent` **NO se borran**: siguen exportados desde el barrel
+(`packages/design-system/components/index.ts`) y showcased en ds-docs
+(galleries). `<sc-page-header>` sigue en **uso real** en `settings-shell` +
+`repositorios-hub`. `FormDangerZoneComponent` queda sin consumer (lo sustituye
+`.ipanel__delete`) pero se conserva por si se reintroduce la banda.
+
+**Cómo revertir (si nos arrepentimos del "todo arriba").** El patrón viejo vive
+en git y los componentes existen intactos. Para volver UNA página: re-importar
+`StickyFormHeaderComponent`, restaurar el bloque `<sc-sticky-form-header>` (ver
+el form en el tag/commit previo a la consolidación S59), y quitar la ficha +
+`.ipanel__delete` + el `<ng-template #topbarActions>`. Para volver TODO de una:
+`git revert` del commit de consolidación S59. La banda compacta de
+`<sc-page-header>` (padding 10.5px, icono 36px — ver DD SCDS) queda como estado
+canónico de los consumers que la mantienen.
+
+**Discarded.** (1) Mantener la banda sticky-form-header en formularios —
+descartado por la estética densa objetivo, pero retenida como rollback. (2) Un
+H1 de página grande — la identidad de página vive en el breadcrumb (patrón
+Linear/Notion). (3) Eliminar pegado a la ficha (arriba) — descartado: una
+acción destructiva junto a la identidad se pulsa sin querer; va al pie.
+
+---
+
 ## 64 — Keyboard shortcuts canonical AED + Memory: cobertura Angular ≥ React legacy (2026-05-21)
 
 **Decision.** El conjunto canonical de atajos de teclado AED + Memory está

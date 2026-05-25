@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, Injectable } from '@angular/core';
-import { Sparkles } from 'lucide-angular';
 
 import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { RepoListPageComponent } from '../components/repo-list-page.component';
@@ -205,7 +204,7 @@ export class ReglasIAPageComponent {
     titleKey: 'repositories.reglas_ia.title',
     entitySingularKey: 'repositories.reglas_ia.singular',
     entityPluralKey: 'repositories.reglas_ia.plural',
-    icon: Sparkles,
+    icon: 'auto_awesome',
     breadcrumbExtraKey: 'repositories.reglas_ia.title',
     columns: COLUMNS,
     fields: FIELDS,

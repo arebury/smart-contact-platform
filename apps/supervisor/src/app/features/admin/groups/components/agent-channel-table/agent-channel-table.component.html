@@ -2,7 +2,7 @@
   <!-- Unified search + add bar (Gmail-compose pattern) -->
   <div class="actbl__head">
     <div class="actbl__query">
-      <lucide-icon [img]="searchIcon" [size]="14" class="actbl__query-icon" aria-hidden="true" />
+      <sc-icon [name]="searchIcon" [size]="14" class="actbl__query-icon" />
       <input
         type="text"
         class="actbl__query-input"
@@ -19,7 +19,7 @@
           (click)="clearQuery()"
           [attr.aria-label]="'labels.clear_search' | translate"
         >
-          <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
+          <sc-icon [name]="closeIcon" [size]="13" />
         </button>
       }
     </div>
@@ -49,7 +49,7 @@
               'groups.form.assigned.add_suggest_aria' | translate: { name: cand.name }
             "
           >
-            <lucide-icon [img]="plusIcon" [size]="12" aria-hidden="true" />
+            <sc-icon [name]="plusIcon" [size]="12" />
             <span>{{ cand.name }}</span>
           </button>
         }
@@ -61,7 +61,7 @@
   @if (assignedRows().length === 0) {
     <div class="actbl__empty">
       <span class="actbl__empty-icon" aria-hidden="true">
-        <lucide-icon [img]="emptyIcon" [size]="22" />
+        <sc-icon [name]="emptyIcon" [size]="22" />
       </span>
       <p class="actbl__empty-title">{{ 'groups.form.assigned.empty_title' | translate }}</p>
       <p class="actbl__empty-body">{{ 'groups.form.assigned.empty' | translate }}</p>
@@ -119,11 +119,10 @@
                       (change)="toggleChannel(row.agent.id, ch)"
                       [attr.aria-label]="row.agent.name + ' — ' + (channelKeys[ch] | translate)"
                     />
-                    <lucide-icon
-                      [img]="hasChannel(row.link, ch) ? checkIcon : plusIcon"
+                    <sc-icon
+                      [name]="hasChannel(row.link, ch) ? checkIcon : plusIcon"
                       [size]="12"
                       class="actbl__chip-icon"
-                      aria-hidden="true"
                     />
                     <span>{{ channelKeys[ch] | translate }}</span>
                   </label>
@@ -148,7 +147,7 @@
                   'groups.form.assigned.remove_aria' | translate: { name: row.agent.name }
                 "
               >
-                <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
+                <sc-icon [name]="trashIcon" [size]="14" />
               </button>
             </td>
           </tr>

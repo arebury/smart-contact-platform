@@ -152,3 +152,17 @@ input[type='checkbox'] {
   cursor: pointer;
   vertical-align: middle;
 }
+
+/* Avatar + nombre re-homed al cuerpo (experiment S59 "todo arriba"): misma
+ * fila que en agent/user-form — avatar a la izquierda, nombre ocupando el resto. */
+.form-identity {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--sc-spacing-1);
+  margin-bottom: var(--sc-spacing-1-25);
+
+  &__name {
+    flex: 1;
+    min-width: 0;
+  }
+}

@@ -28,6 +28,8 @@ export { EmptyStateComponent } from './empty-state/empty-state.component';
 export { IllustratedAvatarComponent } from './illustrated-avatar/illustrated-avatar.component';
 export type { IllustratedAvatarPool } from './illustrated-avatar/illustrated-avatar.component';
 
+export { IconComponent } from './icon/icon.component';
+
 export { FormDangerZoneComponent } from './form-danger-zone/form-danger-zone.component';
 
 export { FormSectionNavComponent } from './form-section-nav/form-section-nav.component';
