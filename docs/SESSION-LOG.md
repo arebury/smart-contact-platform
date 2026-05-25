@@ -10,6 +10,48 @@
 
 ---
 
+## 2026-05-25 · Session 59-60 — "Todo arriba" + la ficha + iconos Material → MERGED a main
+
+> Maratón. El experimento `beyondui-patterns` (estética BeyondUI/SnowUI) se
+> consolidó entero y se mergeó a `main` (PR #49). Divergencia rama↔main = 0.
+
+**Modelo "todo arriba" + la ficha (forms)**:
+- Listas y forms pierden la banda de cabecera (`sc-page-header` /
+  `sc-sticky-form-header`). Identidad → breadcrumb TopBar; acciones (CTA /
+  Guardar-Cancelar / switcher demo Memory) → TopBar vía `TopBarSlotService`.
+- **La ficha**: resumen de identidad solo-lectura en la cabeza del panel
+  lateral de los 3 forms (agentes/usuarios/grupos) — avatar + nombre + pill de
+  estado + dato clave. Cierra la regresión de contexto ("¿a quién edito?").
+- **Orden del índice por modo** (decisión Rafa): crear = Identificación
+  primero; editar = Identificación al fondo (apenas se toca; la ficha da
+  contexto). `.ficha` + `.ipanel__delete` promovidos a `_forms.scss` (DD-4).
+- **Rollback** documentado: Supervisor **DD#65** ("revierte el modelo todo
+  arriba"). `StickyFormHeader` + `PageHeader` retenidos (barrel + ds-docs).
+
+**Migración iconos Lucide → Material Symbols** (SCDS **DD-9**):
+- ~140 ficheros de `<lucide-icon>` → wrapper `<sc-icon name>` (Material Symbols
+  Outlined). 4 subagentes en paralelo (SCDS/admin/memory/config+ds-docs) + yo
+  en el sistema dinámico `NAV_ICONS`. Contratos `[icon]` SCDS → string.
+- Excepciones en Lucide: **GitHub** (sin glifo Material) + **Loader2** (spinner).
+- Fix **NG0919** (circular runtime): componentes SCDS importaban IconComponent
+  desde su propio barrel → import relativo.
+
+**Estado salud**: build supervisor + ds-docs · lint · i18n (1488×4) · **9/9
+smoke** · runtime 0 errores · ~50 `<sc-icon>`/pantalla. Validado en puerto
+dedicado :4300 — el :4200 estaba ocupado por un clon de SnowUI en `~/Downloads`
+(gotcha de entorno, ver memoria `reference_snowclone_port_4200_contention`).
+
+**Siguiente (pedido Rafa)**: triple auditoría — UX (consistencia flujos),
+optimización de código (bundle >1.6MB, god-components, ¿quitar lucide-angular?),
+y design system (sc-icon → customs-catalog, 2 Trash2 residuales, deuda). Scope
+en `NEXT-SESSION-PLAN`.
+
+**Pendiente menor**: 2 botones `Trash2` (entity-form, rule-builder) siguen en
+Lucide; skills de experimentación (`.agents/skills/*`) viajaron a main con el
+merge (tooling); iconos cargan de Google Fonts (self-host futuro para prod).
+
+---
+
 ## 2026-05-21 · Session 58 — Batería grande: audits + lightbox + DTCG + Figma MCP + branch experiment
 
 > Sesión maratón con 7 bloques cerrados (B, C, D, F, G, K en main + A, H, I.1,

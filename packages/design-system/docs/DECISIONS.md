@@ -12,6 +12,47 @@
 
 ---
 
+## DD-9 · 2026-05-25 (S60) — Icon set del SCDS = Material Symbols vía `<sc-icon>` (migración desde Lucide)
+
+**Contexto**: la app usaba `lucide-angular` (`<lucide-icon [img]>`) como icon
+set en ~140 ficheros. Rafa decidió migrar a **Material Symbols** (Google). El
+no-goal "sin Material" del `apps/ds-docs/CLAUDE.md` se refiere a Angular Material
+(componentes), NO a la font de iconos Material Symbols — aclarado y confirmado.
+
+**Decisión**: nuevo wrapper SCDS **`<sc-icon name [size] [fill] [weight]>`**
+(`packages/design-system/components/icon/`) que renderiza un glifo Material
+Symbols Outlined por ligadura. Es la **única API de icono** del SCDS. La variable
+font se carga en `index.html` de supervisor + ds-docs (Google Fonts CSS link).
+Los campos de icono pasan de ref Lucide a **string** (nombre Material); los
+contratos `[icon]` de los componentes SCDS (`empty-state`, `dialog`,
+`section-card`, `page-header`, `form-section-nav`) cambian de tipo Lucide → `string`.
+
+**Opciones consideradas**: (a) Material Symbols variable font + wrapper
+[elegida] — cero deps npm, modulable (opsz/wght/FILL/GRAD), 1 API; (b) set SVG
+vía `@ng-icons/material` — dep nueva, rechazada; (c) seguir en Lucide — descartado
+por decisión de producto.
+
+**Excepciones que SIGUEN en Lucide** (no migrar):
+- **Iconos de marca** (GitHub) — Material Symbols no tiene glifos de marca.
+- **`Loader2`** (spinner animado) — Material `progress_activity` necesitaría
+  animación CSS propia; se mantiene el lucide-icon animado.
+- Quedan 8 ficheros con import `lucide-angular` por estas 2 razones.
+
+**Consecuencias**:
+- `lucide-angular` permanece como dep (por los keepers) — NO se puede quitar del
+  bundle todavía. Reevaluar en la auditoría de optimización.
+- **Gotcha NG0919** (circular runtime, el build NO lo caza): un componente SCDS
+  que importe `IconComponent` desde el barrel `@shared/components` se importa a sí
+  mismo → circular. **Regla**: dentro de `packages/design-system/components/`,
+  importar IconComponent por **ruta relativa** (`../icon/icon.component`), nunca
+  por el barrel.
+- **Pendiente** (auditoría DS): entry de `<sc-icon>` en customs-catalog (DD-7);
+  2 botones `Trash2` (entity-form, rule-builder) aún en Lucide vs `delete`
+  Material; self-host de la font para producción; tabla de mapping Lucide→Material
+  documentada en `docs/NEXT-SESSION-PLAN.md`.
+
+---
+
 ## DD-8 · 2026-05-20 (S47) — Naming SCDS wrappers alineado 1:1 con Kit Pro Figma + PrimeNG
 
 **Contexto**: 7 wrappers SCDS tenían naming kebab-multi-word divergente con sus equivalentes en Kit Pro Figma SC y en PrimeNG. Por ejemplo `<sc-input>` cuando Figma tiene `❖ InputText` y PrimeNG tiene `<p-inputtext>`. Lo mismo con `multi-select`/`MultiSelect`, `input-number`/`InputNumber`, `toggle-switch`/`ToggleSwitch`, `modal`/`Dialog`, `tri-state-checkbox`/`Checkbox`, `input-group`/`InputGroup`.
