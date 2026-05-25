@@ -7,7 +7,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { NgComponentOutlet } from '@angular/common';
+import { NgComponentOutlet, NgTemplateOutlet } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ArrowLeft, Keyboard, LucideAngularModule } from 'lucide-angular';
@@ -35,6 +35,7 @@ import { IllustratedAvatarComponent } from '@shared/components/illustrated-avata
     IllustratedAvatarComponent,
     LucideAngularModule,
     NgComponentOutlet,
+    NgTemplateOutlet,
     TranslateModule,
   ],
   templateUrl: './top-bar.component.html',
@@ -52,6 +53,10 @@ export class TopBarComponent {
   /** Componente contextual inyectado por la página activa (p.ej. el selector
    * de datos demo de Memory). Vacío en la mayoría de rutas. */
   protected readonly slotComponent = this.topBarSlot.component;
+
+  /** Acciones primarias de la página (CTA / Guardar-Cancelar) proyectadas vía
+   * template. Modelo "todo arriba" (experiment S59). */
+  protected readonly slotActions = this.topBarSlot.actions;
 
   /** Path to the previous breadcrumb (`null` when the current page is a
    *  top-level route, e.g. on the dashboard or admin root). */

@@ -52,6 +52,14 @@
     </div>
   }
 
+  <!-- Acciones primarias de la página (CTA en listas, Guardar/Cancelar en
+       formularios) proyectadas vía template → modelo "todo arriba" (S59). -->
+  @if (slotActions(); as actions) {
+    <div class="top-bar__actions">
+      <ng-container [ngTemplateOutlet]="actions" />
+    </div>
+  }
+
   <!--
     Wrapper hosts the keydown listener so Esc can close the menu from
     anywhere inside it (avatar trigger or menu items). The avatar

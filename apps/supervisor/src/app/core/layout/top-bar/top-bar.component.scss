@@ -34,6 +34,21 @@
     min-width: 0;
   }
 
+  /* Acciones primarias de la página (modelo "todo arriba" S59). Empujadas a
+   * la derecha; si hay slot contextual antes, se empaquetan tras él. */
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-0-5);
+    margin-left: auto;
+    margin-right: var(--sc-spacing-1);
+
+    &:has(+ .top-bar__slot),
+    .top-bar__slot + & {
+      margin-left: var(--sc-spacing-1);
+    }
+  }
+
   &__home {
     width: 28px;
     height: 28px;
@@ -138,11 +153,13 @@
   }
 
   &__crumb-current {
-    /* Active crumb uses the brand "extend 700" (soft-blue-700, #328a99)
-     * so the current page reads as accented rather than just a darker
-     * gray. Matches the Figma breadcrumb spec. */
-    color: var(--sc-color-soft-blue-700);
-    font-weight: var(--sc-font-weight-medium);
+    /* Modelo "todo arriba" (experiment S59): al quitar la banda de page-header,
+     * el crumb actual ES el título de la página → más prominente (14px
+     * semibold) pero conservando el acento de marca soft-blue-700 del spec
+     * Figma de breadcrumb. */
+    color: var(--sc-text-primary);
+    font-size: var(--sc-font-size-200);
+    font-weight: var(--sc-font-weight-semibold);
   }
 
   &__crumb-muted {
