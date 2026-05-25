@@ -1,4 +1,5 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -7,6 +8,8 @@ import {
   OnDestroy,
   OnInit,
   signal,
+  type TemplateRef,
+  viewChild,
 } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -39,6 +42,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { DirtyAware } from '@core/guards';
 import { ConfirmHostService, CrossTabLockService } from '@core/services';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE, PIN_RE } from '@core/utils/validators';
 import {
   DeleteEntityDialogComponent,
@@ -51,7 +55,6 @@ import {
   SearchComponent,
   SectionCardComponent,
   SelectComponent,
-  StickyFormHeaderComponent,
   ToggleSwitchComponent,
   CheckboxComponent,
   type TriState,
@@ -148,7 +151,6 @@ interface FormState {
     SearchComponent,
     SectionCardComponent,
     SelectComponent,
-    StickyFormHeaderComponent,
     ToggleSwitchComponent,
     TranslateModule,
     CheckboxComponent,
@@ -171,6 +173,19 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   private readonly templatesStore = inject(TemplatesStore);
   private readonly agendasStore = inject(AgendasStore);
   private readonly confirmHost = inject(ConfirmHostService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+
+  /** Guardar/Cancelar proyectados a la TopBar (modelo "todo arriba" S59):
+   * fuera la banda sticky-form-header; identidad → breadcrumb + campos del
+   * cuerpo, acciones → barra de arriba. */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+  }
 
   protected readonly mailIcon = Mail;
   protected readonly phoneIcon = Phone;
@@ -617,6 +632,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.releaseLock?.();
     this.releaseLock = null;
+    this.topBarSlot.clearActions();
   }
 
   @HostListener('window:beforeunload', ['$event'])

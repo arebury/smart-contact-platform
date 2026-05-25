@@ -1,62 +1,20 @@
-<sc-sticky-form-header
-  [mode]="headerMode()"
-  [entityKey]="mode() === 'create' ? 'agents.form.create_title' : 'agents.entity_singular'"
-  [name]="form().name"
-  [canSave]="canSave()"
-  [saving]="saving()"
-  namePlaceholderKey="agents.form.fields.name"
-  (nameChange)="onNameRename($event)"
-  (save)="save()"
-  (cancelled)="cancel()"
->
-  <span header-leading>
-    <sc-photo-upload
-      size="sm"
-      [photo]="form().photo"
-      [name]="form().name"
-      [ariaLabel]="'common.photo.change' | translate"
-      (photoChange)="onPhotoChange($event)"
-    />
-  </span>
-  <!--
-    Projection wrappers stay OUTSIDE the @if — Angular's content projection
-    resolves slot membership from the static template structure of the host,
-    and an attribute-selector slot inside an `@if` doesn't always register
-    (the slot renders empty even when the @if is true). The inner content
-    is `@if`-guarded so create mode renders empty wrappers, which the
-    sticky-header SCSS collapses via `:empty`.
-  -->
-  <span header-pills>
-    @if (mode() === 'edit') {
-      <span class="pill pill--presence pill--presence-{{ form().presenceStatus }}">
-        <span class="pill__dot" aria-hidden="true"></span>
-        {{ presenceKeys[form().presenceStatus] | translate }}
-      </span>
-    }
-  </span>
-  <span header-meta>
-    @if (mode() === 'edit') {
-      <span class="header-meta__chunk">
-        <lucide-icon [img]="mailIcon" [size]="13" [attr.aria-hidden]="true" />
-        <span>{{ form().email || ('agents.form.fields.email_empty' | translate) }}</span>
-      </span>
-      <span class="header-meta__chunk">
-        <lucide-icon [img]="phoneIcon" [size]="13" [attr.aria-hidden]="true" />
-        @if (form().extension) {
-          <span>
-            {{ 'agents.form.fields.extension' | translate }}
-            {{ form().extension }}
-            @if (getExtensionType(form().extension); as t) {
-              <span class="header-meta__sub">· {{ 'agents.ext.' + t | translate }}</span>
-            }
-          </span>
-        } @else {
-          <span>{{ 'agents.form.fields.extension_empty' | translate }}</span>
-        }
-      </span>
-    }
-  </span>
-</sc-sticky-form-header>
+<!-- Modelo "todo arriba" (experiment S59): fuera la banda sticky-form-header.
+     Identidad → breadcrumb + campos del cuerpo (foto/nombre en Identificación);
+     Guardar/Cancelar → barra de arriba vía TopBarSlotService (ver el .ts). -->
+<ng-template #topbarActions>
+  <p-button type="button" severity="secondary" (onClick)="cancel()">
+    <span>{{ 'common.cancel' | translate }}</span>
+  </p-button>
+  <p-button
+    type="button"
+    severity="primary"
+    [disabled]="!canSave()"
+    [loading]="saving()"
+    (onClick)="save()"
+  >
+    <span>{{ 'common.save' | translate }}</span>
+  </p-button>
+</ng-template>
 
 <div class="page">
   <div class="page__inner page__inner--with-panel">
@@ -78,11 +36,27 @@
             [icon]="activeIcon()"
             titleKey="agents.form.section.identification"
           >
-            <!-- Photo + name removed from the card body: both live in the
-                 sticky form header (rich header, DD#54 Session 20). Keeping
-                 a second photo/name picker here duplicated the controls and
-                 confused users. user-form and group-form already follow
-                 this pattern. -->
+            <!-- Foto + nombre re-homed al cuerpo (experiment S59 "todo arriba"):
+                 al quitar la banda sticky-form-header, la identidad vuelve a
+                 ser campos del form (+ el breadcrumb arriba la repite). -->
+            <div class="form-identity">
+              <sc-photo-upload
+                size="sm"
+                [photo]="form().photo"
+                [name]="form().name"
+                [ariaLabel]="'common.photo.change' | translate"
+                (photoChange)="onPhotoChange($event)"
+              />
+              <div class="field form-identity__name">
+                <sc-inputtext
+                  inputId="agent-name"
+                  [label]="'agents.form.fields.name' | translate"
+                  [value]="form().name"
+                  [error]="errors()['name'] ? (errors()['name'] | translate) : undefined"
+                  (valueChange)="onNameRename($event)"
+                />
+              </div>
+            </div>
 
             <!-- Email + Phone -->
             <div class="grid grid--2">
