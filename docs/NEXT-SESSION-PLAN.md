@@ -5,6 +5,70 @@
 
 ---
 
+## Estado al cerrar (Session 60, 2026-05-25) — consolidación "todo arriba" + plan iconos
+
+Rama `experiment/beyondui-patterns`. Cerrada la regresión que bloqueaba promover
+"todo arriba" a main: **la ficha** en los 3 formularios (commit `2b83e9c`).
+
+- **La ficha** (resumen de identidad solo-lectura en la cabeza del panel lateral):
+  avatar `<sc-illustrated-avatar>` + nombre + pill de estado + dato clave. Agentes
+  (presencia + ext) · Usuarios (tipo + email) · Grupos (estrategia + tel). Índice
+  reordenado **identidad-primero / Avanzado-último**, abre en Identificación.
+  **Eliminar** → enlace rojo discreto al pie del panel (`.ipanel__delete`),
+  sustituye `<sc-form-danger-zone>`. `.ficha` + `.ipanel__delete` promovidos a
+  `_forms.scss` (3 consumers, DD-4).
+- **Rollback documentado**: Supervisor **DD#65** (qué + por qué + cómo revertir).
+  `StickyFormHeaderComponent` + `PageHeaderComponent` retenidos (barrel + ds-docs
+  galleries). page-header compactado (icono 44→36, padding fino) documentado en
+  spec 19 + gallery. Sticky-form-header spec 22 marcado "retenido para rollback".
+- **Health**: tsc/build/lint/i18n verde · 14/14 smoke · 9 baselines
+  visual-regression regenerados al estado todo-arriba (light+dark).
+
+### 🎯 Bloque PRÓXIMO (grande, dedicado): migración iconos Lucide → Material
+
+> Rafa pidió migrar todos los iconos a Material. Es un cambio **foundational de
+> 80 archivos** — merece pase propio y validado, NO un sweep a ciegas. Por eso
+> NO se hizo en S60 junto al merge (mezclaría 2 estilos de icono en main).
+
+**Scope real (medido S60)**: 63 usos `<lucide-icon>` en templates · **81 ficheros**
+importan de `lucide-angular` · solo 5 PrimeIcons · único registro central
+`core/icons/nav-icons.ts` (el resto importa iconos por componente). Sin Material
+Symbols presente todavía.
+
+**⚠️ Aclarar antes de arrancar**: el no-goal de `apps/ds-docs/CLAUDE.md` dice
+"sin Material". Confirmar con Rafa que eso era "sin Angular Material (componentes)",
+y que **Material Symbols como icon-set sí** es la dirección (decisión S58-59).
+
+**Estrategia propuesta**:
+1. **Foundation**: Material Symbols Outlined (variable font). Self-host o Google
+   Fonts CSS link en `index.html` de supervisor + ds-docs. NO es npm dep nuevo.
+2. **Wrapper SCDS `<sc-icon name size [fill] [weight]>`**: única API de icono,
+   consume tokens `--sc-icon-size-*`. Renderiza `<span class="material-symbols-outlined">`.
+   (Cocinar SOLO al migrar — no scaffolding "por si acaso", DD no-goal.)
+3. **Mapping Lucide→Material** (lo delicado, a mano por icono): no es 1:1
+   (`Trash2`→`delete`, `Users`→`group`, `Phone`→`call`/`phone`…). Tabla revisada
+   icono por icono antes de tocar templates.
+4. **Migración por superficie con validación visual** (Playwright diff cada una):
+   nav (sidebar+topbar via NAV_ICONS) → forms → listas → Memory → resto.
+   Material Symbols tiene métricas distintas a Lucide → revisar tamaño/alineación
+   en cada superficie, no asumir.
+5. Cuando 0 usos de `lucide-icon`: quitar `lucide-angular` del bundle.
+6. Regenerar baselines visual-regression al final (cambian todas).
+7. Cerrar backlog #48 (icon-size tokens) de paso.
+
+**Coste estimado**: sesión dedicada completa (foundation + mapping + 80 ficheros
+por tandas + validación). Reversible (rama).
+
+### Convergencia a main
+
+S60 abre PR `experiment/beyondui-patterns` → `main` con todo el resultado del
+experimento (todo-arriba listas+forms, ficha, pills categóricas, tabla Memory
+flush, header compacto, badges modal bulk, copy). Nota: la rama arrastra los
+skills de experimentación (`.agents/skills/*`, ~4900 líneas) — tooling, no
+producto; decidir si se quedan en main o se limpian.
+
+---
+
 ## Estado al cerrar (Session 58-59, 2026-05-25) — rama experimento + Figma
 
 > ⚠️ Trabajo en **rama `experiment/beyondui-patterns`** (NO main). Estado vivo +
