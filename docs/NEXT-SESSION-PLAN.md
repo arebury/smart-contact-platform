@@ -5,6 +5,41 @@
 
 ---
 
+## Estado al cerrar (Session 58-59, 2026-05-25) — rama experimento + Figma
+
+> ⚠️ Trabajo en **rama `experiment/beyondui-patterns`** (NO main). Estado vivo +
+> detalle técnico (ids de frames Figma, gotchas MCP) en la memoria
+> `project_figma_bulk_transcription_paint`.
+
+Rama pusheada (`693e4d8`). Explora estética BeyondUI/SnowUI sobre el DS sin tocar main.
+
+- **Barrido "todo arriba"** (4 commits): toda la app (Agentes, 5 listas AED, forms
+  user/group, 4 páginas Memory) pierde la banda `sc-page-header`/`sc-sticky-form-header`;
+  identidad → breadcrumb del TopBar, CTA/Guardar-Cancelar proyectados vía
+  `TopBarSlotService`. Back-arrow redundante quitado. Breadcrumbs Memory añadidos.
+  **14/14 smoke verde.** Visual-regression baselines desfasados a propósito
+  (regenerar cuando el modelo se fije).
+- **Composición SnowUI verificada token-por-token**: ya alineada (bg/cards/tipo/radius).
+  Única divergencia = texto gris-azulado `#2f3642` vs SnowUI `#1C1C1C` → **decisión:
+  se queda el nuestro** (no tocar canon).
+- **Decisión iconos**: migrar a **Material Icons (Google)** vía templating PrimeNG —
+  bloque futuro, NO arrancado.
+- **Figma — flujo "Transcripción masiva" pintado** (fichero `khNq9dJKNi13pNllrqm6dx`,
+  página *Flujos*): 6 pantallas × **dark + light**, **componentizado de verdad**
+  (Selects/checkbox/tags/toggleswitch/botones reales del Kit + variables del DS,
+  **cero imágenes** — Rafa rechazó el primer intento con fondos-captura). Flujo:
+  entrada → selección → modal → análisis ON → procesando → toast. Conectores + notas UX.
+
+**Siguiente al retomar:**
+- Polish Figma pendiente: iconos de canal (columna ESTADO) + iconos nav del sidebar +
+  filas con checkbox marcado → requieren re-clonar las 12 pantallas (mecánico, ids en memoria).
+- Decidir si el modelo "todo arriba" + aprendizajes se promueven a `main` (hoy solo en rama).
+- Gotchas Figma MCP en memoria: el `throw` para devolver datos hace **rollback de escrituras**;
+  tokens `surface/*` son rampa fija (no flipan), los que flipan son `content/*`/`text/*`/`tag/*`;
+  modos dark/light vía `setExplicitVariableModeForCollection`.
+
+---
+
 ## Estado al cerrar (Session 57, 2026-05-21)
 
 Sesión grande con refactor estructural primitive layer SCDS → Kit Pro
