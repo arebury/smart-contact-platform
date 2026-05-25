@@ -21,9 +21,11 @@ más denso, los datos arrancan más arriba, la acción está siempre alcanzable.
 En los **formularios**, el contexto que daba la cabecera rica (foto, nombre,
 estado, dato clave) se recupera con **la ficha** — un resumen de **solo lectura**
 en la cabeza del panel lateral izquierdo (clase `.ficha` en `src/styles/_forms.scss`,
-3 consumers). El índice de secciones se reordena **identidad-primero /
-Avanzado-último** y abre en Identificación en ambos modos (antes edición saltaba
-a Grupos/Secciones/Canales). **Eliminar** baja al pie del panel como enlace rojo
+3 consumers). **Orden del índice por modo** (refinado S60): en **crear**,
+Identificación primero (es lo primero que se rellena) y Avanzado al fondo; en
+**editar**, Identificación al **fondo** (apenas se toca una vez creado — la ficha
+ya da su contexto siempre visible), abriendo en la 1ª sección operativa
+(Grupos/Secciones/Canales). **Eliminar** baja al pie del panel como enlace rojo
 discreto (`.ipanel__delete`), apartado del scan primario para que una acción
 irreversible no se pulse sin querer.
 

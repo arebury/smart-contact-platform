@@ -159,9 +159,12 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       labelKey: 'groups.form.section.agents',
       icon: UsersIcon,
     };
-    // Modelo "todo arriba" S59: orden fijo identidad-primero en ambos modos.
-    // La ficha del panel da el contexto de identidad, así que ya no se
-    // esconde la sección al final en edición.
+    // Orden por modo (S60). En CREAR, identidad primero — es lo primero que se
+    // rellena. En EDITAR, identidad al fondo: apenas se toca tras crear, y la
+    // ficha del panel ya da su contexto siempre visible.
+    if (this.mode() === 'edit') {
+      return [channels, strategy, agents, identity];
+    }
     return [identity, channels, strategy, agents];
   });
 
@@ -276,9 +279,9 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       });
       this.initialChannels.set(new Set(group.channels));
       this.initialLinks.set(seedLinks);
-      // Aterriza en Identidad (1ª sección) — coherente con el orden fijo
-      // identidad-primero (S59). Antes saltaba a Canales en edición.
-      this.activeSection.set('group-section-identity');
+      // En edición aterriza en Canales (1ª del orden de edición): identidad va
+      // al fondo porque casi no se toca tras crear; la ficha la resume (S60).
+      this.activeSection.set('group-section-channels');
       this.releaseLock = this.crossTab.acquire('group', group.id, () =>
         this.conflictWarning.set(true),
       );

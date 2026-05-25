@@ -168,9 +168,12 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       labelKey: 'users.form.section.services',
       icon: Network,
     };
-    // Modelo "todo arriba" S59: orden fijo identidad-primero en ambos modos.
-    // La ficha del panel da el contexto de identidad, así que ya no se
-    // esconde la sección al final en edición.
+    // Orden por modo (S60). En CREAR, identidad primero — es lo primero que se
+    // rellena. En EDITAR, identidad al fondo: apenas se toca tras crear, y la
+    // ficha del panel ya da su contexto siempre visible.
+    if (this.mode() === 'edit') {
+      return [sections, permissions, services, identity];
+    }
     return [identity, sections, permissions, services];
   });
 
@@ -243,9 +246,9 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         services: new Set(user.assignedServices),
         photo: user.photo ?? null,
       });
-      // Aterriza en Identidad (1ª sección) — coherente con el orden fijo
-      // identidad-primero (S59). Antes saltaba a Secciones en edición.
-      this.activeSection.set('user-section-identity');
+      // En edición aterriza en Secciones (1ª del orden de edición): identidad
+      // va al fondo porque casi no se toca tras crear; la ficha la resume (S60).
+      this.activeSection.set('user-section-sections');
       this.releaseLock = this.crossTab.acquire('user', user.id, () =>
         this.conflictWarning.set(true),
       );

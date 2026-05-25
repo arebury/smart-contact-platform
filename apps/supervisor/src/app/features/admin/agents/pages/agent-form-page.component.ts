@@ -422,9 +422,12 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       labelKey: 'agents.form.section.advanced',
       icon: SlidersHorizontal,
     };
-    // Modelo "todo arriba" S59: orden fijo identidad-primero, Avanzado-último
-    // en ambos modos. La identidad ya no se esconde al final en edición —
-    // ahora la ficha del panel da el contexto de quién editas de un vistazo.
+    // Orden por modo (S60). En CREAR, identidad primero — es lo primero que se
+    // rellena. En EDITAR, identidad al fondo: apenas se toca tras crear, y la
+    // ficha del panel ya da su contexto siempre visible.
+    if (this.mode() === 'edit') {
+      return [groups, permissions, advanced, identity];
+    }
     return [identity, groups, permissions, advanced];
   });
 
@@ -581,9 +584,9 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         scheduleIds: new Set(agent.schedules ?? []),
         templateIds: new Set(agent.templates ?? []),
       });
-      // Aterriza en Identificación (1ª sección) — coherente con el orden
-      // fijo identidad-primero (S59). Antes saltaba a Grupos en edición.
-      this.activeSection.set('agent-section-identity');
+      // En edición aterriza en Grupos (1ª del orden de edición): identidad va
+      // al fondo porque casi no se toca tras crear; la ficha ya la resume (S60).
+      this.activeSection.set('agent-section-groups');
       this.releaseLock = this.crossTab.acquire('agent', agent.id, () =>
         this.conflictWarning.set(true),
       );
