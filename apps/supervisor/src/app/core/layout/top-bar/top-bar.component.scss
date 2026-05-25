@@ -82,35 +82,6 @@
     flex-shrink: 0;
   }
 
-  /* Back-to-parent affordance — same shape as `__home` so the lead block
-   * reads as a paired control set. Only renders when the breadcrumb trail
-   * has a parent crumb (top-bar.component.ts → backPath). */
-  &__back {
-    width: 28px;
-    height: 28px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--sc-icon-subtle);
-    background: transparent;
-    border: 0;
-    border-radius: var(--sc-radius-100);
-    cursor: pointer;
-    transition:
-      background var(--sc-transition-fast) var(--sc-easing-default),
-      color var(--sc-transition-fast) var(--sc-easing-default);
-
-    &:hover {
-      background: var(--sc-color-gray-100);
-      color: var(--sc-text-secondary);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--sc-color-soft-blue-500);
-      outline-offset: 2px;
-    }
-  }
-
   &__crumbs {
     list-style: none;
     margin: 0;

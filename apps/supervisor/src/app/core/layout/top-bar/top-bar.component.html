@@ -1,16 +1,5 @@
 <header class="top-bar">
   <div class="top-bar__lead">
-    @if (backPath(); as bp) {
-      <button
-        type="button"
-        class="top-bar__back"
-        (click)="goBack()"
-        [attr.aria-label]="'topbar.back_to' | translate: { name: backLabel() }"
-        [attr.title]="'topbar.back_to' | translate: { name: backLabel() }"
-      >
-        <lucide-icon [img]="backIcon" [size]="14" aria-hidden="true" />
-      </button>
-    }
     <button
       type="button"
       class="top-bar__home"
