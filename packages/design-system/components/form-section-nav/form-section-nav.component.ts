@@ -1,18 +1,16 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Phone } from 'lucide-angular';
 
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
-
-type LucideIconRef = typeof Phone;
 
 export interface FormNavSection {
   /** Stable id used by the parent to identify the active section. */
   readonly id: string;
   /** i18n key for the link label. */
   readonly labelKey: string;
-  /** Lucide icon shown to the left of the label. Optional. */
-  readonly icon?: LucideIconRef;
+  /** Material Symbols icon name shown to the left of the label. Optional. */
+  readonly icon?: string;
 }
 
 /**
@@ -23,7 +21,7 @@ export interface FormNavSection {
  */
 @Component({
   selector: 'sc-form-section-nav',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [IconComponent, TranslateModule],
   templateUrl: './form-section-nav.component.html',
   styleUrl: './form-section-nav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

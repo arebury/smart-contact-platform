@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, model } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Tag } from 'lucide-angular';
 import { PopoverModule } from 'primeng/popover';
+
+import { IconComponent } from '@shared/components';
 
 /**
  * CategoryFilterButton + popover · Memory iter 8.
@@ -18,7 +19,7 @@ import { PopoverModule } from 'primeng/popover';
  */
 @Component({
   selector: 'sc-memory-category-filter-button',
-  imports: [LucideAngularModule, PopoverModule, TranslateModule],
+  imports: [IconComponent, PopoverModule, TranslateModule],
   templateUrl: './category-filter-button.component.html',
   styleUrl: './category-filter-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,7 +28,7 @@ export class CategoryFilterButtonComponent {
   readonly available = input.required<readonly string[]>();
   readonly selected = model.required<readonly string[]>();
 
-  protected readonly tagIcon = Tag;
+  protected readonly tagIcon = 'label';
 
   protected readonly hasActive = computed(() => this.selected().length > 0);
   protected readonly allSelected = computed(

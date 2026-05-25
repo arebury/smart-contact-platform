@@ -11,21 +11,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  Copy,
-  Download,
-  Headphones,
-  LucideAngularModule,
-  Mail,
-  MessageSquare,
-  EllipsisVertical,
-  Pencil,
-  Phone,
-  Plus,
-  Search,
-  Trash2,
-  X,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -44,6 +29,7 @@ import {
   ColumnSelectorComponent,
   DeleteEntityDialogComponent,
   EmptyStateComponent,
+  IconComponent,
   IllustratedAvatarComponent,
   GroupPopoverComponent,
   ImpactBadge,
@@ -103,11 +89,11 @@ const PRESENCE_STATES: readonly PresenceStatus[] = [
     ColumnSelectorComponent,
     DeleteEntityDialogComponent,
     EmptyStateComponent,
+    IconComponent,
     IllustratedAvatarComponent,
     GroupPopoverComponent,
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
-    LucideAngularModule,
     SearchComponent,
     SortableHeaderDirective,
     TranslateModule,
@@ -165,19 +151,19 @@ export class AgentsListPageComponent {
       .filter((g): g is { id: number; name: string; active: boolean } => g !== null);
   }
 
-  protected readonly plusIcon = Plus;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly downloadIcon = Download;
-  protected readonly moreIcon = EllipsisVertical;
-  protected readonly editIcon = Pencil;
-  protected readonly trashIcon = Trash2;
-  protected readonly copyIcon = Copy;
-  protected readonly phoneIcon = Phone;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly emailIcon = Mail;
-  protected readonly emptyIcon = Headphones;
-  protected readonly pageIcon = Headphones;
+  protected readonly plusIcon = 'add';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly downloadIcon = 'download';
+  protected readonly moreIcon = 'more_vert';
+  protected readonly editIcon = 'edit';
+  protected readonly trashIcon = 'delete';
+  protected readonly copyIcon = 'content_copy';
+  protected readonly phoneIcon = 'call';
+  protected readonly chatIcon = 'chat_bubble';
+  protected readonly emailIcon = 'mail';
+  protected readonly emptyIcon = 'headphones';
+  protected readonly pageIcon = 'headphones';
 
   protected readonly typeKeys = AGENT_TYPE_LABEL_KEYS;
   protected readonly presenceKeys = PRESENCE_LABEL_KEYS;

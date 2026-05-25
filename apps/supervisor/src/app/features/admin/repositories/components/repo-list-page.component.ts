@@ -13,16 +13,6 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { map, startWith } from 'rxjs';
-import {
-  Download,
-  LucideAngularModule,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  Search,
-  Trash2,
-  X,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -32,6 +22,7 @@ import { clampToViewport } from '@core/utils/viewport';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
 import { DeleteEntityDialogComponent } from '@shared/components/delete-entity-dialog/delete-entity-dialog.component';
+import { IconComponent } from '@shared/components/icon/icon.component';
 import { SearchComponent } from '@shared/components/search/search.component';
 import { RepoFormPanelComponent, RepoFormSubmission } from './repo-form-panel.component';
 import { RepoEntity, RepoPageConfig, RepoStore } from './repo-types';
@@ -56,7 +47,7 @@ interface ContextMenuPos {
     ButtonModule,
     ClickOutsideDirective,
     DeleteEntityDialogComponent,
-    LucideAngularModule,
+    IconComponent,
     RepoFormPanelComponent,
     SearchComponent,
     TranslateModule,
@@ -86,13 +77,13 @@ export class RepoListPageComponent<T extends RepoEntity> {
     this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
   }
 
-  protected readonly plusIcon = Plus;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly downloadIcon = Download;
-  protected readonly moreIcon = MoreHorizontal;
-  protected readonly editIcon = Pencil;
-  protected readonly trashIcon = Trash2;
+  protected readonly plusIcon = 'add';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly downloadIcon = 'download';
+  protected readonly moreIcon = 'more_horiz';
+  protected readonly editIcon = 'edit';
+  protected readonly trashIcon = 'delete';
 
   protected readonly searchQuery = signal('');
   protected readonly creating = signal(false);

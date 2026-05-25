@@ -32,7 +32,7 @@
               [attr.aria-label]="'memory.player.audio.back10' | translate"
               (click)="onBack10()"
             >
-              <lucide-icon [img]="back10Icon" [size]="16" aria-hidden="true" />
+              <sc-icon [name]="back10Icon" [size]="16" />
             </button>
 
             <button
@@ -44,11 +44,7 @@
               "
               (click)="onTogglePlay()"
             >
-              <lucide-icon
-                [img]="isPlaying() ? pauseIcon : playIcon"
-                [size]="18"
-                aria-hidden="true"
-              />
+              <sc-icon [name]="isPlaying() ? pauseIcon : playIcon" [size]="18" />
             </button>
 
             <button
@@ -58,7 +54,7 @@
               [attr.aria-label]="'memory.player.audio.fwd10' | translate"
               (click)="onFwd10()"
             >
-              <lucide-icon [img]="fwd10Icon" [size]="16" aria-hidden="true" />
+              <sc-icon [name]="fwd10Icon" [size]="16" />
             </button>
 
             <span class="player-audio__time">{{ currentTimeLabel() }}</span>
@@ -101,7 +97,7 @@
           [class.player-tabs__btn--active]="activeTab() === 'transcription'"
           (click)="setActiveTab('transcription')"
         >
-          <lucide-icon [img]="fileTextIcon" [size]="14" aria-hidden="true" />
+          <sc-icon [name]="fileTextIcon" [size]="14" />
           {{ 'memory.player.tabs.transcription' | translate }}
         </button>
         <button
@@ -110,7 +106,7 @@
           [class.player-tabs__btn--active]="activeTab() === 'analysis'"
           (click)="setActiveTab('analysis')"
         >
-          <lucide-icon [img]="sparklesIcon" [size]="14" aria-hidden="true" />
+          <sc-icon [name]="sparklesIcon" [size]="14" />
           {{ 'memory.player.tabs.analysis' | translate }}
         </button>
 
@@ -124,7 +120,7 @@
               data-testid="player-retrans-btn"
               (click)="onOpenRetransConfirm()"
             >
-              <lucide-icon [img]="back10Icon" [size]="15" aria-hidden="true" />
+              <sc-icon [name]="back10Icon" [size]="15" />
             </button>
           }
           <button
@@ -135,7 +131,7 @@
             [attr.title]="analyzeTitleKey() | translate"
             (click)="onRequestAnalysis()"
           >
-            <lucide-icon [img]="sparklesIcon" [size]="15" aria-hidden="true" />
+            <sc-icon [name]="sparklesIcon" [size]="15" />
           </button>
           <button
             type="button"
@@ -154,7 +150,7 @@
             "
             (click)="onDownload()"
           >
-            <lucide-icon [img]="downloadIcon" [size]="15" aria-hidden="true" />
+            <sc-icon [name]="downloadIcon" [size]="15" />
           </button>
         </span>
       </div>
@@ -180,12 +176,7 @@
             </div>
           } @else if (!c.hasRecording && c.channel === 'llamada') {
             <div class="player-state">
-              <lucide-icon
-                class="player-state__icon"
-                [img]="fileXIcon"
-                [size]="24"
-                aria-hidden="true"
-              />
+              <sc-icon class="player-state__icon" [name]="fileXIcon" [size]="24" />
               <h3 class="player-state__title">
                 {{ 'memory.player.empty.no_recording_title' | translate }}
               </h3>
@@ -195,12 +186,7 @@
             </div>
           } @else if (!c.hasTranscription) {
             <div class="player-state player-state--decision">
-              <lucide-icon
-                class="player-state__icon"
-                [img]="fileTextIcon"
-                [size]="24"
-                aria-hidden="true"
-              />
+              <sc-icon class="player-state__icon" [name]="fileTextIcon" [size]="24" />
               <div class="player-state__text">
                 <h3 class="player-state__title">
                   {{ 'memory.player.empty.no_transcription_title' | translate }}
@@ -216,12 +202,16 @@
                   [disabled]="requestingTranscription()"
                   (click)="onRequestTranscription()"
                 >
-                  <lucide-icon
-                    [img]="requestingTranscription() ? loaderIcon : fileTextIcon"
-                    [class.player-state__btn-spinner]="requestingTranscription()"
-                    [size]="14"
-                    aria-hidden="true"
-                  />
+                  @if (requestingTranscription()) {
+                    <lucide-icon
+                      [img]="loaderIcon"
+                      class="player-state__btn-spinner"
+                      [size]="14"
+                      aria-hidden="true"
+                    />
+                  } @else {
+                    <sc-icon [name]="fileTextIcon" [size]="14" />
+                  }
                   {{
                     (requestingTranscription()
                       ? 'memory.player.empty.transcribing_btn'
@@ -237,12 +227,7 @@
             </div>
           } @else if (!c.transcription || c.transcription.length === 0) {
             <div class="player-state">
-              <lucide-icon
-                class="player-state__icon"
-                [img]="fileTextIcon"
-                [size]="24"
-                aria-hidden="true"
-              />
+              <sc-icon class="player-state__icon" [name]="fileTextIcon" [size]="24" />
               <h3 class="player-state__title">
                 {{ 'memory.player.empty.transcription_empty_title' | translate }}
               </h3>
@@ -262,12 +247,7 @@
                 }}
               </span>
               <div class="player-transcript__search">
-                <lucide-icon
-                  class="player-transcript__search-icon"
-                  [img]="searchIcon"
-                  [size]="12"
-                  aria-hidden="true"
-                />
+                <sc-icon class="player-transcript__search-icon" [name]="searchIcon" [size]="12" />
                 <input
                   type="search"
                   [value]="searchTerm()"
@@ -320,12 +300,7 @@
           } @else if (!c.hasAnalysis) {
             @if (!canRequestAnalysis()) {
               <div class="player-state player-state--decision">
-                <lucide-icon
-                  class="player-state__icon"
-                  [img]="sparklesIcon"
-                  [size]="24"
-                  aria-hidden="true"
-                />
+                <sc-icon class="player-state__icon" [name]="sparklesIcon" [size]="24" />
                 <div class="player-state__text">
                   <h3 class="player-state__title">
                     {{ 'memory.player.empty.deadend_title' | translate }}
@@ -341,12 +316,16 @@
                     [disabled]="requestingAnalysis()"
                     (click)="onRequestBoth()"
                   >
-                    <lucide-icon
-                      [img]="requestingAnalysis() ? loaderIcon : sparklesIcon"
-                      [class.player-state__btn-spinner]="requestingAnalysis()"
-                      [size]="14"
-                      aria-hidden="true"
-                    />
+                    @if (requestingAnalysis()) {
+                      <lucide-icon
+                        [img]="loaderIcon"
+                        class="player-state__btn-spinner"
+                        [size]="14"
+                        aria-hidden="true"
+                      />
+                    } @else {
+                      <sc-icon [name]="sparklesIcon" [size]="14" />
+                    }
                     {{
                       (requestingAnalysis()
                         ? 'memory.player.empty.processing_btn'
@@ -362,12 +341,7 @@
               </div>
             } @else {
               <div class="player-state player-state--decision">
-                <lucide-icon
-                  class="player-state__icon"
-                  [img]="sparklesIcon"
-                  [size]="24"
-                  aria-hidden="true"
-                />
+                <sc-icon class="player-state__icon" [name]="sparklesIcon" [size]="24" />
                 <div class="player-state__text">
                   <h3 class="player-state__title">
                     {{ 'memory.player.empty.ready_title' | translate }}
@@ -383,12 +357,16 @@
                     [disabled]="requestingAnalysis()"
                     (click)="onRequestAnalysis()"
                   >
-                    <lucide-icon
-                      [img]="requestingAnalysis() ? loaderIcon : sparklesIcon"
-                      [class.player-state__btn-spinner]="requestingAnalysis()"
-                      [size]="14"
-                      aria-hidden="true"
-                    />
+                    @if (requestingAnalysis()) {
+                      <lucide-icon
+                        [img]="loaderIcon"
+                        class="player-state__btn-spinner"
+                        [size]="14"
+                        aria-hidden="true"
+                      />
+                    } @else {
+                      <sc-icon [name]="sparklesIcon" [size]="14" />
+                    }
                     {{
                       (requestingAnalysis()
                         ? 'memory.player.empty.requesting_btn'
@@ -408,14 +386,14 @@
               <section class="player-section">
                 <header class="player-section__head">
                   <span class="player-section__title">
-                    <lucide-icon [img]="alignLeftIcon" [size]="13" aria-hidden="true" />
+                    <sc-icon [name]="alignLeftIcon" [size]="13" />
                     {{ 'memory.player.analysis.summary' | translate }}
                   </span>
                   <span
                     class="player-section__aside"
                     [attr.title]="'memory.player.analysis.ai_generated_hint' | translate"
                   >
-                    <lucide-icon [img]="sparklesIcon" [size]="10" aria-hidden="true" />
+                    <sc-icon [name]="sparklesIcon" [size]="10" />
                     {{ 'memory.player.analysis.ai_generated' | translate }}
                   </span>
                 </header>
@@ -431,7 +409,7 @@
               <section class="player-section">
                 <header class="player-section__head">
                   <span class="player-section__title">
-                    <lucide-icon [img]="trendingUpIcon" [size]="13" aria-hidden="true" />
+                    <sc-icon [name]="trendingUpIcon" [size]="13" />
                     {{ 'memory.player.analysis.sentiment' | translate }}
                   </span>
                 </header>

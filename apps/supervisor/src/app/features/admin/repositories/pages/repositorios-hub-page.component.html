@@ -16,19 +16,14 @@
                 (click)="onItemClick(item)"
               >
                 <span class="hub-item__icon" aria-hidden="true">
-                  <lucide-icon [img]="item.icon" [size]="20" aria-hidden="true" />
+                  <sc-icon [name]="item.icon" [size]="20" />
                 </span>
                 <span class="hub-item__text">
                   <span class="hub-item__label">{{ item.labelKey | translate }}</span>
                   <span class="hub-item__description">{{ item.descriptionKey | translate }}</span>
                 </span>
                 @if (item.ready) {
-                  <lucide-icon
-                    class="hub-item__chevron"
-                    [img]="chevronIcon"
-                    [size]="15"
-                    aria-hidden="true"
-                  />
+                  <sc-icon class="hub-item__chevron" [name]="chevronIcon" [size]="15" />
                 } @else {
                   <span class="hub-item__soon">
                     {{ 'repositories.hub.coming_soon' | translate }}

@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { ChevronDown, ChevronUp, LucideAngularModule, UserRound } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { PageHeaderService } from '@core/services';
 import {
+  IconComponent,
   InputTextComponent,
   ToggleSwitchComponent,
   CheckboxComponent,
@@ -70,8 +70,8 @@ const DEFAULT_FORM: FormState = {
   selector: 'sc-aed-agentes-page',
   imports: [
     ButtonModule,
+    IconComponent,
     InputTextComponent,
-    LucideAngularModule,
     ToggleSwitchComponent,
     TranslateModule,
     CheckboxComponent,
@@ -90,13 +90,13 @@ export class AedAgentesPageComponent {
       titleKey: 'config.aed.subpages.agentes.heading',
       subtitleKey: 'config.aed.subpages.agentes.subtitle',
       entityKey: 'config.sidebar.title',
-      icon: UserRound,
+      icon: 'person',
     });
   }
 
-  protected readonly userIcon = UserRound;
-  protected readonly chevronDown = ChevronDown;
-  protected readonly chevronUp = ChevronUp;
+  protected readonly userIcon = 'person';
+  protected readonly chevronDown = 'expand_more';
+  protected readonly chevronUp = 'expand_less';
 
   protected readonly destinoKeys = DESTINO_KEYS;
 

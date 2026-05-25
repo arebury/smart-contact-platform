@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { Download, Info, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
-import { DialogComponent, CheckboxComponent } from '@shared/components';
+import { DialogComponent, CheckboxComponent, IconComponent } from '@shared/components';
 
 /**
- * Memory · Download modal — opciones de qué descargar para la conversación
+ * Memory · 'download' modal — opciones de qué descargar para la conversación
  * activa del player. Reemplaza el toast inmediato pre-S47 que disparaba
  * descarga implícita por aviso GDPR + selección explícita.
  *
- * Spec: `memory-migration-inventory.md §10 #4` ("Modal Download heredado
+ * Spec: `memory-migration-inventory.md §10 #4` ("Modal 'download' heredado
  * SC: checkboxes Grabaciones + Chats marcados por defecto + aviso GDPR
  * 'Deleted or empty conversations won't download'"). Trigger producción
  * real backend — hoy la confirmación dispara el toast actual de descarga.
@@ -27,7 +26,7 @@ import { DialogComponent, CheckboxComponent } from '@shared/components';
 @Component({
   selector: 'sc-memory-download-modal',
   standalone: true,
-  imports: [ButtonModule, CheckboxComponent, DialogComponent, LucideAngularModule, TranslateModule],
+  imports: [ButtonModule, CheckboxComponent, DialogComponent, IconComponent, TranslateModule],
   templateUrl: './download-modal.component.html',
   styleUrl: './download-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,8 +42,8 @@ export class DownloadModalComponent {
   readonly confirm = output<{ readonly recordings: boolean; readonly chats: boolean }>();
   readonly cancelled = output<void>();
 
-  protected readonly downloadIcon = Download;
-  protected readonly infoIcon = Info;
+  protected readonly downloadIcon = 'download';
+  protected readonly infoIcon = 'info';
 
   protected readonly recordingsChecked = signal<boolean>(true);
   protected readonly chatsChecked = signal<boolean>(true);

@@ -54,7 +54,7 @@
            apartado del índice → fuera del scan primario (S59). -->
       @if (mode() === 'edit') {
         <button type="button" class="ipanel__delete" (click)="requestDelete()">
-          <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
+          <sc-icon [name]="trashIcon" [size]="14" />
           <span>{{ 'common.delete' | translate }}</span>
         </button>
       }

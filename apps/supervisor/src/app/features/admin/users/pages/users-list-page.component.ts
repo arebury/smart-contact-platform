@@ -11,18 +11,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  Copy,
-  Download,
-  LucideAngularModule,
-  EllipsisVertical,
-  Pencil,
-  Plus,
-  Search,
-  Trash2,
-  UserCog,
-  X,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -38,6 +26,7 @@ import {
   ColumnSelectorComponent,
   DeleteEntityDialogComponent,
   EmptyStateComponent,
+  IconComponent,
   InlineRenameCellComponent,
   SearchComponent,
 } from '@shared/components';
@@ -63,8 +52,8 @@ interface ContextMenuPos {
     ColumnSelectorComponent,
     DeleteEntityDialogComponent,
     EmptyStateComponent,
+    IconComponent,
     InlineRenameCellComponent,
-    LucideAngularModule,
     SearchComponent,
     SortableHeaderDirective,
     TranslateModule,
@@ -95,16 +84,16 @@ export class UsersListPageComponent {
     this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
   }
 
-  protected readonly plusIcon = Plus;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly downloadIcon = Download;
-  protected readonly moreIcon = EllipsisVertical;
-  protected readonly editIcon = Pencil;
-  protected readonly trashIcon = Trash2;
-  protected readonly copyIcon = Copy;
-  protected readonly emptyIcon = UserCog;
-  protected readonly pageIcon = UserCog;
+  protected readonly plusIcon = 'add';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly downloadIcon = 'download';
+  protected readonly moreIcon = 'more_vert';
+  protected readonly editIcon = 'edit';
+  protected readonly trashIcon = 'delete';
+  protected readonly copyIcon = 'content_copy';
+  protected readonly emptyIcon = 'manage_accounts';
+  protected readonly pageIcon = 'manage_accounts';
 
   protected readonly typeLabelKeys = USER_TYPE_LABEL_KEYS;
   protected readonly users = this.usersStore.users;

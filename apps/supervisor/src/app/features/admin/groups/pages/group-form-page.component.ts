@@ -13,15 +13,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  GitBranch,
-  IdCard,
-  LucideAngularModule,
-  MessageSquare,
-  Phone,
-  Trash2,
-  Users as UsersIcon,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -32,6 +23,7 @@ import {
   DeleteEntityDialogComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  IconComponent,
   IllustratedAvatarComponent,
   InputTextComponent,
   InputNumberComponent,
@@ -82,10 +74,10 @@ interface FormState {
     ButtonModule,
     DeleteEntityDialogComponent,
     FormSectionNavComponent,
+    IconComponent,
     IllustratedAvatarComponent,
     InputTextComponent,
     InputNumberComponent,
-    LucideAngularModule,
     DialogComponent,
     PrimeTemplate,
     SectionCardComponent,
@@ -142,22 +134,22 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const identity: FormNavSection = {
       id: 'group-section-identity',
       labelKey: 'groups.form.section.identity',
-      icon: IdCard,
+      icon: 'badge',
     };
     const channels: FormNavSection = {
       id: 'group-section-channels',
       labelKey: 'groups.form.section.channels',
-      icon: MessageSquare,
+      icon: 'chat_bubble',
     };
     const strategy: FormNavSection = {
       id: 'group-section-strategy',
       labelKey: 'groups.form.section.strategy',
-      icon: GitBranch,
+      icon: 'account_tree',
     };
     const agents: FormNavSection = {
       id: 'group-section-agents',
       labelKey: 'groups.form.section.agents',
-      icon: UsersIcon,
+      icon: 'group',
     };
     // Orden por modo (S60). En CREAR, identidad primero — es lo primero que se
     // rellena. En EDITAR, identidad al fondo: apenas se toca tras crear, y la
@@ -175,8 +167,8 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     return this.navSections().find((s) => s.id === id)?.icon ?? null;
   });
 
-  protected readonly phoneIcon = Phone;
-  protected readonly trashIcon = Trash2;
+  protected readonly phoneIcon = 'call';
+  protected readonly trashIcon = 'delete';
 
   protected readonly editingId = signal<number | null>(null);
   /** Source name si llegó vía Duplicar (?seedFromId). NULL en create vacío. */

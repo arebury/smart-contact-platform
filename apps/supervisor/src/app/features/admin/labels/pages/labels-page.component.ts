@@ -11,17 +11,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  LucideAngularModule,
-  Download,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  Search,
-  Tag,
-  Trash2,
-  X,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -32,6 +21,7 @@ import { clampToViewport } from '@core/utils/viewport';
 import {
   BulkActionBarComponent,
   useBulkEntityI18n,
+  IconComponent,
   LabelChipComponent,
   SearchComponent,
 } from '@shared/components';
@@ -59,9 +49,9 @@ interface ContextMenuPos {
     ClickOutsideDirective,
     DeleteLabelsDialogComponent,
     FormsModule,
+    IconComponent,
     LabelChipComponent,
     LabelFormPanelComponent,
-    LucideAngularModule,
     SearchComponent,
     TranslateModule,
   ],
@@ -92,14 +82,14 @@ export class LabelsPageComponent {
     this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
   }
 
-  protected readonly plusIcon = Plus;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly downloadIcon = Download;
-  protected readonly tagIcon = Tag;
-  protected readonly moreIcon = MoreHorizontal;
-  protected readonly editIcon = Pencil;
-  protected readonly trashIcon = Trash2;
+  protected readonly plusIcon = 'add';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly downloadIcon = 'download';
+  protected readonly tagIcon = 'label';
+  protected readonly moreIcon = 'more_horiz';
+  protected readonly editIcon = 'edit';
+  protected readonly trashIcon = 'delete';
 
   protected readonly labels = this.labelsStore.labels;
   protected readonly agentCountByLabel = this.agentsStore.agentCountByLabel;

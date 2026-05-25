@@ -3,7 +3,7 @@
      vía TopBarSlotService (ver topbarActions en el .ts). -->
 <ng-template #topbarActions>
   <p-button type="button" severity="primary" (onClick)="onNewCategory()">
-    <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+    <sc-icon [name]="plusIcon" [size]="14" />
     <span>{{ 'memory.categories.new_category' | translate }}</span>
   </p-button>
 </ng-template>
@@ -12,7 +12,7 @@
   <div class="page__inner">
     @if (isEmpty()) {
       <div class="categories-empty">
-        <lucide-icon [img]="tagsIcon" [size]="24" aria-hidden="true" />
+        <sc-icon [name]="tagsIcon" [size]="24" />
         <h2>{{ 'memory.categories.empty_title' | translate }}</h2>
         <p>{{ 'memory.categories.empty_desc' | translate }}</p>
       </div>
@@ -78,7 +78,7 @@
                   [attr.aria-label]="'memory.categories.cols.more' | translate"
                   (click)="kebabMenu.toggle($event)"
                 >
-                  <lucide-icon [img]="kebabIcon" [size]="14" aria-hidden="true" />
+                  <sc-icon [name]="kebabIcon" [size]="14" />
                 </button>
                 <p-menu #kebabMenu [model]="buildMenuItems(cat)" [popup]="true" appendTo="body" />
               </td>

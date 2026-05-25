@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, Injectable } from '@angular/core';
-import { Clock } from 'lucide-angular';
 
 import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { RepoListPageComponent } from '../components/repo-list-page.component';
@@ -190,7 +189,7 @@ export class HorariosPageComponent {
     titleKey: 'repositories.horarios.title',
     entitySingularKey: 'repositories.horarios.singular',
     entityPluralKey: 'repositories.horarios.plural',
-    icon: Clock,
+    icon: 'schedule',
     breadcrumbExtraKey: 'repositories.horarios.title',
     columns: COLUMNS,
     fields: FIELDS,

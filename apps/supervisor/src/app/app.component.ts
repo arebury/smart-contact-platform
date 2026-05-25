@@ -1,14 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  AlertCircle,
-  AlertTriangle,
-  CheckCircle2,
-  Info,
-  LucideAngularModule,
-  X,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
@@ -16,6 +8,7 @@ import { LanguageService, ThemeService, UndoStackService } from '@core/services'
 import {
   CommandPaletteComponent,
   ConfirmHostComponent,
+  IconComponent,
   KeyboardShortcutsComponent,
 } from '@shared/components';
 
@@ -26,8 +19,8 @@ type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'cont
   imports: [
     CommandPaletteComponent,
     ConfirmHostComponent,
+    IconComponent,
     KeyboardShortcutsComponent,
-    LucideAngularModule,
     RouterOutlet,
     ToastModule,
     TranslateModule,
@@ -57,7 +50,7 @@ export class AppComponent {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private readonly _language = inject(LanguageService);
 
-  protected readonly closeIcon = X;
+  protected readonly closeIcon = 'close';
 
   /**
    * Global Ctrl/Cmd+Z — run the most recent undoable action. Skip when the
@@ -93,18 +86,18 @@ export class AppComponent {
    * severity is the violet "neutral notice" variant — same Info glyph as
    * `info`, the colour palette is what distinguishes them.
    */
-  protected iconFor(severity: ToastSeverity | undefined) {
+  protected iconFor(severity: ToastSeverity | undefined): string {
     switch (severity) {
       case 'success':
-        return CheckCircle2;
+        return 'check_circle';
       case 'warn':
-        return AlertTriangle;
+        return 'warning';
       case 'error':
-        return AlertCircle;
+        return 'error';
       case 'info':
       case 'secondary':
       default:
-        return Info;
+        return 'info';
     }
   }
 

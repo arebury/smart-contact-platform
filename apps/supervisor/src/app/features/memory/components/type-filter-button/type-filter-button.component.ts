@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, model } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { Filter, LucideAngularModule } from 'lucide-angular';
 import { PopoverModule } from 'primeng/popover';
+
+import { IconComponent } from '@shared/components';
 
 import {
   EMPTY_FILTERS,
@@ -31,7 +32,7 @@ import {
  */
 @Component({
   selector: 'sc-memory-type-filter-button',
-  imports: [LucideAngularModule, PopoverModule, TranslateModule],
+  imports: [IconComponent, PopoverModule, TranslateModule],
   templateUrl: './type-filter-button.component.html',
   styleUrl: './type-filter-button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +40,7 @@ import {
 export class TypeFilterButtonComponent {
   readonly filters = model.required<MemoryConversationFilters>();
 
-  protected readonly filterIcon = Filter;
+  protected readonly filterIcon = 'filter_alt';
 
   protected readonly hasActiveFilters = computed(() => {
     const f = this.filters();

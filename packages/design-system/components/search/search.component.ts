@@ -13,11 +13,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { LucideAngularModule, Search, X } from 'lucide-angular';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
 
 export type ScSearchSize = 'sm' | 'md' | 'lg';
@@ -43,7 +43,7 @@ let scSearchIdCounter = 0;
 @Component({
   selector: 'sc-search',
   standalone: true,
-  imports: [IconFieldModule, InputIconModule, InputTextModule, LucideAngularModule, FormsModule],
+  imports: [IconFieldModule, InputIconModule, InputTextModule, IconComponent, FormsModule],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -100,8 +100,8 @@ export class SearchComponent implements ControlValueAccessor {
   readonly keydown = output<KeyboardEvent>();
 
   // ─── Derived / internal ────────────────────────────────────────────
-  protected readonly searchIcon = Search;
-  protected readonly clearIcon = X;
+  protected readonly searchIcon = 'search';
+  protected readonly clearIcon = 'close';
   protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
   protected readonly iconSizeMd = SC_ICON_SIZE_MD;
   protected readonly resolvedId = computed(

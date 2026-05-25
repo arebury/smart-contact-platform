@@ -9,12 +9,12 @@ import {
   viewChild,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, MoreVertical, Plus, Tags } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import type { MenuItem } from 'primeng/api';
 
+import { IconComponent } from '@shared/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 
@@ -35,13 +35,7 @@ import { RulesStore } from '../../state/rules.store';
  */
 @Component({
   selector: 'sc-memory-categories-page',
-  imports: [
-    ButtonModule,
-    CategoryFormModalComponent,
-    LucideAngularModule,
-    MenuModule,
-    TranslateModule,
-  ],
+  imports: [ButtonModule, CategoryFormModalComponent, IconComponent, MenuModule, TranslateModule],
   templateUrl: './categories-page.component.html',
   styleUrl: './categories-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -78,9 +72,9 @@ export class CategoriesPageComponent {
   protected readonly formOpen = signal(false);
   protected readonly formCategory = signal<Category | null>(null);
 
-  protected readonly tagsIcon = Tags;
-  protected readonly plusIcon = Plus;
-  protected readonly kebabIcon = MoreVertical;
+  protected readonly tagsIcon = 'label';
+  protected readonly plusIcon = 'add';
+  protected readonly kebabIcon = 'more_vert';
 
   protected buildMenuItems(cat: Category): MenuItem[] {
     return [

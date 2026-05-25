@@ -13,15 +13,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  IdCard,
-  Layers,
-  LucideAngularModule,
-  Mail,
-  Network,
-  ShieldCheck,
-  Trash2,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -33,6 +24,7 @@ import {
   DeleteEntityDialogComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  IconComponent,
   IllustratedAvatarComponent,
   InputTextComponent,
   PhotoUploadComponent,
@@ -76,9 +68,9 @@ interface FormState {
     ButtonModule,
     DeleteEntityDialogComponent,
     FormSectionNavComponent,
+    IconComponent,
     IllustratedAvatarComponent,
     InputTextComponent,
-    LucideAngularModule,
     PhotoUploadComponent,
     PrimeTemplate,
     SectionCardComponent,
@@ -117,8 +109,8 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
    * indexar sin TS7053. Seguro: las keys vienen siempre de `userTypes`
    * (UserType union). Mismo patrón que agent-form-page. */
   protected readonly typeLabelKeys: Readonly<Record<string, string>> = USER_TYPE_LABEL_KEYS;
-  protected readonly mailIcon = Mail;
-  protected readonly trashIcon = Trash2;
+  protected readonly mailIcon = 'mail';
+  protected readonly trashIcon = 'delete';
   protected readonly sectionDefs = SECTION_DEFS;
   protected readonly permissionDefs = PERMISSION_DEFS;
   protected readonly availableServices = AVAILABLE_SERVICES;
@@ -151,22 +143,22 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const identity: FormNavSection = {
       id: 'user-section-identity',
       labelKey: 'users.form.section.identity',
-      icon: IdCard,
+      icon: 'badge',
     };
     const sections: FormNavSection = {
       id: 'user-section-sections',
       labelKey: 'users.form.section.sections',
-      icon: Layers,
+      icon: 'layers',
     };
     const permissions: FormNavSection = {
       id: 'user-section-permissions',
       labelKey: 'users.form.section.permissions',
-      icon: ShieldCheck,
+      icon: 'verified_user',
     };
     const services: FormNavSection = {
       id: 'user-section-services',
       labelKey: 'users.form.section.services',
-      icon: Network,
+      icon: 'hub',
     };
     // Orden por modo (S60). En CREAR, identidad primero — es lo primero que se
     // rellena. En EDITAR, identidad al fondo: apenas se toca tras crear, y la

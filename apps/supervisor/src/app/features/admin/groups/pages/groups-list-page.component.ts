@@ -11,21 +11,6 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  Copy,
-  Download,
-  EllipsisVertical,
-  LucideAngularModule,
-  Mail,
-  MessageSquare,
-  Pencil,
-  Phone,
-  Plus,
-  Search,
-  Trash2,
-  Users2,
-  X,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -44,6 +29,7 @@ import {
   ColumnSelectorComponent,
   DeleteEntityDialogComponent,
   EmptyStateComponent,
+  IconComponent,
   IllustratedAvatarComponent,
   ImpactBadge,
   ImpactItem,
@@ -92,10 +78,10 @@ const COLUMN_PREF_KEY = 'sc-groups-columns-v2';
     ColumnSelectorComponent,
     DeleteEntityDialogComponent,
     EmptyStateComponent,
+    IconComponent,
     IllustratedAvatarComponent,
     ImpactPreviewDialogComponent,
     InlineRenameCellComponent,
-    LucideAngularModule,
     SearchComponent,
     SortableHeaderDirective,
     TranslateModule,
@@ -132,19 +118,19 @@ export class GroupsListPageComponent {
     return this.linksStore.linksForGroup(groupId).length;
   }
 
-  protected readonly plusIcon = Plus;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly downloadIcon = Download;
-  protected readonly moreIcon = EllipsisVertical;
-  protected readonly editIcon = Pencil;
-  protected readonly trashIcon = Trash2;
-  protected readonly copyIcon = Copy;
-  protected readonly phoneIcon = Phone;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly emailIcon = Mail;
-  protected readonly emptyIcon = Users2;
-  protected readonly pageIcon = Users2;
+  protected readonly plusIcon = 'add';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly downloadIcon = 'download';
+  protected readonly moreIcon = 'more_vert';
+  protected readonly editIcon = 'edit';
+  protected readonly trashIcon = 'delete';
+  protected readonly copyIcon = 'content_copy';
+  protected readonly phoneIcon = 'call';
+  protected readonly chatIcon = 'chat_bubble';
+  protected readonly emailIcon = 'mail';
+  protected readonly emptyIcon = 'group';
+  protected readonly pageIcon = 'group';
 
   protected readonly priorityKeys = PRIORITY_LABEL_KEYS;
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;

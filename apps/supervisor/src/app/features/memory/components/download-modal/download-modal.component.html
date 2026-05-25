@@ -48,12 +48,7 @@
     </div>
 
     <div class="download-modal__gdpr" role="note">
-      <lucide-icon
-        class="download-modal__gdpr-icon"
-        [img]="infoIcon"
-        [size]="14"
-        aria-hidden="true"
-      />
+      <sc-icon class="download-modal__gdpr-icon" [name]="infoIcon" [size]="14" />
       <p class="download-modal__gdpr-text">
         {{ 'memory.player.download.gdpr_hint' | translate }}
       </p>
@@ -65,7 +60,7 @@
       <span>{{ 'common.cancel' | translate }}</span>
     </p-button>
     <p-button type="button" severity="primary" [disabled]="!canConfirm()" (onClick)="onConfirm()">
-      <lucide-icon [img]="downloadIcon" [size]="14" aria-hidden="true" />
+      <sc-icon [name]="downloadIcon" [size]="14" />
       <span>{{ 'memory.player.download.confirm_btn' | translate }}</span>
     </p-button>
   </div>

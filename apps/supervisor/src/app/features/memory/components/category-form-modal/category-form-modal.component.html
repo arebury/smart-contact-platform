@@ -14,7 +14,7 @@
       <!-- Botón "Plantillas" solo en modo Create -->
       <div class="category-form__templates-cta">
         <button type="button" class="category-form__templates-btn" (click)="openTemplatesDialog()">
-          <lucide-icon [img]="layoutTemplateIcon" [size]="14" aria-hidden="true" />
+          <sc-icon [name]="layoutTemplateIcon" [size]="14" />
           {{ 'memory.categories.form.templates_open' | translate }}
         </button>
         <span class="category-form__templates-hint">
@@ -94,14 +94,14 @@
             tabindex="0"
             [attr.aria-label]="'memory.categories.linking.tooltip' | translate"
           >
-            <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+            <sc-icon [name]="infoIcon" [size]="14" />
           </button>
         </div>
 
         @if (linkedRules().length === 0 && !hasAnyRules()) {
           <!-- Variante A: no vinculada + no hay reglas -->
           <div class="category-form__link-alert">
-            <lucide-icon [img]="alertIcon" [size]="18" aria-hidden="true" />
+            <sc-icon [name]="alertIcon" [size]="18" />
             <div>
               <p class="category-form__link-alert-title">
                 {{ 'memory.categories.linking.inactive_title' | translate }}
@@ -123,7 +123,7 @@
                 target="_blank"
                 rel="noopener"
               >
-                <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+                <sc-icon [name]="plusIcon" [size]="14" />
                 {{ 'memory.categories.linking.create_first_rule' | translate }}
               </a>
             </div>
@@ -131,7 +131,7 @@
         } @else if (linkedRules().length === 0 && hasAnyRules()) {
           <!-- Variante B: no vinculada pero hay reglas -->
           <div class="category-form__link-alert">
-            <lucide-icon [img]="alertIcon" [size]="18" aria-hidden="true" />
+            <sc-icon [name]="alertIcon" [size]="18" />
             <div>
               <p class="category-form__link-alert-title">
                 {{ 'memory.categories.linking.inactive_title' | translate }}
@@ -165,7 +165,7 @@
             >
               <ng-template let-rule pTemplate="item">
                 <div class="category-form__link-option">
-                  <lucide-icon [img]="fileTextIcon" [size]="14" aria-hidden="true" />
+                  <sc-icon [name]="fileTextIcon" [size]="14" />
                   <div>
                     <span class="category-form__link-option-name">{{ rule.label }}</span>
                     <span class="category-form__link-option-hint">{{ rule.hint }}</span>
@@ -183,7 +183,7 @@
           <!-- Variantes C + D: linkedRules > 0 (alguna activa o todas inactivas) -->
           @if (hasActiveRules()) {
             <p class="category-form__link-status category-form__link-status--ok">
-              <lucide-icon [img]="checkIcon" [size]="14" aria-hidden="true" />
+              <sc-icon [name]="checkIcon" [size]="14" />
               {{
                 'memory.categories.linking.active_in_n_rules'
                   | translate: { count: linkedRules().length }
@@ -208,7 +208,7 @@
                   target="_blank"
                   rel="noopener"
                 >
-                  <lucide-icon [img]="fileTextIcon" [size]="14" aria-hidden="true" />
+                  <sc-icon [name]="fileTextIcon" [size]="14" />
                   <div>
                     <div class="category-form__link-item-head">
                       <span class="category-form__link-item-name">{{ rule.name }}</span>
@@ -239,7 +239,7 @@
                     'memory.categories.linking.unlink_aria' | translate: { name: rule.name }
                   "
                 >
-                  <lucide-icon [img]="xIcon" [size]="14" aria-hidden="true" />
+                  <sc-icon [name]="xIcon" [size]="14" />
                 </button>
               </li>
             }
@@ -260,7 +260,7 @@
             >
               <ng-template let-rule pTemplate="item">
                 <div class="category-form__link-option">
-                  <lucide-icon [img]="fileTextIcon" [size]="14" aria-hidden="true" />
+                  <sc-icon [name]="fileTextIcon" [size]="14" />
                   <div>
                     <span class="category-form__link-option-name">{{ rule.label }}</span>
                     <span class="category-form__link-option-hint">{{ rule.hint }}</span>
@@ -308,7 +308,7 @@
     @for (t of templates; track t.id) {
       <button type="button" class="category-templates__card" (click)="selectTemplate(t)">
         <span class="category-templates__icon" aria-hidden="true">
-          <lucide-icon [img]="t.icon" [size]="18" />
+          <sc-icon [name]="t.icon" [size]="18" />
         </span>
         <span class="category-templates__body">
           <span class="category-templates__title">{{ t.title }}</span>

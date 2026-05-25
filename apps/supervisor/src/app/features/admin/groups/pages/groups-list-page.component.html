@@ -3,7 +3,7 @@
      vía TopBarSlotService (ver topbarActions en el .ts). -->
 <ng-template #topbarActions>
   <p-button type="button" severity="primary" (onClick)="onCreateClick()">
-    <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+    <sc-icon [name]="plusIcon" [size]="14" />
     <span>{{ 'groups.create_button' | translate }}</span>
   </p-button>
 </ng-template>
@@ -33,7 +33,7 @@
         [attr.aria-label]="'labels.export_button' | translate"
         [attr.title]="'labels.export_button' | translate"
       >
-        <lucide-icon [img]="downloadIcon" [size]="14" aria-hidden="true" />
+        <sc-icon [name]="downloadIcon" [size]="14" />
       </button>
     </div>
 
@@ -161,11 +161,7 @@
                           [attr.data-channel]="channel"
                           [title]="channelKeys[channel] | translate"
                         >
-                          <lucide-icon
-                            [img]="channelIcon(channel)"
-                            [size]="14"
-                            aria-hidden="true"
-                          />
+                          <sc-icon [name]="channelIcon(channel)" [size]="14" />
                         </span>
                       }
                     </span>
@@ -199,17 +195,17 @@
                       [attr.aria-expanded]="openMenuId() === group.id"
                       [attr.aria-label]="'labels.row_menu' | translate"
                     >
-                      <lucide-icon [img]="moreIcon" [size]="15" aria-hidden="true" />
+                      <sc-icon [name]="moreIcon" [size]="15" />
                     </button>
                     @if (openMenuId() === group.id) {
                       <div class="row-menu__panel" role="menu">
                         <button type="button" role="menuitem" (click)="onRowEdit(group)">
-                          <lucide-icon [img]="editIcon" [size]="13" aria-hidden="true" />
+                          <sc-icon [name]="editIcon" [size]="13" />
                           <span>{{ 'common.edit' | translate }}</span>
                         </button>
                         @if (selectedIds().size <= 1) {
                           <button type="button" role="menuitem" (click)="onRowDuplicate(group)">
-                            <lucide-icon [img]="copyIcon" [size]="13" aria-hidden="true" />
+                            <sc-icon [name]="copyIcon" [size]="13" />
                             <span>{{ 'common.duplicate' | translate }}</span>
                           </button>
                         }
@@ -220,7 +216,7 @@
                           role="menuitem"
                           (click)="onRowDelete(group)"
                         >
-                          <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
+                          <sc-icon [name]="trashIcon" [size]="13" />
                           <span>{{ 'common.delete' | translate }}</span>
                         </button>
                       </div>
@@ -253,18 +249,18 @@
     role="menu"
   >
     <button type="button" role="menuitem" (click)="onContextEdit()">
-      <lucide-icon [img]="editIcon" [size]="13" aria-hidden="true" />
+      <sc-icon [name]="editIcon" [size]="13" />
       <span>{{ 'common.edit' | translate }}</span>
     </button>
     @if (selectedIds().size <= 1) {
       <button type="button" role="menuitem" (click)="onContextDuplicate()">
-        <lucide-icon [img]="copyIcon" [size]="13" aria-hidden="true" />
+        <sc-icon [name]="copyIcon" [size]="13" />
         <span>{{ 'common.duplicate' | translate }}</span>
       </button>
     }
     <div class="context-menu__separator" role="separator" aria-hidden="true"></div>
     <button type="button" class="is-danger" role="menuitem" (click)="onContextDelete()">
-      <lucide-icon [img]="trashIcon" [size]="13" aria-hidden="true" />
+      <sc-icon [name]="trashIcon" [size]="13" />
       <span>{{ 'common.delete' | translate }}</span>
     </button>
   </div>

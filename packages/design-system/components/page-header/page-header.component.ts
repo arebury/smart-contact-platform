@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Phone } from 'lucide-angular';
 
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_2XL } from '@shared/utils/icon-size';
-
-type LucideIconRef = typeof Phone;
 
 /**
  * Static page header used by non-entity routes (`/config/*` and list
@@ -13,12 +11,12 @@ type LucideIconRef = typeof Phone;
  * the rest of the app reads as part of the same family.
  *
  * Unlike `sticky-form-header`, this header is static (no sticky), has no
- * actions block, and accepts a Lucide icon instead of a projected
- * photo/avatar component.
+ * actions block, and accepts a Material Symbols icon name instead of a
+ * projected photo/avatar component.
  */
 @Component({
   selector: 'sc-page-header',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [IconComponent, TranslateModule],
   templateUrl: './page-header.component.html',
   styleUrl: './page-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,8 +28,8 @@ export class PageHeaderComponent {
   readonly titleKey = input.required<string>();
   /** i18n key for the subtle subtitle line below the title. Optional. */
   readonly subtitleKey = input<string | null>(null);
-  /** Leading Lucide icon (rendered in a 44×44 chip). Optional. */
-  readonly icon = input<LucideIconRef | null>(null);
+  /** Leading Material Symbols icon name (rendered in a 44×44 chip). Optional. */
+  readonly icon = input<string | null>(null);
 
   protected readonly iconSize2xl = SC_ICON_SIZE_2XL;
 }

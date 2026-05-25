@@ -8,7 +8,8 @@ import {
   viewChild,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { LucideAngularModule, Sparkles, X } from 'lucide-angular';
+
+import { IconComponent } from '@sc/design-system';
 
 type ComponentType = 'full-primeng' | 'custom-preset' | 'extended' | 'pure-sc';
 
@@ -167,7 +168,7 @@ function writeValidated(set: Set<string>): void {
 
 @Component({
   selector: 'sc-ds-docs-home',
-  imports: [RouterLink, LucideAngularModule],
+  imports: [RouterLink, IconComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -652,7 +653,7 @@ export class HomeComponent {
     readonly name: string;
     readonly pageRoute: string;
   } | null>(null);
-  protected readonly closeIcon = X;
+  protected readonly closeIcon = 'close';
 
   protected openLightbox(item: { slug: string; name: string; pageRoute: string }): void {
     this.lightboxItem.set({ slug: item.slug, name: item.name, pageRoute: item.pageRoute });
@@ -764,7 +765,7 @@ export class HomeComponent {
     () => this.catalog.filter((c) => !!c.pageRoute).length,
   );
 
-  protected readonly sparklesIcon = Sparkles;
+  protected readonly sparklesIcon = 'auto_awesome';
 
   /**
    * Lista filtrada por search + tipo + validación.

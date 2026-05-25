@@ -10,20 +10,12 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  AlertCircle,
-  AlignLeft,
-  Check,
-  CircleSlash,
-  Layers,
-  ListChecks,
-  Loader2,
-  LucideAngularModule,
-} from 'lucide-angular';
+import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { FormsModule } from '@angular/forms';
 import { map, startWith } from 'rxjs';
 
+import { IconComponent } from '@shared/components';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import { ToggleSwitchComponent } from '@shared/components/toggleswitch/toggleswitch.component';
 
@@ -65,6 +57,7 @@ import type { Conversation } from '../../data/conversation.types';
   imports: [
     ButtonModule,
     FormsModule,
+    IconComponent,
     LucideAngularModule,
     DialogComponent,
     ToggleSwitchComponent,
@@ -222,7 +215,7 @@ export class BulkTranscriptionModalComponent {
       readonly kind: 'include' | 'warn' | 'exclude';
       readonly count: number;
       readonly label: string;
-      readonly icon: typeof Check;
+      readonly icon: string;
     }>
   >(() => {
     if (this.isAllProcessed()) return [];
@@ -230,7 +223,7 @@ export class BulkTranscriptionModalComponent {
       kind: 'include' | 'warn' | 'exclude';
       count: number;
       label: string;
-      icon: typeof Check;
+      icon: string;
     }> = [];
 
     const elegibles = this.nTrans() + (this.toggleOn() ? this.nAnBase() : 0);
@@ -239,7 +232,7 @@ export class BulkTranscriptionModalComponent {
         kind: 'include',
         count: elegibles,
         label: this.toggleOn() ? 'a procesar + analizar' : 'a transcribir',
-        icon: Check,
+        icon: 'check',
       });
     }
 
@@ -250,7 +243,7 @@ export class BulkTranscriptionModalComponent {
         kind: 'warn',
         count: nMR,
         label: nMR === 1 ? 'con varios tramos' : 'con varios tramos',
-        icon: Layers,
+        icon: 'layers',
       });
     }
     if (nPMR > 0) {
@@ -258,7 +251,7 @@ export class BulkTranscriptionModalComponent {
         kind: 'warn',
         count: nPMR,
         label: 'con tramos ya iniciados',
-        icon: Layers,
+        icon: 'layers',
       });
     }
 
@@ -268,7 +261,7 @@ export class BulkTranscriptionModalComponent {
         kind: 'exclude',
         count: nIP,
         label: nIP === 1 ? 'en proceso · excluida' : 'en proceso · excluidas',
-        icon: CircleSlash,
+        icon: 'block',
       });
     }
 
@@ -280,10 +273,10 @@ export class BulkTranscriptionModalComponent {
     return n === 1 ? 'admite análisis' : 'admiten análisis';
   });
 
-  protected readonly alignLeftIcon = AlignLeft;
+  protected readonly alignLeftIcon = 'notes';
   protected readonly loaderIcon = Loader2;
-  protected readonly alertIcon = AlertCircle;
-  protected readonly headerIcon = ListChecks;
+  protected readonly alertIcon = 'error';
+  protected readonly headerIcon = 'checklist';
 
   constructor() {
     // Reset toggle to natural default al abrir o al cambiar selección.

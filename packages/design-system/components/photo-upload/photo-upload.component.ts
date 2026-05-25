@@ -9,10 +9,10 @@ import {
   viewChild,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Camera, LucideAngularModule, UserCog } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 
 import { IllustratedAvatarComponent } from '../illustrated-avatar/illustrated-avatar.component';
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_3XL, SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
 
 const MAX_BYTES = 800 * 1024;
@@ -29,13 +29,13 @@ const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif'];
  *   1. `[name]` set — render the {@link IllustratedAvatarComponent}
  *      hashed from the name. Same portrait the lists show, so the form
  *      preview matches what the user sees in the table cell.
- *   2. No name — fall back to the generic `UserCog` lucide glyph
+ *   2. No name — fall back to the generic `manage_accounts` glyph
  *      (the original behaviour, kept for entity types that aren't
  *      person-shaped).
  */
 @Component({
   selector: 'sc-photo-upload',
-  imports: [IllustratedAvatarComponent, LucideAngularModule, TranslateModule],
+  imports: [IllustratedAvatarComponent, IconComponent, TranslateModule],
   templateUrl: './photo-upload.component.html',
   styleUrl: './photo-upload.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -59,8 +59,8 @@ export class PhotoUploadComponent {
 
   readonly photoChange = output<string | null>();
 
-  protected readonly cameraIcon = Camera;
-  protected readonly placeholderIcon = UserCog;
+  protected readonly cameraIcon = 'photo_camera';
+  protected readonly placeholderIcon = 'manage_accounts';
   protected readonly iconSize3xl = SC_ICON_SIZE_3XL;
   protected readonly iconSizeLg = SC_ICON_SIZE_LG;
   protected readonly hovering = signal(false);

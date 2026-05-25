@@ -11,22 +11,13 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  AlertOctagon,
-  GripVertical,
-  LucideAngularModule,
-  Mic,
-  MoreVertical,
-  Plus,
-  Settings2,
-  Sparkles,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import { PopoverModule } from 'primeng/popover';
 import type { MenuItem } from 'primeng/api';
 
+import { IconComponent } from '@shared/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 
@@ -48,7 +39,7 @@ import { RulesStore } from '../../state/rules.store';
     ButtonModule,
     CdkDrag,
     CdkDropList,
-    LucideAngularModule,
+    IconComponent,
     MenuModule,
     PopoverModule,
     TranslateModule,
@@ -85,13 +76,13 @@ export class RulesPageComponent {
 
   protected readonly menuTargetRule = signal<Rule | null>(null);
 
-  protected readonly settingsIcon = Settings2;
-  protected readonly plusIcon = Plus;
-  protected readonly gripIcon = GripVertical;
-  protected readonly micIcon = Mic;
-  protected readonly sparklesIcon = Sparkles;
-  protected readonly alertIcon = AlertOctagon;
-  protected readonly kebabIcon = MoreVertical;
+  protected readonly settingsIcon = 'tune';
+  protected readonly plusIcon = 'add';
+  protected readonly gripIcon = 'drag_indicator';
+  protected readonly micIcon = 'mic';
+  protected readonly sparklesIcon = 'auto_awesome';
+  protected readonly alertIcon = 'report';
+  protected readonly kebabIcon = 'more_vert';
 
   protected onNewRule(type: 'recording' | 'transcription' | 'classification' = 'recording'): void {
     this.router.navigate(['/conversaciones/reglas/nueva'], {

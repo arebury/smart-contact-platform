@@ -1,16 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, model, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import {
-  AlertCircle,
-  AlignLeft,
-  CheckCheck,
-  Download,
-  LucideAngularModule,
-  RotateCcw,
-  Search,
-} from 'lucide-angular';
 
+import { IconComponent } from '@shared/components';
 import { DatepickerComponent } from '@shared/components/datepicker/datepicker.component';
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { MultiSelectComponent } from '@shared/components/multiselect/multiselect.component';
@@ -55,7 +47,7 @@ import { TypeFilterButtonComponent } from '../type-filter-button/type-filter-but
   imports: [
     FormsModule,
     TranslateModule,
-    LucideAngularModule,
+    IconComponent,
     MultiSelectComponent,
     DatepickerComponent,
     InputTextComponent,
@@ -86,12 +78,12 @@ export class ConversationFiltersComponent {
   protected readonly groupOptions = GROUP_OPTIONS;
   protected readonly agentOptions = AGENT_OPTIONS;
 
-  protected readonly searchIcon = Search;
-  protected readonly resetIcon = RotateCcw;
-  protected readonly alertIcon = AlertCircle;
-  protected readonly transcribeIcon = AlignLeft;
-  protected readonly downloadIcon = Download;
-  protected readonly markReadIcon = CheckCheck;
+  protected readonly searchIcon = 'search';
+  protected readonly resetIcon = 'rotate_left';
+  protected readonly alertIcon = 'error';
+  protected readonly transcribeIcon = 'notes';
+  protected readonly downloadIcon = 'download';
+  protected readonly markReadIcon = 'done_all';
 
   /** Badge del botón "Transcribir": número de seleccionadas. Disabled si 0.
    *  S52: las 3 acciones (Transcribir / Download / Marcar leídas) requieren

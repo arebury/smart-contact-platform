@@ -8,19 +8,17 @@
   [attr.data-depth]="depth()"
   (click)="onClick($event)"
 >
-  <lucide-icon
+  <sc-icon
     class="nav-item__icon"
-    [img]="resolveIcon(item().icon)"
+    [name]="resolveIcon(item().icon)"
     [size]="item().iconSize ?? 14"
-    aria-hidden="true"
   />
   <span class="nav-item__label">{{ item().labelKey | translate }}</span>
   @if (hasChildren()) {
-    <lucide-icon
+    <sc-icon
       class="nav-item__chevron"
-      [img]="effectivelyExpanded() ? resolveIcon('chevron-down') : resolveIcon('chevron-right')"
+      [name]="effectivelyExpanded() ? resolveIcon('chevron-down') : resolveIcon('chevron-right')"
       [size]="14"
-      aria-hidden="true"
     />
   }
 </button>

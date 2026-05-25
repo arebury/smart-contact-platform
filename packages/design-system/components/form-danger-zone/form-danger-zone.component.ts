@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Trash2 } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
 
 /**
@@ -15,7 +15,7 @@ import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
  */
 @Component({
   selector: 'sc-form-danger-zone',
-  imports: [ButtonModule, LucideAngularModule, TranslateModule],
+  imports: [ButtonModule, IconComponent, TranslateModule],
   templateUrl: './form-danger-zone.component.html',
   styleUrl: './form-danger-zone.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -28,6 +28,6 @@ export class FormDangerZoneComponent {
 
   readonly action = output<void>();
 
-  protected readonly trashIcon = Trash2;
+  protected readonly trashIcon = 'delete';
   protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
 }

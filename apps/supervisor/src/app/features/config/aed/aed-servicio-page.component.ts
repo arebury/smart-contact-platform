@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { CirclePlus, Info, LucideAngularModule, Phone, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { PageHeaderService } from '@core/services';
 import {
+  IconComponent,
   InputTextComponent,
   InputGroupComponent,
   InputNumberComponent,
@@ -106,11 +106,11 @@ const EVENTOS_LABELS: readonly (keyof EventosNotificacion)[] = [
   selector: 'sc-aed-servicio-page',
   imports: [
     ButtonModule,
+    IconComponent,
     InputTextComponent,
     InputGroupComponent,
     InputNumberComponent,
     InputTextModule,
-    LucideAngularModule,
     ToggleSwitchComponent,
     TranslateModule,
   ],
@@ -128,14 +128,14 @@ export class AedServicioPageComponent {
       titleKey: 'config.aed.subpages.servicio.heading',
       subtitleKey: 'config.aed.subpages.servicio.subtitle',
       entityKey: 'config.sidebar.title',
-      icon: Phone,
+      icon: 'call',
     });
   }
 
-  protected readonly serviceIcon = Phone;
-  protected readonly addIcon = CirclePlus;
-  protected readonly closeIcon = X;
-  protected readonly infoIcon = Info;
+  protected readonly serviceIcon = 'call';
+  protected readonly addIcon = 'add_circle';
+  protected readonly closeIcon = 'close';
+  protected readonly infoIcon = 'info';
 
   protected readonly descuelgueOptions = DESCUELGUE_OPTIONS;
   protected readonly visibilidadLabels = VISIBILIDAD_LABELS;

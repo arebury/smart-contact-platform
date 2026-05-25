@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, Injectable } from '@angular/core';
-import { Tags } from 'lucide-angular';
 
 import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { RepoListPageComponent } from '../components/repo-list-page.component';
@@ -194,7 +193,7 @@ export class ClasificacionIAPageComponent {
     titleKey: 'repositories.clasificacion_ia.title',
     entitySingularKey: 'repositories.clasificacion_ia.singular',
     entityPluralKey: 'repositories.clasificacion_ia.plural',
-    icon: Tags,
+    icon: 'label',
     breadcrumbExtraKey: 'repositories.clasificacion_ia.title',
     columns: COLUMNS,
     fields: FIELDS,

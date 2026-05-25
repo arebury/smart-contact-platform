@@ -8,7 +8,6 @@ import {
   signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, MessagesSquare } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -49,7 +48,6 @@ import { TopBarSlotService } from '../../../../core/layout/top-bar/top-bar-slot.
   imports: [
     TranslateModule,
     ButtonModule,
-    LucideAngularModule,
     BulkTranscriptionModalComponent,
     ConversationFiltersComponent,
     ConversationTableComponent,
@@ -90,7 +88,7 @@ export class ConversationsPageComponent implements OnInit, OnDestroy {
   /** Versión `readonly string[]` para los modals que esperan array, no Set. */
   protected readonly processingIdsArray = computed(() => [...this.processingIds()]);
   protected readonly analyzingIdsArray = computed(() => [...this.analyzingIds()]);
-  protected readonly pageIcon = MessagesSquare;
+  protected readonly pageIcon = 'forum';
 
   /** Última búsqueda — placeholder hoy = now. Con backend real, lo seteará
    *  el dispatcher al recibir respuesta. */

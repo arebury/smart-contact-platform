@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
-import { Bell, ListChecks, Phone, Settings2, User } from 'lucide-angular';
 
 import {
   FormSectionNavComponent,
@@ -16,11 +15,11 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 })
 export class FormSectionNavGalleryComponent {
   protected readonly fullSections: readonly FormNavSection[] = [
-    { id: 'profile', labelKey: 'Perfil', icon: User },
-    { id: 'notifications', labelKey: 'Notificaciones', icon: Bell },
-    { id: 'permissions', labelKey: 'Permisos', icon: ListChecks },
-    { id: 'integrations', labelKey: 'Integraciones', icon: Phone },
-    { id: 'advanced', labelKey: 'Avanzado', icon: Settings2 },
+    { id: 'profile', labelKey: 'Perfil', icon: 'person' },
+    { id: 'notifications', labelKey: 'Notificaciones', icon: 'notifications' },
+    { id: 'permissions', labelKey: 'Permisos', icon: 'checklist' },
+    { id: 'integrations', labelKey: 'Integraciones', icon: 'call' },
+    { id: 'advanced', labelKey: 'Avanzado', icon: 'tune' },
   ];
 
   protected readonly compactSections: readonly FormNavSection[] = [

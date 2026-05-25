@@ -11,10 +11,11 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AlertTriangle, Loader2, LucideAngularModule, RotateCcw } from 'lucide-angular';
+import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 import { map, startWith } from 'rxjs';
 
+import { IconComponent } from '@shared/components';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 
 /**
@@ -30,7 +31,14 @@ import { DialogComponent } from '@shared/components/dialog/dialog.component';
  */
 @Component({
   selector: 'sc-memory-retranscription-confirm-modal',
-  imports: [ButtonModule, FormsModule, LucideAngularModule, DialogComponent, TranslateModule],
+  imports: [
+    ButtonModule,
+    FormsModule,
+    IconComponent,
+    LucideAngularModule,
+    DialogComponent,
+    TranslateModule,
+  ],
   templateUrl: './retranscription-confirm-modal.component.html',
   styleUrl: './retranscription-confirm-modal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,8 +68,8 @@ export class RetranscriptionConfirmModalComponent {
   protected readonly confirmText = signal('');
   protected readonly isValid = computed(() => this.confirmText() === this.gateToken());
 
-  protected readonly retransIcon = RotateCcw;
-  protected readonly alertIcon = AlertTriangle;
+  protected readonly retransIcon = 'rotate_left';
+  protected readonly alertIcon = 'warning';
   protected readonly loaderIcon = Loader2;
 
   constructor() {

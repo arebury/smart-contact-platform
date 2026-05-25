@@ -2,21 +2,13 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-import {
-  LucideAngularModule,
-  X,
-  CircleCheck,
-  CircleAlert,
-  CircleX,
-  Info,
-  FileText,
-} from 'lucide-angular';
+import { IconComponent } from '@sc/design-system';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
   selector: 'sc-ds-docs-toast-gallery',
   standalone: true,
-  imports: [ButtonModule, ToastModule, LucideAngularModule, GalleryFooterComponent],
+  imports: [ButtonModule, ToastModule, IconComponent, GalleryFooterComponent],
   templateUrl: './toast-gallery.component.html',
   styleUrl: './toast-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -26,12 +18,12 @@ export class ToastGalleryComponent {
   private readonly messages = inject(MessageService);
 
   protected readonly icons = {
-    success: CircleCheck,
-    info: Info,
-    warn: CircleAlert,
-    error: CircleX,
-    draft: FileText,
-    close: X,
+    success: 'check_circle',
+    info: 'info',
+    warn: 'error',
+    error: 'cancel',
+    draft: 'description',
+    close: 'close',
   };
 
   protected iconFor(severity: string) {

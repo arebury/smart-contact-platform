@@ -10,19 +10,6 @@ import {
   viewChild,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  Download,
-  FileStack,
-  LucideAngularModule,
-  Mail,
-  MessageSquare,
-  MoreHorizontal,
-  Pencil,
-  Plus,
-  Search,
-  Trash2,
-  X,
-} from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -33,6 +20,7 @@ import {
   BulkActionBarComponent,
   useBulkEntityI18n,
   DeleteEntityDialogComponent,
+  IconComponent,
   SearchComponent,
 } from '@shared/components';
 import { Template, TemplateType } from '../data/templates-data';
@@ -55,7 +43,7 @@ interface ContextMenuPos {
     ButtonModule,
     ClickOutsideDirective,
     DeleteEntityDialogComponent,
-    LucideAngularModule,
+    IconComponent,
     SearchComponent,
     TemplateFormPanelComponent,
     TranslateModule,
@@ -82,16 +70,16 @@ export class TemplatesPageComponent {
     this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
   }
 
-  protected readonly plusIcon = Plus;
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly downloadIcon = Download;
-  protected readonly fileStackIcon = FileStack;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly emailIcon = Mail;
-  protected readonly moreIcon = MoreHorizontal;
-  protected readonly editIcon = Pencil;
-  protected readonly trashIcon = Trash2;
+  protected readonly plusIcon = 'add';
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly downloadIcon = 'download';
+  protected readonly fileStackIcon = 'file_copy';
+  protected readonly chatIcon = 'chat_bubble';
+  protected readonly emailIcon = 'mail';
+  protected readonly moreIcon = 'more_horiz';
+  protected readonly editIcon = 'edit';
+  protected readonly trashIcon = 'delete';
 
   protected readonly templates = this.templatesStore.templates;
 

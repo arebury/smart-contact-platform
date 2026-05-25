@@ -40,7 +40,7 @@
             (click)="confirmRename()"
             [attr.aria-label]="'common.save' | translate"
           >
-            <lucide-icon [img]="checkIcon" [size]="iconSizeDefault" aria-hidden="true" />
+            <sc-icon [name]="checkIcon" [size]="iconSizeDefault" />
           </button>
           <button
             type="button"
@@ -48,7 +48,7 @@
             (click)="cancelRename()"
             [attr.aria-label]="'common.cancel' | translate"
           >
-            <lucide-icon [img]="closeIcon" [size]="iconSizeDefault" aria-hidden="true" />
+            <sc-icon [name]="closeIcon" [size]="iconSizeDefault" />
           </button>
         } @else {
           <span class="sticky-header__name">{{ name() }}</span>
@@ -58,7 +58,7 @@
             (click)="onPencilClick()"
             [attr.aria-label]="'common.edit' | translate"
           >
-            <lucide-icon [img]="pencilIcon" [size]="iconSizeMd" aria-hidden="true" />
+            <sc-icon [name]="pencilIcon" [size]="iconSizeMd" />
           </button>
         }
       }
@@ -74,7 +74,7 @@
   <div class="sticky-header__actions">
     @if (showBack()) {
       <p-button type="button" severity="secondary" (onClick)="cancelled.emit()">
-        <lucide-icon [img]="backIcon" [size]="iconSizeDefault" [attr.aria-hidden]="true" />
+        <sc-icon [name]="backIcon" [size]="iconSizeDefault" />
         <span>{{ 'common.back' | translate }}</span>
       </p-button>
     }

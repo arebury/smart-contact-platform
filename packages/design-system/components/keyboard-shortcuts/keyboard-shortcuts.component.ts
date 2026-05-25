@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
-import { LucideAngularModule, X } from 'lucide-angular';
 
 import { CommandPaletteService } from '@core/services/command-palette.service';
 import { KeyboardShortcutsService } from '@core/services/keyboard-shortcuts.service';
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
 import { isTypingTarget } from '@shared/utils/is-typing-target';
 
@@ -24,7 +24,7 @@ interface ShortcutGroup {
  */
 @Component({
   selector: 'sc-keyboard-shortcuts',
-  imports: [LucideAngularModule],
+  imports: [IconComponent],
   templateUrl: './keyboard-shortcuts.component.html',
   styleUrl: './keyboard-shortcuts.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +33,7 @@ export class KeyboardShortcutsComponent {
   private readonly palette = inject(CommandPaletteService);
   private readonly shortcuts = inject(KeyboardShortcutsService);
 
-  protected readonly closeIcon = X;
+  protected readonly closeIcon = 'close';
   protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
   protected readonly visible = this.shortcuts.visible;
 

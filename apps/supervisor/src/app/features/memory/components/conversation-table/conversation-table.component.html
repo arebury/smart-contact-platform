@@ -160,7 +160,7 @@
     >
       @if (contextPrimaryAction(); as action) {
         <button type="button" role="menuitem" (click)="dispatchContext(action)">
-          <lucide-icon [img]="primaryActionIcon(action)" [size]="13" aria-hidden="true" />
+          <sc-icon [name]="primaryActionIcon(action) ?? ''" [size]="13" />
           <span>{{ primaryActionLabelKey(action) | translate }}</span>
         </button>
       }
@@ -169,7 +169,7 @@
           <div class="context-menu__separator" aria-hidden="true"></div>
         }
         <button type="button" role="menuitem" (click)="dispatchContext('mark-read')">
-          <lucide-icon [img]="markReadIcon" [size]="13" aria-hidden="true" />
+          <sc-icon [name]="markReadIcon" [size]="13" />
           <span>{{ 'memory.conversations.context.mark_read' | translate }}</span>
         </button>
       }

@@ -14,30 +14,6 @@ import {
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import {
-  ChevronDown,
-  ChevronRight,
-  FileStack,
-  Globe,
-  IdCard,
-  Info,
-  Key,
-  LogIn,
-  LucideAngularModule,
-  Mail,
-  MessageSquare,
-  Phone,
-  PhoneCall,
-  Plug,
-  Search,
-  Settings,
-  ShieldCheck,
-  SlidersHorizontal,
-  Tag,
-  Trash2,
-  Users as UsersIcon,
-  X,
-} from 'lucide-angular';
 import { MessageService, PrimeTemplate } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -49,6 +25,7 @@ import {
   DeleteEntityDialogComponent,
   FormSectionNavComponent,
   type FormNavSection,
+  IconComponent,
   IllustratedAvatarComponent,
   InputTextComponent,
   LabelChipComponent,
@@ -143,10 +120,10 @@ interface FormState {
     DeleteEntityDialogComponent,
     FormSectionNavComponent,
     GroupAssignmentTableComponent,
+    IconComponent,
     IllustratedAvatarComponent,
     InputTextComponent,
     LabelChipComponent,
-    LucideAngularModule,
     PhotoUploadComponent,
     PrimeTemplate,
     SearchComponent,
@@ -188,25 +165,25 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     });
   }
 
-  protected readonly mailIcon = Mail;
-  protected readonly phoneIcon = Phone;
-  protected readonly trashIcon = Trash2;
-  protected readonly phoneCallIcon = PhoneCall;
-  protected readonly shieldIcon = ShieldCheck;
-  protected readonly infoIcon = Info;
-  protected readonly tagIcon = Tag;
-  protected readonly slidersIcon = SlidersHorizontal;
-  protected readonly plugIcon = Plug;
-  protected readonly globeIcon = Globe;
-  protected readonly settingsIcon = Settings;
-  protected readonly chevronDownIcon = ChevronDown;
-  protected readonly chevronRightIcon = ChevronRight;
-  protected readonly searchIcon = Search;
-  protected readonly xIcon = X;
-  protected readonly fileStackIcon = FileStack;
-  protected readonly chatIcon = MessageSquare;
-  protected readonly logInIcon = LogIn;
-  protected readonly keyIcon = Key;
+  protected readonly mailIcon = 'mail';
+  protected readonly phoneIcon = 'call';
+  protected readonly trashIcon = 'delete';
+  protected readonly phoneCallIcon = 'phone_in_talk';
+  protected readonly shieldIcon = 'verified_user';
+  protected readonly infoIcon = 'info';
+  protected readonly tagIcon = 'label';
+  protected readonly slidersIcon = 'tune';
+  protected readonly plugIcon = 'power';
+  protected readonly globeIcon = 'public';
+  protected readonly settingsIcon = 'settings';
+  protected readonly chevronDownIcon = 'expand_more';
+  protected readonly chevronRightIcon = 'chevron_right';
+  protected readonly searchIcon = 'search';
+  protected readonly xIcon = 'close';
+  protected readonly fileStackIcon = 'file_copy';
+  protected readonly chatIcon = 'chat_bubble';
+  protected readonly logInIcon = 'login';
+  protected readonly keyIcon = 'key';
 
   /** Open state of each accordion sub-section inside "Configuración avanzada".
    * All start collapsed so the section reads as a quiet summary (count
@@ -405,22 +382,22 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     const identity: FormNavSection = {
       id: 'agent-section-identity',
       labelKey: 'agents.form.section.identification',
-      icon: IdCard,
+      icon: 'badge',
     };
     const groups: FormNavSection = {
       id: 'agent-section-groups',
       labelKey: 'agents.form.section.groups',
-      icon: UsersIcon,
+      icon: 'group',
     };
     const permissions: FormNavSection = {
       id: 'agent-section-permissions',
       labelKey: 'agents.form.section.permissions',
-      icon: ShieldCheck,
+      icon: 'verified_user',
     };
     const advanced: FormNavSection = {
       id: 'agent-section-advanced',
       labelKey: 'agents.form.section.advanced',
-      icon: SlidersHorizontal,
+      icon: 'tune',
     };
     // Orden por modo (S60). En CREAR, identidad primero — es lo primero que se
     // rellena. En EDITAR, identidad al fondo: apenas se toca tras crear, y la

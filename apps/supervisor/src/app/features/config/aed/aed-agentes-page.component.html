@@ -24,11 +24,10 @@
             <span class="accordion__title">
               {{ 'config.aed.subpages.agentes.llamadas.title' | translate }}
             </span>
-            <lucide-icon
-              [img]="form().llamadasOpen ? chevronUp : chevronDown"
+            <sc-icon
+              [name]="form().llamadasOpen ? chevronUp : chevronDown"
               [size]="14"
               class="accordion__chevron"
-              aria-hidden="true"
             />
           </button>
 

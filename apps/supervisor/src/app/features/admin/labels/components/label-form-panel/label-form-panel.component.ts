@@ -13,9 +13,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, AlertTriangle } from 'lucide-angular';
 
-import { InputTextComponent } from '@shared/components';
+import { IconComponent, InputTextComponent } from '@shared/components';
 import {
   ColorDotOption,
   ColorDotPickerComponent,
@@ -40,8 +39,8 @@ export interface LabelFormSubmission {
   imports: [
     ColorDotPickerComponent,
     FormsModule,
+    IconComponent,
     InputTextComponent,
-    LucideAngularModule,
     TranslateModule,
   ],
   templateUrl: './label-form-panel.component.html',
@@ -58,7 +57,7 @@ export class LabelFormPanelComponent implements OnInit, AfterViewInit {
   readonly save = output<LabelFormSubmission>();
   readonly cancelled = output<void>();
 
-  protected readonly alertIcon = AlertTriangle;
+  protected readonly alertIcon = 'warning';
   protected readonly colorOptions = computed<readonly ColorDotOption[]>(() =>
     LABEL_COLOR_OPTIONS.map((option) => ({
       value: option.value,

@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, Injectable } from '@angular/core';
-import { MessageSquare } from 'lucide-angular';
 
 import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { RepoListPageComponent } from '../components/repo-list-page.component';
@@ -175,7 +174,7 @@ export class IntencionesPageComponent {
     titleKey: 'repositories.intenciones.title',
     entitySingularKey: 'repositories.intenciones.singular',
     entityPluralKey: 'repositories.intenciones.plural',
-    icon: MessageSquare,
+    icon: 'chat_bubble',
     breadcrumbExtraKey: 'repositories.intenciones.title',
     columns: COLUMNS,
     fields: FIELDS,

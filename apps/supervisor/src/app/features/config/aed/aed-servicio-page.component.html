@@ -40,7 +40,7 @@
               [disabled]="!tagInput().trim()"
               (onClick)="addTag()"
             >
-              <lucide-icon [img]="addIcon" [size]="14" aria-hidden="true" />
+              <sc-icon [name]="addIcon" [size]="14" />
               <span>{{ 'config.aed.subpages.servicio.estados.add' | translate }}</span>
             </p-button>
           </sc-inputgroup>
@@ -56,7 +56,7 @@
                     (click)="removeTag(tag)"
                     [attr.aria-label]="'common.delete' | translate"
                   >
-                    <lucide-icon [img]="closeIcon" [size]="11" aria-hidden="true" />
+                    <sc-icon [name]="closeIcon" [size]="11" />
                   </button>
                 </li>
               }
@@ -180,7 +180,7 @@
                 <span>
                   {{ 'config.aed.subpages.servicio.estados.navegador_label' | translate }}
                 </span>
-                <lucide-icon [img]="infoIcon" [size]="12" class="field__info" aria-hidden="true" />
+                <sc-icon [name]="infoIcon" [size]="12" class="field__info" />
               </label>
               <p class="field__caption">
                 {{ 'config.aed.subpages.servicio.estados.navegador_hint' | translate }}
@@ -313,7 +313,7 @@
             <div class="field">
               <label class="field__label" for="servicio-timeout">
                 <span>{{ 'config.aed.subpages.servicio.conv.timeout_label' | translate }}</span>
-                <lucide-icon [img]="infoIcon" [size]="12" class="field__info" aria-hidden="true" />
+                <sc-icon [name]="infoIcon" [size]="12" class="field__info" />
               </label>
               <sc-inputnumber
                 inputId="servicio-timeout"

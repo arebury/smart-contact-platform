@@ -11,9 +11,10 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { ArrowLeft, Check, Loader2, LucideAngularModule, Pencil, X } from 'lucide-angular';
+import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
 
 /**
@@ -31,7 +32,7 @@ import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
  */
 @Component({
   selector: 'sc-sticky-form-header',
-  imports: [ButtonModule, FormsModule, LucideAngularModule, TranslateModule],
+  imports: [ButtonModule, FormsModule, IconComponent, LucideAngularModule, TranslateModule],
   templateUrl: './sticky-form-header.component.html',
   styleUrl: './sticky-form-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -62,11 +63,11 @@ export class StickyFormHeaderComponent {
   readonly save = output<void>();
   readonly cancelled = output<void>();
 
-  protected readonly pencilIcon = Pencil;
-  protected readonly checkIcon = Check;
-  protected readonly closeIcon = X;
+  protected readonly pencilIcon = 'edit';
+  protected readonly checkIcon = 'check';
+  protected readonly closeIcon = 'close';
   protected readonly loaderIcon = Loader2;
-  protected readonly backIcon = ArrowLeft;
+  protected readonly backIcon = 'arrow_back';
   protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
   protected readonly iconSizeMd = SC_ICON_SIZE_MD;
 

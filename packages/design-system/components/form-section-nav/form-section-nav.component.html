@@ -17,7 +17,7 @@
         >
           @if (section.icon; as ic) {
             <span class="form-nav__icon" aria-hidden="true">
-              <lucide-icon [img]="ic" [size]="iconSizeDefault" />
+              <sc-icon [name]="ic" [size]="iconSizeDefault" />
             </span>
           }
           <span class="form-nav__label">{{ section.labelKey | translate }}</span>

@@ -2,12 +2,7 @@
   <div class="palette-backdrop" (click)="onBackdropClick()" aria-hidden="true"></div>
   <div class="palette" role="dialog" aria-label="Buscar y ejecutar comandos" aria-modal="true">
     <div class="palette__head">
-      <lucide-icon
-        class="palette__head-icon"
-        [img]="searchIcon"
-        [size]="iconSizeLg"
-        aria-hidden="true"
-      />
+      <sc-icon class="palette__head-icon" [name]="searchIcon" [size]="iconSizeLg" />
       <input
         #searchInput
         type="text"
@@ -38,12 +33,7 @@
                 (click)="run(cmd)"
               >
                 @if (resolveIcon(cmd.icon); as ic) {
-                  <lucide-icon
-                    class="palette__item-icon"
-                    [img]="ic"
-                    [size]="iconSizeDefault"
-                    aria-hidden="true"
-                  />
+                  <sc-icon class="palette__item-icon" [name]="ic" [size]="iconSizeDefault" />
                 }
                 <span class="palette__item-label">{{ cmd.label }}</span>
               </button>

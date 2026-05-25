@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, inject, Injectable } from '@angular/core';
-import { Box } from 'lucide-angular';
 
 import { createLocalStore, LocalStore } from '@core/services/local-store.factory';
 import { RepoListPageComponent } from '../components/repo-list-page.component';
@@ -183,7 +182,7 @@ export class EntidadesIAPageComponent {
     titleKey: 'repositories.entidades_ia.title',
     entitySingularKey: 'repositories.entidades_ia.singular',
     entityPluralKey: 'repositories.entidades_ia.plural',
-    icon: Box,
+    icon: 'inventory_2',
     breadcrumbExtraKey: 'repositories.entidades_ia.title',
     columns: COLUMNS,
     fields: FIELDS,

@@ -1,8 +1,11 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { Check, LucideAngularModule, Plus, Search, Trash2, Users2, X } from 'lucide-angular';
 
-import { IllustratedAvatarComponent, ToggleSwitchComponent } from '@shared/components';
+import {
+  IconComponent,
+  IllustratedAvatarComponent,
+  ToggleSwitchComponent,
+} from '@shared/components';
 
 import { CHANNEL_LABEL_KEYS, GroupChannel } from '@features/admin/groups/data/groups-data';
 import { Channel, GroupAgentLink } from '@features/admin/services/group-agent-links.types';
@@ -43,12 +46,7 @@ interface VisibleRow {
 @Component({
   selector: 'sc-group-assignment-table',
   standalone: true,
-  imports: [
-    IllustratedAvatarComponent,
-    LucideAngularModule,
-    ToggleSwitchComponent,
-    TranslateModule,
-  ],
+  imports: [IconComponent, IllustratedAvatarComponent, ToggleSwitchComponent, TranslateModule],
   templateUrl: './group-assignment-table.component.html',
   styleUrl: './group-assignment-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,12 +58,12 @@ export class GroupAssignmentTableComponent {
 
   readonly linksChange = output<readonly GroupAgentLink[]>();
 
-  protected readonly searchIcon = Search;
-  protected readonly closeIcon = X;
-  protected readonly trashIcon = Trash2;
-  protected readonly checkIcon = Check;
-  protected readonly plusIcon = Plus;
-  protected readonly emptyIcon = Users2;
+  protected readonly searchIcon = 'search';
+  protected readonly closeIcon = 'close';
+  protected readonly trashIcon = 'delete';
+  protected readonly checkIcon = 'check';
+  protected readonly plusIcon = 'add';
+  protected readonly emptyIcon = 'group';
   protected readonly channelKeys = CHANNEL_LABEL_KEYS;
 
   protected readonly pickerQuery = signal('');

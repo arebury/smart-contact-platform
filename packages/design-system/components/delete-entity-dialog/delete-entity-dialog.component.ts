@@ -10,12 +10,12 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, AlertTriangle, Check, Copy, X } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { ClipboardService } from '@core/services/clipboard.service';
 import { DialogComponent } from '../dialog/dialog.component';
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_MD, SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
 
 export interface DeletableEntity {
@@ -36,7 +36,7 @@ export interface DeletableEntity {
  */
 @Component({
   selector: 'sc-delete-entity-dialog',
-  imports: [ButtonModule, FormsModule, LucideAngularModule, DialogComponent, TranslateModule],
+  imports: [ButtonModule, FormsModule, IconComponent, DialogComponent, TranslateModule],
   templateUrl: './delete-entity-dialog.component.html',
   styleUrl: './delete-entity-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,10 +60,10 @@ export class DeleteEntityDialogComponent {
   /** Emits the ids that survived chip pruning (bulk) or `null` for single. */
   readonly confirm = output<readonly number[] | null>();
 
-  protected readonly alertIcon = AlertTriangle;
-  protected readonly copyIcon = Copy;
-  protected readonly checkIcon = Check;
-  protected readonly closeIcon = X;
+  protected readonly alertIcon = 'warning';
+  protected readonly copyIcon = 'content_copy';
+  protected readonly checkIcon = 'check';
+  protected readonly closeIcon = 'close';
   protected readonly iconSizeMd = SC_ICON_SIZE_MD;
   protected readonly iconSizeSm = SC_ICON_SIZE_SM;
 

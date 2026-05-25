@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { ChevronDown, ChevronRight, LucideAngularModule, Plus } from 'lucide-angular';
 
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
-
-type LucideIcon = typeof Plus;
 
 /**
  * Bordered card with a tinted header strip used to group form fields.
@@ -17,7 +15,7 @@ type LucideIcon = typeof Plus;
  */
 @Component({
   selector: 'sc-section-card',
-  imports: [TranslateModule, LucideAngularModule],
+  imports: [TranslateModule, IconComponent],
   templateUrl: './section-card.component.html',
   styleUrl: './section-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -27,15 +25,15 @@ export class SectionCardComponent {
   readonly hintKey = input<string | null>(null);
   /** Anchor id used by `sc-form-section-nav` to scroll-spy / jump to this section. */
   readonly anchorId = input<string | null>(null);
-  /** Optional leading icon for the title row. Pass any Lucide icon directly. */
-  readonly icon = input<LucideIcon | null>(null);
+  /** Optional leading icon for the title row. Pass any Material Symbols icon name. */
+  readonly icon = input<string | null>(null);
   /** When true, the header acts as a toggle and the body collapses. */
   readonly collapsible = input<boolean>(false);
   /** Initial collapsed state when `collapsible` is true. Ignored otherwise. */
   readonly initiallyCollapsed = input<boolean>(false);
 
-  protected readonly chevronDownIcon = ChevronDown;
-  protected readonly chevronRightIcon = ChevronRight;
+  protected readonly chevronDownIcon = 'expand_more';
+  protected readonly chevronRightIcon = 'chevron_right';
   protected readonly iconSizeLg = SC_ICON_SIZE_LG;
 
   private readonly userToggled = signal<boolean | null>(null);

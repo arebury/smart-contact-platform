@@ -2,7 +2,7 @@
   <!-- Picker row -->
   <div class="gatbl__head">
     <div class="gatbl__picker">
-      <lucide-icon [img]="searchIcon" [size]="14" class="gatbl__picker-icon" aria-hidden="true" />
+      <sc-icon [name]="searchIcon" [size]="14" class="gatbl__picker-icon" />
       <input
         type="text"
         class="gatbl__picker-input"
@@ -20,7 +20,7 @@
           (click)="closePicker()"
           [attr.aria-label]="'labels.clear_search' | translate"
         >
-          <lucide-icon [img]="closeIcon" [size]="13" aria-hidden="true" />
+          <sc-icon [name]="closeIcon" [size]="13" />
         </button>
       }
       @if (pickerOpen() && pickerCandidates().length > 0) {
@@ -51,7 +51,7 @@
   @if (assignedRows().length === 0) {
     <div class="gatbl__empty">
       <span class="gatbl__empty-icon" aria-hidden="true">
-        <lucide-icon [img]="emptyIcon" [size]="22" />
+        <sc-icon [name]="emptyIcon" [size]="22" />
       </span>
       <p class="gatbl__empty-title">{{ 'agents.form.assigned.empty_title' | translate }}</p>
       <p class="gatbl__empty-body">{{ 'agents.form.assigned.empty' | translate }}</p>
@@ -90,11 +90,10 @@
                       (change)="toggleChannel(row.group.id, ch)"
                       [attr.aria-label]="row.group.name + ' — ' + (channelKeys[ch] | translate)"
                     />
-                    <lucide-icon
-                      [img]="hasChannel(row.link, ch) ? checkIcon : plusIcon"
+                    <sc-icon
+                      [name]="hasChannel(row.link, ch) ? checkIcon : plusIcon"
                       [size]="12"
                       class="gatbl__chip-icon"
-                      aria-hidden="true"
                     />
                     <span>{{ channelKeys[ch] | translate }}</span>
                   </label>
@@ -119,7 +118,7 @@
                   'agents.form.assigned.remove_aria' | translate: { name: row.group.name }
                 "
               >
-                <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
+                <sc-icon [name]="trashIcon" [size]="14" />
               </button>
             </td>
           </tr>

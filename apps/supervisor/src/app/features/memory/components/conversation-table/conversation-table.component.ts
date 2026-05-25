@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { CheckCheck, LucideAngularModule, Sparkles, Zap } from 'lucide-angular';
 
+import { IconComponent } from '@shared/components';
 import { ClickOutsideDirective } from '@core/directives';
 import { clampToViewport } from '@core/utils/viewport';
 
@@ -48,7 +48,7 @@ interface ContextMenuPos {
  */
 @Component({
   selector: 'sc-memory-conversation-table',
-  imports: [ClickOutsideDirective, LucideAngularModule, TranslateModule, MemoryStatusIconComponent],
+  imports: [ClickOutsideDirective, IconComponent, TranslateModule, MemoryStatusIconComponent],
   templateUrl: './conversation-table.component.html',
   styleUrl: './conversation-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -73,9 +73,9 @@ export class ConversationTableComponent {
 
   protected readonly contextMenu = signal<ContextMenuPos | null>(null);
 
-  protected readonly processIcon = Zap;
-  protected readonly analyzeIcon = Sparkles;
-  protected readonly markReadIcon = CheckCheck;
+  protected readonly processIcon = 'bolt';
+  protected readonly analyzeIcon = 'auto_awesome';
+  protected readonly markReadIcon = 'done_all';
 
   /** Conversación referenciada por el menú contextual actual (si abierto). */
   protected readonly contextConv = computed<Conversation | null>(() => {

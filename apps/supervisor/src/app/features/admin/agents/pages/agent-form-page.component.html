@@ -62,7 +62,7 @@
            sin querer. Reemplaza la banda danger-zone del cuerpo (S59). -->
       @if (mode() === 'edit') {
         <button type="button" class="ipanel__delete" (click)="requestDelete()">
-          <lucide-icon [img]="trashIcon" [size]="14" aria-hidden="true" />
+          <sc-icon [name]="trashIcon" [size]="14" />
           <span>{{ 'common.delete' | translate }}</span>
         </button>
       }
@@ -289,7 +289,7 @@
                   [title]="'agents.form.permissions.manage_devices_hint' | translate"
                   [attr.aria-label]="'agents.form.permissions.manage_devices_hint' | translate"
                 >
-                  <lucide-icon [img]="infoIcon" [size]="13" aria-hidden="true" />
+                  <sc-icon [name]="infoIcon" [size]="13" />
                 </button>
               </div>
               <sc-toggleswitch
@@ -310,7 +310,7 @@
                   [title]="'agents.form.permissions.self_activate_hint' | translate"
                   [attr.aria-label]="'agents.form.permissions.self_activate_hint' | translate"
                 >
-                  <lucide-icon [img]="infoIcon" [size]="13" aria-hidden="true" />
+                  <sc-icon [name]="infoIcon" [size]="13" />
                 </button>
               </div>
               <sc-toggleswitch
@@ -322,7 +322,7 @@
 
             <!-- Matriz de Llamadas / Transferencias por destino -->
             <header class="perm-matrix__head">
-              <lucide-icon [img]="phoneCallIcon" [size]="14" aria-hidden="true" />
+              <sc-icon [name]="phoneCallIcon" [size]="14" />
               <h3 class="perm-matrix__title">
                 {{ 'agents.form.permissions.calls_section' | translate }}
               </h3>
@@ -407,12 +407,11 @@
                 aria-controls="agent-acc-labels-body"
                 (click)="toggleLabelsAcc()"
               >
-                <lucide-icon
-                  [img]="labelsAccOpen() ? chevronDownIcon : chevronRightIcon"
+                <sc-icon
+                  [name]="labelsAccOpen() ? chevronDownIcon : chevronRightIcon"
                   [size]="13"
-                  aria-hidden="true"
                 />
-                <lucide-icon [img]="tagIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="tagIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.labels.title' | translate }}
                 </span>
@@ -472,12 +471,11 @@
                 aria-controls="agent-acc-agendas-body"
                 (click)="toggleAgendasAcc()"
               >
-                <lucide-icon
-                  [img]="agendasAccOpen() ? chevronDownIcon : chevronRightIcon"
+                <sc-icon
+                  [name]="agendasAccOpen() ? chevronDownIcon : chevronRightIcon"
                   [size]="13"
-                  aria-hidden="true"
                 />
-                <lucide-icon [img]="phoneIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="phoneIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.agendas.title' | translate }}
                 </span>
@@ -532,12 +530,7 @@
                             [attr.aria-label]="sched.name"
                             tabindex="-1"
                           />
-                          <lucide-icon
-                            [img]="phoneIcon"
-                            [size]="13"
-                            class="picker-list__row-icon"
-                            aria-hidden="true"
-                          />
+                          <sc-icon [name]="phoneIcon" [size]="13" class="picker-list__row-icon" />
                           <span class="picker-list__row-label">{{ sched.name }}</span>
                           @if (sched.numbers) {
                             <span class="picker-list__row-meta">{{ sched.numbers }}</span>
@@ -579,12 +572,11 @@
                 aria-controls="agent-acc-templates-body"
                 (click)="toggleTemplatesAcc()"
               >
-                <lucide-icon
-                  [img]="templatesAccOpen() ? chevronDownIcon : chevronRightIcon"
+                <sc-icon
+                  [name]="templatesAccOpen() ? chevronDownIcon : chevronRightIcon"
                   [size]="13"
-                  aria-hidden="true"
                 />
-                <lucide-icon [img]="fileStackIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="fileStackIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.plantillas.title' | translate }}
                 </span>
@@ -611,11 +603,7 @@
                         [class.tabs__tab--active]="templateTab() === tab"
                         (click)="setTemplateTab(tab)"
                       >
-                        <lucide-icon
-                          [img]="tab === 'chat' ? chatIcon : mailIcon"
-                          [size]="12"
-                          aria-hidden="true"
-                        />
+                        <sc-icon [name]="tab === 'chat' ? chatIcon : mailIcon" [size]="12" />
                         {{ 'agents.form.advanced.plantillas.tab_' + tab | translate }}
                         <span class="tabs__count">
                           {{ templateTabCounts()[tab].assigned }}/{{
@@ -696,7 +684,7 @@
             <!-- Comportamiento (flat sub-section) -->
             <section class="sub-section">
               <div class="sub-section__head sub-section__head--flat">
-                <lucide-icon [img]="slidersIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="slidersIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.comportamiento.title' | translate }}
                 </span>
@@ -769,7 +757,7 @@
                       "
                       [title]="'agents.form.advanced.comportamiento.random_order_hint' | translate"
                     >
-                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                      <sc-icon [name]="infoIcon" [size]="14" />
                     </button>
                   </div>
                   <sc-toggleswitch
@@ -784,7 +772,7 @@
             <!-- Integración (flat sub-section) -->
             <section class="sub-section">
               <div class="sub-section__head sub-section__head--flat">
-                <lucide-icon [img]="plugIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="plugIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.integracion.title' | translate }}
                 </span>
@@ -819,7 +807,7 @@
                         'agents.form.advanced.integracion.dispositivos_externos_hint' | translate
                       "
                     >
-                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                      <sc-icon [name]="infoIcon" [size]="14" />
                     </button>
                   </div>
                   <sc-toggleswitch
@@ -836,7 +824,7 @@
             <!-- Regional (flat sub-section) -->
             <section class="sub-section">
               <div class="sub-section__head sub-section__head--flat">
-                <lucide-icon [img]="globeIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="globeIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.regional.title' | translate }}
                 </span>
@@ -875,7 +863,7 @@
             <!-- Sesión (flat sub-section) -->
             <section class="sub-section">
               <div class="sub-section__head sub-section__head--flat">
-                <lucide-icon [img]="logInIcon" [size]="13" aria-hidden="true" />
+                <sc-icon [name]="logInIcon" [size]="13" />
                 <span class="sub-section__title">
                   {{ 'agents.form.advanced.sesion.title' | translate }}
                 </span>
@@ -894,7 +882,7 @@
                       "
                       [title]="'agents.form.advanced.sesion.login_ext_override_hint' | translate"
                     >
-                      <lucide-icon [img]="infoIcon" [size]="14" aria-hidden="true" />
+                      <sc-icon [name]="infoIcon" [size]="14" />
                     </button>
                   </div>
                   <sc-toggleswitch
@@ -923,7 +911,7 @@
                         severity="secondary"
                         (onClick)="requestExpirePassword()"
                       >
-                        <lucide-icon [img]="keyIcon" [size]="14" aria-hidden="true" />
+                        <sc-icon [name]="keyIcon" [size]="14" />
                         <span>{{ 'agents.form.advanced.sesion.expire_pwd' | translate }}</span>
                       </p-button>
                     </div>

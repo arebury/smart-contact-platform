@@ -7,10 +7,10 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { LucideAngularModule, ArrowRight, Copy, X } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
 import { DialogComponent } from '../dialog/dialog.component';
+import { IconComponent } from '@shared/components';
 import { SC_ICON_SIZE_MD, SC_ICON_SIZE_SM } from '@shared/utils/icon-size';
 
 export interface ImpactItem {
@@ -35,7 +35,7 @@ export interface ImpactBadge {
  */
 @Component({
   selector: 'sc-impact-preview-dialog',
-  imports: [ButtonModule, LucideAngularModule, DialogComponent],
+  imports: [ButtonModule, IconComponent, DialogComponent],
   templateUrl: './impact-preview-dialog.component.html',
   styleUrl: './impact-preview-dialog.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,9 +53,9 @@ export class ImpactPreviewDialogComponent {
   /** Emits the surviving ids in the order they were originally given. */
   readonly confirm = output<readonly number[]>();
 
-  protected readonly arrowIcon = ArrowRight;
-  protected readonly duplicateIcon = Copy;
-  protected readonly closeIcon = X;
+  protected readonly arrowIcon = 'arrow_forward';
+  protected readonly duplicateIcon = 'content_copy';
+  protected readonly closeIcon = 'close';
   protected readonly iconSizeMd = SC_ICON_SIZE_MD;
   protected readonly iconSizeSm = SC_ICON_SIZE_SM;
 

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, output } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Check, LucideAngularModule, Pause, Play, RotateCcw, RotateCw } from 'lucide-angular';
+
+import { IconComponent } from '@shared/components';
 
 import type { Recording } from '../../data/conversation.types';
 
@@ -29,7 +30,7 @@ import type { Recording } from '../../data/conversation.types';
  */
 @Component({
   selector: 'sc-memory-multi-recording-player',
-  imports: [LucideAngularModule, TranslateModule],
+  imports: [IconComponent, TranslateModule],
   templateUrl: './multi-recording-player.component.html',
   styleUrl: './multi-recording-player.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -48,11 +49,11 @@ export class MultiRecordingPlayerComponent {
   readonly seek = output<number>();
   readonly selectRecording = output<string>();
 
-  protected readonly playIcon = Play;
-  protected readonly pauseIcon = Pause;
-  protected readonly back10Icon = RotateCcw;
-  protected readonly fwd10Icon = RotateCw;
-  protected readonly checkIcon = Check;
+  protected readonly playIcon = 'play_arrow';
+  protected readonly pauseIcon = 'pause';
+  protected readonly back10Icon = 'rotate_left';
+  protected readonly fwd10Icon = 'rotate_right';
+  protected readonly checkIcon = 'check';
 
   protected readonly durations = computed(() =>
     this.recordings().map((r) => parseDurationSec(r.duration)),

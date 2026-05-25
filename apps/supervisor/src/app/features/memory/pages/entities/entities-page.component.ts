@@ -9,12 +9,12 @@ import {
   viewChild,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Database, LucideAngularModule, Lock, MoreVertical, Plus } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import type { MenuItem } from 'primeng/api';
 
+import { IconComponent } from '@shared/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 
@@ -32,13 +32,7 @@ import { EntitiesStore } from '../../state/entities.store';
  */
 @Component({
   selector: 'sc-memory-entities-page',
-  imports: [
-    ButtonModule,
-    EntityFormModalComponent,
-    LucideAngularModule,
-    MenuModule,
-    TranslateModule,
-  ],
+  imports: [ButtonModule, EntityFormModalComponent, IconComponent, MenuModule, TranslateModule],
   templateUrl: './entities-page.component.html',
   styleUrl: './entities-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -69,10 +63,10 @@ export class EntitiesPageComponent {
   protected readonly formOpen = signal(false);
   protected readonly formEntity = signal<Entity | null>(null);
 
-  protected readonly databaseIcon = Database;
-  protected readonly plusIcon = Plus;
-  protected readonly kebabIcon = MoreVertical;
-  protected readonly lockIcon = Lock;
+  protected readonly databaseIcon = 'database';
+  protected readonly plusIcon = 'add';
+  protected readonly kebabIcon = 'more_vert';
+  protected readonly lockIcon = 'lock';
 
   protected buildMenuItems(entity: Entity): MenuItem[] {
     return [

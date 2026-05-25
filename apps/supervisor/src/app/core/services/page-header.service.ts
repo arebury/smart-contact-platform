@@ -1,13 +1,11 @@
 import { Injectable, signal } from '@angular/core';
-import type { Phone } from 'lucide-angular';
-
-type LucideIconRef = typeof Phone;
 
 export interface PageHeaderState {
   readonly titleKey: string;
   readonly subtitleKey: string | null;
   readonly entityKey: string | null;
-  readonly icon: LucideIconRef | null;
+  /** Material Symbols name (S60). `<sc-page-header [icon]>` lo renderiza. */
+  readonly icon: string | null;
 }
 
 /**
