@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LucideAngularModule, MoreVertical, Plus, Tags } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
@@ -7,7 +16,7 @@ import { MenuModule } from 'primeng/menu';
 import type { MenuItem } from 'primeng/api';
 
 import { ConfirmHostService } from '@core/services/confirm-host.service';
-import { PageHeaderComponent } from '@shared/components';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 
 import { CategoryFormModalComponent } from '../../components/category-form-modal/category-form-modal.component';
 import type { Category } from '../../data/category.types';
@@ -31,7 +40,6 @@ import { RulesStore } from '../../state/rules.store';
     CategoryFormModalComponent,
     LucideAngularModule,
     MenuModule,
-    PageHeaderComponent,
     TranslateModule,
   ],
   templateUrl: './categories-page.component.html',
@@ -44,6 +52,19 @@ export class CategoriesPageComponent {
   private readonly confirm = inject(ConfirmHostService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /** CTA proyectado a la TopBar (modelo "todo arriba" S59). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   protected readonly categories = this.categoriesStore.categories;
   protected readonly isEmpty = this.categoriesStore.isEmpty;

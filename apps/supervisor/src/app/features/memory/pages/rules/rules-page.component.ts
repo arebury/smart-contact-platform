@@ -1,5 +1,14 @@
 import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import {
@@ -19,7 +28,7 @@ import { PopoverModule } from 'primeng/popover';
 import type { MenuItem } from 'primeng/api';
 
 import { ConfirmHostService } from '@core/services/confirm-host.service';
-import { PageHeaderComponent } from '@shared/components';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 
 import type { Rule } from '../../data/rule.types';
 import { RulesStore } from '../../state/rules.store';
@@ -41,7 +50,6 @@ import { RulesStore } from '../../state/rules.store';
     CdkDropList,
     LucideAngularModule,
     MenuModule,
-    PageHeaderComponent,
     PopoverModule,
     TranslateModule,
   ],
@@ -55,6 +63,19 @@ export class RulesPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /** CTA + menú "nueva regla" proyectados a la TopBar (modelo "todo arriba" S59). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   protected readonly activeRules = this.rulesStore.activeRules;
   protected readonly inactiveOrDraftRules = this.rulesStore.inactiveOrDraftRules;

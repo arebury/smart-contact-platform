@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  signal,
+  type TemplateRef,
+  viewChild,
+} from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Database, LucideAngularModule, Lock, MoreVertical, Plus } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
@@ -7,7 +16,7 @@ import { MenuModule } from 'primeng/menu';
 import type { MenuItem } from 'primeng/api';
 
 import { ConfirmHostService } from '@core/services/confirm-host.service';
-import { PageHeaderComponent } from '@shared/components';
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 
 import { EntityFormModalComponent } from '../../components/entity-form-modal/entity-form-modal.component';
 import type { Entity } from '../../data/entity.types';
@@ -28,7 +37,6 @@ import { EntitiesStore } from '../../state/entities.store';
     EntityFormModalComponent,
     LucideAngularModule,
     MenuModule,
-    PageHeaderComponent,
     TranslateModule,
   ],
   templateUrl: './entities-page.component.html',
@@ -40,6 +48,19 @@ export class EntitiesPageComponent {
   private readonly confirm = inject(ConfirmHostService);
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
+  private readonly topBarSlot = inject(TopBarSlotService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  /** CTA proyectado a la TopBar (modelo "todo arriba" S59). */
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+    this.destroyRef.onDestroy(() => this.topBarSlot.clearActions());
+  }
 
   protected readonly userEntities = this.entitiesStore.userEntities;
   protected readonly systemEntities = this.entitiesStore.systemEntities;

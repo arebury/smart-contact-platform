@@ -1,7 +1,6 @@
-<!-- El switcher de datos demo ahora vive en la TopBar (junto al avatar) vía
-     TopBarSlotService (experiment S59). Ver conversations-page.component.ts. -->
-<sc-page-header titleKey="memory.conversations.page_title" [icon]="pageIcon" />
-
+<!-- Modelo "todo arriba" (experiment S59): sin banda de page-header — la
+     identidad la da el breadcrumb de la TopBar. El switcher de datos demo
+     también vive arriba (junto al avatar) vía TopBarSlotService. Ver el .ts. -->
 <div class="page">
   <div class="page__inner">
     <sc-memory-conversation-filters

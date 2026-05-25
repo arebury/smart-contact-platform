@@ -1,18 +1,20 @@
-<sc-page-header titleKey="memory.rules.page_title" [icon]="settingsIcon">
-  <ng-container page-header-actions>
-    <p-button type="button" severity="primary" (onClick)="newRuleMenu.toggle($event)">
-      <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
-      <span>{{ 'memory.rules.new_rule' | translate }}</span>
-    </p-button>
-    <p-menu
-      #newRuleMenu
-      [model]="newRuleMenuItems"
-      [popup]="true"
-      appendTo="body"
-      styleClass="rules-new-menu"
-    />
-  </ng-container>
-</sc-page-header>
+<!-- Modelo "todo arriba" (experiment S59): sin banda de page-header. La
+     identidad la da el breadcrumb de la TopBar; el CTA (y su menú popup
+     "nueva regla") se proyectan a la barra vía TopBarSlotService. El p-menu
+     hace appendTo="body" y se ancla al botón vía toggle($event). -->
+<ng-template #topbarActions>
+  <p-button type="button" severity="primary" (onClick)="newRuleMenu.toggle($event)">
+    <lucide-icon [img]="plusIcon" [size]="14" aria-hidden="true" />
+    <span>{{ 'memory.rules.new_rule' | translate }}</span>
+  </p-button>
+  <p-menu
+    #newRuleMenu
+    [model]="newRuleMenuItems"
+    [popup]="true"
+    appendTo="body"
+    styleClass="rules-new-menu"
+  />
+</ng-template>
 
 <div class="page">
   <div class="page__inner">

@@ -12,8 +12,6 @@ import { LucideAngularModule, MessagesSquare } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
-import { PageHeaderComponent } from '@shared/components';
-
 import { BulkTranscriptionModalComponent } from '../../components/bulk-transcription-modal/bulk-transcription-modal.component';
 import { ConversationFiltersComponent } from '../../components/conversation-filters/conversation-filters.component';
 import { ConversationPlayerModalComponent } from '../../components/conversation-player-modal/conversation-player-modal.component';
@@ -52,7 +50,6 @@ import { TopBarSlotService } from '../../../../core/layout/top-bar/top-bar-slot.
     TranslateModule,
     ButtonModule,
     LucideAngularModule,
-    PageHeaderComponent,
     BulkTranscriptionModalComponent,
     ConversationFiltersComponent,
     ConversationTableComponent,
