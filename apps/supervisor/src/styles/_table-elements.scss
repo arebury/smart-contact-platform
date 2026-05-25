@@ -92,21 +92,29 @@
 }
 
 /* ------------------------------------------------------------------ *
- * sc-type-tag — distinct typographic treatment for the "type" column.
+ * sc-type-tag — pill para columnas categóricas (Tipo, Estrategia…).
  *
- * Smaller than body, weight-medium, tracked. The cell stops reading
- * as a raw DB enum dump. No chip background — the shape difference
- * itself is the signal.
+ * Experiment S59 (decisión Rafa "convergir", opción A): pasa de tag
+ * tipográfico sin fondo → pill con fondo gris claro + hairline + radius
+ * full, IDÉNTICA a `.memory-cell-pill` de /conversaciones. Unifica el
+ * tratamiento de datos categóricos entre AED y Memory (vibe BeyondUI/
+ * SnowUI). Revierte a propósito la decisión previa "no chip background".
+ * Consumers: agents (Tipo) · groups (Estrategia) · users (Tipo) + Memory.
  * ------------------------------------------------------------------ */
 .sc-type-tag {
-  display: inline-block;
-  font-size: var(--sc-font-size-50);
+  display: inline-flex;
+  align-items: center;
+  padding: var(--sc-spacing-0-25) var(--sc-spacing-0-625);
+  border-radius: var(--sc-radius-full);
+  background: var(--sc-bg-default);
+  border: 1px solid var(--sc-border-subtle);
+  color: var(--sc-text-primary);
+  font-size: var(--sc-font-size-100);
   font-weight: var(--sc-font-weight-medium);
-  color: var(--sc-text-secondary);
-  letter-spacing: 0.04em;
+  line-height: 1.3;
+  white-space: nowrap;
 
   &[data-emphasis='strong'] {
-    color: var(--sc-text-primary);
     font-weight: var(--sc-font-weight-semibold);
   }
 }
