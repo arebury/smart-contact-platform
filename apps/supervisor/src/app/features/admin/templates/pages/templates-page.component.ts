@@ -16,10 +16,12 @@ import { ButtonModule } from 'primeng/button';
 import { ClickOutsideDirective } from '@core/directives';
 import { clampToViewport } from '@core/utils/viewport';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   BulkActionBarComponent,
   useBulkEntityI18n,
   DeleteEntityDialogComponent,
+  EmptyStateComponent,
   IconComponent,
   SearchComponent,
 } from '@shared/components';
@@ -43,6 +45,7 @@ interface ContextMenuPos {
     ButtonModule,
     ClickOutsideDirective,
     DeleteEntityDialogComponent,
+    EmptyStateComponent,
     IconComponent,
     SearchComponent,
     TemplateFormPanelComponent,
@@ -294,7 +297,7 @@ export class TemplatesPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant(key, params),
-      life: 3000,
+      life: TOAST_LIFE.success,
     });
   }
 }

@@ -12,6 +12,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import { IconComponent } from '@shared/components';
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { MultiSelectComponent } from '@shared/components/multiselect/multiselect.component';
@@ -250,14 +251,14 @@ export class RuleBuilderPageComponent {
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant(summaryKey),
-        life: 2200,
+        life: TOAST_LIFE.success,
       });
     } else {
       this.rulesStore.addRule(base);
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('memory.rules.builder.created_toast'),
-        life: 2200,
+        life: TOAST_LIFE.success,
       });
     }
     this.router.navigate(['/conversaciones/reglas']);
@@ -270,7 +271,7 @@ export class RuleBuilderPageComponent {
     this.messages.add({
       severity: 'info',
       summary: this.translate.instant('memory.rules.builder.discarded_toast'),
-      life: 2000,
+      life: TOAST_LIFE.info,
     });
     this.router.navigate(['/conversaciones/reglas']);
   }

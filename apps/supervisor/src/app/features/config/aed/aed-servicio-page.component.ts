@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
 import { PageHeaderService } from '@core/services';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   IconComponent,
   InputTextComponent,
@@ -238,7 +239,7 @@ export class AedServicioPageComponent {
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('config.aed.subpages.servicio.toast.estados_saved'),
-        life: 3000,
+        life: TOAST_LIFE.success,
       });
     }, 600);
   }
@@ -304,7 +305,7 @@ export class AedServicioPageComponent {
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('config.aed.subpages.servicio.toast.conversaciones_saved'),
-        life: 3000,
+        life: TOAST_LIFE.success,
       });
     }, 600);
   }

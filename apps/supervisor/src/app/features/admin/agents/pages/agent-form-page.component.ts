@@ -21,6 +21,7 @@ import { DirtyAware } from '@core/guards';
 import { ConfirmHostService, CrossTabLockService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE, PIN_RE } from '@core/utils/validators';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   DeleteEntityDialogComponent,
   FormSectionNavComponent,
@@ -694,7 +695,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('agents.form.advanced.sesion.expire_toast', { name }),
-      life: 3000,
+      life: TOAST_LIFE.success,
     });
   }
 
@@ -879,7 +880,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('agents.toasts.updated', { name: payload.name }),
-          life: 3000,
+          life: TOAST_LIFE.success,
         });
       } else {
         const created = this.agentsStore.addAgent(payload);
@@ -894,7 +895,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('agents.toasts.created', { name: created.name }),
-          life: 3000,
+          life: TOAST_LIFE.success,
         });
       }
       this.saving.set(false);
@@ -935,7 +936,7 @@ export class AgentFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       summary: this.translate.instant('agents.toasts.deleted_single', {
         name: agent?.name ?? '',
       }),
-      life: 3000,
+      life: TOAST_LIFE.success,
     });
     void this.router.navigateByUrl('/admin/agentes');
   }

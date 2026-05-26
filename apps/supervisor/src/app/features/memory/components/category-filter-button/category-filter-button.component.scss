@@ -38,11 +38,11 @@
     background: var(--sc-bg-primary-subtle);
   }
 
-  lucide-icon {
+  sc-icon {
     color: var(--sc-text-secondary);
   }
 
-  &--active lucide-icon {
+  &--active sc-icon {
     color: var(--sc-bg-primary);
   }
 

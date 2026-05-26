@@ -17,9 +17,10 @@ import { MenuModule } from 'primeng/menu';
 import { PopoverModule } from 'primeng/popover';
 import type { MenuItem } from 'primeng/api';
 
-import { IconComponent } from '@shared/components';
+import { EmptyStateComponent, IconComponent } from '@shared/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 
 import type { Rule } from '../../data/rule.types';
 import { RulesStore } from '../../state/rules.store';
@@ -39,6 +40,7 @@ import { RulesStore } from '../../state/rules.store';
     ButtonModule,
     CdkDrag,
     CdkDropList,
+    EmptyStateComponent,
     IconComponent,
     MenuModule,
     PopoverModule,
@@ -77,6 +79,7 @@ export class RulesPageComponent {
   protected readonly menuTargetRule = signal<Rule | null>(null);
 
   protected readonly settingsIcon = 'tune';
+  protected readonly emptyIcon = 'rule';
   protected readonly plusIcon = 'add';
   protected readonly gripIcon = 'drag_indicator';
   protected readonly micIcon = 'mic';
@@ -172,7 +175,7 @@ export class RulesPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('memory.rules.order_updated'),
-      life: 1800,
+      life: TOAST_LIFE.success,
     });
   }
 
@@ -226,7 +229,7 @@ export class RulesPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('memory.rules.duplicated_toast'),
-      life: 3500,
+      life: TOAST_LIFE.success,
     });
   }
 
@@ -243,7 +246,7 @@ export class RulesPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('memory.rules.deleted_toast', { name: rule.name }),
-      life: 2200,
+      life: TOAST_LIFE.success,
     });
   }
 }

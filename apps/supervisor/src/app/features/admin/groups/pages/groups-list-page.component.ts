@@ -19,6 +19,7 @@ import { UndoStackService, XlsxExportService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { SelectionState } from '@core/utils/selection-state';
 import { clampToViewport } from '@core/utils/viewport';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   BulkActionBarComponent,
   useBulkEntityI18n,
@@ -349,7 +350,7 @@ export class GroupsListPageComponent {
     this.messages.add({
       severity: 'secondary',
       summary: this.translate.instant('groups.toasts.duplicated', { name: value }),
-      life: 3000,
+      life: TOAST_LIFE.info,
     });
   }
 
@@ -420,7 +421,7 @@ export class GroupsListPageComponent {
         summary: this.translate.instant('groups.toasts.deleted_single', {
           name: toasted[0]!.name,
         }),
-        life: 3000,
+        life: TOAST_LIFE.success,
       });
     } else {
       this.groupsStore.deleteGroups(ids);
@@ -428,7 +429,7 @@ export class GroupsListPageComponent {
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('groups.toasts.deleted_bulk', { count: ids.length }),
-        life: 3000,
+        life: TOAST_LIFE.success,
       });
     }
 

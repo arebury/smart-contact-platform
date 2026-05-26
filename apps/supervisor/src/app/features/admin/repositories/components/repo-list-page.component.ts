@@ -20,6 +20,7 @@ import { ClickOutsideDirective } from '@core/directives/click-outside.directive'
 import { XlsxExportService } from '@core/services/xlsx-export.service';
 import { clampToViewport } from '@core/utils/viewport';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
 import { DeleteEntityDialogComponent } from '@shared/components/delete-entity-dialog/delete-entity-dialog.component';
 import { IconComponent } from '@shared/components/icon/icon.component';
@@ -344,7 +345,7 @@ export class RepoListPageComponent<T extends RepoEntity> {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant(key, params),
-      life: 3000,
+      life: TOAST_LIFE.success,
     });
   }
 }

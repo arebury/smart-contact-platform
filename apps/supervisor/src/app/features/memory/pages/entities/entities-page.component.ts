@@ -17,6 +17,7 @@ import type { MenuItem } from 'primeng/api';
 import { IconComponent } from '@shared/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 
 import { EntityFormModalComponent } from '../../components/entity-form-modal/entity-form-modal.component';
 import type { Entity } from '../../data/entity.types';
@@ -110,7 +111,7 @@ export class EntitiesPageComponent {
         wasEdit ? 'memory.entities.form.updated_toast' : 'memory.entities.form.created_toast',
         { name: entity.name },
       ),
-      life: 2200,
+      life: TOAST_LIFE.success,
     });
   }
 
@@ -127,7 +128,7 @@ export class EntitiesPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('memory.entities.deleted_toast', { name: entity.name }),
-      life: 2200,
+      life: TOAST_LIFE.success,
     });
   }
 }

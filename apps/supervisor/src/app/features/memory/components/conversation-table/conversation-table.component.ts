@@ -76,6 +76,7 @@ export class ConversationTableComponent {
   protected readonly processIcon = 'bolt';
   protected readonly analyzeIcon = 'auto_awesome';
   protected readonly markReadIcon = 'done_all';
+  protected readonly emptyIcon = 'search_off';
 
   /** Conversación referenciada por el menú contextual actual (si abierto). */
   protected readonly contextConv = computed<Conversation | null>(() => {

@@ -56,31 +56,7 @@
   margin: var(--sc-spacing-1-75) 0 var(--sc-spacing-1-5);
 }
 
-.rules-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: var(--sc-spacing-0-875);
-  padding: var(--sc-spacing-2-25) var(--sc-spacing-1-5);
-  background: var(--sc-bg-surface);
-  border: 1px dashed var(--sc-border-default);
-  border-radius: var(--sc-radius-300);
-
-  h2 {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--sc-text-primary);
-  }
-
-  p {
-    margin: 0;
-    max-width: 44ch;
-    font-size: 0.8125rem;
-    color: var(--sc-text-secondary);
-  }
-}
+/* Empty state migrado a <sc-empty-state> (S62, backlog #64). */
 
 /* Chrome alineado con AED list-pages (S41 consistency): radius-200,
  * thead bg-default, font-size-50 + letter-spacing 0.05em, border-bottom

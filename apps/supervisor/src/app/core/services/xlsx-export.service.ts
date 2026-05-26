@@ -1,6 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
+
+import { TOAST_LIFE } from '@core/utils/toast-life';
 // Solo el tipo: `import type` se borra en compilación, no arrastra `xlsx` al
 // bundle. El runtime se carga con `import('xlsx')` diferido (ver `run`).
 import type { CellObject } from 'xlsx';
@@ -74,6 +76,6 @@ export class XlsxExportService {
       count: rows.length,
       sheet: sheetName.toLowerCase(),
     });
-    this.messages.add({ severity: 'success', summary, life: 3000 });
+    this.messages.add({ severity: 'success', summary, life: TOAST_LIFE.success });
   }
 }

@@ -30,7 +30,7 @@
     text-align: left;
     transition: background-color 120ms var(--sc-easing-default, ease);
 
-    > lucide-icon {
+    > sc-icon {
       color: var(--sc-icon-subtle);
       flex: 0 0 auto;
     }
@@ -356,5 +356,36 @@
     font-weight: 600;
     line-height: 1;
     font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Estado "sin resultados" (S62, backlog #65): la cabecera de la tabla queda
+ * visible y el cuerpo muestra un mensaje centrado. Conversaciones no se crean
+ * → no hay CTA, solo invita a ajustar filtros. */
+.memory-conversations-table__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sc-spacing-0-5);
+  padding: var(--sc-spacing-3) var(--sc-spacing-1-5);
+  color: var(--sc-text-subtle);
+
+  sc-icon {
+    color: var(--sc-icon-disabled);
+    margin-bottom: var(--sc-spacing-0-5);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: var(--sc-font-size-300);
+    font-weight: var(--sc-font-weight-medium);
+    color: var(--sc-text-secondary);
+  }
+
+  p {
+    margin: 0;
+    max-width: 44ch;
+    text-align: center;
+    font-size: var(--sc-font-size-200);
   }
 }

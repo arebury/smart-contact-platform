@@ -20,6 +20,7 @@ import { DirtyAware } from '@core/guards';
 import { CrossTabLockService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE } from '@core/utils/validators';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   DeleteEntityDialogComponent,
   FormSectionNavComponent,
@@ -388,14 +389,14 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('users.toasts.updated', { name: payload.name }),
-          life: 3000,
+          life: TOAST_LIFE.success,
         });
       } else {
         const created = this.usersStore.addUser(payload);
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('users.toasts.created', { name: created.name }),
-          life: 3000,
+          life: TOAST_LIFE.success,
         });
       }
 
@@ -429,7 +430,7 @@ export class UserFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       summary: this.translate.instant('users.toasts.deleted_single', {
         name: user?.name ?? '',
       }),
-      life: 3000,
+      life: TOAST_LIFE.success,
     });
     void this.router.navigateByUrl('/admin/usuarios');
   }

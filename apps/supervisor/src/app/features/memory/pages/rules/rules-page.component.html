@@ -19,14 +19,13 @@
 <div class="page">
   <div class="page__inner">
     @if (isEmpty()) {
-      <div class="rules-empty">
-        <h2>{{ 'memory.rules.empty_title' | translate }}</h2>
-        <p>{{ 'memory.rules.empty_desc' | translate }}</p>
-        <p-button type="button" severity="primary" (onClick)="onNewRule()">
-          <sc-icon [name]="plusIcon" [size]="14" />
-          <span>{{ 'memory.rules.empty_cta' | translate }}</span>
-        </p-button>
-      </div>
+      <sc-empty-state
+        [icon]="emptyIcon"
+        titleKey="memory.rules.empty_title"
+        bodyKey="memory.rules.empty_desc"
+        ctaKey="memory.rules.empty_cta"
+        (cta)="onNewRule()"
+      />
     } @else {
       <section class="rules-section">
         <header class="rules-section__head">

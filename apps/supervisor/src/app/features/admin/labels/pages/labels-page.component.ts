@@ -18,9 +18,11 @@ import { ClickOutsideDirective } from '@core/directives';
 import { XlsxExportService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { clampToViewport } from '@core/utils/viewport';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   BulkActionBarComponent,
   useBulkEntityI18n,
+  EmptyStateComponent,
   IconComponent,
   LabelChipComponent,
   SearchComponent,
@@ -48,6 +50,7 @@ interface ContextMenuPos {
     ButtonModule,
     ClickOutsideDirective,
     DeleteLabelsDialogComponent,
+    EmptyStateComponent,
     FormsModule,
     IconComponent,
     LabelChipComponent,
@@ -299,7 +302,7 @@ export class LabelsPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant(key, params),
-      life: 3000,
+      life: TOAST_LIFE.success,
     });
   }
 }

@@ -1,7 +1,11 @@
 /* Page chrome alineado con AED list-pages (S41 consistency fix):
  * max-width 1600 + padding spacing-500/600 evita que el contenido
- * recorra el full-width del main-content. `padding-bottom` reserva
- * espacio para el bulk-action-bar overlay sin causar layout shift. */
+ * recorra el full-width del main-content.
+ * S62 (backlog #65): Memory NO usa el <sc-bulk-action-bar> overlay — las
+ * acciones masivas viven inline en la toolbar de filtros (paridad legacy
+ * S50/S52, deshabilitadas hasta seleccionar + badge). Eliminada la reserva
+ * de `padding-bottom` con `--sc-bulk-action-bar-height` que dejaba un hueco
+ * muerto al fondo; el padding inferior lo aporta `&__inner`. */
 :host {
   display: block;
   height: 100%;
@@ -11,7 +15,6 @@
 .page {
   flex: 1;
   background: var(--sc-bg-surface);
-  padding-bottom: calc(var(--sc-bulk-action-bar-height) + var(--sc-spacing-1-125));
 
   &__inner {
     max-width: 1600px;

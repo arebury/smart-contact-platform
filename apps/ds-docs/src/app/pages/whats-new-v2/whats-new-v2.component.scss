@@ -453,7 +453,7 @@
   font-weight: 600;
   color: var(--sc-text-primary);
 
-  lucide-icon {
+  sc-icon {
     color: var(--sc-color-electric-blue-500);
   }
 }
@@ -651,11 +651,11 @@
     transform: translateY(1px);
   }
 
-  lucide-icon {
+  sc-icon {
     transition: transform 200ms ease;
   }
 
-  &:hover lucide-icon {
+  &:hover sc-icon {
     transform: translateX(-2px);
   }
 }

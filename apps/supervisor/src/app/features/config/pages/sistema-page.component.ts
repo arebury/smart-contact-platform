@@ -19,6 +19,7 @@ import {
   type ThemeMode,
 } from '@core/services';
 import { PageHeaderService } from '@core/services';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import { IconComponent, ToggleSwitchComponent } from '@shared/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 
@@ -273,7 +274,7 @@ export class SistemaPageComponent {
             : 'config.seguridad.toast.regenerated_many',
           { count },
         ),
-        life: 4000,
+        life: TOAST_LIFE.success,
       });
     }, 1500);
   }
@@ -301,7 +302,7 @@ export class SistemaPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('config.seguridad.toast.csv_downloaded'),
-      life: 3000,
+      life: TOAST_LIFE.success,
     });
   }
 

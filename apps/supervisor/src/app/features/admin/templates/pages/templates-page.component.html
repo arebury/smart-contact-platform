@@ -67,17 +67,13 @@
     </div>
 
     @if (templates().length === 0) {
-      <div class="empty">
-        <div class="empty__icon" aria-hidden="true">
-          <sc-icon [name]="fileStackIcon" [size]="32" />
-        </div>
-        <h2 class="empty__title">{{ 'templates.empty.title' | translate }}</h2>
-        <p class="empty__text">{{ 'templates.empty.text' | translate }}</p>
-        <p-button type="button" severity="primary" (onClick)="creating.set(true)">
-          <sc-icon [name]="plusIcon" [size]="16" />
-          <span>{{ 'templates.empty.cta' | translate }}</span>
-        </p-button>
-      </div>
+      <sc-empty-state
+        [icon]="fileStackIcon"
+        titleKey="templates.empty.title"
+        bodyKey="templates.empty.text"
+        ctaKey="templates.empty.cta"
+        (cta)="creating.set(true)"
+      />
     } @else {
       <div class="table-card">
         <table class="table">

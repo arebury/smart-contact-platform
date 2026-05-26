@@ -24,6 +24,7 @@ import { RetranscriptionConfirmModalComponent } from '../../components/retranscr
 import type { Conversation } from '../../data/conversation.types';
 import { ConversationsStore } from '../../state/conversations.store';
 import { TopBarSlotService } from '../../../../core/layout/top-bar/top-bar-slot.service';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 
 /**
  * Pantalla principal del módulo Memory (`/conversaciones`).
@@ -36,7 +37,9 @@ import { TopBarSlotService } from '../../../../core/layout/top-bar/top-bar-slot.
  *               transcripción/análisis con state machine).
  * Iter 6a (S38): + selección múltiple. Row click toggle selección (Audit A5
  *                del React); cluster status icons sigue abriendo modal.
- *                `<sc-bulk-action-bar>` overlay con CTA stub.
+ *                (S62: las acciones bulk viven inline en la toolbar de filtros
+ *                —paridad legacy S50/S52—, NO en el `<sc-bulk-action-bar>`
+ *                overlay de AED. Decisión consciente, ver backlog #65.)
  * Iter 6b (S38): + BulkTranscriptionModal v11 (state machine 6 escenarios,
  *                3 destinos MECE, toggle locked, warning costes).
  *
@@ -168,7 +171,7 @@ export class ConversationsPageComponent implements OnInit, OnDestroy {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('memory.bulk.mark_read_toast', { n }),
-      life: 2500,
+      life: TOAST_LIFE.success,
     });
   }
 
@@ -194,14 +197,14 @@ export class ConversationsPageComponent implements OnInit, OnDestroy {
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('memory.bulk.download_audio_toast', { n }),
-        life: 2500,
+        life: TOAST_LIFE.success,
       });
     }
     if (opts.chats) {
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('memory.bulk.download_chat_toast', { n }),
-        life: 2500,
+        life: TOAST_LIFE.success,
       });
     }
   }
@@ -271,7 +274,7 @@ export class ConversationsPageComponent implements OnInit, OnDestroy {
         summary: this.translate.instant('memory.dispatch.success', {
           n: result.successIds.length,
         }),
-        life: 3500,
+        life: TOAST_LIFE.success,
       });
     } else if (result.successIds.length === 0) {
       this.messages.add({
@@ -279,7 +282,7 @@ export class ConversationsPageComponent implements OnInit, OnDestroy {
         summary: this.translate.instant('memory.dispatch.all_failed', {
           n: result.failedIds.length,
         }),
-        life: 6000,
+        life: TOAST_LIFE.error,
       });
     } else {
       this.messages.add({
@@ -288,7 +291,7 @@ export class ConversationsPageComponent implements OnInit, OnDestroy {
           ok: result.successIds.length,
           ko: result.failedIds.length,
         }),
-        life: 6000,
+        life: TOAST_LIFE.warn,
       });
     }
   }
@@ -369,7 +372,7 @@ export class ConversationsPageComponent implements OnInit, OnDestroy {
         summary: this.translate.instant('memory.dispatch.success', {
           n: result.successIds.length,
         }),
-        life: 3500,
+        life: TOAST_LIFE.success,
       });
     }
   }
@@ -398,7 +401,7 @@ export class ConversationsPageComponent implements OnInit, OnDestroy {
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('memory.bulk.mark_read_toast', { n: 1 }),
-          life: 2500,
+          life: TOAST_LIFE.success,
         });
         return;
     }

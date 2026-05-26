@@ -9,6 +9,10 @@
   },
   "memory": {
     "conversations": {
+      "empty": {
+        "title": "Nenhuma conversa para mostrar",
+        "body": "Ajuste os filtros ou o intervalo de datas para ver resultados."
+      },
       "page_title": "Conversas",
       "open_aria": "Abrir conversa {{id}}",
       "open_aria_with_state": "Abrir conversa {{id}} — Estado: {{state}}",

@@ -18,7 +18,7 @@
       </header>
 
       @if (!hasUserEntities()) {
-        <div class="entities-empty">
+        <div class="entities-empty" role="status" aria-live="polite">
           <sc-icon [name]="databaseIcon" [size]="20" />
           <p>{{ 'memory.entities.empty_user' | translate }}</p>
         </div>

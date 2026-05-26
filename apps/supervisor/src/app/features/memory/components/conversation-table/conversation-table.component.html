@@ -143,6 +143,16 @@
           <td class="table__td-num">{{ conv.waiting }}</td>
           <td class="memory-conversations-table__id">{{ conv.id }}</td>
         </tr>
+      } @empty {
+        <tr class="memory-conversations-table__empty-row">
+          <td [attr.colspan]="11">
+            <div class="memory-conversations-table__empty" role="status" aria-live="polite">
+              <sc-icon [name]="emptyIcon" [size]="28" />
+              <h3>{{ 'memory.conversations.empty.title' | translate }}</h3>
+              <p>{{ 'memory.conversations.empty.body' | translate }}</p>
+            </div>
+          </td>
+        </tr>
       }
     </tbody>
   </table>

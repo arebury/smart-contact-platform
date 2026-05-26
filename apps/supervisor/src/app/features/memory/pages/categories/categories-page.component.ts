@@ -14,9 +14,10 @@ import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
 import type { MenuItem } from 'primeng/api';
 
-import { IconComponent } from '@shared/components';
+import { EmptyStateComponent, IconComponent } from '@shared/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 
 import { CategoryFormModalComponent } from '../../components/category-form-modal/category-form-modal.component';
 import type { Category } from '../../data/category.types';
@@ -35,7 +36,14 @@ import { RulesStore } from '../../state/rules.store';
  */
 @Component({
   selector: 'sc-memory-categories-page',
-  imports: [ButtonModule, CategoryFormModalComponent, IconComponent, MenuModule, TranslateModule],
+  imports: [
+    ButtonModule,
+    CategoryFormModalComponent,
+    EmptyStateComponent,
+    IconComponent,
+    MenuModule,
+    TranslateModule,
+  ],
   templateUrl: './categories-page.component.html',
   styleUrl: './categories-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -123,7 +131,7 @@ export class CategoriesPageComponent {
         wasEdit ? 'memory.categories.form.updated_toast' : 'memory.categories.form.created_toast',
         { name: cat.name },
       ),
-      life: 2200,
+      life: TOAST_LIFE.success,
     });
   }
 
@@ -141,7 +149,7 @@ export class CategoriesPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('memory.categories.duplicated_toast', { name: copy.name }),
-      life: 2200,
+      life: TOAST_LIFE.success,
     });
   }
 
@@ -158,7 +166,7 @@ export class CategoriesPageComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('memory.categories.deleted_toast', { name: cat.name }),
-      life: 2200,
+      life: TOAST_LIFE.success,
     });
   }
 }

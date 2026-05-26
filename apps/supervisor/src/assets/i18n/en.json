@@ -9,6 +9,10 @@
   },
   "memory": {
     "conversations": {
+      "empty": {
+        "title": "No conversations to show",
+        "body": "Adjust the filters or date range to see results."
+      },
       "page_title": "Conversations",
       "open_aria": "Open conversation {{id}}",
       "open_aria_with_state": "Open conversation {{id}} — Status: {{state}}",

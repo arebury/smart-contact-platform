@@ -19,6 +19,7 @@ import { ButtonModule } from 'primeng/button';
 import { DirtyAware } from '@core/guards';
 import { CrossTabLockService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   DeleteEntityDialogComponent,
   FormSectionNavComponent,
@@ -444,7 +445,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('groups.toasts.updated', { name: payload.name }),
-          life: 3000,
+          life: TOAST_LIFE.success,
         });
       } else {
         const created = this.groupsStore.addGroup(payload);
@@ -452,7 +453,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
         this.messages.add({
           severity: 'success',
           summary: this.translate.instant('groups.toasts.created', { name: created.name }),
-          life: 3000,
+          life: TOAST_LIFE.success,
         });
       }
       this.saving.set(false);
@@ -500,7 +501,7 @@ export class GroupFormPageComponent implements DirtyAware, OnInit, OnDestroy {
       summary: this.translate.instant('groups.toasts.deleted_single', {
         name: group?.name ?? '',
       }),
-      life: 3000,
+      life: TOAST_LIFE.success,
     });
     void this.router.navigateByUrl('/admin/grupos');
   }

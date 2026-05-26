@@ -12,6 +12,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import { IconComponent } from '@shared/components';
 import { DialogComponent } from '@shared/components/dialog/dialog.component';
 import type { Conversation, Recording, TranscriptionLine } from '../../data/conversation.types';
@@ -410,7 +411,7 @@ export class ConversationPlayerModalComponent {
     this.messages.add({
       severity: 'success',
       summary: this.translate.instant('memory.player.download_success'),
-      life: 3000,
+      life: TOAST_LIFE.success,
     });
   }
 

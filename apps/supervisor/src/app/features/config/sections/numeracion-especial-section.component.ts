@@ -3,6 +3,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
+import { TOAST_LIFE } from '@core/utils/toast-life';
 import { IconComponent } from '@shared/components';
 
 import { COUNTRY_PREFIXES, type CountryPrefix } from '../data/country-prefixes';
@@ -102,7 +103,7 @@ export class NumeracionEspecialSectionComponent {
           count === 1 ? 'config.aed.toast.saved_one' : 'config.aed.toast.saved_many',
           { count },
         ),
-        life: 3000,
+        life: TOAST_LIFE.success,
       });
     }, 600);
   }
