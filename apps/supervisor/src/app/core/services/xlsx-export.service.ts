@@ -1,7 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
-import * as XLSX from 'xlsx';
+// Solo el tipo: `import type` se borra en compilación, no arrastra `xlsx` al
+// bundle. El runtime se carga con `import('xlsx')` diferido (ver `run`).
+import type { CellObject } from 'xlsx';
 
 export interface XlsxExportOptions {
   /** Header row labels (already translated). */
@@ -25,8 +27,17 @@ export class XlsxExportService {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
 
+  /** API pública síncrona; el trabajo real (con `xlsx` diferido) corre en `run`. */
   export(options: XlsxExportOptions): void {
+    void this.run(options);
+  }
+
+  private async run(options: XlsxExportOptions): Promise<void> {
     const { headers, rows, sheetName, filePrefix } = options;
+
+    // Carga diferida: `xlsx` (~280 kB) vive en su propio chunk, descargado solo
+    // al exportar — fuera del bundle inicial.
+    const XLSX = await import('xlsx');
 
     const aoa: (string | number)[][] = [[...headers], ...rows.map((row) => [...row])];
     const ws = XLSX.utils.aoa_to_sheet(aoa);
@@ -44,7 +55,7 @@ export class XlsxExportService {
     const range = XLSX.utils.decode_range(ws['!ref'] ?? 'A1');
     for (let column = range.s.c; column <= range.e.c; column++) {
       const address = XLSX.utils.encode_cell({ r: 0, c: column });
-      const cell = ws[address] as XLSX.CellObject | undefined;
+      const cell = ws[address] as CellObject | undefined;
       if (!cell) continue;
       cell.s = {
         font: { bold: true, sz: 11 },
