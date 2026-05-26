@@ -10,6 +10,36 @@
 
 ---
 
+## 2026-05-26 · Session 62 — Triple auditoría: arranque (DS + bundle + UX), 4 commits
+
+> Rafa: "según lo que recomiendes, ejecuta plan sin preguntarme". Ejecutada la
+> triple auditoría S60 con recolección en paralelo (3 sub-agentes) + síntesis +
+> fixes de alta confianza. Orden razonado DS→código→UX (DS produce el inventario
+> Lucide que el bundle necesita). 4 commits a `main` (local, sin push).
+
+**Hallazgo transversal**: el bundle inicial (1.62 MB, +871 KB sobre budget) NO lo
+infla Lucide (ligero) sino **xlsx** (~280 KB, import estático que se colaba en el
+inicial vía barrel) + PrimeNG (855 KB). Confirmado: chunk SheetJS en index.html.
+
+**Ejecutado**:
+- **`refactor(icons)`** (`655d799`): elimina **lucide-angular del repo** (cierra
+  migración S60-62). 3 iconos vivos migrados: Loader2→`<sc-icon name="progress_activity" [spin]>` (nuevo input `spin` con keyframe + reduced-motion encapsulados), Trash2→`delete`, GitHub→`<svg>` octicon inline. 2 imports muertos limpios, keyframes dead borrados, fix colateral sparkle teal (selector `lucide-icon` muerto desde S60). sc-icon → customs-catalog §2.6 (DD-7). Cierra backlog #59/#60/#61.
+- **`perf(bundle)`** (`f418a72`): **xlsx a `import('xlsx')` diferido** (chunk lazy propio). Initial **1.62→1.33 MB raw, gzip 348→268 KB (−23%)**. API pública intacta.
+- **`fix(ux)`** (`d0a80f3`): kebab `more_horiz`→`more_vert` (labels/templates/repos, alinea al dominante); delete dialogs agentes/grupos/usuarios pasaban entidad **hardcodeada en español** (bug i18n real en EN/FR/PT) → claves `*.entity_singular/plural` existentes vía `| translate`.
+- **`docs(backlog)`** (`0c9eb95`): añade #62-67 (ver abajo).
+
+**Diferido a backlog** (sweeps/decisiones que merecen pase dedicado): #62 ~25
+selectores CSS `lucide-icon` muertos · #63 convención duración toasts
+(severity→life; variancia conversations-page es intencional, no normalizar a
+ciegas) · #64 unificar empty states a `<sc-empty-state>` (3 patrones) · #65 Memory
+conversations sin empty-state + bulk-bar stub · #66 god-components (agent-form 981,
+player-modal 502) · #67 self-host font Material.
+
+**Salud**: build AOT · lint · i18n 1488×4 · **e2e 28/28** · glifo `progress_activity`
++ GitHub SVG verificados en navegador (Playwright). Husky verde en los 4 commits.
+
+---
+
 ## 2026-05-26 · Session 61 — Iconos Figma: fix SCALE librería + publish (saga, 0 código)
 
 > Sesión 100% Figma (sin cambios de repo). Rafa peleaba con tamaños de icono en

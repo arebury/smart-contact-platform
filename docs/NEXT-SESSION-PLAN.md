@@ -5,6 +5,32 @@
 
 ---
 
+## Estado al cerrar (Session 62, 2026-05-26) — triple auditoría: core ejecutado
+
+Rafa delegó ("ejecuta plan sin preguntarme"). Ejecutada la triple auditoría S60
+(recolección con 3 sub-agentes en paralelo + síntesis + fixes de alta confianza).
+**4 commits a `main` (local, NO pusheados todavía)** — detalle en SESSION-LOG S62.
+
+**Hecho y validado** (build/lint/i18n/e2e 28-28/Playwright):
+1. **Lucide-angular eliminado del repo** — `<sc-icon>` único proveedor (input `spin`
+   nuevo, GitHub→SVG inline). Cierra backlog #59/#60/#61.
+2. **xlsx a carga diferida** — initial gzip **348→268 KB (−23%)**. La palanca real
+   del bundle era xlsx + PrimeNG, NO Lucide.
+3. **Consistencia UX AED** — `more_vert` + bug i18n entidad en delete dialogs.
+
+**Cola de la triple auditoría (sweeps/decisiones que faltan — backlog #62-67)**:
+- **#64 Unificar empty states** a `<sc-empty-state>` (labels/templates + 3 pages
+  Memory). Target inequívoco, mecánico, pero toca a11y/visual → pase dedicado con
+  Playwright. **Candidato #1 para retomar.**
+- **#65 Memory conversations**: sin empty-state + bulk-bar como stub (rediseño).
+- **#63 Convención duración toasts** (severity→life). Necesita sign-off del patrón.
+- **#62 Sweep ~25 selectores CSS `lucide-icon` muertos** (mecánico, validar visual).
+- **#66 god-components** (agent-form 981, player-modal 502) — split solo al tocar.
+- **#67 self-host font Material** (pre-producción).
+
+> Pendiente operativo: **push** de los 4 commits (al cerrar / cuando Rafa lo pida).
+> Bundle: el exceso restante (581 KB) es PrimeNG — no atacable sin trade-offs.
+
 ## Estado al cerrar (Session 61, 2026-05-26) — iconos Figma (desvío, 0 código)
 
 Sesión 100% Figma, **sin cambios de repo**. Rafa peleaba con tamaños de icono en
@@ -17,9 +43,8 @@ memoria `project_figma_iconset_icon_scale_fix`):
   cubre con `<sc-icon>`). El "patrón B" es raro (el kit usa variantes Size en el
   master, ej. Select). Único caso InputNumber → arreglado en local.
 
-> ⚠️ **El foco principal NO cambió**: la **triple auditoría** de abajo sigue en
-> cola intacta (S60 la dejó lista; S61 fue un desvío Figma que arrancó Rafa).
-> Arrancar S62 por ahí salvo que Rafa redirija.
+> ⚠️ **El foco principal NO cambió**: la **triple auditoría** se arrancó en S62
+> (ver bloque de arriba) — core hecho, sweeps restantes en backlog #62-67.
 
 ## Estado al cerrar (Session 60, 2026-05-25) — todo-arriba + la ficha + iconos Material → MERGED
 
