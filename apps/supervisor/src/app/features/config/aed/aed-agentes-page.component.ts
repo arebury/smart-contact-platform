@@ -3,7 +3,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
-import { PageHeaderService } from '@core/services';
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   IconComponent,
@@ -84,17 +83,6 @@ const DEFAULT_FORM: FormState = {
 export class AedAgentesPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
-  private readonly pageHeader = inject(PageHeaderService);
-
-  constructor() {
-    this.pageHeader.set({
-      titleKey: 'config.aed.subpages.agentes.heading',
-      subtitleKey: 'config.aed.subpages.agentes.subtitle',
-      entityKey: 'config.sidebar.title',
-      icon: 'person',
-    });
-  }
-
   protected readonly userIcon = 'person';
   protected readonly chevronDown = 'expand_more';
   protected readonly chevronUp = 'expand_less';

@@ -4,7 +4,6 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { PageHeaderService } from '@core/services';
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   IconComponent,
@@ -122,17 +121,6 @@ const EVENTOS_LABELS: readonly (keyof EventosNotificacion)[] = [
 export class AedServicioPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
-  private readonly pageHeader = inject(PageHeaderService);
-
-  constructor() {
-    this.pageHeader.set({
-      titleKey: 'config.aed.subpages.servicio.heading',
-      subtitleKey: 'config.aed.subpages.servicio.subtitle',
-      entityKey: 'config.sidebar.title',
-      icon: 'call',
-    });
-  }
-
   protected readonly serviceIcon = 'call';
   protected readonly addIcon = 'add_circle';
   protected readonly closeIcon = 'close';

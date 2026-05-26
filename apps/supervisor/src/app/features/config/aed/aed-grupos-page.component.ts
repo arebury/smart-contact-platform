@@ -3,7 +3,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
-import { PageHeaderService } from '@core/services';
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   IconComponent,
@@ -73,17 +72,6 @@ const DEFAULT_FORM: FormState = {
 export class AedGruposPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
-  private readonly pageHeader = inject(PageHeaderService);
-
-  constructor() {
-    this.pageHeader.set({
-      titleKey: 'config.aed.subpages.grupos.heading',
-      subtitleKey: 'config.aed.subpages.grupos.subtitle',
-      entityKey: 'config.sidebar.title',
-      icon: 'groups',
-    });
-  }
-
   protected readonly groupsIcon = 'groups';
   protected readonly chevronIcon = 'expand_more';
   protected readonly infoIcon = 'info';

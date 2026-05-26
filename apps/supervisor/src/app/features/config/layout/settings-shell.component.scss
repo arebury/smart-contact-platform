@@ -41,25 +41,3 @@
   flex: 1;
   min-width: 0;
 }
-
-/* Título ligero de la sección (reemplaza la banda full-width). Mismo
- * tratamiento tipográfico que el nombre del `sticky-form-header` para que
- * las pantallas lean con el mismo peso, pero sin caja ni borde. */
-.settings-shell__title {
-  padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25) var(--sc-spacing-0-5);
-
-  h1 {
-    margin: 0;
-    font-family: var(--sc-font-family-subtitle-1);
-    font-size: var(--sc-font-size-subtitle-1);
-    line-height: var(--sc-line-height-subtitle-1);
-    font-weight: var(--sc-font-weight-subtitle-1);
-    color: var(--sc-text-primary);
-  }
-
-  p {
-    margin: var(--sc-spacing-0-25) 0 0;
-    font-size: var(--sc-font-size-200);
-    color: var(--sc-text-subtle);
-  }
-}

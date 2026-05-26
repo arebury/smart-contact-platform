@@ -21,6 +21,9 @@ const placeholder = () =>
 export const configRoutes: Routes = [
   {
     path: 'aed',
+    // El hub aporta su contexto al breadcrumb ("Configuración AED / Agentes").
+    // `link: false`: /config/aed solo redirige a servicio, no es un destino propio.
+    data: { breadcrumb: { labelKey: 'config.sidebar.title', link: false } },
     loadComponent: () =>
       import('./layout/settings-shell.component').then((m) => m.SettingsShellComponent),
     children: [

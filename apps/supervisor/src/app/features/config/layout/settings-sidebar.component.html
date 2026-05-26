@@ -1,13 +1,4 @@
 <aside class="settings-sidebar">
-  <div class="settings-sidebar__head">
-    <p class="settings-sidebar__title">
-      {{ 'config.sidebar.title' | translate }}
-    </p>
-    <p class="settings-sidebar__subtitle">
-      {{ 'config.sidebar.subtitle' | translate }}
-    </p>
-  </div>
-
   <nav class="settings-sidebar__nav" aria-label="Configuración AED">
     @for (item of items; track item.path) {
       <a
@@ -25,8 +16,4 @@
       </a>
     }
   </nav>
-
-  <div class="settings-sidebar__foot">
-    <span>{{ 'config.sidebar.version' | translate }}</span>
-  </div>
 </aside>
