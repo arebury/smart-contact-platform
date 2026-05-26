@@ -1,9 +1,10 @@
 /*
- * Settings shell — wraps every `/config/*` route in a header (top) +
- * sidebar + main column layout, mirroring the /admin form pattern where
- * `sticky-form-header` spans the full page width above the rail.
- * Main paints the muted canvas (#f7f8fa equivalent) so child pages drop
- * their own page background.
+ * Settings shell (AED hub) — rail (izquierda) + columna de contenido.
+ * S62: eliminada la banda `sc-page-header` full-width que cruzaba sobre el
+ * rail (mirroring del viejo `sticky-form-header`, patrón que el resto de la
+ * app abandonó con el modelo "todo arriba"). Ahora la columna de contenido
+ * abre con un título + descripción ligeros; la orientación la dan el
+ * breadcrumb + el rail (que resalta la sección activa).
  */
 :host {
   display: block;
@@ -17,15 +18,9 @@
   min-height: 100%;
 }
 
-/* Chrome (bg + border + sticky) lives on `sc-page-header` itself —
- * this wrapper is a passive container so the layout grid stays tidy. */
-.settings-shell__header {
-  z-index: 2;
-}
-
 .settings-shell__body {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   flex: 1;
   min-height: 0;
 }
@@ -33,17 +28,38 @@
 .settings-shell__rail {
   flex: 0 0 256px;
   width: 256px;
+  /* Sin banda encima, el rail se ancla al borde superior del área de
+   * contenido (el scrollport es `app-shell__content`). Sticky para que
+   * la navegación AED quede visible mientras el contenido scrollea. */
   position: sticky;
-  /* Same offset the /admin form rails use to sit below `sticky-form-header`. */
-  top: var(--sc-form-panel-top);
-  align-self: stretch;
-  /* Sticky needs an explicit height. We subtract the header offset so
-   * the rail's scroll area doesn't extend past the visible viewport. */
-  height: calc(100dvh - var(--sc-form-panel-top));
+  top: 0;
+  align-self: flex-start;
   z-index: 1;
 }
 
 .settings-shell__main {
   flex: 1;
   min-width: 0;
+}
+
+/* Título ligero de la sección (reemplaza la banda full-width). Mismo
+ * tratamiento tipográfico que el nombre del `sticky-form-header` para que
+ * las pantallas lean con el mismo peso, pero sin caja ni borde. */
+.settings-shell__title {
+  padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25) var(--sc-spacing-0-5);
+
+  h1 {
+    margin: 0;
+    font-family: var(--sc-font-family-subtitle-1);
+    font-size: var(--sc-font-size-subtitle-1);
+    line-height: var(--sc-line-height-subtitle-1);
+    font-weight: var(--sc-font-weight-subtitle-1);
+    color: var(--sc-text-primary);
+  }
+
+  p {
+    margin: var(--sc-spacing-0-25) 0 0;
+    font-size: var(--sc-font-size-200);
+    color: var(--sc-text-subtle);
+  }
 }

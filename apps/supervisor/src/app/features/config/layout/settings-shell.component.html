@@ -1,19 +1,17 @@
 <div class="settings-shell">
-  @if (headerState(); as h) {
-    <div class="settings-shell__header">
-      <sc-page-header
-        [titleKey]="h.titleKey"
-        [subtitleKey]="h.subtitleKey"
-        [entityKey]="h.entityKey"
-        [icon]="h.icon"
-      />
-    </div>
-  }
   <div class="settings-shell__body">
     <div class="settings-shell__rail">
       <sc-settings-sidebar />
     </div>
     <div class="settings-shell__main">
+      @if (headerState(); as h) {
+        <header class="settings-shell__title" role="presentation">
+          <h1>{{ h.titleKey | translate }}</h1>
+          @if (h.subtitleKey) {
+            <p>{{ h.subtitleKey | translate }}</p>
+          }
+        </header>
+      }
       <router-outlet />
     </div>
   </div>
