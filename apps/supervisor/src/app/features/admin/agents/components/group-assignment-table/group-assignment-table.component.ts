@@ -55,6 +55,10 @@ export class GroupAssignmentTableComponent {
   readonly links = input.required<readonly GroupAgentLink[]>();
   readonly availableGroups = input.required<readonly AgentGroupAssignmentRef[]>();
   readonly agentId = input.required<number>();
+  /** Section title + hint rendered in the header row, inline with the search
+   * (Figma 12277-4185: título+subtítulo a la izquierda, buscador a la derecha). */
+  readonly titleKey = input<string | null>(null);
+  readonly hintKey = input<string | null>(null);
 
   readonly linksChange = output<readonly GroupAgentLink[]>();
 

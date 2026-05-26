@@ -1,19 +1,53 @@
 .gatbl {
+  /* Panel blanco sobre la página gris (--sc-bg-default). Figma p-card:
+   * content/background = white. Header inset + filas a sangre dentro. */
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-1-125);
+  background: var(--sc-bg-surface);
+  border-radius: var(--sc-radius-300);
+  box-shadow: var(--sc-shadow-xs);
+  overflow: hidden;
 
+  /* Header: título+subtítulo (izq) · buscador (der), una sola fila.
+   * Figma 12277-4185: header 28,5px, search 216px a la derecha. */
   &__head {
     display: flex;
     align-items: center;
-    gap: var(--sc-spacing-1-125);
-    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--sc-spacing-1-5);
+    padding: var(--sc-spacing-1) var(--sc-spacing-1-143);
+  }
+
+  &__title-block {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sc-spacing-0-625);
+    min-width: 0;
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--sc-font-family-subtitle-2);
+    font-size: var(--sc-font-size-subtitle-2);
+    line-height: var(--sc-line-height-subtitle-2);
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-text-primary);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  &__hint {
+    font-family: var(--sc-font-family-caption);
+    font-size: var(--sc-font-size-caption);
+    line-height: var(--sc-line-height-caption);
+    color: var(--sc-text-subtle);
+    white-space: nowrap;
   }
 
   &__picker {
     position: relative;
-    flex: 1 1 320px;
-    min-width: 240px;
+    flex: 0 0 auto;
+    width: 216px;
     display: flex;
     align-items: center;
   }
@@ -27,7 +61,8 @@
 
   &__picker-input {
     width: 100%;
-    height: 32px;
+    /* 28px = --sc-spacing-2 (scale-2). Figma 28,5 → snap a 28. */
+    height: var(--sc-spacing-2);
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875) var(--sc-spacing-0-5)
       calc(var(--sc-spacing-0-875) + 18px + var(--sc-spacing-0-5));
     font-size: var(--sc-font-size-200);
@@ -122,12 +157,6 @@
     line-height: 1.3;
   }
 
-  &__counter {
-    font-size: var(--sc-font-size-100);
-    color: var(--sc-text-subtle);
-    flex: 0 0 auto;
-  }
-
   /* Empty state — icon + title + body. The picker bar above the table
    * is the call to action; the empty state just explains the void. */
   &__empty {
@@ -177,7 +206,7 @@
       font-weight: var(--sc-font-weight-medium);
       color: var(--sc-text-secondary);
       font-size: var(--sc-font-size-100);
-      padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
+      padding: var(--sc-spacing-0-75) var(--sc-spacing-1-143);
       border-bottom: 1px solid var(--sc-border-default);
       vertical-align: middle;
     }
@@ -202,7 +231,8 @@
     }
 
     td {
-      padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
+      /* Fila ≈48px (Figma): chip 31-32px + padding 7px = ~47-48. */
+      padding: var(--sc-spacing-0-5) var(--sc-spacing-1-143);
       border-bottom: 1px solid var(--sc-border-subtle);
       vertical-align: middle;
     }
@@ -231,18 +261,20 @@
     gap: var(--sc-spacing-0-25);
   }
 
+  /* Chips de canal = estilo togglebutton (Figma 12277-4185: togglebutton 31px,
+   * radio 6px, gap 7px). Off = relleno gris-100 + texto muted + ＋; on = blanco
+   * + texto primario + ✓. Ambos rellenos (no dashed). */
   &__chip {
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: var(--sc-spacing-0-25);
-    padding: var(--sc-spacing-0-25) var(--sc-spacing-0-75) var(--sc-spacing-0-25)
-      var(--sc-spacing-0-5);
-    border-radius: var(--sc-radius-full);
-    border: 1px solid var(--sc-border-default);
-    background: var(--sc-bg-surface);
-    color: var(--sc-text-secondary);
+    gap: var(--sc-spacing-0-5);
+    min-height: var(--sc-spacing-2-25);
+    padding: var(--sc-spacing-0-375) var(--sc-spacing-0-75);
+    border-radius: var(--sc-radius-md);
+    border: 1px solid var(--sc-border-subtle);
     font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
     cursor: pointer;
     transition:
       background-color 100ms ease,
@@ -259,25 +291,22 @@
       cursor: pointer;
     }
 
-    &:hover {
-      border-color: var(--sc-border-strong);
-    }
-    /* On state (SnowUI, S62): pill claro neutro — fondo gris sutil + borde
-     * sólido + texto primario + ✓. Restraint: el canal activo se lee por
-     * relleno sólido vs el dashed transparente del off, no por color fuerte. */
+    /* On: canal activo → blanco, texto primario, ✓. */
     &--on {
-      background: var(--sc-bg-secondary-subtle);
-      border-color: var(--sc-border-default);
+      background: var(--sc-bg-surface);
+      border-color: var(--sc-border-subtle);
       color: var(--sc-text-primary);
     }
-    /* Off state: visibly "available but not selected" — dashed border +
-     * muted text so it is never confused with the on-state solid fill or
-     * with a read-only label. */
+    /* Off: disponible no seleccionado → relleno gris-100, texto muted, ＋.
+     * `--sc-bg-secondary-hover` = gray-100 (#eceff3), el valor del togglebutton
+     * off del Figma. */
     &--off {
-      background: transparent;
-      border-style: dashed;
-      border-color: var(--sc-border-subtle);
+      background: var(--sc-bg-secondary-hover);
+      border-color: var(--sc-bg-secondary-hover);
       color: var(--sc-text-subtle);
+    }
+    &--off:hover {
+      border-color: var(--sc-border-default);
     }
     &--disabled {
       cursor: not-allowed;
@@ -299,18 +328,22 @@
     text-align: center;
   }
 
+  /* Papelera = icon-button secundario (Figma: button 35×31, bg gris-100). */
   &__remove {
-    background: transparent;
-    border: 0;
-    border-radius: var(--sc-radius-100);
-    padding: var(--sc-spacing-0-25);
-    color: var(--sc-text-subtle);
-    cursor: pointer;
     display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: var(--sc-spacing-2-25);
+    background: var(--sc-bg-secondary-hover);
+    border: 0;
+    border-radius: var(--sc-radius-md);
+    color: var(--sc-text-secondary);
+    cursor: pointer;
 
     &:hover {
       color: var(--sc-text-danger);
-      background: var(--sc-bg-hover);
+      background: var(--sc-border-subtle);
     }
     &:focus-visible {
       outline: 2px solid var(--sc-color-electric-blue-500);

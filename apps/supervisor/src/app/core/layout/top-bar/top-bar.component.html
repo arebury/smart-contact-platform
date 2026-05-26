@@ -16,7 +16,7 @@
       @for (crumb of trail(); track $index) {
         <li class="top-bar__crumb">
           @if ($index > 0) {
-            <span class="top-bar__crumb-sep" aria-hidden="true">&gt;</span>
+            <span class="top-bar__crumb-sep" aria-hidden="true">›</span>
           }
           @if (crumb.path && $index !== lastIndex()) {
             <button type="button" class="top-bar__crumb-link" (click)="onCrumbClick(crumb.path)">

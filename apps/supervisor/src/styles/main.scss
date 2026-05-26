@@ -126,6 +126,20 @@ table.table {
 }
 
 /*
+ * Button line-height (Figma button: `leading-normal`). Sin esto los `.p-button`
+ * heredan el `line-height: 1.5` del reset (`_reset.scss`) → la altura se infla
+ * (~35px el small). Con `normal` + el sizing `button.sm` del preset, el
+ * button-small cae a ~27.5px (1:1 Kit Pro node 7593:168546). Unlayered para
+ * ganar a PrimeNG (@layer primeng). App-wide: corrige TODOS los botones.
+ */
+/* Button line-height: los `.p-button` heredaban `line-height: 1.5` del reset →
+ * altura inflada. `normal` (no es token de botón en el preset) lo corrige. El
+ * font + padding de sm/lg los pone el preset (`button.root.sm/lg`, 1:1 Kit Pro). */
+.p-button {
+  line-height: normal;
+}
+
+/*
  * Global button micro-interactions (DD#21).
  *
  * Hover/focus changes use a short transition so the state feels alive but

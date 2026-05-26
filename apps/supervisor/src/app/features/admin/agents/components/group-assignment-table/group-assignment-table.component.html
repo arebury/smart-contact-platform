@@ -1,6 +1,16 @@
 <div class="gatbl">
-  <!-- Picker row -->
+  <!-- Header: título + subtítulo (izq) · buscador (der). Figma 12277-4185. -->
   <div class="gatbl__head">
+    @if (titleKey() || hintKey()) {
+      <div class="gatbl__title-block">
+        @if (titleKey(); as t) {
+          <h2 class="gatbl__title">{{ t | translate }}</h2>
+        }
+        @if (hintKey(); as h) {
+          <span class="gatbl__hint">{{ h | translate }}</span>
+        }
+      </div>
+    }
     <div class="gatbl__picker">
       <sc-icon [name]="searchIcon" [size]="14" class="gatbl__picker-icon" />
       <input
@@ -42,10 +52,6 @@
         </ul>
       }
     </div>
-
-    <span class="gatbl__counter">
-      {{ 'agents.form.assigned.counter' | translate: { count: assignedRows().length } }}
-    </span>
   </div>
 
   @if (assignedRows().length === 0) {

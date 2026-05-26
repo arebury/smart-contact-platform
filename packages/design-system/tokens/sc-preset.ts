@@ -191,6 +191,20 @@ export const ScPreset = definePreset(Aura, {
       paddingY: '7px',
       borderRadius: 'var(--sc-radius-200)',
       transitionDuration: 'var(--sc-transition-base)',
+      /* Tamaños sm/lg 1:1 del Kit Pro export (claves formFieldSm y formFieldLg).
+       * Sin esto, TODOS los form fields size sm/lg (input, select, multiselect,
+       * datepicker…) caían a los defaults rem de Aura (font 14px). Mismo origen
+       * que el button.root.sm/lg (button deriva de form.field en PrimeNG). */
+      sm: {
+        fontSize: '12.25px',
+        paddingX: '8.75px',
+        paddingY: '5.25px',
+      },
+      lg: {
+        fontSize: '15.75px',
+        paddingX: '12.25px',
+        paddingY: '8.75px',
+      },
     },
     /* Dialog / popover / select / navigation overlay shells — radius +
      * shadow. Aura's defaults use `rgba(0,0,0,0.1)` for select +
@@ -380,6 +394,24 @@ export const ScPreset = definePreset(Aura, {
         paddingY: '7px',
         borderRadius: '6px',
         gap: '7px',
+        iconOnlyWidth: '35px',
+        /* Tamaños sm/lg van BAJO root (PrimeNG: `button.root.sm`, no `button.sm`).
+         * Valores 1:1 del Kit Pro export (componentCommon.button*): sm 12.25 /
+         * 8.75 / 5.25 (iconOnly 28); lg 15.75 / 12.25 / 8.75 (iconOnly 42). Sin
+         * esto, sm/lg caían a los defaults rem de Aura (font 14px) → el "small"
+         * salía como el md. */
+        sm: {
+          fontSize: '12.25px',
+          paddingX: '8.75px',
+          paddingY: '5.25px',
+          iconOnlyWidth: '28px',
+        },
+        lg: {
+          fontSize: '15.75px',
+          paddingX: '12.25px',
+          paddingY: '8.75px',
+          iconOnlyWidth: '42px',
+        },
       },
     },
     tabs: {

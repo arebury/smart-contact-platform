@@ -2,11 +2,12 @@
      Identidad → breadcrumb + campos del cuerpo (foto/nombre en Identificación);
      Guardar/Cancelar → barra de arriba vía TopBarSlotService (ver el .ts). -->
 <ng-template #topbarActions>
-  <p-button type="button" severity="secondary" (onClick)="cancel()">
+  <p-button type="button" size="small" severity="secondary" (onClick)="cancel()">
     <span>{{ 'common.cancel' | translate }}</span>
   </p-button>
   <p-button
     type="button"
+    size="small"
     severity="primary"
     [disabled]="!canSave()"
     [loading]="saving()"
@@ -255,20 +256,16 @@
         }
 
         @case ('agent-section-groups') {
-          <sc-section-card
-            anchorId="agent-section-groups"
-            [icon]="activeIcon()"
+          <!-- La tabla es el panel completo (header título+buscador + tabla),
+               como el p-card del Figma 12277-4185. Sin sc-section-card. -->
+          <sc-group-assignment-table
             titleKey="agents.form.section.groups"
             hintKey="agents.form.section.groups_hint"
-            [flush]="true"
-          >
-            <sc-group-assignment-table
-              [links]="form().links"
-              [availableGroups]="availableGroups()"
-              [agentId]="editingId() ?? 0"
-              (linksChange)="onLinksChange($event)"
-            />
-          </sc-section-card>
+            [links]="form().links"
+            [availableGroups]="availableGroups()"
+            [agentId]="editingId() ?? 0"
+            (linksChange)="onLinksChange($event)"
+          />
         }
 
         @case ('agent-section-permissions') {
