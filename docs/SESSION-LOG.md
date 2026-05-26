@@ -28,15 +28,28 @@ inicial vía barrel) + PrimeNG (855 KB). Confirmado: chunk SheetJS en index.html
 - **`fix(ux)`** (`d0a80f3`): kebab `more_horiz`→`more_vert` (labels/templates/repos, alinea al dominante); delete dialogs agentes/grupos/usuarios pasaban entidad **hardcodeada en español** (bug i18n real en EN/FR/PT) → claves `*.entity_singular/plural` existentes vía `| translate`.
 - **`docs(backlog)`** (`0c9eb95`): añade #62-67 (ver abajo).
 
-**Diferido a backlog** (sweeps/decisiones que merecen pase dedicado): #62 ~25
-selectores CSS `lucide-icon` muertos · #63 convención duración toasts
-(severity→life; variancia conversations-page es intencional, no normalizar a
-ciegas) · #64 unificar empty states a `<sc-empty-state>` (3 patrones) · #65 Memory
-conversations sin empty-state + bulk-bar stub · #66 god-components (agent-form 981,
-player-modal 502) · #67 self-host font Material.
+**Segundo bloque (consentimiento total de Rafa para #62-67)** — commit código +
+docs:
+- **#64 Empty states → `<sc-empty-state>`**: labels, templates, categories, rules
+  al componente canónico (a11y + CTA; categories gana CTA). entities se queda
+  ligero (sección ya titulada) + role=status. SCSS ad-hoc borrado.
+- **#65 Conversaciones**: `conversation-table` pinta "sin resultados" (`@empty`,
+  i18n nuevo ×4) — no-results sin CTA (no se crean). Bulk-bar inline = diseño
+  deliberado (paridad S50/S52) → se MANTIENE; quitado el andamiaje muerto
+  (padding-bottom de un overlay inexistente).
+- **#63 Toasts legibles**: constante `TOAST_LIFE` (`@core/utils/toast-life`,
+  success/info 4s · warn 5s · error 6s). 45 toasts / 20 ficheros. undo-stack +
+  sticky intactos.
+- **#62 CSS muerto**: 41 selectores `lucide-icon`→`sc-icon` (20 ficheros),
+  restaurativo (re-aplica styling que S60 dejó huérfano).
+- **#66 god-components** y **#67 self-host font**: **aparcados conscientemente**
+  (sparring): partir un componente de 981 líneas sin trigger contradice la DD
+  "trigger real o nada"; self-host es tarea de pre-producción. Triggers anotados.
 
-**Salud**: build AOT · lint · i18n 1488×4 · **e2e 28/28** · glifo `progress_activity`
-+ GitHub SVG verificados en navegador (Playwright). Husky verde en los 4 commits.
+**Salud**: build AOT · lint · i18n 1491×4 · **e2e 28/28** (un primer run dio 10
+fallos por cold-start del dev server; con server caliente, 28/28 limpio). Glifo
+`progress_activity` + GitHub SVG verificados en navegador. Husky verde en todos
+los commits (4 del bloque 1 + 2 del bloque 2).
 
 ---
 

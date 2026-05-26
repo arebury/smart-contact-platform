@@ -5,31 +5,42 @@
 
 ---
 
-## Estado al cerrar (Session 62, 2026-05-26) — triple auditoría: core ejecutado
+## Estado al cerrar (Session 62, 2026-05-26) — triple auditoría: COMPLETADA
 
-Rafa delegó ("ejecuta plan sin preguntarme"). Ejecutada la triple auditoría S60
-(recolección con 3 sub-agentes en paralelo + síntesis + fixes de alta confianza).
-**4 commits a `main` (local, NO pusheados todavía)** — detalle en SESSION-LOG S62.
+Rafa delegó ("ejecuta plan sin preguntarme" + luego "consentimiento total" para
+#62-67). Ejecutada la triple auditoría S60 entera. **6 commits a `main`** (detalle
+en SESSION-LOG S62).
 
-**Hecho y validado** (build/lint/i18n/e2e 28-28/Playwright):
-1. **Lucide-angular eliminado del repo** — `<sc-icon>` único proveedor (input `spin`
-   nuevo, GitHub→SVG inline). Cierra backlog #59/#60/#61.
-2. **xlsx a carga diferida** — initial gzip **348→268 KB (−23%)**. La palanca real
-   del bundle era xlsx + PrimeNG, NO Lucide.
+**Hecho y validado** (build/lint/i18n 1491×4/e2e 28-28/Playwright):
+1. **Lucide-angular eliminado del repo** — `<sc-icon>` único proveedor (input `spin`,
+   GitHub→SVG inline). #59/#60/#61.
+2. **xlsx a carga diferida** — initial gzip **348→268 KB (−23%)**. La palanca del
+   bundle era xlsx + PrimeNG, NO Lucide.
 3. **Consistencia UX AED** — `more_vert` + bug i18n entidad en delete dialogs.
+4. **Empty states unificados** a `<sc-empty-state>` (labels/templates/categories/
+   rules + entities a11y). #64.
+5. **Conversaciones**: estado "sin resultados" + andamiaje bulk-bar muerto fuera;
+   bulk-bar inline se mantiene (diseño deliberado). #65.
+6. **Toasts legibles**: constante `TOAST_LIFE` (success/info 4s·warn 5s·error 6s),
+   45 toasts. #63.
+7. **CSS muerto**: 41 selectores `lucide-icon`→`sc-icon`. #62.
 
-**Cola de la triple auditoría (sweeps/decisiones que faltan — backlog #62-67)**:
-- **#64 Unificar empty states** a `<sc-empty-state>` (labels/templates + 3 pages
-  Memory). Target inequívoco, mecánico, pero toca a11y/visual → pase dedicado con
-  Playwright. **Candidato #1 para retomar.**
-- **#65 Memory conversations**: sin empty-state + bulk-bar como stub (rediseño).
-- **#63 Convención duración toasts** (severity→life). Necesita sign-off del patrón.
-- **#62 Sweep ~25 selectores CSS `lucide-icon` muertos** (mecánico, validar visual).
-- **#66 god-components** (agent-form 981, player-modal 502) — split solo al tocar.
-- **#67 self-host font Material** (pre-producción).
+**Aparcado conscientemente (sparring, con trigger anotado)**:
+- **#66 god-components** (agent-form 981 líneas…): partir sin trigger funcional
+  contradice la DD del repo → se parte al añadir feature, no proactivamente.
+- **#67 self-host font Material**: tarea de pre-producción (subset woff2). Trigger:
+  "vamos a producción".
 
-> Pendiente operativo: **push** de los 4 commits (al cerrar / cuando Rafa lo pida).
-> Bundle: el exceso restante (581 KB) es PrimeNG — no atacable sin trade-offs.
+> Bundle: el exceso restante de budget (581 KB) es PrimeNG — no atacable sin
+> trade-offs estructurales. Sin más deuda abierta de la triple auditoría.
+
+### Próximo arranque (S63) — sin tarea forzada
+
+La triple auditoría queda cerrada. Candidatos cuando Rafa dirija:
+- Dirección estratégica vigente: **SCDS completo a Figma con flujos conectados**
+  (ver más abajo, memoria `project_figma_flujos_objetivo_final`).
+- Pendientes funcionales dormidos: Help popover toolbar `/conversaciones` (#23),
+  spec session equipo diseño (dossier S56), items Memory §10 (esperan backend).
 
 ## Estado al cerrar (Session 61, 2026-05-26) — iconos Figma (desvío, 0 código)
 
@@ -43,8 +54,8 @@ memoria `project_figma_iconset_icon_scale_fix`):
   cubre con `<sc-icon>`). El "patrón B" es raro (el kit usa variantes Size en el
   master, ej. Select). Único caso InputNumber → arreglado en local.
 
-> ⚠️ **El foco principal NO cambió**: la **triple auditoría** se arrancó en S62
-> (ver bloque de arriba) — core hecho, sweeps restantes en backlog #62-67.
+> ✅ La **triple auditoría** que quedó en cola aquí se **completó en S62** (ver
+> bloque de arriba). Solo #66/#67 aparcados conscientemente con trigger.
 
 ## Estado al cerrar (Session 60, 2026-05-25) — todo-arriba + la ficha + iconos Material → MERGED
 
