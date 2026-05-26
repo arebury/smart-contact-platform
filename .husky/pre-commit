@@ -8,3 +8,9 @@ npm run i18n:audit
 # Lint · evita CI rojo en main (S51): GitHub Actions corre `ng lint` y
 # bloquea push si hay errores. Pre-commit local previene el round-trip.
 npm run lint
+
+# Paridad de tokens · fuente de verdad = tokensprime.json (export Kit Pro).
+# Cruza scale/radius/sizing del Figma DS Smart Contact Prime contra --sc-* y
+# sc-preset.ts. Bloquea el commit si hay drift (S62): sustituye "greps a ojo"
+# por un diff determinista antes de cantar cualquier "1:1".
+npm run tokens:parity

@@ -28,6 +28,7 @@
     "i18n:audit": "node scripts/i18n-audit.mjs",
     "i18n:audit:strict": "node scripts/i18n-audit.mjs --strict",
     "tokens:export": "node scripts/export-sc-tokens.mjs",
+    "tokens:parity": "node scripts/token-parity.mjs",
     "format": "prettier --write \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",
     "format:check": "prettier --check \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",
     "prepare": "husky"

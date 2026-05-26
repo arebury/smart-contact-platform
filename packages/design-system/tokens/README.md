@@ -108,6 +108,31 @@ is intentional but **documented in the preset comments**, never
 silent. New contributors coming from PrimeNG docs should be able to
 trace any PrimeNG concept to the AED token it maps to.
 
+## Figma parity — `tokensprime.json`
+
+`tokensprime.json` (this folder) is the **exported Variable Collections of the
+Smart Contact Prime Kit** — the clean PrimeNG duplicate in Figma (only the
+primary color is rebranded to our navy). It is the **metric source of truth**
+when porting from Figma: every `scale`, `borderRadius`, and component sizing
+value (`buttonSmFontSize`, `formFieldSmPaddingY`, `buttonIconOnlyWidth`…) is
+the exact number Figma shows. The seven `layers/*.css` files remain the source
+of truth for the *running app*; `tokensprime.json` is what we **check those
+layers against**.
+
+`npm run tokens:parity` (`scripts/token-parity.mjs`) does the diff, deterministically:
+
+1. **scale / radius** — every export value must have a matching `--sc-scale-*` /
+   `--sc-radius-*`.
+2. **value → token map** — prints e.g. `5.25px → --sc-scale-0-375`, so when you
+   inspect a Figma node the mapping into our vocabulary is exact, never eyeballed.
+3. **component sizing** — verifies `sc-preset.ts` actually fixes the sm/lg
+   paddings, font-sizes and icon-only widths the export declares.
+
+It runs in the **pre-commit hook** and exits non-zero on any gap. Re-export from
+Figma and overwrite `tokensprime.json` whenever the Kit's variables change; then
+run the parity check and reconcile. Born in S62, after three "1:1" claims made
+from memory/greps turned out false against the actual export.
+
 ## Adding a new token
 
 ```css
