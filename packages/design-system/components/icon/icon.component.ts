@@ -10,9 +10,11 @@ import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
  * (default `--sc-icon-size` = 14) y también al eje `opsz` para que el trazo
  * escale como diseñó Google. `fill` / `weight` exponen los ejes FILL y wght.
  *
- * Sustituye progresivamente a `<lucide-icon>` (migración S60+, ver
- * NEXT-SESSION-PLAN §iconos). **Iconos de marca** (GitHub, etc.) NO existen en
- * Material Symbols → ésos se quedan en Lucide, no se migran a `<sc-icon>`.
+ * Único proveedor de iconos del SCDS (la migración Lucide→Material cerró en
+ * S62 — ya no queda `lucide-angular` en el repo). Para un spinner de carga usar
+ * `[spin]="true"` con `name="progress_activity"`. Los iconos de **marca** sin
+ * glifo Material (p.ej. GitHub) se resuelven con un `<svg>` inline en el
+ * consumer, no aquí.
  */
 @Component({
   selector: 'sc-icon',
@@ -21,6 +23,7 @@ import { SC_ICON_SIZE_DEFAULT } from '@shared/utils/icon-size';
   host: {
     class: 'sc-icon material-symbols-outlined',
     'aria-hidden': 'true',
+    '[class.sc-icon--spin]': 'spin()',
     '[style.font-size.px]': 'size()',
     '[style.font-variation-settings]': 'variation()',
   },
@@ -35,6 +38,8 @@ export class IconComponent {
   readonly fill = input<boolean>(false);
   /** Grosor del trazo (eje wght 100→700). */
   readonly weight = input<number>(400);
+  /** Gira el glifo en bucle (spinner). Respeta `prefers-reduced-motion`. */
+  readonly spin = input<boolean>(false);
 
   protected readonly variation = computed(
     () => `'FILL' ${this.fill() ? 1 : 0}, 'wght' ${this.weight()}, 'GRAD' 0, 'opsz' ${this.size()}`,

@@ -121,6 +121,18 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
 - **Implementación**: `<sc-dialog>` template + scss `.sc-modal--bodyless` rules.
 - **Para qué**: confirm dialogs (delete, discard, leave page) son el 60% de los usos de modal en AED.
 
+### 2.6 `<sc-icon>` — único proveedor de iconos (Material Symbols)
+
+- **Figma**: el Kit Pro pinta iconos con PrimeIcons / la librería `Smart-Contact-Icons` (10.610 glifos a SCALE, S61). No modela un "componente icono" con API.
+- **SC**: `<sc-icon>` (`packages/design-system/components/icon/`) es la **única** API de icono del DS. Renderiza un glifo de la variable font **Material Symbols Outlined** por ligadura de texto (`{{ name() }}`), no SVG. Migración Lucide→Material cerrada en **S60-S62** (DD-9): ya **no queda `lucide-angular`** en el repo.
+  - **API**: `name` (string snake_case Material, p.ej. `delete`, `progress_activity`, requerido) · `size` (number px, default `--sc-icon-size`=14; alimenta el eje `opsz`) · `fill` (bool, eje FILL 0→1) · `weight` (number, eje wght 100→700) · `spin` (bool — gira el glifo en bucle para spinners; keyframe + `prefers-reduced-motion` encapsulados en el componente).
+  - **Spinner**: el patrón `Loader2` de Lucide se reemplaza por `<sc-icon name="progress_activity" [spin]="true">`. Sin dependencia de animación en el consumer.
+  - **Ejes variables**: `font-variation-settings` computado expone `FILL / wght / GRAD / opsz`. Font cargada en `index.html` de supervisor + ds-docs (rango `opsz 20..48, wght 100..700, FILL 0..1, GRAD -50..200`, `display=block`).
+  - **Escala de tamaño**: el `size` numérico consume la escala TS `SC_ICON_SIZE_*` (`@shared/utils/icon-size`, mirror de `--sc-icon-size-*`, S54 C3).
+- **Excepción — iconos de marca**: glifos sin equivalente Material (p.ej. **GitHub** en el sidebar) se resuelven con un `<svg>` inline `fill="currentColor"` en el consumer, NO con `<sc-icon>`. Único caso vivo hoy: `sidebar.component.html` (octicon mark).
+- **Para qué**: un solo proveedor de iconos (Material) = un solo eje de escala, theming por `color`/variación, y cero dependencias SVG en bundle. Alineado con la librería `Smart-Contact-Icons` del Kit Pro (mismo set Material).
+- **Escalas Material (gotcha S61)**: Material Outlined se ve ~1.6× más grande que PrimeIcons al mismo px ("a sangre"); al portar tamaños viejos, bajar a ~60-65% del px. En Figma, un glifo Material que "se esquina" = ponerlo a SCALE.
+
 ---
 
 ## 3. Component overloads (slots reusados con semántica SC)

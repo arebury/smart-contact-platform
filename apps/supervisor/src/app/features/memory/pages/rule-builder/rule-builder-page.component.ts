@@ -9,7 +9,6 @@ import {
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { LucideAngularModule, Trash2 } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -55,7 +54,6 @@ import { RulesStore } from '../../state/rules.store';
     FormsModule,
     IconComponent,
     InputTextComponent,
-    LucideAngularModule,
     MultiSelectComponent,
     RouterLink,
     SelectComponent,
@@ -91,7 +89,7 @@ export class RuleBuilderPageComponent {
   protected readonly sparklesIcon = 'auto_awesome';
   protected readonly databaseIcon = 'database';
   protected readonly alertIcon = 'warning';
-  protected readonly trashIcon = Trash2;
+  protected readonly trashIcon = 'delete';
 
   /**
    * Catálogo combinado grupos + agentes para "Atendida por" en

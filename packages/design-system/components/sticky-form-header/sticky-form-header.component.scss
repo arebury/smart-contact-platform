@@ -156,21 +156,5 @@
   }
 }
 
-/* Spinner animation for the Save button's loading state. The button itself
- * is `<p-button>` styled by sc-preset; we only own the spin keyframe and the
- * reduced-motion opt-out. */
-.sticky-header__spin {
-  animation: sticky-btn-spin 1s linear infinite;
-}
-
-@keyframes sticky-btn-spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sticky-header__spin {
-    animation: none;
-  }
-}
+/* El spinner del botón Save lo aporta ahora `<sc-icon [spin]>` (keyframe +
+ * reduced-motion encapsulados en el propio componente). */

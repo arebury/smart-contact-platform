@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { LucideAngularModule, Trash2 } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
 import { IconComponent } from '@shared/components';
@@ -60,7 +59,6 @@ interface ListValueDraft {
     FormsModule,
     IconComponent,
     InputTextComponent,
-    LucideAngularModule,
     DialogComponent,
     SelectComponent,
     TranslateModule,
@@ -83,7 +81,7 @@ export class EntityFormModalComponent {
 
   protected readonly databaseIcon = 'database';
   protected readonly plusIcon = 'add';
-  protected readonly trashIcon = Trash2;
+  protected readonly trashIcon = 'delete';
 
   protected readonly typeOptions: EntityTypeOption[] = [
     { value: 'text', labelKey: 'memory.entities.types.text' },

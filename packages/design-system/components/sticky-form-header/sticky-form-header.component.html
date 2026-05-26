@@ -80,12 +80,7 @@
     }
     <p-button type="button" [disabled]="!canSave() || saving()" (onClick)="save.emit()">
       @if (saving()) {
-        <lucide-icon
-          [img]="loaderIcon"
-          [size]="iconSizeMd"
-          class="sticky-header__spin"
-          [attr.aria-hidden]="true"
-        />
+        <sc-icon name="progress_activity" [size]="iconSizeMd" [spin]="true" />
         <span>{{ 'common.loading' | translate }}</span>
       } @else {
         <span>{{ 'common.save' | translate }}</span>

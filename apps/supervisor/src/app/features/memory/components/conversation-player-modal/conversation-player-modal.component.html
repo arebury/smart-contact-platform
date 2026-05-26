@@ -159,11 +159,11 @@
         @if (activeTab() === 'transcription') {
           @if (isTranscribing()) {
             <div class="player-state player-state--processing">
-              <lucide-icon
+              <sc-icon
                 class="player-state__spinner"
-                [img]="loaderIcon"
+                name="progress_activity"
                 [size]="24"
-                aria-hidden="true"
+                [spin]="true"
               />
               <div class="player-state__text">
                 <h3 class="player-state__title">
@@ -203,12 +203,7 @@
                   (click)="onRequestTranscription()"
                 >
                   @if (requestingTranscription()) {
-                    <lucide-icon
-                      [img]="loaderIcon"
-                      class="player-state__btn-spinner"
-                      [size]="14"
-                      aria-hidden="true"
-                    />
+                    <sc-icon name="progress_activity" [size]="14" [spin]="true" />
                   } @else {
                     <sc-icon [name]="fileTextIcon" [size]="14" />
                   }
@@ -282,11 +277,11 @@
         } @else {
           @if (isAnalyzing() && !c.hasAnalysis) {
             <div class="player-state player-state--processing">
-              <lucide-icon
+              <sc-icon
                 class="player-state__spinner"
-                [img]="loaderIcon"
+                name="progress_activity"
                 [size]="24"
-                aria-hidden="true"
+                [spin]="true"
               />
               <div class="player-state__text">
                 <h3 class="player-state__title">
@@ -317,12 +312,7 @@
                     (click)="onRequestBoth()"
                   >
                     @if (requestingAnalysis()) {
-                      <lucide-icon
-                        [img]="loaderIcon"
-                        class="player-state__btn-spinner"
-                        [size]="14"
-                        aria-hidden="true"
-                      />
+                      <sc-icon name="progress_activity" [size]="14" [spin]="true" />
                     } @else {
                       <sc-icon [name]="sparklesIcon" [size]="14" />
                     }
@@ -358,12 +348,7 @@
                     (click)="onRequestAnalysis()"
                   >
                     @if (requestingAnalysis()) {
-                      <lucide-icon
-                        [img]="loaderIcon"
-                        class="player-state__btn-spinner"
-                        [size]="14"
-                        aria-hidden="true"
-                      />
+                      <sc-icon name="progress_activity" [size]="14" [spin]="true" />
                     } @else {
                       <sc-icon [name]="sparklesIcon" [size]="14" />
                     }

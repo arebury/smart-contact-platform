@@ -2,13 +2,13 @@
  * Smart Contact icon size scale — TS-side mirror del CSS layer
  * `--sc-icon-size-*` (S54 C3). Mapea 1:1 a la escala PrimeOne 4.0
  * (Smart Contact Prime UI Kit Pro Variables) y se consume desde los
- * templates Angular donde `lucide-angular [size]="N"` necesita un
- * literal numérico (Lucide no acepta CSS variables como prop).
+ * templates Angular donde `<sc-icon [size]="N">` necesita un literal
+ * numérico (el input `size` es un `number`, no una CSS variable).
  *
- * **Por qué constants TS**: Lucide-angular pasa el `size` como prop
- * inline al SVG (`<svg width={N} height={N}>`). No lee CSS variables.
- * Single source of truth requiere por tanto un mirror TS. Cada cambio
- * de escala se aplica aquí + en `01-primitive.css` (mantener sync).
+ * **Por qué constants TS**: `<sc-icon>` aplica `size` como `font-size`
+ * px inline + alimenta el eje `opsz`; recibe un número, no lee CSS
+ * variables. Single source of truth requiere por tanto un mirror TS.
+ * Cada cambio de escala se aplica aquí + en `01-primitive.css` (sync).
  *
  * **Resiliencia a updates PrimeNG**: si PrimeOne 5.0 actualiza
  * `iconSize` de 14 → 16, cambio en 1 línea aquí + 1 en CSS. Sin
@@ -17,7 +17,7 @@
  * **Mapping a escala PrimeOne**: cada const equivale al token CSS
  * homónimo (`SC_ICON_SIZE_DEFAULT` ↔ `--sc-icon-size`). Usados por
  * componentes wrapper SCDS (button, badge, message, toast, dialog...)
- * + features AED/Memory que pintan iconos Lucide.
+ * + features AED/Memory que pintan iconos Material vía `<sc-icon>`.
  */
 
 /** xs (7) — radio button check sm. */

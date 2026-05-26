@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
-import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { ButtonModule } from 'primeng/button';
 
 import { IconComponent } from '../icon/icon.component';
@@ -32,7 +31,7 @@ import { SC_ICON_SIZE_DEFAULT, SC_ICON_SIZE_MD } from '@shared/utils/icon-size';
  */
 @Component({
   selector: 'sc-sticky-form-header',
-  imports: [ButtonModule, FormsModule, IconComponent, LucideAngularModule, TranslateModule],
+  imports: [ButtonModule, FormsModule, IconComponent, TranslateModule],
   templateUrl: './sticky-form-header.component.html',
   styleUrl: './sticky-form-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -66,7 +65,6 @@ export class StickyFormHeaderComponent {
   protected readonly pencilIcon = 'edit';
   protected readonly checkIcon = 'check';
   protected readonly closeIcon = 'close';
-  protected readonly loaderIcon = Loader2;
   protected readonly backIcon = 'arrow_back';
   protected readonly iconSizeDefault = SC_ICON_SIZE_DEFAULT;
   protected readonly iconSizeMd = SC_ICON_SIZE_MD;

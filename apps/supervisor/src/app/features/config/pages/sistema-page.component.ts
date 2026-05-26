@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -84,7 +83,6 @@ const APP_DATA_PREFIX = 'sc-';
   imports: [
     ButtonModule,
     IconComponent,
-    LucideAngularModule,
     NumeracionEspecialSectionComponent,
     ToggleSwitchComponent,
     TranslateModule,
@@ -124,7 +122,6 @@ export class SistemaPageComponent {
   protected readonly chevronRight = 'chevron_right';
   protected readonly downloadIcon = 'download';
   protected readonly checkIcon = 'check';
-  protected readonly loaderIcon = Loader2;
 
   protected readonly themeOptions: readonly ThemeOption[] = [
     { value: 'light', labelKey: 'config.sistema.appearance.theme_light', icon: 'light_mode' },

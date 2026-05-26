@@ -264,7 +264,7 @@
 
 .player-state__spinner {
   color: var(--sc-color-electric-blue-600);
-  animation: player-spin 900ms linear infinite;
+  /* El giro lo aporta `<sc-icon [spin]>` (keyframe + reduced-motion propios). */
 }
 
 .player-state__text {
@@ -330,10 +330,6 @@
     outline: 2px solid var(--sc-color-electric-blue-500);
     outline-offset: 2px;
   }
-}
-
-.player-state__btn-spinner {
-  animation: player-spin 900ms linear infinite;
 }
 
 .player-state__cost {
@@ -522,7 +518,7 @@
   font-size: 0.6875rem;
   color: var(--sc-color-gray-500);
 
-  lucide-icon {
+  sc-icon {
     color: var(--sc-color-teal-600);
   }
 }
@@ -565,10 +561,4 @@
 .player-sentiment__summary {
   font-size: 0.8125rem;
   color: var(--sc-color-gray-500);
-}
-
-@keyframes player-spin {
-  to {
-    transform: rotate(360deg);
-  }
 }

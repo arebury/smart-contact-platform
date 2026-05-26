@@ -9,7 +9,6 @@ import {
   signal,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Loader2, LucideAngularModule } from 'lucide-angular';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
@@ -60,7 +59,6 @@ import { MultiRecordingPlayerComponent } from '../multi-recording-player/multi-r
   imports: [
     ButtonModule,
     IconComponent,
-    LucideAngularModule,
     DialogComponent,
     DownloadModalComponent,
     MultiRecordingPlayerComponent,
@@ -218,7 +216,6 @@ export class ConversationPlayerModalComponent {
   protected readonly fileXIcon = 'scan_delete';
   protected readonly sparklesIcon = 'auto_awesome';
   protected readonly downloadIcon = 'download';
-  protected readonly loaderIcon = Loader2;
   protected readonly alignLeftIcon = 'notes';
   protected readonly trendingUpIcon = 'trending_up';
   protected readonly alertTriangleIcon = 'warning';

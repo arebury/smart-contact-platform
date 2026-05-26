@@ -332,12 +332,7 @@
                   (onClick)="regenerate()"
                 >
                   @if (processing()) {
-                    <lucide-icon
-                      [img]="loaderIcon"
-                      [size]="14"
-                      class="btn__spin"
-                      [attr.aria-hidden]="true"
-                    />
+                    <sc-icon name="progress_activity" [size]="14" [spin]="true" />
                     <span>{{ 'config.seguridad.regen.processing' | translate }}</span>
                   } @else {
                     <sc-icon [name]="keyIcon" [size]="14" />
