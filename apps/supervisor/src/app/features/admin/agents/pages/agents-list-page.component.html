@@ -337,8 +337,8 @@
   [visible]="!!deleteTarget()"
   [mode]="(deleteTarget()?.length ?? 0) === 1 ? 'single' : 'bulk'"
   [items]="deleteItems()"
-  [entitySingular]="'agente'"
-  [entityPlural]="'agentes'"
+  [entitySingular]="'agents.entity_singular' | translate"
+  [entityPlural]="'agents.entity_plural' | translate"
   (cancelled)="cancelDelete()"
   (confirm)="confirmDelete($event)"
 />

@@ -87,7 +87,7 @@ export class LabelsPageComponent {
   protected readonly closeIcon = 'close';
   protected readonly downloadIcon = 'download';
   protected readonly tagIcon = 'label';
-  protected readonly moreIcon = 'more_horiz';
+  protected readonly moreIcon = 'more_vert';
   protected readonly editIcon = 'edit';
   protected readonly trashIcon = 'delete';
 

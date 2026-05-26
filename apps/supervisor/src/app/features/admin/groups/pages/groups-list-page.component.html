@@ -270,8 +270,8 @@
   [visible]="!!deleteTarget()"
   [mode]="(deleteTarget()?.length ?? 0) === 1 ? 'single' : 'bulk'"
   [items]="deleteItems()"
-  [entitySingular]="'grupo'"
-  [entityPlural]="'grupos'"
+  [entitySingular]="'groups.entity_singular' | translate"
+  [entityPlural]="'groups.entity_plural' | translate"
   (cancelled)="cancelDelete()"
   (confirm)="confirmDelete($event)"
 />

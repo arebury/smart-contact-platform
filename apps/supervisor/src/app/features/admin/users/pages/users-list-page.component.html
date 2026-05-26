@@ -245,8 +245,8 @@
   [visible]="!!deleteTarget()"
   [mode]="(deleteTarget()?.length ?? 0) === 1 ? 'single' : 'bulk'"
   [items]="deleteItems()"
-  [entitySingular]="'usuario'"
-  [entityPlural]="'usuarios'"
+  [entitySingular]="'users.entity_singular' | translate"
+  [entityPlural]="'users.entity_plural' | translate"
   (cancelled)="cancelDelete()"
   (confirm)="confirmDelete($event)"
 />

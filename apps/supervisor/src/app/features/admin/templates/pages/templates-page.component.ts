@@ -77,7 +77,7 @@ export class TemplatesPageComponent {
   protected readonly fileStackIcon = 'file_copy';
   protected readonly chatIcon = 'chat_bubble';
   protected readonly emailIcon = 'mail';
-  protected readonly moreIcon = 'more_horiz';
+  protected readonly moreIcon = 'more_vert';
   protected readonly editIcon = 'edit';
   protected readonly trashIcon = 'delete';
 

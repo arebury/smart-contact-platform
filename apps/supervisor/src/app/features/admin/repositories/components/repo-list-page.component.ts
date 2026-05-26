@@ -81,7 +81,7 @@ export class RepoListPageComponent<T extends RepoEntity> {
   protected readonly searchIcon = 'search';
   protected readonly closeIcon = 'close';
   protected readonly downloadIcon = 'download';
-  protected readonly moreIcon = 'more_horiz';
+  protected readonly moreIcon = 'more_vert';
   protected readonly editIcon = 'edit';
   protected readonly trashIcon = 'delete';
 
