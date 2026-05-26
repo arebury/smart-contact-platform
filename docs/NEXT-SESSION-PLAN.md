@@ -28,17 +28,25 @@ contrastar contra la fuente** (me equivoqué 3× hoy: button.sm, negativos, "no 
 
 ### 🎯 PRÓXIMO (lo "para siempre" anti-drift — Rafa lo pidió)
 
-Rafa pasó el **export completo del Kit Pro** (`tokensprime.json`, en el chat). Acciones:
-1. **Guardar `tokensprime.json` en el repo** (p.ej. `packages/design-system/tokens/`)
-   — es la fuente de verdad para el diff. (Pendiente: Rafa lo suelta o se reconstruye.)
-2. **Script de auditoría de paridad**: parsea el export + nuestros layers `--sc-*` y
-   `sc-preset.ts`, y reporta TODOS los gaps (no a ojo). Hallazgos ya conocidos: scale
-   ✅ (incl. negativos, eran falso gap); button/formField sizing ✅ (arreglado); faltan
-   por auditar el resto de ~600 tokens de componente del export.
-3. **Pipeline import Kit Pro → tokens** (el arreglo estructural definitivo): generar
-   las capas `--sc-*` DESDE el export → drift imposible por construcción.
-4. Formalizar la escala (Rafa lo dejó para "otra sesión").
-5. Propagar el lenguaje SnowUI al resto de secciones del agente + group/user edit
+**✅ HECHO (commit `9d57eb6`, S62-ext):** pasos 1 y 2 ya cerrados.
+- `tokensprime.json` guardado en `packages/design-system/tokens/` (fuente de verdad
+  de métricas). Se extrajo verbatim del chat, no se reconstruyó a mano.
+- `scripts/token-parity.mjs` (`npm run tokens:parity`) corre en pre-commit y reporta
+  scale/radius/sizing + **mapa valor→token** (`5.25px → --sc-scale-0-375`). Verde:
+  32 scales ↔ 35 `--sc-scale-*` (negativos incl.), radios OK, 6 checks sizing OK.
+  Doc en `tokens/README.md` §"Figma parity". Memoria: `reference_token_parity_tool`.
+- ⚠️ Rafa confirmó: `tokens:parity` **no es un token nuevo**, es un comprobador de
+  solo lectura. Cero tokens creados al introducirlo.
+
+**Pendiente real:**
+1. **Auditar el resto de tokens de componente** del export (~600): hoy el script
+   solo cubre scale/radius + button/formField sizing. Ampliar los `checks[]` a más
+   componentes (inputs, overlays, etc.) según se vayan tocando.
+2. **Pipeline import Kit Pro → tokens** (el arreglo estructural definitivo): generar
+   las capas `--sc-*` DESDE el export → drift imposible por construcción. (El parity
+   script es el detector; esto sería el generador.)
+3. Formalizar la escala (Rafa lo dejó para "otra sesión").
+4. Propagar el lenguaje SnowUI al resto de secciones del agente + group/user edit
    (con su Figma), y reconciliar customs §2.7 (la variante flush de section-card quedó
    sin uso al pasar la tabla a panel propio).
 
