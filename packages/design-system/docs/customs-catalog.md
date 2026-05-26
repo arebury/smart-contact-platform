@@ -133,6 +133,16 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
 - **Para qué**: un solo proveedor de iconos (Material) = un solo eje de escala, theming por `color`/variación, y cero dependencias SVG en bundle. Alineado con la librería `Smart-Contact-Icons` del Kit Pro (mismo set Material).
 - **Escalas Material (gotcha S61)**: Material Outlined se ve ~1.6× más grande que PrimeIcons al mismo px ("a sangre"); al portar tamaños viejos, bajar a ~60-65% del px. En Figma, un glifo Material que "se esquina" = ponerlo a SCALE.
 
+### 2.7 Variante `[flush]` — lenguaje visual SnowUI-flavored (S62)
+
+- **Contexto**: dirección visual nueva (inspirada en SnowUI / Untitled UI, validada por Rafa en Figma `12277-4185`): **bajo chrome** — el dato es el héroe, la jerarquía la lleva el espacio + la tipografía, no las cajas. Las superficies van **a sangre** (flush) sobre la página en vez de en cards con borde/sombra.
+- **SC**: input opt-in `[flush]` (default `false`) en:
+  - **`<sc-section-card>`**: quita fondo/borde/sombra/radio de la card + el padding lateral del header/body → el contenido alinea con la página. La cabecera (título + hint) se mantiene.
+  - **`<sc-form-section-nav>`**: el nav del rail va sin caja (sin fondo/borde/radio/padding de contenedor); la sección activa se lee por el pill, no por la caja. (Nota: el input `compact` quedó como placeholder no-op — su doc decía "drops chrome" pero nunca se implementó; la intención vive ahora en `flush`.)
+- **Tokens**: el diseño se hizo en **rejilla de 8** (8/12/16/24/48) pero **NO se crea escala nueva** — se snapea a la escala base-14 del Kit Pro (16px exacto = `--sc-scale-1-143`; 8→7, 12→12,25, 24→24,5; diferencias ≤1px imperceptibles, precedente S54). Único literal: altura de fila 48px (dimensión de componente, no token de spacing). **NO forkear a un 8-grid paralelo** (rompería el 1:1 con el Kit Pro · migration-safety).
+- **Chips de canal** (`group-assignment-table`, agent-only): on-state = pill claro neutro (`bg-secondary-subtle` + borde sólido + texto primario + ✓); off-state = dashed transparente + muted + ＋. El "activo" se lee por relleno sólido vs dashed, no por color fuerte.
+- **Estado de adopción**: vivo en **editar-agente** (1:1 con Figma). `group`/`user` edit siguen carded (consistentes) hasta tener su Figma. Las otras secciones del agente (Permisos/Avanzado/Identificación) aún carded — propagar el flush cuando se validen.
+
 ---
 
 ## 3. Component overloads (slots reusados con semántica SC)

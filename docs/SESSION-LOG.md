@@ -58,6 +58,17 @@ las llamadas muertas `pageHeader.set()` de las 3 páginas AED. sistema/seguridad
 (planas) + repos-hub intactos. Lección: "consistencia" = misma lógica, no inventar un
 chrome intermedio. e2e 28/28 + Playwright.
 
+**Extra 2 — lenguaje visual SnowUI-flavored (1:1 editar-agente)**: Rafa diseñó en
+Figma (`12277-4185`) la pantalla editar-agente con estilo SnowUI (flush/low-chrome)
+usando nuestros componentes; pidió 1:1 + análisis UX de por qué funciona + check de
+tokens. **Tokens**: nos vale acercándonos — su 8-grid cae a ≤1px de la escala 14-base
+(16px exacto); NO se crea escala nueva (no forkear el Kit Pro). **Implementado**:
+variante `[flush]` opt-in en `<sc-section-card>` + `<sc-form-section-nav>`, chips de
+canal claros en `group-assignment-table` — todo sobre componentes existentes. Scope:
+solo editar-agente (group/user intactos, esperan su Figma). Baselines aed-agentes-edit
+regenerados. Doc: customs-catalog §2.7 + memoria `project_snowui_visual_language`.
+e2e 28/28 + Playwright 1:1 vs Figma.
+
 **Salud**: build AOT · lint · i18n 1491×4 · **e2e 28/28** (un primer run dio 10
 fallos por cold-start del dev server; con server caliente, 28/28 limpio). Glifo
 `progress_activity` + GitHub SVG verificados en navegador. Husky verde en todos
