@@ -46,13 +46,17 @@ docs:
   (sparring): partir un componente de 981 líneas sin trigger contradice la DD
   "trigger real o nada"; self-host es tarea de pre-producción. Triggers anotados.
 
-**Extra (cierre de sesión)** — `refactor(config)`: el hub AED (`/config/aed/*`)
-seguía con la banda `sc-page-header` full-width sobre el rail (mirroring del viejo
-sticky-form-header). Alineado al modelo "todo arriba": fuera la banda, título +
-descripción ligeros en la columna de contenido, rail sticky de verdad. Decisión de
-sparring UX: no replicar "todo arriba" a ciegas — config es contexto distinto (tiene
-rail), pero la banda full-width SÍ era redundante con el rail. sistema/seguridad
-(planas) + repos-hub intactos. e2e 28/28 + capturas Playwright.
+**Extra (cierre de sesión)** — `refactor(config)`, hub AED (`/config/aed/*`), 2
+iteraciones con feedback de Rafa: (1) quité la banda `sc-page-header` full-width que
+cruzaba sobre el rail (mirroring del viejo sticky-form-header). (2) Rafa señaló que el
+título+descripción que metí en la columna era un **layout de un solo uso** y que la
+banda head del rail + el footer "v2.4.0" sobraban → estado final: **orientación 100%
+en el breadcrumb** ("Configuración AED / [sección]" vía label en la ruta padre), rail
+**solo navegación** (sin head ni footer), contenido **arranca directo** (la card de
+cada sección ya se titula). Limpieza: settings-shell sin `PageHeaderService` + fuera
+las llamadas muertas `pageHeader.set()` de las 3 páginas AED. sistema/seguridad
+(planas) + repos-hub intactos. Lección: "consistencia" = misma lógica, no inventar un
+chrome intermedio. e2e 28/28 + Playwright.
 
 **Salud**: build AOT · lint · i18n 1491×4 · **e2e 28/28** (un primer run dio 10
 fallos por cold-start del dev server; con server caliente, 28/28 limpio). Glifo
