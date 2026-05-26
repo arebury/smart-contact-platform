@@ -46,6 +46,14 @@ docs:
   (sparring): partir un componente de 981 líneas sin trigger contradice la DD
   "trigger real o nada"; self-host es tarea de pre-producción. Triggers anotados.
 
+**Extra (cierre de sesión)** — `refactor(config)`: el hub AED (`/config/aed/*`)
+seguía con la banda `sc-page-header` full-width sobre el rail (mirroring del viejo
+sticky-form-header). Alineado al modelo "todo arriba": fuera la banda, título +
+descripción ligeros en la columna de contenido, rail sticky de verdad. Decisión de
+sparring UX: no replicar "todo arriba" a ciegas — config es contexto distinto (tiene
+rail), pero la banda full-width SÍ era redundante con el rail. sistema/seguridad
+(planas) + repos-hub intactos. e2e 28/28 + capturas Playwright.
+
 **Salud**: build AOT · lint · i18n 1491×4 · **e2e 28/28** (un primer run dio 10
 fallos por cold-start del dev server; con server caliente, 28/28 limpio). Glifo
 `progress_activity` + GitHub SVG verificados en navegador. Husky verde en todos
