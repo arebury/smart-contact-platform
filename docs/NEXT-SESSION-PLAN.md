@@ -5,6 +5,43 @@
 
 ---
 
+## Estado al cerrar (Session 62-ext, 2026-05-27) — SnowUI 1:1 editar-agente + sizing preset
+
+Sesión larguísima con dos hilos extra sobre la triple auditoría:
+
+**1. editar-agente 1:1 con el Figma SnowUI** (nodo `12277-4185`). Tras un primer pase
+"estructural" que canté como 1:1 sin serlo, Rafa lo revisó elemento a elemento y se
+corrigió de verdad (medidas reales del nodo): buscador a la cabecera derecha (216×28),
+panel blanco sobre página gris, chips estilo togglebutton, papelera 35×31, fila 48,
+header 20/28, breadcrumb `›`, **button-small 27,5px exacto**. Commit `6885758`.
+
+**2. Arreglo sistémico del preset (raíz del problema)**: `button.root.sm/lg` +
+`formField.sm/lg` no estaban fijados → TODO lo "sm/lg" caía a defaults rem de Aura.
+Añadidos 1:1 del export `tokensprime.json`. **PrimeNG SÍ lo soporta** (va bajo
+`button.root.sm`); el gap era nuestro preset. Afecta a toda la app (baselines
+regenerados).
+
+**3 learnings grabados en memoria** (`feedback_figma_1to1_element_by_element`): (a) 1:1
+= elemento a elemento con medidas reales, nunca a ojo; (b) no cantar "1:1" sin
+verificar; (c) **no afirmar que PrimeNG/preset "no soporta X" ni que "falta Y" sin
+contrastar contra la fuente** (me equivoqué 3× hoy: button.sm, negativos, "no se puede").
+
+### 🎯 PRÓXIMO (lo "para siempre" anti-drift — Rafa lo pidió)
+
+Rafa pasó el **export completo del Kit Pro** (`tokensprime.json`, en el chat). Acciones:
+1. **Guardar `tokensprime.json` en el repo** (p.ej. `packages/design-system/tokens/`)
+   — es la fuente de verdad para el diff. (Pendiente: Rafa lo suelta o se reconstruye.)
+2. **Script de auditoría de paridad**: parsea el export + nuestros layers `--sc-*` y
+   `sc-preset.ts`, y reporta TODOS los gaps (no a ojo). Hallazgos ya conocidos: scale
+   ✅ (incl. negativos, eran falso gap); button/formField sizing ✅ (arreglado); faltan
+   por auditar el resto de ~600 tokens de componente del export.
+3. **Pipeline import Kit Pro → tokens** (el arreglo estructural definitivo): generar
+   las capas `--sc-*` DESDE el export → drift imposible por construcción.
+4. Formalizar la escala (Rafa lo dejó para "otra sesión").
+5. Propagar el lenguaje SnowUI al resto de secciones del agente + group/user edit
+   (con su Figma), y reconciliar customs §2.7 (la variante flush de section-card quedó
+   sin uso al pasar la tabla a panel propio).
+
 ## Estado al cerrar (Session 62, 2026-05-26) — triple auditoría: COMPLETADA
 
 Rafa delegó ("ejecuta plan sin preguntarme" + luego "consentimiento total" para
