@@ -22,12 +22,22 @@
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-200);
 
-  /* Compact variant — used when the nav lives inside a transparent rail.
-   * Keeps the bordered "block" framing (border + radius + padding) and
-   * the white surface fill so the index reads as a contained card sitting
-   * on the page background. */
+  /* Compact variant — placeholder (mantiene la caja); se conserva como hook
+   * para consumers que lo target-een. */
   &--compact {
-    /* same chrome as base — placeholder so consumers can still target it */
+    /* same chrome as base */
+  }
+
+  /* Flush variant (S62, lenguaje SnowUI): el nav va a sangre dentro del rail —
+   * sin caja. Quita fondo/borde/radio y el padding del contenedor para que los
+   * ítems alineen con la ficha y el resto del panel; la jerarquía la lleva el
+   * pill activo, no la caja. Opt-in: por defecto off → no afecta a group/user
+   * forms (que siguen con caja). Ver customs-catalog §2.7. */
+  &--flush {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
   }
 }
 

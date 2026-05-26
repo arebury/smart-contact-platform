@@ -53,7 +53,7 @@
         [sections]="navSections()"
         [activeId]="activeSection()"
         [sectionsWithErrors]="sectionsWithErrors()"
-        [compact]="true"
+        [flush]="true"
         (activeChange)="activeSection.set($event)"
       />
 
@@ -260,6 +260,7 @@
             [icon]="activeIcon()"
             titleKey="agents.form.section.groups"
             hintKey="agents.form.section.groups_hint"
+            [flush]="true"
           >
             <sc-group-assignment-table
               [links]="form().links"

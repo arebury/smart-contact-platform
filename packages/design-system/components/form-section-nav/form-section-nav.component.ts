@@ -30,8 +30,14 @@ export class FormSectionNavComponent {
   readonly sections = input.required<readonly FormNavSection[]>();
   readonly activeId = input<string | null>(null);
   readonly labelKey = input<string>('common.form_nav.label');
-  /** Drops the outer card chrome so the nav can be embedded inside another container. */
+  /** Placeholder hook; mantiene la caja. Para quitar la caja usar `flush`. */
   readonly compact = input<boolean>(false);
+  /**
+   * Flush (sin caja): el nav va a sangre dentro del rail — sin fondo/borde/
+   * radio/padding de contenedor (lenguaje SnowUI, S62). Opt-in, default off.
+   * Ver customs-catalog §2.7.
+   */
+  readonly flush = input<boolean>(false);
 
   /**
    * Set of section ids that currently have required fields empty (or invalid

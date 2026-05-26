@@ -18,6 +18,9 @@ import { SC_ICON_SIZE_LG } from '@shared/utils/icon-size';
   imports: [TranslateModule, IconComponent],
   templateUrl: './section-card.component.html',
   styleUrl: './section-card.component.scss',
+  host: {
+    '[class.sc-section-card--flush]': 'flush()',
+  },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionCardComponent {
@@ -31,6 +34,13 @@ export class SectionCardComponent {
   readonly collapsible = input<boolean>(false);
   /** Initial collapsed state when `collapsible` is true. Ignored otherwise. */
   readonly initiallyCollapsed = input<boolean>(false);
+  /**
+   * Flush (sin caja): elimina fondo/borde/sombra/radio de la card y el padding
+   * lateral del header/body — el contenido va a sangre sobre la página
+   * (lenguaje SnowUI, S62). Opt-in: por defecto `false`, no afecta a los demás
+   * consumers. Ver customs-catalog §2.7.
+   */
+  readonly flush = input<boolean>(false);
 
   protected readonly chevronDownIcon = 'expand_more';
   protected readonly chevronRightIcon = 'chevron_right';

@@ -262,10 +262,13 @@
     &:hover {
       border-color: var(--sc-border-strong);
     }
+    /* On state (SnowUI, S62): pill claro neutro — fondo gris sutil + borde
+     * sólido + texto primario + ✓. Restraint: el canal activo se lee por
+     * relleno sólido vs el dashed transparente del off, no por color fuerte. */
     &--on {
-      background: var(--sc-color-blue-700);
-      border-color: var(--sc-color-blue-700);
-      color: var(--sc-color-gray-0);
+      background: var(--sc-bg-secondary-subtle);
+      border-color: var(--sc-border-default);
+      color: var(--sc-text-primary);
     }
     /* Off state: visibly "available but not selected" — dashed border +
      * muted text so it is never confused with the on-state solid fill or

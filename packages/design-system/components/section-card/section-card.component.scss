@@ -91,3 +91,26 @@
     padding: var(--sc-spacing-1-5);
   }
 }
+
+/* Variante flush (SnowUI, S62): sin caja — el contenido va a sangre sobre la
+ * página. Quita fondo/borde/sombra/radio; el header y el body pierden el
+ * padding lateral para alinear con el contenido de la página; la jerarquía la
+ * lleva el tipo, no la caja. */
+:host(.sc-section-card--flush) {
+  .section-card {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .section-card__head {
+    padding: 0;
+    border-bottom: 0;
+  }
+
+  .section-card__body {
+    padding: var(--sc-spacing-1-125) 0 0;
+  }
+}
