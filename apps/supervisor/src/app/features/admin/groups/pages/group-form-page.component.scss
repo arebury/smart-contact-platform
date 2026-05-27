@@ -13,7 +13,7 @@
   &__inner {
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25);
+    padding: var(--sc-spacing-1-75) var(--sc-spacing-2);
 
     /*
      * Identity-panel layout — edge-to-edge two-column shell mirroring
@@ -40,7 +40,7 @@
     min-width: 0;
     max-width: 1100px;
     margin: 0 auto;
-    padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25);
+    padding: var(--sc-spacing-1-75) var(--sc-spacing-2);
     display: flex;
     flex-direction: column;
     width: 100%;
