@@ -42,8 +42,15 @@ Prioridades: **paridad ABSOLUTA · consistencia al máximo · reducir deuda · c
    los 346 `componentColorScheme` no se cruzaron porque requieren resolver Aura+preset juntos (los colores
    los fijamos vía semantic, no per-componente) — la marca color ya la cubre parity §6 (43 enforce), pero
    un audit color per-componente (resolver el preset) queda como follow-up fino si se quiere 100%.
-4. ⏳ **Propagar flat/gris** (Rafa: Memory + config) — **BLOQUEADO: necesita el Figma** de esas pantallas
-   (regla: nada a ciegas). Paneles gray-50 + radius + sin sombra + botones small. Pedir a Rafa los links.
+4. ⏳ **Propagar flat/gris** (Rafa: Memory + config) — **BLOQUEADO: necesita el Figma** de esas pantallas.
+   Matiz descubierto: Memory usa MODALES (no flujos full-page) y config son pantallas de AJUSTES → el
+   patrón editar-agente (índice+ficha+flush) NO mapea 1:1. Lo que SÍ aplica: aplanar paneles/cards de
+   CONTENIDO a gray-50/flat. **OJO: los modales/overlays MANTIENEN sombra** (flotan, es correcto — no tocar).
+   Intel del escaneo read-only (candidatos a aplanar, NO modales): `memory/components/conversation-table`,
+   `memory/pages/rules`, `memory/pages/rule-builder`, `memory/components/multi-recording-player`,
+   `config/sections/numeracion-especial`, `config/aed/aed-defaults-page`, `config/pages/sistema-page`.
+   (~20 superficies `--sc-bg-surface` blancas en Memory/config = candidatas, a filtrar con el Figma.)
+   El cambio global de `sc-section-card`→flat YA beneficia cualquier pantalla que lo use. Pedir a Rafa los links.
 
 Objetivo permanente: **reducir deuda de diseño + consistencia**. Ver [[project_parity_consistency_north_star]].
 
