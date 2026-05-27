@@ -49,14 +49,15 @@ Lectura cruzada: si trabajas en un producto, estos son los docs operativos.
 - `apps/supervisor/docs/DECISIONS.md` — decisiones DD1-63 técnicas.
 - `apps/supervisor/docs/DECISIONES.md` — versión PM-friendly español.
 - `apps/supervisor/docs/ROADMAP.md` — features pendientes.
-- `apps/supervisor/docs/MEMORY.md` — doc histórico del módulo AED (no confundir con Memory feature).
+- `apps/supervisor/docs/MEMORY.md` — convenciones AED + **protocolo de cierre de sesión** (vivo; lo referencia SESSION-LOG). El "por qué" universal; decisiones completas en DECISIONS.md. (No confundir con la feature Memory.)
 - `apps/supervisor/docs/ux-audit.md` — audit UX histórico.
 
 ### Memory (módulo en migración del Supervisor)
 
 - `apps/supervisor/docs/memory/DECISIONS.md` — decisiones grandes Memory (Decisión B hubs, click→select, etc.).
 - `docs/memory-migration-inventory.md` — inventario operativo de migración (vivo hasta completarse). Cuando la migración cierre, los diferidos §10 pasan a un ROADMAP.md dedicado.
-- `~/dev/Memory/legacy-react/` — prototipo React fuente.
+- `~/dev/Memory/legacy-react/` — prototipo React fuente **canónico** (evoluciona).
+- `docs/prototype-reference/` — **snapshot congelado** del prototipo React (1.4 MB, referencia de migración; NO se mantiene). Duplica el canónico externo de arriba → candidato a borrar si no se consulta (git preserva el histórico). Frozen ≠ desfasado.
 
 ### SCDS (Smart Contact Design System)
 
@@ -84,4 +85,6 @@ Sin docs propios — pequeño, su content es Angular routes en `apps/ds-docs/src
 
 ---
 
-Última actualización: 2026-05-20 (Session 46).
+Última actualización: 2026-05-27 (Session 62-ext-2) — repaso de frescura: index completo
+(sin huérfanos), `prototype-reference` etiquetado como snapshot congelado, `MEMORY.md`
+reetiquetado (vivo, no histórico), `NEXT-SESSION-PROMPT.md` borrado (obsoleto S36).
