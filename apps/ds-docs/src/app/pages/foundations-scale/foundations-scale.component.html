@@ -10,197 +10,99 @@
       <p class="hero__eyebrow">Foundations</p>
       <h1 class="hero__title">Escala &amp; Espaciado</h1>
       <p class="hero__lead">
-        Una sola escala numérica gobierna espaciado, tipografía, alturas de línea y radios. Aquí
-        explicamos cómo se nombra cada paso, por qué está en base 14, y un buscador para encontrar
-        el token de cualquier valor.
+        Elige o escribe un valor y verás su token. La escala es <strong>base 14</strong>:
+        <code>scale-N = N × 14px</code> (p. ej. <code>scale-2</code> = 28px). Todo en px — no rem.
       </p>
     </div>
   </header>
 
-  <!-- Cómo se nombra -->
-  <section class="prose">
-    <h2>Cómo se nombra cada escalón</h2>
-    <p>
-      La unidad base es <strong>14px</strong> (el tamaño del texto body en el Kit Pro). Cada token
-      se llama por <strong>cuántas veces vale la base</strong>:
-    </p>
-    <ul class="bullets">
-      <li><code>scale-1</code> = 1 × 14 = <strong>14px</strong></li>
-      <li><code>scale-2</code> = 2 × 14 = <strong>28px</strong></li>
-      <li><code>scale-3</code> = 3 × 14 = <strong>42px</strong></li>
-      <li>
-        Decimales en el nombre = fracciones de la base: <code>scale-0-5</code> = 0.5 × 14 = 7px,
-        <code>scale-2-25</code> = 2.25 × 14 = 31.5px
-      </li>
-      <li>Negativos para offsets/márgenes negativos: <code>scale-neg-1</code> = −14px</li>
-    </ul>
-    <p>
-      El nombre <strong>se deriva del valor</strong> (valor ÷ 14), nunca al revés. Por eso hay algún
-      escalón "raro" como <code>scale-1-143</code> = <strong>16px</strong>: 16 no cae en un múltiplo
-      limpio de 14 (16 ÷ 14 ≈ 1.143), pero el Kit lo necesita como medida puntual de UI, así que
-      existe con su nombre derivado.
-    </p>
-  </section>
-
-  <!-- Por qué base-14 -->
-  <section class="prose">
-    <h2>Por qué base 14</h2>
-    <p>
-      Los tokens se llaman <strong>igual que las Variables del Kit Pro en Figma</strong>. En Figma
-      el equipo ve <code>scale/2</code>; en código tenemos <code>--sc-scale-2</code> — mismo nombre,
-      mismo valor. Así <strong>diseño y código hablan el mismo idioma</strong> y, cuando el equipo
-      re-exporta el Kit, la sincronización es mecánica (no hay que traducir nada).
-    </p>
-    <p>
-      El <strong>trade-off, dicho claro</strong>: 14 no es tan redondo como un grid de 8, así que
-      algunos pasos quedan con decimales. Lo asumimos a cambio de la paridad 1:1 con Figma.
-    </p>
-    <div class="callout">
-      <strong>Nuestros tokens son px, no rem.</strong> rem es una convención web con otra base (1rem
-      = 16px), así que <code>scale-2</code> (28px) <strong>no</strong> es "2rem" (32px). Para evitar
-      confusión, esta página trabaja solo en px ↔ token. En componentes se usa el alias
-      <code>--sc-spacing-*</code> (no <code>--sc-scale-*</code> directo); valen lo mismo.
-    </div>
-  </section>
-
   @if (loaded()) {
-    <!-- Buscador (combobox) + tabla -->
-    <section class="prose">
-      <h2>Buscar un token</h2>
-      <p>
-        La escala tiene escalones con decimales, así que escanear cuesta. Escribe un
-        <strong>px</strong> (28), un trozo de <strong>token</strong> (<code>spacing-2</code>) o el
-        multiplicador y se filtran las opciones que <strong>existen de verdad</strong> en la escala.
-      </p>
-    </section>
-
-    <div class="filter">
-      <sc-icon [name]="searchIcon" [size]="16" class="filter__icon" />
-      <input
-        class="filter__input"
-        type="text"
-        inputmode="decimal"
-        placeholder="Escribe 28, spacing-2, 0-5…"
-        [value]="filterQuery()"
-        (input)="filterQuery.set($any($event.target).value)"
+    <!-- Combobox: elegir o escribir (autocompleta) -->
+    <div class="picker">
+      <label class="picker__label" for="scale-pick">Valor de la escala</label>
+      <sc-select
+        inputId="scale-pick"
+        class="picker__select"
+        [options]="options()"
+        [filter]="true"
+        [value]="selected()"
+        placeholder="Elige o escribe (28, spacing-2…)"
+        (valueChange)="onSelect($event)"
       />
-      <span class="filter__count">{{ filteredRows().length }} / {{ scaleRows().length }}</span>
     </div>
 
-    <div class="tbl-wrap">
-      <table class="tbl">
-        <thead>
-          <tr>
-            <th class="num">px</th>
-            <th>n × 14</th>
-            <th>scale (primitiva)</th>
-            <th>spacing (uso en componentes)</th>
-            <th>font-size</th>
-            <th>line-height</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (r of filteredRows(); track r.scale) {
-            <tr>
-              <td class="num"><span class="swatch" [style.width.px]="r.px"></span>{{ r.px }}</td>
-              <td class="muted">{{ r.mult }}</td>
-              <td>
-                <code>{{ r.scale }}</code>
-              </td>
-              <td>
-                @if (r.spacing) {
-                  <code class="alias">{{ r.spacing }}</code>
-                } @else {
-                  <span class="muted">—</span>
-                }
-              </td>
-              <td>
+    <!-- Detalle del valor elegido -->
+    @if (selectedRow(); as r) {
+      <div class="detail">
+        <div class="detail__head">
+          <span class="detail__px">{{ r.px }}<span class="detail__unit">px</span></span>
+          <span class="detail__bar" [style.width.px]="r.px > 220 ? 220 : r.px"></span>
+          <span class="detail__mult">{{ r.mult }}</span>
+        </div>
+        <dl class="detail__grid">
+          <div class="detail__pair">
+            <dt>scale</dt>
+            <dd>
+              <code>{{ r.scale }}</code>
+            </dd>
+          </div>
+          <div class="detail__pair">
+            <dt>spacing (componentes)</dt>
+            <dd>
+              @if (r.spacing) {
+                <code class="detail__alias">{{ r.spacing }}</code>
+              } @else {
+                <span class="detail__none">— (no usado como spacing)</span>
+              }
+            </dd>
+          </div>
+          @if (r.fontSizes.length) {
+            <div class="detail__pair">
+              <dt>font-size</dt>
+              <dd>
                 @for (f of r.fontSizes; track f) {
-                  <code class="chip">{{ leaf(f) }}</code>
+                  <code class="chip">{{ short(f) }}</code>
                 }
-                @if (r.fontSizes.length === 0) {
-                  <span class="muted">—</span>
-                }
-              </td>
-              <td>
+              </dd>
+            </div>
+          }
+          @if (r.lineHeights.length) {
+            <div class="detail__pair">
+              <dt>line-height</dt>
+              <dd>
                 @for (l of r.lineHeights; track l) {
-                  <code class="chip">{{ leaf(l) }}</code>
+                  <code class="chip">{{ short(l) }}</code>
                 }
-                @if (r.lineHeights.length === 0) {
-                  <span class="muted">—</span>
-                }
-              </td>
-            </tr>
+              </dd>
+            </div>
           }
-          @if (filteredRows().length === 0) {
-            <tr>
-              <td colspan="6" class="tbl__empty">
-                Sin coincidencias en la escala para «{{ filterQuery() }}».
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
+        </dl>
+      </div>
+    }
 
-    <!-- Radios: escala dedicada -->
-    <section class="prose">
-      <h2>Radios</h2>
-      <p>
-        Los radios tienen su <strong>propia escala</strong> (nombrada, no base-14) porque así los
-        modela el Kit Pro. Los nombres numéricos legacy (<code>--sc-radius-200</code>) son alias.
-      </p>
-    </section>
-
-    <div class="tbl-wrap">
-      <table class="tbl tbl--narrow">
-        <thead>
-          <tr>
-            <th class="num">px</th>
-            <th>radio (canónico)</th>
-            <th>alias legacy</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (r of radiusRows(); track r.radius) {
-            <tr>
-              <td class="num">{{ r.px }}</td>
-              <td>
-                <code>{{ r.radius }}</code>
-              </td>
-              <td>
-                @for (a of r.aliases; track a) {
-                  <code class="chip">{{ leaf(a) }}</code>
-                }
-                @if (r.aliases.length === 0) {
-                  <span class="muted">—</span>
-                }
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Cómo te afecta -->
-    <section class="prose">
-      <h2>Cómo te afecta (y cómo no)</h2>
-      <ul class="affect">
-        <li>
-          <strong>Diseñando en Figma:</strong> usas las Variables del Kit Pro con su nombre. No
-          cambia nada.
-        </li>
-        <li>
-          <strong>Leyendo un valor:</strong> si ves un px, divídelo entre 14 para el sufijo (28 ÷ 14
-          = 2 → <code>--sc-spacing-2</code>), o búscalo arriba.
-        </li>
-        <li>
-          <strong>Si la base cambiara</strong> (14 → otro): todos los valores se recalculan solos
-          porque todo deriva de una fuente. No hay que renombrar tokens.
-        </li>
+    <!-- Lista completa, colapsada (para quien quiera verla toda) -->
+    <details class="all">
+      <summary class="all__summary">Ver toda la escala ({{ scaleRows().length }} valores)</summary>
+      <ul class="all__list">
+        @for (r of scaleRows(); track r.scale) {
+          <li class="all__row" [class.all__row--active]="r.scale === selected()">
+            <button type="button" class="all__btn" (click)="onSelect(r.scale)">
+              <span class="all__bar" [style.width.px]="r.px > 120 ? 120 : r.px"></span>
+              <span class="all__px">{{ r.px }}px</span>
+              <code class="all__token">{{ short(r.spacing ?? r.scale) }}</code>
+            </button>
+          </li>
+        }
       </ul>
-    </section>
+    </details>
+
+    <p class="foot">
+      ¿Por qué base 14 y no un grid de 8? Para que el nombre del token sea idéntico al de las
+      Variables del Kit Pro en Figma — diseño y código hablan el mismo idioma y el re-export es
+      automático. En componentes se usa el alias <code>--sc-spacing-*</code> (mismo valor que
+      <code>--sc-scale-*</code>).
+    </p>
   } @else {
-    <p class="loading">Cargando tokens…</p>
+    <p class="loading">Cargando escala…</p>
   }
 </div>

@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { RouterLink } from '@angular/router';
 
 import { IconComponent } from '@sc/design-system';
+import { SelectComponent } from '@sc/design-system/components/select/select.component';
 
-/** Una fila de la tabla de escala: un step y todo lo que deriva de él. */
+/** Una fila de la escala: un step y todo lo que deriva de él. */
 interface ScaleRow {
   scale: string; // --sc-scale-2
   px: number; // 28
@@ -11,12 +12,6 @@ interface ScaleRow {
   spacing: string | null; // --sc-spacing-2
   fontSizes: string[]; // --sc-font-size-600 …
   lineHeights: string[]; // --sc-line-height-400 …
-}
-
-interface RadiusRow {
-  radius: string; // --sc-radius-md
-  px: number;
-  aliases: string[]; // --sc-radius-200 …
 }
 
 type Dtcg = {
@@ -36,23 +31,22 @@ const aliasName = (t: Dtcg): string | null => {
   return m ? m[1] : null;
 };
 
+const short = (token: string): string => token.replace('--sc-', '');
+
 /**
  * Foundations → Escala & Espaciado.
  *
- * Página para producto/diseño: explica POR QUÉ la escala es base-14 y cómo se
- * nombra cada step, con un buscador (combobox) sobre la escala real y la tabla
- * de conversión px ↔ token (scale ↔ spacing ↔ font-size ↔ line-height ↔ radius).
+ * Objetivo: que cualquiera (producto/diseño) se entere de la escala rápido.
+ * Patrón: un combobox (nuestro `sc-select` con filtro) para elegir/escribir un
+ * valor → tarjeta de detalle. Lista completa colapsada (progressive disclosure).
  *
- * NO incluye rem a propósito: nuestros tokens son px (base-14); rem es otra base
- * (16) y no forma parte del sistema → mezclarlo confunde.
- *
- * La tabla se genera leyendo `sc-tokens.json` (export DTCG que `npm run tokens:export`
- * regenera en cada build) → nunca se desincroniza, sin script ni tabla a mano.
+ * Solo px ↔ token (base-14). NO rem (otra base; ni lo usamos) para no confundir.
+ * Datos de `sc-tokens.json` (lo regenera `tokens:export` en cada build).
  */
 @Component({
   selector: 'sc-ds-docs-foundations-scale',
   standalone: true,
-  imports: [RouterLink, IconComponent],
+  imports: [RouterLink, IconComponent, SelectComponent],
   templateUrl: './foundations-scale.component.html',
   styleUrl: './foundations-scale.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,34 +54,28 @@ const aliasName = (t: Dtcg): string | null => {
 export class FoundationsScaleComponent {
   protected readonly arrowLeftIcon = 'arrow_back';
   protected readonly rulerIcon = 'straighten';
-  protected readonly searchIcon = 'search';
+  protected readonly short = short;
 
   private readonly tokens = signal<Record<string, Group> | null>(null);
   protected readonly loaded = computed(() => this.tokens() !== null);
 
-  /** Tabla principal: una fila por step de escala, con todo lo que deriva. */
+  /** Escala completa: una fila por step, con todo lo que deriva. */
   protected readonly scaleRows = computed<ScaleRow[]>(() => {
     const j = this.tokens();
     if (!j) return [];
     const scale = j['scale'] ?? {};
-    const spacing = j['spacing'] ?? {};
-    const fontSize = j['font-size'] ?? {};
-    const lineHeight = j['line-height'] ?? {};
-
-    // índice inverso: nombre de scale → tokens (del grupo `prefix`) que lo aliasan
     const rev = (g: Group, prefix: string): Map<string, string[]> => {
       const m = new Map<string, string[]>();
-      for (const [k, t] of Object.entries(g)) {
+      for (const [k, t] of Object.entries(g ?? {})) {
         const a = aliasName(t);
         if (!a) continue;
-        const arr = m.get(a) ?? m.set(a, []).get(a)!;
-        arr.push(`--${prefix}-${k}`);
+        (m.get(a) ?? m.set(a, []).get(a)!).push(`--${prefix}-${k}`);
       }
       return m;
     };
-    const spacingRev = rev(spacing, 'sc-spacing');
-    const fsRev = rev(fontSize, 'sc-font-size');
-    const lhRev = rev(lineHeight, 'sc-line-height');
+    const spacingRev = rev(j['spacing'] ?? {}, 'sc-spacing');
+    const fsRev = rev(j['font-size'] ?? {}, 'sc-font-size');
+    const lhRev = rev(j['line-height'] ?? {}, 'sc-line-height');
 
     return Object.entries(scale)
       .map(([k, t]) => {
@@ -106,58 +94,28 @@ export class FoundationsScaleComponent {
       .sort((a, b) => a.px - b.px);
   });
 
-  // ─── Buscador (combobox) sobre la escala real ─────────────────────────────
-  // En vez de una calculadora de números libres (que invitaba a meter valores
-  // fuera de escala y confundía con rem), filtra la escala REAL: escribe un px
-  // (28), un trozo de token (spacing-2) o el multiplicador y se discriminan las
-  // opciones que existen de verdad.
-  protected readonly filterQuery = signal('');
-  protected readonly filteredRows = computed<ScaleRow[]>(() => {
-    const q = this.filterQuery().trim().toLowerCase();
-    const rows = this.scaleRows();
-    if (!q) return rows;
-    return rows.filter(
-      (r) =>
-        String(r.px).includes(q) ||
-        r.mult.toLowerCase().includes(q) ||
-        r.scale.toLowerCase().includes(q) ||
-        (r.spacing?.toLowerCase().includes(q) ?? false) ||
-        r.fontSizes.some((f) => f.toLowerCase().includes(q)) ||
-        r.lineHeights.some((l) => l.toLowerCase().includes(q)),
-    );
-  });
+  /** Opciones del combobox: "28px · spacing-2". value = nombre de scale. */
+  protected readonly options = computed(() =>
+    this.scaleRows().map((r) => ({
+      label: `${r.px}px · ${short(r.spacing ?? r.scale)}`,
+      value: r.scale,
+    })),
+  );
 
-  /** Tabla aparte: radios (escala dedicada del Kit Pro). */
-  protected readonly radiusRows = computed<RadiusRow[]>(() => {
-    const j = this.tokens();
-    if (!j) return [];
-    const radius = j['radius'] ?? {};
-    const named: RadiusRow[] = [];
-    const aliasesOf = new Map<string, string[]>();
-    for (const [k, t] of Object.entries(radius)) {
-      const a = aliasName(t);
-      if (a) (aliasesOf.get(a) ?? aliasesOf.set(a, []).get(a)!).push(`--sc-radius-${k}`);
-    }
-    for (const [k, t] of Object.entries(radius)) {
-      if (/^(none|xs|sm|md|lg|xl|2xl|full)$/.test(k)) {
-        named.push({
-          radius: `--sc-radius-${k}`,
-          px: toPx(t.$value),
-          aliases: aliasesOf.get(`--sc-radius-${k}`) ?? [],
-        });
-      }
-    }
-    return named.sort((a, b) => a.px - b.px);
-  });
+  /** Selección del combobox (nombre de scale) + su fila. */
+  protected readonly selected = signal<string>('--sc-scale-2');
+  protected readonly selectedRow = computed<ScaleRow | undefined>(() =>
+    this.scaleRows().find((r) => r.scale === this.selected()),
+  );
+
+  protected onSelect(v: unknown): void {
+    if (typeof v === 'string') this.selected.set(v);
+  }
 
   constructor() {
     void fetch('/sc-tokens.json')
       .then((r) => r.json())
       .then((j) => this.tokens.set(j))
       .catch(() => this.tokens.set({}));
-  }
-
-  protected leaf(token: string): string {
-    return token.replace(/^--sc-(scale|spacing|font-size|line-height|radius)-/, '');
   }
 }
