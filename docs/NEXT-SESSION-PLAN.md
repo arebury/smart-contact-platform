@@ -25,15 +25,26 @@ drift con tooling, no con mi ojo). 1 commit a `main`, e2e 28/28. Detalle en SESS
 - ✅ Cards main-content **flat**: `sc-section-card` + `group-assignment-table` → gray-50 + radius-xl + sin
   sombra (panel embebido como el nav-trail). Validado a ojo + computado + e2e.
 
-### 🎯 PRÓXIMO (S63) — Rafa quiere "grandes baterías de cambios". Prioridades suyas:
-**paridad ABSOLUTA · consistencia al máximo · reducir deuda de diseño · customizar sin romper PrimeNG.**
-Candidatos (pendiente batería de dudas STAR respondidas por Rafa):
-- **Paridad color total**: extender §6 enforce a los 63 semánticos "sin mapear" (navigation/list/
-  overlay/text/formField) — hoy solo primary+surface+content. Decidir qué es enforce vs divergencia.
-- **Consistencia componente-a-componente** contra el export (no solo lo que el preset fija): auditar
-  qué componentes PrimeNG divergen de SC Prime y no pinamos (drift silencioso al revés).
-- **Propagar flat/gris a más pantallas** (Memory, config) — con su Figma de referencia.
-- Objetivo permanente: **reducir deuda de diseño + consistencia**.
+### 🎯 BATERÍA S63 — ASEGURADA (dudas STAR respondidas por Rafa, S62-ext-3)
+Prioridades: **paridad ABSOLUTA · consistencia al máximo · reducir deuda · customizar sin romper PrimeNG.**
+Orden por dependencia (1 base barata → 4 aplica):
+
+1. **Guardarraíl anti-breakage** (pre-commit). Rafa preguntó qué evita "que un update rompa todo";
+   reco aceptada: **(a) BLOQUEO DURO — `--p-*` solo permitido en `sc-preset.ts`** (mantiene el radio
+   de explosión de un upgrade PrimeNG en un archivo). **(b) AVISO — componentes que usan primitivas
+   layer-1 (`--sc-color-*`/`--sc-scale-*`) en vez de semánticos** (`--sc-bg-*`/`--sc-spacing-*`), con
+   allow-list de excepciones documentadas. Script estilo `i18n-audit`, cableado en husky.
+2. **Paridad COLOR absoluta** (Rafa: "vigilar TODOS"). Mapear los 63 semánticos sin enforce en
+   `tokens:parity §6` y clasificar cada uno: `enforce` (debe == export) vs `diverge` (marca consciente,
+   allow-list). Requiere **ronda de clasificación con Rafa** (¿drift o intención?).
+3. **Auditoría 81 componentes** (Rafa: "los 81 completos"). Cruzar cada componente del Kit (Aura default
+   vs SC Prime export) y detectar dónde Aura ≠ SC Prime y NO lo pisamos (drift silencioso inverso → se
+   ve "PrimeNG" en vez de "SC"). Pinar los gaps reales en `sc-preset.ts`. Grande; decisiones puntuales.
+4. **Propagar flat/gris** (Rafa: Memory + config). Paneles gray-50 + radius + sin sombra + botones small
+   a Memory (conversaciones/categorías/…) y config/ajustes. **Necesita el Figma de referencia de esas
+   pantallas** (regla: nada a ciegas). Pedírselo a Rafa antes.
+
+Objetivo permanente: **reducir deuda de diseño + consistencia**. Ver [[project_parity_consistency_north_star]].
 
 ---
 
