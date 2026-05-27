@@ -27,16 +27,24 @@ ojo**, **docs sostenibles** (no logs centrales que se pudren). 1 commit a `main`
 regenerados **34/34** con `npm run ds-docs:screenshots` + arreglado bug `NG0201` en la
 gallery delete-entity-dialog. Borrado `NEXT-SESSION-PROMPT.md` (obsoleto S36).
 
+**Hechos también esta sesión (2º commit):**
+- ✅ **#2 `tokens:parity` ampliado a overlays** (modal/popover/select radius) → 36 checks.
+- ✅ **#3 grupos/usuarios estandarizados** a la referencia editar-agente: los 3 forms usan
+  `form-section-nav [flush]`; input muerto `compact` retirado (no Figma propio: la
+  referencia ES editar-agente, decisión Rafa).
+- ✅ **#4 frescura docs** (parcial): borrado `NEXT-SESSION-PROMPT.md` obsoleto.
+
 ### 🎯 PRÓXIMO (S63) — candidatos, Rafa dirige
 - **¿Subir el contraste del índice?** El panel quedó sutil (blanco/gris, fiel al Figma).
   Si Rafa lo quiere más marcado que el Figma → cambio de 1 token.
-- **Ampliar `tokens:parity` a más componentes** según se vayan tocando (inputs, overlays).
-- **Pipeline import Kit→tokens**: si Rafa insiste en generar (no solo comprobar), discutir
-  el scope seguro (solo scale/radius, región marcada) — hoy se decidió que el CHECK basta.
-- **Propagar SnowUI** a grupos/usuarios / otras secciones del agente **con su Figma**.
-- **Repaso frescura docs** (parcial hecho): quedan candidatos a revisar rol vs antigüedad
-  (`prototype-reference/` 6 docs estáticos, `apps/supervisor/docs/MEMORY.md`, audits) — solo
-  si Rafa quiere podar/consolidar.
+- **Pipeline import Kit→tokens**: si Rafa insiste en GENERAR (no solo comprobar), discutir
+  el scope seguro (solo scale/radius, región marcada) — hoy se decidió que el CHECK basta
+  (DD-10). Recordar: objetivo permanente = reducir deuda de diseño + consistencia.
+- **Propagar SnowUI a más secciones** del agente (Permisos/Avanzado/Identificación en flush)
+  o a otras pantallas — a la referencia validada, no a ciegas.
+- **Frescura docs (resto):** revisar rol vs antigüedad de `prototype-reference/` (6 docs
+  estáticos), `apps/supervisor/docs/MEMORY.md` (¿solapa DECISIONS?), audits — solo si Rafa
+  quiere podar/consolidar (no borrar a ciegas docs ajenos).
 
 ## Estado al cerrar (Session 62-ext, 2026-05-27) — SnowUI 1:1 editar-agente + sizing preset
 

@@ -48,7 +48,16 @@ nunca se commitearon → 404). Nuevo `scripts/gen-component-screenshots.mjs`
 superado por NEXT-SESSION-PLAN). Decidido NO crear log central de learnings (se pudre);
 viven en memoria + guardarraíles.
 
-**Salud**: parity+scale verdes · build supervisor+ds-docs verdes · e2e 28/28.
+**Continuación (mismo día, 2º commit):**
+- `tokens:parity` ampliado a **overlays** (modal/popover/select borderRadius) → 36 checks.
+- **Estandarización grupos/usuarios a la referencia editar-agente** (Rafa: "editar-agente
+  ES la referencia total"): los 3 forms usan ahora `form-section-nav [flush]` (el índice
+  panel). Retirado el input muerto `compact` (no-op, 0 consumers reales). §2.7 actualizado.
+- **Lección (datos a media-escala = error):** quité `compact` con grep solo en supervisor
+  → petó el build de ds-docs (la gallery lo usaba). Regla grabada: grep el repo ENTERO
+  (incl. ds-docs + docs/) antes de retirar API pública. Fix: gallery + doc a `flush`.
+
+**Salud**: parity 36/36 + scale verdes · build supervisor+ds-docs verdes · e2e 28/28.
 
 ## 2026-05-26 · Session 62 — Triple auditoría: arranque (DS + bundle + UX), 4 commits
 

@@ -22,12 +22,6 @@
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-200);
 
-  /* Compact variant — placeholder (mantiene la caja); se conserva como hook
-   * para consumers que lo target-een. */
-  &--compact {
-    /* same chrome as base */
-  }
-
   /* Variante flush (S62 · lenguaje SnowUI · Figma índice 12277:4818). CORRECCIÓN
    * S62-ext: la lectura inicial ("a sangre / sin fondo") borró el panel del índice
    * → regresión visual. El Figma muestra el índice como un PANEL embebido: fondo,
@@ -36,8 +30,8 @@
    * usamos panel BLANCO (--sc-bg-surface) para el mismo contraste panel/página —
    * misma divergencia consciente que `group-assignment-table` (panel blanco sobre
    * página gris). El item activo se separa con gray-100 (un paso sobre el panel);
-   * el chip del icono es 32×32 (gray-200 inactivo · navy activo). Opt-in: default
-   * off → group/user forms siguen con su caja con borde. Ver customs-catalog §2.7.
+   * el chip del icono es 32×32 (gray-200 inactivo · navy activo). Opt-in: lo usan
+   * los 3 forms (agents/groups/users); default off. Ver customs-catalog §2.7.
    *
    * ⚠️ Al tocar esta variante: confirmar los FILLS contra el nodo Figma (no solo
    * layout) — quitar el fondo lee 1:1 desde la estructura pero es regresión. */

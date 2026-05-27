@@ -181,6 +181,11 @@ const pTabs = brace(preset, 'tabs:');
 const pTab = brace(pTabs, 'tab:');
 const pTabpanel = brace(pTabs, 'tabpanel:');
 const pTooltip = brace(brace(preset, 'tooltip:'), 'root:');
+// semantic.overlay (1er match; colorScheme.*.overlay no tiene borderRadius).
+const pOverlay = brace(preset, 'overlay:');
+const pOvModal = brace(pOverlay, 'modal:');
+const pOvPopover = brace(pOverlay, 'popover:');
+const pOvSelect = brace(pOverlay, 'select:');
 
 const tabPad = shorthandPx(pTab, 'padding'); // [Y, X]
 const panelPad = shorthandPx(pTabpanel, 'padding'); // [T, R, B, L]
@@ -221,6 +226,11 @@ const sizing = [
   ['tooltip.borderRadius', common.tooltipBorderRadius, propPx(pTooltip, 'borderRadius')],
   ['tooltip.paddingY', common.tooltipPaddingY, ttPad?.[0]],
   ['tooltip.paddingX', common.tooltipPaddingX, ttPad?.[1]],
+  // Overlays: solo el borderRadius que el preset fija (resuelve var(--sc-radius-*)).
+  // El shadow no se cruza (recipe). focusRing fuera: divergencia consciente 2px (a11y).
+  ['overlay.modal.borderRadius', semCommon.overlayModalBorderRadius, propPx(pOvModal, 'borderRadius')],
+  ['overlay.popover.borderRadius', semCommon.overlayPopoverBorderRadius, propPx(pOvPopover, 'borderRadius')],
+  ['overlay.select.borderRadius', semCommon.overlaySelectBorderRadius, propPx(pOvSelect, 'borderRadius')],
 ];
 
 let sizingOk = 0;

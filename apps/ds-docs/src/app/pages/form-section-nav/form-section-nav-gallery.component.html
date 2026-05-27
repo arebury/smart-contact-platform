@@ -31,18 +31,19 @@
   </section>
 
   <section class="gallery__section">
-    <h2 class="gallery__h2">2 · Modo <code>compact</code> (sin chrome exterior)</h2>
+    <h2 class="gallery__h2">2 · Modo <code>flush</code> (índice como panel SnowUI)</h2>
     <p class="gallery__hint">
-      <code>[compact]="true"</code> quita la card chrome para embeber el nav dentro de otro
-      contenedor (típicamente una <code>sc-section-card</code>). Útil cuando la página ya tiene su
-      propia caja contenedora.
+      <code>[flush]="true"</code> renderiza el índice como <strong>panel embebido</strong> del rail
+      (fondo, radio 6, padding 16; chip 32, item activo gris-100, label semibold), 1:1 con el Figma
+      de editar-agente <code>12277:4185</code>. Es el modo que usan los 3 forms
+      (agents/groups/users).
     </p>
     <div class="gallery__row">
       <div style="max-width: 260px">
         <sc-form-section-nav
           [sections]="compactSections"
           [activeId]="activeCompact()"
-          [compact]="true"
+          [flush]="true"
           labelKey="Pasos del wizard"
           (activeChange)="activeCompact.set($event)"
         />

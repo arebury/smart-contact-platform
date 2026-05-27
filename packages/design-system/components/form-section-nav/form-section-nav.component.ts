@@ -30,11 +30,10 @@ export class FormSectionNavComponent {
   readonly sections = input.required<readonly FormNavSection[]>();
   readonly activeId = input<string | null>(null);
   readonly labelKey = input<string>('common.form_nav.label');
-  /** Placeholder hook; mantiene la caja. Para quitar la caja usar `flush`. */
-  readonly compact = input<boolean>(false);
   /**
-   * Flush (sin caja): el nav va a sangre dentro del rail — sin fondo/borde/
-   * radio/padding de contenedor (lenguaje SnowUI, S62). Opt-in, default off.
+   * Flush: el índice se renderiza como PANEL embebido del rail (fondo, radio,
+   * padding; chip 32, activo gris-100), 1:1 con el Figma de editar-agente
+   * (12277:4185), referencia común de agents/groups/users. Opt-in, default off.
    * Ver customs-catalog §2.7.
    */
   readonly flush = input<boolean>(false);
