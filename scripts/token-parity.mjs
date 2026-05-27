@@ -418,12 +418,57 @@ for (const [mode, key, token] of ENFORCE) {
 log(`  ✓ ${colorOk}/${ENFORCE.length} colores de marca 1:1 con el export (light+dark)`);
 log('  divergencias de marca conscientes (no fallan):');
 for (const [mode, what, why] of DIVERGE) log(`    · [${mode}] ${what}: ${why}`);
-// Cobertura: claves del export semántico aún sin enforce/diverge (visible, no falla).
-const covered = new Set(ENFORCE.map(([, k]) => k));
-const unmapped = Object.keys(LC).filter(
-  (k) => !covered.has(k) && !/^surface\d/.test(k) && !/^primary/.test(k),
+// ── 7. COLOR semántico extendido (INFORME — clasificar enforce vs divergencia) ─
+// Bloque 2 batería S63: mapeo de los semánticos del Kit a nuestros roles --sc-*.
+// REPORT-ONLY (no falla el build): saca la lista objetiva coincide/difiere para que
+// Rafa clasifique cada "difiere" como drift (→ a corregir + enforce) o marca consciente
+// (→ allow-list). Cuando estén clasificados, los enforce suben a §6. Mapeo por rol
+// (PrimeNG semantic → rol SCDS); las claves sin token --sc- directo se listan aparte.
+log('\n=== 7. COLOR semántico extendido (informe — clasificar drift vs marca) ===');
+const MAP_REPORT = [
+  ['textColor', 'sc-text-primary'],
+  ['textMutedColor', 'sc-text-secondary'],
+  ['contentColor', 'sc-text-primary'],
+  ['contentHoverBackground', 'sc-bg-secondary-hover'],
+  ['formFieldColor', 'sc-text-primary'],
+  ['formFieldBackground', 'sc-bg-surface'],
+  ['formFieldBorderColor', 'sc-border-default'],
+  ['formFieldHoverBorderColor', 'sc-border-strong'],
+  ['formFieldPlaceholderColor', 'sc-text-subtle'],
+  ['formFieldDisabledColor', 'sc-text-disabled'],
+  ['formFieldDisabledBackground', 'sc-bg-disabled'],
+  ['formFieldInvalidBorderColor', 'sc-border-error'],
+  ['formFieldIconColor', 'sc-icon-subtle'],
+  ['navigationItemColor', 'sc-text-secondary'],
+  ['navigationItemActiveBackground', 'sc-bg-secondary-hover'],
+  ['navigationItemActiveColor', 'sc-text-primary'],
+  ['navigationItemIconColor', 'sc-icon-subtle'],
+  ['listOptionColor', 'sc-text-secondary'],
+  ['listOptionFocusBackground', 'sc-bg-secondary-hover'],
+  ['overlayModalBackground', 'sc-bg-surface'],
+  ['overlayModalBorderColor', 'sc-border-default'],
+  ['overlayPopoverBackground', 'sc-bg-surface'],
+  ['overlayPopoverBorderColor', 'sc-border-default'],
+  ['overlaySelectBackground', 'sc-bg-elevated'],
+];
+const step = (hex) => (hexToPrim.get(hex)?.[0] || '?').replace('--sc-color-', '');
+const matches = [];
+const differs = [];
+for (const [key, token] of MAP_REPORT) {
+  const exp = expHex('light', key);
+  const got = resolveHex(token, 'light');
+  if (exp === undefined || got === undefined) continue;
+  if (exp === got) matches.push(key);
+  else differs.push(`[light] ${key}: export ${exp} (${step(exp)}) vs --${token} ${got} (${step(got)})`);
+}
+log(`  coinciden (${matches.length}): ${matches.join(', ')}`);
+log(`  DIFIEREN (${differs.length}) — ¿drift o tu marca?:`);
+for (const d of differs) log('    · ' + d);
+const reportedKeys = new Set([...MAP_REPORT.map(([k]) => k), ...ENFORCE.map(([, k]) => k)]);
+const noToken = Object.keys(LC).filter(
+  (k) => !reportedKeys.has(k) && !/^surface\d/.test(k) && !/^primary/.test(k),
 );
-log(`  sin mapear aún (${unmapped.length}) — candidatos a enforce futuro: ${unmapped.slice(0, 6).join(', ')}…`);
+log(`  sin token --sc- directo (${noToken.length}, p.ej. hover/focus/submenu/highlight/mask): informativo`);
 
 // ── Resumen ──────────────────────────────────────────────────────────────────
 log('\n' + '─'.repeat(60));
