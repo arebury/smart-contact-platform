@@ -233,6 +233,18 @@ const sizing = [
   ['overlay.select.borderRadius', semCommon.overlaySelectBorderRadius, propPx(pOvSelect, 'borderRadius')],
 ];
 
+// iconSize: el Kit lo declara en semanticCommon; nuestro default vive en una const TS
+// (no en el preset) → lo leemos de ahí y lo cruzamos igual.
+const ICON_TS = resolve(root, 'packages/design-system/utils/icon-size.ts');
+const iconDefault = existsSync(ICON_TS)
+  ? parseFloat((readFileSync(ICON_TS, 'utf8').match(/SC_ICON_SIZE_DEFAULT\s*=\s*([0-9.]+)/) || [])[1])
+  : NaN;
+sizing.push([
+  'iconSize (SC_ICON_SIZE_DEFAULT)',
+  semCommon.iconSize,
+  Number.isNaN(iconDefault) ? undefined : iconDefault,
+]);
+
 let sizingOk = 0;
 for (const [label, exp, got] of sizing) {
   if (exp == null) {

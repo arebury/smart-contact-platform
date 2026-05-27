@@ -30,6 +30,7 @@
     "tokens:export": "node scripts/export-sc-tokens.mjs",
     "tokens:parity": "node scripts/token-parity.mjs",
     "tokens:scale": "node scripts/token-gen-scale.mjs",
+    "tokens:import": "node scripts/token-gen-scale.mjs --write",
     "ds-docs:screenshots": "node scripts/gen-component-screenshots.mjs",
     "format": "prettier --write \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",
     "format:check": "prettier --check \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",

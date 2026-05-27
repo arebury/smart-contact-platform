@@ -188,6 +188,16 @@ paste. Both run in the pre-commit hook; drift blocks the commit. (Radius is out 
 scope for the generator — a fixed 6-value set with no naming ambiguity, already
 value-checked by parity §2.)
 
+**Figma→code bridge (`npm run tokens:import` = `tokens:scale -- --write`)**: rewrites
+the `--sc-scale-*` block **in place**, between the `/* @sc-gen:scale … */` …
+`/* @sc-gen:scale:end */` markers in `01-primitive.css`, straight from the export. This
+is the one manual seam automated: a Figma scale change → re-export `tokensprime.json` →
+`tokens:import` → the cascade (`--sc-spacing`/`-font-size`/`-line-height` aliases +
+components + the PrimeNG preset) propagates everywhere automatically. **Scoped on
+purpose**: only the marked scale region is touched — colors, brand, aliases and comments
+stay hand-authored. Verified idempotent (with the current export, `--write` changes no
+values). Unlike a full theme generator, it never rewrites the curated layers wholesale.
+
 ## Adding a new token
 
 ```css

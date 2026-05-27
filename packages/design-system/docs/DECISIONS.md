@@ -47,6 +47,18 @@ generador que pelea con la arquitectura y arriesga lo curado). Datos > supuestos
 `17.5`/`35` figuran como Kit pero el export actual no los trae → reconciliar al
 próximo re-export (`customs-catalog §4`).
 
+**Addendum S62-ext-3 — pipeline import (`tokens:import` / `tokens:scale -- --write`)**:
+añadido un **writer SCOPED**, NO el que descartamos. El descartado reescribía TODA la
+capa (riesgo de pisar colores/marca/comentarios). Este toca **solo el bloque de escala**
+entre marcadores `/* @sc-gen:scale … */` … `/* @sc-gen:scale:end */` en `01-primitive.css`
+(un mirror mecánico puro del export; nombres por `v/14`). Todo lo demás (colores, navy,
+aliases, extras documentados) queda intacto. Flujo: diseño cambia un tamaño en Figma →
+`tokensprime.json` actualizado → `npm run tokens:import` reescribe `--sc-scale-*` → la
+cascada (`--sc-spacing/font-size/line-height` + componentes + preset PrimeNG) propaga
+sola. Verificado idempotente (con el export actual, `--write` no cambia ningún valor).
+Radius sigue a mano (set fijo de 6, parity §2 lo cruza). El CHECK (default, pre-commit)
+sigue siendo la garantía; el writer es la comodidad de no teclear el valor de Figma.
+
 ## DD-9 · 2026-05-25 (S60) — Icon set del SCDS = Material Symbols vía `<sc-icon>` (migración desde Lucide)
 
 **Contexto**: la app usaba `lucide-angular` (`<lucide-icon [img]>`) como icon

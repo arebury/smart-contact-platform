@@ -29,7 +29,7 @@
  * + 2 customs SC, sin la ambigüedad de naming de la escala, y `tokens:parity`
  * §2 ya cruza sus valores. No hay derivación que automatizar ahí.
  */
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
@@ -38,6 +38,7 @@ const EXPORT_PATH = resolve(root, 'packages/design-system/tokens/tokensprime.jso
 const PRIMITIVE_CSS = resolve(root, 'packages/design-system/tokens/layers/01-primitive.css');
 
 const emit = process.argv.includes('--emit');
+const write = process.argv.includes('--write');
 const log = (s = '') => process.stdout.write(s + '\n');
 
 if (!existsSync(EXPORT_PATH)) {
@@ -95,6 +96,35 @@ function render() {
 if (emit) {
   log('/* @sc-generated — node scripts/token-gen-scale.mjs --emit. Fuente: tokensprime.json. */');
   log(render());
+  process.exit(0);
+}
+
+// ── --write: reescribe SOLO la zona marcada @sc-gen:scale de 01-primitive.css ──
+// Es el "pipeline import": el valor llega de Figma (tokensprime.json) al token sin
+// teclearlo. Toca únicamente entre los marcadores; todo lo demás (colores, marca,
+// aliases, comentarios) queda intacto. Desde ahí la cascada propaga a todo.
+const START = '/* @sc-gen:scale';
+const END = '/* @sc-gen:scale:end */';
+if (write) {
+  let txt = readFileSync(PRIMITIVE_CSS, 'utf8');
+  const si = txt.indexOf(START);
+  const ei = txt.indexOf(END);
+  if (si < 0 || ei < 0) {
+    log(`✗ Faltan los marcadores ${START} … ${END} en 01-primitive.css. Añádelos alrededor`);
+    log('  del bloque --sc-scale-* antes de usar --write (evita reescribir a ciegas).');
+    process.exit(2);
+  }
+  const lineStart = txt.lastIndexOf('\n', si) + 1; // inicio de la línea del marcador START
+  const indent = txt.slice(lineStart, si); // sangría (normalmente 2 espacios)
+  const block =
+    `${indent}/* @sc-gen:scale — bloque GENERADO desde tokensprime.json por \`npm run tokens:scale -- --write\`.\n` +
+    `${indent} * NO editar a mano (el generador lo pisa). Tras editar, la cascada (--sc-spacing/font-size/\n` +
+    `${indent} * line-height + componentes + preset PrimeNG) propaga sola. Ver tokens/README §"The scale". */\n` +
+    `${render()}\n` +
+    `${indent}${END}`;
+  txt = txt.slice(0, lineStart) + block + txt.slice(ei + END.length);
+  writeFileSync(PRIMITIVE_CSS, txt);
+  log('✓ Bloque --sc-scale-* reescrito desde el export (zona @sc-gen:scale). La cascada propaga.');
   process.exit(0);
 }
 

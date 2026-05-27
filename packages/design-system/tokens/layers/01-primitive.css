@@ -304,6 +304,9 @@
    * Mapping completo verificado contra captura Figma SC Prime UI Kit
    * Pro Variables (34 entries: 24 positivos + 10 negativos):
    */
+  /* @sc-gen:scale — bloque GENERADO desde tokensprime.json por `npm run tokens:scale -- --write`.
+   * NO editar a mano (el generador lo pisa). Tras editar, la cascada (--sc-spacing/font-size/
+   * line-height + componentes + preset PrimeNG) propaga sola. Ver tokens/README §"The scale". */
   --sc-scale-0: 0;
 
   /* Positivos */
@@ -343,6 +346,7 @@
   --sc-scale-neg-1-125: -15.75px;
   --sc-scale-neg-1-25: -17.5px;
   --sc-scale-neg-1-5: -21px;
+  /* @sc-gen:scale:end */
 
   /* ---------- Spacing (semantic alias de scale) ----------
    * API public preservada. `--sc-spacing-X` = `var(--sc-scale-X)`.
