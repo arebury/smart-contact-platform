@@ -1,0 +1,203 @@
+<div class="page">
+  <a routerLink="/" class="back">
+    <sc-icon [name]="arrowLeftIcon" [size]="16" />
+    <span>Volver</span>
+  </a>
+
+  <header class="hero">
+    <div class="hero__icon" aria-hidden="true"><sc-icon [name]="rulerIcon" [size]="20" /></div>
+    <div>
+      <p class="hero__eyebrow">Foundations</p>
+      <h1 class="hero__title">Escala &amp; Espaciado</h1>
+      <p class="hero__lead">
+        Una sola escala numérica gobierna espaciado, tipografía, alturas de línea y radios. Esta
+        página explica por qué está en base 14 y cómo convertir entre un valor (px) y su token.
+      </p>
+    </div>
+  </header>
+
+  <!-- Por qué base-14 -->
+  <section class="prose">
+    <h2>Por qué base 14</h2>
+    <p>
+      Los tokens se llaman <strong>igual que las Variables del Kit Pro en Figma</strong>. En Figma
+      el equipo ve <code>scale/2</code>; en código tenemos <code>--sc-scale-2</code> — mismo nombre,
+      mismo valor. El número del sufijo es <strong>cuántas veces 14px</strong>:
+      <code>scale-2</code> = 2 × 14 = <strong>28px</strong>, <code>scale-0-5</code> = 7px.
+    </p>
+    <p>
+      Lo hacemos así para que <strong>diseño y código hablen el mismo idioma</strong> y para que,
+      cuando el equipo re-exporte el Kit, la sincronización sea mecánica (no hay que traducir nada).
+      El <strong>trade-off, dicho claro</strong>: 14 no es tan redondo como un grid de 8, así que
+      algunos pasos quedan con decimales (<code>scale-2-25</code> = 31.5px). Lo asumimos a cambio de
+      la paridad 1:1 con Figma.
+    </p>
+    <div class="callout">
+      <strong>No conviertes a mano.</strong> Copias el valor de Figma (p. ej. 28) y la herramienta
+      <code>npm run tokens:parity</code> imprime el mapa px → token. En componentes se usa el alias
+      <code>--sc-spacing-*</code> (no <code>--sc-scale-*</code> directo); ambos valen lo mismo.
+    </div>
+    <p class="prose__note">
+      Esta tabla se genera sola desde <code>sc-tokens.json</code> (lo regenera
+      <code>npm run tokens:export</code> en cada build) — nunca se desincroniza del código.
+    </p>
+  </section>
+
+  @if (loaded()) {
+    <!-- Calculadora rápida px → token (reusa la escala ya cargada) -->
+    <section class="calc">
+      <label class="calc__label" for="calc-input">Calculadora — escribe un valor en px</label>
+      <div class="calc__field">
+        <input
+          id="calc-input"
+          class="calc__input"
+          type="text"
+          inputmode="decimal"
+          placeholder="28"
+          [value]="calcInput()"
+          (input)="calcInput.set($any($event.target).value)"
+        />
+        <span class="calc__unit">px</span>
+      </div>
+      @if (calcResult(); as r) {
+        <div class="calc__out" [class.calc__out--near]="!r.exact">
+          @if (r.exact) {
+            <sc-icon [name]="'check_circle'" [size]="16" class="calc__ico calc__ico--ok" />
+            <code class="calc__token">{{ r.spacing ?? r.scale }}</code>
+            <span class="calc__meta">{{ r.px }}px · {{ r.mult }}</span>
+          } @else {
+            <sc-icon [name]="'info'" [size]="16" class="calc__ico" />
+            <span class="calc__hint"
+              ><strong>{{ r.query }}px</strong> no cae en la escala — lo más cercano:</span
+            >
+            <code class="calc__token">{{ r.spacing ?? r.scale }}</code>
+            <span class="calc__meta">{{ r.px }}px · {{ r.mult }}</span>
+          }
+        </div>
+      }
+    </section>
+
+    <!-- Tabla principal: la escala y todo lo que deriva -->
+    <section class="prose">
+      <h2>Tabla de conversión</h2>
+      <p>
+        Cada fila es un paso de la escala. <code>spacing</code>, <code>font-size</code> y
+        <code>line-height</code> son <strong>alias</strong> que apuntan al mismo paso — una sola
+        fuente, no cuatro sistemas.
+      </p>
+    </section>
+
+    <div class="tbl-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th class="num">px</th>
+            <th>n × 14</th>
+            <th>scale (primitiva)</th>
+            <th>spacing (uso en componentes)</th>
+            <th>font-size</th>
+            <th>line-height</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of scaleRows(); track r.scale) {
+            <tr>
+              <td class="num"><span class="swatch" [style.width.px]="r.px"></span>{{ r.px }}</td>
+              <td class="muted">{{ r.mult }}</td>
+              <td>
+                <code>{{ r.scale }}</code>
+              </td>
+              <td>
+                @if (r.spacing) {
+                  <code class="alias">{{ r.spacing }}</code>
+                } @else {
+                  <span class="muted">—</span>
+                }
+              </td>
+              <td>
+                @for (f of r.fontSizes; track f) {
+                  <code class="chip">{{ leaf(f) }}</code>
+                }
+                @if (r.fontSizes.length === 0) {
+                  <span class="muted">—</span>
+                }
+              </td>
+              <td>
+                @for (l of r.lineHeights; track l) {
+                  <code class="chip">{{ leaf(l) }}</code>
+                }
+                @if (r.lineHeights.length === 0) {
+                  <span class="muted">—</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Radios: escala dedicada -->
+    <section class="prose">
+      <h2>Radios</h2>
+      <p>
+        Los radios tienen su <strong>propia escala</strong> (nombrada, no base-14) porque así los
+        modela el Kit Pro. Los nombres numéricos legacy (<code>--sc-radius-200</code>) son alias.
+      </p>
+    </section>
+
+    <div class="tbl-wrap">
+      <table class="tbl tbl--narrow">
+        <thead>
+          <tr>
+            <th class="num">px</th>
+            <th>radio (canónico)</th>
+            <th>alias legacy</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of radiusRows(); track r.radius) {
+            <tr>
+              <td class="num">{{ r.px }}</td>
+              <td>
+                <code>{{ r.radius }}</code>
+              </td>
+              <td>
+                @for (a of r.aliases; track a) {
+                  <code class="chip">{{ leaf(a) }}</code>
+                }
+                @if (r.aliases.length === 0) {
+                  <span class="muted">—</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Cómo te afecta -->
+    <section class="prose">
+      <h2>Cómo te afecta (y cómo no)</h2>
+      <ul class="affect">
+        <li>
+          <strong>Diseñando en Figma:</strong> usas las Variables del Kit Pro con su nombre. No
+          cambia nada.
+        </li>
+        <li>
+          <strong>Leyendo un valor:</strong> si ves un px, divídelo entre 14 para el sufijo (28 ÷ 14
+          = 2 → <code>--sc-spacing-2</code>), o mira esta tabla.
+        </li>
+        <li>
+          <strong>Si la base cambiara</strong> (14 → otro): todos los valores se recalculan solos
+          porque todo deriva de una fuente. No hay que renombrar tokens.
+        </li>
+        <li>
+          <strong>rem:</strong> nuestros tokens están en px. El <code>rem</code> solo vive en el
+          mundo PrimeNG (defaults tipo <code>0.75rem</code>), que nuestro preset reescribe.
+        </li>
+      </ul>
+    </section>
+  } @else {
+    <p class="loading">Cargando tokens…</p>
+  }
+</div>

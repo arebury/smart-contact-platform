@@ -12,6 +12,13 @@ export const appRoutes: Routes = [
       import('./pages/whats-new-v2/whats-new-v2.component').then((m) => m.WhatsNewV2Component),
   },
   {
+    path: 'foundations/escala-espaciado',
+    loadComponent: () =>
+      import('./pages/foundations-scale/foundations-scale.component').then(
+        (m) => m.FoundationsScaleComponent,
+      ),
+  },
+  {
     path: 'components/button',
     loadComponent: () =>
       import('./pages/button/buttons-gallery.component').then((m) => m.ButtonsGalleryComponent),
