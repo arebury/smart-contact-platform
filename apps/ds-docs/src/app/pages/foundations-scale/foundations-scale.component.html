@@ -10,11 +10,37 @@
       <p class="hero__eyebrow">Foundations</p>
       <h1 class="hero__title">Escala &amp; Espaciado</h1>
       <p class="hero__lead">
-        Una sola escala numérica gobierna espaciado, tipografía, alturas de línea y radios. Esta
-        página explica por qué está en base 14 y cómo convertir entre un valor (px) y su token.
+        Una sola escala numérica gobierna espaciado, tipografía, alturas de línea y radios. Aquí
+        explicamos cómo se nombra cada paso, por qué está en base 14, y un buscador para encontrar
+        el token de cualquier valor.
       </p>
     </div>
   </header>
+
+  <!-- Cómo se nombra -->
+  <section class="prose">
+    <h2>Cómo se nombra cada escalón</h2>
+    <p>
+      La unidad base es <strong>14px</strong> (el tamaño del texto body en el Kit Pro). Cada token
+      se llama por <strong>cuántas veces vale la base</strong>:
+    </p>
+    <ul class="bullets">
+      <li><code>scale-1</code> = 1 × 14 = <strong>14px</strong></li>
+      <li><code>scale-2</code> = 2 × 14 = <strong>28px</strong></li>
+      <li><code>scale-3</code> = 3 × 14 = <strong>42px</strong></li>
+      <li>
+        Decimales en el nombre = fracciones de la base: <code>scale-0-5</code> = 0.5 × 14 = 7px,
+        <code>scale-2-25</code> = 2.25 × 14 = 31.5px
+      </li>
+      <li>Negativos para offsets/márgenes negativos: <code>scale-neg-1</code> = −14px</li>
+    </ul>
+    <p>
+      El nombre <strong>se deriva del valor</strong> (valor ÷ 14), nunca al revés. Por eso hay algún
+      escalón "raro" como <code>scale-1-143</code> = <strong>16px</strong>: 16 no cae en un múltiplo
+      limpio de 14 (16 ÷ 14 ≈ 1.143), pero el Kit lo necesita como medida puntual de UI, así que
+      existe con su nombre derivado.
+    </p>
+  </section>
 
   <!-- Por qué base-14 -->
   <section class="prose">
@@ -22,104 +48,50 @@
     <p>
       Los tokens se llaman <strong>igual que las Variables del Kit Pro en Figma</strong>. En Figma
       el equipo ve <code>scale/2</code>; en código tenemos <code>--sc-scale-2</code> — mismo nombre,
-      mismo valor. El número del sufijo es <strong>cuántas veces 14px</strong>:
-      <code>scale-2</code> = 2 × 14 = <strong>28px</strong>, <code>scale-0-5</code> = 7px.
+      mismo valor. Así <strong>diseño y código hablan el mismo idioma</strong> y, cuando el equipo
+      re-exporta el Kit, la sincronización es mecánica (no hay que traducir nada).
     </p>
     <p>
-      Lo hacemos así para que <strong>diseño y código hablen el mismo idioma</strong> y para que,
-      cuando el equipo re-exporte el Kit, la sincronización sea mecánica (no hay que traducir nada).
       El <strong>trade-off, dicho claro</strong>: 14 no es tan redondo como un grid de 8, así que
-      algunos pasos quedan con decimales (<code>scale-2-25</code> = 31.5px). Lo asumimos a cambio de
-      la paridad 1:1 con Figma.
+      algunos pasos quedan con decimales. Lo asumimos a cambio de la paridad 1:1 con Figma.
     </p>
     <div class="callout">
-      <strong>No conviertes a mano.</strong> Copias el valor de Figma (p. ej. 28) y la herramienta
-      <code>npm run tokens:parity</code> imprime el mapa px → token. En componentes se usa el alias
-      <code>--sc-spacing-*</code> (no <code>--sc-scale-*</code> directo); ambos valen lo mismo.
+      <strong>Nuestros tokens son px, no rem.</strong> rem es una convención web con otra base (1rem
+      = 16px), así que <code>scale-2</code> (28px) <strong>no</strong> es "2rem" (32px). Para evitar
+      confusión, esta página trabaja solo en px ↔ token. En componentes se usa el alias
+      <code>--sc-spacing-*</code> (no <code>--sc-scale-*</code> directo); valen lo mismo.
     </div>
-    <p class="prose__note">
-      Esta tabla se genera sola desde <code>sc-tokens.json</code> (lo regenera
-      <code>npm run tokens:export</code> en cada build) — nunca se desincroniza del código.
-    </p>
   </section>
 
   @if (loaded()) {
-    <!-- Convertidor rem ⇄ px (base 16, web) + token más cercano -->
-    <section class="conv">
-      <span class="conv__label">Convertidor rem ⇄ px <em>(web · 1rem = 16px)</em></span>
-      <div class="conv__row">
-        <div class="conv__field" [style.order]="pxLeft() ? 0 : 2">
-          <input
-            class="conv__input"
-            type="text"
-            inputmode="decimal"
-            aria-label="px"
-            [value]="pxDisplay()"
-            (input)="setConv($any($event.target).value, 'px')"
-          />
-          <span class="conv__unit">px</span>
-        </div>
-        <button
-          type="button"
-          class="conv__swap"
-          [style.order]="1"
-          (click)="swap()"
-          aria-label="Invertir orden"
-          title="Invertir"
-        >
-          <sc-icon [name]="'swap_horiz'" [size]="18" />
-        </button>
-        <div class="conv__field" [style.order]="pxLeft() ? 2 : 0">
-          <input
-            class="conv__input"
-            type="text"
-            inputmode="decimal"
-            aria-label="rem"
-            [value]="remDisplay()"
-            (input)="setConv($any($event.target).value, 'rem')"
-          />
-          <span class="conv__unit">rem</span>
-        </div>
-      </div>
-      @if (tokenForPx(); as t) {
-        <p class="conv__token-line">
-          @if (t.exact) {
-            <sc-icon [name]="'check_circle'" [size]="15" class="conv__ico conv__ico--ok" />
-            <span
-              >Coincide con <code>{{ t.spacing ?? t.scale }}</code> ({{ t.px }}px)</span
-            >
-          } @else {
-            <sc-icon [name]="'info'" [size]="15" class="conv__ico" />
-            <span
-              >No cae en la escala — token más cercano: <code>{{ t.spacing ?? t.scale }}</code> ({{
-                t.px
-              }}px)</span
-            >
-          }
-        </p>
-      }
-      <p class="conv__foot">
-        rem es la conversión web (×16). Nuestros tokens son <strong>px base-14</strong> — la columna
-        <code>scale</code>/<code>spacing</code> de abajo, no rem.
+    <!-- Buscador (combobox) + tabla -->
+    <section class="prose">
+      <h2>Buscar un token</h2>
+      <p>
+        La escala tiene escalones con decimales, así que escanear cuesta. Escribe un
+        <strong>px</strong> (28), un trozo de <strong>token</strong> (<code>spacing-2</code>) o el
+        multiplicador y se filtran las opciones que <strong>existen de verdad</strong> en la escala.
       </p>
     </section>
 
-    <!-- Tabla principal: la escala y todo lo que deriva -->
-    <section class="prose">
-      <h2>Tabla de conversión</h2>
-      <p>
-        Cada fila es un paso de la escala. <code>spacing</code>, <code>font-size</code> y
-        <code>line-height</code> son <strong>alias</strong> que apuntan al mismo paso — una sola
-        fuente, no cuatro sistemas.
-      </p>
-    </section>
+    <div class="filter">
+      <sc-icon [name]="searchIcon" [size]="16" class="filter__icon" />
+      <input
+        class="filter__input"
+        type="text"
+        inputmode="decimal"
+        placeholder="Escribe 28, spacing-2, 0-5…"
+        [value]="filterQuery()"
+        (input)="filterQuery.set($any($event.target).value)"
+      />
+      <span class="filter__count">{{ filteredRows().length }} / {{ scaleRows().length }}</span>
+    </div>
 
     <div class="tbl-wrap">
       <table class="tbl">
         <thead>
           <tr>
             <th class="num">px</th>
-            <th class="num">rem <em>(web)</em></th>
             <th>n × 14</th>
             <th>scale (primitiva)</th>
             <th>spacing (uso en componentes)</th>
@@ -128,10 +100,9 @@
           </tr>
         </thead>
         <tbody>
-          @for (r of scaleRows(); track r.scale) {
+          @for (r of filteredRows(); track r.scale) {
             <tr>
               <td class="num"><span class="swatch" [style.width.px]="r.px"></span>{{ r.px }}</td>
-              <td class="num muted">{{ r.rem }}</td>
               <td class="muted">{{ r.mult }}</td>
               <td>
                 <code>{{ r.scale }}</code>
@@ -158,6 +129,13 @@
                 @if (r.lineHeights.length === 0) {
                   <span class="muted">—</span>
                 }
+              </td>
+            </tr>
+          }
+          @if (filteredRows().length === 0) {
+            <tr>
+              <td colspan="6" class="tbl__empty">
+                Sin coincidencias en la escala para «{{ filterQuery() }}».
               </td>
             </tr>
           }
@@ -214,15 +192,11 @@
         </li>
         <li>
           <strong>Leyendo un valor:</strong> si ves un px, divídelo entre 14 para el sufijo (28 ÷ 14
-          = 2 → <code>--sc-spacing-2</code>), o mira esta tabla.
+          = 2 → <code>--sc-spacing-2</code>), o búscalo arriba.
         </li>
         <li>
           <strong>Si la base cambiara</strong> (14 → otro): todos los valores se recalculan solos
           porque todo deriva de una fuente. No hay que renombrar tokens.
-        </li>
-        <li>
-          <strong>rem:</strong> nuestros tokens están en px. El <code>rem</code> solo vive en el
-          mundo PrimeNG (defaults tipo <code>0.75rem</code>), que nuestro preset reescribe.
         </li>
       </ul>
     </section>
