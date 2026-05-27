@@ -51,8 +51,12 @@
   diferencias → alineadas las de texto (text-primary gray-800→700, secondary 600→500 = export),
   allow-listadas las finas (placeholder/disabled/nav-activo + borde input gray-200 vs Kit gray-300).
   **Sin tokens nuevos** (Rafa: no mintar aliases que no estén ya en preset/JSON → `feedback_no_new_tokens_default`). e2e 28/28.
-- **Bloque 3 ⏳ teed up** (auditoría 81 comp.) + **Bloque 4 ⏳ bloqueado por Figma** → NEXT-SESSION-PLAN.
-- 4 commits a `main` (31b4397, 796b135→…, guard, §7, bloque2). "El arquitecto de DS eres tú."
+- **Bloque 3 ✅ Auditoría componentes (métricas)**: `tokens:audit` (`component-audit.mjs`) resuelve Aura
+  (refs `{…}` + rem×14 + flatten) y cruza contra el export. **655 coinciden, 0 drift accionable** → SC Prime
+  es PrimeNG limpio en sizing, heredar Aura es correcto (descarta con datos el miedo a 81 gaps). Única
+  divergencia: accordion focus offset (no usado, allow-list). Color per-componente = follow-up (la marca
+  color ya la cubre §6). **Bloque 4 ⏳ bloqueado: necesita Figma de Memory/config.**
+- ~7 commits a `main`. "El arquitecto de DS eres tú" — drift cazado con tooling, no con el ojo.
 
 ---
 

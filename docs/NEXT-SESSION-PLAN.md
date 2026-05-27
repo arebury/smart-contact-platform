@@ -34,15 +34,14 @@ Prioridades: **paridad ABSOLUTA · consistencia al máximo · reducir deuda · c
 2. ✅ **Paridad COLOR absoluta** — `tokens:parity §6` de 23→**43 colores enforce** (light+dark). Rampa de
    texto alineada al Kit (text-primary gray-800→700, secondary 600→500). Sin tokens nuevos (Rafa: no mintar
    aliases que no estén ya en preset/JSON) → borde de input gray-200 vs Kit gray-300 allow-listado (imperceptible).
-3. ⏳ **Auditoría 81 componentes** (Rafa: "los 81 completos") — **TEED UP, arrancar aquí**. Enfoque ya
-   sondeado: Aura (`@primeng/themes/aura`) usa árbol anidado con **referencias `{form.field.border.radius}`**
-   (no valores planos) + algún literal (`2rem`); el export es PLANO (`buttonPaddingX`, 1686 claves en
-   `componentCommon` + `componentColorScheme`). El differ necesita: (a) **resolver** las refs `{…}` de Aura
-   contra su primitive/semantic, (b) **aplanar** el árbol de Aura a claves estilo export (camelCase↔path),
-   (c) **diff** contra el export → listar dónde Aura-default ≠ SC-Prime y NO lo pisa el preset (drift
-   silencioso inverso). Salida = lista de gaps para pinar en `sc-preset.ts` (ronda de decisión como bloque 2).
-   Ojo: mucho ya hereda bien (scale/radius/45-colores que SÍ matcheamos); el gap real son métricas/colores
-   per-componente que no derivan de semánticos. Es una pieza de ingeniería — merece sesión enfocada.
+3. ✅ **Auditoría 81 componentes (métricas)** — `npm run tokens:audit` (`scripts/component-audit.mjs`,
+   solo-lectura): resuelve refs `{…}` de Aura + rem×14 + aplana camelCase→dot, cruza contra el export.
+   **Resultado validado con datos: 655 coinciden, 0 drift accionable** (SC Prime = PrimeNG limpio en
+   sizing → heredar Aura es correcto; el miedo a 81 gaps era infundado). Única divergencia conocida:
+   accordion focus offset (no usado, allow-list). **PENDIENTE (parte color)**: el audit cubre MÉTRICAS;
+   los 346 `componentColorScheme` no se cruzaron porque requieren resolver Aura+preset juntos (los colores
+   los fijamos vía semantic, no per-componente) — la marca color ya la cubre parity §6 (43 enforce), pero
+   un audit color per-componente (resolver el preset) queda como follow-up fino si se quiere 100%.
 4. ⏳ **Propagar flat/gris** (Rafa: Memory + config) — **BLOQUEADO: necesita el Figma** de esas pantallas
    (regla: nada a ciegas). Paneles gray-50 + radius + sin sombra + botones small. Pedir a Rafa los links.
 

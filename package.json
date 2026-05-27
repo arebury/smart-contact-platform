@@ -32,6 +32,7 @@
     "tokens:gen": "node scripts/token-gen.mjs",
     "tokens:import": "node scripts/token-gen.mjs --write",
     "tokens:guard": "node scripts/token-guard.mjs",
+    "tokens:audit": "node scripts/component-audit.mjs",
     "ds-docs:screenshots": "node scripts/gen-component-screenshots.mjs",
     "format": "prettier --write \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",
     "format:check": "prettier --check \"{apps,packages}/**/*.{ts,html,scss,css,json}\"",

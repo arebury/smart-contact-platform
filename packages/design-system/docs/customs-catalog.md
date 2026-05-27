@@ -275,6 +275,8 @@ Equipo de diseño formaliza estos en collection "Custom" cuando vincule Figma SC
 
 **Borde de input — divergencia consciente** (S62-ext-3): el Kit usa gray-300 para el borde de form-field (un punto más definido que content/overlay gray-200). Nosotros lo dejamos en `--sc-border-default` (gray-200, = content/overlay): 1 paso, imperceptible, y **sin crear token nuevo** (decisión de Rafa: no mintar aliases que no estén ya en el preset/JSON). Allow-listado en parity §6.
 
+**Auditoría de componentes — métricas heredan correctamente** (S62-ext-3 bloque 3): `npm run tokens:audit` (`scripts/component-audit.mjs`, solo-lectura) cruza el **default de Aura** (lo que PrimeNG renderiza sin override) contra el **export SC Prime**, resolviendo refs `{…}` + rem×14 + aplanando camelCase→dot. Resultado: de 976 métricas numéricas, **655 coinciden** y **0 drift accionable** en componentes no pinados — confirma con datos que SC Prime ES PrimeNG limpio en sizing, así que **heredar Aura es correcto** (no hay que pinar los 81). Única divergencia conocida: `accordionHeaderFocusRingOffset` (Aura -1 inset vs SC 2; accordion no usado → no se pina, allow-list en el audit). Caveat: 320 claves del export sin equivalente en Aura (SC-specific o naming divergente) no se cruzan — sin default Aura que filtre, bajo riesgo; reconciliar naming es follow-up. La marca (color) ya la cubre parity §6 (43 enforce).
+
 **Reconciliación pendiente (flag S62-ext)**: `scale.1-25` (17.5) y `scale.2-5` (35) figuran arriba como Kit Pro Variables, pero el export `tokensprime.json` actual NO los trae (sección 5 de `tokens:parity` los lista como code-only). Al próximo re-export del Kit: o el equipo los añade, o se marcan SC-custom explícito.
 
 ---
