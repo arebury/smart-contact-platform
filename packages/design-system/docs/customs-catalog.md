@@ -178,6 +178,33 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
   - Datepicker: `sc-datepicker.scss` (extiende formField via [size]).
   - Checkbox: `checkbox.scss` `&--sm / &--lg` con 14/21 px box.
 
+### 4.3 Form field font-size base (md) = 14px — fix fuga `1rem` de PrimeNG (S63-ext)
+
+- **Síntoma**: los inputs leían "enormes" (texto 16px). Raíz (verificada en `@primeuix/styles`):
+  PrimeNG **hardcodea** `.p-inputtext { font-size: 1rem }` / `.p-select-label { font-size: 1rem }`
+  y el export del Kit Pro (`tokensprime.json`) **NO define un `form.field.font.size` base** (solo
+  `formFieldSmFontSize: 12.25` y `formFieldLgFontSize: 15.75`). Resultado: el md caía al `1rem`
+  (16px) de Aura, fuera de la rampa del Kit (`12.25 / [14] / 15.75` = `scale-0.875 / 1 / 1.125`).
+  Prueba de la fuga: `lg`(15.75) era más pequeño que `md`(16), absurdo.
+- **Por qué no se arregla en el preset**: `formField.fontSize` NO es un token consumido por el CSS
+  base de PrimeNG (el `1rem` está a pelo en `.p-inputtext`/`.p-select-label`). Ponerlo en
+  `sc-preset.ts` sería no-op. SnowUI confirma 14px como densidad de form.
+- **SC fija** el base a `var(--sc-font-size-200)` (14px) en el SCSS de cada wrapper, con selector
+  host-prefijado para ganar a `.p-*` (misma cuenta de clases): `inputtext`, `select`, `multiselect`,
+  `datepicker`, `inputnumber`, `search`, `inputgroup`. Viaja con el componente a cualquier app.
+- **Guardarraíl**: `token-guard.mjs` Dura 3 prohíbe campos PrimeNG crudos en plantillas de app
+  (fuera de los wrappers) — si no, reintroducen el `1rem` en silencio. Hoy 0 usos crudos.
+- **Inspiración**: forms SnowUI (Figma `epbXh5uopOOwU1ofdINqbh`, nodo `13059:53268`): 14px valores,
+  12px labels/helpers, semibold-14 títulos, cards flat. Adoptado **densidad + flat** (label encima,
+  NO el inset-label de SnowUI).
+
+### 4.4 Dialog footer gap — divergencia consciente del Figma (S63-ext)
+
+`--sc-dialog-footer-gap` 7px (Figma `dialog/footer/gap: 7`) → **10.5px** (`--sc-spacing-0-75`). Con
+botones `size="small"` content-width el 7px leía apelotonado (feedback de diseño de Rafa). Token limpio
+de escala. **Propagar a Figma en el próximo sync del Kit.** Footers de modal usan `<p-button size="small">`
+(no `.btn` — la regla muerta `min-width: 128px` que apuntaba a `.btn` se eliminó).
+
 ### 4.2 Primitive layer — ✅ Kit Pro 1:1 estructural + naming (S57)
 
 **Refactor final S57**: primitive layer reorganizada para reflejar Kit Pro tal cual. Una sola escala primitive numérica (`--sc-scale-*`) sirve a spacing, padding, font-size, line-height, icon-size (igual que `aura/primitive.scale` en Kit Pro). Border-radius tiene escala dedicada (Kit Pro `aura/primitive.border.radius`).

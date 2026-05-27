@@ -49,6 +49,13 @@
   min-width: 0;
 }
 
+/* Base (md) font-size. PrimeNG hardcodea `.p-select-label { font-size: 1rem }`
+ * (16px) y el Kit Pro no define base → md se fugaba a 16px. Rampa Kit
+ * 12.25/[14]/15.75 → md = 14px. (0,2,0) gana al `.p-select-label` (0,1,0). */
+.sc-select__control .p-select-label {
+  font-size: var(--sc-font-size-200);
+}
+
 /* ────────────────────────────────────────────────────────────────────
  * Size variants — valores EXACTOS Figma Smart Contact Prime,
  * verificados nodos 7154:136752 (Small) y 7154:137061 (Large).

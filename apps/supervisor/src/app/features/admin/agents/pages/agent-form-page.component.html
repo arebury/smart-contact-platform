@@ -138,7 +138,10 @@
                 </label>
                 <sc-select
                   inputId="agent-ext"
+                  optionLabel="number"
                   optionValue="number"
+                  [filter]="true"
+                  filterBy="number"
                   [options]="availableExtensions"
                   [placeholder]="'agents.form.fields.extension_placeholder' | translate"
                   [value]="form().extension"

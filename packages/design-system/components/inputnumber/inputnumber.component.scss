@@ -48,6 +48,13 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Base (md) font-size. PrimeNG hardcodea `.p-inputtext { font-size: 1rem }`
+ * (16px) y el Kit no define base → md se fugaba. Rampa Kit → md = 14px.
+ * Host-prefijado para ganar a `.p-inputtext` (misma cuenta de clases). */
+.sc-inputnumber .sc-inputnumber__control {
+  font-size: var(--sc-font-size-200);
+}
+
 /* Strip browser-default spinners — they clash with our design and
  * aren't used in AED. Consumers who need them can re-enable per case. */
 .sc-inputnumber__control::-webkit-outer-spin-button,

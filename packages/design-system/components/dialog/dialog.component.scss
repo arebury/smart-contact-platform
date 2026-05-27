@@ -150,15 +150,10 @@
 }
 
 /*
- * Buttons projected via `<div modal-actions>` need a minimum width and an
- * equal-share flex behaviour so that "Descartar" / "Seguir editando" read
- * as two balanced choices rather than one tight pill and one wide one.
- * The rule has to live at the top level (outside `.sc-dialog {}`) because
- * `:host` is a pseudo-class on the component element — nesting it inside
- * a descendant selector would resolve to `.sc-dialog :host …` and match
- * nothing. Content projection puts these buttons outside this component's
- * encapsulated scope, so `::ng-deep` is the cleanest piercing path.
+ * Footer buttons are projected as `<p-button>` (clase `.p-button`), no `.btn`.
+ * Una regla previa `.sc-dialog__foot .btn { min-width }` apuntaba a `.btn`
+ * (clase que no existe en ningún consumer real — solo en el ejemplo del JSDoc)
+ * → era dead code. Los botones del footer son content-width por diseño (patrón
+ * SnowUI: dos acciones compactas), con `size="small"` en los consumers y la
+ * separación dada por `--sc-dialog-footer-gap`. Sin min-width forzado.
  */
-:host ::ng-deep .sc-dialog__foot .btn {
-  min-width: 128px;
-}

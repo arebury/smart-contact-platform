@@ -77,6 +77,7 @@
   <div modal-actions>
     <p-button
       type="button"
+      size="small"
       severity="secondary"
       data-testid="delete-cancel-btn"
       (onClick)="cancelled.emit()"
@@ -85,6 +86,7 @@
     </p-button>
     <p-button
       type="button"
+      size="small"
       severity="danger"
       [disabled]="!canConfirm()"
       data-testid="delete-confirm-btn"

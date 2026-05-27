@@ -13,6 +13,14 @@
  * `--sc-spacing-*`, no por la primitiva `--sc-scale-*` directa (que es layer-1).
  * Hoy hay 0 violaciones; el check las mantiene en 0.
  *
+ * Regla dura 3: los campos de formulario PrimeNG (`<p-select>`, `<p-multiselect>`,
+ * `<p-datepicker>`, `<p-inputnumber>`, `<p-textarea>`, `<p-password>`,
+ * `<p-autocomplete>`…) NO se usan crudos en plantillas de app — SIEMPRE vía su
+ * wrapper SCDS (`<sc-select>`…). Si no, ese campo se salta la chrome del DS y la
+ * densidad (font 14px base): PrimeNG hardcodea `font-size: 1rem` y el wrapper es
+ * quien lo corrige. Un campo crudo reintroduce el "input enorme" 16px en silencio.
+ * Hoy 0 usos fuera de los wrappers; el check los mantiene en 0.
+ *
  * NO se vigila `var(--sc-color-*)` directo: hay ~261 usos legítimos (paletas de
  * label, status) y el riesgo de upgrade es bajo → sería ruido. Decisión por dato.
  *
@@ -53,6 +61,18 @@ for (const f of files) {
     // Los ficheros de tokens/ (preset + capas) sí referencian --sc-scale-* legítimamente.
     if (!f.includes('design-system/tokens/') && /var\(\s*--sc-scale-[a-z0-9]/.test(line)) {
       fail(`${at} usa var(--sc-scale-*) (primitiva layer-1) → en componentes usa el alias semántico --sc-spacing-*.`);
+      log(`      ${line.trim()}`);
+    }
+    // Dura 3 — campo de formulario PrimeNG crudo fuera de los wrappers SCDS.
+    // Los wrappers (packages/design-system/components/) sí los usan internamente.
+    if (
+      f.endsWith('.html') &&
+      !f.includes('design-system/') &&
+      /<p-(select|multiSelect|multiselect|datePicker|datepicker|inputNumber|inputnumber|textarea|password|autoComplete|autocomplete|treeSelect|treeselect|cascadeSelect|cascadeselect)\b/i.test(
+        line,
+      )
+    ) {
+      fail(`${at} usa un campo PrimeNG crudo → envuélvelo en su wrapper SCDS (<sc-select>, <sc-multiselect>…). Si no, se salta la densidad/chrome del DS.`);
       log(`      ${line.trim()}`);
     }
   });

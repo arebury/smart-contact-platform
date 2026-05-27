@@ -46,6 +46,13 @@
   min-width: 0;
 }
 
+/* Base (md) font-size. PrimeNG hardcodea `.p-multiselect-label { font-size:
+ * 1rem }` (16px) y el Kit Pro no define base → md se fugaba a 16px. Rampa
+ * Kit 12.25/[14]/15.75 → md = 14px. (0,2,0) gana al label (0,1,0). */
+.sc-multiselect__control .p-multiselect-label {
+  font-size: var(--sc-font-size-200);
+}
+
 /* ────────────────────────────────────────────────────────────────────
  * Size variants — valores EXACTOS Figma, verificados en nodos
  * 7154:137768 (Small) y 7154:138077 (Large).

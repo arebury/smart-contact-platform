@@ -37,6 +37,13 @@
   padding-right: calc(var(--sc-spacing-0-875) + 24px);
 }
 
+/* Base (md) font-size. PrimeNG hardcodea `.p-inputtext { font-size: 1rem }`
+ * (16px) y el Kit no define base → md se fugaba. Rampa Kit → md = 14px.
+ * Host-prefijado para ganar a `.p-inputtext` (misma cuenta de clases). */
+.sc-search .sc-search__control {
+  font-size: var(--sc-font-size-200);
+}
+
 /* Clear button — × posición absolute derecha, mismo tamaño que el icon
  * search del iconfield para que el cluster lea balanceado. */
 .sc-search__clear {

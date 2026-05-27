@@ -47,6 +47,16 @@
   font-family: inherit;
 }
 
+/* Base (md) font-size. PrimeNG hardcodes `.p-inputtext { font-size: 1rem }`
+ * (16px) y el export del Kit Pro NO define `form.field.font.size` base, así
+ * que el md se fugaba a 16px (Aura). La rampa del Kit es 12.25/[14]/15.75 →
+ * md = 14px. Host-prefijado para ganar a `.p-inputtext` (misma cuenta de
+ * clases). Sin esto, lo que el comentario de size-variants llamaba "Normal:
+ * font 14 (heredado del preset)" nunca era cierto. */
+.sc-inputtext .sc-inputtext__control {
+  font-size: var(--sc-font-size-200);
+}
+
 /* ────────────────────────────────────────────────────────────────────
  * Size variants — valores EXACTOS Figma Smart Contact Prime,
  * verificados en nodos 7039:21970 (Small) y 7039:74791 (Large).

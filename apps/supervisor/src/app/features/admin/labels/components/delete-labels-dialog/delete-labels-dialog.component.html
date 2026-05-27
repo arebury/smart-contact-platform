@@ -27,10 +27,10 @@
   }
 
   <div modal-actions>
-    <p-button type="button" severity="secondary" (onClick)="cancelled.emit()">
+    <p-button type="button" size="small" severity="secondary" (onClick)="cancelled.emit()">
       <span>{{ 'common.cancel' | translate }}</span>
     </p-button>
-    <p-button type="button" severity="danger" (onClick)="confirm.emit()">
+    <p-button type="button" size="small" severity="danger" (onClick)="confirm.emit()">
       <span>{{ 'common.delete' | translate }}</span>
     </p-button>
   </div>

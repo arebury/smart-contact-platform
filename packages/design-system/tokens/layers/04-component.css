@@ -56,7 +56,11 @@
   --sc-dialog-shadow: 0 8px 10px -6px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   --sc-dialog-padding: 17.5px; /* Figma `dialog/header/padding`, `dialog/content/padding/*`, `dialog/footer/padding/*` — raw decimal */
   --sc-dialog-header-gap: 7px; /* Figma `dialog/header/gap: 7` (icon ↔ text ↔ close) */
-  --sc-dialog-footer-gap: 7px; /* Figma `dialog/footer/gap: 7` (botón ↔ botón) */
+  --sc-dialog-footer-gap: var(
+    --sc-spacing-0-75
+  ); /* 10.5px. Divergencia consciente del Figma (`dialog/footer/gap: 7`): con botones
+        small content-width el 7px leía apelotonado (feedback de diseño). Token limpio
+        de la escala (0.75 = 10.5). Propagar a Figma en el próximo sync del Kit. */
   --sc-dialog-head-icon-fg: var(--sc-color-gray-500);
   --sc-dialog-head-icon-size: 28px; /* Figma `confirmdialog/icon/size: 28` */
   --sc-dialog-title: var(

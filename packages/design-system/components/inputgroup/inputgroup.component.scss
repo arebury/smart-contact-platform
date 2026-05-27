@@ -27,6 +27,14 @@
   display: flex;
 }
 
+/* Base (md) font-size. PrimeNG hardcodea `.p-inputtext { font-size: 1rem }`
+ * (16px) y el Kit no define base → md se fugaba. Rampa Kit → md = 14px.
+ * Aplica a input + addon del grupo (sm/lg ya lo fijan más abajo). */
+.sc-inputgroup .p-inputtext,
+.sc-inputgroup .p-inputgroup-addon {
+  font-size: var(--sc-font-size-200);
+}
+
 /* ───── Size variants — alinear con sc-inputtext padding decimal (10.5/7) ───── */
 
 .sc-inputgroup--sm .sc-inputgroup__inner {
