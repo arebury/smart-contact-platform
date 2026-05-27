@@ -14,3 +14,8 @@ npm run lint
 # sc-preset.ts. Bloquea el commit si hay drift (S62): sustituye "greps a ojo"
 # por un diff determinista antes de cantar cualquier "1:1".
 npm run tokens:parity
+
+# Escala · deriva el set canónico --sc-scale-* del export (ley nombre = valor/14)
+# y verifica que 01-primitive.css lo cumple, incluida la ley de NOMBRES que la
+# paridad no valida (S62-ext). `npm run tokens:scale --emit` imprime el bloque.
+npm run tokens:scale

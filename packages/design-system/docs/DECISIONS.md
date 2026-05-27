@@ -12,6 +12,41 @@
 
 ---
 
+## DD-10 · 2026-05-27 (S62-ext) — Escala formalizada (ley `v/14`) + comprobador/generador de tokens, NO un generador que escriba las capas
+
+**Contexto**: Rafa pidió "el arreglo definitivo anti-drift" para los tokens del Kit
+Pro. La opción intuitiva era un **generador** que escribiera las capas `--sc-*` desde
+el export. Pero la arquitectura (README, DD-1/DD-2) dice lo contrario: las 7 capas son
+la fuente de verdad de la app; el export es contra lo que **comprobamos**.
+
+**Opciones consideradas**: (a) generador que reescribe `01-primitive.css` desde el
+export → invierte la arquitectura + riesgo de machacar lo curado (comentarios,
+negativos, los 3 pasos custom). (b) comprobador robusto + formalizar la ley + un
+generador SOLO-LECTURA que deriva el canónico y verifica.
+
+**Decisión**: (b).
+- La **escala** es una rampa única base-14: `--sc-scale-{m}` = `m × 14px`. El nombre
+  se deriva del VALOR (`v/14`), nunca del string de la clave del export (es lossy:
+  `scale125`=175=×12.5 vs `scale1125`=15.75=×1.125). Definición formal en
+  `tokens/README.md §"The scale — formal definition"`. Radius = escala fija aparte
+  (NO 14-base).
+- `npm run tokens:parity` ampliado: sizing **valor↔valor** (33 checks: button/formField/
+  tabs/tooltip) en vez de regex con literal hardcodeado (que dejaba pasar drift), +
+  §5 informativa de tokens code-only con vecino más cercano (regla redondeo,
+  memoria `feedback_snap_divergence_to_existing_token`).
+- `npm run tokens:scale` (nuevo): deriva el set canónico `--sc-scale-*` del export y
+  verifica la ley de NOMBRES (que paridad no validaba); `--emit` imprime el bloque.
+  **NO reescribe** el CSS.
+- Ambos corren en pre-commit.
+
+**Razón**: el drift se vuelve imposible por construcción vía el CHECK (no vía un
+generador que pelea con la arquitectura y arriesga lo curado). Datos > supuestos.
+
+**Consecuencias**: re-exportar el Kit y sobrescribir `tokensprime.json` → `parity` +
+`scale` cazan cualquier desalineación (valor o nombre) antes del commit. Flag abierto:
+`17.5`/`35` figuran como Kit pero el export actual no los trae → reconciliar al
+próximo re-export (`customs-catalog §4`).
+
 ## DD-9 · 2026-05-25 (S60) — Icon set del SCDS = Material Symbols vía `<sc-icon>` (migración desde Lucide)
 
 **Contexto**: la app usaba `lucide-angular` (`<lucide-icon [img]>`) como icon

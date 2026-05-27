@@ -10,6 +10,46 @@
 
 ---
 
+## 2026-05-27 · Session 62-ext-2 — Anti-drift tokens "para siempre" + índice 1:1 + thumbnails ds-docs
+
+> Rafa: "adelante a todo, planifica y ejecuta con criterio". Sesión larga con mucho
+> sparring de Rafa sobre método (datos>supuestos, inspección>captura, docs sostenibles).
+> 1 commit a `main`.
+
+**Tokens anti-drift (DD-10):**
+- `tokens:parity` §4 reescrito a **valor↔valor** (33 checks button/formField/tabs/tooltip);
+  antes el valor iba hardcodeado en el regex → un re-export con otra medida pasaba en
+  verde (drift silencioso). + §5 informativa: tokens code-only con vecino más cercano
+  (regla redondeo, no mintar token si Δ≤1px).
+- `tokens:scale` (nuevo, solo-lectura): deriva el set canónico `--sc-scale-*` del export
+  por la ley `v/14` y verifica la ley de NOMBRES; `--emit` imprime el bloque. NO reescribe
+  CSS. En pre-commit. Sparring: rechazado el "generador que escribe las capas" (invierte
+  arquitectura); el CHECK es la garantía.
+- Escala formalizada en `tokens/README.md`; nota divergencia + flag 17.5/35 en
+  `customs-catalog §4`.
+
+**Flush / índice editar-agente (Figma 12277-4185, dato↔dato):**
+- `section-card [flush]` quedó huérfano (0 consumers; la tabla de grupos fue a panel
+  propio) → reconciliado en `customs-catalog §2.7` (reservado, trigger = Figma de las
+  otras secciones; NO borrado).
+- **Bug pillado**: el `[flush]` del rail había borrado el fondo del índice. El Figma lo
+  tiene como PANEL (gray-50/16/r6/gap6, chip 32, activo gray-100, label semibold). Fijado
+  1:1 en `form-section-nav` flush (panel BLANCO sobre página gris = mismo modelo que
+  group-assignment-table). Nota de verificación obligatoria (fills, no a ojo) en §2.7.
+
+**ds-docs:** tokens ya sincronizados (`tokens:export` sin diff), links ya a `main`.
+**component-screenshots estaba VACÍO** (los `/component-screenshots/{slug}.png` del tracker
+nunca se commitearon → 404). Nuevo `scripts/gen-component-screenshots.mjs`
+(`npm run ds-docs:screenshots`) → **34/34** generados. Bug real arreglado: la gallery
+`delete-entity-dialog` crasheaba (`NG0201 _MessageService` no provisto) → `providers:
+[MessageService]` como toast/photo-upload.
+
+**Docs (sostenibilidad):** borrado `docs/NEXT-SESSION-PROMPT.md` (obsoleto S36, huérfano,
+superado por NEXT-SESSION-PLAN). Decidido NO crear log central de learnings (se pudre);
+viven en memoria + guardarraíles.
+
+**Salud**: parity+scale verdes · build supervisor+ds-docs verdes · e2e 28/28.
+
 ## 2026-05-26 · Session 62 — Triple auditoría: arranque (DS + bundle + UX), 4 commits
 
 > Rafa: "según lo que recomiendes, ejecuta plan sin preguntarme". Ejecutada la

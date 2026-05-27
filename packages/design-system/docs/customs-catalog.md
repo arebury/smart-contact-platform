@@ -141,7 +141,12 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
   - **`<sc-form-section-nav>`**: el nav del rail va sin caja (sin fondo/borde/radio/padding de contenedor); la sección activa se lee por el pill, no por la caja. (Nota: el input `compact` quedó como placeholder no-op — su doc decía "drops chrome" pero nunca se implementó; la intención vive ahora en `flush`.)
 - **Tokens**: el diseño se hizo en **rejilla de 8** (8/12/16/24/48) pero **NO se crea escala nueva** — se snapea a la escala base-14 del Kit Pro (16px exacto = `--sc-scale-1-143`; 8→7, 12→12,25, 24→24,5; diferencias ≤1px imperceptibles, precedente S54). Único literal: altura de fila 48px (dimensión de componente, no token de spacing). **NO forkear a un 8-grid paralelo** (rompería el 1:1 con el Kit Pro · migration-safety).
 - **Chips de canal** (`group-assignment-table`, agent-only): on-state = pill claro neutro (`bg-secondary-subtle` + borde sólido + texto primario + ✓); off-state = dashed transparente + muted + ＋. El "activo" se lee por relleno sólido vs dashed, no por color fuerte.
-- **Estado de adopción**: vivo en **editar-agente** (1:1 con Figma). `group`/`user` edit siguen carded (consistentes) hasta tener su Figma. Las otras secciones del agente (Permisos/Avanzado/Identificación) aún carded — propagar el flush cuando se validen.
+- **Estado de adopción** (reconciliado S62-ext):
+  - **`<sc-form-section-nav> [flush]`** → **EN USO** en el rail de editar-agente.
+    ⚠️ **Flag abierto**: en el Figma `12277-4185` el índice SÍ lleva background (ficha sobre panel gris, item activo en card elevada); el `[flush]` lo quitó. Pendiente reconciliar el chrome del rail 1:1 con la referencia (medidas/fills reales, no a ojo).
+  - **`<sc-section-card> [flush]`** → **0 consumidores (reservado)**. La sección que lo motivó (Grupos asignados) acabó siendo panel propio `<sc-group-assignment-table>` (imita el p-card del Figma, sin section-card), así que el flush de section-card quedó sin adoptar. Identity/Permisos/Avanzado siguen carded. **Trigger de adopción**: Figma de esas secciones en flush → entonces se aplica `[flush]` (no antes; no propagar a ciegas). Mantenido por ser camino documentado de una dirección activa, NO borrado (evita churn re-add).
+  - `group`/`user` edit siguen carded (consistentes) hasta tener su Figma.
+- **⚠️ Verificación obligatoria al aplicar una variante de bajo-chrome (lección S62-ext)**: antes de cerrar un `[flush]`/low-chrome, **confirmar dato↔dato** contra el nodo Figma con `get_metadata` + `get_design_context` (autolayout, medidas, **fills y variables**, no solo el layout). Quitar un fondo/borde/sombra lee como "1:1" desde la estructura pero puede ser una **regresión visual silenciosa**: el índice perdió su panel `gray-50` porque el flush se interpretó como "a sangre" sin contrastar el fill real del nodo (`get_design_context` lo da: `bg-[var(--gray/50)]`, radio 6, padding 16). **Acceder al file elemento a elemento es exacto; comparar capturas a ojo NO** — la captura solo sirve como smoke de "renderiza". (Refuerza la memoria `feedback_figma_1to1_element_by_element`.)
 
 ---
 
@@ -256,6 +261,10 @@ Equipo de diseño formaliza estos en collection "Custom" cuando vincule Figma SC
 **Resultado verificable**: 0 hits literal raw decimal en wrappers SCDS (inputtext, multiselect, select, search, inputgroup, checkbox). Sweep cross-app: ~1127 hits migrados de naming OLD a naming Kit Pro 1:1.
 
 **Política post-S57**: NUNCA añadir tokens `--sc-spacing-*` sin matching `scale.*` en Kit Pro Variables. Si Figma evoluciona la escala, mapping SCDS sigue automático.
+
+**Ley formal de la escala** (S62-ext): el nombre del token = `valor / 14` (base 14px), con `.`→`-` y negativos prefijo `neg-`. Definición completa + negativos + radius (escala aparte, NO 14-base) en [`tokens/README.md` §"The scale — formal definition"](../tokens/README.md). `npm run tokens:scale` deriva el set canónico `--sc-scale-*` del export y verifica que el código cumple la ley (incluida la de nombres, que `tokens:parity` no valida); `--emit` imprime el bloque. Ambos corren en pre-commit.
+
+**Reconciliación pendiente (flag S62-ext)**: `scale.1-25` (17.5) y `scale.2-5` (35) figuran arriba como Kit Pro Variables, pero el export `tokensprime.json` actual NO los trae (sección 5 de `tokens:parity` los lista como code-only). Al próximo re-export del Kit: o el equipo los añade, o se marcan SC-custom explícito.
 
 ---
 

@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import {
   DeleteEntityDialogComponent,
   type DeletableEntity,
@@ -9,6 +10,10 @@ import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
   selector: 'sc-ds-docs-delete-entity-dialog-gallery',
   standalone: true,
   imports: [DeleteEntityDialogComponent, GalleryFooterComponent],
+  // DeleteEntityDialogComponent inyecta MessageService (toast de copy-name). ds-docs
+  // no lo provee global → se provee local, igual que toast/photo-upload galleries.
+  // Sin esto la página crasheaba con NG0201 (gallery rota + thumbnail 404).
+  providers: [MessageService],
   templateUrl: './delete-entity-dialog-gallery.component.html',
   styleUrl: './delete-entity-dialog-gallery.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

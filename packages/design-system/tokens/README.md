@@ -133,6 +133,61 @@ Figma and overwrite `tokensprime.json` whenever the Kit's variables change; then
 run the parity check and reconcile. Born in S62, after three "1:1" claims made
 from memory/greps turned out false against the actual export.
 
+## The scale — formal definition
+
+The metric scale is a **single 14-based ramp**. Every `--sc-scale-{m}` token holds
+exactly `m × 14px`:
+
+| Token | Multiplier | Value |
+| --- | --- | --- |
+| `--sc-scale-0-375` | 0.375 | 5.25px |
+| `--sc-scale-1` | 1 | 14px (the base — Kit Pro root font) |
+| `--sc-scale-1-125` | 1.125 | 15.75px |
+| `--sc-scale-12-5` | 12.5 | 175px |
+
+**Naming is mechanical**: the suffix is the multiplier with `.` written as `-`
+(`0.375` → `0-375`), negatives prefixed `neg-` (`-0.75 × 14 = -10.5px` →
+`--sc-scale-neg-0-75`). So the name is derivable from the value alone —
+`name(v) = (v < 0 ? "neg-" : "") + |v|/14` with dots → dashes. **Derive names from
+the value, never from the export's key string**: the Kit export keys are lossy
+(`scale125` = 175px = ×12.5, while `scale1125` = 15.75px = ×1.125 — the decimal
+point isn't encoded). `v / 14` is unambiguous.
+
+**Why 14, not 8**: the Kit Pro (a clean PrimeNG duplicate) bases its scale on the
+14px root font, so steps land on 3.5 / 5.25 / 7 / 8.75 / 10.5 / 12.25 …, not on an
+8px grid. When a SnowUI-flavored spec is drawn on an 8px grid, **snap each value to
+the nearest 14-base step** rather than forking a parallel 8-grid ramp — keeps one
+scale (see `customs-catalog.md §2.7`).
+
+**Aliases, not parallel scales**: `--sc-spacing-*`, `--sc-font-size-*`,
+`--sc-line-height-*` and `--sc-icon-size-*` are semantic aliases (layer 2) that
+point *at* `--sc-scale-*`. There is exactly one ramp.
+
+**Code-only steps** — three exist in code but not in the current `tokensprime.json`
+export (surfaced by `tokens:parity` section 5):
+
+- `--sc-scale-0` = `0` — reset, not a metric step.
+- `--sc-scale-1-25` = 17.5px and `--sc-scale-2-5` = 35px — natural 14-base steps
+  used by checkbox / dialog / hero. `customs-catalog.md` records them as Kit
+  `scale.1-25` / `scale.2-5`, but they're absent from this export → **reconcile on
+  the next Kit re-export** (either the team adds them, or we mark them SC-custom).
+
+**Radius is a separate scale** — `--sc-radius-*` is **not** 14-based. It's a fixed
+step set mirroring the Kit's `borderRadius`: `xs` 2 / `sm` 4 / `md` 6 / `lg` 8 /
+`xl` 12, plus two SC customs (`2xl` 16, `full` 9999). Numeric aliases
+(`--sc-radius-50/100/200/300/400/500`) map onto those steps for call sites that
+prefer the numeric convention.
+
+**Enforcement**: `tokensprime.json` is the metric source of truth; the `layers/`
+are the source for the running app; `npm run tokens:parity` enforces export ⊆ code
+(§1–2) + sizing value-parity (§4) + flags code-only steps (§5). `npm run
+tokens:scale` derives the canonical `--sc-scale-*` set from the export (names by the
+`v/14` law) and verifies `01-primitive.css` matches it — **including the naming law,
+which parity doesn't check** (it only compares values); `--emit` prints the block to
+paste. Both run in the pre-commit hook; drift blocks the commit. (Radius is out of
+scope for the generator — a fixed 6-value set with no naming ambiguity, already
+value-checked by parity §2.)
+
 ## Adding a new token
 
 ```css

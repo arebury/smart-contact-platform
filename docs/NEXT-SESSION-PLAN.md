@@ -5,6 +5,39 @@
 
 ---
 
+## Estado al cerrar (Session 62-ext-2, 2026-05-27) — anti-drift tokens "para siempre" + índice 1:1 + thumbnails
+
+Sesión larga, "adelante a todo con criterio". Mucho sparring de Rafa sobre **método**
+(grabado en memoria): **datos > supuestos**, **inspección directa del Figma > captura a
+ojo**, **docs sostenibles** (no logs centrales que se pudren). 1 commit a `main`.
+
+**Hecho (detalle en SESSION-LOG S62-ext-2 + DD-10):**
+1. ✅ **Comprobador ampliado** (`tokens:parity`): sizing **valor↔valor** (33 checks) en
+   vez de regex con literal → ya no pasa drift silencioso. §5 nueva: code-only + vecino
+   (regla redondeo).
+2. ✅ **Generador/ley de escala** (`tokens:scale`): deriva canónico del export por `v/14`,
+   verifica ley de nombres, `--emit`. **Decisión (DD-10): comprobador, NO generador que
+   reescriba las capas** (invertía la arquitectura). Es el "para siempre" pedido.
+3. ✅ **Escala formalizada** (README) + nota divergencia/flag 17.5-35 (customs §4).
+4. 🟡 **SnowUI / flush**: índice de editar-agente fijado 1:1 (panel, era regresión por
+   `[flush]`). `section-card flush` reconciliado (reservado). **Propagar a grupos/usuarios
+   sigue Figma-gated** (no a ciegas).
+
+**Extra de la sesión:** thumbnails ds-docs (`component-screenshots/` estaba vacío → 404)
+regenerados **34/34** con `npm run ds-docs:screenshots` + arreglado bug `NG0201` en la
+gallery delete-entity-dialog. Borrado `NEXT-SESSION-PROMPT.md` (obsoleto S36).
+
+### 🎯 PRÓXIMO (S63) — candidatos, Rafa dirige
+- **¿Subir el contraste del índice?** El panel quedó sutil (blanco/gris, fiel al Figma).
+  Si Rafa lo quiere más marcado que el Figma → cambio de 1 token.
+- **Ampliar `tokens:parity` a más componentes** según se vayan tocando (inputs, overlays).
+- **Pipeline import Kit→tokens**: si Rafa insiste en generar (no solo comprobar), discutir
+  el scope seguro (solo scale/radius, región marcada) — hoy se decidió que el CHECK basta.
+- **Propagar SnowUI** a grupos/usuarios / otras secciones del agente **con su Figma**.
+- **Repaso frescura docs** (parcial hecho): quedan candidatos a revisar rol vs antigüedad
+  (`prototype-reference/` 6 docs estáticos, `apps/supervisor/docs/MEMORY.md`, audits) — solo
+  si Rafa quiere podar/consolidar.
+
 ## Estado al cerrar (Session 62-ext, 2026-05-27) — SnowUI 1:1 editar-agente + sizing preset
 
 Sesión larguísima con dos hilos extra sobre la triple auditoría:

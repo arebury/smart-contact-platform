@@ -28,16 +28,50 @@
     /* same chrome as base */
   }
 
-  /* Flush variant (S62, lenguaje SnowUI): el nav va a sangre dentro del rail —
-   * sin caja. Quita fondo/borde/radio y el padding del contenedor para que los
-   * ítems alineen con la ficha y el resto del panel; la jerarquía la lleva el
-   * pill activo, no la caja. Opt-in: por defecto off → no afecta a group/user
-   * forms (que siguen con caja). Ver customs-catalog §2.7. */
+  /* Variante flush (S62 · lenguaje SnowUI · Figma índice 12277:4818). CORRECCIÓN
+   * S62-ext: la lectura inicial ("a sangre / sin fondo") borró el panel del índice
+   * → regresión visual. El Figma muestra el índice como un PANEL embebido: fondo,
+   * radio 6, padding 16, gap entre items, sin borde. En el Figma el panel es
+   * gray-50 sobre página blanca; como NUESTRA página es gris (--sc-bg-default),
+   * usamos panel BLANCO (--sc-bg-surface) para el mismo contraste panel/página —
+   * misma divergencia consciente que `group-assignment-table` (panel blanco sobre
+   * página gris). El item activo se separa con gray-100 (un paso sobre el panel);
+   * el chip del icono es 32×32 (gray-200 inactivo · navy activo). Opt-in: default
+   * off → group/user forms siguen con su caja con borde. Ver customs-catalog §2.7.
+   *
+   * ⚠️ Al tocar esta variante: confirmar los FILLS contra el nodo Figma (no solo
+   * layout) — quitar el fondo lee 1:1 desde la estructura pero es regresión. */
   &--flush {
-    background: transparent;
+    background: var(--sc-bg-surface);
     border: 0;
-    border-radius: 0;
-    padding: 0;
+    border-radius: var(--sc-radius-200); /* 6px — Figma índice */
+    padding: var(--sc-spacing-1-143); /* 16px — Figma índice p-16 */
+
+    .form-nav__list {
+      gap: var(--sc-spacing-0-375); /* ~6px (snap de 6 a la escala 14-base) */
+    }
+
+    /* Chip 32×32 (Figma `Frame 24`), inactivo gray-200. */
+    .form-nav__icon {
+      width: 32px;
+      height: 32px;
+      background: var(--sc-bg-secondary-active);
+    }
+
+    /* Label: regular inactivo · semibold activo (Figma body2 ↔ body3 sbold).
+     * El default del nav usa medium para todos; aquí 1:1 con el nodo. */
+    .form-nav__label {
+      font-weight: var(--sc-font-weight-regular);
+    }
+
+    /* Activo: panel gray-100 (un paso sobre el fondo) + label semibold. */
+    .form-nav__item--active {
+      background: var(--sc-bg-secondary-hover);
+
+      .form-nav__label {
+        font-weight: var(--sc-font-weight-semibold);
+      }
+    }
   }
 }
 
