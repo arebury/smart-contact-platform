@@ -44,37 +44,64 @@
   </section>
 
   @if (loaded()) {
-    <!-- Calculadora rápida px → token (reusa la escala ya cargada) -->
-    <section class="calc">
-      <label class="calc__label" for="calc-input">Calculadora — escribe un valor en px</label>
-      <div class="calc__field">
-        <input
-          id="calc-input"
-          class="calc__input"
-          type="text"
-          inputmode="decimal"
-          placeholder="28"
-          [value]="calcInput()"
-          (input)="calcInput.set($any($event.target).value)"
-        />
-        <span class="calc__unit">px</span>
-      </div>
-      @if (calcResult(); as r) {
-        <div class="calc__out" [class.calc__out--near]="!r.exact">
-          @if (r.exact) {
-            <sc-icon [name]="'check_circle'" [size]="16" class="calc__ico calc__ico--ok" />
-            <code class="calc__token">{{ r.spacing ?? r.scale }}</code>
-            <span class="calc__meta">{{ r.px }}px · {{ r.mult }}</span>
-          } @else {
-            <sc-icon [name]="'info'" [size]="16" class="calc__ico" />
-            <span class="calc__hint"
-              ><strong>{{ r.query }}px</strong> no cae en la escala — lo más cercano:</span
-            >
-            <code class="calc__token">{{ r.spacing ?? r.scale }}</code>
-            <span class="calc__meta">{{ r.px }}px · {{ r.mult }}</span>
-          }
+    <!-- Convertidor rem ⇄ px (base 16, web) + token más cercano -->
+    <section class="conv">
+      <span class="conv__label">Convertidor rem ⇄ px <em>(web · 1rem = 16px)</em></span>
+      <div class="conv__row">
+        <div class="conv__field" [style.order]="pxLeft() ? 0 : 2">
+          <input
+            class="conv__input"
+            type="text"
+            inputmode="decimal"
+            aria-label="px"
+            [value]="pxDisplay()"
+            (input)="setConv($any($event.target).value, 'px')"
+          />
+          <span class="conv__unit">px</span>
         </div>
+        <button
+          type="button"
+          class="conv__swap"
+          [style.order]="1"
+          (click)="swap()"
+          aria-label="Invertir orden"
+          title="Invertir"
+        >
+          <sc-icon [name]="'swap_horiz'" [size]="18" />
+        </button>
+        <div class="conv__field" [style.order]="pxLeft() ? 2 : 0">
+          <input
+            class="conv__input"
+            type="text"
+            inputmode="decimal"
+            aria-label="rem"
+            [value]="remDisplay()"
+            (input)="setConv($any($event.target).value, 'rem')"
+          />
+          <span class="conv__unit">rem</span>
+        </div>
+      </div>
+      @if (tokenForPx(); as t) {
+        <p class="conv__token-line">
+          @if (t.exact) {
+            <sc-icon [name]="'check_circle'" [size]="15" class="conv__ico conv__ico--ok" />
+            <span
+              >Coincide con <code>{{ t.spacing ?? t.scale }}</code> ({{ t.px }}px)</span
+            >
+          } @else {
+            <sc-icon [name]="'info'" [size]="15" class="conv__ico" />
+            <span
+              >No cae en la escala — token más cercano: <code>{{ t.spacing ?? t.scale }}</code> ({{
+                t.px
+              }}px)</span
+            >
+          }
+        </p>
       }
+      <p class="conv__foot">
+        rem es la conversión web (×16). Nuestros tokens son <strong>px base-14</strong> — la columna
+        <code>scale</code>/<code>spacing</code> de abajo, no rem.
+      </p>
     </section>
 
     <!-- Tabla principal: la escala y todo lo que deriva -->
@@ -92,6 +119,7 @@
         <thead>
           <tr>
             <th class="num">px</th>
+            <th class="num">rem <em>(web)</em></th>
             <th>n × 14</th>
             <th>scale (primitiva)</th>
             <th>spacing (uso en componentes)</th>
@@ -103,6 +131,7 @@
           @for (r of scaleRows(); track r.scale) {
             <tr>
               <td class="num"><span class="swatch" [style.width.px]="r.px"></span>{{ r.px }}</td>
+              <td class="num muted">{{ r.rem }}</td>
               <td class="muted">{{ r.mult }}</td>
               <td>
                 <code>{{ r.scale }}</code>
