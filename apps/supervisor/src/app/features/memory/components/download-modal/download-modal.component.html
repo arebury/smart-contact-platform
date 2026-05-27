@@ -56,10 +56,16 @@
   </div>
 
   <div modal-actions>
-    <p-button type="button" severity="secondary" (onClick)="onCancel()">
+    <p-button type="button" size="small" severity="secondary" (onClick)="onCancel()">
       <span>{{ 'common.cancel' | translate }}</span>
     </p-button>
-    <p-button type="button" severity="primary" [disabled]="!canConfirm()" (onClick)="onConfirm()">
+    <p-button
+      type="button"
+      size="small"
+      severity="primary"
+      [disabled]="!canConfirm()"
+      (onClick)="onConfirm()"
+    >
       <sc-icon [name]="downloadIcon" [size]="14" />
       <span>{{ 'memory.player.download.confirm_btn' | translate }}</span>
     </p-button>

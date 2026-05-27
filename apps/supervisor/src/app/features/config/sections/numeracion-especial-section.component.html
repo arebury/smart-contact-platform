@@ -99,10 +99,16 @@
 
   @if (dirty()) {
     <div class="card__foot">
-      <p-button type="button" severity="secondary" (onClick)="discard()">
+      <p-button type="button" size="small" severity="secondary" (onClick)="discard()">
         <span>{{ 'config.aed.discard' | translate }}</span>
       </p-button>
-      <p-button type="button" severity="primary" [disabled]="saving()" (onClick)="save()">
+      <p-button
+        type="button"
+        size="small"
+        severity="primary"
+        [disabled]="saving()"
+        (onClick)="save()"
+      >
         <sc-icon [name]="saveIcon" [size]="14" />
         <span>
           {{ (saving() ? 'config.aed.saving' : 'config.aed.save') | translate }}

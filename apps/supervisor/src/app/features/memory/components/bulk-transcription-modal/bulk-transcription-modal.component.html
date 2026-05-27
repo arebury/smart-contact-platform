@@ -123,11 +123,18 @@
   }
 
   <div modal-actions>
-    <p-button type="button" severity="secondary" [disabled]="isLoading()" (onClick)="onCancel()">
+    <p-button
+      type="button"
+      size="small"
+      severity="secondary"
+      [disabled]="isLoading()"
+      (onClick)="onCancel()"
+    >
       <span>{{ 'memory.bulk_transcription.close_btn' | translate }}</span>
     </p-button>
     <p-button
       type="button"
+      size="small"
       severity="primary"
       [loading]="isLoading()"
       [disabled]="!canSubmit()"
