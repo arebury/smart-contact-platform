@@ -27,24 +27,26 @@ ojo**, **docs sostenibles** (no logs centrales que se pudren). 1 commit a `main`
 regenerados **34/34** con `npm run ds-docs:screenshots` + arreglado bug `NG0201` en la
 gallery delete-entity-dialog. Borrado `NEXT-SESSION-PROMPT.md` (obsoleto S36).
 
-**Hechos también esta sesión (2º commit):**
-- ✅ **#2 `tokens:parity` ampliado a overlays** (modal/popover/select radius) → 36 checks.
-- ✅ **#3 grupos/usuarios estandarizados** a la referencia editar-agente: los 3 forms usan
-  `form-section-nav [flush]`; input muerto `compact` retirado (no Figma propio: la
-  referencia ES editar-agente, decisión Rafa).
-- ✅ **#4 frescura docs** (parcial): borrado `NEXT-SESSION-PROMPT.md` obsoleto.
+**Hechos también esta sesión (commits 2º–6º):**
+- ✅ **#1 índice fiel a Figma** — modelo de color CORREGIDO: página blanca + paneles
+  gris-50 (índice/ficha). Decisión Rafa: dejarlo sutil/fiel (no subir contraste).
+- ✅ **#2 `tokens:parity`** ampliado a overlays + iconSize → **37/37**. Cubre TODO lo que
+  el preset fija; el resto hereda Aura.
+- ✅ **#3 pipeline import** `npm run tokens:import` (= `tokens:scale -- --write`): reescribe
+  el bloque `--sc-scale-*` (marcadores `@sc-gen:scale`) desde el export. Puente Figma→
+  código; la cascada propaga. SCOPED a la escala, idempotente. DD-10 addendum.
+- ✅ **#4 frescura docs**: `NEXT-SESSION-PROMPT.md` borrado; DOCS-INDEX completo sin
+  huérfanos; `prototype-reference` conservado (única copia portable).
+- ✅ **Estandarización** grupos/usuarios al patrón editar-agente (flush en los 3 forms);
+  `compact` muerto retirado. **Thumbnails ds-docs** 34/34 (captura mejorada) + bug NG0201.
 
 ### 🎯 PRÓXIMO (S63) — candidatos, Rafa dirige
-- **¿Subir el contraste del índice?** El panel quedó sutil (blanco/gris, fiel al Figma).
-  Si Rafa lo quiere más marcado que el Figma → cambio de 1 token.
-- **Pipeline import Kit→tokens**: si Rafa insiste en GENERAR (no solo comprobar), discutir
-  el scope seguro (solo scale/radius, región marcada) — hoy se decidió que el CHECK basta
-  (DD-10). Recordar: objetivo permanente = reducir deuda de diseño + consistencia.
-- **Propagar SnowUI a más secciones** del agente (Permisos/Avanzado/Identificación en flush)
-  o a otras pantallas — a la referencia validada, no a ciegas.
-- **Frescura docs (resto):** revisar rol vs antigüedad de `prototype-reference/` (6 docs
-  estáticos), `apps/supervisor/docs/MEMORY.md` (¿solapa DECISIONS?), audits — solo si Rafa
-  quiere podar/consolidar (no borrar a ciegas docs ajenos).
+- **Pipeline import — ¿extender a radius?** Hoy `tokens:import` cubre la escala (el mirror
+  con derivación). Radius es set fijo de 6 (parity §2 lo cruza); generarlo es opcional.
+- **Propagar SnowUI a más secciones/pantallas** — solo a referencia validada (no a ciegas).
+- **Frescura docs (resto):** `apps/supervisor/docs/MEMORY.md`, audits — solo si Rafa quiere
+  más poda. (prototype-reference ya resuelto: se conserva.)
+- Objetivo permanente recordado: **reducir deuda de diseño + consistencia**.
 
 ## Estado al cerrar (Session 62-ext, 2026-05-27) — SnowUI 1:1 editar-agente + sizing preset
 

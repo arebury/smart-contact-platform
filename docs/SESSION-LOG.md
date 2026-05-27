@@ -60,7 +60,21 @@ viven en memoria + guardarraíles.
   → petó el build de ds-docs (la gallery lo usaba). Regla grabada: grep el repo ENTERO
   (incl. ds-docs + docs/) antes de retirar API pública. Fix: gallery + doc a `flush`.
 
-**Salud**: parity 36/36 + scale verdes · build supervisor+ds-docs verdes · e2e 28/28.
+**Continuación (3º–6º commit):**
+- **Corrección modelo de color** (Rafa + variables del nodo): página BLANCA + paneles
+  gris-50 (índice/ficha), no al revés — lo había invertido por asumir el color de la
+  página. Fijado en los 3 forms. Verificado con captura del conjunto.
+- **#2 parity +iconSize** (Kit 14 ↔ SC_ICON_SIZE_DEFAULT) → **37/37**. Confirmado: parity
+  cubre TODO lo que el preset fija; el resto hereda Aura (nada que cruzar).
+- **#3 pipeline import** (`npm run tokens:import` = `tokens:scale -- --write`): reescribe
+  SOLO el bloque `--sc-scale-*` entre marcadores `@sc-gen:scale` en `01-primitive.css`
+  desde el export → puente Figma→código del último paso manual; la cascada propaga el
+  resto. SCOPED (colores/marca intactos), idempotente. DD-10 addendum + README §bridge.
+- **Frescura docs**: DOCS-INDEX completo sin huérfanos (`prototype-reference` etiquetado
+  y CONSERVADO — única copia portable; `MEMORY.md` reetiquetado vivo).
+
+**Salud final**: parity 37/37 + scale verdes · build supervisor+ds-docs verdes · e2e
+28/28. Commits del día: `fab3c25` `b23b69c` `7862b2b` `a1c9544` `8f119c9` `9615903`.
 
 ## 2026-05-26 · Session 62 — Triple auditoría: arranque (DS + bundle + UX), 4 commits
 
