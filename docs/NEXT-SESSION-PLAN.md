@@ -25,8 +25,12 @@ drift con tooling, no con mi ojo). 1 commit a `main`, e2e 28/28. Detalle en SESS
 - ✅ Cards main-content **flat**: `sc-section-card` + `group-assignment-table` → gray-50 + radius-xl + sin
   sombra (panel embebido como el nav-trail). Validado a ojo + computado + e2e.
 
-### 🎯 BATERÍA S63 — en curso (dudas STAR respondidas por Rafa, S62-ext-3)
+### 🎯 BATERÍA S63 — 1/2/3 hechos + consistencia UI; 4 espera Figma (S62-ext-3)
 Prioridades: **paridad ABSOLUTA · consistencia al máximo · reducir deuda · customizar sin romper PrimeNG.**
+
+**Extra consistencia UI hecho esta sesión (sin Figma — de componente):** acciones de form/modal
+de Memory/config → `size="small"` (16 botones, CTAs de lista default). Chips de canal alineadas en
+columna (gatbl+actbl, grid nombre-fijo + ellipsis). e2e 28/28 verde (cerrado el snow-clone de 4200).
 
 1. ✅ **Guardarraíl anti-breakage** — `scripts/token-guard.mjs` (`npm run tokens:guard`, pre-commit):
    bloqueo duro `var(--p-*)` fuera de `sc-preset.ts` + `--sc-scale-*` en componentes (usar `--sc-spacing-*`).

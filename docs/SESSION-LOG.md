@@ -56,7 +56,17 @@
   es PrimeNG limpio en sizing, heredar Aura es correcto (descarta con datos el miedo a 81 gaps). Única
   divergencia: accordion focus offset (no usado, allow-list). Color per-componente = follow-up (la marca
   color ya la cubre §6). **Bloque 4 ⏳ bloqueado: necesita Figma de Memory/config.**
-- ~7 commits a `main`. "El arquitecto de DS eres tú" — drift cazado con tooling, no con el ojo.
+- **Consistencia UI propagada** (sin Figma, son de componente): (a) acciones de form/modal
+  de Memory/config → `size="small"` como los flujos AED (16 botones; CTAs de lista se quedan
+  default, ya coincidían). Confirmado: los modales de Memory usan `<sc-dialog>` (wrap `p-dialog`),
+  nada custom. (b) **Chips de canal alineadas en columna** (gatbl + actbl): celda de nombre de
+  flex→grid `auto var(--*-name-w,160px) 1fr` → chips arrancan en la misma X pese a nombres de
+  longitud variable; ellipsis + `[title]`. Recurso ui-ux-pro-max (truncar+tooltip).
+- **e2e 28/28 verde** tras cerrar el snow-clone que ocupaba 4200 (gotcha documentado; las chips
+  caen bajo tolerancia, sin regen de baseline). **Bloque 4 (flat Memory/config) ⏳ espera Figma.**
+- ~10 commits a `main`. "El arquitecto de DS eres tú" — drift cazado con tooling, no con el ojo.
+  Aprendizajes nuevos en memoria: `feedback_custom_tokens_figma_process` (no mintar ad-hoc;
+  proceso Custom-collection futuro), `project_parity_consistency_north_star`.
 
 ---
 
