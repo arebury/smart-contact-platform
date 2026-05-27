@@ -1,11 +1,13 @@
 .gatbl {
-  /* Panel blanco sobre la página gris (--sc-bg-default). Figma p-card:
-   * content/background = white. Header inset + filas a sangre dentro. */
+  /* Panel embebido gris-50 + radius-xl + FLAT, igual que `sc-section-card`
+   * (S62-ext-3): este componente ES la "card" de la sección Grupos, así que
+   * sigue el mismo tratamiento que las demás secciones del form (gray-50, sin
+   * sombra). La página es blanca; el panel gris se recoge sobre ella. Header
+   * inset + filas a sangre dentro. */
   display: flex;
   flex-direction: column;
-  background: var(--sc-bg-surface);
-  border-radius: var(--sc-radius-300);
-  box-shadow: var(--sc-shadow-xs);
+  background: var(--sc-bg-secondary-subtle);
+  border-radius: var(--sc-radius-400);
   overflow: hidden;
 
   /* Header: título+subtítulo (izq) · buscador (der), una sola fila.

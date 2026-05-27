@@ -10,6 +10,40 @@
 
 ---
 
+## 2026-05-27 · Session 62-ext-3 — Pipeline completo (color + radios + preset por referencia) + consistencia flujos
+
+> Rafa: "extiende el pipeline a cada componente y propaga al resto de flujos". Mucho
+> sparring sobre el punto ciego del color y el modelo de cascada. "El arquitecto de DS
+> eres tú." 1 commit a `main`. e2e 28/28.
+
+**Bloque A — el puente Figma→código ahora cubre TODO lo métrico + vigila el color:**
+- **§6 COLOR en `tokens:parity`** (lo que faltaba): resuelve `--sc-*` a hex por la cadena
+  `var()` (light+dark) y cruza la rampa primary (color/hover/active/contrast) + surface↔gray
+  + content contra el export. Cerró el punto ciego que dejó pasar el drift de `primary-hover`
+  (lo cazó el ojo de Rafa, no la herramienta). Divergencias de marca (info/warn/focus/dark
+  navy) allow-listadas. Reportó **6 drifts** → corregidos: light hover blue-800→600, active
+  900→800; dark rampa corrida un paso (primary 500→400, hover 400→300, active 300→200) +
+  contrast white→gray-900 (botón claro en dark pide texto oscuro, mejora AA).
+- **Radios generados**: `token-gen.mjs` (antes `token-gen-scale.mjs`) ahora deriva escala
+  **Y radios** del export; markers `@sc-gen:radius` en 01-primitive. `tokens:scale`→`tokens:gen`.
+- **Preset por referencia (cierra el trust gap)**: `sc-preset.ts` ya no fija métricas con px a
+  pelo (`'10.5px'`) sino con `var(--sc-scale-*)`/`-radius-*`/`-font-size-*` — todas caen exactas
+  en la escala generada. Re-export → cascada llega a los componentes sin teclear. Parity §4 (37
+  checks) lo valida valor↔valor. Fiel a Figma (todo vinculado a variable).
+- `tokens:import` = `tokens:gen -- --write` reescribe escala+radios. Docs: README/DECISIONS/
+  customs-catalog al día; pre-commit actualizado.
+
+**Bloque B — consistencia de flujos (patrón = editar-agente):**
+- Auditoría: los 3 forms (agents/groups/users) ya comparten layout (flush índice + ficha +
+  topbar S59). Gaps reales = **botones** topbar de grupos/usuarios SIN `size="small"` (agentes
+  sí) → igualados. Modales se quedan default (convención app-wide).
+- **Cards main-content flat** (Rafa + Figma 12277:4862): `sc-section-card` y `group-assignment-table`
+  pasan de blanco+sombra+r8 a **gray-50 + radius-xl(12) + FLAT** (como el índice/nav-trail, panel
+  embebido SnowUI). Radius 12 = decisión estética de Rafa (índice se queda en 6, diferencia
+  intencionada). Validado a ojo (captura real) + estilo computado + e2e.
+
+---
+
 ## 2026-05-27 · Session 62-ext-2 — Anti-drift tokens "para siempre" + índice 1:1 + thumbnails ds-docs
 
 > Rafa: "adelante a todo, planifica y ejecuta con criterio". Sesión larga con mucho

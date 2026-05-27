@@ -312,6 +312,119 @@ if (codeOnly.length === 0) {
   else log('  → ningún custom está a ≤1px de un token existente; no hay redondeo trivial.');
 }
 
+// ── 6. COLOR de marca: export.semanticColorScheme ↔ --sc-* resuelto a hex ─────
+// Las §1-5 cruzan MÉTRICAS (escala/radio/sizing); el COLOR no se vigilaba. Por eso
+// el drift de primary.hover/active (light) y de toda la rampa primary dark vivió
+// invisible hasta S62-ext-3 — lo cazó el ojo, no la herramienta. Esto lo cierra:
+// resolvemos nuestros tokens a hex siguiendo var() por capas (dark→semantic→
+// primitive) y los cruzamos con el export. Tabla con política por fila:
+//   enforce → debe coincidir con el export (falla si no).
+//   diverge → divergencia de marca consciente y documentada (solo informa).
+log('\n=== 6. COLOR de marca (export.semanticColorScheme ↔ --sc-*, light+dark) ===');
+const SEMANTIC_CSS = resolve(root, 'packages/design-system/tokens/layers/02-semantic.css');
+const DARK_CSS = resolve(root, 'packages/design-system/tokens/layers/07-dark.css');
+const semCss = existsSync(SEMANTIC_CSS) ? readFileSync(SEMANTIC_CSS, 'utf8') : '';
+const darkCss = existsSync(DARK_CSS) ? readFileSync(DARK_CSS, 'utf8') : '';
+
+function declMap(src) {
+  const map = new Map();
+  const re = /--([a-z0-9-]+)\s*:\s*([^;]+);/g;
+  let x;
+  while ((x = re.exec(src))) map.set(x[1], x[2].trim()); // última gana
+  return map;
+}
+const primDecls = declMap(css);
+const semDecls = declMap(semCss);
+const darkDecls = declMap(darkCss);
+
+function normHex(h) {
+  let s = String(h).toLowerCase().replace(/^#/, '');
+  if (s.length === 8) return s.slice(6) === 'ff' ? '#' + s.slice(0, 6) : '#' + s; // dropa alpha ff
+  return '#' + s;
+}
+// Resuelve --name a #rrggbb en el modo dado, siguiendo var() por capas.
+function resolveHex(name, mode, seen = new Set()) {
+  if (seen.has(name)) return undefined;
+  seen.add(name);
+  const raw =
+    mode === 'dark' && darkDecls.has(name)
+      ? darkDecls.get(name)
+      : (semDecls.get(name) ?? primDecls.get(name));
+  if (raw == null) return undefined;
+  if (/^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(raw)) return normHex(raw);
+  const v = raw.match(/var\(\s*--([a-z0-9-]+)\s*\)/);
+  return v ? resolveHex(v[1], mode, seen) : undefined; // color-mix u otra forma → no-hex
+}
+// Reverso hex→primitiva (pista "usa --sc-color-X") para que el fix sea obvio.
+const hexToPrim = new Map();
+for (const [n, raw] of primDecls)
+  if (/^sc-color-/.test(n) && /^#([0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(raw)) {
+    const nh = normHex(raw);
+    if (!hexToPrim.has(nh)) hexToPrim.set(nh, []);
+    hexToPrim.get(nh).push('--' + n);
+  }
+
+const LC = kit.semanticColorScheme?.light ?? {};
+const DC = kit.semanticColorScheme?.dark ?? {};
+const expHex = (mode, key) => {
+  const v = (mode === 'dark' ? DC : LC)[key];
+  return v == null ? undefined : normHex(v);
+};
+
+// Tabla de mapeo marca↔Kit. [modo, claveExport, tokenSC]. Surface scale (light) =
+// la base gris: gray-* DEBE == surface* del export (verificado 1:1). Rampa primary
+// (color/hover/active/contrast) en ambos modos. El resto se diverge o queda sin mapear.
+const ENFORCE = [
+  ...['0', '50', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'].map((s) => [
+    'light',
+    `surface${s}`,
+    `sc-color-gray-${s}`,
+  ]),
+  ['light', 'primaryColor', 'sc-bg-primary'],
+  ['light', 'primaryHoverColor', 'sc-bg-primary-hover'],
+  ['light', 'primaryActiveColor', 'sc-bg-primary-active'],
+  ['light', 'primaryContrastColor', 'sc-text-on-primary'],
+  ['light', 'contentBackground', 'sc-bg-surface'],
+  ['light', 'contentBorderColor', 'sc-border-default'],
+  ['light', 'formFieldFocusBorderColor', 'sc-border-primary'],
+  ['dark', 'primaryColor', 'sc-bg-primary'],
+  ['dark', 'primaryHoverColor', 'sc-bg-primary-hover'],
+  ['dark', 'primaryActiveColor', 'sc-bg-primary-active'],
+  ['dark', 'primaryContrastColor', 'sc-text-on-primary'],
+];
+// Divergencias de marca conscientes (NO fallan; se listan para que consten).
+const DIVERGE = [
+  ['dark', 'surface*', 'gray-* navy-tinted (el Kit usa zinc en dark) — paleta de marca SC'],
+  ['both', 'focusRing', '--sc-border-focus = electric-blue (a11y, customs §1.1) vs navy del Kit'],
+  ['both', 'info', '--sc-bg-info = electric-blue (marca) — no está en el árbol semántico del Kit'],
+  ['both', 'warn', '--sc-bg-warning = amber (marca) — ídem'],
+];
+
+let colorOk = 0;
+for (const [mode, key, token] of ENFORCE) {
+  const exp = expHex(mode, key);
+  const got = resolveHex(token, mode);
+  if (exp === undefined) {
+    log(`  ? [${mode}] ${key}: no está en el export (¿renombrada?)`);
+  } else if (got === undefined) {
+    fail(`[${mode}] ${key} → --${token}: no resuelve a hex (¿token inexistente o color-mix?)`);
+  } else if (got !== exp) {
+    const hint = hexToPrim.get(exp)?.join(' / ') || '∅ (ningún primitive con ese hex)';
+    fail(`[${mode}] ${key}: export=${exp} vs --${token}=${got}  → debería apuntar a ${hint}`);
+  } else {
+    colorOk++;
+  }
+}
+log(`  ✓ ${colorOk}/${ENFORCE.length} colores de marca 1:1 con el export (light+dark)`);
+log('  divergencias de marca conscientes (no fallan):');
+for (const [mode, what, why] of DIVERGE) log(`    · [${mode}] ${what}: ${why}`);
+// Cobertura: claves del export semántico aún sin enforce/diverge (visible, no falla).
+const covered = new Set(ENFORCE.map(([, k]) => k));
+const unmapped = Object.keys(LC).filter(
+  (k) => !covered.has(k) && !/^surface\d/.test(k) && !/^primary/.test(k),
+);
+log(`  sin mapear aún (${unmapped.length}) — candidatos a enforce futuro: ${unmapped.slice(0, 6).join(', ')}…`);
+
 // ── Resumen ──────────────────────────────────────────────────────────────────
 log('\n' + '─'.repeat(60));
 if (problems === 0) {

@@ -265,7 +265,11 @@ Equipo de diseño formaliza estos en collection "Custom" cuando vincule Figma SC
 
 **Política post-S57**: NUNCA añadir tokens `--sc-spacing-*` sin matching `scale.*` en Kit Pro Variables. Si Figma evoluciona la escala, mapping SCDS sigue automático.
 
-**Ley formal de la escala** (S62-ext): el nombre del token = `valor / 14` (base 14px), con `.`→`-` y negativos prefijo `neg-`. Definición completa + negativos + radius (escala aparte, NO 14-base) en [`tokens/README.md` §"The scale — formal definition"](../tokens/README.md). `npm run tokens:scale` deriva el set canónico `--sc-scale-*` del export y verifica que el código cumple la ley (incluida la de nombres, que `tokens:parity` no valida); `--emit` imprime el bloque. Ambos corren en pre-commit.
+**Ley formal de la escala** (S62-ext): el nombre del token = `valor / 14` (base 14px), con `.`→`-` y negativos prefijo `neg-`. Definición completa + negativos + radius (escala aparte, NO 14-base) en [`tokens/README.md` §"The scale — formal definition"](../tokens/README.md). `npm run tokens:gen` deriva el set canónico `--sc-scale-*` **y `--sc-radius-*`** del export y verifica que el código cumple la ley (incluida la de nombres, que `tokens:parity` no valida); `--emit` imprime los bloques; `tokens:import` los reescribe in-place desde el export. Corre en pre-commit.
+
+**Métricas de componente = referencias, no px** (S62-ext-3): `sc-preset.ts` ya no fija paddings/sizes con literales (`'10.5px'`) sino con `var(--sc-scale-*)` / `var(--sc-radius-*)` / `var(--sc-font-size-*)` — todas caen exactas en la escala generada del export. Así un re-export del Kit propaga a los componentes sin teclear nada. `tokens:parity §4` cruza valor↔valor (37 checks).
+
+**Color de marca vigilado** (S62-ext-3): `tokens:parity §6` resuelve nuestros `--sc-*` a hex y cruza la rampa primary (color/hover/active/contrast, light+dark) + surface↔gray contra el export. Las divergencias de marca conscientes (info=electric-blue, warn=amber, focus-ring=electric-blue a11y §1.1, dark navy-tinted vs zinc del Kit) van allow-listadas. Cerró el punto ciego que dejó pasar el drift de `primary-hover` (blue-800 cuando el Kit dice blue-600).
 
 **Reconciliación pendiente (flag S62-ext)**: `scale.1-25` (17.5) y `scale.2-5` (35) figuran arriba como Kit Pro Variables, pero el export `tokensprime.json` actual NO los trae (sección 5 de `tokens:parity` los lista como code-only). Al próximo re-export del Kit: o el equipo los añade, o se marcan SC-custom explícito.
 

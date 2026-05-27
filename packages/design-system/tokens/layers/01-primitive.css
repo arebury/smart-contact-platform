@@ -304,7 +304,7 @@
    * Mapping completo verificado contra captura Figma SC Prime UI Kit
    * Pro Variables (34 entries: 24 positivos + 10 negativos):
    */
-  /* @sc-gen:scale — bloque GENERADO desde tokensprime.json por `npm run tokens:scale -- --write`.
+  /* @sc-gen:scale — bloque GENERADO desde tokensprime.json por `npm run tokens:import`.
    * NO editar a mano (el generador lo pisa). Tras editar, la cascada (--sc-spacing/font-size/
    * line-height + componentes + preset PrimeNG) propaga sola. Ver tokens/README §"The scale". */
   --sc-scale-0: 0;
@@ -378,8 +378,11 @@
   /* ---------- Border radius (Kit Pro `aura/primitive.border.radius`) ----------
    * Kit Pro tiene escala dedicada border-radius (none/xs/sm/md/lg/xl)
    * INDEPENDIENTE de `scale.*`. Valores: 0/2/4/6/8/12. SCDS naming Kit
-   * Pro 1:1 + aliases legacy preservar API. `--sc-radius-500` (16px) y
+   * Pro 1:1 + aliases legacy preservar API. `--sc-radius-2xl` (16px) y
    * `--sc-radius-full` (9999px) son custom SC sin equivalente Kit Pro. */
+  /* @sc-gen:radius — bloque GENERADO desde tokensprime.json (primitive.borderRadius*)
+   * por `npm run tokens:import`. NO editar a mano (el generador lo pisa).
+   * none/xs/sm/md/lg/xl = export 1:1; 2xl/full = customs SC documentados. */
   --sc-radius-none: 0;
   --sc-radius-xs: 2px;
   --sc-radius-sm: 4px;
@@ -390,6 +393,7 @@
   /* Custom SC (no en Kit Pro Variables) */
   --sc-radius-2xl: 16px;
   --sc-radius-full: 9999px;
+  /* @sc-gen:radius:end */
 
   /* Aliases legacy numéricos (preservar API public — cero sweep) */
   --sc-radius-0: var(--sc-radius-none);

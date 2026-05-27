@@ -5,6 +5,38 @@
 
 ---
 
+## Estado al cerrar (Session 62-ext-3, 2026-05-27) — pipeline completo (color+radios+preset) + consistencia flujos
+
+Rafa: "extiende el pipeline a CADA componente y propaga al resto de flujos". Sparring clave:
+el puente solo cubría la escala → poco trustworthy. Y "el arquitecto de DS eres tú" (caza el
+drift con tooling, no con mi ojo). 1 commit a `main`, e2e 28/28. Detalle en SESSION-LOG S62-ext-3.
+
+**Hecho (Bloque A — puente Figma→código ahora total + color vigilado):**
+1. ✅ **§6 COLOR en `tokens:parity`** — el punto ciego que faltaba. Resuelve `--sc-*`→hex
+   (light+dark) y cruza rampa primary + surface↔gray + content contra el export. Cazó 6 drifts
+   (corregidos). Divergencias de marca allow-listadas. **Ahora la herramienta caza color, no mi ojo.**
+2. ✅ **Radios generados** + `token-gen-scale.mjs`→**`token-gen.mjs`** (escala+radios). `tokens:scale`→`tokens:gen`.
+3. ✅ **Preset por referencia** — `sc-preset.ts` usa `var(--sc-scale/radius/font-size-*)`, no px. La
+   cascada llega a los componentes; re-export propaga sin teclear. Parity §4 = 37/37.
+4. ✅ `tokens:import` reescribe escala+radios; docs (README/DECISIONS/customs) + pre-commit al día.
+
+**Hecho (Bloque B — consistencia flujos, patrón editar-agente):**
+- ✅ Botones topbar grupos/usuarios → `size="small"` (como agentes).
+- ✅ Cards main-content **flat**: `sc-section-card` + `group-assignment-table` → gray-50 + radius-xl + sin
+  sombra (panel embebido como el nav-trail). Validado a ojo + computado + e2e.
+
+### 🎯 PRÓXIMO (S63) — Rafa quiere "grandes baterías de cambios". Prioridades suyas:
+**paridad ABSOLUTA · consistencia al máximo · reducir deuda de diseño · customizar sin romper PrimeNG.**
+Candidatos (pendiente batería de dudas STAR respondidas por Rafa):
+- **Paridad color total**: extender §6 enforce a los 63 semánticos "sin mapear" (navigation/list/
+  overlay/text/formField) — hoy solo primary+surface+content. Decidir qué es enforce vs divergencia.
+- **Consistencia componente-a-componente** contra el export (no solo lo que el preset fija): auditar
+  qué componentes PrimeNG divergen de SC Prime y no pinamos (drift silencioso al revés).
+- **Propagar flat/gris a más pantallas** (Memory, config) — con su Figma de referencia.
+- Objetivo permanente: **reducir deuda de diseño + consistencia**.
+
+---
+
 ## Estado al cerrar (Session 62-ext-2, 2026-05-27) — anti-drift tokens "para siempre" + índice 1:1 + thumbnails
 
 Sesión larga, "adelante a todo con criterio". Mucho sparring de Rafa sobre **método**

@@ -30,13 +30,18 @@ generador SOLO-LECTURA que deriva el canónico y verifica.
   `scale125`=175=×12.5 vs `scale1125`=15.75=×1.125). Definición formal en
   `tokens/README.md §"The scale — formal definition"`. Radius = escala fija aparte
   (NO 14-base).
-- `npm run tokens:parity` ampliado: sizing **valor↔valor** (33 checks: button/formField/
-  tabs/tooltip) en vez de regex con literal hardcodeado (que dejaba pasar drift), +
-  §5 informativa de tokens code-only con vecino más cercano (regla redondeo,
-  memoria `feedback_snap_divergence_to_existing_token`).
-- `npm run tokens:scale` (nuevo): deriva el set canónico `--sc-scale-*` del export y
-  verifica la ley de NOMBRES (que paridad no validaba); `--emit` imprime el bloque.
-  **NO reescribe** el CSS.
+- `npm run tokens:parity` ampliado: sizing **valor↔valor** (37 checks: button/formField/
+  tabs/tooltip/overlays) en vez de regex con literal hardcodeado (que dejaba pasar
+  drift), + §5 informativa de tokens code-only con vecino más cercano (regla redondeo,
+  memoria `feedback_snap_divergence_to_existing_token`), + **§6 COLOR de marca**
+  (S62-ext-3): resuelve `--sc-*` a hex por la cadena `var()` y cruza la rampa primary
+  (color/hover/active/contrast, light+dark) + surface↔gray + content contra el export.
+  Cierra el punto ciego que dejó pasar el drift de `primary-hover` (lo cazó el ojo, no
+  la herramienta) — divergencias de marca conscientes (info/warn/focus/dark-navy) van
+  allow-listadas, no fallan.
+- `npm run tokens:gen` (antes `tokens:scale`): deriva el set canónico `--sc-scale-*`
+  **y `--sc-radius-*`** del export y verifica la ley de NOMBRES (que paridad no valida);
+  `--emit` imprime los bloques. **NO reescribe** el CSS (eso es `--write`/`tokens:import`).
 - Ambos corren en pre-commit.
 
 **Razón**: el drift se vuelve imposible por construcción vía el CHECK (no vía un
@@ -47,17 +52,28 @@ generador que pelea con la arquitectura y arriesga lo curado). Datos > supuestos
 `17.5`/`35` figuran como Kit pero el export actual no los trae → reconciliar al
 próximo re-export (`customs-catalog §4`).
 
-**Addendum S62-ext-3 — pipeline import (`tokens:import` / `tokens:scale -- --write`)**:
-añadido un **writer SCOPED**, NO el que descartamos. El descartado reescribía TODA la
-capa (riesgo de pisar colores/marca/comentarios). Este toca **solo el bloque de escala**
-entre marcadores `/* @sc-gen:scale … */` … `/* @sc-gen:scale:end */` en `01-primitive.css`
-(un mirror mecánico puro del export; nombres por `v/14`). Todo lo demás (colores, navy,
-aliases, extras documentados) queda intacto. Flujo: diseño cambia un tamaño en Figma →
-`tokensprime.json` actualizado → `npm run tokens:import` reescribe `--sc-scale-*` → la
-cascada (`--sc-spacing/font-size/line-height` + componentes + preset PrimeNG) propaga
-sola. Verificado idempotente (con el export actual, `--write` no cambia ningún valor).
-Radius sigue a mano (set fijo de 6, parity §2 lo cruza). El CHECK (default, pre-commit)
-sigue siendo la garantía; el writer es la comodidad de no teclear el valor de Figma.
+**Addendum S62-ext-3 — pipeline import completo (`tokens:import` = `tokens:gen -- --write`)**:
+el writer SCOPED ahora cubre **escala + radios** (dos zonas marcadas: `@sc-gen:scale … :end`
+y `@sc-gen:radius … :end` en `01-primitive.css`; mirror mecánico del export). Sigue sin
+ser el writer-libre que descartamos (que pisaba toda la capa); todo lo demás (colores,
+navy, aliases, extras documentados) queda intacto.
+
+**La cascada ahora llega a los componentes sin px a mano.** Antes `sc-preset.ts` fijaba
+las métricas de componente con literales (`paddingX: '10.5px'`) — solo *comprobados* por
+parity §4, no *generados*. Trust gap que Rafa señaló: "¿el puente solo cubre la escala?".
+Fix: cada métrica del preset (button/formField/tabs/tooltip) es ahora una **referencia a
+token generado** — `var(--sc-scale-0-75)`, `var(--sc-font-size-300)`, `var(--sc-radius-200)`
+— porque todas caen exactas en la escala 14-base / radios / font-size del export. No hace
+falta un generador de "métricas de componente" aparte: el preset apunta a los primitivos
+generados y la cascada propaga. (Fiel a Figma, donde el componente también está vinculado
+a la variable, no a un número.) Si un re-export reasigna un paso, parity §4 (valor↔valor)
+lo caza loud.
+
+Flujo completo: diseño cambia métrica/color en Figma → `tokensprime.json` → `tokens:import`
+reescribe escala+radios → cascada (`--sc-spacing/font-size/line-height` aliases +
+componentes + **preset por referencia**) propaga sola. Color de marca = decisión a mano
+(no auto-import) pero **vigilada por parity §6**. Verificado idempotente. El CHECK
+(`tokens:gen` + `tokens:parity`, pre-commit) es la garantía; el writer es la comodidad.
 
 ## DD-9 · 2026-05-25 (S60) — Icon set del SCDS = Material Symbols vía `<sc-icon>` (migración desde Lucide)
 

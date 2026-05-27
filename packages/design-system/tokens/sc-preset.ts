@@ -182,28 +182,29 @@ export const ScPreset = definePreset(Aura, {
       /* Padding 10.5/7 — valor EXACTO Figma Smart Contact Prime
        * (`inputtext/padding/x = 10.5`, `inputtext/padding/y = 7`),
        * verificado en nodos 23:834 (input default Normal), 6195:7753
-       * (select), 109:12493 (datepicker idle). Antes redondeábamos a
-       * 12/8 vía tokens, pero la 1:1 audit con Figma exige decimales.
-       * Raw px aquí (no token) porque 10.5 y 7 caen off-scale en
-       * `--sc-spacing-*`. Aplica a todos los formFields PrimeNG
-       * (input, select, datepicker, multiselect, etc). */
-      paddingX: '10.5px',
-      paddingY: '7px',
+       * (select), 109:12493 (datepicker idle). Referenciado como token de
+       * escala (10.5 = `--sc-scale-0-75`, 7 = `--sc-scale-0-5`): NO son px a
+       * pelo — caen exactos en la escala 14-base generada del export, así que
+       * un re-export del Kit los propaga solo. Aplica a todos los formFields
+       * PrimeNG (input, select, datepicker, multiselect, etc). */
+      paddingX: 'var(--sc-scale-0-75)',
+      paddingY: 'var(--sc-scale-0-5)',
       borderRadius: 'var(--sc-radius-200)',
       transitionDuration: 'var(--sc-transition-base)',
       /* Tamaños sm/lg 1:1 del Kit Pro export (claves formFieldSm y formFieldLg).
        * Sin esto, TODOS los form fields size sm/lg (input, select, multiselect,
        * datepicker…) caían a los defaults rem de Aura (font 14px). Mismo origen
-       * que el button.root.sm/lg (button deriva de form.field en PrimeNG). */
+       * que el button.root.sm/lg (button deriva de form.field en PrimeNG).
+       * Como arriba: referencias de token, no px (fontSize → --sc-font-size-*). */
       sm: {
-        fontSize: '12.25px',
-        paddingX: '8.75px',
-        paddingY: '5.25px',
+        fontSize: 'var(--sc-font-size-100)',
+        paddingX: 'var(--sc-scale-0-625)',
+        paddingY: 'var(--sc-scale-0-375)',
       },
       lg: {
-        fontSize: '15.75px',
-        paddingX: '12.25px',
-        paddingY: '8.75px',
+        fontSize: 'var(--sc-font-size-300)',
+        paddingX: 'var(--sc-scale-0-875)',
+        paddingY: 'var(--sc-scale-0-625)',
       },
     },
     /* Dialog / popover / select / navigation overlay shells — radius +
@@ -390,27 +391,29 @@ export const ScPreset = definePreset(Aura, {
      * primitive.sky / orange y semantic.primary. */
     button: {
       root: {
-        paddingX: '10.5px',
-        paddingY: '7px',
-        borderRadius: '6px',
-        gap: '7px',
-        iconOnlyWidth: '35px',
+        /* Todo referenciado a tokens generados del export (no px a pelo):
+         * 10.5=scale-0-75, 7=scale-0-5, 6=radius-md, 35=scale-2-5. */
+        paddingX: 'var(--sc-scale-0-75)',
+        paddingY: 'var(--sc-scale-0-5)',
+        borderRadius: 'var(--sc-radius-200)',
+        gap: 'var(--sc-scale-0-5)',
+        iconOnlyWidth: 'var(--sc-scale-2-5)',
         /* Tamaños sm/lg van BAJO root (PrimeNG: `button.root.sm`, no `button.sm`).
          * Valores 1:1 del Kit Pro export (componentCommon.button*): sm 12.25 /
          * 8.75 / 5.25 (iconOnly 28); lg 15.75 / 12.25 / 8.75 (iconOnly 42). Sin
          * esto, sm/lg caían a los defaults rem de Aura (font 14px) → el "small"
-         * salía como el md. */
+         * salía como el md. Referencias de token, igual que root. */
         sm: {
-          fontSize: '12.25px',
-          paddingX: '8.75px',
-          paddingY: '5.25px',
-          iconOnlyWidth: '28px',
+          fontSize: 'var(--sc-font-size-100)',
+          paddingX: 'var(--sc-scale-0-625)',
+          paddingY: 'var(--sc-scale-0-375)',
+          iconOnlyWidth: 'var(--sc-scale-2)',
         },
         lg: {
-          fontSize: '15.75px',
-          paddingX: '12.25px',
-          paddingY: '8.75px',
-          iconOnlyWidth: '42px',
+          fontSize: 'var(--sc-font-size-300)',
+          paddingX: 'var(--sc-scale-0-875)',
+          paddingY: 'var(--sc-scale-0-625)',
+          iconOnlyWidth: 'var(--sc-scale-3)',
         },
       },
     },
@@ -418,8 +421,9 @@ export const ScPreset = definePreset(Aura, {
       /* Figma tab padding 14/15.75 (raw decimals from `tabs/tab/padding/x,y`,
        * node 3358:29419). Aura default 1rem/1.125rem (16/18) → diverge. */
       tab: {
-        padding: '14px 15.75px',
-        gap: '7px',
+        /* 14=scale-1, 15.75=scale-1-125, 7=scale-0-5 (tokens del export). */
+        padding: 'var(--sc-scale-1) var(--sc-scale-1-125)',
+        gap: 'var(--sc-scale-0-5)',
         /* Color tokens inherit: color = text.muted, activeColor = primary.
          * Our SC primary is navy (--sc-bg-primary), Figma shows azure.
          * Documented brand divergence — same as button[severity=primary]. */
@@ -427,7 +431,9 @@ export const ScPreset = definePreset(Aura, {
       /* Figma tabpanel padding 12.25/15.75/15.75/15.75 (top/right/bottom/left,
        * tokens `tabs/tabpanel/padding/*`, node 6555:1639). */
       tabpanel: {
-        padding: '12.25px 15.75px 15.75px 15.75px',
+        /* 12.25=scale-0-875 (top), 15.75=scale-1-125 (R/B/L). */
+        padding:
+          'var(--sc-scale-0-875) var(--sc-scale-1-125) var(--sc-scale-1-125) var(--sc-scale-1-125)',
       },
     },
     /* Tooltip — node 327:12831 family.
@@ -437,9 +443,10 @@ export const ScPreset = definePreset(Aura, {
       root: {
         background: 'var(--sc-color-gray-700)',
         color: 'var(--sc-color-gray-0)',
-        padding: '7px 10.5px',
+        /* 7=scale-0-5, 10.5=scale-0-75, 175=scale-12-5 (tokens del export). */
+        padding: 'var(--sc-scale-0-5) var(--sc-scale-0-75)',
         borderRadius: 'var(--sc-radius-200)',
-        maxWidth: '175px',
+        maxWidth: 'var(--sc-scale-12-5)',
       },
     },
   },

@@ -55,10 +55,13 @@
   --sc-bg-selected: var(--sc-bg-primary-subtle);
   --sc-row-hover-bg: var(--sc-bg-secondary-hover);
 
-  /* Primary (brand) */
+  /* Primary (brand) — rampa 1:1 con el Kit (export.semanticColorScheme.light:
+   * primaryColor #1b273d=blue-700, primaryHoverColor #243452=blue-600,
+   * primaryActiveColor #131b2b=blue-800). El hover ACLARA el navy (no lo
+   * oscurece) — intención de marca del Kit. Vigilado por tokens:parity §6. */
   --sc-bg-primary: var(--sc-color-blue-700);
-  --sc-bg-primary-hover: var(--sc-color-blue-800);
-  --sc-bg-primary-active: var(--sc-color-blue-900);
+  --sc-bg-primary-hover: var(--sc-color-blue-600);
+  --sc-bg-primary-active: var(--sc-color-blue-800);
   --sc-bg-primary-subtle: var(--sc-color-blue-50);
   --sc-bg-primary-subtle-hover: var(--sc-color-blue-100);
   --sc-bg-primary-subtle-active: var(--sc-color-blue-200);
@@ -106,9 +109,11 @@
   --sc-border-subtle: var(--sc-color-gray-100);
   --sc-border-disabled: var(--sc-color-gray-100);
 
+  /* El borde primary acompaña a la rampa de fondo (mismo paso) para que el
+   * contorno del botón/outline siga al fill. Tracking de --sc-bg-primary-*. */
   --sc-border-primary: var(--sc-color-blue-700);
-  --sc-border-primary-hover: var(--sc-color-blue-800);
-  --sc-border-primary-active: var(--sc-color-blue-900);
+  --sc-border-primary-hover: var(--sc-color-blue-600);
+  --sc-border-primary-active: var(--sc-color-blue-800);
 
   --sc-border-secondary: var(--sc-color-blue-200);
   --sc-border-secondary-hover: var(--sc-color-blue-300);

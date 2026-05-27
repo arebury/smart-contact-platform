@@ -4,17 +4,19 @@
 }
 
 .section-card {
-  background: var(--sc-bg-surface);
-  border: 1px solid var(--sc-border-default);
-  border-radius: var(--sc-radius-300);
-  /* Soft elevation, low spread — modern SaaS surface (Linear / Stripe).
-   * The card stays crisp at the edges; the shadow just lifts it off the
-   * page. */
-  box-shadow: var(--sc-shadow-card);
+  /* Panel embebido gris (SnowUI · S62-ext-3): fondo gray-50 igual que el índice
+   * del rail (`form-section-nav--flush`) para que card e índice lean como
+   * hermanos, SIN borde y FLAT (sin sombra). Antes era una caja blanca elevada
+   * (shadow tipo Linear/Stripe); Rafa: "las cards son flat, no tienen sombreado,
+   * en ningún form tampoco". La jerarquía la lleva el tipo + el espacio, no la
+   * elevación. Radius = XL/12 (Figma editar-agente node 12277:4862 `border/radius/xl`
+   * + decisión estética de Rafa); el índice se queda en 6 → diferencia INTENCIONADA
+   * (el card respira un punto más redondeado), no drift. */
+  background: var(--sc-bg-secondary-subtle);
+  border: 0;
+  border-radius: var(--sc-radius-400);
   overflow: hidden;
-  transition:
-    border-color var(--sc-transition-fast) ease,
-    box-shadow var(--sc-transition-fast) ease;
+  transition: border-color var(--sc-transition-fast) ease;
   /* Anchor offset for `sc-form-section-nav` jump-to-anchor — clears the
    * StickyFormHeader when scrolling into view. */
   scroll-margin-top: var(--sc-form-anchor-offset);

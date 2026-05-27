@@ -176,27 +176,33 @@ export (surfaced by `tokens:parity` section 5):
 step set mirroring the Kit's `borderRadius`: `xs` 2 / `sm` 4 / `md` 6 / `lg` 8 /
 `xl` 12, plus two SC customs (`2xl` 16, `full` 9999). Numeric aliases
 (`--sc-radius-50/100/200/300/400/500`) map onto those steps for call sites that
-prefer the numeric convention.
+prefer the numeric convention. The base steps are now **also generated** from the
+export (`primitive.borderRadius*`) — see the bridge below.
 
 **Enforcement**: `tokensprime.json` is the metric source of truth; the `layers/`
 are the source for the running app; `npm run tokens:parity` enforces export ⊆ code
-(§1–2) + sizing value-parity (§4) + flags code-only steps (§5). `npm run
-tokens:scale` derives the canonical `--sc-scale-*` set from the export (names by the
-`v/14` law) and verifies `01-primitive.css` matches it — **including the naming law,
-which parity doesn't check** (it only compares values); `--emit` prints the block to
-paste. Both run in the pre-commit hook; drift blocks the commit. (Radius is out of
-scope for the generator — a fixed 6-value set with no naming ambiguity, already
-value-checked by parity §2.)
+(§1–2) + sizing value-parity (§4) + flags code-only steps (§5) + **brand-colour
+parity (§6, light+dark)** — it resolves our `--sc-*` tokens to hex through the var()
+chain and asserts the primary ramp / surface scale / content match the export, so
+colour drift (e.g. the navy hover step) fails the build instead of slipping by.
+`npm run tokens:gen` derives the canonical `--sc-scale-*` set (names by the `v/14`
+law) **and `--sc-radius-*`** from the export and verifies `01-primitive.css` matches
+— **including the naming law parity doesn't check** (it only compares values);
+`--emit` prints the blocks. Both run in the pre-commit hook; drift blocks the commit.
 
-**Figma→code bridge (`npm run tokens:import` = `tokens:scale -- --write`)**: rewrites
-the `--sc-scale-*` block **in place**, between the `/* @sc-gen:scale … */` …
-`/* @sc-gen:scale:end */` markers in `01-primitive.css`, straight from the export. This
-is the one manual seam automated: a Figma scale change → re-export `tokensprime.json` →
-`tokens:import` → the cascade (`--sc-spacing`/`-font-size`/`-line-height` aliases +
-components + the PrimeNG preset) propagates everywhere automatically. **Scoped on
-purpose**: only the marked scale region is touched — colors, brand, aliases and comments
-stay hand-authored. Verified idempotent (with the current export, `--write` changes no
-values). Unlike a full theme generator, it never rewrites the curated layers wholesale.
+**Figma→code bridge (`npm run tokens:import` = `tokens:gen -- --write`)**: rewrites
+the `--sc-scale-*` **and** `--sc-radius-*` blocks **in place**, between the
+`/* @sc-gen:scale … */` … `:end` and `/* @sc-gen:radius … */` … `:end` markers in
+`01-primitive.css`, straight from the export. This is the one manual seam automated:
+a Figma metric change → re-export `tokensprime.json` → `tokens:import` → the cascade
+propagates everywhere automatically. The cascade reaches **components too**: the
+PrimeNG preset (`sc-preset.ts`) references these tokens (`paddingX: var(--sc-scale-0-75)`),
+**never raw px** — every pinned component metric (button/formField/tabs/tooltip) is a
+`--sc-scale-*` / `--sc-radius-*` / `--sc-font-size-*` reference, so it follows the
+generated primitives with no hand-editing. **Scoped on purpose**: only the marked
+regions are touched — colours, brand, aliases and comments stay hand-authored (brand
+colours are a documented decision, guarded by parity §6, not auto-imported). Verified
+idempotent. Unlike a full theme generator, it never rewrites the curated layers wholesale.
 
 ## Adding a new token
 
