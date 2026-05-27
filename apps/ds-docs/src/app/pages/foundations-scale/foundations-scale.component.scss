@@ -103,18 +103,20 @@ code {
     margin-bottom: var(--sc-spacing-1);
   }
 
-  &__px {
-    font-size: var(--sc-font-size-700);
+  &__scale {
+    font-family: var(--sc-font-family-mono);
+    font-size: var(--sc-font-size-500);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
-    font-variant-numeric: tabular-nums;
+    background: transparent;
+    padding: 0;
     line-height: 1;
   }
 
-  &__unit {
+  &__px {
     font-size: var(--sc-font-size-300);
-    color: var(--sc-text-subtle);
-    margin-left: 2px;
+    color: var(--sc-text-secondary);
+    font-variant-numeric: tabular-nums;
   }
 
   &__bar {
@@ -228,21 +230,21 @@ code {
     }
   }
 
-  &__bar {
-    flex: 0 0 auto;
-    height: 8px;
-    min-width: 2px;
-    border-radius: 2px;
-    background: var(--sc-border-focus);
-    opacity: 0.55;
+  &__scale {
+    flex: 0 0 132px;
+    font-family: var(--sc-font-family-mono);
+    font-size: var(--sc-font-size-100);
+    font-weight: var(--sc-font-weight-medium);
+    color: var(--sc-text-primary);
+    background: transparent;
+    padding: 0;
   }
 
   &__px {
     flex: 0 0 64px;
     font-size: var(--sc-font-size-100);
     font-variant-numeric: tabular-nums;
-    font-weight: var(--sc-font-weight-medium);
-    color: var(--sc-text-primary);
+    color: var(--sc-text-secondary);
   }
 
   &__token {

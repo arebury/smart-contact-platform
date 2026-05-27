@@ -35,19 +35,23 @@
     @if (selectedRow(); as r) {
       <div class="detail">
         <div class="detail__head">
-          <span class="detail__px">{{ r.px }}<span class="detail__unit">px</span></span>
-          <span class="detail__bar" [style.width.px]="r.px > 220 ? 220 : r.px"></span>
+          <code class="detail__scale">{{ short(r.scale) }}</code>
+          <span class="detail__px">{{ r.px }}px</span>
+          <span
+            class="detail__bar"
+            [style.width.px]="r.px > 0 ? (r.px > 200 ? 200 : r.px) : 2"
+          ></span>
           <span class="detail__mult">{{ r.mult }}</span>
         </div>
         <dl class="detail__grid">
           <div class="detail__pair">
-            <dt>scale</dt>
+            <dt>token CSS</dt>
             <dd>
               <code>{{ r.scale }}</code>
             </dd>
           </div>
           <div class="detail__pair">
-            <dt>spacing (componentes)</dt>
+            <dt>spacing (en componentes)</dt>
             <dd>
               @if (r.spacing) {
                 <code class="detail__alias">{{ r.spacing }}</code>
@@ -87,9 +91,9 @@
         @for (r of scaleRows(); track r.scale) {
           <li class="all__row" [class.all__row--active]="r.scale === selected()">
             <button type="button" class="all__btn" (click)="onSelect(r.scale)">
-              <span class="all__bar" [style.width.px]="r.px > 120 ? 120 : r.px"></span>
+              <code class="all__scale">{{ short(r.scale) }}</code>
               <span class="all__px">{{ r.px }}px</span>
-              <code class="all__token">{{ short(r.spacing ?? r.scale) }}</code>
+              <code class="all__token">{{ r.spacing ? short(r.spacing) : '—' }}</code>
             </button>
           </li>
         }

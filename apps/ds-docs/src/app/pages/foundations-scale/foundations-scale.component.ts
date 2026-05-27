@@ -90,14 +90,13 @@ export class FoundationsScaleComponent {
           lineHeights: lhRev.get(name) ?? [],
         };
       })
-      .filter((r) => r.px >= 0)
-      .sort((a, b) => a.px - b.px);
+      .sort((a, b) => a.px - b.px); // incluye negativos (offsets) — Rafa los lee en scale
   });
 
   /** Opciones del combobox: "28px · spacing-2". value = nombre de scale. */
   protected readonly options = computed(() =>
     this.scaleRows().map((r) => ({
-      label: `${r.px}px · ${short(r.spacing ?? r.scale)}`,
+      label: `${short(r.scale)} · ${r.px}px`, // lidera el nombre scale (lo que se lee), luego px
       value: r.scale,
     })),
   );
