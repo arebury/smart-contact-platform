@@ -57,7 +57,7 @@ Lectura cruzada: si trabajas en un producto, estos son los docs operativos.
 - `apps/supervisor/docs/memory/DECISIONS.md` — decisiones grandes Memory (Decisión B hubs, click→select, etc.).
 - `docs/memory-migration-inventory.md` — inventario operativo de migración (vivo hasta completarse). Cuando la migración cierre, los diferidos §10 pasan a un ROADMAP.md dedicado.
 - `~/dev/Memory/legacy-react/` — prototipo React fuente **canónico** (evoluciona).
-- `docs/prototype-reference/` — **snapshot congelado** del prototipo React (1.4 MB, referencia de migración; NO se mantiene). Duplica el canónico externo de arriba → candidato a borrar si no se consulta (git preserva el histórico). Frozen ≠ desfasado.
+- `docs/prototype-reference/` — **snapshot congelado** del prototipo React (1.4 MB, referencia de migración; NO se mantiene). **Se conserva**: es la única copia que viaja con el repo (el canónico externo es local de la máquina de Rafa); baseline para los audits "buscar oro". Frozen ≠ desfasado.
 
 ### SCDS (Smart Contact Design System)
 
