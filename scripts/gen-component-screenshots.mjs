@@ -51,9 +51,12 @@ for (const slug of slugs) {
     const gallery = page.locator('.gallery').first();
     await gallery.waitFor({ state: 'visible', timeout: 15000 });
     await page.waitForTimeout(400); // que los demos terminen de pintar
-    const box = await gallery.boundingBox();
-    if (!box) throw new Error('.gallery sin boundingBox');
-    // Recorte: cabecera + primer demo (tope de la gallery), ratio legible.
+    // Captura el PRIMER demo (`.gallery__section`), no la cabecera — el thumbnail debe
+    // enseñar el componente en uso, no el título. Fallback al tope de `.gallery`.
+    const demo = page.locator('.gallery__section').first();
+    const target = (await demo.count()) ? demo : gallery;
+    const box = await target.boundingBox();
+    if (!box) throw new Error('sin boundingBox');
     await page.screenshot({
       path: resolve(OUT, `${slug}.png`),
       clip: { x: box.x, y: box.y, width: box.width, height: Math.min(box.height, 760) },

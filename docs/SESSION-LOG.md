@@ -34,8 +34,11 @@
   otras secciones; NO borrado).
 - **Bug pillado**: el `[flush]` del rail había borrado el fondo del índice. El Figma lo
   tiene como PANEL (gray-50/16/r6/gap6, chip 32, activo gray-100, label semibold). Fijado
-  1:1 en `form-section-nav` flush (panel BLANCO sobre página gris = mismo modelo que
-  group-assignment-table). Nota de verificación obligatoria (fills, no a ojo) en §2.7.
+  1:1 en `form-section-nav` flush. **Corrección S62-ext-2** (Rafa + variables del nodo):
+  el modelo es **página BLANCA + paneles gris-50** (índice/ficha), no al revés — yo lo
+  había hecho panel blanco sobre página gris (asumí el color de la página en vez de leer
+  `content/background`=#fff). Fijado: form-pages `.page`→blanco, índice/ficha→gray-50.
+  Nota de verificación obligatoria (fills del nodo, no a ojo) en §2.7.
 
 **ds-docs:** tokens ya sincronizados (`tokens:export` sin diff), links ya a `main`.
 **component-screenshots estaba VACÍO** (los `/component-screenshots/{slug}.png` del tracker

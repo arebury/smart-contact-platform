@@ -363,8 +363,11 @@
   display: flex;
   align-items: center;
   gap: var(--sc-spacing-1);
-  padding-bottom: var(--sc-spacing-1-25);
-  border-bottom: 1px solid var(--sc-border-subtle);
+  /* Panel gray-50 1:1 con el Figma (ficha 12277:4807: bg gray-50, padding 16,
+   * radio 12) — recogido sobre la página blanca. S62-ext-2. */
+  padding: var(--sc-spacing-1-143);
+  background: var(--sc-bg-secondary-subtle);
+  border-radius: var(--sc-radius-xl);
 
   &__avatar {
     flex: 0 0 auto;
