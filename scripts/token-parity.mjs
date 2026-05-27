@@ -387,6 +387,31 @@ const ENFORCE = [
   ['light', 'contentBackground', 'sc-bg-surface'],
   ['light', 'contentBorderColor', 'sc-border-default'],
   ['light', 'formFieldFocusBorderColor', 'sc-border-primary'],
+  // Texto y roles alineados al Kit (S62-ext-3, bloque 2): cuerpo=gray-700,
+  // muted=gray-500. nav/list resting text = gray-700 (= primary, no secondary).
+  ['light', 'textColor', 'sc-text-primary'],
+  ['light', 'textMutedColor', 'sc-text-secondary'],
+  ['light', 'contentColor', 'sc-text-primary'],
+  ['light', 'formFieldColor', 'sc-text-primary'],
+  ['light', 'navigationItemColor', 'sc-text-primary'],
+  ['light', 'listOptionColor', 'sc-text-primary'],
+  // bg / icon / border que ya coincidían 1:1 — locked.
+  ['light', 'formFieldBackground', 'sc-bg-surface'],
+  ['light', 'formFieldHoverBorderColor', 'sc-border-strong'],
+  ['light', 'formFieldDisabledBackground', 'sc-bg-disabled'],
+  ['light', 'formFieldInvalidBorderColor', 'sc-border-error'],
+  ['light', 'formFieldIconColor', 'sc-icon-subtle'],
+  ['light', 'navigationItemActiveBackground', 'sc-bg-secondary-hover'],
+  ['light', 'navigationItemIconColor', 'sc-icon-subtle'],
+  ['light', 'listOptionFocusBackground', 'sc-bg-secondary-hover'],
+  ['light', 'contentHoverBackground', 'sc-bg-secondary-hover'],
+  ['light', 'overlayModalBackground', 'sc-bg-surface'],
+  ['light', 'overlayModalBorderColor', 'sc-border-default'],
+  ['light', 'overlayPopoverBackground', 'sc-bg-surface'],
+  ['light', 'overlayPopoverBorderColor', 'sc-border-default'],
+  ['light', 'overlaySelectBackground', 'sc-bg-elevated'],
+  ['light', 'formFieldBorderColor', 'sc-border-input'],
+  ['dark', 'formFieldBorderColor', 'sc-border-input'],
   ['dark', 'primaryColor', 'sc-bg-primary'],
   ['dark', 'primaryHoverColor', 'sc-bg-primary-hover'],
   ['dark', 'primaryActiveColor', 'sc-bg-primary-active'],
@@ -398,6 +423,12 @@ const DIVERGE = [
   ['both', 'focusRing', '--sc-border-focus = electric-blue (a11y, customs §1.1) vs navy del Kit'],
   ['both', 'info', '--sc-bg-info = electric-blue (marca) — no está en el árbol semántico del Kit'],
   ['both', 'warn', '--sc-bg-warning = amber (marca) — ídem'],
+  // Clasificadas por Rafa (S62-ext-3 bloque 2): chrome de form un punto más
+  // fino/claro que el Kit, a propósito. El Kit colapsa todo lo no-primario a
+  // gray-500; nosotros mantenemos una jerarquía más rica.
+  ['light', 'formFieldPlaceholderColor', 'placeholder gray-400 vs Kit gray-500 — un punto más tenue (jerarquía propia)'],
+  ['light', 'formFieldDisabledColor', 'disabled gray-300 vs Kit gray-500 — más tenue a propósito (se ve disabled)'],
+  ['light', 'navigationItemActiveColor', 'nav activo gray-700 (= primary) vs Kit gray-800 — sin token de énfasis extra; minor'],
 ];
 
 let colorOk = 0;
@@ -424,51 +455,14 @@ for (const [mode, what, why] of DIVERGE) log(`    · [${mode}] ${what}: ${why}`)
 // Rafa clasifique cada "difiere" como drift (→ a corregir + enforce) o marca consciente
 // (→ allow-list). Cuando estén clasificados, los enforce suben a §6. Mapeo por rol
 // (PrimeNG semantic → rol SCDS); las claves sin token --sc- directo se listan aparte.
-log('\n=== 7. COLOR semántico extendido (informe — clasificar drift vs marca) ===');
-const MAP_REPORT = [
-  ['textColor', 'sc-text-primary'],
-  ['textMutedColor', 'sc-text-secondary'],
-  ['contentColor', 'sc-text-primary'],
-  ['contentHoverBackground', 'sc-bg-secondary-hover'],
-  ['formFieldColor', 'sc-text-primary'],
-  ['formFieldBackground', 'sc-bg-surface'],
-  ['formFieldBorderColor', 'sc-border-default'],
-  ['formFieldHoverBorderColor', 'sc-border-strong'],
-  ['formFieldPlaceholderColor', 'sc-text-subtle'],
-  ['formFieldDisabledColor', 'sc-text-disabled'],
-  ['formFieldDisabledBackground', 'sc-bg-disabled'],
-  ['formFieldInvalidBorderColor', 'sc-border-error'],
-  ['formFieldIconColor', 'sc-icon-subtle'],
-  ['navigationItemColor', 'sc-text-secondary'],
-  ['navigationItemActiveBackground', 'sc-bg-secondary-hover'],
-  ['navigationItemActiveColor', 'sc-text-primary'],
-  ['navigationItemIconColor', 'sc-icon-subtle'],
-  ['listOptionColor', 'sc-text-secondary'],
-  ['listOptionFocusBackground', 'sc-bg-secondary-hover'],
-  ['overlayModalBackground', 'sc-bg-surface'],
-  ['overlayModalBorderColor', 'sc-border-default'],
-  ['overlayPopoverBackground', 'sc-bg-surface'],
-  ['overlayPopoverBorderColor', 'sc-border-default'],
-  ['overlaySelectBackground', 'sc-bg-elevated'],
-];
-const step = (hex) => (hexToPrim.get(hex)?.[0] || '?').replace('--sc-color-', '');
-const matches = [];
-const differs = [];
-for (const [key, token] of MAP_REPORT) {
-  const exp = expHex('light', key);
-  const got = resolveHex(token, 'light');
-  if (exp === undefined || got === undefined) continue;
-  if (exp === got) matches.push(key);
-  else differs.push(`[light] ${key}: export ${exp} (${step(exp)}) vs --${token} ${got} (${step(got)})`);
-}
-log(`  coinciden (${matches.length}): ${matches.join(', ')}`);
-log(`  DIFIEREN (${differs.length}) — ¿drift o tu marca?:`);
-for (const d of differs) log('    · ' + d);
-const reportedKeys = new Set([...MAP_REPORT.map(([k]) => k), ...ENFORCE.map(([, k]) => k)]);
+// Cobertura: claves semánticas del Kit sin token --sc- directo (hover/focus/
+// submenu/highlight/mask/filled): no son enforce-ables (no hay token que cruzar);
+// se resuelven vía el preset/colorScheme. Informativo.
+const classified = new Set([...ENFORCE.map(([, k]) => k), ...DIVERGE.map(([, k]) => k)]);
 const noToken = Object.keys(LC).filter(
-  (k) => !reportedKeys.has(k) && !/^surface\d/.test(k) && !/^primary/.test(k),
+  (k) => !classified.has(k) && !/^surface\d/.test(k) && !/^primary/.test(k),
 );
-log(`  sin token --sc- directo (${noToken.length}, p.ej. hover/focus/submenu/highlight/mask): informativo`);
+log(`  sin token --sc- directo (${noToken.length}): se resuelven vía preset/colorScheme — informativo, no enforce.`);
 
 // ── Resumen ──────────────────────────────────────────────────────────────────
 log('\n' + '─'.repeat(60));

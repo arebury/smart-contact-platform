@@ -13,9 +13,15 @@
  */
 
 :root {
-  /* ---------- Text ---------- */
-  --sc-text-primary: var(--sc-color-gray-800);
-  --sc-text-secondary: var(--sc-color-gray-600);
+  /* ---------- Text ----------
+   * Rampa alineada al Kit (S62-ext-3, parity §6): texto cuerpo = gray-700
+   * (export textColor #4f5663), secundario/muted = gray-500 (export
+   * textMutedColor #8f97a3). `subtle` (gray-400) y `disabled` (gray-300) son
+   * un nivel MÁS FINO que el Kit (que colapsa todo lo no-primario a gray-500):
+   * divergencia consciente — placeholder/disabled se ven más tenues a propósito
+   * (mejor jerarquía). Vigilado por parity §6 (enforce primary/secondary) + §7. */
+  --sc-text-primary: var(--sc-color-gray-700);
+  --sc-text-secondary: var(--sc-color-gray-500);
   --sc-text-subtle: var(--sc-color-gray-400);
   --sc-text-disabled: var(--sc-color-gray-300);
   --sc-text-inverse: var(--sc-color-gray-0);
@@ -103,8 +109,17 @@
   --sc-bg-violet-subtle-hover: var(--sc-color-violet-100);
   --sc-bg-violet-subtle-active: var(--sc-color-violet-200);
 
-  /* ---------- Border ---------- */
+  /* ---------- Border ----------
+   * gray-200 = export contentBorderColor / overlay*BorderColor (#dadfe6) → 1:1.
+   * (El Kit usa gray-300 SOLO para el borde de form-field; nuestro form-field
+   * usa este mismo gray-200, un punto más claro = chrome más aireado, divergencia
+   * consciente. Alinear el borde de input a gray-300 pediría un token dedicado
+   * `--sc-border-input` — follow-up, no romper el borde de content/overlay.) */
   --sc-border-default: var(--sc-color-gray-200);
+  /* Borde de form-field = gray-300 (export formFieldBorderColor #c6ccd6, parity §6).
+   * Rol propio: el Kit hace el borde de input un punto más definido que el de
+   * content/overlay (gray-200). Lo consume sc-preset formField.borderColor. */
+  --sc-border-input: var(--sc-color-gray-300);
   --sc-border-strong: var(--sc-color-gray-400);
   --sc-border-subtle: var(--sc-color-gray-100);
   --sc-border-disabled: var(--sc-color-gray-100);

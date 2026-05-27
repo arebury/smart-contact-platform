@@ -269,7 +269,11 @@ Equipo de diseño formaliza estos en collection "Custom" cuando vincule Figma SC
 
 **Métricas de componente = referencias, no px** (S62-ext-3): `sc-preset.ts` ya no fija paddings/sizes con literales (`'10.5px'`) sino con `var(--sc-scale-*)` / `var(--sc-radius-*)` / `var(--sc-font-size-*)` — todas caen exactas en la escala generada del export. Así un re-export del Kit propaga a los componentes sin teclear nada. `tokens:parity §4` cruza valor↔valor (37 checks).
 
-**Color de marca vigilado** (S62-ext-3): `tokens:parity §6` resuelve nuestros `--sc-*` a hex y cruza la rampa primary (color/hover/active/contrast, light+dark) + surface↔gray contra el export. Las divergencias de marca conscientes (info=electric-blue, warn=amber, focus-ring=electric-blue a11y §1.1, dark navy-tinted vs zinc del Kit) van allow-listadas. Cerró el punto ciego que dejó pasar el drift de `primary-hover` (blue-800 cuando el Kit dice blue-600).
+**Color de marca vigilado** (S62-ext-3): `tokens:parity §6` resuelve nuestros `--sc-*` a hex y cruza **45 colores** (light+dark) contra el export: rampa primary (color/hover/active/contrast) + surface↔gray + texto/content/formField/navigation/list/overlay. Las divergencias conscientes van allow-listadas: info=electric-blue, warn=amber, focus-ring=electric-blue (a11y §1.1), dark navy-tinted vs zinc del Kit, y 3 de jerarquía fina (placeholder gray-400 / disabled gray-300 más tenues que el gray-500 plano del Kit; nav-activo gray-700). Cerró el punto ciego que dejó pasar el drift de `primary-hover`.
+
+**Rampa de texto alineada al Kit** (S62-ext-3 bloque 2): texto cuerpo `--sc-text-primary` gray-800→**gray-700** (export textColor), secundario `--sc-text-secondary` gray-600→**gray-500** (export textMutedColor). El Kit es más plano (2 niveles); mantenemos `subtle`/`disabled` más finos a propósito.
+
+**Token nuevo `--sc-border-input` = gray-300** (dark gray-600): el borde de form-field es un **rol propio** — el Kit lo hace un punto más definido (gray-300) que el borde de content/overlay (gray-200, `--sc-border-default`). Antes ambos compartían `--sc-border-default`; separarlo alinea el input al Kit sin tocar content/overlay. Lo consume `sc-preset formField.borderColor`.
 
 **Reconciliación pendiente (flag S62-ext)**: `scale.1-25` (17.5) y `scale.2-5` (35) figuran arriba como Kit Pro Variables, pero el export `tokensprime.json` actual NO los trae (sección 5 de `tokens:parity` los lista como code-only). Al próximo re-export del Kit: o el equipo los añade, o se marcan SC-custom explícito.
 
