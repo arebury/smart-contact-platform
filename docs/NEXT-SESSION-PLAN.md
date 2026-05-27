@@ -5,6 +5,30 @@
 
 ---
 
+## Estado al cerrar (Session 63, 2026-05-27) — densidad form 14px + badge Figma + página Escala ds-docs
+
+Sesión muy interactiva (Rafa cazaba a ojo, se resolvía con dato). ~8 commits a `main`, todo verde.
+Detalle en SESSION-LOG S63.
+
+**Hecho:**
+1. **Densidad form 14px** — raíz: PrimeNG hardcodea `font-size:1rem`; arreglado en los 7 wrappers
+   con `--sc-font-size-200`. Guardarraíl `tokens:guard` Dura 3 (no form fields crudos). Footers de
+   los 3 diálogos compartidos → small + gap 10.5. Padding form 31.5→28. Select extensión arreglado.
+   customs-catalog §4.3/§4.4.
+2. **Página ds-docs Foundations → Escala & Espaciado** (nueva): combobox `sc-select` filtro
+   (dogfooding), lidera con `scale` → spacing en card, incluye negativos. Sin rem (confundía).
+3. **Badge Figma** ("Solo fallidas"): diagnosticado + resuelto. Receta in-button = **FILL altura +
+   padding-x `scale-0-375` (5.25) + radius pill** → botón 27.5, redondo, adapta. Demo en página "Flujos".
+
+**Pendiente / decisiones tomadas:**
+- **Badge NO se bakea** en el componente (decisión Rafa). Receta documentada arriba si se retoma.
+- **Limpiar nodos de prueba** en Figma página "Flujos" (badges sueltos + botones de prueba) — Rafa
+  no decidió aún si quitar o conservar como referencia. Trigger: cuando lo diga.
+- Memorias nuevas: `reference_primeng_formfield_fontsize_hardcoded`, `reference_snowui_forms_inspiration`,
+  `feedback_verify_tooling_before_creating`.
+
+---
+
 ## Estado al cerrar (Session 62-ext-3, 2026-05-27) — pipeline completo (color+radios+preset) + consistencia flujos
 
 Rafa: "extiende el pipeline a CADA componente y propaga al resto de flujos". Sparring clave:

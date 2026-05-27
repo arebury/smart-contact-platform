@@ -10,6 +10,43 @@
 
 ---
 
+## 2026-05-27 · Session 63 — Densidad form 14px + badge Figma (no aplana) + página Escala ds-docs
+
+> Sesión larga y muy interactiva. Rafa cazó varias cosas a ojo; se resolvieron SIEMPRE con
+> datos (medida real en navegador/Figma, no a ojo). ~8 commits a `main`. Aprendizaje grabado:
+> verificar tooling existente antes de crear ("no tirar triples").
+
+**Densidad de formularios (raíz "inputs enormes"):**
+- PrimeNG **hardcodea `font-size: 1rem`** (16px) en el CSS base de los form fields; el export del
+  Kit no define base → el md se fugaba a 16px (rampa real 12.25/[14]/15.75; poner `formField.fontSize`
+  en el preset = no-op). Fix: `var(--sc-font-size-200)` (14px) en los 7 wrappers, host-prefijado.
+  Cubre el 100% (0 campos crudos). `884a70a`. Memoria `reference_primeng_formfield_fontsize_hardcoded`.
+- Footers de los 3 diálogos compartidos (delete-entity/delete-labels/impact-preview) → `size="small"`.
+  `--sc-dialog-footer-gap` 7→10.5. Regla muerta `.sc-dialog__foot .btn` (clase inexistente) eliminada.
+- Select extensión: `p-select-label-empty` (opacity:0) por falta de `optionLabel` → `optionLabel="number"`
+  + `filter`. Padding lateral form 31.5→28 (`--sc-spacing-2`, paridad SnowUI/Figma). `0b16eb8`.
+- Guardarraíl `tokens:guard` **Dura 3**: prohíbe form fields PrimeNG crudos fuera de wrappers.
+- customs-catalog §4.3 (densidad) + §4.4 (footer gap, divergencia consciente del Figma).
+
+**Estudio SnowUI forms** (Figma `epbXh5uopOOwU1ofdINqbh#13059:53268`): 14px/flat/botones compactos.
+Adoptado densidad+flat, NO el inset-label. Memoria `reference_snowui_forms_inspiration`.
+
+**Badge "Solo fallidas" (Figma, 0 código):** "aplana" = `h-full` + `min-width 17.5` sin min-height →
+elipse. Mi 1er fix (min-height 17.5) **deformaba el botón** (30 vs 27.5). Correcto (target de Rafa,
+verificado): badge **FILL** de altura (rellena el botón, no lo impone) + HUG ancho + padding-x
+`scale-0-375` (5.25) + radius pill → botón 27.5 con 8 y 888, redondo, on-scale. 3 badges sueltos
+(1/2/3 díg) con tokens `badge/*` vinculados (demo en página "Flujos"). **Rafa: NO bakear** en el componente.
+
+**Página ds-docs Foundations → Escala & Espaciado** (nueva, `fefb288`→`8b70dad`): combobox = nuestro
+`sc-select` con filtro (dogfooding); **lidera con el nombre `scale`** (scale-2 · 28px) → spacing en la
+card; incluye negativos; datos de `sc-tokens.json` (`tokens:export`, sin tooling nuevo). Iterada 6× con
+feedback Rafa: **fuera el rem** (confundía base-16 vs nuestra base-14 px), menos prosa, scale-first.
+
+**Salud:** build supervisor + ds-docs verde · e2e 28/28 (baselines memory-conversaciones-dark +
+aed-agentes-edit-dark regenerados) · tokens:guard/parity verde. Memoria nueva: `feedback_verify_tooling_before_creating`.
+
+---
+
 ## 2026-05-27 · Session 62-ext-3 — Pipeline completo (color + radios + preset por referencia) + consistencia flujos
 
 > Rafa: "extiende el pipeline a cada componente y propaga al resto de flujos". Mucho
