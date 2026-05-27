@@ -20,3 +20,8 @@ npm run tokens:parity
 # la ley de NOMBRES que la paridad no valida (S62-ext). `tokens:import` reescribe
 # las zonas @sc-gen desde el export; `tokens:gen --emit` imprime los bloques.
 npm run tokens:gen
+
+# Guardarraíl anti-breakage (S62-ext-3) · ningún componente puede usar --p-* directo
+# (solo sc-preset.ts) ni primitivas de escala --sc-scale-* (usar el alias --sc-spacing-*).
+# Mantiene el radio de explosión de un upgrade de PrimeNG en un único archivo.
+npm run tokens:guard

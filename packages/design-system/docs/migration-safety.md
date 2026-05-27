@@ -8,7 +8,7 @@ Este documento captura las reglas, riesgos y pro tips para que **upgrades de Pri
 
 ## TL;DR — 3 reglas blindaje
 
-1. **`--sc-*` es la única source of truth de tokens** — viven en código (`tokens/layers/*.css`). Los componentes consumen `--sc-*`, nunca `--p-*` directo.
+1. **`--sc-*` es la única source of truth de tokens** — viven en código (`tokens/layers/*.css`). Los componentes consumen `--sc-*`, nunca `--p-*` directo. **Hecho cumplir por máquina (S62-ext-3): `npm run tokens:guard`** (pre-commit) falla el commit si un componente usa `var(--p-*)` fuera de `sc-preset.ts`, o una primitiva de escala `--sc-scale-*` en vez del alias `--sc-spacing-*`. Así el radio de explosión de un upgrade de PrimeNG queda en un único archivo (el preset).
 2. **Wrappers SCDS encapsulan PrimeNG** — AED usa `<sc-inputtext>`, nunca `<p-inputtext>` directo. Single point of adaptation cuando PrimeNG cambie.
 3. **`customs-catalog.md` registra TODA divergence** — cualquier override de PrimeOne debe tener entry. Sin entry, no es divergencia permitida — es deuda invisible.
 

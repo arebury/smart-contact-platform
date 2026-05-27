@@ -1,0 +1,67 @@
+#!/usr/bin/env node
+/**
+ * Guardarraíl de tokens — blindaje contra "un update de PrimeNG rompe todo".
+ *
+ * Regla dura (S62-ext-3, pedida por Rafa): el ÚNICO sitio que puede tocar las
+ * variables `--p-*` de PrimeNG es el puente `sc-preset.ts`. Si un componente usa
+ * `var(--p-...)` directo y un día PrimeNG renombra/reestructura ese token (v22,
+ * v23…), ese componente se rompe en silencio. Manteniendo `--p-*` en UN archivo,
+ * el radio de explosión de cualquier upgrade es ese archivo y nada más. Los
+ * componentes consumen SIEMPRE el `--sc-*` equivalente (que el preset mapea).
+ *
+ * Regla dura 2: en componentes/app, las medidas van por el alias semántico
+ * `--sc-spacing-*`, no por la primitiva `--sc-scale-*` directa (que es layer-1).
+ * Hoy hay 0 violaciones; el check las mantiene en 0.
+ *
+ * NO se vigila `var(--sc-color-*)` directo: hay ~261 usos legítimos (paletas de
+ * label, status) y el riesgo de upgrade es bajo → sería ruido. Decisión por dato.
+ *
+ * Uso:  node scripts/token-guard.mjs   (pre-commit; sale ≠0 si hay violación)
+ */
+import { readFileSync } from 'node:fs';
+import { execSync } from 'node:child_process';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const log = (s = '') => process.stdout.write(s + '\n');
+const PRESET = 'packages/design-system/tokens/sc-preset.ts'; // único que puede tocar --p-*
+
+// Ficheros versionados de código/estilo bajo apps + packages.
+const files = execSync('git ls-files apps packages', { cwd: root, encoding: 'utf8' })
+  .split('\n')
+  .filter((f) => /\.(scss|css|html|ts)$/.test(f) && !f.endsWith('.spec.ts'));
+
+let problems = 0;
+const fail = (s) => {
+  problems++;
+  log('  ✗ ' + s);
+};
+
+for (const f of files) {
+  const lines = readFileSync(resolve(root, f), 'utf8').split('\n');
+  lines.forEach((line, i) => {
+    const at = `${f}:${i + 1}`;
+    // El sufijo `[a-z]` exige un token REAL (`var(--p-focus-ring-color)`), no el
+    // placeholder de documentación `var(--p-*)` que aparece como texto en ds-docs.
+    // Dura 1 — var(--p-*) fuera del preset.
+    if (f !== PRESET && /var\(\s*--p-[a-z]/.test(line)) {
+      fail(`${at} usa var(--p-*) directo → solo ${PRESET} puede tocar --p-*. Usa el --sc-* equivalente.`);
+      log(`      ${line.trim()}`);
+    }
+    // Dura 2 — var(--sc-scale-*) en componentes/app (debe ser el alias --sc-spacing-*).
+    // Los ficheros de tokens/ (preset + capas) sí referencian --sc-scale-* legítimamente.
+    if (!f.includes('design-system/tokens/') && /var\(\s*--sc-scale-[a-z0-9]/.test(line)) {
+      fail(`${at} usa var(--sc-scale-*) (primitiva layer-1) → en componentes usa el alias semántico --sc-spacing-*.`);
+      log(`      ${line.trim()}`);
+    }
+  });
+}
+
+log('─'.repeat(60));
+if (problems === 0) {
+  log(`✓ GUARDARRAÍL OK — ningún componente toca --p-* ni primitivas de escala directas (${files.length} ficheros).`);
+  process.exit(0);
+}
+log(`✗ ${problems} violación(es). Los componentes deben consumir --sc-* (el puente sc-preset.ts aísla PrimeNG).`);
+process.exit(1);
