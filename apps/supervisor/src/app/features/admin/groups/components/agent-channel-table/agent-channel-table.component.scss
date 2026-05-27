@@ -218,17 +218,23 @@
     width: 32px;
   }
 
+  /* Grid avatar · nombre (ancho FIJO) · chips → chips alineadas en columna en
+   * todas las filas pese a nombres de longitud variable (espejo de gatbl,
+   * S62-ext-3). Ellipsis + title para nombres largos. */
   &__td-name {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto var(--actbl-name-w, 160px) 1fr;
     align-items: center;
     gap: var(--sc-spacing-0-875);
-    flex-wrap: wrap;
   }
 
   &__name-label {
     color: var(--sc-text-primary);
     font-weight: var(--sc-font-weight-medium);
-    flex: 0 0 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   /* Chip cluster inline with the agent name — replaces the per-channel

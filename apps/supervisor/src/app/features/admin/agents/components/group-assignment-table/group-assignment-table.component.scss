@@ -240,17 +240,25 @@
     }
   }
 
+  /* Grid de 3 columnas: avatar · nombre (ancho FIJO) · chips. El ancho fijo del
+   * nombre hace que el cluster de chips arranque en la MISMA X en todas las filas
+   * (alineadas en columna), aunque los nombres varíen de longitud — sin la "trampa"
+   * de Figma de nombres iguales. Nombres largos: ellipsis + title nativo (S62-ext-3,
+   * recurso ui-ux-pro-max: truncar con ellipsis + tooltip, no overflow roto). */
   &__td-name {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto var(--gatbl-name-w, 160px) 1fr;
     align-items: center;
     gap: var(--sc-spacing-0-875);
-    flex-wrap: wrap;
   }
 
   &__name-label {
     color: var(--sc-text-primary);
     font-weight: var(--sc-font-weight-medium);
-    flex: 0 0 auto;
+    min-width: 0; /* permite el ellipsis dentro de la celda grid */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   /* Chip cluster inline with the group name — the "Canales en este grupo"

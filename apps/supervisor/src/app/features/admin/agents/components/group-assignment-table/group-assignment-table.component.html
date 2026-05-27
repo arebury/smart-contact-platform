@@ -80,7 +80,7 @@
           <tr class="gatbl__row" [class.gatbl__row--paused]="!row.link.active">
             <td class="gatbl__td-name">
               <sc-illustrated-avatar [name]="row.group.name" pool="abstract" [size]="24" />
-              <span class="gatbl__name-label">{{ row.group.name }}</span>
+              <span class="gatbl__name-label" [title]="row.group.name">{{ row.group.name }}</span>
               <span class="gatbl__chips">
                 @for (ch of row.group.channels; track ch) {
                   <label

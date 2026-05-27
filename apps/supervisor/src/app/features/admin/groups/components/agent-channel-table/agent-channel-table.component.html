@@ -103,7 +103,7 @@
             </td>
             <td class="actbl__td-name">
               <sc-illustrated-avatar [name]="row.agent.name" pool="illustrated" [size]="24" />
-              <span class="actbl__name-label">{{ row.agent.name }}</span>
+              <span class="actbl__name-label" [title]="row.agent.name">{{ row.agent.name }}</span>
               <span class="actbl__chips">
                 @for (ch of groupChannels(); track ch) {
                   <label
