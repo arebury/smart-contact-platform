@@ -410,8 +410,6 @@ const ENFORCE = [
   ['light', 'overlayPopoverBackground', 'sc-bg-surface'],
   ['light', 'overlayPopoverBorderColor', 'sc-border-default'],
   ['light', 'overlaySelectBackground', 'sc-bg-elevated'],
-  ['light', 'formFieldBorderColor', 'sc-border-input'],
-  ['dark', 'formFieldBorderColor', 'sc-border-input'],
   ['dark', 'primaryColor', 'sc-bg-primary'],
   ['dark', 'primaryHoverColor', 'sc-bg-primary-hover'],
   ['dark', 'primaryActiveColor', 'sc-bg-primary-active'],
@@ -426,6 +424,7 @@ const DIVERGE = [
   // Clasificadas por Rafa (S62-ext-3 bloque 2): chrome de form un punto más
   // fino/claro que el Kit, a propósito. El Kit colapsa todo lo no-primario a
   // gray-500; nosotros mantenemos una jerarquía más rica.
+  ['light', 'formFieldBorderColor', 'borde de input gray-200 (=content/overlay) vs Kit gray-300 — 1 paso, imperceptible; sin token nuevo por decisión de Rafa'],
   ['light', 'formFieldPlaceholderColor', 'placeholder gray-400 vs Kit gray-500 — un punto más tenue (jerarquía propia)'],
   ['light', 'formFieldDisabledColor', 'disabled gray-300 vs Kit gray-500 — más tenue a propósito (se ve disabled)'],
   ['light', 'navigationItemActiveColor', 'nav activo gray-700 (= primary) vs Kit gray-800 — sin token de énfasis extra; minor'],

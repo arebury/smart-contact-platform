@@ -116,10 +116,6 @@
    * consciente. Alinear el borde de input a gray-300 pediría un token dedicado
    * `--sc-border-input` — follow-up, no romper el borde de content/overlay.) */
   --sc-border-default: var(--sc-color-gray-200);
-  /* Borde de form-field = gray-300 (export formFieldBorderColor #c6ccd6, parity §6).
-   * Rol propio: el Kit hace el borde de input un punto más definido que el de
-   * content/overlay (gray-200). Lo consume sc-preset formField.borderColor. */
-  --sc-border-input: var(--sc-color-gray-300);
   --sc-border-strong: var(--sc-color-gray-400);
   --sc-border-subtle: var(--sc-color-gray-100);
   --sc-border-disabled: var(--sc-color-gray-100);

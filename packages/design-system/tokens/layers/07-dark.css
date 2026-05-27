@@ -70,8 +70,6 @@
 
   /* ---------- Semantic · Border ---------- */
   --sc-border-default: var(--sc-color-gray-800);
-  /* Borde de input en dark = gray-600 (export.dark formFieldBorderColor #6f7784). */
-  --sc-border-input: var(--sc-color-gray-600);
   --sc-border-strong: var(--sc-color-gray-600);
   --sc-border-subtle: var(--sc-color-gray-900);
   --sc-border-disabled: var(--sc-color-gray-800);

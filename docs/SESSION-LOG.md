@@ -42,6 +42,18 @@
   embebido SnowUI). Radius 12 = decisión estética de Rafa (índice se queda en 6, diferencia
   intencionada). Validado a ojo (captura real) + estilo computado + e2e.
 
+**Batería S63 (misma sesión, dudas STAR respondidas por Rafa):**
+- **Bloque 1 ✅ Guardarraíl** (`tokens:guard`, pre-commit): bloqueo duro `var(--p-*)` fuera de
+  `sc-preset.ts` (radio de explosión de un upgrade PrimeNG = 1 archivo) + `--sc-scale-*` en
+  componentes. Migrados los 4 `--p-focus-ring-color`→`--sc-border-focus`. Decisión por dato: NO
+  vigilar `--sc-color-*` (261 usos legítimos = ruido).
+- **Bloque 2 ✅ Paridad color absoluta**: `parity §6` 23→**43 enforce**. Rafa clasificó las 9
+  diferencias → alineadas las de texto (text-primary gray-800→700, secondary 600→500 = export),
+  allow-listadas las finas (placeholder/disabled/nav-activo + borde input gray-200 vs Kit gray-300).
+  **Sin tokens nuevos** (Rafa: no mintar aliases que no estén ya en preset/JSON → `feedback_no_new_tokens_default`). e2e 28/28.
+- **Bloque 3 ⏳ teed up** (auditoría 81 comp.) + **Bloque 4 ⏳ bloqueado por Figma** → NEXT-SESSION-PLAN.
+- 4 commits a `main` (31b4397, 796b135→…, guard, §7, bloque2). "El arquitecto de DS eres tú."
+
 ---
 
 ## 2026-05-27 · Session 62-ext-2 — Anti-drift tokens "para siempre" + índice 1:1 + thumbnails ds-docs

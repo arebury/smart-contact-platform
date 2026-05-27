@@ -25,24 +25,26 @@ drift con tooling, no con mi ojo). 1 commit a `main`, e2e 28/28. Detalle en SESS
 - ✅ Cards main-content **flat**: `sc-section-card` + `group-assignment-table` → gray-50 + radius-xl + sin
   sombra (panel embebido como el nav-trail). Validado a ojo + computado + e2e.
 
-### 🎯 BATERÍA S63 — ASEGURADA (dudas STAR respondidas por Rafa, S62-ext-3)
+### 🎯 BATERÍA S63 — en curso (dudas STAR respondidas por Rafa, S62-ext-3)
 Prioridades: **paridad ABSOLUTA · consistencia al máximo · reducir deuda · customizar sin romper PrimeNG.**
-Orden por dependencia (1 base barata → 4 aplica):
 
-1. **Guardarraíl anti-breakage** (pre-commit). Rafa preguntó qué evita "que un update rompa todo";
-   reco aceptada: **(a) BLOQUEO DURO — `--p-*` solo permitido en `sc-preset.ts`** (mantiene el radio
-   de explosión de un upgrade PrimeNG en un archivo). **(b) AVISO — componentes que usan primitivas
-   layer-1 (`--sc-color-*`/`--sc-scale-*`) en vez de semánticos** (`--sc-bg-*`/`--sc-spacing-*`), con
-   allow-list de excepciones documentadas. Script estilo `i18n-audit`, cableado en husky.
-2. **Paridad COLOR absoluta** (Rafa: "vigilar TODOS"). Mapear los 63 semánticos sin enforce en
-   `tokens:parity §6` y clasificar cada uno: `enforce` (debe == export) vs `diverge` (marca consciente,
-   allow-list). Requiere **ronda de clasificación con Rafa** (¿drift o intención?).
-3. **Auditoría 81 componentes** (Rafa: "los 81 completos"). Cruzar cada componente del Kit (Aura default
-   vs SC Prime export) y detectar dónde Aura ≠ SC Prime y NO lo pisamos (drift silencioso inverso → se
-   ve "PrimeNG" en vez de "SC"). Pinar los gaps reales en `sc-preset.ts`. Grande; decisiones puntuales.
-4. **Propagar flat/gris** (Rafa: Memory + config). Paneles gray-50 + radius + sin sombra + botones small
-   a Memory (conversaciones/categorías/…) y config/ajustes. **Necesita el Figma de referencia de esas
-   pantallas** (regla: nada a ciegas). Pedírselo a Rafa antes.
+1. ✅ **Guardarraíl anti-breakage** — `scripts/token-guard.mjs` (`npm run tokens:guard`, pre-commit):
+   bloqueo duro `var(--p-*)` fuera de `sc-preset.ts` + `--sc-scale-*` en componentes (usar `--sc-spacing-*`).
+   Migrados los 4 `--p-focus-ring-color` → `--sc-border-focus`. migration-safety.md regla #1 "por máquina".
+2. ✅ **Paridad COLOR absoluta** — `tokens:parity §6` de 23→**43 colores enforce** (light+dark). Rampa de
+   texto alineada al Kit (text-primary gray-800→700, secondary 600→500). Sin tokens nuevos (Rafa: no mintar
+   aliases que no estén ya en preset/JSON) → borde de input gray-200 vs Kit gray-300 allow-listado (imperceptible).
+3. ⏳ **Auditoría 81 componentes** (Rafa: "los 81 completos") — **TEED UP, arrancar aquí**. Enfoque ya
+   sondeado: Aura (`@primeng/themes/aura`) usa árbol anidado con **referencias `{form.field.border.radius}`**
+   (no valores planos) + algún literal (`2rem`); el export es PLANO (`buttonPaddingX`, 1686 claves en
+   `componentCommon` + `componentColorScheme`). El differ necesita: (a) **resolver** las refs `{…}` de Aura
+   contra su primitive/semantic, (b) **aplanar** el árbol de Aura a claves estilo export (camelCase↔path),
+   (c) **diff** contra el export → listar dónde Aura-default ≠ SC-Prime y NO lo pisa el preset (drift
+   silencioso inverso). Salida = lista de gaps para pinar en `sc-preset.ts` (ronda de decisión como bloque 2).
+   Ojo: mucho ya hereda bien (scale/radius/45-colores que SÍ matcheamos); el gap real son métricas/colores
+   per-componente que no derivan de semánticos. Es una pieza de ingeniería — merece sesión enfocada.
+4. ⏳ **Propagar flat/gris** (Rafa: Memory + config) — **BLOQUEADO: necesita el Figma** de esas pantallas
+   (regla: nada a ciegas). Paneles gray-50 + radius + sin sombra + botones small. Pedir a Rafa los links.
 
 Objetivo permanente: **reducir deuda de diseño + consistencia**. Ver [[project_parity_consistency_north_star]].
 
