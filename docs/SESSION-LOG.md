@@ -10,6 +10,76 @@
 
 ---
 
+## 2026-05-29 · Session 64 — Tabla Agentes Figma (polish Light + Dark roto) + límite Kit Pro datatable
+
+> Sesión 100% Figma (cero código en repo). Pulida la tabla de Agentes del fichero SC Prime,
+> intento Dark + descubierto bug de tokens, y empírica brutal sobre composabilidad del Kit Pro
+> datatable. Conclusión grande: la decisión del equipo (frames + atomic instances) era correcta
+> dada una limitación de Figma que no era obvia. Cuatro flip-flops por mi parte antes de correr
+> el test empírico → memoria nueva grabada.
+
+**Polish Light mode (Tabla Agentes node `12397:3671`):**
+- 16 swaps en columna **Canales**: rectángulos placeholder → instances reales de Smart-Contact
+  Icons `phone`/`chat`/`mail` (variante `Style=Round`). Por agente: Mario=phone, Oscar=phone+chat+mail,
+  María=phone+chat, Rafael=phone+mail, resto=phone.
+- 12 swaps en columna **3-dots**: icon `check` (default placeholder del button) → `more_vert` Round.
+- 2 swaps **toolbar icon-buttons**: izq `check`→`view_week` (column selector), der `check`→`file_download`
+  (export).
+- Falsa alarma propia confirmada: avatar `Show Badge=false` y checkbox `Show Label=false` YA estaban
+  bien — los nodos están en la estructura pero el boolean property los oculta.
+
+**Dark mode duplicado (frame `12473:22393`):**
+- Clonado el frame Light, set `explicitVariableModes` para Color Schemes Component (`7225:1`) +
+  Semantic (`9117:1`).
+- 🔴 **Bug detectado**: backgrounds + chips + avatars + buttons switchean correctamente, pero los
+  textos del body (nombres "Mario Pérez", extensiones "122", "Disponible") **no aparecen** en Dark.
+- Diagnóstico: los TEXT nodes tienen fill SOLID con boundVariable a `text/color` (id `9114:24167`)
+  pero esa variable no swap visualmente (Dark resolution sigue dando un gris cercano al background).
+  No es text fill hardcoded — está bindeado pero el binding no resuelve light/dark.
+- Pendiente fix en próxima sesión.
+
+**Sparring sobre instances vs frames del datatable (4 flip-flops míos):**
+- Rafa preguntó por qué la tabla pintada no es instance del Kit Pro datatable.
+- Mi 1ª respuesta: "Kit Pro `datatable-row` es componente DOC, no composable". FALSO.
+- Tras Rafa enseñar Examples frame (`7215:135586`): `datatable-content` tiene Type variant axis
+  con 7 opciones (Text/Image/Tag/Rating/Checkbox/RadioButton/Row Toggle Button).
+- Mi 2ª respuesta: "necesitamos extender datatable-content con 3 variants nuevos (Avatar+Name /
+  IconsRow / MoreMenu)". Sobre-engineered.
+- Tras Rafa insistir: realmente NO necesitamos extender, los frames+atomic instances actuales
+  ya cubren. Cambio de opinión.
+- Tras Rafa empujar otra vez: **test empírico en Playground** (instance node `12491:22687`).
+  Resultado real: ✅ se puede instanciar `datatable-row`, ✅ Type variants per cell funcionan,
+  ❌ **per-cell widths NO se pueden overridear** dentro del instance — `resize()` retorna `ok:true`
+  pero Figma ignora el cambio silenciosamente (cells siguen 147px o se redistribuyen uniformes,
+  no respetan 40/771/180/120/200/220/40 de la tabla real).
+- Conclusión: el equipo usó frames porque era la **única forma** de tener layout con widths
+  personalizados. No es deuda — es la decisión correcta dada limitación Figma + Kit Pro.
+
+**Aprendizaje grabado (memoria nueva):**
+- `feedback_empirical_test_before_philosophizing` — cuando hay pregunta estructural sobre Figma
+  ("¿se puede X?", "¿el override soporta Y?"), correr test empírico en Playground INMEDIATAMENTE
+  en vez de teorizar leyendo properties/docs. En esta sesión costó 4 flip-flops y mensajes de
+  filosofía con Rafa frustrado. Trigger: cualquier `¿se puede?` + Rafa repitiendo "pero mira esto".
+- `feedback_no_external_lib_names_in_docs` — no nombrar librerías externas (SnowUI, MUI, shadcn…)
+  en customs-catalog/DECISIONS/branches/commits. Describir QUÉ hace el override, no DE DÓNDE vino.
+- Actualizada `feedback_figma_1to1_element_by_element` con el caso S64 (la 3ª recurrencia del mismo
+  patrón de "afirmar limitación sin verificar contra fuente").
+
+**Estado del fichero Figma al cierre:**
+- Frame `12397:3671` "Tabla Agentes — 1440 Light" → pulido, Light OK.
+- Frame `12473:22393` "Tabla Agentes — 1440 Dark" → creado, bug textos invisibles pendiente.
+- Instance `12491:22687` en página `🤖 Playground` → test empírico, DEJADO para que Rafa lo inspeccione
+  manualmente (UI Figma a veces expone más que Plugin API).
+- IT-view con 9 columnas (vista power-user con Activación/Grupos/Código/ACTIVO tag) → NO iniciada.
+
+**Pendiente próxima sesión:**
+- Decisión Rafa post-inspección manual del test `12491:22687` (si encuentra forma de liberar widths
+  en UI, replicamos; si confirma el bloqueo, archivamos).
+- Fix bug Dark textos invisibles (root-cause variable text/color que no swap).
+- IT-view 4 frames (Light + Dark) si seguimos pulido.
+
+---
+
 ## 2026-05-27 · Session 63 — Densidad form 14px + badge Figma (no aplana) + página Escala ds-docs
 
 > Sesión larga y muy interactiva. Rafa cazó varias cosas a ojo; se resolvieron SIEMPRE con
