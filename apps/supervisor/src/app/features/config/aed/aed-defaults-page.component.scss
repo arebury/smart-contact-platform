@@ -95,6 +95,25 @@
     border-bottom: 1px solid var(--sc-border-subtle);
   }
 
+  /* Header con icono + título (Figma: card "General/Agentes/Grupos"). */
+  &__head--icon {
+    display: flex;
+    align-items: center;
+    gap: var(--sc-spacing-0-875);
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  &__head-icon {
+    color: var(--sc-text-secondary);
+  }
+
+  &__title--lg {
+    font-size: var(--sc-font-size-300);
+    line-height: 24px;
+    font-weight: var(--sc-font-weight-semibold);
+  }
+
   &__title {
     margin: 0;
     font-size: var(--sc-font-size-200);
@@ -113,7 +132,7 @@
   &__body {
     display: flex;
     flex-direction: column;
-    gap: var(--sc-spacing-1-125);
+    gap: var(--sc-spacing-1-75);
     padding: var(--sc-spacing-1-5) var(--sc-spacing-1-75);
   }
 
@@ -162,8 +181,8 @@
     margin: 0;
     font-size: var(--sc-font-size-200);
     line-height: 22px;
-    font-weight: var(--sc-font-weight-medium);
-    color: var(--sc-text-secondary);
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-text-primary);
   }
 
   &__hint {

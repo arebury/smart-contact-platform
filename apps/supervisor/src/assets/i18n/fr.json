@@ -1477,7 +1477,8 @@
             "telefono_text": "Mettre en quarantaine pendant",
             "navegador": "Navigateur",
             "navegador_text": "Verrouiller après",
-            "conversaciones_suffix": "conversations non répondues"
+            "conversaciones_suffix": "conversations non répondues",
+            "seconds": "secondes"
           },
           "ventana": {
             "title": "Paramètres de la fenêtre d'appel et de transfert",

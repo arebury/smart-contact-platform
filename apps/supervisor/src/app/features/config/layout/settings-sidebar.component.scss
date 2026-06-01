@@ -1,48 +1,62 @@
 /*
- * Settings sidebar — Smart Contact design system
- * (Figma node 224:9167 → "SettingsSidebar").
- *
- * Fixed-width column that pins to the start of `.app-shell__content`
- * via the parent shell's `position: sticky`. The sidebar itself just
- * paints the surface, header, nav and footer — the layout component
- * handles positioning so the sidebar can be re-used in other
- * sticky-rail surfaces if we ever add one.
+ * Settings sidebar — Figma Supervisor 1:12270 (índice = panel estilo
+ * form-section-nav). Panel gray-50 recogido sobre la página blanca, con
+ * cabecera (título + subtítulo) e items con chip de icono 32×32.
  */
 :host {
   display: block;
-  height: 100%;
 }
 
 .settings-sidebar {
+  padding: var(--sc-spacing-1-75) var(--sc-spacing-1-5);
+}
+
+.settings-sidebar__panel {
+  background: var(--sc-bg-secondary-subtle);
+  border-radius: var(--sc-radius-200);
+  padding: var(--sc-spacing-1-143);
   display: flex;
   flex-direction: column;
-  height: 100%;
-  background: var(--sc-bg-surface);
-  border-right: 1px solid var(--sc-border-default);
+  gap: var(--sc-spacing-1-25);
+}
+
+.settings-sidebar__head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sc-spacing-0-375);
+}
+
+.settings-sidebar__title {
+  font-size: var(--sc-font-size-300);
+  line-height: 24px;
+  font-weight: var(--sc-font-weight-semibold);
+  color: var(--sc-text-primary);
+}
+
+.settings-sidebar__subtitle {
+  font-size: var(--sc-font-size-200);
+  line-height: 22px;
+  color: var(--sc-text-subtle);
 }
 
 .settings-sidebar__nav {
-  flex: 1;
-  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: var(--sc-spacing-0-5);
-  padding: var(--sc-spacing-1-125) var(--sc-spacing-1-75);
-  overflow-y: auto;
 }
 
 .nav-item {
   display: flex;
   align-items: center;
-  gap: var(--sc-spacing-0-5);
-  padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
+  gap: var(--sc-spacing-0-875);
+  padding: var(--sc-spacing-0-5);
   border-radius: var(--sc-radius-200);
   text-decoration: none;
   color: inherit;
   transition: background var(--sc-transition-fast) ease;
 
   &:hover {
-    background: var(--sc-bg-secondary-subtle);
+    background: var(--sc-color-gray-100);
   }
 
   &:focus-visible {
@@ -51,52 +65,33 @@
   }
 
   &--active {
-    background: var(--sc-bg-secondary-subtle);
-
-    /* Active item paints the icon chip with the brand surface — same
-     * cue as the Figma source. Hover on top stays subtle so the
-     * "current section" reading wins. */
-    .nav-item__icon {
-      background: var(--sc-bg-primary);
-      color: var(--sc-text-on-primary);
-      border-color: transparent;
-    }
+    background: var(--sc-color-gray-100);
 
     .nav-item__label {
       color: var(--sc-text-primary);
+      font-weight: var(--sc-font-weight-semibold);
     }
   }
 }
 
 .nav-item__icon {
   flex: 0 0 auto;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: var(--sc-radius-200);
-  background: var(--sc-color-gray-100);
+  background: var(--sc-bg-surface);
   color: var(--sc-text-secondary);
-  border: 1px solid transparent;
-  transition:
-    background var(--sc-transition-fast) ease,
-    color var(--sc-transition-fast) ease;
-}
-
-.nav-item__copy {
-  display: flex;
-  min-width: 0;
-  flex: 1 1 auto;
-  overflow: hidden;
+  border: 1px solid var(--sc-border-subtle);
 }
 
 .nav-item__label {
   font-family: var(--sc-font-family-primary);
-  font-size: var(--sc-font-size-100);
-  line-height: 20px;
+  font-size: var(--sc-font-size-200);
+  line-height: 22px;
   font-weight: var(--sc-font-weight-medium);
   color: var(--sc-text-secondary);
   white-space: nowrap;
-  flex: 0 0 auto;
 }

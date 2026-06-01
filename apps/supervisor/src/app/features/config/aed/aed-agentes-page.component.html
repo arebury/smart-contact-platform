@@ -47,27 +47,25 @@
                   {{ 'config.aed.subpages.agentes.comunicaciones.row_' + row | translate }}
                 </th>
                 <td class="comm-table__cell">
-                  <input
-                    type="checkbox"
-                    [checked]="form().permisos[row].transferencias"
-                    (change)="togglePermiso(row, 'transferencias')"
-                    [attr.aria-label]="
+                  <sc-checkbox
+                    [state]="form().permisos[row].transferencias ? 'all' : 'none'"
+                    [ariaLabel]="
                       ('config.aed.subpages.agentes.comunicaciones.row_' + row | translate) +
                       ' — ' +
                       ('config.aed.subpages.agentes.comunicaciones.col_transferencias' | translate)
                     "
+                    (cycle)="setPermiso(row, 'transferencias', $event)"
                   />
                 </td>
                 <td class="comm-table__cell">
-                  <input
-                    type="checkbox"
-                    [checked]="form().permisos[row].permisos"
-                    (change)="togglePermiso(row, 'permisos')"
-                    [attr.aria-label]="
+                  <sc-checkbox
+                    [state]="form().permisos[row].permisos ? 'all' : 'none'"
+                    [ariaLabel]="
                       ('config.aed.subpages.agentes.comunicaciones.row_' + row | translate) +
                       ' — ' +
                       ('config.aed.subpages.agentes.comunicaciones.col_permisos' | translate)
                     "
+                    (cycle)="setPermiso(row, 'permisos', $event)"
                   />
                 </td>
               </tr>

@@ -17,6 +17,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
+  CheckboxComponent,
   IconComponent,
   InputTextComponent,
   InputGroupComponent,
@@ -124,6 +125,7 @@ const NOTIF_EVENTOS: readonly (keyof NotifEventos)[] = ['inicio', 'fin', 'result
   selector: 'sc-aed-servicio-page',
   imports: [
     ButtonModule,
+    CheckboxComponent,
     IconComponent,
     InputTextComponent,
     InputGroupComponent,
@@ -145,7 +147,6 @@ export class AedServicioPageComponent implements OnDestroy {
   protected readonly pageIcon = 'call';
   protected readonly addIcon = 'add';
   protected readonly kebabIcon = 'more_vert';
-  protected readonly infoIcon = 'info';
 
   protected readonly descuelgueOptions = DESCUELGUE_OPTIONS;
   protected readonly visibilidadLabels = VISIBILIDAD_LABELS;
@@ -219,10 +220,14 @@ export class AedServicioPageComponent implements OnDestroy {
   protected hasEntranteUrl = computed(() => this.form().notifEntranteUrl.trim().length > 0);
   protected hasSalienteUrl = computed(() => this.form().notifSalienteUrl.trim().length > 0);
 
-  protected toggleNotif(channel: 'notifEntrante' | 'notifSaliente', key: keyof NotifEventos): void {
+  protected toggleNotif(
+    channel: 'notifEntrante' | 'notifSaliente',
+    key: keyof NotifEventos,
+    value: boolean,
+  ): void {
     this.form.update((f) => ({
       ...f,
-      [channel]: { ...f[channel], [key]: !f[channel][key] },
+      [channel]: { ...f[channel], [key]: value },
     }));
     this.dirty.set(true);
   }

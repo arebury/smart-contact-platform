@@ -9,7 +9,9 @@
 :host {
   display: block;
   min-height: 100%;
-  background: var(--sc-bg-secondary-subtle);
+  /* Figma: content/background = #fff. Página blanca; el rail es un panel
+   * gray-50 recogido sobre el blanco (patrón form-pages, customs §2.7). */
+  background: var(--sc-bg-surface);
 }
 
 .settings-shell {

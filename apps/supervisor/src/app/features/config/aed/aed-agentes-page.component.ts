@@ -15,7 +15,12 @@ import { ButtonModule } from 'primeng/button';
 
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
-import { IconComponent, InputTextComponent, ToggleSwitchComponent } from '@shared/components';
+import {
+  CheckboxComponent,
+  IconComponent,
+  InputTextComponent,
+  ToggleSwitchComponent,
+} from '@shared/components';
 
 type ComunicacionKey =
   | 'fijos'
@@ -73,6 +78,7 @@ const DEFAULT_FORM: FormState = {
   selector: 'sc-aed-agentes-page',
   imports: [
     ButtonModule,
+    CheckboxComponent,
     IconComponent,
     InputTextComponent,
     ToggleSwitchComponent,
@@ -110,12 +116,12 @@ export class AedAgentesPageComponent implements OnDestroy {
     this.topBarSlot.clearActions();
   }
 
-  protected togglePermiso(row: ComunicacionKey, col: PermisoCol): void {
+  protected setPermiso(row: ComunicacionKey, col: PermisoCol, value: boolean): void {
     this.form.update((f) => ({
       ...f,
       permisos: {
         ...f.permisos,
-        [row]: { ...f.permisos[row], [col]: !f.permisos[row][col] },
+        [row]: { ...f.permisos[row], [col]: value },
       },
     }));
     this.dirty.set(true);

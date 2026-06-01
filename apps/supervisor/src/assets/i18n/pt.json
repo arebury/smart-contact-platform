@@ -1477,7 +1477,8 @@
             "telefono_text": "Colocar em quarentena durante",
             "navegador": "Navegador",
             "navegador_text": "Bloquear após",
-            "conversaciones_suffix": "conversas não atendidas"
+            "conversaciones_suffix": "conversas não atendidas",
+            "seconds": "segundos"
           },
           "ventana": {
             "title": "Configuração da janela de chamada e transferência",

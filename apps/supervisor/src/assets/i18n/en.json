@@ -1477,7 +1477,8 @@
             "telefono_text": "Quarantine for",
             "navegador": "Browser",
             "navegador_text": "Lock after",
-            "conversaciones_suffix": "unattended conversations"
+            "conversaciones_suffix": "unattended conversations",
+            "seconds": "seconds"
           },
           "ventana": {
             "title": "Call and transfer window settings",
