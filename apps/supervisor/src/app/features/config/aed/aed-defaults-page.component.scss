@@ -11,11 +11,11 @@
 
 .page {
   &__inner {
-    /* Figma 1:12270: card hug ~565, alineado a la izquierda (anclado al rail),
-     * no centrado ni a sangre. */
-    max-width: 597px;
+    /* La card LLENA su columna (Main Content). El ancho, el centrado y el padding
+     * exterior los controla el panel completo en `settings-shell__body` (tope 1200
+     * + `margin:auto` + padding 22.75/28 + gap 28). Aquí no ponemos tope ni padding
+     * propios — la card tiene su padding interno. Modelo Figma Supervisor config AED. */
     margin: 0;
-    padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25);
   }
 
   &__header {

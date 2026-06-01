@@ -5,6 +5,27 @@
 
 ---
 
+## Estado al cerrar (Session 66, 2026-06-01) — layout responsive común config AED (Figma + código)
+
+Establecido y aplicado UN modelo de layout a las 3 pantallas de config AED (General/Agentes/Grupos),
+en Figma (5 frames) y en código. Detalle en SESSION-LOG S66 + DD#66. 1 commit a `main`, verde.
+
+**Hecho:** panel (rail + contenido) = unidad con tope `max-width 1200` + centrado; padding 22,75/28
+(tokens `scale/1-625` + `scale/2`), gap 28, rail 235, card que llena, sidebar fijo. Figma: alineadas
+`19:962`/`1:12496`/`1:12676`/`14:923` + sustituido el sidebar 64→240 en Grupos + radius del panel gris
+6→12 (concéntrico). Código: `settings-shell` a bloque (fix del `margin:auto` en flex-item), `page__inner`
+sin tope. Medido 1440/1868/2560; `tokens:guard`/`lint` verdes.
+
+**Pendiente / próximo:**
+- **Tags de estado → chips** (General "Estados de agentes"): Rafa explora en Figma ("opción 1" = chips
+  con ×). Chips para estados editables, tag para los fijos. Decidir + implementar.
+- **Card anidada en código:** Figma tiene panel gris exterior (12) + secciones blancas (8); el código solo
+  tiene las secciones (8, coincide). Portar el envoltorio gris si se adopta.
+- **Nav "pure-sc"** (277/291) vs General (235): panel visible ~235 igual; unificar componente si se quiere 1:1 estricto.
+- `32:1046` quedó a 2161 (pruebas) → resetear a 1440 si se quiere.
+
+---
+
 ## Estado al cerrar (Session 65, 2026-06-01) — config AED 3 pantallas 1:1 (código) + iftaLabel DS + tabla datatable (Figma)
 
 Sesión larga, dos hilos (Figma tabla + código config AED). Muy interactiva, Rafa corrigiendo 1:1

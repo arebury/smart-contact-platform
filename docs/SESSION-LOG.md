@@ -10,6 +10,39 @@
 
 ---
 
+## 2026-06-01 · Session 66 — config AED: layout responsive común (Figma 5 frames + código) + sidebar Grupos
+
+> Sesión de consistencia. Establecido y aplicado UN modelo de layout responsive a las 3 pantallas de
+> config AED, en Figma y en código, con mucho sparring de Rafa sobre el comportamiento en pantallas
+> anchas. 1 commit a `main`, verde.
+
+**Decisión (ver DD#66):** panel (rail + contenido) como unidad, tope `max-width 1200` + centrado; por
+debajo llena, por encima capa+centra. Padding 22,75/28, gap 28, rail 235, card que llena, sidebar fijo.
+Elegido sobre el modelo "fill sin tope" (Agentes viejo), que despegaba la card del menú en pantallas
+anchas — **probado empíricamente** clonando+estirando a 1868.
+
+**Figma (página `1:11560`):** alineadas 4 frames al modelo General — `19:962`, `1:12496` (Agentes),
+`1:12676` + `14:923` (Grupos). En Grupos **sustituido el sidebar malo de 64px por el `Sidepanel` 240**.
+Tokens de spacing bindeados a variables (`scale/1-625` + `scale/2`). Verificadas las 5 frames + stretch-test.
+**Radius:** convención exterior xl (12) / secciones lg (8) confirmada correcta (esquinas concéntricas);
+cazado y corregido un panel gris intermedio a radius 6 (invisible pero inconsistente) → igualado a 12 en
+`1:12270`/`19:962`/`1:12496`. (Rafa renombró el inner row a `content`.)
+
+**Código (`settings-shell.component.scss` + `aed-defaults-page.component.scss`):** body tope 1200 +
+centrado + padding 22,75/28 + gap 28; rail 256→235; card llena (quitado `max-width:597`). **Bug cazado
+con medición real:** `margin-inline:auto` sobre un flex-item encogía el panel a 864 → `.settings-shell`
+pasado a **bloque**. Medido a 1440/1868/2560 (body 1200 · rail 235 · card 881). `tokens:guard` ✓ · `lint` ✓.
+
+**Pendiente (próxima sesión):**
+- **Tags de estado → ¿chips?** En "Estados de agentes" (General), las tags (Disponible, Baño…) podrían ser
+  chips (× para quitar) en los estados editables; las fijas (Disponible/No disponible) seguirían tag. Rafa
+  lo explora en Figma ("opción 1" usa chips). Decidir + implementar.
+- **Card anidada en código:** Figma tiene panel gris exterior (radius 12) + secciones blancas (8); el código
+  hoy tiene solo las secciones (8, coincide). Portar el envoltorio gris si se adopta como definitivo.
+- **Componente nav "pure-sc"** (frame 277/291) vs el de General (235): panel visible ~235 igual en todas;
+  unificar el componente si se quiere 1:1 estricto.
+- `32:1046` quedó a 2161 de ancho (frame de pruebas) — resetear a 1440 si se quiere limpio.
+
 ## 2026-06-01 · Session 65 — datatable componetizado (Figma) + config AED 3 pantallas 1:1 (código)
 
 > Dos hilos. (1) Cerrado el ejercicio de la tabla de Agentes en Figma: por qué el datatable del Kit

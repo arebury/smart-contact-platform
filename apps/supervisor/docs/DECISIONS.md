@@ -7,6 +7,36 @@
 
 ---
 
+## 66 — Layout responsive común de config AED: panel con tope 1200 + centrado (2026-06-01)
+
+**Decision.** Las 3 pantallas de config AED (General/Agentes/Grupos) comparten
+UN modelo de layout. El **panel** (rail-índice + contenido) es una unidad con
+**tope `max-width: 1200`** y **centrado** (`margin-inline: auto`): por debajo de
+1200 llena el ancho disponible, por encima deja de crecer y flota centrado.
+Padding **22,75** (`--sc-spacing-1-625`) vertical / **28** (`--sc-spacing-2`)
+lateral, **gap 28** rail↔contenido, **rail 235**, y la **card llena** su columna
+(no flota centrada). El sidebar de navegación es **fijo** (240 expandido / 64
+colapsado). Vive en `settings-shell.component.scss` + `aed-defaults-page.component.scss`.
+1:1 con Figma Supervisor (página `1:11560`); tokens de spacing bindeados a las
+variables `scale/1-625` + `scale/2`.
+
+**Why.** El contenido de formulario no debe ocupar todo el viewport: estirado
+cuesta leer y aleja cada control de su etiqueta (principio "limit max-width for
+content"). El margen lateral en monitores grandes es whitespace intencional,
+patrón estándar de páginas de ajustes (GitHub/Stripe). La card llena (no flota)
+para no separarse del índice al ensanchar la pantalla.
+
+**Discarded.** (a) Centrar solo la card estrecha → se despega del rail.
+(b) Fill sin tope (modelo viejo de Agentes) → en pantallas anchas la card crece
+y flota lejos del menú con dead-space en medio (probado empíricamente estirando
+a 1868). (c) Tope mayor (>1280) → las filas de formulario se estiran y el control
+queda lejísimos del label.
+
+**Gotcha técnico.** `margin-inline: auto` sobre un **flex-item** encoge el panel
+a su contenido en vez de capar a 1200. Por eso `.settings-shell` es **bloque**
+(no flex-column): así `__body` se comporta como contenedor centrado clásico
+(llena → capa → centra). Medido a 1440/1868/2560: body 1200 · rail 235 · card 881.
+
 ## 65 — Modelo "todo arriba" en list/form pages + la ficha de identidad (2026-05-25)
 
 **Decision.** Las páginas de lista y formulario (AED + Memory) abandonan la
