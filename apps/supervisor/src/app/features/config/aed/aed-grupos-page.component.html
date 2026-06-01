@@ -65,6 +65,47 @@
           (valueChange)="onSelect('voz', $event)"
         />
 
+        <sc-select
+          class="field--full"
+          inputId="grupos-tipo-cola"
+          [label]="'config.aed.subpages.grupos.params.tipo_cola' | translate"
+          [iftaLabel]="true"
+          [options]="tipoColaOptions"
+          [value]="form().tipoColaEspera"
+          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+          (valueChange)="onSelect('tipoColaEspera', $event)"
+        />
+
+        <sc-inputtext
+          class="field--full"
+          inputId="grupos-capacidad-cola"
+          [label]="'config.aed.subpages.grupos.params.capacidad_cola' | translate"
+          [iftaLabel]="true"
+          [placeholder]="'config.aed.subpages.grupos.params.input_placeholder' | translate"
+          [value]="form().capacidadColaEspera"
+          (valueChange)="update('capacidadColaEspera', $event)"
+        />
+
+        <sc-inputtext
+          class="field--full"
+          inputId="grupos-tiempo-max"
+          [label]="'config.aed.subpages.grupos.params.tiempo_max' | translate"
+          [iftaLabel]="true"
+          [placeholder]="'config.aed.subpages.grupos.params.input_placeholder' | translate"
+          [value]="form().tiempoMaxEspera"
+          (valueChange)="update('tiempoMaxEspera', $event)"
+        />
+
+        <sc-inputtext
+          class="field--full"
+          inputId="grupos-tiempo-transfer"
+          [label]="'config.aed.subpages.grupos.params.tiempo_transfer' | translate"
+          [iftaLabel]="true"
+          [placeholder]="'config.aed.subpages.grupos.params.input_placeholder' | translate"
+          [value]="form().tiempoTransferencia"
+          (valueChange)="update('tiempoTransferencia', $event)"
+        />
+
         <div class="switch-field">
           <div class="switch-field__copy">
             <span class="switch-field__label">
@@ -77,50 +118,6 @@
             (checkedChange)="update('desbordar', $event)"
           />
         </div>
-
-        <sc-select
-          class="field--full"
-          inputId="grupos-tipo-cola"
-          [label]="'config.aed.subpages.grupos.params.tipo_cola' | translate"
-          [iftaLabel]="true"
-          [options]="tipoColaOptions"
-          [value]="form().tipoColaEspera"
-          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-          (valueChange)="onSelect('tipoColaEspera', $event)"
-        />
-
-        <sc-select
-          class="field--full"
-          inputId="grupos-capacidad-cola"
-          [label]="'config.aed.subpages.grupos.params.capacidad_cola' | translate"
-          [iftaLabel]="true"
-          [options]="capacidadColaOptions"
-          [value]="form().capacidadColaEspera"
-          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-          (valueChange)="onSelect('capacidadColaEspera', $event)"
-        />
-
-        <sc-select
-          class="field--full"
-          inputId="grupos-tiempo-max"
-          [label]="'config.aed.subpages.grupos.params.tiempo_max' | translate"
-          [iftaLabel]="true"
-          [options]="tiempoEsperaOptions"
-          [value]="form().tiempoMaxEspera"
-          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-          (valueChange)="onSelect('tiempoMaxEspera', $event)"
-        />
-
-        <sc-select
-          class="field--full"
-          inputId="grupos-tiempo-transfer"
-          [label]="'config.aed.subpages.grupos.params.tiempo_transfer' | translate"
-          [iftaLabel]="true"
-          [options]="tiempoTransferOptions"
-          [value]="form().tiempoTransferencia"
-          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-          (valueChange)="onSelect('tiempoTransferencia', $event)"
-        />
       </div>
     </section>
 

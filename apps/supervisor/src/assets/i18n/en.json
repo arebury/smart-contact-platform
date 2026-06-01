@@ -1563,7 +1563,8 @@
             "capacidad_cola": "Queue capacity",
             "tiempo_max": "Maximum queue wait time",
             "tiempo_transfer": "Transfer time",
-            "placeholder": "Select"
+            "placeholder": "Select",
+            "input_placeholder": "Type"
           },
           "apertura": {
             "title": "Contact card opening",

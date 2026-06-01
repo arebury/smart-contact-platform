@@ -47,6 +47,34 @@
   font-family: inherit;
 }
 
+/* ────────────────────────────────────────────────────────────────────
+ * IftaLabel — label dentro del campo, top-aligned (Figma node 7462:106725).
+ * El valor baja (padding-top 21 / bottom 7) y el label se fija arriba-dentro
+ * en (x 10.5, top 7), 10.5px regular #8f97a3. Decimales raw = export exacto.
+ * ────────────────────────────────────────────────────────────────────
+ */
+.sc-inputtext--ifta {
+  .sc-inputtext__control {
+    padding-top: 21px;
+    padding-bottom: 7px;
+  }
+
+  .sc-inputtext__ifta-label {
+    position: absolute;
+    top: 7px;
+    left: 10.5px;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 2px;
+    font-size: 10.5px;
+    line-height: 1;
+    font-weight: var(--sc-font-weight-regular);
+    color: var(--sc-text-subtle);
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
 /* Base (md) font-size. PrimeNG hardcodes `.p-inputtext { font-size: 1rem }`
  * (16px) y el export del Kit Pro NO define `form.field.font.size` base, así
  * que el md se fugaba a 16px (Aura). La rampa del Kit es 12.25/[14]/15.75 →

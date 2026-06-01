@@ -51,6 +51,7 @@ let scInputIdCounter = 0;
     '[class.sc-inputtext--invalid]': 'isInvalid()',
     '[class.sc-inputtext--disabled]': 'disabled()',
     '[class.sc-inputtext--filled]': 'filled()',
+    '[class.sc-inputtext--ifta]': 'iftaLabel()',
   },
 })
 export class InputTextComponent implements ControlValueAccessor {
@@ -74,6 +75,13 @@ export class InputTextComponent implements ControlValueAccessor {
   readonly inputmode = input<string>();
   /** Background "filled" variant (Figma node 1729:42481): bg slate-50. */
   readonly filled = input<boolean>(false);
+  /**
+   * Label dentro del campo (IftaLabel — *In-Field Top Aligned*, Figma node
+   * `7462:106725`). El `label` se fija arriba-dentro del campo y el valor baja
+   * (padding-top 21 / bottom 7, label 10.5px regular `#8f97a3` en x10.5/top7).
+   * Opt-in; los inputs con label-encima no cambian.
+   */
+  readonly iftaLabel = input<boolean>(false);
 
   // ─── Two-way value binding (signal-friendly) ───────────────────────
   /** Current value. Use `[(value)]="signalName"` from consumers. */

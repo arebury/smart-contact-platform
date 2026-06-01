@@ -348,7 +348,9 @@ el trigger:
 1. `<sc-inputtext>` ↔ `❖ inputtext` — nodeId `23:835` (mapping completo arriba)
 2. `<sc-inputnumber>` ↔ `❖ inputnumber` — pendiente nodeId, sigue patrón inputtext
 3. `<sc-inputgroup>` ↔ `❖ inputgroup` — pendiente nodeId
-4. `<sc-multiselect>` ↔ `❖ multiselect` — pendiente nodeId
+4. `<sc-multiselect>` ↔ `❖ multiselect` — nodeId `6738:22651` (Kit Pro). Selección
+   múltiple con chips. Soporta también el eje `Float Label`/IftaLabel (label dentro).
+   Candidato para varios dropdowns de config (a confirmar single vs multi por campo).
 5. `<sc-toggleswitch>` ↔ `❖ toggleswitch` — nodeId `260:11899` (arriba)
 6. `<sc-dialog>` ↔ `❖ dialog` — pendiente nodeId (tokens `--sc-dialog-*` ya alineados)
 7. `<sc-checkbox>` ↔ `❖ checkbox` — nodeId `148:6321` (Kit Pro). Set con eje

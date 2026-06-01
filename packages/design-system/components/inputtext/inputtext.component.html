@@ -1,4 +1,4 @@
-@if (label()) {
+@if (label() && !iftaLabel()) {
   <label class="sc-inputtext__label" [attr.for]="resolvedId()">
     {{ label() }}
     @if (required()) {
@@ -27,6 +27,15 @@
     (input)="onInput($event)"
     (blur)="onBlur()"
   />
+
+  @if (iftaLabel() && label()) {
+    <label class="sc-inputtext__ifta-label" [attr.for]="resolvedId()">
+      {{ label() }}
+      @if (required()) {
+        <span class="sc-inputtext__required" aria-hidden="true">*</span>
+      }
+    </label>
+  }
 </div>
 
 @if (footerText()) {

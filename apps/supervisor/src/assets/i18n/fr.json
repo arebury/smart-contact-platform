@@ -1563,7 +1563,8 @@
             "capacidad_cola": "Capacité de la file d'attente",
             "tiempo_max": "Temps d'attente maximal en file",
             "tiempo_transfer": "Temps de transfert",
-            "placeholder": "Sélectionner"
+            "placeholder": "Sélectionner",
+            "input_placeholder": "Saisir"
           },
           "apertura": {
             "title": "Ouverture de la fiche",

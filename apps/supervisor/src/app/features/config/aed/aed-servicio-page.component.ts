@@ -152,11 +152,17 @@ export class AedServicioPageComponent implements OnDestroy {
   protected readonly visibilidadLabels = VISIBILIDAD_LABELS;
   protected readonly notifEventos = NOTIF_EVENTOS;
 
+  /** Estado original (guardado). `dirty` se deriva comparando con esto, así
+   * que deshacer los cambios (volver a los valores originales) desactiva el
+   * guardar — no hay cambio que persistir. */
+  private readonly pristine = signal<FormState>(this.cloneDefault());
   protected readonly form = signal<FormState>(this.cloneDefault());
   protected readonly tagInput = signal('');
-  protected readonly dirty = signal(false);
   protected readonly saving = signal(false);
 
+  protected readonly dirty = computed(
+    () => JSON.stringify(this.form()) !== JSON.stringify(this.pristine()),
+  );
   protected readonly canSave = computed(() => this.dirty() && !this.saving());
 
   /** Guardar/Cancelar proyectados a la TopBar (modelo "todo arriba" S59). */
@@ -187,7 +193,6 @@ export class AedServicioPageComponent implements OnDestroy {
       estadosNoDisponibles: [...f.estadosNoDisponibles, next],
     }));
     this.tagInput.set('');
-    this.dirty.set(true);
   }
 
   protected removeReason(reason: string): void {
@@ -195,7 +200,6 @@ export class AedServicioPageComponent implements OnDestroy {
       ...f,
       estadosNoDisponibles: f.estadosNoDisponibles.filter((t) => t !== reason),
     }));
-    this.dirty.set(true);
   }
 
   protected onReasonKeydown(event: KeyboardEvent): void {
@@ -212,7 +216,6 @@ export class AedServicioPageComponent implements OnDestroy {
       ...f,
       visibilidadEstados: { ...f.visibilidadEstados, [key]: value },
     }));
-    this.dirty.set(true);
   }
 
   /* ---------- Notificaciones (eventos gated por URL) ---------- */
@@ -229,14 +232,12 @@ export class AedServicioPageComponent implements OnDestroy {
       ...f,
       [channel]: { ...f[channel], [key]: value },
     }));
-    this.dirty.set(true);
   }
 
   /* ---------- Generic field updates ---------- */
 
   protected update<K extends keyof FormState>(key: K, value: FormState[K]): void {
     this.form.update((f) => ({ ...f, [key]: value }));
-    this.dirty.set(true);
   }
 
   protected onNumberChange<K extends 'cuarentenaSegundos' | 'bloquearTrasConversaciones'>(
@@ -257,9 +258,8 @@ export class AedServicioPageComponent implements OnDestroy {
   /* ---------- Save / cancel (TopBar) ---------- */
 
   protected cancel(): void {
-    this.form.set(this.cloneDefault());
+    this.form.set(structuredClone(this.pristine()));
     this.tagInput.set('');
-    this.dirty.set(false);
   }
 
   protected save(): void {
@@ -267,7 +267,7 @@ export class AedServicioPageComponent implements OnDestroy {
     this.saving.set(true);
     setTimeout(() => {
       this.saving.set(false);
-      this.dirty.set(false);
+      this.pristine.set(structuredClone(this.form()));
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('config.aed.subpages.servicio.toast.saved'),

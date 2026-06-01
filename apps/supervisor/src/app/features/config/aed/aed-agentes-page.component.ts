@@ -97,10 +97,15 @@ export class AedAgentesPageComponent implements OnDestroy {
 
   protected readonly comunicacionKeys = COMUNICACION_KEYS;
 
+  private readonly pristine = signal<FormState>(this.cloneDefault());
   protected readonly form = signal<FormState>(this.cloneDefault());
-  protected readonly dirty = signal(false);
   protected readonly saving = signal(false);
 
+  /** Dirty real = el form difiere del original guardado (deshacer cambios →
+   * no deja guardar). */
+  protected readonly dirty = computed(
+    () => JSON.stringify(this.form()) !== JSON.stringify(this.pristine()),
+  );
   protected readonly canSave = computed(() => this.dirty() && !this.saving());
 
   private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
@@ -124,7 +129,6 @@ export class AedAgentesPageComponent implements OnDestroy {
         [row]: { ...f.permisos[row], [col]: value },
       },
     }));
-    this.dirty.set(true);
   }
 
   protected update<K extends Exclude<keyof FormState, 'permisos'>>(
@@ -132,12 +136,10 @@ export class AedAgentesPageComponent implements OnDestroy {
     value: FormState[K],
   ): void {
     this.form.update((f) => ({ ...f, [key]: value }));
-    this.dirty.set(true);
   }
 
   protected cancel(): void {
-    this.form.set(this.cloneDefault());
-    this.dirty.set(false);
+    this.form.set(structuredClone(this.pristine()));
   }
 
   protected save(): void {
@@ -145,7 +147,7 @@ export class AedAgentesPageComponent implements OnDestroy {
     this.saving.set(true);
     setTimeout(() => {
       this.saving.set(false);
-      this.dirty.set(false);
+      this.pristine.set(structuredClone(this.form()));
       this.messages.add({
         severity: 'success',
         summary: this.translate.instant('config.aed.subpages.agentes.toast.saved'),

@@ -1563,7 +1563,8 @@
             "capacidad_cola": "Capacidad de cola de espera",
             "tiempo_max": "Tiempo máximo de espera en cola",
             "tiempo_transfer": "Tiempo de transferencia",
-            "placeholder": "Seleccionar"
+            "placeholder": "Seleccionar",
+            "input_placeholder": "Escribir"
           },
           "apertura": {
             "title": "Apertura de ficha",

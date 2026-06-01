@@ -241,20 +241,18 @@
           </header>
 
           <div class="grid grid--2">
-            <div class="field">
-              <label class="field__label" for="general-descuelgue">
-                {{ 'config.aed.subpages.servicio.aviso.descuelgue_label' | translate }}
-              </label>
-              <sc-select
-                inputId="general-descuelgue"
-                [options]="descuelgueOptions"
-                [value]="form().tipoDescuelgue"
-                [placeholder]="
-                  'config.aed.subpages.servicio.aviso.descuelgue_placeholder' | translate
-                "
-                (valueChange)="onDescuelgueChange($event)"
-              />
-            </div>
+            <sc-select
+              class="field"
+              inputId="general-descuelgue"
+              [label]="'config.aed.subpages.servicio.aviso.descuelgue_label' | translate"
+              [iftaLabel]="true"
+              [options]="descuelgueOptions"
+              [value]="form().tipoDescuelgue"
+              [placeholder]="
+                'config.aed.subpages.servicio.aviso.descuelgue_placeholder' | translate
+              "
+              (valueChange)="onDescuelgueChange($event)"
+            />
 
             <div class="field">
               <span class="field__label">
