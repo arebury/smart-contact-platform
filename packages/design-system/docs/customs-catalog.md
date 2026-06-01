@@ -215,6 +215,22 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
 - **Estado**: prototipo Figma montado en `Flujos` (`fila-agente` + tabla 12 filas, light+dark OK).
   Pendiente: llevar el `<td>` template al código AED (`<p-table>` de la pantalla Agentes).
 
+### 2.9 IftaLabel — label dentro del campo en sc-select / sc-inputtext / sc-multiselect (S65)
+
+- **Figma**: `❖ IftaLabel` (node `7462:106725`) — *In-Field Top Aligned*: el label se fija
+  arriba-dentro del campo y el valor baja. El Kit lo usa en los selects/inputs de config Grupos
+  (Figma Supervisor `1:12676`). Distinto de `❖ FloatLabel` (`7421:322901`, el label flota al focus).
+- **SC**: input opt-in **`[iftaLabel]`** en `<sc-select>`, `<sc-inputtext>` y `<sc-multiselect>`.
+  Cuando está activo, el label-encima se oculta y se renderiza dentro del `.sc-*__field` (relative),
+  con el valor empujado hacia abajo.
+- **Tokens** (del export; decimales raw = valor exacto): `iftalabel/input/padding/top 21` ·
+  `/bottom 7` · label `iftalabel/font/size 10.5` · `/weight 400` · color `iftalabel/color #8f97a3`
+  (`--sc-text-subtle`) en `(x 10.5, top 7)`.
+- **Opt-in**: `default false`; los campos con label-encima del resto de la app no cambian. **Sin
+  tokens nuevos.** En uso: selects/inputs de config Grupos + "Tipo de descuelgue" de General.
+- **Pendiente**: extender a `<sc-inputnumber>` cuando un diseño lo pida.
+- **Mapping**: `code-connect-mapping.md` (nodos checkbox/select/multiselect/FloatLabel/IftaLabel).
+
 ---
 
 ## 3. Component overloads (slots reusados con semántica SC)

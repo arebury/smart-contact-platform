@@ -5,6 +5,42 @@
 
 ---
 
+## Estado al cerrar (Session 65, 2026-06-01) — config AED 3 pantallas 1:1 (código) + iftaLabel DS + tabla datatable (Figma)
+
+Sesión larga, dos hilos (Figma tabla + código config AED). Muy interactiva, Rafa corrigiendo 1:1
+contra el Figma Supervisor. ~8 commits a `main` (`5365a66`→`3e6e2b6`), todo verde (build/lint/i18n/
+e2e 28-28). Detalle en SESSION-LOG S65. (S64 fue 100% Figma — ver SESSION-LOG, no llegó a este doc.)
+
+**Hecho:**
+1. **Tabla Agentes / datatable** (Figma): `fila-agente` compuesto con primitivos del Kit + bind a
+   variables (light+dark OK). Docs `customs-catalog §2.8` + `extender-kit-pro-guia-diseno.md`.
+2. **Config AED — 3 pantallas 1:1** (General/Agentes/Grupos): flush + **save arriba** (TopBar slot) +
+   breadcrumb "Administración › X › Editar X" + **color gray/50 bg + cards blanco + rail panel** +
+   `sc-checkbox` + **dirty inteligente**. Grupos: 4 multi-select + 3 inputtext + Apertura single.
+3. **DS: variante `[iftaLabel]`** (label dentro) en `sc-select` + `sc-inputtext` + `sc-multiselect`
+   (opt-in). Registros en `code-connect-mapping.md` con node IDs + tokens. customs-catalog §2.9.
+
+**Pendiente / próximo (config AED):**
+- **Opciones reales de Grupos**: Estrategia/Prioridad/Voz/Tipo de cola/Capacidad/Tiempos siguen con
+  valores **INVENTADOS** (placeholders). Cuando Rafa pase los reales, cambiarlos.
+- **`iftaLabel` para `sc-inputnumber`**: pendiente si algún diseño lo pide.
+- **Más pantallas config/AED 1:1**: si Rafa pasa más Figmas (Supervisor `Hjyy41…`), mismo patrón.
+- Estados de agentes: el kebab (⋮) hoy elimina directo; si se quiere menú Editar/Eliminar, ampliar.
+
+**Contexto para no perder (cómo está montado):**
+- **Save arriba** = `TopBarSlotService.setActions(tpl)` desde cada página (viewChild `#topbarActions`
+  + `afterNextRender` + `clearActions()` en `ngOnDestroy`). Patrón copiado de `agent-form-page`.
+- **Color config (NO invertir)**: shell `:host` bg = `--sc-bg-secondary-subtle` (gray/50); cards =
+  `--sc-bg-surface` (blanco); rail = panel gray/50 (blende, item activo chip navy + label bold).
+- **iftaLabel**: `[iftaLabel]="true"` + `[label]` en el componente → label dentro (padding-top 21).
+  Default `false`; los campos con label-encima del resto de la app NO cambian.
+- **Dirty**: `pristine` signal + `dirty = computed(JSON.stringify(form)!==stringify(pristine))`; save
+  fija `pristine = form`; cancel hace `form ← pristine`.
+- Páginas: `apps/supervisor/src/app/features/config/aed/aed-{servicio,agentes,grupos}-page.*` + shell/
+  sidebar en `config/layout/`. Datos = signals **mock** (sin backend). Ruta servicio = `/config/aed/servicio` rótulo "General".
+
+---
+
 ## Estado al cerrar (Session 63, 2026-05-27) — densidad form 14px + badge Figma + página Escala ds-docs
 
 Sesión muy interactiva (Rafa cazaba a ojo, se resolvía con dato). ~8 commits a `main`, todo verde.

@@ -10,6 +10,52 @@
 
 ---
 
+## 2026-06-01 · Session 65 — datatable componetizado (Figma) + config AED 3 pantallas 1:1 (código)
+
+> Dos hilos. (1) Cerrado el ejercicio de la tabla de Agentes en Figma: por qué el datatable del Kit
+> Pro no se reusa tal cual y cómo se compone `fila-agente` con primitivos + bind a variables
+> (light+dark). (2) Rediseño 1:1 de las 3 pantallas de config AED en código (General/Agentes/Grupos)
+> contra el Figma Supervisor, con muchas correcciones de Rafa. ~8 commits a `main`, todo verde.
+
+**Hilo 1 — Tabla Agentes / datatable (Figma `khNq9…`):**
+- Estudio empírico: el `datatable` del Kit Pro es monolito (4 booleanos); el contenido vive en
+  `datatable-content` (eje `Type`: Text/Checkbox/Tag/Rating/Image/Row Toggle). Avatar+nombre y fila
+  de iconos NO existen en el Kit (ni Part ni ejemplo). En código tampoco son componentes (el `<td>`
+  inline-compone primitivos).
+- Decisión: componer con primitivos del Kit (avatar+texto, iconos), swap en celdas reales →
+  `fila-agente` (componente SC en `Flujos`). Cero tokens, cero edición de mains.
+- Bug Dark cerrado: lo que añadimos hay que **bindear fills a variables** del datatable
+  (`datatable/row/color`, `/background`, header bg) o queda invisible en dark.
+- Docs: `customs-catalog §2.8` (técnico) + `extender-kit-pro-guia-diseno.md` (diseño).
+
+**Hilo 2 — Config AED 3 pantallas 1:1 (código, Figma Supervisor `Hjyy41…`):**
+- General/Agentes/Grupos rediseñadas: página flush, **guardado único arriba** (TopBar slot,
+  modelo todo-arriba), rótulo Servicio→General, breadcrumb "Administración › X › Editar X".
+- **Modelo de color** (corregido tras invertirlo a ojo): **fondo plataforma gray/50, cards blanco
+  surface, rail (índice) panel gray/50 que blende**, item activo chip navy + label bold (spec
+  exacto `1:12355`).
+- General: estados de agentes (Disponible/No disponible fijos sin ⋮; motivos editables con ⋮ +
+  Estado administrativo), inactividad, ventana, estados visibles (toggles+barra), aviso,
+  notificaciones 2-URL con eventos gated por URL.
+- Agentes: matriz Comunicaciones (filas × Transferencias/Permisos) + 3 toggles + URL embebida.
+- Grupos: Estrategia/Prioridad/Voz/Tipo de cola = **multi-select**; Capacidad/Tiempo máximo/Tiempo
+  de transferencia = **inputtext** ("Escribir"); Desbordar (toggle) al final; Apertura = single select.
+- **`sc-checkbox`** oficial del Kit en vez de inputs nativos.
+- **Variante `[iftaLabel]`** (label dentro, IftaLabel `7462:106725`) añadida a **`sc-select` +
+  `sc-inputtext` + `sc-multiselect`** (opt-in, sin regresión). Tokens: padding-top 21/bottom 7,
+  label 10.5 regular #8f97a3 @ x10.5/top7.
+- **Dirty inteligente**: derivado comparando el form con el estado original (pristine); deshacer los
+  cambios desactiva Guardar. En las 3 páginas.
+- Registrados en `code-connect-mapping.md`: checkbox `148:6321`, select `156:5882`, multiselect
+  `6738:22651`, FloatLabel `7421:322901`, IftaLabel `7462:106725` (con tokens).
+- Salud: build + lint + i18n (×4) OK · **e2e 28/28** · verificado visualmente con Playwright.
+- Commits: `5365a66` → `3e6e2b6` (~8 a `main`).
+
+**Memoria nueva:** `feedback_no_eli5_labels_in_docs` — nunca etiquetas de estilo ("ELI5",
+"lenguaje plano") DENTRO de la doc; el estilo claro es para el chat, la doc va con framing profesional.
+
+---
+
 ## 2026-05-29 · Session 64 — Tabla Agentes Figma (polish Light + Dark roto) + límite Kit Pro datatable
 
 > Sesión 100% Figma (cero código en repo). Pulida la tabla de Agentes del fichero SC Prime,
