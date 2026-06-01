@@ -32,7 +32,7 @@
       </div>
 
       <div class="settings-card__body">
-        <sc-select
+        <sc-multiselect
           class="field--full"
           inputId="grupos-estrategia"
           [label]="'config.aed.subpages.grupos.params.estrategia' | translate"
@@ -40,10 +40,10 @@
           [options]="estrategiaOptions"
           [value]="form().estrategia"
           [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-          (valueChange)="onSelect('estrategia', $event)"
+          (valueChange)="onMulti('estrategia', $event)"
         />
 
-        <sc-select
+        <sc-multiselect
           class="field--full"
           inputId="grupos-prioridad"
           [label]="'config.aed.subpages.grupos.params.prioridad' | translate"
@@ -51,10 +51,10 @@
           [options]="prioridadOptions"
           [value]="form().prioridad"
           [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-          (valueChange)="onSelect('prioridad', $event)"
+          (valueChange)="onMulti('prioridad', $event)"
         />
 
-        <sc-select
+        <sc-multiselect
           class="field--full"
           inputId="grupos-voz"
           [label]="'config.aed.subpages.grupos.params.voz' | translate"
@@ -62,10 +62,10 @@
           [options]="vozOptions"
           [value]="form().voz"
           [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-          (valueChange)="onSelect('voz', $event)"
+          (valueChange)="onMulti('voz', $event)"
         />
 
-        <sc-select
+        <sc-multiselect
           class="field--full"
           inputId="grupos-tipo-cola"
           [label]="'config.aed.subpages.grupos.params.tipo_cola' | translate"
@@ -73,7 +73,7 @@
           [options]="tipoColaOptions"
           [value]="form().tipoColaEspera"
           [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-          (valueChange)="onSelect('tipoColaEspera', $event)"
+          (valueChange)="onMulti('tipoColaEspera', $event)"
         />
 
         <sc-inputtext

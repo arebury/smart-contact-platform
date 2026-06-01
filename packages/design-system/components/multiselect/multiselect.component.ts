@@ -53,6 +53,7 @@ let scMultiSelectIdCounter = 0;
     '[class.sc-multiselect--invalid]': 'isInvalid()',
     '[class.sc-multiselect--disabled]': 'disabled()',
     '[class.sc-multiselect--filled]': 'filled()',
+    '[class.sc-multiselect--ifta]': 'iftaLabel()',
   },
 })
 export class MultiSelectComponent implements ControlValueAccessor {
@@ -90,6 +91,13 @@ export class MultiSelectComponent implements ControlValueAccessor {
   readonly emptyMessage = input<string>('Sin opciones');
   /** Background "filled" variant (Figma node 6220:7054): bg slate-50. */
   readonly filled = input<boolean>(false);
+  /**
+   * Label dentro del campo (IftaLabel — *In-Field Top Aligned*, Figma node
+   * `7462:106725`). El `label` se fija arriba-dentro del campo y el valor baja
+   * (padding-top 21 / bottom 7, label 10.5px regular `#8f97a3` en x10.5/top7).
+   * Opt-in; los multiselect con label-encima no cambian.
+   */
+  readonly iftaLabel = input<boolean>(false);
 
   // ─── Two-way value binding ─────────────────────────────────────────
   /** Array of selected values (id-only if `optionValue` set, else whole objects). */

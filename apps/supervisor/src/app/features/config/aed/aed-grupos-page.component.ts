@@ -18,20 +18,24 @@ import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   IconComponent,
   InputTextComponent,
+  MultiSelectComponent,
   SelectComponent,
   ToggleSwitchComponent,
 } from '@shared/components';
 
 interface FormState {
-  estrategia: string;
-  prioridad: string;
-  voz: string;
-  desbordar: boolean;
-  tipoColaEspera: string;
+  /** Multi-select (varias opciones) — Figma `❖ multiselect`. */
+  estrategia: string[];
+  prioridad: string[];
+  voz: string[];
+  tipoColaEspera: string[];
+  /** Texto libre. */
   capacidadColaEspera: string;
   tiempoMaxEspera: string;
   tiempoTransferencia: string;
+  /** Single-select. */
   aperturaTipo: string;
+  desbordar: boolean;
 }
 
 const ESTRATEGIA_OPTIONS = [
@@ -51,15 +55,15 @@ const TIPO_COLA_OPTIONS = [
 const APERTURA_OPTIONS = ['Automática', 'Manual', 'Ninguna'] as const;
 
 const DEFAULT_FORM: FormState = {
-  estrategia: '',
-  prioridad: '',
-  voz: '',
-  desbordar: true,
-  tipoColaEspera: '',
+  estrategia: [],
+  prioridad: [],
+  voz: [],
+  tipoColaEspera: [],
   capacidadColaEspera: '',
   tiempoMaxEspera: '',
   tiempoTransferencia: '',
   aperturaTipo: '',
+  desbordar: true,
 };
 
 /**
@@ -76,6 +80,7 @@ const DEFAULT_FORM: FormState = {
     ButtonModule,
     IconComponent,
     InputTextComponent,
+    MultiSelectComponent,
     SelectComponent,
     ToggleSwitchComponent,
     TranslateModule,
@@ -125,12 +130,20 @@ export class AedGruposPageComponent implements OnDestroy {
     this.form.update((f) => ({ ...f, [key]: value }));
   }
 
-  /** Adapter para `<sc-select>` (emite `unknown`). Coerce a string. */
-  protected onSelect<K extends Exclude<keyof FormState, 'desbordar'>>(
-    key: K,
-    value: unknown,
-  ): void {
+  /** Adapter para `<sc-select>` single (Apertura de ficha). */
+  protected onSelect(key: 'aperturaTipo', value: unknown): void {
     if (typeof value === 'string') this.update(key, value);
+  }
+
+  /** Adapter para `<sc-multiselect>` (emite `unknown[]`). Coerce a string[]. */
+  protected onMulti(
+    key: 'estrategia' | 'prioridad' | 'voz' | 'tipoColaEspera',
+    value: unknown[],
+  ): void {
+    this.update(
+      key,
+      value.filter((v): v is string => typeof v === 'string'),
+    );
   }
 
   protected cancel(): void {

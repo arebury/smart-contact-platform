@@ -349,8 +349,9 @@ el trigger:
 2. `<sc-inputnumber>` ↔ `❖ inputnumber` — pendiente nodeId, sigue patrón inputtext
 3. `<sc-inputgroup>` ↔ `❖ inputgroup` — pendiente nodeId
 4. `<sc-multiselect>` ↔ `❖ multiselect` — nodeId `6738:22651` (Kit Pro). Selección
-   múltiple con chips. Soporta también el eje `Float Label`/IftaLabel (label dentro).
-   Candidato para varios dropdowns de config (a confirmar single vs multi por campo).
+   múltiple. **`[iftaLabel]` añadido (S65)**. **En uso en config Grupos**: Estrategia,
+   Prioridad, Voz, Tipo de cola de espera son multi-select (decisión Rafa); Apertura de
+   ficha se queda single (`sc-select`).
 5. `<sc-toggleswitch>` ↔ `❖ toggleswitch` — nodeId `260:11899` (arriba)
 6. `<sc-dialog>` ↔ `❖ dialog` — pendiente nodeId (tokens `--sc-dialog-*` ya alineados)
 7. `<sc-checkbox>` ↔ `❖ checkbox` — nodeId `148:6321` (Kit Pro). Set con eje
