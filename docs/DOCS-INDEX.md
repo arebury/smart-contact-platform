@@ -23,6 +23,7 @@
 | Roadmap SCDS (componentes pendientes) | [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../packages/design-system/docs/MIGRATION-INVENTORY.md) | Claude (al cocinar componente nuevo) |
 | Backlog deuda DS (inconsistencias, gaps, refactors) | [`packages/design-system/docs/inconsistencies-backlog.md`](../packages/design-system/docs/inconsistencies-backlog.md) | Claude (audita antes de commit) |
 | Brand divergences (tokens custom vs Aura) | [`packages/design-system/docs/customs-catalog.md`](../packages/design-system/docs/customs-catalog.md) | Claude (antes de añadir override / token nuevo) + equipo de diseño (sync Figma) |
+| Guía de diseño — extender el Kit Pro sin romper (ELI5, tablas/composiciones) | [`packages/design-system/docs/extender-kit-pro-guia-diseno.md`](../packages/design-system/docs/extender-kit-pro-guia-diseno.md) | Equipo de diseño + Rafa |
 | Audit Figma alignment SCDS · Figma node IDs · parity % por componente · última verificación | [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../packages/design-system/docs/MIGRATION-INVENTORY.md) | Claude (PRIMERO al auditar drift SCDS↔Figma) |
 | Log histórico de sesiones | [`docs/SESSION-LOG.md`](./SESSION-LOG.md) | Claude (lee al arrancar sesión) |
 | Plan próxima sesión | [`docs/NEXT-SESSION-PLAN.md`](./NEXT-SESSION-PLAN.md) | Claude (lee al arrancar sesión) |
@@ -66,6 +67,7 @@ Lectura cruzada: si trabajas en un producto, estos son los docs operativos.
 - `packages/design-system/docs/customs-catalog.md` — brand divergences vs Aura.
 - `packages/design-system/docs/inconsistencies-backlog.md` — deuda DS persistente.
 - `packages/design-system/docs/migration-safety.md` — filosofía + 3 reglas blindaje.
+- `packages/design-system/docs/extender-kit-pro-guia-diseno.md` — guía **diseño / ELI5**: extender el Kit Pro sin romper (conclusiones del ejercicio Tabla Agentes). Versión técnica = customs-catalog §2.8.
 - `packages/design-system/docs/components/01-XX.md` — spec por componente.
 - `packages/design-system/docs/audit/` — audits históricos.
 
@@ -85,6 +87,6 @@ Sin docs propios — pequeño, su content es Angular routes en `apps/ds-docs/src
 
 ---
 
-Última actualización: 2026-05-27 (Session 62-ext-2) — repaso de frescura: index completo
-(sin huérfanos), `prototype-reference` etiquetado como snapshot congelado, `MEMORY.md`
-reetiquetado (vivo, no histórico), `NEXT-SESSION-PROMPT.md` borrado (obsoleto S36).
+Última actualización: 2026-06-01 (Session 65) — añadida guía de diseño ELI5
+`extender-kit-pro-guia-diseno.md` (conclusiones del ejercicio Tabla Agentes; versión
+técnica en customs-catalog §2.8).

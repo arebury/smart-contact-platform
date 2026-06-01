@@ -151,6 +151,70 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
   - **`<sc-section-card> [flush]`** → **0 consumidores (reservado)**. La sección que lo motivó (Grupos asignados) acabó siendo panel propio `<sc-group-assignment-table>` (imita el p-card del Figma, sin section-card), así que el flush de section-card quedó sin adoptar. Identity/Permisos/Avanzado siguen carded en los 3 forms (consistente). **Trigger de adopción**: que la referencia muestre esas secciones en flush. Mantenido por ser camino documentado de una dirección activa, NO borrado (evita churn re-add).
 - **⚠️ Verificación obligatoria al aplicar una variante de bajo-chrome (lección S62-ext)**: antes de cerrar un `[flush]`/low-chrome, **confirmar dato↔dato** contra el nodo Figma con `get_metadata` + `get_design_context` (autolayout, medidas, **fills y variables**, no solo el layout). Quitar un fondo/borde/sombra lee como "1:1" desde la estructura pero puede ser una **regresión visual silenciosa**: el índice perdió su panel `gray-50` porque el flush se interpretó como "a sangre" sin contrastar el fill real del nodo (`get_design_context` lo da: `bg-[var(--gray/50)]`, radio 6, padding 16). **Acceder al file elemento a elemento es exacto; comparar capturas a ojo NO** — la captura solo sirve como smoke de "renderiza". (Refuerza la memoria `feedback_figma_1to1_element_by_element`.)
 
+### 2.8 DataTable — celdas SC por composición, sin tocar mains (S65)
+
+- **Contexto**: la Tabla Agentes AED (y futuras tablas) necesita columnas que el Kit Pro
+  **no modela** en su celda. Estudio cruzado código PrimeNG (`primeng.org/table`) ↔ Figma SC:
+  el Kit Pro `datatable` (`374:16034`) es un **componente monolítico** (4 booleanos: Show
+  Header/Footer/Header-Cells/Footer-Cells, sin eje de variante). El contenido de celda vive en
+  `datatable-content` (set **`4295:53254`**), eje `Type` = `Text · Checkbox · Tag · Rating ·
+  Image · Row Toggle Button · RadioButton`. La página `❖ DataTable` tiene 9 ejemplos (Basic,
+  Small, Large, Grid Lines, Striped Rows, Sort, Column Group, Selection, Row Expansion) — **NO
+  hay el ejemplo Customers/Filter** (avatar+nombre+flag) ni ningún "avatar-cell" en Parts.
+
+- **Mapping columnas Agentes** (reuso vs composición SC):
+
+  | Columna | Solución | Origen |
+  |---|---|---|
+  | Checkbox | `Type=Checkbox` | reuso Kit Pro |
+  | Extensión "122 · WEBRTC" | `Type=Text` (override texto, bicolor) | reuso Kit Pro |
+  | Tipo (chip) | `Type=Tag` · `Show Icon=false` · `Severity=Secondary` | reuso Kit Pro |
+  | Estado (Disponible/Baño/No disponible) | `Type=Tag` · `Severity=Success/Warn/Danger` | reuso Kit Pro |
+  | Acciones (⋮) / ver-transcripción | swap contenido → `button` Icon Only (set `12381:22723`), icono por `Left Icon` | reuso Kit Pro |
+  | **Nombre (avatar+nombre)** | **composición SC** `sc/agente-nombre` = `avatar` (set `12422:26385`) + texto | composición |
+  | **Canales (phone/chat/mail)** | **composición SC** `sc/agente-canales` = iconos `phone/chat/mail` | composición |
+
+- **Decisión Estado = tag de color** (Rafa, S65): se descarta el dot+texto del prototipo legacy;
+  el `Severity` del Tag del Kit Pro (Success/Warn/Danger) cubre el estado sin componente nuevo.
+
+- **Las 2 composiciones SC** (`sc/agente-nombre`, `sc/agente-canales`) viven en la página
+  **`Flujos`** (NO en `❖ DataTable`), **instancian** primitivos del Kit Pro (no los forkean), y
+  se meten en la celda vía **instance-swap** del `datatable-content`. La celda sigue siendo
+  `datatable-body-cell` real (enlazada) — no hay nodos *detached*.
+
+- **Unidad reusable = la FILA** (`fila-agente`, componente SC = 7 `datatable-body-cell` reales +
+  las 2 composiciones + el `button` kebab). **NO se componetiza la tabla entera** (los datos son
+  dinámicos = bucle en código). El `datatable` del Kit Pro queda **intacto**.
+
+- **Mirror en código — 0 componentes, 0 tokens**: cada `<td>` inline-compone primitivos PrimeNG
+  (`<p-avatar>` + `<span>`, `<i class="pi pi-*">`, `<p-tag [severity]>`, `<p-button icon>`).
+  PrimeNG no tiene "cell component" — el `<td>` admite cualquier cosa. Las composiciones SC de
+  Figma son **helpers de autoría sin counterpart de código** (existen solo para no recomponer en
+  cada fila al maquetar en Figma).
+
+- **Tokens nuevos: 0.** El chrome usa el namespace `datatable/*` del Kit Pro (ya mapeado a
+  `--sc-*`); las composiciones reusan los tokens de los primitivos. La collection Variables
+  **`Custom` (`9193:39727`) sigue VACÍA** — alineado con el No-goal SCDS "NO bootstrap Custom
+  hasta ≥5 entries".
+
+- **Mains `❖` tocados: 0.** Regla de oro migration-safe: nunca editar páginas `❖` ni variables
+  del Kit Pro, nunca crear token; solo **instanciar + componer en `Flujos`**. Una migración de
+  PrimeNG/Kit Pro no puede romper lo que solo *instancia* primitivos (el cambio fluye por la
+  instancia hacia abajo).
+
+- **Theming dark — toda adición SC debe VINCULAR fills a variables del Kit Pro, NO hardcodear**
+  (gotcha S65, cerró el bug "Dark textos invisibles"): el dark de Figma cambia por **modo de
+  variable** (collections `Component Color Scheme` `7225:3443` + `Semantic Color Scheme`
+  `9112:23777` → modo Dark sobre el frame). Lo que tenga fill hardcoded (texto negro, fondos
+  blancos) NO cambia → invisible en dark. Bindings correctos: texto del nombre → `datatable/row/color`
+  (`9713:69676`), fondo de la fila/componente → `datatable/row/background` (`9713:69675`), fondo de
+  cabecera → `datatable/header/cell/background` (`9713:69660`), iconos de canal (Vector) →
+  `datatable/row/color`. En el datatable real el fondo vive en la **fila** (`datatable-row`), no en
+  las celdas (transparentes). Así la fila SC tematiza light/dark igual que el Kit Pro.
+
+- **Estado**: prototipo Figma montado en `Flujos` (`fila-agente` + tabla 12 filas, light+dark OK).
+  Pendiente: llevar el `<td>` template al código AED (`<p-table>` de la pantalla Agentes).
+
 ---
 
 ## 3. Component overloads (slots reusados con semántica SC)
