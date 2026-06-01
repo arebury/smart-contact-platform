@@ -1518,7 +1518,8 @@
           },
           "toast": {
             "saved": "Settings saved"
-          }
+          },
+          "edit_crumb": "Edit general"
         },
         "agentes": {
           "heading": "Agents",
@@ -1547,7 +1548,8 @@
           },
           "toast": {
             "saved": "Agent settings saved"
-          }
+          },
+          "edit_crumb": "Edit agent"
         },
         "grupos": {
           "heading": "Groups",
@@ -1569,8 +1571,12 @@
           },
           "toast": {
             "saved": "Group settings saved"
-          }
+          },
+          "edit_crumb": "Edit group"
         }
+      },
+      "breadcrumb": {
+        "admin": "Administration"
       }
     },
     "seguridad": {

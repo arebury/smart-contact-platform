@@ -21,28 +21,44 @@ const placeholder = () =>
 export const configRoutes: Routes = [
   {
     path: 'aed',
-    // El hub aporta su contexto al breadcrumb ("Configuración AED / Agentes").
+    // El hub aporta el crumb raíz "Administración" (Figma 1:12270). Las
+    // hojas añaden "[Sección] / Editar [sección]".
     // `link: false`: /config/aed solo redirige a servicio, no es un destino propio.
-    data: { breadcrumb: { labelKey: 'config.sidebar.title', link: false } },
+    data: { breadcrumb: { labelKey: 'config.aed.breadcrumb.admin', link: false } },
     loadComponent: () =>
       import('./layout/settings-shell.component').then((m) => m.SettingsShellComponent),
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'servicio' },
       {
         path: 'servicio',
-        data: { breadcrumb: { labelKey: 'config.aed.subpages.servicio.heading' } },
+        data: {
+          breadcrumb: [
+            { labelKey: 'config.aed.subpages.servicio.heading' },
+            { labelKey: 'config.aed.subpages.servicio.edit_crumb' },
+          ],
+        },
         loadComponent: () =>
           import('./aed/aed-servicio-page.component').then((m) => m.AedServicioPageComponent),
       },
       {
         path: 'agentes',
-        data: { breadcrumb: { labelKey: 'config.aed.subpages.agentes.heading' } },
+        data: {
+          breadcrumb: [
+            { labelKey: 'config.aed.subpages.agentes.heading' },
+            { labelKey: 'config.aed.subpages.agentes.edit_crumb' },
+          ],
+        },
         loadComponent: () =>
           import('./aed/aed-agentes-page.component').then((m) => m.AedAgentesPageComponent),
       },
       {
         path: 'grupos',
-        data: { breadcrumb: { labelKey: 'config.aed.subpages.grupos.heading' } },
+        data: {
+          breadcrumb: [
+            { labelKey: 'config.aed.subpages.grupos.heading' },
+            { labelKey: 'config.aed.subpages.grupos.edit_crumb' },
+          ],
+        },
         loadComponent: () =>
           import('./aed/aed-grupos-page.component').then((m) => m.AedGruposPageComponent),
       },

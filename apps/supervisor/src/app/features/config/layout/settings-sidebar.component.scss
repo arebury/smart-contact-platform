@@ -1,7 +1,9 @@
 /*
- * Settings sidebar — Figma Supervisor 1:12270 (índice = panel estilo
- * form-section-nav). Panel gray-50 recogido sobre la página blanca, con
- * cabecera (título + subtítulo) e items con chip de icono 32×32.
+ * Settings sidebar — Figma Supervisor 1:12355 (índice). Panel gray/50 que
+ * blende con la página (mismo fondo) → los items quedan sobre el fondo, con
+ * cabecera (título + subtítulo) e items con chip de icono 32×32:
+ *   · inactivo → chip gray/200, label regular
+ *   · activo   → item gray/100, chip navy + icono blanco, label bold
  */
 :host {
   display: block;
@@ -17,7 +19,7 @@
   padding: var(--sc-spacing-1-143);
   display: flex;
   flex-direction: column;
-  gap: var(--sc-spacing-1-25);
+  gap: var(--sc-spacing-1-143);
 }
 
 .settings-sidebar__head {
@@ -30,7 +32,7 @@
   font-size: var(--sc-font-size-300);
   line-height: 24px;
   font-weight: var(--sc-font-weight-semibold);
-  color: var(--sc-text-primary);
+  color: var(--sc-text-secondary);
 }
 
 .settings-sidebar__subtitle {
@@ -49,7 +51,7 @@
   display: flex;
   align-items: center;
   gap: var(--sc-spacing-0-875);
-  padding: var(--sc-spacing-0-5);
+  padding: var(--sc-spacing-0-375) var(--sc-spacing-0-875);
   border-radius: var(--sc-radius-200);
   text-decoration: none;
   color: inherit;
@@ -67,9 +69,14 @@
   &--active {
     background: var(--sc-color-gray-100);
 
+    .nav-item__icon {
+      background: var(--sc-bg-primary);
+      color: var(--sc-text-on-primary);
+    }
+
     .nav-item__label {
       color: var(--sc-text-primary);
-      font-weight: var(--sc-font-weight-semibold);
+      font-weight: var(--sc-font-weight-bold);
     }
   }
 }
@@ -82,16 +89,18 @@
   align-items: center;
   justify-content: center;
   border-radius: var(--sc-radius-200);
-  background: var(--sc-bg-surface);
+  background: var(--sc-color-gray-200);
   color: var(--sc-text-secondary);
-  border: 1px solid var(--sc-border-subtle);
+  transition:
+    background var(--sc-transition-fast) ease,
+    color var(--sc-transition-fast) ease;
 }
 
 .nav-item__label {
   font-family: var(--sc-font-family-primary);
   font-size: var(--sc-font-size-200);
   line-height: 22px;
-  font-weight: var(--sc-font-weight-medium);
+  font-weight: var(--sc-font-weight-regular);
   color: var(--sc-text-secondary);
   white-space: nowrap;
 }

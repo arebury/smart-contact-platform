@@ -1518,7 +1518,8 @@
           },
           "toast": {
             "saved": "Configuration enregistrée"
-          }
+          },
+          "edit_crumb": "Modifier général"
         },
         "agentes": {
           "heading": "Agents",
@@ -1547,7 +1548,8 @@
           },
           "toast": {
             "saved": "Paramètres des agents enregistrés"
-          }
+          },
+          "edit_crumb": "Modifier l'agent"
         },
         "grupos": {
           "heading": "Groupes",
@@ -1569,8 +1571,12 @@
           },
           "toast": {
             "saved": "Paramètres des groupes enregistrés"
-          }
+          },
+          "edit_crumb": "Modifier le groupe"
         }
+      },
+      "breadcrumb": {
+        "admin": "Administration"
       }
     },
     "seguridad": {

@@ -9,9 +9,10 @@
 :host {
   display: block;
   min-height: 100%;
-  /* Figma: content/background = #fff. Página blanca; el rail es un panel
-   * gray-50 recogido sobre el blanco (patrón form-pages, customs §2.7). */
-  background: var(--sc-bg-surface);
+  /* Figma 1:12270: el fondo de la plataforma va en gray/50; las cards van en
+   * blanco (surface) y el rail (índice) es un panel gray/50 que blende con la
+   * página → los items quedan sobre el fondo, con el activo resaltado. */
+  background: var(--sc-bg-secondary-subtle);
 }
 
 .settings-shell {
