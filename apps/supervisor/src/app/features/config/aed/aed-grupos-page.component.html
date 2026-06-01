@@ -32,44 +32,38 @@
       </div>
 
       <div class="settings-card__body">
-        <div class="field field--full">
-          <label class="field__label" for="grupos-estrategia">
-            {{ 'config.aed.subpages.grupos.params.estrategia' | translate }}
-          </label>
-          <sc-select
-            inputId="grupos-estrategia"
-            [options]="estrategiaOptions"
-            [value]="form().estrategia"
-            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-            (valueChange)="onSelect('estrategia', $event)"
-          />
-        </div>
+        <sc-select
+          class="field--full"
+          inputId="grupos-estrategia"
+          [label]="'config.aed.subpages.grupos.params.estrategia' | translate"
+          [iftaLabel]="true"
+          [options]="estrategiaOptions"
+          [value]="form().estrategia"
+          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+          (valueChange)="onSelect('estrategia', $event)"
+        />
 
-        <div class="field field--full">
-          <label class="field__label" for="grupos-prioridad">
-            {{ 'config.aed.subpages.grupos.params.prioridad' | translate }}
-          </label>
-          <sc-select
-            inputId="grupos-prioridad"
-            [options]="prioridadOptions"
-            [value]="form().prioridad"
-            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-            (valueChange)="onSelect('prioridad', $event)"
-          />
-        </div>
+        <sc-select
+          class="field--full"
+          inputId="grupos-prioridad"
+          [label]="'config.aed.subpages.grupos.params.prioridad' | translate"
+          [iftaLabel]="true"
+          [options]="prioridadOptions"
+          [value]="form().prioridad"
+          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+          (valueChange)="onSelect('prioridad', $event)"
+        />
 
-        <div class="field field--full">
-          <label class="field__label" for="grupos-voz">
-            {{ 'config.aed.subpages.grupos.params.voz' | translate }}
-          </label>
-          <sc-select
-            inputId="grupos-voz"
-            [options]="vozOptions"
-            [value]="form().voz"
-            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-            (valueChange)="onSelect('voz', $event)"
-          />
-        </div>
+        <sc-select
+          class="field--full"
+          inputId="grupos-voz"
+          [label]="'config.aed.subpages.grupos.params.voz' | translate"
+          [iftaLabel]="true"
+          [options]="vozOptions"
+          [value]="form().voz"
+          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+          (valueChange)="onSelect('voz', $event)"
+        />
 
         <div class="switch-field">
           <div class="switch-field__copy">
@@ -84,57 +78,49 @@
           />
         </div>
 
-        <div class="field field--full">
-          <label class="field__label" for="grupos-tipo-cola">
-            {{ 'config.aed.subpages.grupos.params.tipo_cola' | translate }}
-          </label>
-          <sc-select
-            inputId="grupos-tipo-cola"
-            [options]="tipoColaOptions"
-            [value]="form().tipoColaEspera"
-            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-            (valueChange)="onSelect('tipoColaEspera', $event)"
-          />
-        </div>
+        <sc-select
+          class="field--full"
+          inputId="grupos-tipo-cola"
+          [label]="'config.aed.subpages.grupos.params.tipo_cola' | translate"
+          [iftaLabel]="true"
+          [options]="tipoColaOptions"
+          [value]="form().tipoColaEspera"
+          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+          (valueChange)="onSelect('tipoColaEspera', $event)"
+        />
 
-        <div class="field field--full">
-          <label class="field__label" for="grupos-capacidad-cola">
-            {{ 'config.aed.subpages.grupos.params.capacidad_cola' | translate }}
-          </label>
-          <sc-select
-            inputId="grupos-capacidad-cola"
-            [options]="capacidadColaOptions"
-            [value]="form().capacidadColaEspera"
-            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-            (valueChange)="onSelect('capacidadColaEspera', $event)"
-          />
-        </div>
+        <sc-select
+          class="field--full"
+          inputId="grupos-capacidad-cola"
+          [label]="'config.aed.subpages.grupos.params.capacidad_cola' | translate"
+          [iftaLabel]="true"
+          [options]="capacidadColaOptions"
+          [value]="form().capacidadColaEspera"
+          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+          (valueChange)="onSelect('capacidadColaEspera', $event)"
+        />
 
-        <div class="field field--full">
-          <label class="field__label" for="grupos-tiempo-max">
-            {{ 'config.aed.subpages.grupos.params.tiempo_max' | translate }}
-          </label>
-          <sc-select
-            inputId="grupos-tiempo-max"
-            [options]="tiempoEsperaOptions"
-            [value]="form().tiempoMaxEspera"
-            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-            (valueChange)="onSelect('tiempoMaxEspera', $event)"
-          />
-        </div>
+        <sc-select
+          class="field--full"
+          inputId="grupos-tiempo-max"
+          [label]="'config.aed.subpages.grupos.params.tiempo_max' | translate"
+          [iftaLabel]="true"
+          [options]="tiempoEsperaOptions"
+          [value]="form().tiempoMaxEspera"
+          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+          (valueChange)="onSelect('tiempoMaxEspera', $event)"
+        />
 
-        <div class="field field--full">
-          <label class="field__label" for="grupos-tiempo-transfer">
-            {{ 'config.aed.subpages.grupos.params.tiempo_transfer' | translate }}
-          </label>
-          <sc-select
-            inputId="grupos-tiempo-transfer"
-            [options]="tiempoTransferOptions"
-            [value]="form().tiempoTransferencia"
-            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-            (valueChange)="onSelect('tiempoTransferencia', $event)"
-          />
-        </div>
+        <sc-select
+          class="field--full"
+          inputId="grupos-tiempo-transfer"
+          [label]="'config.aed.subpages.grupos.params.tiempo_transfer' | translate"
+          [iftaLabel]="true"
+          [options]="tiempoTransferOptions"
+          [value]="form().tiempoTransferencia"
+          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+          (valueChange)="onSelect('tiempoTransferencia', $event)"
+        />
       </div>
     </section>
 
@@ -146,18 +132,16 @@
         </h2>
       </div>
       <div class="settings-card__body">
-        <div class="field field--full">
-          <label class="field__label" for="grupos-apertura-tipo">
-            {{ 'config.aed.subpages.grupos.apertura.tipo_label' | translate }}
-          </label>
-          <sc-select
-            inputId="grupos-apertura-tipo"
-            [options]="aperturaOptions"
-            [value]="form().aperturaTipo"
-            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
-            (valueChange)="onSelect('aperturaTipo', $event)"
-          />
-        </div>
+        <sc-select
+          class="field--full"
+          inputId="grupos-apertura-tipo"
+          [label]="'config.aed.subpages.grupos.apertura.tipo_label' | translate"
+          [iftaLabel]="true"
+          [options]="aperturaOptions"
+          [value]="form().aperturaTipo"
+          [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+          (valueChange)="onSelect('aperturaTipo', $event)"
+        />
       </div>
     </section>
   </div>

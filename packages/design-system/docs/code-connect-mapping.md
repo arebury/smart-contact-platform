@@ -369,8 +369,9 @@ Más los pre-existentes:
   del campo. **Es el de los selects de Grupos (Figma `1:12676`)**. Tokens (del var-defs):
   `iftalabel/input/padding/top 21` · `/bottom 7` · `iftalabel/color #8f97a3` ·
   `iftalabel/font/size 10.5` · `/weight 400` · `iftalabel/position/x 10.5` · `iftalabel/top 7`.
-  **TODO**: añadir variante `iftaLabel` a `<sc-select>` (y `<sc-inputtext>`/`<sc-inputnumber>`)
-  para 1:1; hoy el label va encima del campo.
+  **✅ Hecho (S65)**: variante `[iftaLabel]` en `<sc-select>` (label dentro, valor con
+  padding-top 21/bottom 7), **en uso en config Grupos** (1:1 con Figma `1:12676`).
+  Pendiente extender a `<sc-inputtext>`/`<sc-inputnumber>` cuando un diseño lo pida.
 
 ### Checklist mantenimiento durante dormido
 

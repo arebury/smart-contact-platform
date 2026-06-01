@@ -56,6 +56,7 @@ let scSelectIdCounter = 0;
     '[class.sc-select--invalid]': 'isInvalid()',
     '[class.sc-select--disabled]': 'disabled()',
     '[class.sc-select--filled]': 'filled()',
+    '[class.sc-select--ifta]': 'iftaLabel()',
   },
 })
 export class SelectComponent implements ControlValueAccessor {
@@ -87,6 +88,14 @@ export class SelectComponent implements ControlValueAccessor {
   readonly emptyFilterMessage = input<string>('Sin resultados');
   /** Empty-state copy when `options` is empty. */
   readonly emptyMessage = input<string>('Sin opciones');
+  /**
+   * Label dentro del campo (IftaLabel — *In-Field Top Aligned*, Figma node
+   * `7462:106725`). El `label` se fija arriba-dentro del campo y el valor baja.
+   * Tokens: padding-top 21 / bottom 7, label 10.5px regular `#8f97a3` en
+   * `(x 10.5, top 7)`. Úsalo en vez del label-encima cuando el diseño lo pida
+   * (p.ej. selects de config Grupos).
+   */
+  readonly iftaLabel = input<boolean>(false);
   /** Background "filled" variant (Figma node 6195:7785): bg slate-50. */
   readonly filled = input<boolean>(false);
   /**
