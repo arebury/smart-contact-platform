@@ -351,11 +351,26 @@ el trigger:
 4. `<sc-multiselect>` ↔ `❖ multiselect` — pendiente nodeId
 5. `<sc-toggleswitch>` ↔ `❖ toggleswitch` — nodeId `260:11899` (arriba)
 6. `<sc-dialog>` ↔ `❖ dialog` — pendiente nodeId (tokens `--sc-dialog-*` ya alineados)
-7. `<sc-checkbox>` ↔ `❖ checkbox` — pendiente nodeId
+7. `<sc-checkbox>` ↔ `❖ checkbox` — nodeId `148:6321` (Kit Pro). Set con eje
+   `Size (Small/Normal/Large) · Selected · Hover · Focus · Disabled · Filled`. Tokens:
+   checked bg `#1b273d`, borde radio `4`, icon-check `#fff` (sm `10.5`), sm box `14`.
+   **En uso en config AED (S65)** vía `[state]`/`(cycle)`/`[filled]`/`[size]`.
 
 Más los pre-existentes:
 - `<p-button>` (no wrapper, override en preset) ↔ `❖ button` — nodeId `10:125`
-- `<sc-select>` ↔ `❖ select` — nodeId `156:5882`
+- `<sc-select>` ↔ `❖ select` — nodeId `156:5882`. **Tiene eje `Float Label`** + variante
+  con buscador (`filter`). Para el label-dentro-del-campo de los selects de Grupos config →
+  usar **IftaLabel** (ver abajo).
+
+**Label-dentro-del-campo (pendiente 1:1, S65)** — registrados para implementar con paridad:
+
+- `❖ FloatLabel` — nodeId `7421:322901`. Label que flota al focus/fill (estilo Material).
+- `❖ IftaLabel` — nodeId `7462:106725`. *In-Field Top Aligned*: label fijo arriba-dentro
+  del campo. **Es el de los selects de Grupos (Figma `1:12676`)**. Tokens (del var-defs):
+  `iftalabel/input/padding/top 21` · `/bottom 7` · `iftalabel/color #8f97a3` ·
+  `iftalabel/font/size 10.5` · `/weight 400` · `iftalabel/position/x 10.5` · `iftalabel/top 7`.
+  **TODO**: añadir variante `iftaLabel` a `<sc-select>` (y `<sc-inputtext>`/`<sc-inputnumber>`)
+  para 1:1; hoy el label va encima del campo.
 
 ### Checklist mantenimiento durante dormido
 
