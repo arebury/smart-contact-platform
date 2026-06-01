@@ -1433,8 +1433,8 @@
       "title": "AED Configuration",
       "subtitle": "Platform settings",
       "version": "SmartContact · v2.4.0",
-      "servicio_label": "Service",
-      "servicio_hint": "States and conversations",
+      "servicio_label": "General",
+      "servicio_hint": "Service settings",
       "agentes_label": "Agents",
       "agentes_hint": "Default parameters",
       "grupos_label": "Groups",
@@ -1461,153 +1461,113 @@
       },
       "subpages": {
         "servicio": {
-          "heading": "Service",
-          "subtitle": "Agent states, conversation parameters and operational configuration.",
+          "heading": "General",
           "estados": {
-            "title": "States",
-            "hint": "Customize unavailability states and configure visibility of states between agents.",
-            "tags_label": "Custom unavailability states",
-            "tags_hint": "These states will be available for agents to select when they are unavailable.",
-            "tag_placeholder": "Press Enter or click the add button.",
-            "add": "Add",
-            "visibilidad_title": "Visibility of other agents' states",
-            "visibilidad_hint": "Select which states are visible to the rest of the team.",
-            "state_postConversando": "Post-talking",
-            "state_conversando": "Talking",
+            "title": "Agent states",
+            "disponible": "Available",
+            "no_disponible": "Unavailable",
+            "admin_checkbox": "Administrative state",
+            "nombre_label": "Name",
+            "nombre_placeholder": "Any name",
+            "add": "Add"
+          },
+          "inactividad": {
+            "title": "Idle workstation lock",
+            "telefono": "Phone",
+            "telefono_text": "Quarantine for",
+            "navegador": "Browser",
+            "navegador_text": "Lock after",
+            "conversaciones_suffix": "unattended conversations"
+          },
+          "ventana": {
+            "title": "Call and transfer window settings",
+            "ver_estado": "Show other agents' status",
+            "ver_aleatorio": "Show agents in random order"
+          },
+          "visibles": {
+            "title": "States visible to the agent",
+            "state_postConversando": "Post-conversation",
+            "state_conversando": "In conversation",
             "state_administrativo": "Administrative",
             "state_noDisponible": "Unavailable",
             "state_desconectado": "Disconnected",
-            "permisos_title": "Agent permissions",
-            "permisos_hint": "These permissions are used to configure various parameters.",
-            "filtrar_label": "Allow filtering possible states",
-            "filtrar_hint": "Agents will be able to see and filter available states based on their configuration.",
-            "admin_label": "Allow administrative work",
-            "admin_hint": "Agents will be able to activate administrative state during their shift.",
-            "pausa_title": "Inactivity pause",
-            "pausa_hint": "Define automatic blocking times due to lack of response.",
-            "standard_label": "Standard",
-            "standard_hint": "Blocking time for each rejection or lack of response.",
-            "navegador_label": "Browser (multichannel)",
-            "navegador_hint": "Maximum number of unanswered alertings.",
-            "alertings": "alertings",
-            "learn_more": "Learn more about state management"
+            "desc_postConversando": "Waiting after a conversation",
+            "desc_conversando": "Handling a conversation",
+            "desc_administrativo": "Doing internal tasks",
+            "desc_noDisponible": "Cannot receive conversations",
+            "desc_desconectado": "Cannot receive conversations",
+            "filtrar": "Allow agents to filter states"
           },
-          "conv": {
-            "title": "Conversations",
-            "hint": "Define the default behavior in conversation management and outbound calls.",
+          "aviso": {
+            "title": "Conversation alerting",
             "descuelgue_label": "Default pickup type",
+            "descuelgue_placeholder": "Select",
             "alerting_label": "Service alerting",
             "alerting_nombre": "Name",
-            "alerting_telefono": "Phone number",
-            "callblending_title": "Callblending",
-            "callblending_hint": "Configure notification integration for outbound calls.",
-            "url_label": "Notification URL",
-            "url_placeholder": "https://example.com/webhook",
-            "timeout_label": "Outbound call timeout",
-            "eventos_label": "Notification events",
-            "evento_emision": "Emission",
-            "evento_llamadaEnCurso": "Call in progress",
-            "evento_llamadaNoAtendida": "Call not answered",
-            "evento_llamadaAtendida": "Call answered by agent",
-            "evento_llamadaFinalizada": "Call ended",
-            "evento_llamadaRechazada": "Call rejected",
-            "learn_more": "Learn more about conversation configuration"
+            "alerting_telefono": "Phone number"
+          },
+          "notif": {
+            "title": "External system notifications",
+            "entrante": "Incoming conversation",
+            "saliente": "Outgoing conversation",
+            "url_placeholder": "URL",
+            "evento_inicio": "Start",
+            "evento_fin": "End",
+            "evento_resultado": "Result"
           },
           "toast": {
-            "estados_saved": "States saved",
-            "conversaciones_saved": "Conversation configuration saved"
+            "saved": "Settings saved"
           }
         },
         "agentes": {
           "heading": "Agents",
-          "subtitle": "Permissions and default values applied to all agents.",
-          "card_title": "Default parameters for agents",
-          "card_hint": "Set the permissions and default values that will apply to all agents on the platform.",
-          "llamadas": {
-            "title": "Calls",
-            "destino": "Destination",
-            "col_llamada": "Call",
+          "comunicaciones": {
+            "title": "Communications",
             "col_transferencias": "Transfers",
-            "toggle_all_llamada": "Mark all destinations in Call",
-            "toggle_all_transfer": "Mark all destinations in Transfers",
+            "col_permisos": "Permissions",
             "row_fijos": "Landlines",
             "row_moviles": "Mobiles",
             "row_internacionales": "International",
-            "row_especial": "Special numbering"
+            "row_numeracionEspecial": "Special numbering",
+            "row_llamadasInternas": "Internal calls"
           },
-          "dispositivos": {
-            "title": "Device permissions",
-            "gestion_label": "Device management",
-            "gestion_hint": "Agents will be able to add and remove their own devices.",
-            "activacion_label": "Activation by AED service group",
-            "activacion_hint": "Allows agents to activate or deactivate themselves per service group.",
-            "externos_label": "External devices",
-            "externos_hint": "Agents will be able to use external physical terminals as active device."
+          "config": {
+            "title": "Configuration",
+            "activacion_label": "Activation/Deactivation by AED service group",
+            "gestion_label": "Management of work devices in WebRTC",
+            "externos_label": "Use of external devices"
           },
-          "visualizacion": {
-            "title": "Visualization",
-            "orden_label": "Random agent order",
-            "orden_hint": "Agents will be shown in random order on lists and panels."
-          },
-          "iframe": {
-            "title": "Configurable iframe",
-            "hint": "Allows embedding external URLs in the agent panel.",
-            "activate_label": "Activate configurable iframe",
-            "activate_hint": "Agents will be able to have a fixed URL loaded in an iframe inside their interface.",
-            "url_label": "Iframe URL",
-            "url_placeholder": "https://example.com",
+          "url": {
+            "title": "URL embedded in the agent workstation",
+            "url_label": "URL",
+            "url_placeholder": "URL",
             "titulo_label": "Title (optional)",
             "titulo_placeholder": "My tool"
           },
-          "learn_more": "Learn more about agent parameters",
           "toast": {
-            "saved": "Agent parameters saved"
+            "saved": "Agent settings saved"
           }
         },
         "grupos": {
           "heading": "Groups",
-          "subtitle": "Capacity, times and routing for service groups.",
-          "card_title": "Default parameters for groups",
-          "card_hint": "Define capacity, management times and routing strategy for service groups.",
-          "capacidad": {
-            "title": "Maximum capacity",
-            "hint": "Define how the queue conversation limit is calculated.",
-            "fija": "Fixed",
-            "variable": "Variable",
-            "limite_label": "Queue limit",
-            "limite_info": "Maximum number of conversations that can be waiting at the same time.",
-            "limite_suffix": "conversations in queue"
-          },
-          "tiempos": {
-            "title": "Management times",
-            "hint": "Default values applied to group call processing.",
-            "transferencia": "Transfer time",
-            "max_cola": "Max. queue wait time"
-          },
-          "voz": {
-            "title": "Voice and overflow",
-            "tipo_label": "Voice type",
-            "desbordar_llamadas": "Overflow calls",
-            "desbordar_llamadas_hint": "Redirects calls when group capacity is exceeded.",
-            "desbordar_sesion": "Overflow session",
-            "desbordar_sesion_hint": "Redirects active sessions when concurrency limit is exceeded."
-          },
-          "enrutamiento": {
-            "title": "Routing",
-            "hint": "Configure priority and conversation distribution strategy.",
-            "prioridad": "Priority",
-            "estrategia": "Distribution strategy"
+          "params": {
+            "title": "Parameters",
+            "estrategia": "Conversation distribution strategy",
+            "prioridad": "Group priority",
+            "voz": "Voice",
+            "desbordar": "Overflow conversations when no agents are available",
+            "tipo_cola": "Queue type",
+            "capacidad_cola": "Queue capacity",
+            "tiempo_max": "Maximum queue wait time",
+            "tiempo_transfer": "Transfer time",
+            "placeholder": "Select"
           },
           "apertura": {
-            "title": "Record opening",
-            "hint": "Define when the contact record opens during a conversation.",
-            "automatica": "Automatic",
-            "manual": "Manual",
-            "ninguna": "None"
+            "title": "Contact card opening",
+            "tipo_label": "Type"
           },
-          "learn_more": "Learn more about group parameters",
           "toast": {
-            "saved": "Group parameters saved"
+            "saved": "Group settings saved"
           }
         }
       }

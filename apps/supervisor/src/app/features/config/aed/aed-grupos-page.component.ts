@@ -1,31 +1,34 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  TemplateRef,
+  afterNextRender,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
-import {
-  IconComponent,
-  InputNumberComponent,
-  SelectComponent,
-  ToggleSwitchComponent,
-} from '@shared/components';
+import { IconComponent, SelectComponent, ToggleSwitchComponent } from '@shared/components';
 
 interface FormState {
-  capacidadTipo: 'fija' | 'variable';
-  limiteCola: number;
-  tiempoTransferencia: number;
-  tiempoMaxEspera: number;
-  tipoVoz: string;
-  desbordarLlamadas: boolean;
-  desbordarSesion: boolean;
-  prioridad: string;
   estrategia: string;
-  aperturaFicha: 'automatica' | 'manual' | 'ninguna';
+  prioridad: string;
+  voz: string;
+  desbordar: boolean;
+  tipoColaEspera: string;
+  capacidadColaEspera: string;
+  tiempoMaxEspera: string;
+  tiempoTransferencia: string;
+  aperturaTipo: string;
 }
 
-const VOZ_OPTIONS = ['G.711 (alaw/ulaw)', 'G.722', 'G.729', 'OPUS'] as const;
-const PRIORIDAD_OPTIONS = ['Baja', 'Media', 'Alta', 'Urgente'] as const;
 const ESTRATEGIA_OPTIONS = [
   'Distribución equitativa',
   'Más tiempo libre',
@@ -33,52 +36,65 @@ const ESTRATEGIA_OPTIONS = [
   'Round robin',
   'Aleatoria',
 ] as const;
+const PRIORIDAD_OPTIONS = ['Baja', 'Media', 'Alta', 'Urgente'] as const;
+const VOZ_OPTIONS = ['G.711 (alaw/ulaw)', 'G.722', 'G.729', 'OPUS'] as const;
+const TIPO_COLA_OPTIONS = [
+  'Orden de llegada (FIFO)',
+  'Por prioridad',
+  'Último en entrar (LIFO)',
+] as const;
+const CAPACIDAD_COLA_OPTIONS = ['10', '25', '50', '100', 'Sin límite'] as const;
+const TIEMPO_ESPERA_OPTIONS = ['30 segundos', '1 minuto', '2 minutos', '5 minutos'] as const;
+const TIEMPO_TRANSFER_OPTIONS = [
+  '15 segundos',
+  '30 segundos',
+  '45 segundos',
+  '60 segundos',
+] as const;
+const APERTURA_OPTIONS = ['Automática', 'Manual', 'Ninguna'] as const;
 
 const DEFAULT_FORM: FormState = {
-  capacidadTipo: 'fija',
-  limiteCola: 50,
-  tiempoTransferencia: 30,
-  tiempoMaxEspera: 120,
-  tipoVoz: VOZ_OPTIONS[0],
-  desbordarLlamadas: false,
-  desbordarSesion: true,
-  prioridad: PRIORIDAD_OPTIONS[1],
-  estrategia: ESTRATEGIA_OPTIONS[0],
-  aperturaFicha: 'automatica',
+  estrategia: '',
+  prioridad: '',
+  voz: '',
+  desbordar: true,
+  tipoColaEspera: '',
+  capacidadColaEspera: '',
+  tiempoMaxEspera: '',
+  tiempoTransferencia: '',
+  aperturaTipo: '',
 };
 
 /**
- * Grupos defaults page — `/config/aed/grupos`. Figma node 224:9482.
+ * Grupos defaults page — `/config/aed/grupos`. Figma Supervisor `1:12676`.
  *
- * Single SettingsCard with five sub-sections separated by dividers:
- * Capacidad máxima · Tiempos de gestión · Voz y desbordamiento ·
- * Enrutamiento · Apertura de ficha. Card footer hosts the "Saber más"
- * link and the Guardar button (only enabled while dirty).
+ * Card "Parámetros" con selects apilados (estrategia, prioridad, voz,
+ * tipo/capacidad/tiempo de cola, tiempo de transferencia) + un toggle
+ * "Desbordar conversaciones si no hay agentes disponibles", y una card
+ * "Apertura de ficha" con un select de tipo. Guardado único en la TopBar.
  */
 @Component({
   selector: 'sc-aed-grupos-page',
-  imports: [
-    ButtonModule,
-    IconComponent,
-    ToggleSwitchComponent,
-    TranslateModule,
-    InputNumberComponent,
-    SelectComponent,
-  ],
+  imports: [ButtonModule, IconComponent, SelectComponent, ToggleSwitchComponent, TranslateModule],
   templateUrl: './aed-grupos-page.component.html',
   styleUrl: './aed-defaults-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AedGruposPageComponent {
+export class AedGruposPageComponent implements OnDestroy {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
-  protected readonly groupsIcon = 'groups';
-  protected readonly chevronIcon = 'expand_more';
-  protected readonly infoIcon = 'info';
+  private readonly topBarSlot = inject(TopBarSlotService);
 
-  protected readonly vozOptions = VOZ_OPTIONS;
-  protected readonly prioridadOptions = PRIORIDAD_OPTIONS;
+  protected readonly pageIcon = 'groups';
+
   protected readonly estrategiaOptions = ESTRATEGIA_OPTIONS;
+  protected readonly prioridadOptions = PRIORIDAD_OPTIONS;
+  protected readonly vozOptions = VOZ_OPTIONS;
+  protected readonly tipoColaOptions = TIPO_COLA_OPTIONS;
+  protected readonly capacidadColaOptions = CAPACIDAD_COLA_OPTIONS;
+  protected readonly tiempoEsperaOptions = TIEMPO_ESPERA_OPTIONS;
+  protected readonly tiempoTransferOptions = TIEMPO_TRANSFER_OPTIONS;
+  protected readonly aperturaOptions = APERTURA_OPTIONS;
 
   protected readonly form = signal<FormState>({ ...DEFAULT_FORM });
   protected readonly dirty = signal(false);
@@ -86,42 +102,33 @@ export class AedGruposPageComponent {
 
   protected readonly canSave = computed(() => this.dirty() && !this.saving());
 
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
+
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.topBarSlot.clearActions();
+  }
+
   protected update<K extends keyof FormState>(key: K, value: FormState[K]): void {
     this.form.update((f) => ({ ...f, [key]: value }));
     this.dirty.set(true);
   }
 
-  protected onCapacidadChange(value: 'fija' | 'variable'): void {
-    this.update('capacidadTipo', value);
-  }
-
-  protected onAperturaChange(value: 'automatica' | 'manual' | 'ninguna'): void {
-    this.update('aperturaFicha', value);
-  }
-
-  /**
-   * Adapter para `<sc-inputnumber>` que emite `number | null` directamente.
-   * Si null → no actualizamos (mantener último valor válido).
-   */
-  protected onNumberValueChange<K extends 'limiteCola' | 'tiempoTransferencia' | 'tiempoMaxEspera'>(
-    key: K,
-    value: number | null,
-  ): void {
-    if (value !== null && Number.isFinite(value) && value >= 0) this.update(key, value);
-  }
-
-  /**
-   * Adapter para `<sc-select>` que emite `unknown` (el wrapper tipa el value
-   * genérico). Coerce a string para los campos de string-only del form.
-   */
-  protected onSelectValueChange<K extends 'tipoVoz' | 'prioridad' | 'estrategia'>(
+  /** Adapter para `<sc-select>` (emite `unknown`). Coerce a string. */
+  protected onSelect<K extends Exclude<keyof FormState, 'desbordar'>>(
     key: K,
     value: unknown,
   ): void {
     if (typeof value === 'string') this.update(key, value);
   }
 
-  protected discard(): void {
+  protected cancel(): void {
     this.form.set({ ...DEFAULT_FORM });
     this.dirty.set(false);
   }

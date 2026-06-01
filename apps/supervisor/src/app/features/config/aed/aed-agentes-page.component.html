@@ -1,148 +1,98 @@
+<ng-template #topbarActions>
+  <p-button type="button" size="small" severity="secondary" (onClick)="cancel()">
+    <span>{{ 'common.cancel' | translate }}</span>
+  </p-button>
+  <p-button
+    type="button"
+    size="small"
+    severity="primary"
+    [disabled]="!canSave()"
+    [loading]="saving()"
+    (onClick)="save()"
+  >
+    <span>{{ 'common.save' | translate }}</span>
+  </p-button>
+</ng-template>
+
 <div class="page">
   <div class="page__inner">
-    <section class="settings-card" aria-labelledby="agentes-card-title">
-      <div class="settings-card__head">
-        <h2 id="agentes-card-title" class="settings-card__title">
-          {{ 'config.aed.subpages.agentes.card_title' | translate }}
-        </h2>
-        <p class="settings-card__hint">
-          {{ 'config.aed.subpages.agentes.card_hint' | translate }}
-        </p>
-      </div>
+    <header class="page-heading">
+      <sc-icon [name]="pageIcon" [size]="18" class="page-heading__icon" />
+      <h1 class="page-heading__title">
+        {{ 'config.aed.subpages.agentes.heading' | translate }}
+      </h1>
+    </header>
 
+    <!-- Comunicaciones + Configuración -->
+    <section class="settings-card">
       <div class="settings-card__body">
-        <!-- Llamadas accordion -->
-        <section class="accordion">
-          <button
-            type="button"
-            class="accordion__head"
-            [class.accordion__head--open]="form().llamadasOpen"
-            [attr.aria-expanded]="form().llamadasOpen"
-            aria-controls="agentes-llamadas-body"
-            (click)="toggleLlamadasOpen()"
-          >
-            <span class="accordion__title">
-              {{ 'config.aed.subpages.agentes.llamadas.title' | translate }}
-            </span>
-            <sc-icon
-              [name]="form().llamadasOpen ? chevronUp : chevronDown"
-              [size]="14"
-              class="accordion__chevron"
-            />
-          </button>
-
-          @if (form().llamadasOpen) {
-            <div class="accordion__body" id="agentes-llamadas-body">
-              <table class="perm-matrix">
-                <thead>
-                  <tr>
-                    <th scope="col" class="perm-matrix__th-label">
-                      {{ 'config.aed.subpages.agentes.llamadas.destino' | translate }}
-                    </th>
-                    <th scope="col" class="perm-matrix__th-col">
-                      <sc-checkbox
-                        [state]="columnState().llamada"
-                        [ariaLabel]="
-                          'config.aed.subpages.agentes.llamadas.toggle_all_llamada' | translate
-                        "
-                        (cycle)="toggleColumnAll('llamada', $event)"
-                      >
-                        <span>{{
-                          'config.aed.subpages.agentes.llamadas.col_llamada' | translate
-                        }}</span>
-                      </sc-checkbox>
-                    </th>
-                    <th scope="col" class="perm-matrix__th-col">
-                      <sc-checkbox
-                        [state]="columnState().transferencias"
-                        [ariaLabel]="
-                          'config.aed.subpages.agentes.llamadas.toggle_all_transfer' | translate
-                        "
-                        (cycle)="toggleColumnAll('transferencias', $event)"
-                      >
-                        <span>{{
-                          'config.aed.subpages.agentes.llamadas.col_transferencias' | translate
-                        }}</span>
-                      </sc-checkbox>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (row of destinoKeys; track row) {
-                    <tr>
-                      <th scope="row" class="perm-matrix__th-row">
-                        {{ 'config.aed.subpages.agentes.llamadas.row_' + row | translate }}
-                      </th>
-                      <td class="perm-matrix__cell">
-                        <input
-                          type="checkbox"
-                          [checked]="form().permisosLlamadas[row].llamada"
-                          (change)="togglePermiso(row, 'llamada')"
-                          [attr.aria-label]="
-                            ('config.aed.subpages.agentes.llamadas.row_' + row | translate) +
-                            ' — ' +
-                            ('config.aed.subpages.agentes.llamadas.col_llamada' | translate)
-                          "
-                        />
-                      </td>
-                      <td class="perm-matrix__cell">
-                        <input
-                          type="checkbox"
-                          [checked]="form().permisosLlamadas[row].transferencias"
-                          (change)="togglePermiso(row, 'transferencias')"
-                          [attr.aria-label]="
-                            ('config.aed.subpages.agentes.llamadas.row_' + row | translate) +
-                            ' — ' +
-                            ('config.aed.subpages.agentes.llamadas.col_transferencias' | translate)
-                          "
-                        />
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          }
-        </section>
+        <table class="comm-table">
+          <thead>
+            <tr>
+              <th scope="col" class="comm-table__th-label">
+                {{ 'config.aed.subpages.agentes.comunicaciones.title' | translate }}
+              </th>
+              <th scope="col" class="comm-table__th-col">
+                {{ 'config.aed.subpages.agentes.comunicaciones.col_transferencias' | translate }}
+              </th>
+              <th scope="col" class="comm-table__th-col">
+                {{ 'config.aed.subpages.agentes.comunicaciones.col_permisos' | translate }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of comunicacionKeys; track row) {
+              <tr>
+                <th scope="row" class="comm-table__th-row">
+                  {{ 'config.aed.subpages.agentes.comunicaciones.row_' + row | translate }}
+                </th>
+                <td class="comm-table__cell">
+                  <input
+                    type="checkbox"
+                    [checked]="form().permisos[row].transferencias"
+                    (change)="togglePermiso(row, 'transferencias')"
+                    [attr.aria-label]="
+                      ('config.aed.subpages.agentes.comunicaciones.row_' + row | translate) +
+                      ' — ' +
+                      ('config.aed.subpages.agentes.comunicaciones.col_transferencias' | translate)
+                    "
+                  />
+                </td>
+                <td class="comm-table__cell">
+                  <input
+                    type="checkbox"
+                    [checked]="form().permisos[row].permisos"
+                    (change)="togglePermiso(row, 'permisos')"
+                    [attr.aria-label]="
+                      ('config.aed.subpages.agentes.comunicaciones.row_' + row | translate) +
+                      ' — ' +
+                      ('config.aed.subpages.agentes.comunicaciones.col_permisos' | translate)
+                    "
+                  />
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
 
         <hr class="divider" />
 
-        <!-- Permisos de dispositivos -->
-        <section class="sub-section">
+        <section class="sub-section" aria-labelledby="agentes-config-title">
           <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.agentes.dispositivos.title' | translate }}
-            </h3>
+            <h2 id="agentes-config-title" class="sub-section__title">
+              {{ 'config.aed.subpages.agentes.config.title' | translate }}
+            </h2>
           </header>
 
           <div class="switch-field">
             <div class="switch-field__copy">
               <span class="switch-field__label">
-                {{ 'config.aed.subpages.agentes.dispositivos.gestion_label' | translate }}
+                {{ 'config.aed.subpages.agentes.config.activacion_label' | translate }}
               </span>
-              <p class="switch-field__hint">
-                {{ 'config.aed.subpages.agentes.dispositivos.gestion_hint' | translate }}
-              </p>
-            </div>
-            <sc-toggleswitch
-              [checked]="form().gestionDispositivos"
-              [ariaLabel]="'config.aed.subpages.agentes.dispositivos.gestion_label' | translate"
-              (checkedChange)="update('gestionDispositivos', $event)"
-            />
-          </div>
-
-          <div class="switch-field">
-            <div class="switch-field__copy">
-              <span class="switch-field__label">
-                {{ 'config.aed.subpages.agentes.dispositivos.activacion_label' | translate }}
-              </span>
-              <p class="switch-field__hint">
-                {{ 'config.aed.subpages.agentes.dispositivos.activacion_hint' | translate }}
-              </p>
             </div>
             <sc-toggleswitch
               [checked]="form().activacionGrupo"
-              [ariaLabel]="'config.aed.subpages.agentes.dispositivos.activacion_label' | translate"
+              [ariaLabel]="'config.aed.subpages.agentes.config.activacion_label' | translate"
               (checkedChange)="update('activacionGrupo', $event)"
             />
           </div>
@@ -150,122 +100,63 @@
           <div class="switch-field">
             <div class="switch-field__copy">
               <span class="switch-field__label">
-                {{ 'config.aed.subpages.agentes.dispositivos.externos_label' | translate }}
+                {{ 'config.aed.subpages.agentes.config.gestion_label' | translate }}
               </span>
-              <p class="switch-field__hint">
-                {{ 'config.aed.subpages.agentes.dispositivos.externos_hint' | translate }}
-              </p>
+            </div>
+            <sc-toggleswitch
+              [checked]="form().gestionDispositivos"
+              [ariaLabel]="'config.aed.subpages.agentes.config.gestion_label' | translate"
+              (checkedChange)="update('gestionDispositivos', $event)"
+            />
+          </div>
+
+          <div class="switch-field">
+            <div class="switch-field__copy">
+              <span class="switch-field__label">
+                {{ 'config.aed.subpages.agentes.config.externos_label' | translate }}
+              </span>
             </div>
             <sc-toggleswitch
               [checked]="form().dispositivosExternos"
-              [ariaLabel]="'config.aed.subpages.agentes.dispositivos.externos_label' | translate"
+              [ariaLabel]="'config.aed.subpages.agentes.config.externos_label' | translate"
               (checkedChange)="update('dispositivosExternos', $event)"
             />
           </div>
         </section>
-
-        <hr class="divider" />
-
-        <!-- Visualización -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.agentes.visualizacion.title' | translate }}
-            </h3>
-          </header>
-
-          <div class="switch-field">
-            <div class="switch-field__copy">
-              <span class="switch-field__label">
-                {{ 'config.aed.subpages.agentes.visualizacion.orden_label' | translate }}
-              </span>
-              <p class="switch-field__hint">
-                {{ 'config.aed.subpages.agentes.visualizacion.orden_hint' | translate }}
-              </p>
-            </div>
-            <sc-toggleswitch
-              [checked]="form().ordenAleatorio"
-              [ariaLabel]="'config.aed.subpages.agentes.visualizacion.orden_label' | translate"
-              (checkedChange)="update('ordenAleatorio', $event)"
-            />
-          </div>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Iframe configurable -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.agentes.iframe.title' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.agentes.iframe.hint' | translate }}
-            </p>
-          </header>
-
-          <div class="switch-field">
-            <div class="switch-field__copy">
-              <span class="switch-field__label">
-                {{ 'config.aed.subpages.agentes.iframe.activate_label' | translate }}
-              </span>
-              <p class="switch-field__hint">
-                {{ 'config.aed.subpages.agentes.iframe.activate_hint' | translate }}
-              </p>
-            </div>
-            <sc-toggleswitch
-              [checked]="form().iframeActivo"
-              [ariaLabel]="'config.aed.subpages.agentes.iframe.activate_label' | translate"
-              (checkedChange)="update('iframeActivo', $event)"
-            />
-          </div>
-
-          @if (form().iframeActivo) {
-            <div class="grid grid--2">
-              <div class="field">
-                <label class="field__label" for="agentes-iframe-url">
-                  {{ 'config.aed.subpages.agentes.iframe.url_label' | translate }}
-                </label>
-                <sc-inputtext
-                  inputId="agentes-iframe-url"
-                  type="url"
-                  [placeholder]="'config.aed.subpages.agentes.iframe.url_placeholder' | translate"
-                  [value]="form().iframeUrl"
-                  (valueChange)="update('iframeUrl', $event)"
-                />
-              </div>
-              <div class="field">
-                <label class="field__label" for="agentes-iframe-titulo">
-                  {{ 'config.aed.subpages.agentes.iframe.titulo_label' | translate }}
-                </label>
-                <sc-inputtext
-                  inputId="agentes-iframe-titulo"
-                  type="text"
-                  [placeholder]="
-                    'config.aed.subpages.agentes.iframe.titulo_placeholder' | translate
-                  "
-                  [value]="form().iframeTitulo"
-                  (valueChange)="update('iframeTitulo', $event)"
-                />
-              </div>
-            </div>
-          }
-        </section>
       </div>
+    </section>
 
-      <div class="settings-card__foot">
-        <a href="#" class="settings-card__link" (click)="$event.preventDefault()">
-          {{ 'config.aed.subpages.agentes.learn_more' | translate }}
-        </a>
-        <div class="settings-card__actions">
-          @if (dirty()) {
-            <p-button type="button" severity="secondary" (onClick)="discard()">
-              <span>{{ 'common.discard' | translate }}</span>
-            </p-button>
-          }
-          <p-button type="button" severity="primary" [disabled]="!canSave()" (onClick)="save()">
-            <span>{{ (saving() ? 'common.saving' : 'common.save') | translate }}</span>
-          </p-button>
+    <!-- URL embebida en el puesto de agente -->
+    <section class="settings-card" aria-labelledby="agentes-url-title">
+      <div class="settings-card__head">
+        <h2 id="agentes-url-title" class="settings-card__title">
+          {{ 'config.aed.subpages.agentes.url.title' | translate }}
+        </h2>
+      </div>
+      <div class="settings-card__body">
+        <div class="field">
+          <label class="field__label" for="agentes-url">
+            {{ 'config.aed.subpages.agentes.url.url_label' | translate }}
+          </label>
+          <sc-inputtext
+            inputId="agentes-url"
+            type="url"
+            [placeholder]="'config.aed.subpages.agentes.url.url_placeholder' | translate"
+            [value]="form().iframeUrl"
+            (valueChange)="update('iframeUrl', $event)"
+          />
+        </div>
+        <div class="field">
+          <label class="field__label" for="agentes-url-titulo">
+            {{ 'config.aed.subpages.agentes.url.titulo_label' | translate }}
+          </label>
+          <sc-inputtext
+            inputId="agentes-url-titulo"
+            type="text"
+            [placeholder]="'config.aed.subpages.agentes.url.titulo_placeholder' | translate"
+            [value]="form().iframeTitulo"
+            (valueChange)="update('iframeTitulo', $event)"
+          />
         </div>
       </div>
     </section>

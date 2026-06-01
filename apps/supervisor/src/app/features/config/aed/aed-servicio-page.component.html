@@ -1,375 +1,354 @@
+<ng-template #topbarActions>
+  <p-button type="button" size="small" severity="secondary" (onClick)="cancel()">
+    <span>{{ 'common.cancel' | translate }}</span>
+  </p-button>
+  <p-button
+    type="button"
+    size="small"
+    severity="primary"
+    [disabled]="!canSave()"
+    [loading]="saving()"
+    (onClick)="save()"
+  >
+    <span>{{ 'common.save' | translate }}</span>
+  </p-button>
+</ng-template>
+
 <div class="page">
   <div class="page__inner">
-    <!-- Estados card -->
-    <section class="settings-card" aria-labelledby="servicio-estados-title">
-      <div class="settings-card__head">
-        <h2 id="servicio-estados-title" class="settings-card__title">
+    <header class="page-heading">
+      <sc-icon [name]="pageIcon" [size]="18" class="page-heading__icon" />
+      <h1 class="page-heading__title">
+        {{ 'config.aed.subpages.servicio.heading' | translate }}
+      </h1>
+    </header>
+
+    <!-- Estados de agentes -->
+    <section class="sub-section" aria-labelledby="general-estados-title">
+      <header class="sub-section__head">
+        <h2 id="general-estados-title" class="sub-section__title">
           {{ 'config.aed.subpages.servicio.estados.title' | translate }}
         </h2>
-        <p class="settings-card__hint">
-          {{ 'config.aed.subpages.servicio.estados.hint' | translate }}
-        </p>
-      </div>
+      </header>
 
-      <div class="settings-card__body">
-        <!-- Custom unavailability tags -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.servicio.estados.tags_label' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.servicio.estados.tags_hint' | translate }}
-            </p>
-          </header>
+      <ul class="state-list">
+        <li class="state-row">
+          <span class="state-tag" data-tone="green">
+            {{ 'config.aed.subpages.servicio.estados.disponible' | translate }}
+          </span>
+        </li>
 
-          <sc-inputgroup class="tag-input">
-            <input
-              pInputText
-              id="servicio-tag"
-              type="text"
-              [value]="tagInput()"
-              (input)="tagInput.set($any($event.target).value)"
-              (keydown)="onTagKeydown($event)"
-              [placeholder]="'config.aed.subpages.servicio.estados.tag_placeholder' | translate"
-            />
-            <p-button
+        @for (reason of form().estadosNoDisponibles; track reason) {
+          <li class="state-row">
+            <span class="state-tag" data-tone="amber">{{ reason }}</span>
+            <button
               type="button"
-              severity="secondary"
-              [outlined]="true"
-              [disabled]="!tagInput().trim()"
-              (onClick)="addTag()"
+              class="state-row__kebab"
+              (click)="removeReason(reason)"
+              [attr.aria-label]="('common.delete' | translate) + ' — ' + reason"
             >
-              <sc-icon [name]="addIcon" [size]="14" />
-              <span>{{ 'config.aed.subpages.servicio.estados.add' | translate }}</span>
-            </p-button>
-          </sc-inputgroup>
+              <sc-icon [name]="kebabIcon" [size]="16" />
+            </button>
+          </li>
+        }
 
-          @if (form().estadosNoDisponibles.length > 0) {
-            <ul class="chips" aria-label="Estados de no disponibilidad personalizados">
-              @for (tag of form().estadosNoDisponibles; track tag) {
-                <li class="chip">
-                  <span class="chip__label">{{ tag }}</span>
-                  <button
-                    type="button"
-                    class="chip__remove"
-                    (click)="removeTag(tag)"
-                    [attr.aria-label]="'common.delete' | translate"
-                  >
-                    <sc-icon [name]="closeIcon" [size]="11" />
-                  </button>
-                </li>
-              }
-            </ul>
-          }
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Visibilidad de estados -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.servicio.estados.visibilidad_title' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.servicio.estados.visibilidad_hint' | translate }}
-            </p>
-          </header>
-
-          <ul class="visibility-list">
-            @for (item of visibilidadLabels; track item.key) {
-              <li>
-                <label class="visibility">
-                  <input
-                    type="checkbox"
-                    [checked]="form().visibilidadEstados[item.key]"
-                    (change)="toggleVisibilidad(item.key)"
-                  />
-                  <span class="visibility__label">
-                    {{ 'config.aed.subpages.servicio.estados.state_' + item.key | translate }}
-                  </span>
-                  <span
-                    class="visibility__dot"
-                    [attr.data-tone]="item.tone"
-                    aria-hidden="true"
-                  ></span>
-                </label>
-              </li>
-            }
-          </ul>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Permisos de agentes -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.servicio.estados.permisos_title' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.servicio.estados.permisos_hint' | translate }}
-            </p>
-          </header>
-
-          <div class="switch-field">
-            <div class="switch-field__copy">
-              <span class="switch-field__label">
-                {{ 'config.aed.subpages.servicio.estados.filtrar_label' | translate }}
-              </span>
-              <p class="switch-field__hint">
-                {{ 'config.aed.subpages.servicio.estados.filtrar_hint' | translate }}
-              </p>
-            </div>
-            <sc-toggleswitch
-              [checked]="form().filtrarEstados"
-              [ariaLabel]="'config.aed.subpages.servicio.estados.filtrar_label' | translate"
-              (checkedChange)="updateEstados('filtrarEstados', $event)"
+        <li class="state-row">
+          <span class="state-tag" data-tone="gray">
+            {{ 'config.aed.subpages.servicio.estados.no_disponible' | translate }}
+          </span>
+          <label class="inline-check">
+            <input
+              type="checkbox"
+              [checked]="form().estadoAdministrativo"
+              (change)="update('estadoAdministrativo', $any($event.target).checked)"
             />
-          </div>
+            <span>{{ 'config.aed.subpages.servicio.estados.admin_checkbox' | translate }}</span>
+          </label>
+        </li>
+      </ul>
 
-          <div class="switch-field">
-            <div class="switch-field__copy">
-              <span class="switch-field__label">
-                {{ 'config.aed.subpages.servicio.estados.admin_label' | translate }}
-              </span>
-              <p class="switch-field__hint">
-                {{ 'config.aed.subpages.servicio.estados.admin_hint' | translate }}
-              </p>
-            </div>
-            <sc-toggleswitch
-              [checked]="form().trabajoAdministrativo"
-              [ariaLabel]="'config.aed.subpages.servicio.estados.admin_label' | translate"
-              (checkedChange)="updateEstados('trabajoAdministrativo', $event)"
-            />
-          </div>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Pausa por inactividad -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.servicio.estados.pausa_title' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.servicio.estados.pausa_hint' | translate }}
-            </p>
-          </header>
-
-          <div class="grid grid--2">
-            <div class="field">
-              <label class="field__label" for="servicio-pausa-standard">
-                <span>{{ 'config.aed.subpages.servicio.estados.standard_label' | translate }}</span>
-              </label>
-              <p class="field__caption">
-                {{ 'config.aed.subpages.servicio.estados.standard_hint' | translate }}
-              </p>
-              <sc-inputnumber
-                inputId="servicio-pausa-standard"
-                [min]="0"
-                [suffix]="'common.units.seconds' | translate"
-                [value]="form().pausaStandard"
-                (valueChange)="onPausaValueChange('pausaStandard', $event)"
-              />
-            </div>
-            <div class="field">
-              <label class="field__label" for="servicio-pausa-navegador">
-                <span>
-                  {{ 'config.aed.subpages.servicio.estados.navegador_label' | translate }}
-                </span>
-                <sc-icon [name]="infoIcon" [size]="12" class="field__info" />
-              </label>
-              <p class="field__caption">
-                {{ 'config.aed.subpages.servicio.estados.navegador_hint' | translate }}
-              </p>
-              <sc-inputnumber
-                inputId="servicio-pausa-navegador"
-                [min]="0"
-                [suffix]="'config.aed.subpages.servicio.estados.alertings' | translate"
-                [value]="form().pausaNavegador"
-                (valueChange)="onPausaValueChange('pausaNavegador', $event)"
-              />
-            </div>
-          </div>
-        </section>
-      </div>
-
-      <div class="settings-card__foot">
-        <a href="#" class="settings-card__link" (click)="$event.preventDefault()">
-          {{ 'config.aed.subpages.servicio.estados.learn_more' | translate }}
-        </a>
-        <div class="settings-card__actions">
-          @if (estadosDirty()) {
-            <p-button type="button" severity="secondary" (onClick)="discardEstados()">
-              <span>{{ 'common.discard' | translate }}</span>
-            </p-button>
-          }
+      <div class="field add-reason">
+        <label class="field__label" for="general-reason">
+          {{ 'config.aed.subpages.servicio.estados.nombre_label' | translate }}
+        </label>
+        <sc-inputgroup class="add-reason__group">
+          <input
+            pInputText
+            id="general-reason"
+            type="text"
+            [value]="tagInput()"
+            (input)="tagInput.set($any($event.target).value)"
+            (keydown)="onReasonKeydown($event)"
+            [placeholder]="'config.aed.subpages.servicio.estados.nombre_placeholder' | translate"
+          />
           <p-button
             type="button"
-            severity="primary"
-            [disabled]="!canSaveEstados()"
-            (onClick)="saveEstados()"
+            severity="secondary"
+            [outlined]="true"
+            [disabled]="!tagInput().trim()"
+            (onClick)="addReason()"
           >
-            <span>{{ (estadosSaving() ? 'common.saving' : 'common.save') | translate }}</span>
+            <sc-icon [name]="addIcon" [size]="14" />
+            <span>{{ 'config.aed.subpages.servicio.estados.add' | translate }}</span>
           </p-button>
+        </sc-inputgroup>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Bloqueo de puesto por inactividad -->
+    <section class="sub-section" aria-labelledby="general-inactividad-title">
+      <header class="sub-section__head">
+        <h2 id="general-inactividad-title" class="sub-section__title">
+          {{ 'config.aed.subpages.servicio.inactividad.title' | translate }}
+        </h2>
+      </header>
+
+      <div class="inline-row">
+        <label class="inline-check">
+          <input
+            type="checkbox"
+            [checked]="form().telefonoBloqueo"
+            (change)="update('telefonoBloqueo', $any($event.target).checked)"
+          />
+          <span>{{ 'config.aed.subpages.servicio.inactividad.telefono' | translate }}</span>
+        </label>
+        <span class="inline-row__text">
+          {{ 'config.aed.subpages.servicio.inactividad.telefono_text' | translate }}
+        </span>
+        <sc-inputnumber
+          inputId="general-cuarentena"
+          [min]="0"
+          [disabled]="!form().telefonoBloqueo"
+          [value]="form().cuarentenaSegundos"
+          (valueChange)="onNumberChange('cuarentenaSegundos', $event)"
+        />
+        <span class="inline-row__text">{{ 'common.units.seconds' | translate }}</span>
+      </div>
+
+      <div class="inline-row">
+        <label class="inline-check">
+          <input
+            type="checkbox"
+            [checked]="form().navegadorBloqueo"
+            (change)="update('navegadorBloqueo', $any($event.target).checked)"
+          />
+          <span>{{ 'config.aed.subpages.servicio.inactividad.navegador' | translate }}</span>
+        </label>
+        <span class="inline-row__text">
+          {{ 'config.aed.subpages.servicio.inactividad.navegador_text' | translate }}
+        </span>
+        <sc-inputnumber
+          inputId="general-bloquear-tras"
+          [min]="0"
+          [disabled]="!form().navegadorBloqueo"
+          [value]="form().bloquearTrasConversaciones"
+          (valueChange)="onNumberChange('bloquearTrasConversaciones', $event)"
+        />
+        <span class="inline-row__text">
+          {{ 'config.aed.subpages.servicio.inactividad.conversaciones_suffix' | translate }}
+        </span>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Configuración de ventana de llamada y transferencia -->
+    <section class="sub-section" aria-labelledby="general-ventana-title">
+      <header class="sub-section__head">
+        <h2 id="general-ventana-title" class="sub-section__title">
+          {{ 'config.aed.subpages.servicio.ventana.title' | translate }}
+        </h2>
+      </header>
+
+      <label class="inline-check">
+        <input
+          type="checkbox"
+          [checked]="form().verEstadoOtros"
+          (change)="update('verEstadoOtros', $any($event.target).checked)"
+        />
+        <span>{{ 'config.aed.subpages.servicio.ventana.ver_estado' | translate }}</span>
+      </label>
+      <label class="inline-check">
+        <input
+          type="checkbox"
+          [checked]="form().verAgentesAleatorio"
+          (change)="update('verAgentesAleatorio', $any($event.target).checked)"
+        />
+        <span>{{ 'config.aed.subpages.servicio.ventana.ver_aleatorio' | translate }}</span>
+      </label>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Estados visibles por el agente -->
+    <section class="sub-section" aria-labelledby="general-visibles-title">
+      <header class="sub-section__head">
+        <h2 id="general-visibles-title" class="sub-section__title">
+          {{ 'config.aed.subpages.servicio.visibles.title' | translate }}
+        </h2>
+      </header>
+
+      <ul class="visible-list">
+        @for (item of visibilidadLabels; track item.key) {
+          <li class="visible-row">
+            <span class="visible-row__bar" [attr.data-tone]="item.tone" aria-hidden="true"></span>
+            <div class="visible-row__copy">
+              <span class="visible-row__label">
+                {{ 'config.aed.subpages.servicio.visibles.state_' + item.key | translate }}
+              </span>
+              <span class="visible-row__desc">
+                {{ 'config.aed.subpages.servicio.visibles.desc_' + item.key | translate }}
+              </span>
+            </div>
+            <sc-toggleswitch
+              [checked]="form().visibilidadEstados[item.key]"
+              [ariaLabel]="'config.aed.subpages.servicio.visibles.state_' + item.key | translate"
+              (checkedChange)="toggleVisibilidad(item.key, $event)"
+            />
+          </li>
+        }
+      </ul>
+
+      <label class="inline-check">
+        <input
+          type="checkbox"
+          [checked]="form().filtrarEstados"
+          (change)="update('filtrarEstados', $any($event.target).checked)"
+        />
+        <span>{{ 'config.aed.subpages.servicio.visibles.filtrar' | translate }}</span>
+      </label>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Aviso de conversación -->
+    <section class="sub-section" aria-labelledby="general-aviso-title">
+      <header class="sub-section__head">
+        <h2 id="general-aviso-title" class="sub-section__title">
+          {{ 'config.aed.subpages.servicio.aviso.title' | translate }}
+        </h2>
+      </header>
+
+      <div class="grid grid--2">
+        <div class="field">
+          <label class="field__label" for="general-descuelgue">
+            {{ 'config.aed.subpages.servicio.aviso.descuelgue_label' | translate }}
+          </label>
+          <sc-select
+            inputId="general-descuelgue"
+            [options]="descuelgueOptions"
+            [value]="form().tipoDescuelgue"
+            [placeholder]="'config.aed.subpages.servicio.aviso.descuelgue_placeholder' | translate"
+            (valueChange)="onDescuelgueChange($event)"
+          />
+        </div>
+
+        <div class="field">
+          <span class="field__label">
+            {{ 'config.aed.subpages.servicio.aviso.alerting_label' | translate }}
+          </span>
+          <div
+            class="radio-row"
+            role="radiogroup"
+            [attr.aria-label]="'config.aed.subpages.servicio.aviso.alerting_label' | translate"
+          >
+            <label class="radio">
+              <input
+                type="radio"
+                name="alerting-tipo"
+                value="nombre"
+                [checked]="form().alertingTipo === 'nombre'"
+                (change)="onAlertingChange('nombre')"
+              />
+              <span>{{ 'config.aed.subpages.servicio.aviso.alerting_nombre' | translate }}</span>
+            </label>
+            <label class="radio">
+              <input
+                type="radio"
+                name="alerting-tipo"
+                value="telefono"
+                [checked]="form().alertingTipo === 'telefono'"
+                (change)="onAlertingChange('telefono')"
+              />
+              <span>{{ 'config.aed.subpages.servicio.aviso.alerting_telefono' | translate }}</span>
+            </label>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Conversaciones card -->
-    <section class="settings-card" aria-labelledby="servicio-conv-title">
-      <div class="settings-card__head">
-        <h2 id="servicio-conv-title" class="settings-card__title">
-          {{ 'config.aed.subpages.servicio.conv.title' | translate }}
+    <hr class="divider" />
+
+    <!-- Notificaciones a sistemas externos -->
+    <section class="sub-section" aria-labelledby="general-notif-title">
+      <header class="sub-section__head">
+        <h2 id="general-notif-title" class="sub-section__title">
+          {{ 'config.aed.subpages.servicio.notif.title' | translate }}
         </h2>
-        <p class="settings-card__hint">
-          {{ 'config.aed.subpages.servicio.conv.hint' | translate }}
-        </p>
-      </div>
+      </header>
 
-      <div class="settings-card__body">
-        <div class="grid grid--2">
-          <div class="field">
-            <label class="field__label" for="servicio-descuelgue">
-              {{ 'config.aed.subpages.servicio.conv.descuelgue_label' | translate }}
-            </label>
-            <select
-              id="servicio-descuelgue"
-              class="field__input"
-              [value]="form().tipoDescuelgue"
-              (change)="onDescuelgueChange($event)"
-            >
-              @for (option of descuelgueOptions; track option) {
-                <option [value]="option">{{ option }}</option>
-              }
-            </select>
-          </div>
-
-          <div class="field">
-            <span class="field__label">
-              {{ 'config.aed.subpages.servicio.conv.alerting_label' | translate }}
-            </span>
-            <div
-              class="radio-row"
-              role="radiogroup"
-              [attr.aria-label]="'config.aed.subpages.servicio.conv.alerting_label' | translate"
-            >
-              <label class="radio">
-                <input
-                  type="radio"
-                  name="alerting-tipo"
-                  value="nombre"
-                  [checked]="form().alertingTipo === 'nombre'"
-                  (change)="onAlertingChange('nombre')"
-                />
-                <span>{{ 'config.aed.subpages.servicio.conv.alerting_nombre' | translate }}</span>
-              </label>
-              <label class="radio">
-                <input
-                  type="radio"
-                  name="alerting-tipo"
-                  value="telefono"
-                  [checked]="form().alertingTipo === 'telefono'"
-                  (change)="onAlertingChange('telefono')"
-                />
-                <span>
-                  {{ 'config.aed.subpages.servicio.conv.alerting_telefono' | translate }}
-                </span>
-              </label>
-            </div>
-          </div>
+      <!-- Conversación entrante -->
+      <div class="notif-block">
+        <div class="field">
+          <label class="field__label" for="general-notif-entrante">
+            {{ 'config.aed.subpages.servicio.notif.entrante' | translate }}
+          </label>
+          <sc-inputtext
+            inputId="general-notif-entrante"
+            type="url"
+            [placeholder]="'config.aed.subpages.servicio.notif.url_placeholder' | translate"
+            [value]="form().notifEntranteUrl"
+            (valueChange)="update('notifEntranteUrl', $event)"
+          />
         </div>
-
-        <hr class="divider" />
-
-        <!-- Callblending -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.servicio.conv.callblending_title' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.servicio.conv.callblending_hint' | translate }}
-            </p>
-          </header>
-
-          <div class="grid grid--2">
-            <div class="field">
-              <label class="field__label" for="servicio-callblending-url">
-                {{ 'config.aed.subpages.servicio.conv.url_label' | translate }}
+        <ul class="events-list" [class.events-list--disabled]="!hasEntranteUrl()">
+          @for (key of notifEventos; track key) {
+            <li>
+              <label class="inline-check">
+                <input
+                  type="checkbox"
+                  [checked]="form().notifEntrante[key]"
+                  [disabled]="!hasEntranteUrl()"
+                  (change)="toggleNotif('notifEntrante', key)"
+                />
+                <span>{{ 'config.aed.subpages.servicio.notif.evento_' + key | translate }}</span>
               </label>
-              <sc-inputtext
-                inputId="servicio-callblending-url"
-                type="url"
-                [placeholder]="'config.aed.subpages.servicio.conv.url_placeholder' | translate"
-                [value]="form().callblendingUrl"
-                (valueChange)="onCallblendingUrlValue($event)"
-              />
-            </div>
-
-            <div class="field">
-              <label class="field__label" for="servicio-timeout">
-                <span>{{ 'config.aed.subpages.servicio.conv.timeout_label' | translate }}</span>
-                <sc-icon [name]="infoIcon" [size]="12" class="field__info" />
-              </label>
-              <sc-inputnumber
-                inputId="servicio-timeout"
-                [min]="0"
-                [suffix]="'common.units.seconds' | translate"
-                [value]="form().callblendingTimeout"
-                (valueChange)="onCallblendingTimeoutValueChange($event)"
-              />
-            </div>
-          </div>
-
-          <div>
-            <p class="field__label">
-              {{ 'config.aed.subpages.servicio.conv.eventos_label' | translate }}
-            </p>
-            <ul class="events-list">
-              @for (key of eventosLabels; track key) {
-                <li>
-                  <label class="event">
-                    <input
-                      type="checkbox"
-                      [checked]="form().eventosNotificacion[key]"
-                      (change)="toggleEvento(key)"
-                    />
-                    <span>
-                      {{ 'config.aed.subpages.servicio.conv.evento_' + key | translate }}
-                    </span>
-                  </label>
-                </li>
-              }
-            </ul>
-          </div>
-        </section>
-      </div>
-
-      <div class="settings-card__foot">
-        <a href="#" class="settings-card__link" (click)="$event.preventDefault()">
-          {{ 'config.aed.subpages.servicio.conv.learn_more' | translate }}
-        </a>
-        <div class="settings-card__actions">
-          @if (conversacionesDirty()) {
-            <p-button type="button" severity="secondary" (onClick)="discardConversaciones()">
-              <span>{{ 'common.discard' | translate }}</span>
-            </p-button>
+            </li>
           }
-          <p-button
-            type="button"
-            severity="primary"
-            [disabled]="!canSaveConversaciones()"
-            (onClick)="saveConversaciones()"
-          >
-            <span>{{
-              (conversacionesSaving() ? 'common.saving' : 'common.save') | translate
-            }}</span>
-          </p-button>
+        </ul>
+      </div>
+
+      <!-- Conversación saliente -->
+      <div class="notif-block">
+        <div class="field">
+          <label class="field__label" for="general-notif-saliente">
+            {{ 'config.aed.subpages.servicio.notif.saliente' | translate }}
+          </label>
+          <sc-inputtext
+            inputId="general-notif-saliente"
+            type="url"
+            [placeholder]="'config.aed.subpages.servicio.notif.url_placeholder' | translate"
+            [value]="form().notifSalienteUrl"
+            (valueChange)="update('notifSalienteUrl', $event)"
+          />
         </div>
+        <ul class="events-list" [class.events-list--disabled]="!hasSalienteUrl()">
+          @for (key of notifEventos; track key) {
+            <li>
+              <label class="inline-check">
+                <input
+                  type="checkbox"
+                  [checked]="form().notifSaliente[key]"
+                  [disabled]="!hasSalienteUrl()"
+                  (change)="toggleNotif('notifSaliente', key)"
+                />
+                <span>{{ 'config.aed.subpages.servicio.notif.evento_' + key | translate }}</span>
+              </label>
+            </li>
+          }
+        </ul>
       </div>
     </section>
   </div>

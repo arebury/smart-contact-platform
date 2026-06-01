@@ -1,59 +1,58 @@
 /*
- * Agentes-specific extras: the Llamadas accordion + the
- * destino × LLAMADA × TRANSFERENCIAS table. Shared layout primitives
- * live in aed-defaults-page.component.scss (loaded alongside via
- * styleUrls).
+ * Agentes page — Figma Supervisor 1:12496 / 1:12616.
+ * Matriz de comunicaciones (filas × Transferencias / Permisos) + toggles
+ * de configuración + card de URL embebida. Primitivas compartidas en
+ * aed-defaults-page.component.scss.
  */
 
-.accordion {
-  border: 1px solid var(--sc-border-default);
-  border-radius: var(--sc-radius-200);
-  overflow: hidden;
+.comm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--sc-font-size-100);
 
-  &__head {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--sc-spacing-0-5);
-    padding: var(--sc-spacing-0-875) var(--sc-spacing-1-125);
-    background: var(--sc-bg-secondary-subtle);
-    border: 0;
-    cursor: pointer;
+  th,
+  td {
     text-align: left;
-    transition: background var(--sc-transition-fast) ease;
-
-    &:hover {
-      background: var(--sc-bg-secondary-hover);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--sc-border-focus);
-      outline-offset: -2px;
-    }
-
-    &--open {
-      border-bottom: 1px solid var(--sc-border-default);
-    }
+    vertical-align: middle;
   }
 
-  &__title {
-    font-size: var(--sc-font-size-100);
-    font-weight: var(--sc-font-weight-medium);
+  &__th-label {
+    padding: var(--sc-spacing-0-625) var(--sc-spacing-0-875);
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-text-primary);
+    border-bottom: 1px solid var(--sc-border-default);
+  }
+
+  &__th-col {
+    width: 132px;
+    padding: var(--sc-spacing-0-625) var(--sc-spacing-0-875);
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-text-primary);
+    border-bottom: 1px solid var(--sc-border-default);
+  }
+
+  &__th-row {
+    padding: var(--sc-spacing-0-625) var(--sc-spacing-0-875);
+    font-weight: var(--sc-font-weight-regular);
     color: var(--sc-text-secondary);
   }
 
-  &__chevron {
-    color: var(--sc-icon-subtle);
-    flex-shrink: 0;
+  &__cell {
+    padding: var(--sc-spacing-0-625) var(--sc-spacing-0-875);
   }
 
-  &__body {
-    padding: var(--sc-spacing-1-125);
-    background: var(--sc-bg-surface);
+  tbody tr:nth-child(even) {
+    background: var(--sc-bg-secondary-subtle);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--sc-border-subtle);
+  }
+
+  input[type='checkbox'] {
+    accent-color: var(--sc-bg-primary);
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
   }
 }
-
-/* `.perm-matrix` lives in `src/styles/_forms.scss` (DD#54 audit #1).
- * The accordion wrapper above is local to this page; the matrix itself
- * is shared with the agent-form permissions section. */

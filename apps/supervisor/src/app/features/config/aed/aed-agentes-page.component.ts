@@ -1,70 +1,73 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  TemplateRef,
+  afterNextRender,
+  computed,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
+import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
-import {
-  IconComponent,
-  InputTextComponent,
-  ToggleSwitchComponent,
-  CheckboxComponent,
-  type TriState,
-} from '@shared/components';
+import { IconComponent, InputTextComponent, ToggleSwitchComponent } from '@shared/components';
 
-type DestinoKey = 'fijos' | 'moviles' | 'internacionales' | 'especial';
-type DestinoCol = 'llamada' | 'transferencias';
+type ComunicacionKey =
+  | 'fijos'
+  | 'moviles'
+  | 'internacionales'
+  | 'numeracionEspecial'
+  | 'llamadasInternas';
+type PermisoCol = 'transferencias' | 'permisos';
 
-interface PermisosLlamadas {
-  fijos: { llamada: boolean; transferencias: boolean };
-  moviles: { llamada: boolean; transferencias: boolean };
-  internacionales: { llamada: boolean; transferencias: boolean };
-  especial: { llamada: boolean; transferencias: boolean };
-}
+type PermisosMatrix = Record<ComunicacionKey, Record<PermisoCol, boolean>>;
 
 interface FormState {
-  llamadasOpen: boolean;
-  permisosLlamadas: PermisosLlamadas;
-  gestionDispositivos: boolean;
+  permisos: PermisosMatrix;
+  /** Configuración. */
   activacionGrupo: boolean;
+  gestionDispositivos: boolean;
   dispositivosExternos: boolean;
-  ordenAleatorio: boolean;
-  iframeActivo: boolean;
+  /** URL embebida en el puesto de agente. */
   iframeUrl: string;
   iframeTitulo: string;
 }
 
-const DESTINO_KEYS: readonly DestinoKey[] = ['fijos', 'moviles', 'internacionales', 'especial'];
+const COMUNICACION_KEYS: readonly ComunicacionKey[] = [
+  'fijos',
+  'moviles',
+  'internacionales',
+  'numeracionEspecial',
+  'llamadasInternas',
+];
 
 const DEFAULT_FORM: FormState = {
-  llamadasOpen: true,
-  permisosLlamadas: {
-    fijos: { llamada: false, transferencias: true },
-    moviles: { llamada: false, transferencias: true },
-    internacionales: { llamada: false, transferencias: true },
-    especial: { llamada: false, transferencias: true },
+  permisos: {
+    fijos: { transferencias: true, permisos: true },
+    moviles: { transferencias: false, permisos: true },
+    internacionales: { transferencias: false, permisos: true },
+    numeracionEspecial: { transferencias: false, permisos: true },
+    llamadasInternas: { transferencias: false, permisos: true },
   },
-  gestionDispositivos: true,
   activacionGrupo: true,
+  gestionDispositivos: true,
   dispositivosExternos: true,
-  ordenAleatorio: false,
-  iframeActivo: true,
   iframeUrl: '',
   iframeTitulo: '',
 };
 
 /**
- * Agentes defaults page — `/config/aed/agentes`. Figma node 224:9167.
+ * Agentes defaults page — `/config/aed/agentes`. Figma Supervisor `1:12496`.
  *
- * One SettingsCard with a "Llamadas" accordion (collapsible table of
- * destino × LLAMADA × TRANSFERENCIAS checkboxes), then three
- * sub-sections separated by dividers: Permisos de dispositivos
- * (3 switches), Visualización (1 switch), and Iframe configurable
- * (switch + URL/Título inputs that only render when the switch is on).
- *
- * Per the UX brief, the destino table is a real `<table>` (semantic,
- * keyboard-accessible) with column headers that double as
- * "select-all-in-column" toggles.
+ * Card "Comunicaciones" como matriz de permisos (filas = tipo de
+ * comunicación × columnas Transferencias / Permisos), seguida de la
+ * sección Configuración (3 toggles) y una card "URL embebida en el
+ * puesto de agente" (URL + título). Guardado único en la TopBar.
  */
 @Component({
   selector: 'sc-aed-agentes-page',
@@ -74,20 +77,19 @@ const DEFAULT_FORM: FormState = {
     InputTextComponent,
     ToggleSwitchComponent,
     TranslateModule,
-    CheckboxComponent,
   ],
   templateUrl: './aed-agentes-page.component.html',
   styleUrls: ['./aed-defaults-page.component.scss', './aed-agentes-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AedAgentesPageComponent {
+export class AedAgentesPageComponent implements OnDestroy {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
-  protected readonly userIcon = 'person';
-  protected readonly chevronDown = 'expand_more';
-  protected readonly chevronUp = 'expand_less';
+  private readonly topBarSlot = inject(TopBarSlotService);
 
-  protected readonly destinoKeys = DESTINO_KEYS;
+  protected readonly pageIcon = 'verified_user';
+
+  protected readonly comunicacionKeys = COMUNICACION_KEYS;
 
   protected readonly form = signal<FormState>(this.cloneDefault());
   protected readonly dirty = signal(false);
@@ -95,44 +97,31 @@ export class AedAgentesPageComponent {
 
   protected readonly canSave = computed(() => this.dirty() && !this.saving());
 
-  protected readonly columnState = computed<Record<DestinoCol, TriState>>(() => {
-    const p = this.form().permisosLlamadas;
-    const tally = (col: DestinoCol): TriState => {
-      const checked = DESTINO_KEYS.filter((k) => p[k][col]).length;
-      if (checked === 0) return 'none';
-      if (checked === DESTINO_KEYS.length) return 'all';
-      return 'some';
-    };
-    return { llamada: tally('llamada'), transferencias: tally('transferencias') };
-  });
+  private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
 
-  protected toggleLlamadasOpen(): void {
-    this.form.update((f) => ({ ...f, llamadasOpen: !f.llamadasOpen }));
+  constructor() {
+    afterNextRender(() => {
+      const tpl = this.topbarActions();
+      if (tpl) this.topBarSlot.setActions(tpl);
+    });
   }
 
-  protected togglePermiso(row: DestinoKey, col: DestinoCol): void {
+  ngOnDestroy(): void {
+    this.topBarSlot.clearActions();
+  }
+
+  protected togglePermiso(row: ComunicacionKey, col: PermisoCol): void {
     this.form.update((f) => ({
       ...f,
-      permisosLlamadas: {
-        ...f.permisosLlamadas,
-        [row]: { ...f.permisosLlamadas[row], [col]: !f.permisosLlamadas[row][col] },
+      permisos: {
+        ...f.permisos,
+        [row]: { ...f.permisos[row], [col]: !f.permisos[row][col] },
       },
     }));
     this.dirty.set(true);
   }
 
-  protected toggleColumnAll(col: DestinoCol, next: boolean): void {
-    this.form.update((f) => {
-      const updated = { ...f.permisosLlamadas } as PermisosLlamadas;
-      for (const k of DESTINO_KEYS) {
-        updated[k] = { ...updated[k], [col]: next };
-      }
-      return { ...f, permisosLlamadas: updated };
-    });
-    this.dirty.set(true);
-  }
-
-  protected update<K extends Exclude<keyof FormState, 'permisosLlamadas' | 'llamadasOpen'>>(
+  protected update<K extends Exclude<keyof FormState, 'permisos'>>(
     key: K,
     value: FormState[K],
   ): void {
@@ -140,7 +129,7 @@ export class AedAgentesPageComponent {
     this.dirty.set(true);
   }
 
-  protected discard(): void {
+  protected cancel(): void {
     this.form.set(this.cloneDefault());
     this.dirty.set(false);
   }
@@ -162,11 +151,12 @@ export class AedAgentesPageComponent {
   private cloneDefault(): FormState {
     return {
       ...DEFAULT_FORM,
-      permisosLlamadas: {
-        fijos: { ...DEFAULT_FORM.permisosLlamadas.fijos },
-        moviles: { ...DEFAULT_FORM.permisosLlamadas.moviles },
-        internacionales: { ...DEFAULT_FORM.permisosLlamadas.internacionales },
-        especial: { ...DEFAULT_FORM.permisosLlamadas.especial },
+      permisos: {
+        fijos: { ...DEFAULT_FORM.permisos.fijos },
+        moviles: { ...DEFAULT_FORM.permisos.moviles },
+        internacionales: { ...DEFAULT_FORM.permisos.internacionales },
+        numeracionEspecial: { ...DEFAULT_FORM.permisos.numeracionEspecial },
+        llamadasInternas: { ...DEFAULT_FORM.permisos.llamadasInternas },
       },
     };
   }

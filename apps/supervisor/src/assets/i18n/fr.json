@@ -1433,8 +1433,8 @@
       "title": "Configuration AED",
       "subtitle": "Paramètres de la plateforme",
       "version": "SmartContact · v2.4.0",
-      "servicio_label": "Service",
-      "servicio_hint": "États et conversations",
+      "servicio_label": "Général",
+      "servicio_hint": "Paramètres du service",
       "agentes_label": "Agents",
       "agentes_hint": "Paramètres par défaut",
       "grupos_label": "Groupes",
@@ -1461,153 +1461,113 @@
       },
       "subpages": {
         "servicio": {
-          "heading": "Service",
-          "subtitle": "États des agents, paramètres de conversations et configuration opérationnelle.",
+          "heading": "Général",
           "estados": {
-            "title": "États",
-            "hint": "Personnalisez les états d'indisponibilité et configurez la visibilité des états entre agents.",
-            "tags_label": "États d'indisponibilité personnalisés",
-            "tags_hint": "Ces états seront disponibles pour que les agents les sélectionnent quand ils sont indisponibles.",
-            "tag_placeholder": "Appuyez sur Entrée ou cliquez sur le bouton ajouter.",
-            "add": "Ajouter",
-            "visibilidad_title": "Visibilité des états des autres agents",
-            "visibilidad_hint": "Sélectionnez quels états sont visibles pour le reste de l'équipe.",
+            "title": "États des agents",
+            "disponible": "Disponible",
+            "no_disponible": "Indisponible",
+            "admin_checkbox": "État administratif",
+            "nombre_label": "Nom",
+            "nombre_placeholder": "N'importe quel nom",
+            "add": "Ajouter"
+          },
+          "inactividad": {
+            "title": "Verrouillage du poste par inactivité",
+            "telefono": "Téléphone",
+            "telefono_text": "Mettre en quarantaine pendant",
+            "navegador": "Navigateur",
+            "navegador_text": "Verrouiller après",
+            "conversaciones_suffix": "conversations non répondues"
+          },
+          "ventana": {
+            "title": "Paramètres de la fenêtre d'appel et de transfert",
+            "ver_estado": "Afficher l'état des autres agents",
+            "ver_aleatorio": "Afficher les agents dans un ordre aléatoire"
+          },
+          "visibles": {
+            "title": "États visibles par l'agent",
             "state_postConversando": "Post-conversation",
             "state_conversando": "En conversation",
             "state_administrativo": "Administratif",
             "state_noDisponible": "Indisponible",
             "state_desconectado": "Déconnecté",
-            "permisos_title": "Permissions des agents",
-            "permisos_hint": "Ces permissions servent à configurer divers paramètres.",
-            "filtrar_label": "Permettre de filtrer les états possibles",
-            "filtrar_hint": "Les agents pourront voir et filtrer les états disponibles selon leur configuration.",
-            "admin_label": "Permettre le travail administratif",
-            "admin_hint": "Les agents pourront activer l'état administratif pendant leur journée.",
-            "pausa_title": "Pause par inactivité",
-            "pausa_hint": "Définissez les temps de blocage automatique par manque de réponse.",
-            "standard_label": "Standard",
-            "standard_hint": "Temps de blocage pour chaque refus ou manque de réponse.",
-            "navegador_label": "Navigateur (multicanal)",
-            "navegador_hint": "Nombre maximum d'alertings non répondus.",
-            "alertings": "alertings",
-            "learn_more": "En savoir plus sur la gestion des états"
+            "desc_postConversando": "En attente après une conversation",
+            "desc_conversando": "En train de gérer une conversation",
+            "desc_administrativo": "Réalise des tâches internes",
+            "desc_noDisponible": "Ne peut pas recevoir de conversations",
+            "desc_desconectado": "Ne peut pas recevoir de conversations",
+            "filtrar": "Permettre aux agents de filtrer les états"
           },
-          "conv": {
-            "title": "Conversations",
-            "hint": "Définissez le comportement par défaut dans la gestion des conversations et appels sortants.",
+          "aviso": {
+            "title": "Alerte de conversation",
             "descuelgue_label": "Type de décrochage par défaut",
-            "alerting_label": "Alerting du service",
+            "descuelgue_placeholder": "Sélectionner",
+            "alerting_label": "Alerte du service",
             "alerting_nombre": "Nom",
-            "alerting_telefono": "Numéro de téléphone",
-            "callblending_title": "Callblending",
-            "callblending_hint": "Configurez l'intégration de notifications pour appels sortants.",
-            "url_label": "URL de notification",
-            "url_placeholder": "https://exemple.com/webhook",
-            "timeout_label": "Timeout en appel sortant",
-            "eventos_label": "Événements de notification",
-            "evento_emision": "Émission",
-            "evento_llamadaEnCurso": "Appel en cours",
-            "evento_llamadaNoAtendida": "Appel non répondu",
-            "evento_llamadaAtendida": "Appel répondu par agent",
-            "evento_llamadaFinalizada": "Appel terminé",
-            "evento_llamadaRechazada": "Appel rejeté",
-            "learn_more": "En savoir plus sur la configuration des conversations"
+            "alerting_telefono": "Numéro de téléphone"
+          },
+          "notif": {
+            "title": "Notifications aux systèmes externes",
+            "entrante": "Conversation entrante",
+            "saliente": "Conversation sortante",
+            "url_placeholder": "URL",
+            "evento_inicio": "Début",
+            "evento_fin": "Fin",
+            "evento_resultado": "Résultat"
           },
           "toast": {
-            "estados_saved": "États sauvegardés",
-            "conversaciones_saved": "Configuration de conversations sauvegardée"
+            "saved": "Configuration enregistrée"
           }
         },
         "agentes": {
           "heading": "Agents",
-          "subtitle": "Permissions et valeurs prédéterminées appliquées à tous les agents.",
-          "card_title": "Paramètres par défaut pour agents",
-          "card_hint": "Établissez les permissions et valeurs prédéterminées qui s'appliqueront à tous les agents de la plateforme.",
-          "llamadas": {
-            "title": "Appels",
-            "destino": "Destination",
-            "col_llamada": "Appel",
+          "comunicaciones": {
+            "title": "Communications",
             "col_transferencias": "Transferts",
-            "toggle_all_llamada": "Marquer toutes les destinations en Appel",
-            "toggle_all_transfer": "Marquer toutes les destinations en Transferts",
+            "col_permisos": "Permissions",
             "row_fijos": "Fixes",
             "row_moviles": "Mobiles",
             "row_internacionales": "Internationaux",
-            "row_especial": "Numérotation spéciale"
+            "row_numeracionEspecial": "Numérotation spéciale",
+            "row_llamadasInternas": "Appels internes"
           },
-          "dispositivos": {
-            "title": "Permissions d'appareils",
-            "gestion_label": "Gestion d'appareils",
-            "gestion_hint": "Les agents pourront ajouter et supprimer leurs propres appareils.",
-            "activacion_label": "Activation par groupe de service AED",
-            "activacion_hint": "Permet aux agents de s'activer ou se désactiver par groupe de service.",
-            "externos_label": "Appareils externes",
-            "externos_hint": "Les agents pourront utiliser des terminaux physiques externes comme appareil actif."
+          "config": {
+            "title": "Configuration",
+            "activacion_label": "Activation/Désactivation par groupe de service AED",
+            "gestion_label": "Gestion des appareils de travail en WebRTC",
+            "externos_label": "Utilisation d'appareils externes"
           },
-          "visualizacion": {
-            "title": "Visualisation",
-            "orden_label": "Ordre aléatoire des agents",
-            "orden_hint": "Les agents seront affichés en ordre aléatoire dans les listes et panneaux."
-          },
-          "iframe": {
-            "title": "Iframe configurable",
-            "hint": "Permet d'intégrer des URLs externes dans le panneau de l'agent.",
-            "activate_label": "Activer l'iframe configurable",
-            "activate_hint": "Les agents pourront avoir une URL fixe chargée dans un iframe à l'intérieur de leur interface.",
-            "url_label": "URL de l'iframe",
-            "url_placeholder": "https://exemple.com",
-            "titulo_label": "Titre (optionnel)",
+          "url": {
+            "title": "URL intégrée dans le poste de l'agent",
+            "url_label": "URL",
+            "url_placeholder": "URL",
+            "titulo_label": "Titre (facultatif)",
             "titulo_placeholder": "Mon outil"
           },
-          "learn_more": "En savoir plus sur les paramètres d'agents",
           "toast": {
-            "saved": "Paramètres d'agents sauvegardés"
+            "saved": "Paramètres des agents enregistrés"
           }
         },
         "grupos": {
           "heading": "Groupes",
-          "subtitle": "Capacité, temps et routage pour les groupes de service.",
-          "card_title": "Paramètres par défaut pour groupes",
-          "card_hint": "Définissez la capacité, les temps de gestion et la stratégie de routage pour les groupes de service.",
-          "capacidad": {
-            "title": "Capacité maximale",
-            "hint": "Définit comment la limite de conversations en file est calculée.",
-            "fija": "Fixe",
-            "variable": "Variable",
-            "limite_label": "Limite de file",
-            "limite_info": "Nombre maximum de conversations qui peuvent être en attente en même temps.",
-            "limite_suffix": "conversations en file"
-          },
-          "tiempos": {
-            "title": "Temps de gestion",
-            "hint": "Valeurs par défaut appliquées au traitement des appels du groupe.",
-            "transferencia": "Temps de transfert",
-            "max_cola": "Temps max. attente en file"
-          },
-          "voz": {
-            "title": "Voix et débordement",
-            "tipo_label": "Type de voix",
-            "desbordar_llamadas": "Déborder les appels",
-            "desbordar_llamadas_hint": "Redirige les appels lors du dépassement de la capacité du groupe.",
-            "desbordar_sesion": "Déborder la session",
-            "desbordar_sesion_hint": "Redirige les sessions actives lors du dépassement de la limite de concurrence."
-          },
-          "enrutamiento": {
-            "title": "Routage",
-            "hint": "Configurez la priorité et la stratégie de distribution de conversations.",
-            "prioridad": "Priorité",
-            "estrategia": "Stratégie de distribution"
+          "params": {
+            "title": "Paramètres",
+            "estrategia": "Stratégie de répartition des conversations",
+            "prioridad": "Priorité du groupe",
+            "voz": "Voix",
+            "desbordar": "Débordement des conversations quand aucun agent n'est disponible",
+            "tipo_cola": "Type de file d'attente",
+            "capacidad_cola": "Capacité de la file d'attente",
+            "tiempo_max": "Temps d'attente maximal en file",
+            "tiempo_transfer": "Temps de transfert",
+            "placeholder": "Sélectionner"
           },
           "apertura": {
-            "title": "Ouverture de fiche",
-            "hint": "Définit quand la fiche du contact s'ouvre pendant une conversation.",
-            "automatica": "Automatique",
-            "manual": "Manuel",
-            "ninguna": "Aucune"
+            "title": "Ouverture de la fiche",
+            "tipo_label": "Type"
           },
-          "learn_more": "En savoir plus sur les paramètres de groupes",
           "toast": {
-            "saved": "Paramètres de groupes sauvegardés"
+            "saved": "Paramètres des groupes enregistrés"
           }
         }
       }

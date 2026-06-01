@@ -1,286 +1,162 @@
+<ng-template #topbarActions>
+  <p-button type="button" size="small" severity="secondary" (onClick)="cancel()">
+    <span>{{ 'common.cancel' | translate }}</span>
+  </p-button>
+  <p-button
+    type="button"
+    size="small"
+    severity="primary"
+    [disabled]="!canSave()"
+    [loading]="saving()"
+    (onClick)="save()"
+  >
+    <span>{{ 'common.save' | translate }}</span>
+  </p-button>
+</ng-template>
+
 <div class="page">
   <div class="page__inner">
-    <section class="settings-card" aria-labelledby="grupos-card-title">
+    <header class="page-heading">
+      <sc-icon [name]="pageIcon" [size]="18" class="page-heading__icon" />
+      <h1 class="page-heading__title">
+        {{ 'config.aed.subpages.grupos.heading' | translate }}
+      </h1>
+    </header>
+
+    <!-- Parámetros -->
+    <section class="settings-card" aria-labelledby="grupos-params-title">
       <div class="settings-card__head">
-        <h2 id="grupos-card-title" class="settings-card__title">
-          {{ 'config.aed.subpages.grupos.card_title' | translate }}
+        <h2 id="grupos-params-title" class="settings-card__title">
+          {{ 'config.aed.subpages.grupos.params.title' | translate }}
         </h2>
-        <p class="settings-card__hint">
-          {{ 'config.aed.subpages.grupos.card_hint' | translate }}
-        </p>
       </div>
 
       <div class="settings-card__body">
-        <!-- Capacidad máxima -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.grupos.capacidad.title' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.grupos.capacidad.hint' | translate }}
-            </p>
-          </header>
+        <div class="field field--full">
+          <label class="field__label" for="grupos-estrategia">
+            {{ 'config.aed.subpages.grupos.params.estrategia' | translate }}
+          </label>
+          <sc-select
+            inputId="grupos-estrategia"
+            [options]="estrategiaOptions"
+            [value]="form().estrategia"
+            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+            (valueChange)="onSelect('estrategia', $event)"
+          />
+        </div>
 
-          <div
-            class="radio-row"
-            role="radiogroup"
-            [attr.aria-label]="'config.aed.subpages.grupos.capacidad.title' | translate"
-          >
-            <label class="radio">
-              <input
-                type="radio"
-                name="capacidad-tipo"
-                value="fija"
-                [checked]="form().capacidadTipo === 'fija'"
-                (change)="onCapacidadChange('fija')"
-              />
-              <span>{{ 'config.aed.subpages.grupos.capacidad.fija' | translate }}</span>
-            </label>
-            <label class="radio">
-              <input
-                type="radio"
-                name="capacidad-tipo"
-                value="variable"
-                [checked]="form().capacidadTipo === 'variable'"
-                (change)="onCapacidadChange('variable')"
-              />
-              <span>{{ 'config.aed.subpages.grupos.capacidad.variable' | translate }}</span>
-            </label>
+        <div class="field field--full">
+          <label class="field__label" for="grupos-prioridad">
+            {{ 'config.aed.subpages.grupos.params.prioridad' | translate }}
+          </label>
+          <sc-select
+            inputId="grupos-prioridad"
+            [options]="prioridadOptions"
+            [value]="form().prioridad"
+            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+            (valueChange)="onSelect('prioridad', $event)"
+          />
+        </div>
+
+        <div class="field field--full">
+          <label class="field__label" for="grupos-voz">
+            {{ 'config.aed.subpages.grupos.params.voz' | translate }}
+          </label>
+          <sc-select
+            inputId="grupos-voz"
+            [options]="vozOptions"
+            [value]="form().voz"
+            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+            (valueChange)="onSelect('voz', $event)"
+          />
+        </div>
+
+        <div class="switch-field">
+          <div class="switch-field__copy">
+            <span class="switch-field__label">
+              {{ 'config.aed.subpages.grupos.params.desbordar' | translate }}
+            </span>
           </div>
+          <sc-toggleswitch
+            [checked]="form().desbordar"
+            [ariaLabel]="'config.aed.subpages.grupos.params.desbordar' | translate"
+            (checkedChange)="update('desbordar', $event)"
+          />
+        </div>
 
-          <div class="field">
-            <label class="field__label" for="grupos-limite-cola">
-              <span>{{ 'config.aed.subpages.grupos.capacidad.limite_label' | translate }}</span>
-              <sc-icon
-                [name]="infoIcon"
-                [size]="12"
-                class="field__info"
-                [attr.aria-label]="'config.aed.subpages.grupos.capacidad.limite_info' | translate"
-                [attr.title]="'config.aed.subpages.grupos.capacidad.limite_info' | translate"
-              />
-            </label>
-            <sc-inputnumber
-              inputId="grupos-limite-cola"
-              [min]="1"
-              [suffix]="'config.aed.subpages.grupos.capacidad.limite_suffix' | translate"
-              [value]="form().limiteCola"
-              (valueChange)="onNumberValueChange('limiteCola', $event)"
-            />
-          </div>
-        </section>
+        <div class="field field--full">
+          <label class="field__label" for="grupos-tipo-cola">
+            {{ 'config.aed.subpages.grupos.params.tipo_cola' | translate }}
+          </label>
+          <sc-select
+            inputId="grupos-tipo-cola"
+            [options]="tipoColaOptions"
+            [value]="form().tipoColaEspera"
+            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+            (valueChange)="onSelect('tipoColaEspera', $event)"
+          />
+        </div>
 
-        <hr class="divider" />
+        <div class="field field--full">
+          <label class="field__label" for="grupos-capacidad-cola">
+            {{ 'config.aed.subpages.grupos.params.capacidad_cola' | translate }}
+          </label>
+          <sc-select
+            inputId="grupos-capacidad-cola"
+            [options]="capacidadColaOptions"
+            [value]="form().capacidadColaEspera"
+            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+            (valueChange)="onSelect('capacidadColaEspera', $event)"
+          />
+        </div>
 
-        <!-- Tiempos de gestión -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.grupos.tiempos.title' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.grupos.tiempos.hint' | translate }}
-            </p>
-          </header>
+        <div class="field field--full">
+          <label class="field__label" for="grupos-tiempo-max">
+            {{ 'config.aed.subpages.grupos.params.tiempo_max' | translate }}
+          </label>
+          <sc-select
+            inputId="grupos-tiempo-max"
+            [options]="tiempoEsperaOptions"
+            [value]="form().tiempoMaxEspera"
+            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+            (valueChange)="onSelect('tiempoMaxEspera', $event)"
+          />
+        </div>
 
-          <div class="grid grid--2">
-            <div class="field">
-              <label class="field__label" for="grupos-tiempo-transfer">
-                <span>{{ 'config.aed.subpages.grupos.tiempos.transferencia' | translate }}</span>
-                <sc-icon [name]="infoIcon" [size]="12" class="field__info" />
-              </label>
-              <sc-inputnumber
-                inputId="grupos-tiempo-transfer"
-                [min]="0"
-                [suffix]="'common.units.seconds' | translate"
-                [value]="form().tiempoTransferencia"
-                (valueChange)="onNumberValueChange('tiempoTransferencia', $event)"
-              />
-            </div>
-
-            <div class="field">
-              <label class="field__label" for="grupos-tiempo-cola">
-                <span>{{ 'config.aed.subpages.grupos.tiempos.max_cola' | translate }}</span>
-                <sc-icon [name]="infoIcon" [size]="12" class="field__info" />
-              </label>
-              <sc-inputnumber
-                inputId="grupos-tiempo-cola"
-                [min]="0"
-                [suffix]="'common.units.seconds' | translate"
-                [value]="form().tiempoMaxEspera"
-                (valueChange)="onNumberValueChange('tiempoMaxEspera', $event)"
-              />
-            </div>
-          </div>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Voz y desbordamiento -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.grupos.voz.title' | translate }}
-            </h3>
-          </header>
-
-          <div class="field field--full">
-            <label class="field__label" for="grupos-tipo-voz">
-              {{ 'config.aed.subpages.grupos.voz.tipo_label' | translate }}
-            </label>
-            <sc-select
-              inputId="grupos-tipo-voz"
-              [options]="vozOptions"
-              [value]="form().tipoVoz"
-              (valueChange)="onSelectValueChange('tipoVoz', $event)"
-            />
-          </div>
-
-          <div class="grid grid--2">
-            <div class="switch-field">
-              <div class="switch-field__copy">
-                <span class="switch-field__label">
-                  {{ 'config.aed.subpages.grupos.voz.desbordar_llamadas' | translate }}
-                </span>
-                <p class="switch-field__hint">
-                  {{ 'config.aed.subpages.grupos.voz.desbordar_llamadas_hint' | translate }}
-                </p>
-              </div>
-              <sc-toggleswitch
-                [checked]="form().desbordarLlamadas"
-                [ariaLabel]="'config.aed.subpages.grupos.voz.desbordar_llamadas' | translate"
-                (checkedChange)="update('desbordarLlamadas', $event)"
-              />
-            </div>
-
-            <div class="switch-field">
-              <div class="switch-field__copy">
-                <span class="switch-field__label">
-                  {{ 'config.aed.subpages.grupos.voz.desbordar_sesion' | translate }}
-                </span>
-                <p class="switch-field__hint">
-                  {{ 'config.aed.subpages.grupos.voz.desbordar_sesion_hint' | translate }}
-                </p>
-              </div>
-              <sc-toggleswitch
-                [checked]="form().desbordarSesion"
-                [ariaLabel]="'config.aed.subpages.grupos.voz.desbordar_sesion' | translate"
-                (checkedChange)="update('desbordarSesion', $event)"
-              />
-            </div>
-          </div>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Enrutamiento -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.grupos.enrutamiento.title' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.grupos.enrutamiento.hint' | translate }}
-            </p>
-          </header>
-
-          <div class="grid grid--2">
-            <div class="field">
-              <label class="field__label" for="grupos-prioridad">
-                {{ 'config.aed.subpages.grupos.enrutamiento.prioridad' | translate }}
-              </label>
-              <sc-select
-                inputId="grupos-prioridad"
-                [options]="prioridadOptions"
-                [value]="form().prioridad"
-                (valueChange)="onSelectValueChange('prioridad', $event)"
-              />
-            </div>
-
-            <div class="field">
-              <label class="field__label" for="grupos-estrategia">
-                {{ 'config.aed.subpages.grupos.enrutamiento.estrategia' | translate }}
-              </label>
-              <sc-select
-                inputId="grupos-estrategia"
-                [options]="estrategiaOptions"
-                [value]="form().estrategia"
-                (valueChange)="onSelectValueChange('estrategia', $event)"
-              />
-            </div>
-          </div>
-        </section>
-
-        <hr class="divider" />
-
-        <!-- Apertura de ficha -->
-        <section class="sub-section">
-          <header class="sub-section__head">
-            <h3 class="sub-section__title">
-              {{ 'config.aed.subpages.grupos.apertura.title' | translate }}
-            </h3>
-            <p class="sub-section__hint">
-              {{ 'config.aed.subpages.grupos.apertura.hint' | translate }}
-            </p>
-          </header>
-
-          <div
-            class="radio-row"
-            role="radiogroup"
-            [attr.aria-label]="'config.aed.subpages.grupos.apertura.title' | translate"
-          >
-            <label class="radio">
-              <input
-                type="radio"
-                name="apertura-ficha"
-                value="automatica"
-                [checked]="form().aperturaFicha === 'automatica'"
-                (change)="onAperturaChange('automatica')"
-              />
-              <span>{{ 'config.aed.subpages.grupos.apertura.automatica' | translate }}</span>
-            </label>
-            <label class="radio">
-              <input
-                type="radio"
-                name="apertura-ficha"
-                value="manual"
-                [checked]="form().aperturaFicha === 'manual'"
-                (change)="onAperturaChange('manual')"
-              />
-              <span>{{ 'config.aed.subpages.grupos.apertura.manual' | translate }}</span>
-            </label>
-            <label class="radio">
-              <input
-                type="radio"
-                name="apertura-ficha"
-                value="ninguna"
-                [checked]="form().aperturaFicha === 'ninguna'"
-                (change)="onAperturaChange('ninguna')"
-              />
-              <span>{{ 'config.aed.subpages.grupos.apertura.ninguna' | translate }}</span>
-            </label>
-          </div>
-        </section>
+        <div class="field field--full">
+          <label class="field__label" for="grupos-tiempo-transfer">
+            {{ 'config.aed.subpages.grupos.params.tiempo_transfer' | translate }}
+          </label>
+          <sc-select
+            inputId="grupos-tiempo-transfer"
+            [options]="tiempoTransferOptions"
+            [value]="form().tiempoTransferencia"
+            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+            (valueChange)="onSelect('tiempoTransferencia', $event)"
+          />
+        </div>
       </div>
+    </section>
 
-      <div class="settings-card__foot">
-        <a
-          href="#"
-          class="settings-card__link"
-          (click)="$event.preventDefault()"
-          [attr.aria-label]="'config.aed.subpages.grupos.learn_more' | translate"
-        >
-          {{ 'config.aed.subpages.grupos.learn_more' | translate }}
-        </a>
-        <div class="settings-card__actions">
-          @if (dirty()) {
-            <p-button type="button" severity="secondary" (onClick)="discard()">
-              <span>{{ 'common.discard' | translate }}</span>
-            </p-button>
-          }
-          <p-button type="button" severity="primary" [disabled]="!canSave()" (onClick)="save()">
-            <span>{{ (saving() ? 'common.saving' : 'common.save') | translate }}</span>
-          </p-button>
+    <!-- Apertura de ficha -->
+    <section class="settings-card" aria-labelledby="grupos-apertura-title">
+      <div class="settings-card__head">
+        <h2 id="grupos-apertura-title" class="settings-card__title">
+          {{ 'config.aed.subpages.grupos.apertura.title' | translate }}
+        </h2>
+      </div>
+      <div class="settings-card__body">
+        <div class="field field--full">
+          <label class="field__label" for="grupos-apertura-tipo">
+            {{ 'config.aed.subpages.grupos.apertura.tipo_label' | translate }}
+          </label>
+          <sc-select
+            inputId="grupos-apertura-tipo"
+            [options]="aperturaOptions"
+            [value]="form().aperturaTipo"
+            [placeholder]="'config.aed.subpages.grupos.params.placeholder' | translate"
+            (valueChange)="onSelect('aperturaTipo', $event)"
+          />
         </div>
       </div>
     </section>

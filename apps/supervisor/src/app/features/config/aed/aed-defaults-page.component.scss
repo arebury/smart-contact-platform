@@ -36,6 +36,50 @@
   }
 }
 
+/* ---------- Page heading (icono + título, modelo "todo arriba") ---------- */
+
+.page-heading {
+  display: flex;
+  align-items: center;
+  gap: var(--sc-spacing-0-625);
+  margin-bottom: var(--sc-spacing-1-25);
+
+  &__icon {
+    color: var(--sc-text-secondary);
+  }
+
+  &__title {
+    margin: 0;
+    font-size: var(--sc-font-size-h3, var(--sc-font-size-300));
+    line-height: 28px;
+    font-weight: var(--sc-font-weight-semibold);
+    color: var(--sc-text-primary);
+  }
+}
+
+/* ---------- Inline checkbox + label ---------- */
+
+.inline-check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-0-5);
+  cursor: pointer;
+  font-size: var(--sc-font-size-100);
+  color: var(--sc-text-primary);
+
+  > input[type='checkbox'] {
+    accent-color: var(--sc-bg-primary);
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  > input[type='checkbox']:disabled {
+    cursor: not-allowed;
+  }
+}
+
 /* ---------- Settings card (Figma SettingsCard) ---------- */
 
 .settings-card {
