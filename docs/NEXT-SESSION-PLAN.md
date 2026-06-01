@@ -16,13 +16,56 @@ en Figma (5 frames) y en código. Detalle en SESSION-LOG S66 + DD#66. 1 commit a
 6→12 (concéntrico). Código: `settings-shell` a bloque (fix del `margin:auto` en flex-item), `page__inner`
 sin tope. Medido 1440/1868/2560; `tokens:guard`/`lint` verdes.
 
-**Pendiente / próximo:**
-- **Tags de estado → chips** (General "Estados de agentes"): Rafa explora en Figma ("opción 1" = chips
-  con ×). Chips para estados editables, tag para los fijos. Decidir + implementar.
-- **Card anidada en código:** Figma tiene panel gris exterior (12) + secciones blancas (8); el código solo
-  tiene las secciones (8, coincide). Portar el envoltorio gris si se adopta.
-- **Nav "pure-sc"** (277/291) vs General (235): panel visible ~235 igual; unificar componente si se quiere 1:1 estricto.
-- `32:1046` quedó a 2161 (pruebas) → resetear a 1440 si se quiere.
+**Pendiente / próximo:** plan detallado en 🎯 **Bloques S67** (justo abajo).
+
+---
+
+## 🎯 Bloques S67 — plan de arranque (discutir cada punto a fondo ANTES de ejecutar)
+
+> **Método (pedido por Rafa):** ir **punto a punto**. Al abrir cada bloque, Claude plantea
+> TODAS las dudas posibles y se discute a fondo **antes** de tocar nada — para no saltarse
+> nada. Ejecutar solo cuando el punto esté claro.
+
+### Bloque A · Jerarquía de color: índice vs cards (ambos gray/50)
+**Problema:** con la card nueva (panel exterior gray/50 `#f9fafb`), el **índice** (rail
+"Configuración AED", también gray/50) y el **fondo de página** (gray/50) son el MISMO gris →
+índice, card-exterior y fondo se confunden; solo las secciones blancas destacan. Hay que
+diferenciar el índice del contenido.
+**Dudas a resolver:** ¿qué jerarquía queremos entre page bg / índice / card-exterior /
+secciones? Opciones a sopesar: índice con tono o borde distinto; card-exterior blanca (no gray)
+dejando el índice como único gris; o cambiar el page bg. Decidir y aplicar en Figma + código.
+
+### Bloque B · Tags vs chips de estado (conclusión cerrada, validada por Marta)
+**Conclusión:** **3 estados fijos** (Disponible, No disponible, Administrativo) → **tags**.
+**Estados editables/custom** → **chips** con × (removal property), re-añadibles. Separados por
+función, **NO entremezclados** en la misma fila (consistencia). Distintos componentes está bien
+*porque se comportan distinto*.
+**Pendiente concreto a ejecutar:**
+- **Falta la variante de color granate** para el tag "Administrativo" — el set de tags no la
+  cubre. Añadirla (Figma + token + preset) ANTES de implementar el split.
+- Implementar tags (3 fijos) + chips (editables) en código y Figma.
+
+### Bloque C · Estudio de tipografía migration-safe ⭐ (Rafa quiere discutirlo a fondo)
+**Problema:** PrimeNG vino sin estilos de tipografía propios; los hemos ido cogiendo de cómo
+venían escritos los componentes. No hay garantía de que, si actualizamos los tipos
+(familias/tamaños/pesos/line-heights), no se rompa algo.
+**Objetivo:** un sistema de tipografía **central y migration-safe** — una sola fuente de verdad
+(`--sc-font-*`), wrappers que tokenicen lo que PrimeNG hardcodea, y un comprobador (estilo
+`tokens:parity`/`tokens:guard` pero de tipografía) que cace drift y bloquee roturas.
+**Dudas a resolver (discutir PRIMERO):**
+- ¿Dónde vive hoy la tipografía? (tokens `--sc-font-size/weight/line-height` vs CSS de componente).
+- ¿Qué hardcodea PrimeNG además del `font-size:1rem` del form-field
+  (ver `reference_primeng_formfield_fontsize_hardcoded`)?
+- ¿Qué tokens de tipo existen y cuáles faltan vs el Kit Pro Figma?
+- ¿Cómo lo hacemos migration-safe? (guard anti-hardcode + parity tipográfica + wrappers que encapsulen).
+- ¿Pipeline import desde Figma para tipografía, como ya hay para escala/radios/color?
+**Conexión:** memorias `feedback_migration_safety` + `reference_primeng_formfield_fontsize_hardcoded`
++ tooling de tokens (parity/guard/gen). S57 ya tokenizó font-size/line-height en 16 wrappers — partir de ahí.
+
+### Menores (sin discusión larga)
+- **Card anidada en código:** si se adopta el panel gris exterior (radius 12) + secciones (8), portarlo (hoy el código tiene solo las secciones a 8).
+- **Nav "pure-sc"** (277/291) vs General (235): panel visible ~235 igual; unificar el componente si se quiere 1:1 estricto.
+- `32:1046` quedó a 2161 de ancho (frame de pruebas) → resetear a 1440.
 
 ---
 
