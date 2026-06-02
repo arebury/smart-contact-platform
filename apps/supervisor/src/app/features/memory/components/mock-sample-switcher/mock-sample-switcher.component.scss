@@ -51,7 +51,7 @@
   border-radius: var(--sc-radius-100);
   background: color-mix(in srgb, var(--sc-color-amber-200) 90%, white);
   color: var(--sc-color-amber-900);
-  font-size: 9px;
+  font-size: var(--sc-font-size-50);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -145,7 +145,7 @@
 }
 
 .mock-sample-switcher__item-title {
-  font-size: 13px;
+  font-size: var(--sc-font-size-200);
   font-weight: 600;
   color: var(--sc-text-primary);
 }
@@ -157,7 +157,7 @@
 
 .mock-sample-switcher__item-desc {
   margin: 0;
-  font-size: 11.5px;
+  font-size: var(--sc-font-size-100);
   color: var(--sc-text-subtle);
   line-height: 1.4;
 }

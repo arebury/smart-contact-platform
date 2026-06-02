@@ -78,7 +78,7 @@ body {
   border-radius: var(--sc-radius-100);
   background: var(--sc-color-amber-50);
   color: var(--sc-color-amber-800);
-  font-size: 13px;
+  font-size: var(--sc-font-size-200);
   line-height: 1.45;
 }
 
@@ -203,7 +203,7 @@ table.table {
 
     h3 {
       margin: 0;
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
       font-weight: 500;
       color: var(--sc-text-primary);
     }
@@ -264,7 +264,7 @@ table.table {
     gap: var(--sc-spacing-0-5);
     padding: 4px 0;
     cursor: pointer;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);
 
     input[type='checkbox'] {
@@ -296,7 +296,7 @@ table.table {
 
     h3 {
       margin: 0;
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
       font-weight: 500;
       color: var(--sc-text-primary);
     }
@@ -328,7 +328,7 @@ table.table {
     margin: 0;
     padding: var(--sc-spacing-1-125);
     text-align: center;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
   }
 
@@ -338,7 +338,7 @@ table.table {
     gap: var(--sc-spacing-0-875);
     padding: var(--sc-spacing-0-5) var(--sc-spacing-1-125);
     cursor: pointer;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);
     transition: background-color 200ms ease-out;
 
@@ -370,7 +370,7 @@ table.table {
     border: 0;
     background: transparent;
     border-radius: var(--sc-radius-100);
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);
     cursor: pointer;
     transition: background-color 200ms ease-out;
@@ -489,7 +489,7 @@ table.table {
 
     h3 {
       margin: 0 0 4px 0;
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
       font-weight: 600;
       color: var(--sc-text-primary);
     }

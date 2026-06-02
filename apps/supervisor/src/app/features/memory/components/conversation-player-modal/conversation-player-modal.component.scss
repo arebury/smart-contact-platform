@@ -71,7 +71,7 @@
 .player-audio__time {
   width: 48px;
   font-family: ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   font-variant-numeric: tabular-nums;
   color: var(--sc-color-gray-700);
 
@@ -275,7 +275,7 @@
 
 .player-state__title {
   margin: 0;
-  font-size: 0.9375rem;
+  font-size: var(--sc-font-size-300);
   font-weight: 600;
   line-height: 1.4;
   color: var(--sc-color-gray-900);
@@ -285,7 +285,7 @@
 .player-state__caption {
   margin: 0 auto;
   max-width: 44ch;
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   line-height: 1.45;
   color: var(--sc-color-gray-700);
 }
@@ -308,7 +308,7 @@
   border-radius: var(--sc-radius-200);
   background: var(--sc-bg-primary);
   color: white;
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   font-weight: 500;
   cursor: pointer;
   box-shadow: var(--sc-shadow-xs);
@@ -358,7 +358,7 @@
 }
 
 .player-transcript__count {
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   color: var(--sc-color-gray-500);
 
   .tabular-nums {
@@ -379,7 +379,7 @@
     border-radius: var(--sc-radius-full);
     background: var(--sc-bg-surface);
     color: var(--sc-color-gray-900);
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     transition:
       border-color 200ms ease-out,
       box-shadow 200ms ease-out;
@@ -420,7 +420,7 @@
 .player-transcript__no-match {
   padding: var(--sc-spacing-1-75) 0;
   text-align: center;
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   color: var(--sc-color-gray-500);
 }
 
@@ -533,7 +533,7 @@
 
 .player-section__muted {
   margin: 0;
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   color: var(--sc-color-gray-500);
 }
 
@@ -559,6 +559,6 @@
 }
 
 .player-sentiment__summary {
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   color: var(--sc-color-gray-500);
 }

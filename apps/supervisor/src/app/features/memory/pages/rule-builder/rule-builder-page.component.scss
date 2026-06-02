@@ -59,7 +59,7 @@
 
     p {
       margin: 4px 0 0 0;
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
       color: var(--sc-text-secondary);
     }
   }
@@ -103,7 +103,7 @@
 
     p {
       margin: 0;
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
     }
   }
 
@@ -171,7 +171,7 @@
   &__textarea-label,
   &__field-label {
     display: block;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     font-weight: 500;
     color: var(--sc-text-primary);
     margin-bottom: var(--sc-spacing-0-25);
@@ -219,7 +219,7 @@
     align-items: center;
     gap: var(--sc-spacing-0-875);
     cursor: pointer;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);
 
     input[type='checkbox'] {
@@ -265,7 +265,7 @@
 
     h2 {
       margin: 0;
-      font-size: 0.9375rem;
+      font-size: var(--sc-font-size-300);
       font-weight: 600;
       color: var(--sc-text-primary);
     }
@@ -319,7 +319,7 @@
 
     h3 {
       margin: 0;
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
       font-weight: 500;
       color: var(--sc-text-primary);
     }
@@ -347,7 +347,7 @@
 
     p {
       margin: 0;
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
       color: var(--sc-text-secondary);
     }
   }
@@ -362,7 +362,7 @@
       display: inline-flex;
       align-items: center;
       gap: var(--sc-spacing-0-5);
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
       color: var(--sc-text-secondary);
     }
 
@@ -372,7 +372,7 @@
       border-radius: var(--sc-radius-200);
       background: var(--sc-bg-surface);
       color: var(--sc-text-primary);
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
     }
   }
 }
@@ -392,7 +392,7 @@
       align-items: center;
       gap: var(--sc-spacing-0-875);
       margin: 0;
-      font-size: 0.9375rem;
+      font-size: var(--sc-font-size-300);
       font-weight: 600;
       color: var(--sc-text-primary);
 
@@ -404,7 +404,7 @@
 
   &__desc {
     margin: 4px 0 0 0;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
   }
 
@@ -412,7 +412,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-0-875);
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     margin-left: auto;
 
@@ -454,7 +454,7 @@
 
     h3 {
       margin: 0;
-      font-size: 0.8125rem;
+      font-size: var(--sc-font-size-200);
       font-weight: 600;
       color: var(--sc-text-primary);
     }
@@ -529,7 +529,7 @@
   background: var(--sc-bg-primary-subtle);
   border: 1px solid var(--sc-bg-primary);
   border-radius: var(--sc-radius-200);
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   line-height: 1.5;
   color: var(--sc-text-primary);
 }

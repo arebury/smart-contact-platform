@@ -24,7 +24,7 @@
 
   &__label {
     display: block;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     font-weight: 500;
     color: var(--sc-text-primary);
     margin-bottom: var(--sc-spacing-0-25);
@@ -111,7 +111,7 @@
     border-radius: var(--sc-radius-200);
     background: var(--sc-bg-surface);
     color: var(--sc-text-primary);
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
 
     &:focus {
       outline: none;

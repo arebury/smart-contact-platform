@@ -62,7 +62,7 @@
   }
 
   &__results {
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     white-space: nowrap;
   }

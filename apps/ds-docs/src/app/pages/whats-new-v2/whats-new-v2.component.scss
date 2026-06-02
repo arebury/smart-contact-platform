@@ -188,7 +188,7 @@
 .whats-new__section-title {
   font-family: var(--dsd-font-display);
   margin: 0;
-  font-size: 26px;
+  font-size: var(--sc-font-size-500);
   line-height: 1.15;
   letter-spacing: -0.018em;
   font-weight: 600;
@@ -263,7 +263,7 @@
 }
 
 .whats-new__diff-caption {
-  font-size: 13px;
+  font-size: var(--sc-font-size-200);
   color: var(--sc-text-secondary);
 }
 
@@ -299,7 +299,7 @@
       line-height: 1.45;
 
       code {
-        font-size: 11.5px;
+        font-size: var(--sc-font-size-100);
         padding: 0 4px;
         background: var(--sc-bg-elevated);
         border-radius: var(--sc-radius-xs);
@@ -317,7 +317,7 @@
 .whats-new__diff-arrow {
   align-self: center;
   font-family: var(--dsd-font-mono);
-  font-size: 22px;
+  font-size: var(--sc-font-size-450);
   color: var(--sc-text-subtle);
   line-height: 1;
 }
@@ -362,7 +362,7 @@
 
 .whats-new__benefit-marker {
   font-family: var(--dsd-font-mono);
-  font-size: 13px;
+  font-size: var(--sc-font-size-200);
   font-weight: 600;
   letter-spacing: 0.05em;
   color: var(--sc-color-electric-blue-500);
@@ -449,7 +449,7 @@
   align-items: center;
   gap: 8px;
   font-family: var(--dsd-font-mono);
-  font-size: 13px;
+  font-size: var(--sc-font-size-200);
   font-weight: 600;
   color: var(--sc-text-primary);
 

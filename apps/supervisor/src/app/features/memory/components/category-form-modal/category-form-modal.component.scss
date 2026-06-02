@@ -26,7 +26,7 @@
 
   &__label {
     display: block;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     font-weight: 500;
     color: var(--sc-text-primary);
     margin-bottom: var(--sc-spacing-0-25);
@@ -71,7 +71,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-0-875);
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     padding-bottom: var(--sc-spacing-0-5);
 
@@ -159,7 +159,7 @@
 
   &__link-alert-body {
     margin: 0 0 var(--sc-spacing-0-5) 0;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-secondary);
     line-height: 1.45;
 
@@ -188,7 +188,7 @@
     border-radius: var(--sc-radius-200);
     background: var(--sc-color-electric-blue-500);
     color: #fff;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     font-weight: 500;
     text-decoration: none;
     transition: background-color 150ms ease-out;
@@ -205,7 +205,7 @@
   }
 
   &__link-add-label {
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     color: var(--sc-text-primary);
   }
 
@@ -230,7 +230,7 @@
   }
 
   &__link-option-name {
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     font-weight: 500;
     color: var(--sc-text-primary);
   }
@@ -245,7 +245,7 @@
     align-items: center;
     gap: var(--sc-spacing-0-5);
     margin: 0;
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
 
     &--ok {
       color: var(--sc-label-green-text);
@@ -324,7 +324,7 @@
   }
 
   &__link-item-name {
-    font-size: 0.8125rem;
+    font-size: var(--sc-font-size-200);
     font-weight: 500;
     color: var(--sc-text-primary);
   }
@@ -396,7 +396,7 @@
   border: 1px dashed var(--sc-border-default);
   border-radius: var(--sc-radius-200);
   background: var(--sc-bg-surface);
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   color: var(--sc-text-secondary);
   cursor: pointer;
   transition:
@@ -476,13 +476,13 @@
 }
 
 .category-templates__title {
-  font-size: 0.9375rem;
+  font-size: var(--sc-font-size-300);
   font-weight: 600;
   color: var(--sc-text-primary);
 }
 
 .category-templates__hint {
-  font-size: 0.8125rem;
+  font-size: var(--sc-font-size-200);
   color: var(--sc-text-subtle);
   line-height: 1.4;
 }
