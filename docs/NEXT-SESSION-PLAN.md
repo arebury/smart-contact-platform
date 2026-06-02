@@ -5,67 +5,55 @@
 
 ---
 
-## Estado al cerrar (Session 66, 2026-06-01) — layout responsive común config AED (Figma + código)
+## Estado al cerrar (Session 67, 2026-06-02) — Contact Center + cinturón tipográfico + overhaul de docs
 
-Establecido y aplicado UN modelo de layout a las 3 pantallas de config AED (General/Agentes/Grupos),
-en Figma (5 frames) y en código. Detalle en SESSION-LOG S66 + DD#66. 1 commit a `main`, verde.
+Sesión maratón. Config AED se presenta como **"Contact Center"** (rename cara-usuario; carpeta/code
+`aed` intactos), nueva **jerarquía de color** (lienzo blanco + bandeja gris + cards blancas + índice
+alineado), **estados de agente** (3 tags fijos + chips editables, Administrativo granate), **"Descartar
+cambios" con guard**. Bug Voz arreglado de raíz (`sc-multiselect` soporta `string[]`). **Cinturón
+tipográfico migration-safe cerrado** (font-size 100% tokenizado + guard Dura 4 + `tokens:type-parity`).
+**Overhaul exhaustivo de 17 docs** (hogares canónicos, cero duplicación) + 34 thumbnails ds-docs + 32
+branches purgadas. ~18 commits a `main`, todo verde. Detalle: SESSION-LOG S67 + DD#67 (supervisor) +
+DD-11 (SCDS). (S66 layout responsive → ver SESSION-LOG.)
 
-**Hecho:** panel (rail + contenido) = unidad con tope `max-width 1200` + centrado; padding 22,75/28
-(tokens `scale/1-625` + `scale/2`), gap 28, rail 235, card que llena, sidebar fijo. Figma: alineadas
-`19:962`/`1:12496`/`1:12676`/`14:923` + sustituido el sidebar 64→240 en Grupos + radius del panel gris
-6→12 (concéntrico). Código: `settings-shell` a bloque (fix del `margin:auto` en flex-item), `page__inner`
-sin tope. Medido 1440/1868/2560; `tokens:guard`/`lint` verdes.
-
-**Pendiente / próximo:** plan detallado en 🎯 **Bloques S67** (justo abajo).
+**Diferido a S68 (deuda nueva):** redesign line-heights (Fase 4, #74), tamaños display (#75), contraste
+índice dark (#76), token `--sc-bg-canvas` (#73). Plan detallado en 🎯 **Próxima sesión (S68)** abajo.
 
 ---
 
-## 🎯 Bloques S67 — plan de arranque (discutir cada punto a fondo ANTES de ejecutar)
+## 🎯 Próxima sesión (S68) — plan (priorizado)
 
-> **Método (pedido por Rafa):** ir **punto a punto**. Al abrir cada bloque, Claude plantea
-> TODAS las dudas posibles y se discute a fondo **antes** de tocar nada — para no saltarse
-> nada. Ejecutar solo cuando el punto esté claro.
+> S67 dejó el cinturón tipográfico (font-size) cerrado + docs al día. S68 ataca **deuda** con dos
+> auditorías senior + el redesign tipográfico diferido. Método (Rafa): cada bloque se discute a fondo
+> (STAR) ANTES de ejecutar; datos > supuestos; e2e por inercia; las auditorías vía workflow multi-agente.
 
-### Bloque A · Jerarquía de color: índice vs cards (ambos gray/50)
-**Problema:** con la card nueva (panel exterior gray/50 `#f9fafb`), el **índice** (rail
-"Configuración AED", también gray/50) y el **fondo de página** (gray/50) son el MISMO gris →
-índice, card-exterior y fondo se confunden; solo las secciones blancas destacan. Hay que
-diferenciar el índice del contenido.
-**Dudas a resolver:** ¿qué jerarquía queremos entre page bg / índice / card-exterior /
-secciones? Opciones a sopesar: índice con tono o borde distinto; card-exterior blanca (no gray)
-dejando el índice como único gris; o cambiar el page bg. Decidir y aplicar en Figma + código.
+### Bloque 1 · Auditoría de código (rol: senior software engineer lead)
+Auditoría exhaustiva: god-components (agent-form 981 líneas, conversation-player-modal…), dead code,
+bundle (el exceso restante ~581 KB es PrimeNG, ver S62), lazy loading, duplicación, patrón de estado
+(signals/CVA), a11y técnica, performance, dependencias. **Output:** findings con severidad P0-P3 + plan
+ejecutable. Ejecutar como **workflow multi-dimensión** (un eje por área + verificación adversarial de
+cada finding antes de aceptarlo).
 
-### Bloque B · Tags vs chips de estado (conclusión cerrada, validada por Marta)
-**Conclusión:** **3 estados fijos** (Disponible, No disponible, Administrativo) → **tags**.
-**Estados editables/custom** → **chips** con × (removal property), re-añadibles. Separados por
-función, **NO entremezclados** en la misma fila (consistencia). Distintos componentes está bien
-*porque se comportan distinto*.
-**Pendiente concreto a ejecutar:**
-- **Falta la variante de color granate** para el tag "Administrativo" — el set de tags no la
-  cubre. Añadirla (Figma + token + preset) ANTES de implementar el split.
-- Implementar tags (3 fijos) + chips (editables) en código y Figma.
+### Bloque 2 · Auditoría UX/UI (rol: senior design lead — UX engineer + UI dev)
+Consistencia de interacción + jerarquía visual + copy + estados (empty/loading/error) + a11y de uso, en
+Contact Center (config AED) + Memory, tras el rename y la jerarquía de color nueva. **Output:** findings
++ plan. Cruzar con `inconsistencies-backlog` y `customs-catalog`.
 
-### Bloque C · Estudio de tipografía migration-safe ⭐ (Rafa quiere discutirlo a fondo)
-**Problema:** PrimeNG vino sin estilos de tipografía propios; los hemos ido cogiendo de cómo
-venían escritos los componentes. No hay garantía de que, si actualizamos los tipos
-(familias/tamaños/pesos/line-heights), no se rompa algo.
-**Objetivo:** un sistema de tipografía **central y migration-safe** — una sola fuente de verdad
-(`--sc-font-*`), wrappers que tokenicen lo que PrimeNG hardcodea, y un comprobador (estilo
-`tokens:parity`/`tokens:guard` pero de tipografía) que cace drift y bloquee roturas.
-**Dudas a resolver (discutir PRIMERO):**
-- ¿Dónde vive hoy la tipografía? (tokens `--sc-font-size/weight/line-height` vs CSS de componente).
-- ¿Qué hardcodea PrimeNG además del `font-size:1rem` del form-field
-  (ver `reference_primeng_formfield_fontsize_hardcoded`)?
-- ¿Qué tokens de tipo existen y cuáles faltan vs el Kit Pro Figma?
-- ¿Cómo lo hacemos migration-safe? (guard anti-hardcode + parity tipográfica + wrappers que encapsulen).
-- ¿Pipeline import desde Figma para tipografía, como ya hay para escala/radios/color?
-**Conexión:** memorias `feedback_migration_safety` + `reference_primeng_formfield_fontsize_hardcoded`
-+ tooling de tokens (parity/guard/gen). S57 ya tokenizó font-size/line-height en 16 wrappers — partir de ahí.
+### Bloque 3 · Redesign tipográfico diferido (deuda S67)
+- **Line-heights (Fase 4, backlog #74):** EL bloque grande/riesgo. Redesign con escala canónica, bajo
+  supervisión de diseño, **diff Playwright por grupo** (layout-risk). No a ciegas (mezcla unitless + px).
+- **Tamaños display (Fase 3, #75):** colapso de tiers (48/64/88) con el equipo.
+- **Contraste índice config en dark (#76)** + token **`--sc-bg-canvas` (#73)**: cerrar la jerarquía de
+  color en oscuro de una.
 
-### Menores (sin discusión larga)
-- **Card anidada en código:** si se adopta el panel gris exterior (radius 12) + secciones (8), portarlo (hoy el código tiene solo las secciones a 8).
-- **Nav "pure-sc"** (277/291) vs General (235): panel visible ~235 igual; unificar el componente si se quiere 1:1 estricto.
-- `32:1046` quedó a 2161 de ancho (frame de pruebas) → resetear a 1440.
+### Deuda de diseño viva (inconsistencies-backlog)
+#73-#76 (S67) + previos sin trigger (#6/#7/#8 componentes sin consumer, etc.). Priorizar **con datos**,
+no a ojo (norte: paridad + consistencia + reducir deuda — ver `project_parity_consistency_north_star`).
+
+### Cómo arrancar S68
+1. Leer este doc + entry **S67** en [`SESSION-LOG.md`](./SESSION-LOG.md).
+2. Confirmar con Rafa el orden de los 3 bloques (¿auditorías primero, o redesign tipográfico?).
+3. Auditorías → **workflow multi-agente** (ultracode); redesign tipográfico → inline + regresión visual.
 
 ---
 

@@ -10,6 +10,46 @@
 
 ---
 
+## 2026-06-02 · Session 67 — Contact Center (color/estados/discard), cinturón tipográfico migration-safe, overhaul de docs
+
+> Sesión maratón, muy interactiva (Rafa corrigiendo 1:1 contra Figma + sparring de método).
+> ~18 commits a `main`, todo verde (build/lint/i18n 1460×4/parity 43-43/guard/e2e 28-28).
+> Decisiones: **DD#67** (supervisor) + **DD-11** (SCDS, tipografía).
+
+**Config "Contact Center" (feature `aed` en code):**
+- **Bloque A — jerarquía de color (1:1 Figma `1:12270`):** lienzo de página BLANCO, bandeja gris
+  (`.page__inner` = `--sc-bg-default`, radius 12, padding 16, gap 28), cards de sección blancas
+  (`.settings-card` surface, radius 8, borde sutil, sin sombra), índice gris alineado arriba. Dark:
+  bandeja gray-950, cards gray-900. Servicio reestructurado a tray + heading + 3 cards. Divider color
+  → `--sc-border-default` (gray-200 #dadfe6). (Reabrió el "índice se funde" — era premisa mía falsa:
+  la página es blanca, no gris. Corregido elemento a elemento con los fills reales del nodo.)
+- **Bloque B — estados de agente:** 3 tags fijos (Disponible/No disponible/Administrativo **granate**
+  red-800 bg + red-100 texto) + chips editables con × (removibles), separados. Sin token nuevo; master Kit intacto.
+- **Voz (bug):** `sc-multiselect` ahora soporta options primitivas (`string[]`) — los 4 selects de Grupos
+  salían vacíos. Fix de raíz (patrón portado de `sc-select`).
+- **P4 — descartar + guard:** "Cancelar" → "Descartar cambios" (outline, aparece solo con cambios) +
+  `formDirtyGuard` (canDeactivate, modal "¿Descartar cambios?/Seguir editando") en las 3 rutas, igual que admin.
+- **U2 — rename + breadcrumb:** "AED" → **"Contact Center"** (i18n cara-usuario; carpeta/selector `aed` y
+  "AED" de moneda intactos). Breadcrumb "Contact Center › [Sección]" (antes circular).
+- **Divider** registrado en `code-connect-mapping` (Kit `302:11810`).
+
+**Cinturón tipográfico migration-safe (el "pavor" de Rafa, cerrado):**
+- `tokens:type-parity` (comprobador read-only, hermano de `tokens:parity`). Olas 1+2:
+  **367 literales `font-size` → `--sc-font-size-*`** (snap a la escala base-14; cobertura 48%→100%
+  accionable). Guard **Dura 4** bloquea `font-size` literal nuevo (0 excepciones; hero 88px→`font-size-900`).
+- Racional (migration-safety + DD-11): los tipos viven en `--sc-*` + el bridge `sc-preset.ts`, no en
+  PrimeNG → un update no los borra; único riesgo = slot `--p-*` renombrado → drift detectable; NO vincular
+  `--sc-font-*` a la escala de PrimeNG. **Line-heights diferidos** (Fase 4, layout-risk → backlog #74).
+
+**Docs + housekeeping:**
+- **Overhaul exhaustivo de 17 docs** (workflow audit + apply multi-agente): hogares canónicos, cero
+  duplicación, valores exactos. Quitadas marcas externas residuales (regla "describir QUÉ, no de dónde").
+- ds-docs: **34 thumbnails regenerados** (estaban a 0). 32 branches remotas purgadas (queda `main` + 1 exploración).
+- Deuda nueva (inconsistencies-backlog): **#73** `--sc-bg-canvas`, **#74** line-heights, **#75** tamaños
+  display, **#76** contraste índice config en dark.
+
+---
+
 ## 2026-06-01 · Session 66 — config AED: layout responsive común (Figma 5 frames + código) + sidebar Grupos
 
 > Sesión de consistencia. Establecido y aplicado UN modelo de layout responsive a las 3 pantallas de
