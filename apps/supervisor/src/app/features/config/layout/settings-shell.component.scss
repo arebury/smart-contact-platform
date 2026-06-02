@@ -17,6 +17,15 @@
   background: var(--sc-bg-surface);
 }
 
+/* Dark: los tokens son asimétricos — en light el índice (gray-50) resalta sobre
+ * lienzo blanco; en dark el índice es gray-900 (superficie elevada) y resalta
+ * sobre el "suelo" gray-950. `--sc-bg-surface` vale gray-900 en dark (= el índice
+ * → se fundirían), así que el lienzo baja a `--sc-bg-default` (gray-950). No hay
+ * un token único "blanco en light / gray-950 en dark"; override por tema. */
+:host-context(.sc-dark) {
+  background: var(--sc-bg-default);
+}
+
 .settings-shell {
   /* Bloque (no flex-column): así `__body` se comporta como contenedor centrado
    * clásico — llena el ancho, capa a max-width y `margin:auto` lo centra. Como
