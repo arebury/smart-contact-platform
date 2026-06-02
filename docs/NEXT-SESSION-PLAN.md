@@ -18,29 +18,47 @@ verificaciones de comportamiento en navegador). Detalle completo: SESSION-LOG S6
 (Y/prioridad/discard), estado vacío Entidades, región live de filtros, y el **fundido de página respeta
 "menos movimiento"**.
 
-**Bloque 3 (tipografía #73-#76) → rama experimental** `experiment/typografia-s68` (decisión Rafa S68):
-saltarse las reglas SOLO en rama para verlo en código + inspirarse en Figma sin cerrarse. Main limpio.
-Code-only, sin tocar Figma. Preview Netlify por branch deploy.
+**Bloque 3 → rama experimental `experiment/typografia-s68` (S68-ext, mucho avance).** Decisión Rafa:
+saltarse las reglas del main SOLO en la rama, modo exploración. Construido un **sistema de diseño v1
+coherente** (7 commits `6b49708`→`416d8ea`, todo pusheado, **main intacto**): escala tipográfica SnowUI
+(12/14/18/24/48/64) + line-heights Untitled-UI + escalera por peso (h1 24 · h2/h3 18 · h4/cuerpo 14) +
+tracking `em` global · radios suaves 2026 · **sistema de contenedores 4-tier** (`--sc-container-*`; tablas
+densas usan el desktop grande, 1600→1920) · token `--sc-bg-canvas` (#73) · capa de estilos de texto con
+nombres (`_sc-typography.scss`). Aprendizajes: el bump de control a 40,5px era alto (revertido); los títulos
+de sección estaban a 14=cuerpo (planos) → subidos a 18 (jerarquía). Diverge a propósito del guard
+`type-parity` (commits con `--no-verify`). Preview: `experiment-typografia-s68--aedmigration.netlify.app`.
 
 ---
 
-## 🎯 Próxima sesión (S69) — plan
+## 🎯 Próxima sesión (S69) — plan: **trabajar en PARALELO (worktree)** + explorar SnowUI
 
-### Bloque 1 · Rama tipográfica `experiment/typografia-s68`
-Iterar el experimento con Rafa vía preview Netlify + Figma: line-heights escala canónica, tiers display
-(48/64/88), contraste índice config en dark, token `--sc-bg-canvas`. Cuando Rafa valide la dirección →
-portar a main lo que convenza (diff Playwright por grupo, baselines actualizadas) + cerrar #73-#76.
+> Concepto Rafa: dos proyectos a la vez. **`main`** = producción, cuidando cada paso como siempre.
+> **Rama experimental** = volvernos locos (reorganizar desde el código de SnowUI, sin las reglas del main).
 
-### Bloque 2 · Deuda diferida del backlog S68 (#77-#88, priorizar con datos)
-- **Figma-gated:** jerarquía visual Contact Center (#82), i18n de selects placeholder (#84, esperar valores reales).
-- **Decisión de dirección:** unificar menú ⋮ Memory↔admin (#83), rule-builder save-arriba (#85, cuidado CLS).
-- **Limpieza segura:** i18n huérfanas + orphan-check en `i18n-audit` (#77), dep sobrante (#78), a11y de uso (#86),
-  copy interno + feedback (#88).
+### Bloque 0 · Montar el worktree y enseñárselo a Rafa (PRIMERO, paso a paso)
+Claude **enseña el flujo git worktree "for dummies"** y lo deja montado:
+1. `git worktree add ../sc-experimental experiment/typografia-s68` (carpeta hermana en la rama exp).
+2. Symlink node_modules (instantáneo) o `npm ci` si se prefiere aislar.
+3. Abrir cada carpeta en su Cursor: `~/dev/smart-contact-platform` (main, puerto 4200) ·
+   `~/dev/sc-experimental` (exp, puerto 4300). **Nunca se pisan** (cada carpeta su rama fija).
+4. Walkthrough a Rafa: crear/usar/quitar worktree, y cómo **promover** preview→main (merge/PR o cherry-pick),
+   con el matiz de dejarlo production-clean (re-tokenizar / ampliar `type-parity`) antes de mezclar.
+
+### Bloque 1 · Exploración SnowUI en la rama (volvernos locos)
+Rafa tiene el **código de SnowUI en otro proyecto**. Idea: **pillar el LAYOUT + las FUENTES de SnowUI** y
+**colocar nuestros componentes (SCDS) dentro**. Probar nuevas formas de organizar shell/navegación/páginas.
+"Encajarlo" se decide sobre la marcha — el concepto es explorar en paralelo sin tocar main. (Pedir a Rafa la
+ruta del proyecto SnowUI al arrancar.)
+
+### Bloque 2 · `main` tranquilo — deuda diferida del backlog S68 (#77-#88, con datos)
+Cuando toque trabajo "serio" en main (en su carpeta/worktree, con todas las reglas): i18n huérfanas +
+orphan-check (#77), dep sobrante (#78), a11y de uso (#86), copy interno (#88); y los Figma-gated (#82/#84)
++ decisiones de dirección (#83/#85) cuando haya Figma/criterio.
 
 ### Cómo arrancar S69
 1. Leer este doc + entry **S68** en SESSION-LOG + backlog #77-#88.
-2. `git checkout experiment/typografia-s68` y levantar preview para iterar tipografía con Rafa.
-3. Resto de deuda: con datos, no a ojo (norte paridad + consistencia + reducir deuda).
+2. **Montar el worktree** (Bloque 0) y enseñárselo a Rafa.
+3. Pedir la ruta del proyecto SnowUI → empezar la exploración de layout+fuentes en la rama exp.
 
 ---
 

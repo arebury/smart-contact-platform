@@ -60,6 +60,17 @@ especificado. Necesitan al equipo de diseño + Figma.
 unificar menú ⋮ (#83), i18n selects placeholder (#84), rule-builder save-arriba (#85), a11y de uso (#86), convención
 confirm-borrado (#87), copy interno+feedback (#88). Casi todo diferido con disparador (Figma/diseño o trigger funcional).
 
+**S68-ext — sistema de diseño en rama experimental (Rafa cambió el plan tras el cierre):** lo "diferido"
+arriba se **exploró en `experiment/typografia-s68`** (NO en main — main intacto en `8b99712`; rama pusheada
+hasta `416d8ea`). Construido un **sistema v1 coherente**, modo exploración, **sin las reglas del main**: escala
+tipográfica SnowUI (12/14/18/24/48/64) + line-heights Untitled-UI + escalera por peso (h1 24 · h2/h3 18 ·
+h4/cuerpo 14) + tracking `em` global + radios suaves 2026 + **contenedores 4-tier `--sc-container-*`** (tablas
+densas 1600→1920 en desktop grande) + token `--sc-bg-canvas` + capa de estilos de texto `_sc-typography.scss`.
+7 commits con `--no-verify` (diverge a propósito del guard `type-parity`). Aprendizajes de exploración: bump de
+control a 40,5px era alto → revertido; títulos de sección estaban a 14=cuerpo (planos) → 18 (jerarquía).
+Verificado por capturas Playwright (no por baselines). **Próximo (S69):** worktree para main+exp en paralelo
++ explorar layout/fuentes de SnowUI con nuestros componentes dentro. Detalle en NEXT-SESSION-PLAN S69.
+
 ---
 
 ## 2026-06-02 · Session 67 — Contact Center (color/estados/discard), cinturón tipográfico migration-safe, overhaul de docs
