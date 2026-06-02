@@ -39,6 +39,11 @@ Consistencia de interacción + jerarquía visual + copy + estados (empty/loading
 Contact Center (config AED) + Memory, tras el rename y la jerarquía de color nueva. **Output:** findings
 + plan. Cruzar con `inconsistencies-backlog` y `customs-catalog`.
 
+- **Transición de cambio de página (observación Rafa S67):** al navegar entre páginas hay un **fundido
+  suave** (fade). Evaluar: ¿es lo común/esperable en este tipo de plataformas (admin/SaaS) o conviene
+  quitarlo/ajustarlo (duración, sólo opacidad, respeto a `prefers-reduced-motion`)? Localizar de dónde
+  sale (router animation / CSS transition global) y decidir con criterio. A tratar en la maratón S68.
+
 ### Bloque 3 · Redesign tipográfico diferido (deuda S67)
 - **Line-heights (Fase 4, backlog #74):** EL bloque grande/riesgo. Redesign con escala canónica, bajo
   supervisión de diseño, **diff Playwright por grupo** (layout-risk). No a ciegas (mezcla unitless + px).
