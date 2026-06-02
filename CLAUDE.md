@@ -72,6 +72,10 @@ Detalle operativo + lista de tests + protocolo cuando algo falla:
 - Brand prefix de componentes: **`sc-`**. Folder
   `apps/supervisor/src/app/features/config/aed/` es excepción
   (`aed` ahí es nombre de feature, no marca).
+- **Nombre de producto**: la feature `aed` se presenta como **"Contact Center"** de cara
+  al usuario (nav, índice de config, breadcrumb, i18n) desde S67. La carpeta/selector/clase
+  `aed` **no cambian** (naming técnico portable). "AED" en `country-prefixes` es la **moneda**
+  de Emiratos, no el producto — no tocar. (Decisión: supervisor DD#67.)
 - Tokens CSS: `--sc-*`. Definidos en `packages/design-system/tokens/layers/`
   (7 capas — ver DD-1 en SCDS DECISIONS.md).
 - Dark mode: clase `.sc-dark` en `<html>`. Toggled por `ThemeService`.

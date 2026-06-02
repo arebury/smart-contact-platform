@@ -25,6 +25,8 @@ Aloja dos productos como feature modules lazy:
 ## Convenciones rápidas
 
 - Selectores prefix `sc-`. Excepción: `features/config/aed/` (`aed` aquí es nombre de feature).
+- **`aed` = "Contact Center" de cara al usuario** (nav/índice/breadcrumb/i18n, desde S67); carpeta/code
+  `aed` no cambia. "AED" en `country-prefixes` es moneda (Emiratos), no el producto. Ver DD#67.
 - Shared via TS path: `@shared/components/*` → `packages/design-system/components/*`.
 - Servicios core: `app/core/services/`. State con signals.
 - i18n: `@ngx-translate` + `src/assets/i18n/es.json`.
