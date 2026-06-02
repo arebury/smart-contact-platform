@@ -276,6 +276,13 @@
   --sc-font-weight-semibold: 600;
   --sc-font-weight-bold: 700;
 
+  /* ⚗️ Exp S68: letter-spacing (tracking). En `em` → escala con el tamaño:
+   * aplicado al body da el "crisp" sutil 2026 (Inter), apretando MÁS los
+   * títulos grandes y casi nada el cuerpo. tighter para display explícito. */
+  --sc-letter-spacing-normal: 0;
+  --sc-letter-spacing-tight: -0.011em;
+  --sc-letter-spacing-tighter: -0.02em;
+
   /* ---------- Scale (Kit Pro `aura/primitive.scale`) ----------
    * Escala PRIMITIVE ÚNICA base 14 (PrimeOne 4.0). Naming 1:1 con Figma
    * SC Prime UI Kit Pro Variables — sufijo = multiplicador exacto. Esta

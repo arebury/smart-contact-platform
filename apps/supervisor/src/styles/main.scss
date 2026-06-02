@@ -39,6 +39,9 @@ body {
   height: 100%;
   margin: 0;
   font-family: var(--sc-font-family-primary, 'Inter', system-ui, sans-serif);
+  /* ⚗️ Exp S68: tracking sutil global (em-based → auto-aprieta los títulos
+   * grandes más que el cuerpo). El "crisp" de Inter que da el look SaaS 2026. */
+  letter-spacing: var(--sc-letter-spacing-tight);
   background: var(--sc-bg-default);
   color: var(--sc-text-primary);
 }
