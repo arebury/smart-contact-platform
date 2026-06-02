@@ -1,18 +1,18 @@
-# AED Design System
+# Smart Contact Design System
 
-> Architecture and conventions for the AED design-token layer.
+> Architecture and conventions for the Smart Contact design-token layer.
 > The full token catalog lives at [`src/app/core/tokens/`](../src/app/core/tokens/).
 >
 > **Stack reference**: **Angular 21.2 + PrimeNG 21.1** (current
 > `package.json`). The token-layering model below mirrors PrimeNG's
 > design-token architecture; the bridge layer (06) is the inheritance
-> layer that pipes AED's `--sc-*` source-of-truth tokens into the
-> `--p-*` runtime variables PrimeNG components consume.
+> layer that pipes Smart Contact's `--sc-*` source-of-truth tokens into
+> the `--p-*` runtime variables PrimeNG components consume.
 
 ## TL;DR
 
-The AED design system is built on a **six-layer CSS-variable cascade
-plus a JS-defined PrimeNG preset**. The CSS layers mirror PrimeNG's
+The Smart Contact design system is built on a **six-layer CSS-variable
+cascade plus a JS-defined PrimeNG preset**. The CSS layers mirror PrimeNG's
 official design-token model (primitive → semantic → component) and
 add two layers PrimeNG doesn't provide; the JS preset replaces what
 used to be the seventh CSS layer ("PrimeNG bridge"), aligned with
@@ -43,13 +43,19 @@ and is registered in `app.config.ts` via
 PrimeNG 21's JS-preset pattern. The numbering preserves the old
 mental model so future readers know which layer is which.)
 
+> This page is the **conceptual overview**. The canonical technical
+> reference for the scale (the single 14-base ramp, naming law,
+> `tokens:gen` / `tokens:parity` enforcement) and the token rules lives
+> in [`../tokens/README.md`](../tokens/README.md). When the two
+> overlap, README.md wins.
+
 ## Why this shape
 
 PrimeNG's design-token system has three abstraction layers
 (primitive, semantic, components) that you compose via a JavaScript
 `definePreset()` call which generates `--p-*` CSS variables at runtime.
 
-AED has its own token catalog (`--sc-*`) declared in CSS (the
+Smart Contact has its own token catalog (`--sc-*`) declared in CSS (the
 six-layer cascade above). The bridge between the two — *which `--sc-*`
 token feeds which `--p-*` slot* — lives in `aed-preset.ts`. The
 preset's values are CSS-variable references like
@@ -57,7 +63,7 @@ preset's values are CSS-variable references like
 `--p-primary-500: var(--sc-color-blue-500)` and the browser resolves
 the `var()` at paint time. Same effect as a flat-CSS shadow, but
 expressed in the place v21 expects (and shorter — Aura's preset
-inherits all the parts AED doesn't override).
+inherits all the parts Smart Contact doesn't override).
 
 Two extra layers handle what PrimeNG leaves to per-component CSS:
 
@@ -84,13 +90,25 @@ points at `--sc-color-blue-500` which is a primitive (constant), but
 dark mode → so the brand colour shifts on PrimeNG components without
 any extra dark declarations.
 
+> **Known gap (S67):** there is no single semantic token for a page
+> canvas (white in light / gray-950 in dark). Surfaces that need it
+> currently override `:host` / `:host-context(.sc-dark)` locally. The
+> clean fix — a `--sc-bg-canvas` token — is tracked as #73 in
+> [`inconsistencies-backlog.md`](inconsistencies-backlog.md).
+
 ## Rules
 
 1. **One source of truth.** `--sc-*` tokens are it. `--p-*` is a
    read-only mirror declared exclusively in layer 6.
 2. **Components reference `--sc-*`, never raw values.** No raw `#hex`,
    `Npx`, or unitless numbers for color, spacing, typography, radius.
-   Use a token; if the right token doesn't exist, add it.
+   Use a token; if the right token doesn't exist, add it. Typography is
+   now fully tokenised: as of S67 every `font-size` resolves to a
+   `--sc-font-size-*` token (one literal — the 88px display hero — is the
+   only allow-listed exception, mapped to `--sc-font-size-900`), and a
+   token guard blocks any new `font-size` literal. Tooling lives in
+   [`../tokens/README.md`](../tokens/README.md); the migration-safe
+   rationale lives in [`migration-safety.md`](migration-safety.md).
 3. **Add tokens in the lowest applicable layer.** A new color goes in
    layer 1; the alias in layer 2; the bridge entry (if PrimeNG
    needs it) in layer 6. Never skip up.
@@ -112,7 +130,7 @@ The runtime entry points are:
 - [`src/app/app.config.ts`](../src/app/app.config.ts) — registers the
   `Aura` preset with `darkModeSelector: '.aed-dark'`. The preset's
   default values are immediately shadowed by layer 6's `--p-*`
-  redirects, so AED branding wins.
+  redirects, so Smart Contact branding wins.
 
 ## Adding a new component-level token
 
@@ -150,9 +168,10 @@ If the dark variant needs different colors, append:
 
 ## Inheriting from PrimeNG
 
-Any time a PrimeNG component renders something AED hasn't styled, the
-component reads its own `--p-*` tokens. Those tokens resolve through
-the bridge (layer 6) to AED's `--sc-*` source of truth. Tags, badges,
+Any time a PrimeNG component renders something Smart Contact hasn't
+styled, the component reads its own `--p-*` tokens. Those tokens resolve
+through the bridge (layer 6) to Smart Contact's `--sc-*` source of
+truth. Tags, badges,
 toasts, dialogs, tooltips, dropdowns, datepickers — they all consume
 the same brand palette without per-component overrides.
 

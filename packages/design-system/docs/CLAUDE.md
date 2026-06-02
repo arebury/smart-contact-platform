@@ -1,4 +1,14 @@
-# CLAUDE.md — Auditoría de Design Tokens (SmartContact prototype)
+# CLAUDE.md — Auditoría de Design Tokens — memoria arquitectónica y roadmap (SmartContact prototype)
+
+> **Naturaleza de este doc**: memoria del audit de tokens (qué era, dónde
+> empezó, qué se hizo) y roadmap de lo pendiente. NO es un plan futuro abierto:
+> las Fases 0-3 ya están completadas e incorporadas a otros docs, y la Fase 4 se
+> ejecuta de forma incremental sesión a sesión. Para el estado vivo de cada tema
+> ver su **hogar canónico** (ver tabla más abajo y `docs/DOCS-INDEX.md`).
+>
+> **Canonical home**: el doc donde un tema vive de forma oficial. El resto de
+> docs APUNTAN, no duplican (regla DOCS-INDEX). Este doc apunta para todo lo
+> S67; no es hogar canónico de ninguna decisión nueva.
 
 ## Contexto
 
@@ -11,10 +21,39 @@ componentes → var(--sc-*) → aed-preset.ts → var(--p-*) → Aura/PrimeNG
 ```
 
 `--sc-*` es la fuente de verdad de identidad SmartContact.
-`aed-preset.ts` es el bridge que reenvía cada `--p-*` a su `--sc-*`
-correspondiente, manteniendo PrimeNG sincronizado con la identidad SC.
+`aed-preset.ts` (hoy `sc-preset.ts`) es el bridge que reenvía cada `--p-*` a su
+`--sc-*` correspondiente, manteniendo PrimeNG sincronizado con la identidad SC.
+Spec formal de esta arquitectura: [`DECISIONS.md`](DECISIONS.md) DD-1/DD-2/DD-3.
 
 Esta arquitectura es deliberada y correcta. NO se desmonta.
+
+> Nota: este doc nombra el bridge como `aed-preset.ts` y rutas
+> `src/app/core/tokens/` por historia del audit original. En el monorepo
+> actual el bridge vive en `packages/design-system/tokens/sc-preset.ts` y los
+> layers en `packages/design-system/tokens/layers/`. La arquitectura
+> `--sc-*` → preset → `--p-*` no ha cambiado.
+
+## Cambios S67 — resumen y hogar canónico
+
+S67 trabajó config Contact Center + cinturón tipográfico. Cada story vive
+documentada en su hogar canónico; aquí solo el índice. NO duplicar el detalle.
+
+| Story S67 | Qué cambió (resumen) | Hogar canónico |
+|---|---|---|
+| Rename cara-usuario | "AED" → **Contact Center** solo en i18n (nav, título índice config, "grupo de servicio") + breadcrumb `Contact Center › [Sección]`. Carpeta/selector `features/config/aed/` y el código NO cambian; la moneda "AED" en country-prefixes tampoco. | [`apps/supervisor/docs/DECISIONS.md`](../../../apps/supervisor/docs/DECISIONS.md) (DD#67) |
+| Bloque A — jerarquía de color config | Lienzo página blanco / gray-950 dark; bandeja gris exterior `.page__inner`; cards de sección blancas; índice gris alineado arriba; divider `--sc-border-default` gray-200 (antes border-subtle gray-100). 1:1 Figma `1:12270`. | [`customs-catalog.md`](customs-catalog.md) (jerarquía + divider) |
+| Bloque B — estados de agente | 3 tags fijos (Disponible verde, No disponible danger, Administrativo **granate** red-800 bg + red-100 texto) + chips editables removibles con ×. Sin token nuevo, master Kit intacto. | [`customs-catalog.md`](customs-catalog.md) |
+| Divider | Registrado Kit `302:11810`, ejes Type/Content/Align/Direction; hoy `<hr class="divider">`, trigger `<sc-divider>` si texto/dashed/vertical. | [`code-connect-mapping.md`](code-connect-mapping.md) |
+| sc-multiselect options primitivas | Soporta `string[]` (`hasPrimitiveOptions` + `resolvedOptionLabel/Value`, portado de `sc-select`). Arregla 4 multiselect de Grupos que salían vacíos. | [`MIGRATION-INVENTORY.md`](MIGRATION-INVENTORY.md) |
+| P4 — Descartar cambios | "Cancelar" → **"Descartar cambios"** (outline, aparece solo con cambios); las 3 rutas config usan `formDirtyGuard` (canDeactivate, mismo modal "¿Descartar cambios?/Seguir editando" que admin); componentes `DirtyAware`. | [`apps/supervisor/docs/DECISIONS.md`](../../../apps/supervisor/docs/DECISIONS.md) (DD#67) |
+| Tipografía migration-safe | `tokens:type-parity` (read-only); olas 1+2 tokenizaron 367 font-size literales → `--sc-font-size-*` (snap base-14, cobertura 48%→99→100% accionable); guard **Dura 4** bloquea font-size literal nuevo (88px hero → `font-size-900`). Line-heights NO tocados (diferidos, layout-risk). | racional/blindaje: [`migration-safety.md`](migration-safety.md) (DD-11 en [`DECISIONS.md`](DECISIONS.md)); tooling: [`tokens/README.md`](../tokens/README.md) |
+| Deuda #73 | No existe token semántico único `--sc-bg-canvas` (blanco light / gray-950 dark). Workaround en `settings-shell` (`:host` bg-surface light, `:host-context(.sc-dark)` bg-default dark). Diferidos: redesign line-heights, tamaños display, contraste índice dark. | [`inconsistencies-backlog.md`](inconsistencies-backlog.md) |
+
+Racional tipografía (resumen — detalle en migration-safety.md): los tipos viven
+en `--sc-*` + bridge `sc-preset.ts`, no dentro de PrimeNG, así que un update de
+PrimeNG no los borra. Único riesgo = que se renombre un slot `--p-*`
+(detectable por `tokens:type-parity`). **NO vincular `--sc-font-*` a la escala
+de PrimeNG** — invertiría la arquitectura.
 
 ## Objetivo del audit
 
@@ -35,6 +74,10 @@ Es:
 7. Establecer protocolo de re-sync para cuando el equipo de diseño re-exporte el JSON.
 
 ## Identidad visual SmartContact
+
+> Hogar canónico de las divergencias de marca (navy primary, electric-blue info,
+> amber warn, con mapping 1:1 a código): [`customs-catalog.md`](customs-catalog.md) §1.
+> Aquí solo el resumen de asunciones del audit.
 
 Documentada en:
 - `src/app/core/tokens/GUIA.md` (36 KB, español, para diseño)
@@ -77,8 +120,9 @@ NO son aceptables cuando:
   redimensionando `photo-upload`). Marcar como deuda y proponer API.
 - Sobrescriben tokens (debería hacerse vía bridge).
 
-## Protocolo de checkpoints
+## Protocolo de checkpoints (sesiones de audit / Fase 4 real / re-sync)
 
+Aplica cuando se retome trabajo de bloque (line-heights, re-sync del Kit).
 Al terminar cada fase:
 1. Resumen en chat: máximo 10 bullets.
 2. Lista de archivos creados/modificados con ruta exacta.
@@ -102,19 +146,24 @@ mismo protocolo.)
 - NO tocar lógica de negocio, servicios, rutas, state management.
 - NO tocar tests existentes (si un cambio rompe uno: reportar).
 
-## Git
+## Git (histórico del audit)
 
-- Rama: `chore/design-tokens-audit` (ya creada).
-- No hacer commits hasta que se indique explícitamente.
-- Mensaje cuando se pidan: `chore(tokens): <descripción>`.
-- Nunca push.
+El audit original vivió en la rama `chore/design-tokens-audit` (ya mergeada).
+Hoy el repo trabaja en `main` con sesiones de features puntuales (S67-A/B/P4,
+tipografía, etc.) y el workflow del CLAUDE root (componentes y refactors menores
+directo a `main`; cambios estructurales por rama + PR). Convención de commit
+heredada para trabajo de tokens: `chore(tokens): <descripción>`.
 
 ## Validación visual (Playwright)
 
-- Antes de Fase 4: baseline de screenshots (light + dark) de pantallas
-  principales. Pedir al usuario la lista si no es deducible.
-- Tras cada paso de Fase 4: re-screenshot y diff. Reportar diferencias
-  perceptibles.
+Protocolo para cuando se ejecute la Fase 4 real (line-heights) o un re-sync:
+
+- Antes: baseline de screenshots (light + dark) de pantallas principales.
+  Pedir al usuario la lista si no es deducible.
+- Tras cada paso: re-screenshot y diff. Reportar diferencias perceptibles.
+
+Para cambios cross-app del día a día, la red de seguridad es `npm run e2e`
+(ver CLAUDE root + `tests/e2e/README.md`).
 
 ## Entregables
 
@@ -130,7 +179,25 @@ Todo en `docs/audit/`:
 
 ---
 
-# Fases (replanteadas)
+# Fases — historial y estado
+
+Las fases ya no son "plan futuro": son el historial del audit con su estado
+actual. Las Fases 0-3 se completaron en sesiones previas y su contenido está
+incorporado a los docs canónicos; la Fase 4 se ejecuta de forma incremental
+(S67: tipografía, divider, multiselect, renames); la Fase 5 es protocolo
+documentado, no ejecutado.
+
+| Fase | Estado | Resultado / dónde vive | Próximo paso |
+|---|---|---|---|
+| 0 — Diagnóstico | ✅ | `docs/audit/00-diagnosis.md` | — |
+| 1 — Identidad | ✅ | brand colors en [`customs-catalog.md`](customs-catalog.md) §1 | — |
+| 2 — `--sc-*` vs Aura | ✅ | `docs/audit/02-sc-vs-aura-audit.md` | — |
+| 3 — Cobertura bridge | ✅ | `docs/audit/03-bridge-coverage.md` | colapso tiers de tamaño (diferido) |
+| 4 — Limpieza | 🔄 incremental | S67: tipografía (cinturón Dura 4), divider, multiselect, renames | **line-heights** (diferido, layout-risk) — ver [`inconsistencies-backlog.md`](inconsistencies-backlog.md) |
+| 5 — Re-sync protocol | 📝 documentado | `docs/audit/RESYNC.md` (concepto) | ejecutar al próximo re-export del Kit |
+
+El detalle original de cada fase se conserva abajo como referencia del plan que
+las generó.
 
 ## Fase 0 — Diagnóstico
 
@@ -184,7 +251,11 @@ Esperar aprobación.
 
 ## Fase 4 — Limpieza dirigida
 
-Sólo tras aprobación de Fases 1, 2, 3.
+🔄 En curso, ejecutada de forma incremental (no como bloque único). Lo de S67
+ya hecho: cinturón tipográfico (367 font-size literales → `--sc-font-size-*`,
+guard Dura 4), divider registrado en code-connect, fix sc-multiselect, P4
+descartar-cambios. **Line-heights NO tocados** en S67 (diferidos por riesgo de
+layout — ver [`inconsistencies-backlog.md`](inconsistencies-backlog.md)).
 
 Pasos pequeños, cada uno con diff Playwright:
 

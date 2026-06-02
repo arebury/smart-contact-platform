@@ -12,6 +12,17 @@
 > código vive en `packages/design-system/components/`. El catálogo interactivo (checklist con
 > localStorage para tracking personal) está en `apps/ds-docs/src/app/pages/home/home.component.ts`.
 
+> **Nomenclatura (S67)** — En la UI, el producto AED se muestra como "Contact Center"
+> (nav, título del índice de config, "grupo de servicio"; breadcrumb `Contact Center › [Sección]`).
+> El cambio es solo i18n: la carpeta/selector `features/config/aed/` y el código NO se renombran
+> ("aed" es nombre interno de feature). La moneda "AED" de country-prefixes no se toca. Detalle
+> de decisión → `apps/supervisor/docs/DECISIONS.md`.
+
+> **Deuda relacionada (S67)** — gap de token `--sc-bg-canvas` (no existe token semántico único
+> para el lienzo de página: blanco en light / gray-950 en dark). Workaround actual en
+> `settings-shell` (`:host` → bg-surface; `:host-context(.sc-dark)` → bg-default). Tracking +
+> trigger de promoción → `inconsistencies-backlog.md` #73.
+
 ## Components
 
 | #  | Name | Status | Type | Selector | Figma | Figma parity | Doc |
@@ -47,9 +58,10 @@
 | 29 | Datepicker | ✓ | 🟢 Extended | `<sc-datepicker>` | [6738:20817](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-20817) | **~100%** — input chrome slate-300/6px/shadow, panel slate-200 bg white + dates 28×28 circulares, anchor-gutter 2 | `docs/components/05-datepicker.md` |
 | 30 | Tabs | ✓ | 🟣 Custom-preset | `<p-tabs>` | [6738:49740](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-49740) | **100%** — Session 30 audit Nivel-2. Padding tab 14/15.75, tabpanel 12.25/15.75/15.75/15.75 overrides en `components.tabs`. Active = navy (brand divergence vs azure). | `docs/components/06-tabs.md` |
 | 31 | Tooltip | ✓ | 🟦 Full PrimeNG | `[pTooltip]` | [6738:50212](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-50212) | **100%** — Session 30 audit. bg slate-700, padding 10.5/7, radius 6, max-width 175. Overrides en `components.tooltip.root`. Shadow heredado de overlay.popover. | `docs/components/07-tooltip.md` |
-| 32 | MultiSelect | ✓ | 🟢 Extended | `<sc-multiselect>` | [6738:22651](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22651) | **100%** — Session 30. Tokens `multiselect/*` idénticos a `select/*` (mismo chrome). Display `comma` o `chip`, selectionLimit, filter. | `docs/components/08-multiselect.md` |
+| 32 | MultiSelect | ✓ | 🟢 Extended | `<sc-multiselect>` | [6738:22651](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22651) | **100%** — Session 30. Tokens `multiselect/*` idénticos a `select/*` (mismo chrome). Display `comma` o `chip`, selectionLimit, filter. **S67**: soporta `options` primitivas (`string[]`) vía `hasPrimitiveOptions` + `resolvedOptionLabel/Value` (computed; resuelven a `undefined` cuando las opciones son primitivas → PrimeNG renderiza el valor directo). Patrón portado de `<sc-select>`. Arregla 4 multiselect de Grupos config que renderizaban vacíos. | `docs/components/08-multiselect.md` |
 | 33 | Search | ✓ | 🟢 Extended | `<sc-search>` | [11861:55210](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=11861-55210) | **100%** — S31 cocinado. Composición `<p-iconfield>` + `<p-inputicon>` + `pInputText` + clear button auto + opcional kbd hint `⌘K`/`/`. Figma canvas compuesto (Light + Dark + Components frame). | `docs/components/14-search.md` |
 | 34 | Input group | ✓ | 🟢 Extended | `<sc-inputgroup>` | [6738:22644](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=6738-22644) | **100%** — S33 cocinado. Wrapper minimal de `<p-inputgroup>` + `<p-inputgroup-addon>` (PrimeNG nativo). `size` matchea `sc-inputtext`. Trigger real: tag-input aed-servicio. Tokens fluyen via `formField.*` sin overrides propios. | `docs/components/34-inputgroup.md` |
+| 35 | Divider | ✓ | 🟢 Extended | `<hr class="divider">` (hoy) · `<sc-divider>` (trigger) | [302:11810](https://www.figma.com/design/khNq9dJKNi13pNllrqm6dx/Smart-Contact-Prime?node-id=302-11810) | **100%** — S67 registrado. Hoy reuso 1:1 vía `<hr class="divider">` (Solid / Horizontal / sin contenido), color `--sc-border-default` (gray-200 #dadfe6). Trigger para cocinar wrapper `<sc-divider>`: si aparece texto-en-medio, vertical o dashed. Mapping Kit (ejes Type/Content/Align/Direction, tokens, margins) en `code-connect-mapping.md §Divider`. | `code-connect-mapping.md §Divider` |
 
 ## Tokens
 
@@ -61,6 +73,15 @@ Capa | Archivo | Status
 4. Component | `tokens/layers/04-component.css` | ✓
 5. Extensions | `tokens/layers/05-extensions.css` | ✓
 7. Dark | `tokens/layers/07-dark.css` | ✓ (capa 6 vivió como CSS, ahora es `sc-preset.ts`)
+
+> **Tipografía tokenizada (S67)** — `font-size` cerrado como token: olas 1+2
+> migraron 367 literales a `--sc-font-size-*` (cobertura 48%→99%→100% accionable,
+> snap a escala base-14; hero 88px → `--sc-font-size-900`). `line-heights` NO
+> tocados (diferidos por riesgo de layout). Tooling (`tokens:type-parity`
+> read-only + guard "Dura 4" que bloquea `font-size` literal nuevo) → ver
+> [`tokens/README.md`](../tokens/README.md). Racional de blindaje (por qué un
+> update de PrimeNG no los borra) → [`migration-safety.md`](migration-safety.md).
+> Decisión arquitectónica → DD-11 en [`DECISIONS.md`](DECISIONS.md).
 
 ## Figma verification log
 
@@ -80,15 +101,17 @@ Capa | Archivo | Status
 | `<sc-inputtext>` | 2026-05-15 | S30 | 240 variants Nivel-2, padding decimal raw |
 | `<p-tabs>` | 2026-05-15 | S30 | Padding tab 14/15.75 |
 | `<p-tooltip>` | 2026-05-15 | S30 | bg slate-700, padding 10.5/7 |
-| `<sc-multiselect>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory `/conversaciones` ConversationFilters top-bar). Variants `size: sm/md/lg` aplicadas correctamente en `sm` (height 36px) sin override custom. **Pendiente equipo de diseño**: confirmar variants formales `sm/md/lg` en Kit Pro (S30 audit Nivel-2 cubrió size default, no las 3 variants size). |
+| `<sc-multiselect>` | 2026-06-02 | S67 | Re-verificado: chrome 1:1 intacto. S67 añadió soporte `options` primitivas (`string[]`) sin tocar chrome ni tokens (cambio solo en resolución `optionLabel/Value`). Histórico S46: parity 100% confirmado en uso real (Memory `/conversaciones` ConversationFilters top-bar), variants `size: sm/md/lg` en `sm` (height 36px) sin override custom. **Pendiente equipo de diseño**: confirmar variants formales `sm/md/lg` en Kit Pro (S30 audit Nivel-2 cubrió size default, no las 3 variants size). |
 | `<sc-select>` | 2026-05-15 | S30 | 258 variants Nivel-2, Filled + Invalid |
 | `<sc-datepicker>` | 2026-05-20 | S46 | Re-verificado: S30 parity 100% confirmado en uso real (Memory ConversationFilters). Variants `size: sm/md/lg` aplicadas correctamente. **Pendiente equipo de diseño**: idem multi-select. |
 | `<sc-inputtext>` (re-check S46) | 2026-05-20 | S46 | Aplicado `size="sm"` en Memory filters origin/destination. Sin drift visual perceptible. Variants `sm/md/lg` ya estaban auditadas S30 (240 variants Nivel-2). |
 | `<sc-search>` | 2026-05-15 | S31 | Composición aditiva canvas Light+Dark+Components |
 | `<sc-toggleswitch>` | 2026-05-15 | S32 | Refactor a wrapper p-toggleswitch, Figma node 6738:22645 |
 | `<sc-label-chip>` | 2026-05-15 | S32 | Figma `❖ Chip` node 6738:55109 confirmado |
+| Divider | 2026-06-02 | S67 | Registrado contra Kit node 302:11810. Color alineado a `--sc-border-default` (gray-200 #dadfe6). Ejes + tokens en `code-connect-mapping.md §Divider`. |
 
 **Verificación global variables Figma SC**: 2026-05-15 (S32). Subagent audit confirmó NO se han modificado variables base del kit PrimeOne. Política `audit/01-identity-recap.md §2.10` consistente. Próxima verificación recomendada: cuando el equipo de diseño haga cambios en el file, o cada 3 meses (whichever first).
+> **Nota S67**: los cambios de color de config AED (divider gray-200, jerarquía lienzo/bandeja/cards/índice, estados de agente Bloque B) NO alteran las variables base del Kit — son reasignación de tokens semánticos existentes en la UI. El timestamp global de arriba sigue vigente (no hubo edit del file Figma). Detalle de la jerarquía de color y estados → `inconsistencies-backlog.md` (Bloque A/B S67).
 
 ## Lifecycle / Maturity
 
@@ -137,8 +160,9 @@ Capa | Archivo | Status
 | `<sc-inline-rename-cell>` | 3 | Solo post-duplicate flow |
 | `<sc-group-popover>` | 1 | Solo agents-list-page columna grupos |
 | `<sc-color-dot-picker>` | 1 | Solo label form |
-| `<sc-multiselect>` | 0 | Esperando primer caso real |
+| `<sc-multiselect>` | 4 | Grupos config (voz/prioridad/estrategia/tipoCola) — primer caso real S67 |
 | `<sc-datepicker>` | 0 | Esperando primer caso real |
+| Divider (`<hr class="divider">`) | 1+ | Config AED. Wrapper `<sc-divider>` aún sin cocinar (trigger: texto/vertical/dashed) |
 
 ### `internal` (singletons app-level, no consumidos como library)
 
@@ -162,6 +186,8 @@ Workflow para CADA componente que entra a SCDS:
 4. Override en `sc-preset.ts` si hay brand divergence vs Aura.
 5. Anotar en `customs-catalog.md` si aplica.
 6. Update este `MIGRATION-INVENTORY.md` (status + Figma + Doc).
+6b. Si mapea a un node del Kit Pro, entry en `code-connect-mapping.md` (nodeId + ejes + tokens) — ej. S67 Divider.
+6c. Si surge deuda/gap, entry en `inconsistencies-backlog.md` con severidad/fase.
 7. Commit directo a `main` (no PR ceremony) → Netlify auto-deploya AED + ds-docs.
 
 Para tokens nuevos: misma cosa pero el doc es en `docs/tokens-<scope>.md` y el "page" es en `apps/ds-docs/foundations/`.

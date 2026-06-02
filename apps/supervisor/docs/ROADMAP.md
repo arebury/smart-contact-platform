@@ -1,7 +1,11 @@
 # Roadmap
 
 > Living progress tracker. Update at the end of every meaningful merge.
-> Last reviewed: 2026-05-05 (after Agents shipped).
+> Last reviewed: 2026-06-02 (after S67 — config Contact Center + typography migration).
+>
+> Scope: AED roadmap. SCDS internals (tokens, dividers, multiselect, type-parity)
+> are noted here only where a config/feature consumes them; the component itself is
+> tracked in its canonical home (see `docs/DOCS-INDEX.md`).
 
 Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 
@@ -73,6 +77,31 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 - ✅ `/config/aed` — country prefix picker over the full ~250-entry COUNTRY_PREFIXES, search by name/code/prefix, removable chips, dirty-aware save bar
 - ✅ `/config/seguridad` — políticas de contraseñas (cosméticas) + accordion gating bulk password regen flow with confirm-by-typing-"REGENERAR" + simulated CSV download
 - ✅ AgentsStore extended with `code / extension / email / status` so Seguridad can render real rows once Agents ships
+- ✅ **Rename de cara al usuario "AED" → "Contact Center" (S67):** solo en i18n
+  (nav sidebar, título del índice de config, label "grupo de servicio"). La
+  carpeta/selector `features/config/aed` y el código NO se renombran (`aed` es
+  nombre de feature, no marca); "AED" como moneda en `country-prefixes` queda
+  intacto. Breadcrumb config: "Contact Center › [Sección]". Decisión: DD#67 en
+  [`docs/DECISIONS.md`](docs/DECISIONS.md).
+- ✅ **Bloque A — jerarquía de color (S67, Figma 1:12270):** lienzo de página
+  blanco, bandeja gris contenedora, cards de sección blancas, índice gris
+  resaltado; mismo patrón en light/dark vía `:host-context`. Detalle de tokens
+  y racional en [`packages/design-system/docs/customs-catalog.md`](../../../packages/design-system/docs/customs-catalog.md).
+  Gap de token detectado → deuda #73 (ver Known debt).
+- ✅ **Bloque B — estados de agente (S67, granate en Figma 39-1115):** 3 tags
+  fijos (Disponible / No disponible / Administrativo) + chips editables removibles
+  como función separada; sin token nuevo, master del Kit intacto. Detalle de
+  color (tags fijos vs chips editables, granate) en
+  [`packages/design-system/docs/customs-catalog.md`](../../../packages/design-system/docs/customs-catalog.md).
+- ✅ **P4 — descartar cambios (S67):** botón "Descartar cambios" (outline, aparece
+  solo cuando hay cambios) + las 3 rutas config usan `formDirtyGuard`
+  (`canDeactivate`, mismo modal "¿Descartar cambios? / Seguir editando" que los
+  flujos admin). Componentes implementan `DirtyAware`. Decisión: DD#67.
+- ✅ **sc-multiselect — options primitivas (S67):** `sc-multiselect` ahora acepta
+  `options` como `string[]` (`hasPrimitiveOptions` + `resolvedOptionLabel/Value`,
+  portado de `sc-select`); arregla los 4 multiselect de Grupos que salían vacíos.
+  Inventario del componente en
+  [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../../../packages/design-system/docs/MIGRATION-INVENTORY.md).
 
 ### 3.5 — Users ✅
 
@@ -100,8 +129,17 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
   - Sesión sub-section shipped: `loginExtOverride` toggle + "Seguridad > Expirar contraseña" action with confirm dialog and toast (no Agent state change — action is a UX placeholder until real password flow exists).
 - ⬜ **Deferred (older):** column-visibility selector (with localStorage persistence), frozen-column data table, photo upload preview, language multi-select, default outbound group. Lands with shared `MultiSelectChip` and `FileUpload` primitives.
 
-## Phase 4 — Full README + technical docs ⬜
+## Phase 4 — Full README + technical docs 🟡
 
+- ✅ **Tipografía migration-safe (S67):** se tokenizaron 367 font-size literales
+  → `--sc-font-size-*` (olas 1+2, snap a la escala base-14; cobertura accionable
+  48% → 99% → 100%, hero de 88px → `--sc-font-size-900`). Guard Dura 4 bloquea
+  cualquier font-size literal nuevo (0 excepciones); `npm run tokens:type-parity`
+  es el checker read-only. Los line-heights NO se tocaron (diferidos por
+  layout-risk; ver Known debt + inconsistencies-backlog). Racional de blindaje
+  (por qué un upgrade de PrimeNG no borra los tipos):
+  [`packages/design-system/docs/migration-safety.md`](../../../packages/design-system/docs/migration-safety.md) §Tipografía migration-safe.
+  Tooling (escala base-14, olas, guard): [`packages/design-system/tokens/README.md`](../../../packages/design-system/tokens/README.md).
 - ⬜ Architecture chapter (data flow, lazy loading, tokens)
 - ⬜ Component inventory table
 - ⬜ Theming guide (add a token, override PrimeNG, dark mode hooks)
@@ -122,8 +160,8 @@ Legend: ✅ done · 🟡 in progress · ⬜ not started · 🚧 blocked
 | Lucide icon registry | ✅ | `core/icons/nav-icons.ts` |
 | Undo stack (`Ctrl+Z`) | ⬜ | Pending — needed by Users / Groups delete flows |
 | Cross-tab warning | ⬜ | Pending — needed by create/edit forms |
-| Unsaved-changes guard | ⬜ | Pending — needed by create/edit forms |
-| Discard dialog | ⬜ | Pending — needed by create/edit forms |
+| Unsaved-changes guard | ✅ (S67-P4) | `formDirtyGuard` (`canDeactivate`) en las 3 rutas config + forms admin; ver DD#67 |
+| Discard dialog | ✅ (S67-P4) | Modal "¿Descartar cambios? / Seguir editando" estandarizado config + admin; ver DD#67 |
 | Sticky form header | ⬜ | Pending — needed by Users / Groups / Agents forms |
 | Section card | ⬜ | Pending — needed by Users / Groups / Agents forms |
 | Sortable header | ⬜ | Pending — needed by all list pages with sortable columns |
@@ -235,7 +273,16 @@ becomes high), revisit.
 - Routes resolve to `loadComponent: placeholder` for everything except `/admin/labels`. Each feature flips its own routes when migrated.
 - The `AgentsStore` is a stub (only the `agents` signal + cascading delete + count map). The Agents feature owns the real implementation.
 - Imports in feature pages still use deep relative paths (`../../../../../core/...`). The TS path aliases (`@core/*`, `@shared/*`, `@features/*`) are configured in `tsconfig.json` but not yet applied; convert in a single sweep at the end of Phase 3.
-- The undo / cross-tab / nav-guard infrastructure is still pending (decision #3 says 1:1 with the prototype). It lands when the first feature that needs it (Users) is migrated.
+- The undo / cross-tab infrastructure is still pending (decision #3 says 1:1
+  with the prototype). The nav-guard piece shipped in S67-P4 (`formDirtyGuard`);
+  undo and cross-tab warning remain.
+- **Token gap #73 — `--sc-bg-canvas`** (S67-A): no hay un token único para el
+  lienzo de página (blanco en light / gris-950 en dark); el `settings-shell` lo
+  resuelve hoy con override por tema. Diferido + plan de fix (proceso Custom de
+  Figma) en [`packages/design-system/docs/inconsistencies-backlog.md`](../../../packages/design-system/docs/inconsistencies-backlog.md) #73.
+- **Tipografía — diferidos para próxima sesión** (S67): rediseño de line-heights
+  (no tocados por layout-risk), tamaños display, y contraste del índice en dark.
+  Registrados en [`packages/design-system/docs/inconsistencies-backlog.md`](../../../packages/design-system/docs/inconsistencies-backlog.md).
 
 ## UI consistency debt — cross-form drift (DD#54 audit · 2026-05-11)
 

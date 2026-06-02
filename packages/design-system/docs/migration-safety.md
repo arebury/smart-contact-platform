@@ -54,6 +54,16 @@ Cualquier cambio upstream PrimeNG SOLO afecta la última capa. El bridge contien
 
 ## Tipografía migration-safe (S67)
 
+**3 puntos clave (resumen ejecutivo):**
+
+1. Tus tipos viven en `--sc-font-*` (tus capas) + el bridge `sc-preset.ts`, **no dentro de PrimeNG**.
+2. El único riesgo es que un update RENOMBRE un slot `--p-*-font-size` del bridge → desajuste visual, no crash, **detectable** por el comprobador de tipo y arreglable en una línea.
+3. **NO vincular `--sc-font-*` a la escala de PrimeNG** — invertiría la arquitectura.
+
+> Detalle del tooling (`tokens:type-parity` read-only, escala base-14, olas 1+2, guard
+> Dura 4) → [`tokens/README.md`](../tokens/README.md). La decisión arquitectónica formal →
+> DD-11 en [`DECISIONS.md`](DECISIONS.md). Esta sección cubre solo el **racional de blindaje**.
+
 **El miedo:** "si meto mis tipos, ¿un update de PrimeNG los rompe?". No los borra, y un
 desajuste sería **detectable y de arreglo en un sitio**. Por qué:
 
@@ -73,12 +83,19 @@ desajuste sería **detectable y de arreglo en un sitio**. Por qué:
   colección de Variables **propia** (Smart Contact Prime), no a la del proveedor — aunque los
   valores coincidan, la colección es nuestra y no se mueve sola.
 
-**Regla operativa:** la tipografía se cambia **solo por tokens `--sc-font-*`** (el "interruptor
-central"), nunca con literales `font-size`/`line-height` a mano en componentes. Un guard de
-tipo (estilo `tokens:guard`) bloquea literales nuevos; un parity de tipo (estilo `tokens:parity`)
-cruza nuestros valores vs lo que PrimeNG espera y canta el drift en el commit. Eso convierte un
-"se rompió en silencio" en "aviso inmediato + fix de una línea". Es el requisito previo para
-adoptar un set tipográfico nuevo (p. ej. unificar a un único set de estilos) sin dejar huérfanos.
+**Regla operativa:** la tipografía se cambia **solo por tokens `--sc-font-size-*`** (el
+"interruptor central"), nunca con literales `font-size` a mano en componentes. El cinturón quedó
+cerrado en S67: las **olas 1+2 tokenizaron 367 literales `font-size` → `--sc-font-size-*`** (snap a
+la escala base-14), subiendo la cobertura del **48% al 99%** y al **100% accionable**; el guard
+**Dura 4** (en `tokens:guard`) bloquea cualquier `font-size` literal nuevo (**0 excepciones** — el
+hero de 88px pasó a `--sc-font-size-900`), y `tokens:type-parity` (read-only) cruza nuestros valores
+vs lo que PrimeNG espera y canta el drift en el commit. Eso convierte un "se rompió en silencio" en
+"aviso inmediato + fix de una línea". Es el requisito previo para adoptar un set tipográfico nuevo
+(p. ej. unificar a un único set de estilos) sin dejar huérfanos. Los detalles del tooling viven en
+[`tokens/README.md`](../tokens/README.md).
+
+**Los `line-height` NO se tocaron** (diferidos, riesgo de layout) — quedan en backlog para el
+redesign de la próxima sesión. Ver [`inconsistencies-backlog.md`](inconsistencies-backlog.md).
 
 ---
 
@@ -89,7 +106,10 @@ adoptar un set tipográfico nuevo (p. ej. unificar a un único set de estilos) s
 - **Valores de `--sc-*`** en `tokens/layers/01-primitive.css` … `07-dark.css`. Cualquier color, spacing, radius, shadow puede ajustarse. La cascada `--p-*` ← `--sc-*` propaga automáticamente.
 - **Overrides en `sc-preset.ts`** documentados (Custom collection en código). Añadir un nuevo `--p-X` con valor `--sc-X` o un valor literal.
 - **Componentes SCDS internos** (SCSS, templates, props). Mientras la API pública (`@Input` / `@Output`) se mantenga estable.
-- **Crear nuevos componentes SC** (pure-sc o extended) siguiendo el patrón del DS.
+- **Crear nuevos componentes SC** (pure-sc o extended) siguiendo el patrón del DS. Ejemplo S67:
+  el divider se registró en [`code-connect-mapping.md`](code-connect-mapping.md) (Kit node
+  `302:11810`); hoy se usa como `<hr class="divider">`, con trigger a `<sc-divider>` solo si se
+  necesita texto/dashed/vertical.
 - **Entries en `customs-catalog.md`** documentando divergencias nuevas.
 - **Docs en `packages/design-system/docs/`** — son source of truth de intención.
 
@@ -127,12 +147,36 @@ adoptar un set tipográfico nuevo (p. ej. unificar a un único set de estilos) s
 - Auditoría profunda pure-sc: 0 issues nivel-1.
 - Figma SC `❖ Search` canvas compuesto (Light + Dark + Components frames) — composición aditiva, **NO se modificaron variables Figma base**.
 
-### Sesión 32 (esta) — Cierre Fase 1 + Spec docs
+### Sesión 32 — Cierre Fase 1 + Spec docs
 
 - 5 forms residuales AED migrados (template, label, user, group, repo) → Fase 1 100% cerrada.
 - Auditoría nivel-2 pure-sc: 8/21 clean, 0 P0/P1 reales tras sanity check.
 - 16 nuevos spec docs creados (uno por pure-sc top-usage).
 - 4 refactors de consistencia: bulk-edit-menu + inline-rename-cell + toggle-switch + label-chip — para reducir custom innecesario y alinear con PrimeNG.
+
+### Sesión 67 — Cinturón tipográfico + blindaje config
+
+- **Tipografía migration-safe**: olas 1+2 tokenizaron **367 literales `font-size` → `--sc-font-size-*`**
+  (snap base-14, cobertura 48%→99→100% accionable). Guard **Dura 4** bloquea `font-size` literal nuevo
+  (0 excepciones; hero 88px → `--sc-font-size-900`). `tokens:type-parity` (read-only) canta drift.
+  `line-height` NO tocados (diferidos, riesgo layout). Racional de por qué un update de PrimeNG no
+  borra los tipos → § "Tipografía migration-safe" arriba; tooling → `tokens/README.md`; decisión →
+  DD-11 en `DECISIONS.md`.
+- **`<sc-multiselect>` soporta `options` primitivas** (`string[]`) vía `hasPrimitiveOptions` +
+  `resolvedOptionLabel`/`Value` (portado de `<sc-select>`) → fix de 4 multiselects de Grupos config
+  que salían vacíos. Single point of adaptation respetado (lógica en el wrapper, no en consumers).
+- **Divider** registrado en `code-connect-mapping.md` (Kit node `302:11810`). Reuso 1:1 del Kit Pro:
+  hoy `<hr class="divider">`, trigger `<sc-divider>` solo si se necesita texto/dashed/vertical.
+- **Form dirty guard estandarizado**: las 3 rutas config usan `formDirtyGuard` (`canDeactivate`) con el
+  mismo modal "¿Descartar cambios? / Seguir editando" que admin; componentes implementan `DirtyAware`.
+- **Rename cara-usuario "AED" → "Contact Center"** (solo i18n: nav, título índice config, "grupo de
+  servicio"). Carpeta/selector `features/config/aed/` y código NO cambian (`aed` es nombre de feature,
+  naming portable); "AED" moneda en country-prefixes intacto. Sin impacto en aislamiento SCDS.
+- **Limpieza de docs**: quitadas referencias a marcas externas (se describe QUÉ hace el override, no
+  de dónde vino).
+- **Deuda nueva #73 (`--sc-bg-canvas`)** detectada al alinear la jerarquía de color de config (lienzo
+  blanco light / gray-950 dark): no hay token semántico único para el lienzo. Tracking en
+  `inconsistencies-backlog.md`; jerarquía + estados de color → `customs-catalog.md`.
 
 ---
 
@@ -150,6 +194,12 @@ adoptar un set tipográfico nuevo (p. ej. unificar a un único set de estilos) s
 ### 2. Aprovecha `pTemplate`
 
 PrimeNG expone slots de templating en casi todos sus componentes. Antes de reescribir un item / option / cell, busca el `pTemplate="item"` (o equivalente). Nuestros wrappers Extended (`<sc-select>`, `<sc-multiselect>`, `<sc-datepicker>`) ya pasan estos templates a través.
+
+**Arrays primitivos (S67):** para `options: string[]` los wrappers Extended soportan
+`hasPrimitiveOptions` (`<sc-multiselect>` portó el patrón de `<sc-select>`): el wrapper resuelve
+`optionLabel`/`optionValue` automáticamente — **no fuerces una clave `label` en opciones string**.
+Esto arregló los 4 multiselects de Grupos config que salían vacíos. Detalle de la primitiva +
+estado del componente en [`MIGRATION-INVENTORY.md`](MIGRATION-INVENTORY.md).
 
 ```html
 <sc-select [options]="agentTypes" [(value)]="selected">
@@ -258,6 +308,7 @@ Documentado en `customs-catalog.md §5` para futura referencia.
 ### Bajo riesgo
 
 - **Drift Figma ↔ código**: si el equipo de diseño cambia un valor en Figma SC sin pasar por customs-catalog → no rompe runtime, pero el design system se desincroniza. Mitigación: auditorías periódicas (S30, S31 hechas).
+- **Gap de token semántico de lienzo** (deuda #73, S67): no existe un `--sc-bg-canvas` único para el lienzo de página (blanco light / gray-950 dark). Workaround vía `:host`/`:host-context(.sc-dark)` en `settings-shell` — funciona, pero es deuda hasta promover la variable. Tracking + trigger de cierre en [`inconsistencies-backlog.md`](inconsistencies-backlog.md).
 - **PrimeNG patches sin breaking changes** (21.x → 21.y): el bridge protege.
 
 ### Medio riesgo
@@ -282,5 +333,9 @@ Documentado en `customs-catalog.md §5` para futura referencia.
 - [`audit/01-identity-recap.md`](audit/01-identity-recap.md) — política de variables Figma SC (§2.10).
 - [`audit/02-sc-vs-aura-audit.md`](audit/02-sc-vs-aura-audit.md) — validation `--sc-*` 1:1 con Aura.
 - [`audit/03-bridge-coverage.md`](audit/03-bridge-coverage.md) — cobertura `sc-preset.ts`.
-- [`MIGRATION-INVENTORY.md`](MIGRATION-INVENTORY.md) — inventario actualizado de componentes + status.
+- [`MIGRATION-INVENTORY.md`](MIGRATION-INVENTORY.md) — inventario actualizado de componentes + status (incl. `sc-multiselect` options primitivas).
+- [`code-connect-mapping.md`](code-connect-mapping.md) — mapeo Angular ↔ Figma (incl. divider, Kit node `302:11810`).
+- [`inconsistencies-backlog.md`](inconsistencies-backlog.md) — deuda DS (incl. #73 `--sc-bg-canvas`).
+- [`DECISIONS.md`](DECISIONS.md) — DD-11 tipografía migration-safe.
+- [`tokens/README.md`](../tokens/README.md) — tooling de tokens (incl. `tokens:type-parity`, guard Dura 4).
 - [`tokens/GUIA.md`](../tokens/GUIA.md) — guía de identidad SC en español (para diseño).

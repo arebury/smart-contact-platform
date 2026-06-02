@@ -7,6 +7,127 @@
 
 ---
 
+## 67 — Config AED se presenta como "Contact Center": rename de cara-usuario, jerarquía de color, estados de agente, descartar-cambios con guard (2026-06-02)
+
+**Decision.** Sesión de blindaje + refinamiento de config AED. Seis decisiones
+ligadas:
+
+1. **Rename de producto AED → "Contact Center" SOLO en la cara-usuario.** El
+   texto que ve el usuario (nav del sidebar, título del índice de config,
+   etiqueta "grupo de servicio") pasa a "Contact Center" vía i18n. La
+   **carpeta, el selector y el código `features/config/aed/` NO se renombran**
+   — `aed` ahí es nombre de feature, no marca (no-goal del proyecto). El
+   **"AED" como moneda** (dírham, prefijos de país) tampoco se toca. El
+   breadcrumb de config se simplifica a **"Contact Center › [Sección]"** (antes
+   circular tipo "Administración › General › Editar general").
+
+2. **Bloque A — jerarquía de color de config (1:1 Figma node `1:12270`).** Tres
+   superficies anidadas con contraste deliberado: **lienzo de página blanco**
+   en light / **gray-950** en dark (`settings-shell` `:host` = `--sc-bg-surface`
+   light; `:host-context(.sc-dark)` = `--sc-bg-default` dark); **bandeja gris**
+   exterior (`.page__inner` = `--sc-bg-default`, radius 12, padding 16, gap 28);
+   **cards de sección blancas** (`.settings-card` = surface, radius 8, padding
+   16, borde sutil, sin sombra); **índice gris** (gray-50, radius 12) alineado
+   arriba con la bandeja. El divisor de config pasa de `--sc-border-subtle`
+   (gray-100) a **`--sc-border-default` (gray-200, `#dadfe6`)** para leer 1:1
+   con el Kit. La jerarquía de color (cada superficie + estados del Bloque B +
+   color del divisor) es divergencia de marca → su hogar canónico es
+   [`packages/design-system/docs/customs-catalog.md`](../../../packages/design-system/docs/customs-catalog.md);
+   la deuda del token de lienzo es [`#73`](../../../packages/design-system/docs/inconsistencies-backlog.md).
+
+3. **Bloque B — estados de agente: 3 tags fijos + chips editables, separados.**
+   Los estados sistémicos van como **tags fijos** (Disponible verde, No
+   disponible danger, Administrativo **granate** = red-800 bg + red-100 texto);
+   los estados custom van como **chips editables removibles** (con ×), en un
+   grupo aparte. **Sin token nuevo** (red-800 + red-100 ya existen), **master del
+   Kit intacto** (el granate solo vive en prototipo + código; en Figma es node
+   `39-1115`). Detalle de la divergencia → `customs-catalog.md`.
+
+4. **P4 — "Descartar cambios" con guard de navegación.** El botón "Cancelar" de
+   los formularios de config pasa a **"Descartar cambios"** (estilo outline) y
+   **aparece solo cuando hay cambios**. Las **3 rutas de config** adoptan el
+   `formDirtyGuard` (`canDeactivate`) — el mismo modal "¿Descartar cambios? /
+   Seguir editando" que ya usan los forms de admin (agentes/grupos/usuarios);
+   los componentes implementan `DirtyAware` (signal `formDirty`). Esto es
+   **behavior**, distinto de DD#48 (que invierte la **emphasis** del modal de
+   descarte). DD#48 precedió y se reutiliza tal cual.
+
+5. **Tipografía cinturón migration-safe** (cierre del blindaje iniciado en
+   badge/button/form-field desde S57/S62). Las olas 1+2 tokenizaron **367
+   literales `font-size` → `--sc-font-size-*`** (snap a la escala base-14;
+   cobertura 48% → 99 → 100% accionable; el hero de 88px va a
+   `--sc-font-size-900`). El guard **Dura 4** bloquea cualquier `font-size`
+   literal nuevo (0 excepciones). Los **line-heights NO se tocaron** (diferidos
+   por layout-risk). *Racional arquitectónico (por qué esto es decisión, no
+   solo limpieza):* los tipos viven en `--sc-*` + el bridge `sc-preset.ts`, **no
+   dentro de PrimeNG** → un update de PrimeNG no los borra; el único riesgo es
+   que renombre un slot `--p-*`, drift que el checker detecta; por eso **NO se
+   vincula `--sc-font-*` a la escala de PrimeNG** (invertiría la arquitectura
+   unidireccional que ya rige color/spacing, DD#52/DD#63). El tooling
+   (`tokens:type-parity` read-only, escala base-14, guard Dura 4) es canónico en
+   [`packages/design-system/tokens/README.md`](../../../packages/design-system/tokens/README.md);
+   la decisión SCDS equivalente es **DD-11** en
+   [`packages/design-system/docs/DECISIONS.md`](../../../packages/design-system/docs/DECISIONS.md);
+   el racional de blindaje en
+   [`packages/design-system/docs/migration-safety.md`](../../../packages/design-system/docs/migration-safety.md).
+
+6. **Fix `sc-multiselect` con options primitivas.** El wrapper soporta ahora
+   `options: string[]` (patrón `hasPrimitiveOptions` + `resolvedOptionLabel/Value`,
+   portado de `sc-select`), arreglando los 4 multiselect de Grupos config que
+   salían vacíos. Es side-effect de bug, no decisión arquitectónica → su estado
+   vive en
+   [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../../../packages/design-system/docs/MIGRATION-INVENTORY.md).
+   El **divisor** se registró como componente formal del Kit (node `302:11810`,
+   ejes Type/Content/Align/Direction); hoy se usa como `<hr class="divider">`,
+   con trigger a `<sc-divider>` solo si hace falta texto/dashed/vertical → mapeo
+   en [`packages/design-system/docs/code-connect-mapping.md`](../../../packages/design-system/docs/code-connect-mapping.md).
+
+**Why.**
+
+- **El rename es de producto, no de código.** Migrar selectores/carpetas a
+  "contact-center" rompería búsquedas en el codebase, routing y feature-gating
+  sin ganancia para el usuario, que solo lee el texto de la UI. Mutar solo i18n
+  da el cambio de marca a coste cero estructural. Es decisión deliberada (no
+  deuda temporal): la separación "nombre técnico de feature `aed` ↔ nombre de
+  usuario Contact Center" es el patrón portable de naming del proyecto.
+- **La jerarquía de color (Bloque A)** resuelve una duda abierta de S67:
+  ¿qué contraste entre lienzo / índice / bandeja / cards de sección? La respuesta
+  validada en Figma es lienzo neutro → bandeja gris → cards blancas (las cards
+  "flotan" sobre la bandeja), con el índice en el mismo gris que la bandeja para
+  que se lea como chrome y no como contenido. El divisor a gray-200 cierra el 1:1.
+- **Estados (Bloque B): fijo vs editable comunica la regla.** Los 3 estados
+  sistémicos son inmutables (no se borran), por eso van como tags fijos; los
+  custom son del operador (se quitan), por eso van como chips con ×. El granate
+  para "Administrativo" lo separa visualmente del danger de "No disponible" sin
+  introducir un token de marca nuevo (decisión validada en sparring con Marta).
+- **Descartar-cambios con guard** protege contra navegación accidental con
+  trabajo sin guardar — la misma red que ya tienen los forms de admin; unificar
+  las 3 rutas de config al `formDirtyGuard` elimina la inconsistencia de que
+  config no avisara.
+- **El cinturón tipográfico** convierte la consistencia de tipos en una
+  garantía verificable: sin guard, cada `font-size` literal nuevo erosiona la
+  escala en silencio. El racional migration-safe es el mismo que protege
+  color/spacing.
+
+**Discarded.**
+
+- _Renombrar `features/config/aed/` a `features/config/contact-center/`_ — no-goal
+  del proyecto; rompe imports y búsquedas para nada que vea el usuario.
+- _Tags editables para los 3 estados sistémicos / un solo grupo mezclando fijos y
+  custom_ — perdería la señal "esto no se borra" vs "esto es tuyo".
+- _Crear un token de marca para el granate de Administrativo_ — reutiliza
+  red-800/red-100 existentes; mintar un alias sería divergencia innecesaria.
+- _Tokenizar también los line-heights en esta ola_ — son unitless + px mezclados
+  y distintos por sitio (cobertura 0%); tocarlos es layout-risk, diferido a una
+  pasada dedicada (ver
+  [`ROADMAP.md`](./ROADMAP.md) + [`inconsistencies-backlog.md`](../../../packages/design-system/docs/inconsistencies-backlog.md)).
+- _Vincular `--sc-font-*` a la escala de PrimeNG_ — invertiría la arquitectura;
+  el bridge va `--sc-* → --p-*`, nunca al revés.
+
+**Versión PM-friendly.** [`DECISIONES.md`](./DECISIONES.md).
+
+---
+
 ## 66 — Layout responsive común de config AED: panel con tope 1200 + centrado (2026-06-01)
 
 **Decision.** Las 3 pantallas de config AED (General/Agentes/Grupos) comparten

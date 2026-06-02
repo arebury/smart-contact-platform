@@ -11,6 +11,105 @@
 
 ---
 
+## DD#67 — La configuración pasa a llamarse "Contact Center", se ordena su color y se blinda el guardado (2026-06-02)
+
+**Qué.** Una sesión con varios frentes alrededor de la configuración y
+del sistema de diseño. Los más visibles:
+
+- **Cambio de nombre de cara al usuario: "AED" → "Contact Center".**
+  En el menú, en el título del índice de configuración y en
+  "grupo de servicio" ahora se lee "Contact Center". Es solo el
+  rótulo que ve el usuario: la carpeta y el código internos siguen
+  llamándose `aed` (es el nombre de la feature, no cambia), y la
+  "AED" de moneda en los prefijos de países tampoco se toca. El
+  breadcrumb de configuración queda como "Contact Center › [Sección]".
+
+- **Jerarquía de color de la configuración (1:1 con el Figma).** Las
+  páginas de configuración tenían el color un poco plano. Ahora hay
+  una escalera clara: el lienzo de la página es blanco (en modo
+  oscuro, casi negro); dentro va una bandeja gris con esquinas
+  redondeadas que agrupa el contenido; encima de la bandeja, las
+  cards de cada sección son blancas con un borde sutil y sin sombra;
+  y el índice lateral es gris para que destaque. El divisor entre
+  bloques sube un tono de gris para verse mejor. Todo replicado al
+  detalle del diseño de referencia.
+
+- **Estados de agente: 3 fijos + los que tú añadas.** Los estados
+  ahora se presentan como tres pills fijas — Disponible (verde),
+  No disponible (rojo) y Administrativo (granate) — separadas de los
+  chips de estado personalizados, que puedes añadir y quitar con su
+  "×". El granate del Administrativo reaprovecha colores que ya
+  teníamos, sin inventar uno nuevo, y el componente base del Kit no
+  se toca.
+
+- **Guardado a prueba de despistes ("Descartar cambios").** El botón
+  "Cancelar" pasa a llamarse "Descartar cambios", solo aparece cuando
+  de verdad has tocado algo, y si intentas salir de configuración con
+  cambios sin guardar te sale el mismo aviso "¿Descartar cambios? /
+  Seguir editando" que ya teníamos en agentes, grupos y usuarios. Las
+  tres páginas de configuración usan ya esa misma red de seguridad.
+
+- **Arreglo de multiselección.** Cuatro desplegables de selección
+  múltiple en Grupos salían vacíos; ya muestran sus opciones.
+
+- **Tipografía blindada para el futuro.** Se sustituyeron 367 tamaños
+  de texto sueltos por tokens del sistema, de modo que cualquier
+  actualización futura de la librería de UI no nos rompa la
+  tipografía, y se añadió un guardarraíl que impide volver a colar
+  tamaños "a mano". El detalle técnico y el racional de por qué un
+  update de PrimeNG no nos borra los tipos vive en
+  [`DECISIONS.md`](./DECISIONS.md) (DD#67) y en la guía de blindaje
+  del sistema de diseño.
+
+> Para los detalles de implementación de todo lo anterior (rutas,
+> tokens, nodos de Figma, guards), ver
+> [`DECISIONS.md`](./DECISIONS.md) — DD#67.
+
+**Por qué.**
+
+- "Contact Center" es como el cliente llama al producto; "AED" era
+  jerga interna que se había colado en pantalla. Cambiar solo el
+  rótulo (y no el código) es lo barato y seguro: nadie tiene que
+  tocar carpetas ni arriesgar regresiones.
+- El color de la configuración estaba "a ojo". Alinearlo al Figma da
+  una jerarquía que se lee sola: el ojo entiende qué agrupa a qué sin
+  pensarlo.
+- Separar los estados fijos de los personalizados evita la confusión
+  de mezclar "lo que el sistema garantiza siempre" con "lo que cada
+  cliente añade". El granate marca el Administrativo como algo
+  distinto del rojo de error.
+- El botón que se llamaba "Cancelar" y siempre estaba visible invitaba
+  a tirar el trabajo por accidente. "Descartar cambios" solo cuando
+  hay cambios, más el aviso al salir, protege lo que llevas hecho —
+  la misma lógica que ya seguía DD#48.
+- Los tamaños de texto sueltos eran una bomba de relojería: el día que
+  subamos de versión la librería de UI, podían descuadrarse sin avisar.
+  Metiéndolos en tokens propios, el sistema los conserva pase lo que
+  pase aguas arriba.
+
+**Qué se descartó.**
+
+- *Renombrar también la carpeta y el código a "Contact Center".* Mucho
+  riesgo (cientos de referencias) para cero beneficio visible: el
+  usuario nunca ve el nombre de la carpeta.
+- *Crear un color nuevo para el estado Administrativo.* Innecesario:
+  el granate sale de combinar colores que ya estaban en la paleta.
+- *Tocar también los interlineados de la tipografía en esta sesión.*
+  Cambiarlos puede mover cosas de sitio en pantalla, así que se dejan
+  para una sesión dedicada con validación visual.
+
+**Pendiente para futuras sesiones.**
+
+- Falta un color único de "lienzo" (blanco en claro / casi negro en
+  oscuro): hoy se resuelve con un apaño por tema en la configuración.
+  Cuando el equipo de diseño lo añada a Figma, se promueve como token.
+  Anotado como deuda en el backlog del sistema de diseño (#73).
+- Rediseño de los interlineados de la tipografía y de los tamaños más
+  grandes (de cabecera), y mejorar el contraste del índice de
+  configuración en modo oscuro.
+
+---
+
 ## DD#63 — Auditoría de design tokens: cerrar deuda real, mantener el sistema `--sc-*` (2026-05-14)
 
 **Qué.** Una sesión completa de auditoría sobre las 7 capas de

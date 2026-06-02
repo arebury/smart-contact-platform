@@ -52,18 +52,18 @@ PrimeNG es la **librería de componentes** que usamos para tablas,
 modales, dropdowns, toasts, etc. Trae sus propias variables
 (`--p-*`) que por defecto apuntan a un tema genérico (Aura).
 
-Para que PrimeNG hable AED en vez de Aura, tenemos un archivo
-**puente** (`aed-preset.ts`) que redirige cada `--p-*` al
+Para que PrimeNG hable Smart Contact en vez de Aura, tenemos un archivo
+**puente** (`sc-preset.ts`) que redirige cada `--p-*` al
 `--sc-*` correspondiente. Así:
 
 ```
    FIGMA  ──→  --sc-bg-primary  ──→  --p-primary-color
-   (tú)         (código AED)         (PrimeNG consume)
+   (tú)         (código SC)          (PrimeNG consume)
                      ↑                       ↑
                      │                       │
                   decisión               se entera por
                   de diseño              el puente
-                                         (aed-preset.ts)
+                                         (sc-preset.ts)
 ```
 
 **La regla de oro:** si quieres cambiar algo del producto, se
@@ -85,15 +85,15 @@ en `layers/`):
 
 ```
    PLANTA 7: dark mode        overrides oscuros del producto
-   ─────────────────────       (DESACTIVADA — AED es light-only)
+   ─────────────────────       (operativa — ver "Decisiones anotadas")
    PLANTA 6: bridge PrimeNG   conecta --p-* (PrimeNG) con --sc-*
-   ─────────────────────       (cocina interna, vive en aed-preset.ts)
+   ─────────────────────       (cocina interna, vive en sc-preset.ts)
    PLANTA 5: extensiones      z-index, motion, sombras del producto
    ─────────────────────       (cosas que PrimeNG no contempla)
    PLANTA 4: componentes      "el botón primario por dentro"
    ─────────────────────       (specs concretas de un componente)
    PLANTA 3: paleta dominio   estados de agente, prioridad de grupo
-   ─────────────────────       (cosas únicas de AED — labels, etc.)
+   ─────────────────────       (cosas únicas de Smart Contact — labels, etc.)
    PLANTA 2: semántica        "fondo de superficie", "borde de error"
    ─────────────────────       (el rol que cumple un color)
    PLANTA 1: primitivos       el azul-500 crudo, los 12px, el radio-200
@@ -105,14 +105,16 @@ hasta la 5.** Las plantas 6 y 7 existen pero no las tocas
 nunca:
 
 - **Planta 6 (bridge PrimeNG)** — un "traductor" que vive en el
-  archivo `aed-preset.ts`. Su único trabajo es decir "el color
-  primario de PrimeNG ES el `--sc-bg-primary` de AED". Es código
-  TypeScript, no CSS. El dev team lo gestiona; tú no escribes ahí.
+  archivo `sc-preset.ts`. Su único trabajo es decir "el color
+  primario de PrimeNG ES el `--sc-bg-primary` de Smart Contact". Es
+  código TypeScript, no CSS. El dev team lo gestiona; tú no escribes ahí.
 - **Planta 7 (dark mode)** — un archivo (`07-dark.css`) que
-  redefine los colores cuando alguien activa modo oscuro. AED
-  está **siempre en modo claro** por decisión de marca
-  (operadores en oficinas iluminadas, ergonomía > estética). Esa
-  planta existe por arquitectura pero está apagada.
+  redefine los colores cuando alguien activa modo oscuro. Está
+  **operativa** (la activa `ThemeService` con clase `.sc-dark` en
+  `<html>`). El detalle de su estado vive en "Decisiones técnicas
+  anotadas" más abajo. Tú no editas este archivo a mano; el dev
+  team lo mantiene en paralelo a los overrides `colorScheme.dark`
+  del preset.
 
 ### ¿Cuándo está cada cosa en cada planta?
 
@@ -173,20 +175,28 @@ Ejemplos: `--sc-z-modal`, `--sc-transition-fast`,
   toca un rediseño grande, no para un retoque puntual.
 - **Tipografía y escalas**: cambiar la fuente o reescalar los
   tamaños afecta a TODO el producto. No te frenes si toca, pero
-  avísanos para validar en pantallas.
+  avísanos para validar en pantallas. Desde S67 los tamaños de
+  fuente están **tokenizados** (viven en `--sc-font-size-*`, escala
+  base-14): un cambio de tamaño se hace en un sitio y propaga solo,
+  igual que los colores — ya no hay valores `font-size` sueltos en
+  el código. El detalle técnico (cómo se protege contra updates de
+  PrimeNG, el comprobador automático) está en el `README.md` y en
+  `DECISIONS.md`; tú solo necesitas saber que la escala es
+  consistente y se cambia desde un único sitio.
 
 ### 🚫 Mejor no toques (déjalo al dev team)
-- **Planta 6 — `aed-preset.ts`**: el "bridge" entre PrimeNG y AED.
+- **Planta 6 — `sc-preset.ts`**: el "bridge" entre PrimeNG y Smart Contact.
   NUNCA se declaran variables `--p-*` a mano; este archivo ya
   enlaza cada una con un `--sc-*`. Si necesitas que un componente
   de PrimeNG se vea distinto, lo correcto es cambiar el `--sc-*`
   al que ya está apuntando, no inventar variables nuevas.
-- **Planta 7 — `07-dark.css`**: modo oscuro. Está apagado por
-  decisión de marca, pero el archivo existe. No lo tocamos sin un
-  cambio de estrategia explícito.
+- **Planta 7 — `07-dark.css`**: modo oscuro. Es producción (lo
+  activa `ThemeService`), no archivo latente — ver "Decisiones
+  técnicas anotadas". No lo tocamos sin un cambio de estrategia
+  explícito.
 - **El orden de las plantas** (la cascada): si añades un valor en
   la planta equivocada, se pueden producir bucles infinitos o que
-  el modo oscuro no funcione si algún día se activara.
+  el modo oscuro no funcione.
 - **Archivos en `src/app/core/tokens/layers/`** directamente sin
   hablarlo: si necesitas un valor nuevo, hablamos para decidir en
   qué planta vive.
@@ -249,10 +259,10 @@ una está pensada para que la sobreescribas con tus valores:
 
 Todo lo que está dentro del Custom mode **viaja contigo** cuando
 el dev team actualiza la versión de PrimeNG — porque el código
-también lee del mismo "puente" (el `aed-preset.ts`) que respeta
+también lee del mismo "puente" (el `sc-preset.ts`) que respeta
 esos overrides.
 
-### Mapa mental: Figma "Custom mode" ↔ código `aed-preset.ts`
+### Mapa mental: Figma "Custom mode" ↔ código `sc-preset.ts`
 
 Son **el mismo mecanismo** en dos sitios:
 
@@ -263,7 +273,7 @@ Son **el mismo mecanismo** en dos sitios:
          ↑                                ↑
          │ overrides en…                  │ overrides en…
          │                                │
-  Custom mode (Figma)              aed-preset.ts (código)
+  Custom mode (Figma)              sc-preset.ts (código)
          │                                │
          └─── mismas decisiones ──────────┘
               en dos representaciones
@@ -271,7 +281,7 @@ Son **el mismo mecanismo** en dos sitios:
 
 Cuando defines `primary-500: #1B273D` en el Custom mode de Figma,
 el dev team replica `primary.500: 'var(--sc-color-blue-500)'` en
-`aed-preset.ts` con el mismo valor. Mismo concepto, dos sitios.
+`sc-preset.ts` con el mismo valor. Mismo concepto, dos sitios.
 
 ### ¿Qué puedo tocar y qué no? (versión PrimeOne)
 
@@ -293,7 +303,7 @@ pisa:
   `formField.paddingX` (o `button.paddingX`, según versión) en el
   Custom mode, el botón se ajusta. Esto **NO se rompe** en
   migraciones, porque PrimeNG mantiene ese token como contrato.
-  El dev team replica el mismo cambio en `aed-preset.ts` y queda
+  El dev team replica el mismo cambio en `sc-preset.ts` y queda
   alineado.
 - 🚫 **Manualmente en el componente**: si entras al frame del
   botón y cambias el padding "a mano" desde el panel de
@@ -311,7 +321,7 @@ terceros — hay que hablarlo.
 1. El dev team actualiza la dependencia (`npm update primeng`).
 2. Los tokens NUEVOS que PrimeNG añade quedan en sus defaults
    (Aura) hasta que decidamos overrideearlos.
-3. Los tokens que YA teníamos overrideados en `aed-preset.ts`
+3. Los tokens que YA teníamos overrideados en `sc-preset.ts`
    siguen funcionando — porque el contrato (`primary.500`,
    `formField.paddingX`, etc.) se mantiene.
 4. En Figma: igual. Tu Custom mode sigue intacto. Si PrimeNG
@@ -342,12 +352,12 @@ que eliges uno:
 - **Nora** — ultra minimalista, casi sin sombras, muy plano.
 - **Material** — Google Material Design.
 
-**¿Por qué Aura?** Porque es el más cercano al ADN visual del
-brand AED (calm · dense · operational) — formas suaves sin ser
+**¿Por qué Aura?** Porque es el más cercano al ADN visual de la
+identidad Smart Contact (calm · dense · operational) — formas suaves sin ser
 infantiles, type ramp limpia, transiciones discretas. Lara o
 Material habrían pedido más fight para encajar.
 
-Nuestro `aed-preset.ts` hace `definePreset(Aura, { ... overrides })`:
+Nuestro `sc-preset.ts` hace `definePreset(Aura, { ... overrides })`:
 arranca de Aura y reemplaza solo los valores que queremos pisar.
 Lo que no overrideamos, **hereda de Aura** automáticamente.
 Cuando Aura saca una versión nueva, recibimos las mejoras
@@ -368,7 +378,7 @@ preview en vivo:
 
 **Quién lo usa:**
 - **Dev team**: principalmente. Es la forma más rápida de
-  iterar valores antes de pegarlos en `aed-preset.ts`.
+  iterar valores antes de pegarlos en `sc-preset.ts`.
 - **Diseño**: útil para validar que un cambio del Custom mode
   de Figma se ve como esperas en componentes reales. Si tu
   diseño en Figma de un modal queda "casi pero no exacto" al
@@ -382,11 +392,11 @@ preview en vivo:
 | **Qué muestra** | Componentes en estado estático para diseñar pantallas | Componentes en vivo, interactivos, con todos los estados |
 | **Para qué sirve** | Diseñar el flujo y maquetar pantallas con los componentes correctos | Validar valores de tokens y exportar config |
 | **Quién lo usa** | Diseño principalmente | Dev principalmente, diseño puntualmente |
-| **Output** | Frames de Figma para handoff | JSON / preset code para pegar en aed-preset.ts |
+| **Output** | Frames de Figma para handoff | JSON / preset code para pegar en sc-preset.ts |
 | **Coste** | Free | Free tier + Pro de pago |
 
 Theme Designer **no es obligatorio**. Puedes editar
-`aed-preset.ts` a pelo si sabes qué tokens necesitas. Es un
+`sc-preset.ts` a pelo si sabes qué tokens necesitas. Es un
 acelerador para iteración visual rápida.
 
 ### 3. Los 5 niveles de customización (de menos a más invasivo)
@@ -407,7 +417,7 @@ nivel 1 y solo subimos si el anterior no llega.**
    NIVEL 1: Token override (preset)          ⬆  ← empieza aquí
 ```
 
-**Nivel 1 — Token override en `aed-preset.ts`.**
+**Nivel 1 — Token override en `sc-preset.ts`.**
 Es lo que estamos haciendo siempre que se puede. Cambias el valor
 de un token (color, padding, radius, shadow) y se aplica a TODOS
 los componentes que usen ese token. Sobrevive migraciones de
@@ -469,7 +479,7 @@ no llega — has roto el vínculo con upstream.
        → #1C2840 en Custom mode"           
                                            
    3.                          →           4. Replica el valor en
-                                              aed-preset.ts en una
+                                              sc-preset.ts en una
                                               línea (o en el
                                               primitive layer si
                                               es un primitivo)
@@ -529,7 +539,7 @@ no llega — has roto el vínculo con upstream.
        en 16. El token usado es            
        formField.paddingX"                 
                                            
-   4.                          →           5. Compara con aed-preset.ts.
+   4.                          →           5. Compara con sc-preset.ts.
                                               Posibilidades:
                                               a) El token no está
                                                  mapeado y cae a Aura
@@ -556,7 +566,7 @@ PrimeNG publica versiones siguiendo SemVer:
 - **Major (21 → 22)**: API breaking changes, tokens renombrados
   o eliminados, posibles cambios visuales grandes. **Es un
   proyecto pequeño en sí mismo** — branch dedicada, review
-  visual exhaustivo, posibles ajustes en `aed-preset.ts`.
+  visual exhaustivo, posibles ajustes en `sc-preset.ts`.
 
 **Qué se rompe y por qué:**
 
@@ -567,7 +577,7 @@ PrimeNG publica versiones siguiendo SemVer:
 | PrimeNG añade un componente nuevo (`<p-stepper>`) | NO | Nos lo encontramos disponible. Si lo usamos, decidimos qué overridear |
 | PrimeNG elimina un componente deprecado | SÍ duro | Tenemos que migrar a la alternativa. Es un cambio mayor — se planifica |
 | PrimeNG cambia anatomía interna (`.p-button-icon` → `.p-button-svg`) | SÍ si tenemos overrides CSS | Nuestro `::ng-deep` deja de matchear. Nivel 3 es frágil por esto |
-| PrimeNG cambia el shape del preset (e.g. `colorScheme.light.surface` → `colorScheme.light.background`) | SÍ duro | `aed-preset.ts` no compila. Lo arreglamos antes de mergear |
+| PrimeNG cambia el shape del preset (e.g. `colorScheme.light.surface` → `colorScheme.light.background`) | SÍ duro | `sc-preset.ts` no compila. Lo arreglamos antes de mergear |
 
 **Nuestro proceso para una migración:**
 
@@ -580,7 +590,7 @@ PrimeNG publica versiones siguiendo SemVer:
    pantallas principales (agentes, grupos, usuarios, config) y
    buscar diferencias contra `main`.
 6. **Si hay cambios visuales no deseados**: añadir overrides en
-   `aed-preset.ts` para volver al look anterior, o aceptar los
+   `sc-preset.ts` para volver al look anterior, o aceptar los
    cambios si son mejoras.
 7. **PR con captura de antes/después** de cualquier diferencia
    visual significativa.
@@ -597,14 +607,14 @@ del producto vuelve sutilmente a valores de Aura por defecto.
 verificar que cada uno sigue siendo un nombre válido en la
 nueva versión.
 
-**Dark mode aunque esté apagado.**
-Nuestro `aed-preset.ts` define overrides para `colorScheme.dark`
-aunque AED esté en light-only. Esto es intencional para no
-romper si algún día se activa. Pero ojo: si añades un token
-nuevo solo al `colorScheme.light`, en el momento que alguien
-active dark mode ese token caerá a default Aura → drift.
-**Solución**: cuando añadas un override en `light`, añade
-también el equivalente en `dark` aunque no se vaya a usar.
+**Dark mode: light y dark van en pareja.**
+Nuestro `sc-preset.ts` define overrides para `colorScheme.dark`
+además de `colorScheme.light`. El dark mode es operativo (ver
+"Decisiones técnicas anotadas"), así que si añades un token nuevo
+solo al `colorScheme.light` y olvidas el `dark`, ese token caerá
+a default Aura cuando alguien esté en modo oscuro → drift.
+**Solución**: cuando añadas un override en `light`, añade siempre
+el equivalente en `dark`.
 
 **PassThrough no escala.**
 `pt` es perfecto para 1-2 sitios. Si lo usas en 10 sitios para
@@ -621,7 +631,7 @@ prefiriendo Nivel 4 (wrapping) cuando se pueda.
 Solo los que el equipo de PrimeNG marcó como customizables en su
 kit. Si necesitas overridear un token que NO está en Custom
 mode (raro pero pasa), Theme Designer es la herramienta
-correcta — y luego se traduce a `aed-preset.ts`.
+correcta — y luego se traduce a `sc-preset.ts`.
 
 ---
 
@@ -697,10 +707,10 @@ consistente se ve más profesional que una escala llena de "valores
 - **Situación**: Pusiste un `<p-dropdown>` o un `<p-dialog>` en
   el diseño y al verlo en el producto las sombras, los bordes o
   los colores no coinciden con el design system.
-- **Tarea**: Que PrimeNG hable AED en vez de su tema por defecto
-  (Aura).
+- **Tarea**: Que PrimeNG hable Smart Contact en vez de su tema por
+  defecto (Aura).
 - **Acción**: NO toques el componente directamente. La cosa
-  pasa en `core/tokens/aed-preset.ts`, donde está el "puente"
+  pasa en `tokens/sc-preset.ts`, donde está el "puente"
   entre PrimeNG y nuestros `--sc-*`. Cuéntale al dev team qué
   componente, qué propiedad, y qué debería ser (apuntando al
   `--sc-*` correspondiente del design system).
@@ -760,9 +770,9 @@ si ves uno nuevo, lo arreglamos al momento.
 | **`--p-*`** | El prefijo de los tokens de PrimeNG. No los tocamos a mano. |
 | **Cascada** | El orden en que las plantas se cargan: primitivos primero, semántica encima, etc. Cada planta puede usar la de abajo. |
 | **Alias** | Cuando un token apunta a otro: `--sc-bg-primary` ES `--sc-color-blue-700`. Si cambias el azul, cambian todos los que lo aliasean. |
-| **Preset** | El archivo `aed-preset.ts` que enlaza PrimeNG con `--sc-*`. Es el "puente". |
+| **Preset** | El archivo `sc-preset.ts` que enlaza PrimeNG con `--sc-*`. Es el "puente". |
 | **Fallback** | Cuando una variable tiene un valor de respaldo por si no existe: `var(--sc-x, #ccc)`. **No queremos fallbacks hex** — significa que falta declarar el token. |
-| **Dark mode** | El tema oscuro. Funciona porque el archivo `07-dark.css` re-declara las plantas 2/3/4 con valores oscuros. AED está en light mode por decisión de marca. |
+| **Dark mode** | El tema oscuro. Funciona porque el archivo `07-dark.css` re-declara las plantas 2/3/4 con valores oscuros. Operativo: lo activa `ThemeService` con la clase `.sc-dark` en `<html>` (ver "Decisiones técnicas anotadas"). |
 
 ---
 
@@ -770,16 +780,21 @@ si ves uno nuevo, lo arreglamos al momento.
 
 > Aclaraciones técnicas surgidas en auditorías para que no se pierdan.
 > Si una decisión empieza a parecer arbitraria, mírala aquí.
+>
+> Las decisiones grandes de arquitectura del design system (con su
+> contexto, opciones y consecuencias) viven en
+> [`docs/DECISIONS.md`](../docs/DECISIONS.md) — DD-1 en adelante. Si
+> necesitas el *por qué* completo de algo, míralo ahí.
 
 - **Focus ring de 2px (no 1px).** Aura usa `focus.ring.width: 1` por
-  defecto. En AED el preset lo fuerza a `2px` por accesibilidad: con
+  defecto. En Smart Contact el preset lo fuerza a `2px` por accesibilidad: con
   un focus ring de 1px sobre un input ya bordeado, el usuario de
   teclado no distingue qué control tiene el foco. La decisión está
-  en `aed-preset.ts → semantic.focusRing.width`.
+  en `sc-preset.ts → semantic.focusRing.width`.
 
 - **Escala de grises alineada a PrimeOne slate (S54).** Los
-  `--sc-color-gray-*` antes eran Tailwind slate (rampa más fría y
-  contrastada). En S54 se migraron a la slate custom de PrimeOne 4.0
+  `--sc-color-gray-*` antes eran una rampa más fría y contrastada.
+  En S54 se migraron a la slate custom de PrimeOne 4.0
   (Smart Contact Prime UI Kit Pro Figma Variables) — tono más cálido
   y azulado oscuro, alineado 1:1 con lo que el equipo de diseño usa
   en Figma. Si en algún sitio el gris se siente "incorrecto", reportar
@@ -803,8 +818,8 @@ si ves uno nuevo, lo arreglamos al momento.
   se ve "más apretada" que antes, es esto y es intencional.
 
 - **Dark mode activo con default `'system'`.** Versiones tempranas
-  de esta guía decían que AED era light-only por marca; el código
-  ya tiene `ThemeService` totalmente operativo siguiendo
+  de esta guía decían que Smart Contact era light-only por marca;
+  el código ya tiene `ThemeService` totalmente operativo siguiendo
   `prefers-color-scheme`. Los archivos `07-dark.css` y los overrides
   de `colorScheme.dark` en el preset son producción, no
   arquitectura latente. Si Diseño quiere desactivarlo, decisión

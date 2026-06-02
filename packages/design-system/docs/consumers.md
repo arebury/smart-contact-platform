@@ -7,7 +7,12 @@
 
 ## Consumers actuales
 
-### 1. AED (Angular 21 + PrimeNG 21) — `apps/supervisor/`
+### 1. AED — Contact Center UI (Angular 21 + PrimeNG 21) — `apps/supervisor/`
+
+> **Naming (S67)**: `AED` es el nombre técnico de la feature (`features/config/aed/`,
+> selector + clase NO cambian). De cara al usuario el producto se llama **Contact Center**
+> (nav, título del índice de config, "grupo de servicio") desde S67-U2. Breadcrumb config:
+> `Contact Center › [Sección]`. La moneda `AED` de country-prefixes no se toca.
 
 **Tipo de consumo**: full SCDS — tokens + componentes + preset.
 
@@ -18,7 +23,23 @@
 
 **Estado**: 24+ componentes en producción. 100% migrado de inputs/selects nativos a wrappers SCDS (Sesiones 31+32). 33 spec docs auditados.
 
-**Métrica clave**: ningún archivo de AED consume `<p-*>` o `--p-*` directo. **Total aislamiento garantizado** por la arquitectura SCDS (memoria `migration-safety`).
+**Métrica clave**: ningún archivo de AED consume `<p-*>` o `--p-*` directo. **Total aislamiento garantizado** por la arquitectura SCDS (ver [`migration-safety.md`](migration-safety.md)).
+
+**Patrones consumidos en S67** (consumer-facing; specs canónicos en sus docs):
+- **Jerarquía de color config** (Bloque A, Figma `1:12270`): lienzo de página blanco en light
+  / `gray-950` en dark, bandeja gris (`--sc-bg-default`), cards de sección blancas
+  (`--sc-bg-surface`), índice gris alineado, divider `--sc-border-default` (gray-200 `#dadfe6`).
+  Patrón reutilizable por otros consumers (p.ej. settings de Memory). Spec: [`customs-catalog.md`](customs-catalog.md).
+- **Estados de agente** (Bloque B): 3 tags fijos (Disponible / No disponible / Administrativo granate)
+  + chips editables removibles. Sin token nuevo. Spec: [`customs-catalog.md`](customs-catalog.md).
+- **Divider**: hoy `<hr class="divider">` (Solid/Horizontal); registrado en
+  [`code-connect-mapping.md`](code-connect-mapping.md) (Kit `302:11810`). Trigger `<sc-divider>`
+  solo si se necesita texto/vertical/dashed.
+- **`sc-multiselect` con options primitivas** (`string[]`): fix S67 que arregló los 4 multiselect
+  de Grupos que salían vacíos. Spec/estado: [`MIGRATION-INVENTORY.md`](MIGRATION-INVENTORY.md).
+- **`formDirtyGuard` + "Descartar cambios"**: las 3 rutas de config implementan `DirtyAware`
+  (`canDeactivate`, mismo modal que admin); botón outline visible solo con cambios.
+  Decisión: [`apps/supervisor/docs/DECISIONS.md`](../../../apps/supervisor/docs/DECISIONS.md) (DD#67).
 
 ---
 
@@ -77,7 +98,20 @@
 
 5. **NO modificar las layers copiadas**: `sc-tokens/layers/*.css` son read-only desde el consumer. El próximo `copy-scds-tokens.sh` sobrescribe. Custom va en archivos separados.
 
+6. **Tipografía vive en `--sc-font-size-*`, no en PrimeNG**. Desde S67 los tipos están tokenizados y blindados a updates del Kit. El detalle (racional de blindaje) está en [`migration-safety.md`](migration-safety.md); el tooling (`tokens:type-parity`, guard) en [`tokens/README.md`](../tokens/README.md). Para consumers internos (AED, ds-docs) el guard pre-commit aplica; un consumer externo (Memory) recibe solo las CSS vars `--sc-font-size-*`, NO el hook — pero hereda el mismo source of truth: sus tipos viven en las variables compartidas, nunca en `--p-*`.
+
+7. **Documentar customizaciones por QUÉ hacen, no por su origen**. Si un consumer documenta un override, describir el efecto ("footer sticky inverso"), no la referencia de la que se copió. Las marcas externas no van en docs internas.
+
 ---
+
+## Dependencia futura conocida
+
+- **Token `--sc-bg-canvas` (gap, deuda #73)**: no existe aún un token semántico único
+  para el lienzo de página (blanco en light / `gray-950` en dark). AED lo resuelve hoy con
+  un workaround en `settings-shell` (`:host` light, `:host-context(.sc-dark)` dark). Cualquier
+  consumer futuro que quiera heredar el patrón "lienzo blanco/dark" tropezará con el mismo gap
+  hasta que se promueva la variable. Trigger de promoción: ≥2 consumers o variable Custom en Figma.
+  Detalle en [`inconsistencies-backlog.md`](inconsistencies-backlog.md) #73.
 
 ## Memoria relevante
 
@@ -87,8 +121,9 @@
 
 ## Referencias
 
-- [`migration-safety.md`](migration-safety.md) — filosofía + reglas blindaje.
+- [`migration-safety.md`](migration-safety.md) — filosofía + reglas blindaje (incluye tipografía).
 - [`customs-catalog.md`](customs-catalog.md) — divergencias documentadas.
+- [`code-connect-mapping.md`](code-connect-mapping.md) — mapeo código ↔ diseño (componentes + divider).
 - [`MIGRATION-INVENTORY.md`](MIGRATION-INVENTORY.md) — inventario componentes + Figma verification log + Lifecycle.
 - [`inconsistencies-backlog.md`](inconsistencies-backlog.md) — deuda/gaps pendientes.
 - [`scripts/copy-scds-tokens.sh`](../../../scripts/copy-scds-tokens.sh) — sync script Camino C.

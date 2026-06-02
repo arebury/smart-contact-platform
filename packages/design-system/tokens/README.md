@@ -15,6 +15,14 @@ The structure mirrors PrimeNG's official design-token model
 layers PrimeNG doesn't provide: domain palettes (3) and AED-only
 extensions (5).
 
+> **A note on "AED".** Throughout this technical doc, **AED** is the internal name
+> of the supervision/config domain — the source folder is `features/config/aed/`,
+> the preset is `aed-preset.ts`, and the layer-5 extensions are "AED-only". S67
+> renamed the **user-facing** product surface to **Contact Center** (nav labels,
+> the config index title, the breadcrumb), but the code paths, selectors and token
+> names were intentionally left unchanged. So "AED" here = the engineering name of
+> what the UI now calls Contact Center.
+
 ## Layout
 
 ```
@@ -45,6 +53,12 @@ Cascade matters. Each layer reads tokens declared earlier in the chain.
 A semantic token (layer 2) can reference a primitive (layer 1); a
 component token (layer 4) can reference primitives or semantics; the
 PrimeNG bridge (layer 6) reaches into all four.
+
+> **Component token-consumption is documented per component, not here.** The
+> divider, for instance, consumes `--sc-border-default` (gray-200, `#dadfe6`); its
+> Figma Kit node and variant axes are recorded in
+> [`../docs/code-connect-mapping.md`](../docs/code-connect-mapping.md). This README
+> covers the layers and the ramp, not each component's bindings.
 
 ## Rules
 
@@ -163,6 +177,13 @@ scale (see `customs-catalog.md §2.7`).
 `--sc-line-height-*` and `--sc-icon-size-*` are semantic aliases (layer 2) that
 point *at* `--sc-scale-*`. There is exactly one ramp.
 
+> **Typography rides this same ramp.** `--sc-font-size-*` are **not** a separate
+> metric scale — each one resolves to a `--sc-scale-*` step (e.g.
+> `--sc-font-size-200: var(--sc-scale-1)` = 14px; `--sc-font-size-900:
+> var(--sc-scale-5)` = 70px). Snap any off-scale type spec to the nearest 14-base
+> step, never fork a parallel type ramp. Detail in §"Typography — the
+> migration-safe belt" below.
+
 **Code-only steps** — three exist in code but not in the current `tokensprime.json`
 export (surfaced by `tokens:parity` section 5):
 
@@ -171,6 +192,14 @@ export (surfaced by `tokens:parity` section 5):
   used by checkbox / dialog / hero. `customs-catalog.md` records them as Kit
   `scale.1-25` / `scale.2-5`, but they're absent from this export → **reconcile on
   the next Kit re-export** (either the team adds them, or we mark them SC-custom).
+
+> **Missing-token debt is tracked, not hacked.** Example: there is no single token
+> for the page canvas (white in light / gray-950 in dark), so the config shell
+> overrides it per theme as a stopgap. The fix — promote a `--sc-bg-canvas`
+> primitive once it has ≥2 consumers, via the Figma Custom collection — is logged as
+> debt #73 in [`../docs/inconsistencies-backlog.md`](../docs/inconsistencies-backlog.md).
+> The rule: a gap goes to the backlog with a promotion plan, never a fallback hex
+> (which Rule 2 already bans).
 
 **Radius is a separate scale** — `--sc-radius-*` is **not** 14-based. It's a fixed
 step set mirroring the Kit's `borderRadius`: `xs` 2 / `sm` 4 / `md` 6 / `lg` 8 /
@@ -203,6 +232,39 @@ generated primitives with no hand-editing. **Scoped on purpose**: only the marke
 regions are touched — colours, brand, aliases and comments stay hand-authored (brand
 colours are a documented decision, guarded by parity §6, not auto-imported). Verified
 idempotent. Unlike a full theme generator, it never rewrites the curated layers wholesale.
+
+## Typography — the migration-safe belt
+
+`font-size` is fully tokenized: every SCSS declaration reads a `--sc-font-size-*`
+alias, never a literal `px`/`rem`. Those aliases ride the **same 14-base ramp** as
+spacing (each one resolves to a `--sc-scale-*` step — see §"The scale"), so there is
+no separate type scale to keep in sync. Why this is migration-safe: the type values
+live in `--sc-*` plus the `sc-preset.ts` bridge, **not** inside PrimeNG — a PrimeNG
+upgrade can't erase them. (Architectural rationale + the one residual risk — a
+renamed `--p-*` slot, caught by parity — live in
+[`../docs/migration-safety.md`](../docs/migration-safety.md).)
+
+Three pieces enforce the belt:
+
+1. **`npm run tokens:type-parity`** (`scripts/token-type-parity.mjs`) — a
+   **read-only** sibling of `tokens:parity`, scoped to typography. It resolves each
+   `--sc-font-size-*` to px through the 14-base ramp, then reports coverage
+   (`var(--sc-font-size-*)` vs literal) and classifies any remaining literal into
+   **wave 1** (snap Δ ≤ 0.5px, visually invisible) or **wave 2** (off-scale, needs a
+   human call — e.g. `13px` → `font-size-200` for legibility, not the nearest
+   12.25). Read-only: it never writes a token.
+2. **Waves 1 + 2** (S67) tokenized **367** literal `font-size` declarations into
+   `--sc-font-size-*`, taking coverage from **48% → 99% → 100% of actionable
+   declarations**. The last off-scale display (an 88px hero) was snapped to
+   `--sc-font-size-900` (70px = ×5).
+3. **The Dura 4 guard** (`scripts/token-guard.mjs`, run in the pre-commit hook)
+   blocks any **new** literal `font-size: Npx`/`Nrem` in component SCSS — it must be
+   a `--sc-font-size-*` token. The allow-list is **empty** (0 exceptions): the belt
+   is closed.
+
+**`line-height` is deliberately NOT migrated** — those literals are deferred to a
+later phase because retokenizing them carries layout-shift risk. They stay as-is for
+now (tracked in [`../docs/inconsistencies-backlog.md`](../docs/inconsistencies-backlog.md)).
 
 ## Adding a new token
 

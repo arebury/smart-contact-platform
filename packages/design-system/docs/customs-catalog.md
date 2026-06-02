@@ -230,6 +230,44 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
   tokens nuevos.** En uso: selects/inputs de config Grupos + "Tipo de descuelgue" de General.
 - **Pendiente**: extender a `<sc-inputnumber>` cuando un diseño lo pida.
 - **Mapping**: `code-connect-mapping.md` (nodos checkbox/select/multiselect/FloatLabel/IftaLabel).
+- **`<sc-multiselect>` options primitivas (S67)**: el wrapper soporta `options: string[]` directos
+  (`hasPrimitiveOptions` + `resolvedOptionLabel/Value`, portado de `<sc-select>`) — arregló los 4
+  multiselect de Grupos que renderizaban vacíos. Estado de componente canónico en
+  `MIGRATION-INVENTORY.md`; mapping de implementación en `code-connect-mapping.md` §Multiselect.
+
+### 2.10 Divider — reuso 1:1 del Kit Pro (S67)
+
+- **Estado**: hoy se usa `<hr class="divider">` (sólido, horizontal, full-width) en config
+  Contact Center (`features/config/aed/`) y reglas/entidades de Memory. **NO es divergencia
+  de marca** — es reuso 1:1 del `❖ divider` del Kit Pro; entry aquí solo por DD-7 (registrar
+  el 1.er uso). El registro técnico (Kit node `302:11810`, ejes `Type`/`Content`/`Align`/
+  `Direction`, tokens, márgenes) es **canónico en `code-connect-mapping.md` §Divider** — no se
+  duplica aquí.
+- **Color (cambio S67-A)**: el divisor de config pasó de `--sc-border-subtle` (gray-100) a
+  **`--sc-border-default` (gray-200, `#dadfe6`)** para 1:1 con `divider/border/color` del Kit
+  Pro y para que lea contra la jerarquía de color de config (ver §6). Detalle del cambio en
+  `code-connect-mapping.md` §Divider.
+- **Trigger `<sc-divider>`**: solo si aparece necesidad de texto-en-medio, orientación vertical
+  o estilo dashed (los demás ejes del Kit). Mientras sea sólido/horizontal sin label, el `<hr>`
+  basta y no se cocina wrapper.
+
+### 2.11 Estados de agente — 3 tags fijos + chips editables (S67-B)
+
+- **Contexto**: la celda/ficha de estado de agente en config Contact Center distingue **estados
+  sistémicos fijos** (no editables) de **estados editables** que el usuario añade/quita.
+- **3 tags fijos** (`<p-tag>` del Kit Pro, no removibles):
+  - **Disponible** → `severity="success"` (verde).
+  - **No disponible** → `severity="danger"` (rojo).
+  - **Administrativo** → **granate**: fondo `red-800` + texto `red-100`. Tono sólido más oscuro,
+    deliberadamente distinto del danger estándar para separar "estado administrativo" de "no
+    disponible". **Sin token nuevo** — reusa `--sc-color-red-800` / `--sc-color-red-100` ya
+    presentes en primitive; el master del Kit queda intacto (el granate vive solo en prototipo
+    Figma `39-1115` + código).
+- **Chips editables**: estados custom como **chips removibles con ×** (re-añadibles), **separados
+  visualmente** de los tags fijos para que se lea la diferencia "sistémico vs editable".
+- **Por qué aquí**: es reasignación de severidad/visual en UI de config (no componente nuevo del
+  DS), pero al introducir un tratamiento de color propio (granate) DD-7 pide registrarlo. Decisión
+  técnica completa en `apps/supervisor/docs/DECISIONS.md` (DD#67).
 
 ---
 
@@ -355,7 +393,7 @@ Equipo de diseño formaliza estos en collection "Custom" cuando vincule Figma SC
 | `scale.0-875` | `--sc-spacing-0-875` | 12.25 | padding md horizontal |
 | `scale.1` | `--sc-spacing-1` | 14 | base unit |
 | `scale.1-125` | `--sc-spacing-1-125` | 15.75 | padding lg horizontal |
-| `scale.1-143` | `--sc-spacing-1-143` | 16 | **S57 new** — Tailwind-aware step |
+| `scale.1-143` | `--sc-spacing-1-143` | 16 | **S57 new** — step de 16px exacto |
 | `scale.1-25` | `--sc-spacing-1-25` | 17.5 | **S57 new** — checkbox size, dialog padding |
 | `scale.1-5` | `--sc-spacing-1-5` | 21 | gap medium, checkbox lg size |
 | `scale.1-625` | `--sc-spacing-1-625` | 22.75 | **S57 new** |
@@ -482,10 +520,10 @@ Motivación de la decisión, no del valor:
 2. **DD-7** (toda primitive nueva → entry customs-catalog + plan Figma): durations no se
    exportan en Figma Variables como categoría de primer nivel; intentar tokenizar es
    modelo prematuro.
-3. **Polaris / Carbon / Tailwind**: NINGUNO de los tres expone duration tokens como
-   semantic-named (`fast/base/slow`). Tailwind usa escala numérica (`duration-75/100/150/
-   200/300/500/700/1000`) que es literal-mapping disfrazado. La buena práctica industria
-   converge a "literal + convención documentada" sobre "token semántico".
+3. **Práctica de industria**: los design systems de referencia no exponen duration tokens
+   semantic-named (`fast/base/slow`); cuando los tokenizan usan una escala numérica
+   (`duration-75/100/150/200/300/500/700/1000`) que es literal-mapping disfrazado. La buena
+   práctica converge a "literal + convención documentada" sobre "token semántico".
 
 **Convención canonical (sweep S55 normalize drift)**:
 
@@ -673,6 +711,63 @@ Descartar el legacy custom completo. Razones:
 **Acción S58**: NO se toca código. Esta entry + las actualizaciones en `11-dialog.md`
 + `inconsistencies-backlog.md #56` cierran el debate "¿adoptamos el custom legacy?".
 
+### 5.11 `--sc-bg-canvas` — gap de token semántico de lienzo (deuda S67)
+
+- **Gap**: no existe un token semántico único para el **lienzo de página** (blanco en light /
+  gray-950 en dark). Hoy la jerarquía de color de config (§6) resuelve el lienzo con un override
+  por tema en el shell: `settings-shell` `:host` = `--sc-bg-surface` (blanco light) y
+  `:host-context(.sc-dark)` = `--sc-bg-default` (gray-950 dark).
+- **Por qué es gap**: el workaround funciona pero acopla la jerarquía de color a dos tokens
+  distintos según tema en vez de a un único `--sc-bg-canvas` semántico.
+- **Fix limpio**: cuando el equipo de diseño añada la variable a la collection Custom de Figma,
+  promover vía Variables Importer (proceso `feedback_custom_tokens_figma_process`). Hoy 1 solo
+  consumidor (config) → prematuro mintarlo.
+- **Tracking canónico**: `inconsistencies-backlog.md` #73.
+
+---
+
+## 6. Jerarquía de color de config Contact Center (S67-A)
+
+> Réplica 1:1 del Figma de config (`1:12270`). Documenta **qué color lleva cada superficie**
+> de la pantalla de config y por qué. Es el hogar canónico de esta jerarquía; el resto de docs
+> (DECISIONS DD#67, backlog #73, code-connect §Divider) apuntan aquí o cubren su propio ángulo.
+
+| Superficie | Selector | Light | Dark | Forma |
+|---|---|---|---|---|
+| **Lienzo de página** | `settings-shell` `:host` / `:host-context(.sc-dark)` | `--sc-bg-surface` (blanco) | `--sc-bg-default` (gray-950) | — (deuda `--sc-bg-canvas` §5.11) |
+| **Bandeja** (contenedor interior gris) | `.page__inner` | `--sc-bg-default` (gray-50) | gray-950 | radius 12 · padding 16 · gap 28 |
+| **Cards de sección** | `.settings-card` | surface (blanco) | surface | radius 8 · padding 16 · borde sutil · **sin sombra** |
+| **Índice** (rail de navegación) | `.settings-sidebar` | gray-50 | gray-50/dark | radius 12 · alineado arriba |
+| **Divisor** | `.divider` (`<hr>`) | `--sc-border-default` (gray-200, `#dadfe6`) | idem | antes `--sc-border-subtle` (gray-100) — ver §2.10 |
+
+**Lectura de la jerarquía**: lienzo blanco → bandeja gris recogida (radius 12) → cards de sección
+blancas a sangre dentro de la bandeja, con borde sutil y sin sombra (chrome bajo) → índice gris
+recogido alineado al tope. El divisor sube a gray-200 para definir la separación contra los grises
+de la bandeja/índice sin meter sombra.
+
+**Sin tokens nuevos** salvo el gap `--sc-bg-canvas` (§5.11, diferido). Decisión técnica completa
+(Bloque A/B, breadcrumb "Contact Center › [Sección]") en `apps/supervisor/docs/DECISIONS.md`
+(DD#67); versión PM-friendly en `apps/supervisor/docs/DECISIONES.md`.
+
+---
+
+## 7. Tipografía migration-safe (S67) — punteros
+
+Esta sesión cerró el **cinturón tipográfico** (olas 1+2 tokenizaron 367 literales `font-size` →
+`--sc-font-size-*`, cobertura 48%→100% accionable; guard "Dura 4" bloquea `font-size` literal
+nuevo, 0 excepciones; el hero 88px pasó a `--sc-font-size-900`). NO es divergencia de marca, así
+que su contenido vive en sus hogares canónicos:
+
+- **Racional / blindaje** (por qué un update de PrimeNG no borra los tipos: viven en `--sc-*` +
+  bridge `sc-preset.ts`, no en PrimeNG; único riesgo = slot `--p-*` renombrado → drift detectable
+  por `tokens:type-parity`; **NO** vincular `--sc-font-*` a la escala PrimeNG) → `migration-safety.md`
+  + decisión SCDS DD-11 en `DECISIONS.md`.
+- **Tooling** (`tokens:type-parity` read-only, escala base-14, olas 1+2, guard Dura 4) →
+  `tokens/README.md`.
+- **Guía para diseño** → `tokens/GUIA.md`.
+
+**Line-heights NO tocados** (diferidos por riesgo de layout) → `inconsistencies-backlog.md`.
+
 ---
 
 ## Cómo añadir una divergencia nueva a este catálogo
@@ -702,4 +797,5 @@ Recomendación cuando se active la Fase 4:
 
 ---
 
-Última actualización: 2026-05-21 (Session 55, §5.8 duration + shadow conventions).
+Última actualización: 2026-06-02 (Session 67, §2.10 divider · §2.11 estados de agente ·
+§5.11 gap `--sc-bg-canvas` · §6 jerarquía de color config · §7 punteros tipografía).

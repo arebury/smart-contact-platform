@@ -12,6 +12,56 @@
 
 ---
 
+## DD-11 · 2026-06-02 (S67) — Tipografía migration-safe: los `font-size` viven en `--sc-*`, blindados por guard + comprobador
+
+**Contexto**: la tipografía era el último frente sin blindar. La app tenía 367
+`font-size` literales repartidos en SCSS de componentes y features (cobertura
+tokenizada 48%). Cada literal es un punto donde un update de PrimeNG o un
+re-export del Kit puede introducir drift sin que nadie lo cace. Faltaba cerrar
+el cinturón que color (DD-3) y spacing/escala (DD-10) ya tenían.
+
+**Opciones consideradas**:
+- A. **Dejar los literales + que `tokens:parity` solo avise**. Reactivo: el drift
+  se detecta tarde (en el commit que lo cruza por casualidad) y los literales
+  nuevos siguen entrando.
+- B. **Tokenizar masivo + guard proactivo + comprobador read-only dedicado**.
+  Cierra la puerta por construcción: ningún `font-size` literal nuevo entra, y
+  los slots de tipo se cruzan contra el export.
+
+**Decisión**: **B**.
+- **Tokenización (olas 1+2)**: 367 `font-size` literales → `--sc-font-size-*`,
+  snapeados a la escala base-14 (misma ley `v/14` de DD-10). Cobertura
+  48% → 99% → 100% del accionable. El hero de bulk-transcription (88px) → token
+  `--sc-font-size-900`.
+- **Guard "Dura 4"** en `token-guard.mjs`: bloquea cualquier `font-size` literal
+  nuevo en pre-commit, **0 excepciones**.
+- **`npm run tokens:type-parity`**: comprobador SOLO-LECTURA (hermano de
+  `tokens:parity`, NO crea tokens) que cruza los slots de tipo contra el export
+  del Kit.
+- Los tipos viven en **nuestros** tokens `--sc-font-size-*` (capa primitive) +
+  bridge `sc-preset.ts` → `--p-*` — **nunca dentro de PrimeNG**.
+- Las **`line-height`** NO se tocaron (diferidas, riesgo de layout) — ver deuda
+  en `inconsistencies-backlog.md`.
+
+**Razón**: misma arquitectura unidireccional que color (DD-3) y escala (DD-10).
+Como los tipos viven en `--sc-*` y el preset reenvía a `--p-*`, **un update de
+PrimeNG no los borra** — el bridge sigue apuntando a nuestros valores. El único
+riesgo residual es que PrimeNG renombre un slot `--p-*-font-size`, y eso lo caza
+`tokens:type-parity` (queda detectable, no silencioso). Por eso **NO se vincula
+`--sc-font-*` a la escala tipográfica de PrimeNG**: invertiría la arquitectura
+(haría que nuestra identidad dependa de la suya).
+
+**Consecuencias**:
+- El cinturón migration-safe queda cerrado: badge/button/form-field ya estaban
+  cubiertos desde S57/S62; ahora todo `font-size` accionable es token.
+- `migration-safety.md` (racional de blindaje) y `tokens/README.md` (tooling:
+  `tokens:type-parity`, escala base-14, guard Dura 4) **apuntan a esta DD**, no
+  la duplican.
+- Deuda diferida (line-heights Fase 4, tamaños display, contraste índice dark)
+  trackeada en `inconsistencies-backlog.md`.
+
+---
+
 ## DD-10 · 2026-05-27 (S62-ext) — Escala formalizada (ley `v/14`) + comprobador/generador de tokens, NO un generador que escriba las capas
 
 **Contexto**: Rafa pidió "el arreglo definitivo anti-drift" para los tokens del Kit
@@ -244,4 +294,4 @@ La inconsistencia complicaba (a) audits Figma manuales (matching por concepto en
 
 ---
 
-Última actualización: 2026-05-20 (Session 46).
+Última actualización: 2026-06-02 (Session 67).

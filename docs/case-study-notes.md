@@ -16,6 +16,90 @@
 
 ---
 
+## 2026-06-02 · S67 — Tipografía migration-safe: por qué el "cosmético" cambio de font-size es de los más arriesgados
+
+**Contexto**: cerrar el cinturón de blindaje migración tocaba el último eje suelto, la tipografía. Olas 1+2 tokenizaron 367 literales `font-size` dispersos por las apps → tokens `--sc-font-size-*` (snap a la escala base-14), subiendo la cobertura del 48% a ~99% accionable. Se añadió `npm run tokens:type-parity` (read-only, hermano de `tokens:parity`) y un guard "Dura 4" que bloquea cualquier `font-size` literal nuevo (única excepción allow-listed: el display 88px del hero de transcripción masiva, ahora `--sc-font-size-900`).
+
+**Premisa equivocada**: "tokenizar font-size es housekeeping cosmético, bajo riesgo — es solo cambiar un número por una variable".
+
+**Descubrimiento**: la tipografía es de los ejes visualmente MÁS estables del app — precisamente por eso tocarla reverbera por TODOS los layouts a la vez (line-height, wrapping, alturas de fila, truncados). Por eso las **line-heights NO se tocaron** (diferidas a un redesign de Fase 4, riesgo layout). Y el racional de blindaje es el mismo que con color/spacing: los tipos viven en NUESTROS `--sc-*` + el bridge `sc-preset.ts`, **no dentro de PrimeNG**. Un upgrade de PrimeNG no puede borrar lo que no posee. El único vector de drift es que PrimeNG renombre un slot `--p-*-font-size` — y eso lo caza `tokens:type-parity`. El antipatrón a evitar: vincular `--sc-font-*` a la escala de PrimeNG, que invertiría la dirección de la arquitectura (pasaríamos a depender de upstream).
+
+**Lección portable**: cuando un cambio se siente "cosmético y barato", pregúntate cuántos layouts dependen del valor que tocas. La tipografía es el caso clásico de bajo-esfuerzo / alto-blast-radius. Protégela igual que cualquier eje crítico: tooling read-only que detecta drift + guard proactivo que exige permiso explícito antes de un literal nuevo. Y mantén la dirección de dependencia unidireccional — tus tokens son la fuente, la librería externa es el consumidor, nunca al revés.
+
+> Decisión arquitectónica formal en `packages/design-system/docs/DECISIONS.md` (DD-11); racional de blindaje en `migration-safety.md`; tooling y ley de escala en `tokens/README.md`.
+
+---
+
+## 2026-06-02 · S67 — Extraer el guard común cuando ≥3 features hacen la misma pregunta
+
+**Contexto**: P4 del refinamiento de config. El botón "Cancelar" pasó a "Descartar cambios" (outline, aparece solo cuando hay cambios), y las 3 rutas de config (General/Agentes/Grupos) se conectaron al `formDirtyGuard` (`canDeactivate`) que dispara el mismo modal "¿Descartar cambios? / Seguir editando" que ya usaba admin (agentes/grupos/usuarios). Los componentes implementan `DirtyAware` con una señal `formDirty`.
+
+**Premisa equivocada (tentación)**: "cada pantalla de formulario implementa su propio aviso de salida — es un detalle local de cada feature".
+
+**Descubrimiento**: el modal de salida sin guardar es la misma pregunta literal en admin y en config. Reimplementarlo por feature multiplica copies del mismo string i18n, del mismo modal y de la misma lógica de "¿está sucio?". El guard ya existía en admin; el trabajo real fue hacer que config lo *consumiera* (los componentes adoptan `DirtyAware`) en vez de clonarlo.
+
+**Lección portable**: cuando ≥3 consumers necesitan el mismo comportamiento transversal (confirmación de salida, dirty-check, undo), el valor está en el *contrato compartido* (guard + interfaz `DirtyAware`), no en cada implementación. La señal de que toca extraer no es "lo escribí 2 veces" sino "el tercer sitio va a hacer la misma pregunta al usuario con las mismas palabras".
+
+> Detalle de decisión config en `apps/supervisor/docs/DECISIONS.md` (DD#67).
+
+---
+
+## 2026-06-02 · S67 — Estados de sistema vs atributos de usuario: una distinción que decide el componente
+
+**Contexto**: sparring con el equipo de diseño sobre los estados de agente. La pantalla mezcla tres estados "oficiales" (Disponible, No disponible, Administrativo) con estados que el equipo quiere poder crear/quitar. Tentación inicial: hacerlos todos editables, o todos fijos.
+
+**Premisa equivocada**: "un estado es un estado — o todos se editan o ninguno; la diferencia es de permisos, no de modelo".
+
+**Descubrimiento**: hay dos naturalezas distintas conviviendo. Los **estados de sistema** son invariantes y comunican una verdad operativa crítica ("Administrativo" = no atiende) → 3 tags FIJOS (Disponible verde/success, No disponible danger, Administrativo en granate sólido). Los **atributos de usuario** son asignables y desechables → chips editables con `×`, removibles y re-añadibles, visualmente separados de los tags fijos. El granate (`red-800` fondo + `red-100` texto) da presencia sólida y diferenciada sin inventar token nuevo — reutiliza primitivas existentes, y el master del Kit Pro no se toca (el granate vive solo en prototipo + código).
+
+**Lección portable**: antes de elegir el componente (tag fijo vs chip removible), clasifica la naturaleza del dato: ¿es una verdad del sistema que el usuario lee, o un atributo que el usuario gestiona? La forma visual (no-editable vs editable-con-×) debe seguir esa naturaleza, no la conveniencia de implementación. Y un "color nuevo a ojos del usuario" no obliga a un token nuevo si una combinación de primitivas existentes ya lo expresa.
+
+> Decisión y mapping de tokens en `apps/supervisor/docs/DECISIONS.md` (DD#67) y `customs-catalog.md`.
+
+---
+
+## 2026-06-02 · S67 — Guardar las dos formas del dato cuando el shape varía entre consumers
+
+**Contexto**: `<sc-multiselect>` solo aceptaba opciones como objetos `{label, value}`, pero 4 multiselects de Grupos (config) alimentaban arrays primitivos `string[]` — y salían vacíos. El fix portó el patrón que `<sc-select>` ya tenía: un guard `hasPrimitiveOptions` + computeds `resolvedOptionLabel`/`resolvedOptionValue` que devuelven `undefined` cuando las opciones son primitivas, dejando que PrimeNG renderice el valor directo en vez de buscar `.label`/`.value`.
+
+**Premisa equivocada**: "un multiselect debe modelar siempre objetos con id/label — el consumer que pasa strings está usándolo mal".
+
+**Descubrimiento**: el data-shape legítimamente varía entre consumers. Forzar a cada consumer a envolver sus strings en objetos `{label: x, value: x}` traslada la fricción al sitio equivocado (N consumers complicados) para mantener "puro" el componente. Absorber las dos formas en el wrapper cuesta ~3 líneas y el componente sigue siendo el único que conoce el detalle de PrimeNG.
+
+**Lección portable**: cuando un primitivo compartido recibe el mismo dato en dos shapes según el consumer, el coste de soportar ambas formas casi siempre debe vivir en el componente (una vez), no replicado en cada consumer. La asimetría de coste — 3 líneas en un sitio vs boilerplate en N — es la señal. Bonus: mantener el patrón idéntico entre componentes hermanos (`sc-select` y `sc-multiselect` resuelven primitivas igual) reduce la carga cognitiva.
+
+> Estado del componente en `MIGRATION-INVENTORY.md`; mapping en `code-connect-mapping.md`.
+
+---
+
+## 2026-06-02 · S67 — Jerarquía visual por color de lienzo + radio, no por chrome añadido
+
+**Contexto**: replicar 1:1 el layout de config del Figma (node 1:12270). El índice lateral (gris claro) no se distinguía bien del fondo. El reflejo natural sería añadirle borde o sombra para "despegarlo".
+
+**Premisa equivocada**: "para que un panel gris claro resalte hay que rodearlo de chrome — un borde o una sombra que lo separe del fondo".
+
+**Descubrimiento**: la jerarquía se construyó al revés, desde el fondo. El lienzo de página pasó a blanco (`--sc-bg-surface` en light), con una bandeja gris interior (`--sc-bg-default`, radio 12, padding 16, gap 28) que aloja cards de sección blancas (radio 8, borde sutil, sin sombra) y el índice gris alineado arriba (radio 12). El contraste de fondo + el radio de esquina hacen el trabajo de separación que normalmente se le pide a un borde o una sombra. El divider además se realineó de `border-subtle` (gray-100) a `border-default` (gray-200, `#dadfe6`) para ser 1:1 con el Kit.
+
+**Lección portable**: cuando un elemento "no se despega" del fondo, antes de añadirle chrome (borde/sombra) prueba a cambiar el fondo sobre el que vive. Jerarquía por superficie + radio es más barata visualmente (menos ruido) y suele ser lo que el diseño de referencia ya hace. Gotcha de tokens detectado de paso: no existe un token semántico único para "lienzo de página" (blanco en light / gray-950 en dark) — se resolvió con `:host` / `:host-context(.sc-dark)` en `settings-shell` y quedó anotado como deuda.
+
+> Especificación de jerarquía y deuda del token de lienzo en `inconsistencies-backlog.md` (#73); divergencias en `customs-catalog.md`.
+
+---
+
+## 2026-06-02 · S67 — Renombrar de cara al usuario sin renombrar el código
+
+**Contexto**: "AED" es jerga interna; de cara al usuario el producto es "Contact Center". S67 renombró la etiqueta visible (nav, título del índice de config, "grupo de servicio") solo en i18n, y simplificó el breadcrumb de config a "Contact Center › [Sección]". La carpeta `features/config/aed/`, el selector y el código NO cambiaron. El "AED" que es moneda (Emiratos) en `country-prefixes` tampoco se tocó.
+
+**Premisa equivocada (tentación, ya conocida de S35)**: "renombrar el producto implica renombrar también la feature/carpeta/selector para que todo sea coherente".
+
+**Descubrimiento**: el mismo string "AED" tiene tres vidas independientes — etiqueta de producto (visible, cambia), identificador técnico de feature (estable, naming portable), y código de moneda (semántica ajena, intocable). Acoplar el rename de UX al rename de código habría sido un sweep masivo de alto riesgo a cambio de cero valor para el usuario, que nunca ve `features/config/aed/`.
+
+**Lección portable**: separa la capa de presentación (i18n, copy, breadcrumb) de la capa de identidad técnica (carpetas, selectores, claves de feature). Un rename "de marca" debe poder vivir entero en i18n. Si te empuja a tocar paths o selectores, es señal de que la identidad técnica estaba acoplada a la presentación — y eso es la deuda a corregir, no el rename. (Reaplicación directa de la lección de S35 sobre los múltiples significados del string `aed`.)
+
+> Decisión PM-friendly en `apps/supervisor/docs/DECISIONES.md`; técnica en `DECISIONS.md` (DD#67).
+
+---
+
 ## 2026-05-20 · S46 — La jerarquía de docs no sirve si el protocolo de consulta es opcional
 
 **Contexto**: en la misma sesión donde Rafa y yo establecimos `DOCS-INDEX.md` como mapa source-of-truth, recibí la tarea "audit Figma alignment SCDS ↔ Kit Pro". Reacción automática: lancé 4 queries `search_design_system` MCP buscando MultiSelect / DatePicker / Input / Select. **Llegué tarde** a descubrir que `MIGRATION-INVENTORY.md` ya tenía los Figma node IDs documentados con parity 100% auditado en S30. Coste real: ~10 min + 4 calls MCP innecesarias.

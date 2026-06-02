@@ -25,6 +25,7 @@
 | Brand divergences (tokens custom vs Aura) | [`packages/design-system/docs/customs-catalog.md`](../packages/design-system/docs/customs-catalog.md) | Claude (antes de añadir override / token nuevo) + equipo de diseño (sync Figma) |
 | Guía de diseño — extender el Kit Pro sin romper (tablas/composiciones) | [`packages/design-system/docs/extender-kit-pro-guia-diseno.md`](../packages/design-system/docs/extender-kit-pro-guia-diseno.md) | Equipo de diseño + Rafa |
 | Audit Figma alignment SCDS · Figma node IDs · parity % por componente · última verificación | [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../packages/design-system/docs/MIGRATION-INVENTORY.md) | Claude (PRIMERO al auditar drift SCDS↔Figma) |
+| Registro de componentes primitivos ↔ Figma (pares Angular↔Kit Pro, node IDs, ejes/variantes, triggers de promoción) | [`packages/design-system/docs/code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md) | Claude (al mapear/promover una primitiva) |
 | Log histórico de sesiones | [`docs/SESSION-LOG.md`](./SESSION-LOG.md) | Claude (lee al arrancar sesión) |
 | Plan próxima sesión | [`docs/NEXT-SESSION-PLAN.md`](./NEXT-SESSION-PLAN.md) | Claude (lee al arrancar sesión) |
 | Apuntes pedagógicos progresivos (case study) | [`docs/case-study-notes.md`](./case-study-notes.md) | Rafa (presentación futura) |
@@ -87,6 +88,12 @@ Sin docs propios — pequeño, su content es Angular routes en `apps/ds-docs/src
 
 ---
 
-Última actualización: 2026-06-01 (Session 65) — añadida guía de diseño
-`extender-kit-pro-guia-diseno.md` (conclusiones del ejercicio Tabla Agentes; versión
-técnica en customs-catalog §2.8).
+Última actualización: 2026-06-02 (Session 67) — añadida fila "Registro de componentes
+primitivos ↔ Figma" → `code-connect-mapping.md` (divider registrado: Kit node 302:11810).
+S67 tocó además `inconsistencies-backlog.md` (gap #73 `--sc-bg-canvas`),
+`apps/supervisor/docs/DECISIONS.md` + `DECISIONES.md` (DD#67 config AED),
+`packages/design-system/docs/DECISIONS.md` (DD-11 tipografía), `tokens/README.md` y
+`tokens/GUIA.md` (cinturón `tokens:type-parity` + guard Dura 4), `migration-safety.md`
+(racional tipografía migration-safe), `customs-catalog.md` (jerarquía color + estados),
+`MIGRATION-INVENTORY.md` (`sc-multiselect` options primitivas) y `ROADMAP.md`. Cada tema
+en su hogar canónico; este INDEX solo apunta.

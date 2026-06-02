@@ -1,10 +1,16 @@
 # Cómo extender el Kit Pro sin romperlo (guía de diseño)
 
-> Conclusiones del ejercicio de la Tabla de Agentes (AED): por qué no basta con
+> Conclusiones del ejercicio de la Tabla de Agentes: por qué no basta con
 > reutilizar el datatable existente, qué se modifica y qué no, variables custom,
 > modo oscuro y qué tener en cuenta al componer tablas sobre el Kit Pro.
 >
 > Versión técnica, con node IDs y variables exactas: [`customs-catalog.md` §2.8](./customs-catalog.md).
+>
+> Nota de nomenclatura: la feature técnica se llama `aed` (carpeta y selector
+> `features/config/aed/` no cambian). De cara al usuario, en interfaz —
+> navegación, título del índice de configuración, breadcrumb — el nombre es
+> **Contact Center** (S67). En esta guía «Tabla de Agentes» refiere al ejercicio
+> técnico sobre esa feature.
 
 ---
 
@@ -107,6 +113,15 @@ El modo oscuro en Figma se aplica poniendo las colecciones de color en modo Dark
 del Kit Pro, nunca a un color fijo. En este ejercicio el nombre y los iconos
 quedaban invisibles en oscuro hasta que los vinculamos.
 
+**Caso límite (jerarquía de fondo claro/oscuro):** en layouts con varias capas
+de fondo (lienzo de página + bandeja + cards), puede no existir una variable
+única que valga para los dos modos a la vez — el lienzo es blanco en claro y
+gris oscuro en oscuro. Hoy falta ese token único; está anotado como deuda
+`--sc-bg-canvas`. Detalle y workaround vigente (`:host` / `:host-context`):
+[`inconsistencies-backlog.md` #73](./inconsistencies-backlog.md). La jerarquía
+de color de la configuración (Contact Center) vive en
+[`customs-catalog.md`](./customs-catalog.md).
+
 ---
 
 ## 7. Checklist antes de montar una tabla (o cualquier composición)
@@ -135,5 +150,22 @@ las variables.
 
 ---
 
-*Ejercicio: Tabla de Agentes (AED), montada en la página `Flujos`. Detalle
-técnico, node IDs y variables exactas en [`customs-catalog.md` §2.8](./customs-catalog.md).*
+## 9. Tipografía: el mismo principio
+
+El blindaje de los tipos sigue exactamente la misma idea que el resto de esta
+guía: los tamaños de texto viven en nuestras variables (`--sc-font-size-*`) y se
+puentean a PrimeNG, no se importan de él. Por eso una actualización del Kit Pro
+no los borra.
+
+No se desarrolla aquí porque tiene su hogar canónico:
+
+- Por qué un update de PrimeNG no rompe los tipos (racional / blindaje):
+  [`migration-safety.md`](./migration-safety.md).
+- Tooling y escala (`tokens:type-parity`, base-14, guard que bloquea tamaños
+  literales nuevos): [`tokens/README.md`](../tokens/README.md).
+- Versión para diseño, sin tecnicismos: [`tokens/GUIA.md`](../tokens/GUIA.md).
+
+---
+
+*Ejercicio: Tabla de Agentes, montada en la página `Flujos`. Detalle técnico,
+node IDs y variables exactas en [`customs-catalog.md` §2.8](./customs-catalog.md).*

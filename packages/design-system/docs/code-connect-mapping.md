@@ -28,6 +28,12 @@
   representa el "neutral idle" del componente (sin estado especial).
 - **Property mapping**: cómo se traducen inputs Angular a Figma props.
 
+> **Nota de naming (S67-U2)**: el feature `config` se llama **Contact Center** en la UI
+> (label de nav/índice/breadcrumb, copy i18n). El nombre técnico —carpeta `features/config/aed/`,
+> selector y clase— **no cambia** (naming portable, S47). En este doc las referencias a "config"
+> apuntan a ese feature; se usa "Contact Center" para el concepto de cara al usuario y `aed` para
+> el code. La decisión completa vive en `apps/supervisor/docs/DECISIONS.md` (DD#67).
+
 ---
 
 ## Componentes mapeados
@@ -57,7 +63,7 @@
 **Usos canónicos en SC**:
 - Save / Cancelar en `<sc-sticky-form-header>` (Primary fill + Secondary outlined).
 - Acciones primarias en `<sc-page-header>`.
-- 38 botones AED migrados a `<p-button>` en S34.
+- 38 botones de Contact Center (`aed` en code) migrados a `<p-button>` en S34.
 
 ---
 
@@ -151,7 +157,7 @@ requiere notación libre.
 
 | Campo | Valor |
 |---|---|
-| Angular | `<sc-section-card>` (custom-preset SC, 24+ consumers AED) |
+| Angular | `<sc-section-card>` (custom-preset SC, 24+ consumers en Contact Center — `aed` en code) |
 | Figma name | `panel` |
 | Figma nodeId | `229:10217` |
 | Figma componentKey | `ea4945599408e7c3b41a232b03f51c24baa35b59` |
@@ -351,7 +357,11 @@ el trigger:
 4. `<sc-multiselect>` ↔ `❖ multiselect` — nodeId `6738:22651` (Kit Pro). Selección
    múltiple. **`[iftaLabel]` añadido (S65)**. **En uso en config Grupos**: Estrategia,
    Prioridad, Voz, Tipo de cola de espera son multi-select (decisión Rafa); Apertura de
-   ficha se queda single (`sc-select`).
+   ficha se queda single (`sc-select`). **Fix S67**: soporta `options: string[]`
+   primitivas (`hasPrimitiveOptions` → `resolvedOptionLabel`/`resolvedOptionValue`
+   resuelven a `undefined` para que PrimeNG renderice el valor directo en vez de buscar
+   `.label`/`.value`). Patrón portado de `<sc-select>` (S65); arregla los 4 multiselect de
+   Grupos que salían vacíos. Detalle de estado del componente en `MIGRATION-INVENTORY.md`.
 5. `<sc-toggleswitch>` ↔ `❖ toggleswitch` — nodeId `260:11899` (arriba)
 6. `<sc-dialog>` ↔ `❖ dialog` — pendiente nodeId (tokens `--sc-dialog-*` ya alineados)
 7. `<sc-checkbox>` ↔ `❖ checkbox` — nodeId `148:6321` (Kit Pro). Set con eje
@@ -395,7 +405,14 @@ Tokens (var-defs del nodo):
 - Con texto: `content/color #4f5663` (`--sc-text-secondary`), `content/background #fff`,
   H `content/padding/x 7`, V `content/padding/y 7`.
 
-**Uso hoy**: solo **Solid · Horizontal · sin contenido** (config AED + Memory rules/entities).
+**Cambio de color S67 (Bloque A)**: antes el divider usaba `--sc-border-subtle`
+(gray-100 `#eef0f3`); ahora `--sc-border-default` (gray-200 `#dadfe6`) para alinear con
+la jerarquía de color de config (índice gray-50 resalta contra bandeja gris). La
+decisión de color vive en `customs-catalog.md` (jerarquía config); deuda relacionada en
+`inconsistencies-backlog.md §73`.
+
+**Uso hoy**: solo **Solid · Horizontal · sin contenido** (config Contact Center —
+`aed` en code — + Memory rules/entities).
 Se resuelve con `<hr class="divider">` (1px `--sc-border-default`); no se justifica un wrapper
 aún (DD-4/minimal customization). **Trigger `<sc-divider>`** (wrapper de `<p-divider>`): cuando
 un diseño pida texto-en-medio, vertical o dashed — entonces se cocina con los tokens de arriba.
