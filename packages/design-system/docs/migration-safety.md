@@ -52,6 +52,36 @@ Cualquier cambio upstream PrimeNG SOLO afecta la última capa. El bridge contien
 
 ---
 
+## Tipografía migration-safe (S67)
+
+**El miedo:** "si meto mis tipos, ¿un update de PrimeNG los rompe?". No los borra, y un
+desajuste sería **detectable y de arreglo en un sitio**. Por qué:
+
+- **Tus tipos viven en TUS ficheros**, no dentro de PrimeNG: los definen `--sc-font-*`
+  (capas de tokens) y el bridge `sc-preset.ts` los empuja a `--p-*`. Un update de PrimeNG
+  reemplaza SUS ficheros; los tuyos persisten y se re-aplican encima. El update no puede
+  deshacer lo que está en una capa que él no toca. Es la **misma superficie** que color y
+  espaciado, que ya sobreviven a los updates. (Prueba viva: el preset fija `fontSize` de
+  button/formField a `--sc-font-size-*` desde S57/S62 — en producción, sin roturas.)
+- **El único riesgo real** = que un update RENOMBRE un slot `--p-*-font-size` que el bridge
+  rellena → ese componente cae al default de PrimeNG (un **desajuste visual**, no un crash).
+  Acotado a los slots del bridge, **detectable** por el comprobador de tipo y **arreglable**
+  en una línea del preset.
+- **NO vincular `--sc-font-*` a la escala de PrimeNG (`--p-*`)**: invertiría la arquitectura
+  (PrimeNG pasaría a ser la fuente → su update cambiaría nuestra letra). La fuente es `--sc-*`;
+  el bridge obliga a PrimeNG a obedecer. En Figma igual: los Text Styles se enlazan a la
+  colección de Variables **propia** (Smart Contact Prime), no a la del proveedor — aunque los
+  valores coincidan, la colección es nuestra y no se mueve sola.
+
+**Regla operativa:** la tipografía se cambia **solo por tokens `--sc-font-*`** (el "interruptor
+central"), nunca con literales `font-size`/`line-height` a mano en componentes. Un guard de
+tipo (estilo `tokens:guard`) bloquea literales nuevos; un parity de tipo (estilo `tokens:parity`)
+cruza nuestros valores vs lo que PrimeNG espera y canta el drift en el commit. Eso convierte un
+"se rompió en silencio" en "aviso inmediato + fix de una línea". Es el requisito previo para
+adoptar un set tipográfico nuevo (p. ej. unificar a un único set de estilos) sin dejar huérfanos.
+
+---
+
 ## ¿Qué se puede tocar?
 
 ### ✅ Seguro (no rompe nada)

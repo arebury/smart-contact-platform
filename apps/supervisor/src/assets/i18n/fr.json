@@ -712,7 +712,7 @@
     "repositories": "Référentiels",
     "security": "Sécurité",
     "personalization": "Personnalisation",
-    "aed": "AED",
+    "aed": "Contact Center",
     "integrations": "Intégrations",
     "system": "Système",
     "design_decisions": "Décisions de design",
@@ -1431,7 +1431,7 @@
   },
   "config": {
     "sidebar": {
-      "title": "Configuration AED",
+      "title": "Contact Center",
       "subtitle": "Paramètres de la plateforme",
       "version": "SmartContact · v2.4.0",
       "servicio_label": "Général",
@@ -1442,8 +1442,8 @@
       "grupos_hint": "Paramètres par défaut"
     },
     "aed": {
-      "title": "AED",
-      "heading": "Configuration AED",
+      "title": "Contact Center",
+      "heading": "Contact Center",
       "subtitle": "Paramètres globaux du distributeur automatique",
       "section": {
         "title": "Numérotation spéciale",
@@ -1537,7 +1537,7 @@
           },
           "config": {
             "title": "Configuration",
-            "activacion_label": "Activation/Désactivation par groupe de service AED",
+            "activacion_label": "Activation/Désactivation par groupe de service Contact Center",
             "gestion_label": "Gestion des appareils de travail en WebRTC",
             "externos_label": "Utilisation d'appareils externes"
           },

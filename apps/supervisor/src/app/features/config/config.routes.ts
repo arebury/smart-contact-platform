@@ -23,10 +23,11 @@ const placeholder = () =>
 export const configRoutes: Routes = [
   {
     path: 'aed',
-    // El hub aporta el crumb raíz "Administración" (Figma 1:12270). Las
-    // hojas añaden "[Sección] / Editar [sección]".
-    // `link: false`: /config/aed solo redirige a servicio, no es un destino propio.
-    data: { breadcrumb: { labelKey: 'config.aed.breadcrumb.admin', link: false } },
+    // El hub aporta el crumb raíz "Contact Center" (Figma 1:12270); cada hoja
+    // añade su sección → "Contact Center › General". Antes el medio era la propia
+    // sección (enlazaba a sí misma = circular). `link: false`: /config/aed solo
+    // redirige a servicio (la navegación entre secciones la da el rail).
+    data: { breadcrumb: { labelKey: 'config.aed.title', link: false } },
     loadComponent: () =>
       import('./layout/settings-shell.component').then((m) => m.SettingsShellComponent),
     children: [
@@ -34,10 +35,7 @@ export const configRoutes: Routes = [
       {
         path: 'servicio',
         data: {
-          breadcrumb: [
-            { labelKey: 'config.aed.subpages.servicio.heading' },
-            { labelKey: 'config.aed.subpages.servicio.edit_crumb' },
-          ],
+          breadcrumb: [{ labelKey: 'config.aed.subpages.servicio.heading' }],
         },
         loadComponent: () =>
           import('./aed/aed-servicio-page.component').then((m) => m.AedServicioPageComponent),
@@ -46,10 +44,7 @@ export const configRoutes: Routes = [
       {
         path: 'agentes',
         data: {
-          breadcrumb: [
-            { labelKey: 'config.aed.subpages.agentes.heading' },
-            { labelKey: 'config.aed.subpages.agentes.edit_crumb' },
-          ],
+          breadcrumb: [{ labelKey: 'config.aed.subpages.agentes.heading' }],
         },
         loadComponent: () =>
           import('./aed/aed-agentes-page.component').then((m) => m.AedAgentesPageComponent),
@@ -58,10 +53,7 @@ export const configRoutes: Routes = [
       {
         path: 'grupos',
         data: {
-          breadcrumb: [
-            { labelKey: 'config.aed.subpages.grupos.heading' },
-            { labelKey: 'config.aed.subpages.grupos.edit_crumb' },
-          ],
+          breadcrumb: [{ labelKey: 'config.aed.subpages.grupos.heading' }],
         },
         loadComponent: () =>
           import('./aed/aed-grupos-page.component').then((m) => m.AedGruposPageComponent),
