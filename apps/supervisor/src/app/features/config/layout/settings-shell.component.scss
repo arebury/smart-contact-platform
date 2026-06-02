@@ -9,10 +9,12 @@
 :host {
   display: block;
   min-height: 100%;
-  /* Figma 1:12270: el fondo de la plataforma va en gray/50; las cards van en
-   * blanco (surface) y el rail (índice) es un panel gray/50 que blende con la
-   * página → los items quedan sobre el fondo, con el activo resaltado. */
-  background: var(--sc-bg-secondary-subtle);
+  /* Figma 1:12270 (`content/background` = #ffffff): el lienzo de config va en
+   * BLANCO. El índice es un panel gray/50 (`--sc-bg-secondary-subtle`) → al ir
+   * la página en blanco, el índice resalta solo (gris sobre blanco); la card de
+   * contenido es blanca (surface) con borde + sombra para separarse del lienzo.
+   * S67-A: antes el lienzo era gray/50 y el índice (también gray/50) se fundía. */
+  background: var(--sc-bg-surface);
 }
 
 .settings-shell {

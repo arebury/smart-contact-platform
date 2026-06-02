@@ -15,7 +15,9 @@
 
 .settings-sidebar__panel {
   background: var(--sc-bg-secondary-subtle);
-  border-radius: var(--sc-radius-200);
+  /* Figma `índice` 1:12355 = border/radius/xl (12px). Concéntrico con los items
+   * internos (radius-200 / 6px). S66 lo fijó 6→12 en Figma; portado en S67-A. */
+  border-radius: var(--sc-radius-400);
   padding: var(--sc-spacing-1-143);
   display: flex;
   flex-direction: column;
