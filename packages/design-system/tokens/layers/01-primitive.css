@@ -398,9 +398,12 @@
   --sc-radius-0: var(--sc-radius-none);
   --sc-radius-50: var(--sc-radius-xs);
   --sc-radius-100: var(--sc-radius-sm);
-  --sc-radius-200: var(--sc-radius-md);
-  --sc-radius-300: var(--sc-radius-lg);
-  --sc-radius-400: var(--sc-radius-xl);
+  /* ⚗️ Exp S68: radios un punto más suaves (look friendly-modern 2026). Controles
+   * 6→8, cards 8→12; chips pequeños (50/100 = 2/4) se quedan crujientes para
+   * contraste. Sólo repunto los aliases (86+17 usos se mueven sin tocar componentes). */
+  --sc-radius-200: var(--sc-radius-lg);
+  --sc-radius-300: var(--sc-radius-xl);
+  --sc-radius-400: var(--sc-radius-2xl);
   --sc-radius-500: var(--sc-radius-2xl);
 
   /* ---------- Icon size (alias semantic de `--sc-scale-*`) ----------
