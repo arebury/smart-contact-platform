@@ -44,6 +44,11 @@
   /* ---------- Background ---------- */
   --sc-bg-default: var(--sc-color-gray-50);
   --sc-bg-surface: var(--sc-color-gray-0);
+  /* Page canvas — the "floor" a page paints on. White in light so a gray-50
+   * index/tray stands out on top; gray-950 in dark (see 07-dark) so the gray-900
+   * elevated panels read as raised. Single semantic token replacing the
+   * per-theme override workaround in settings-shell (backlog #73). */
+  --sc-bg-canvas: var(--sc-color-gray-0);
   /* Elevated surface (popovers, dropdowns) — currently same as surface
    * because the light theme stays flat; the alias exists so consumers
    * that *semantically* want "elevated" don't reach for raw `#fff`. */

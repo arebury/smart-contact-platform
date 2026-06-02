@@ -10,20 +10,12 @@
   display: block;
   min-height: 100%;
   /* Figma 1:12270 (`content/background` = #ffffff): el lienzo de config va en
-   * BLANCO. El índice es un panel gray/50 (`--sc-bg-secondary-subtle`) → al ir
-   * la página en blanco, el índice resalta solo (gris sobre blanco); la card de
-   * contenido es blanca (surface) con borde + sombra para separarse del lienzo.
-   * S67-A: antes el lienzo era gray/50 y el índice (también gray/50) se fundía. */
-  background: var(--sc-bg-surface);
-}
-
-/* Dark: los tokens son asimétricos — en light el índice (gray-50) resalta sobre
- * lienzo blanco; en dark el índice es gray-900 (superficie elevada) y resalta
- * sobre el "suelo" gray-950. `--sc-bg-surface` vale gray-900 en dark (= el índice
- * → se fundirían), así que el lienzo baja a `--sc-bg-default` (gray-950). No hay
- * un token único "blanco en light / gray-950 en dark"; override por tema. */
-:host-context(.sc-dark) {
-  background: var(--sc-bg-default);
+   * BLANCO en light; el índice (panel gray/50 `--sc-bg-secondary-subtle`) resalta
+   * sobre él, y la card de contenido (surface) se separa con borde + sombra.
+   * S68 (rama exp): `--sc-bg-canvas` (backlog #73) encapsula el comportamiento
+   * "blanco en light / gray-950 en dark" en UN token semántico — el índice
+   * (gray-50 / gray-900) resalta en ambos temas sin override por tema. */
+  background: var(--sc-bg-canvas);
 }
 
 .settings-shell {

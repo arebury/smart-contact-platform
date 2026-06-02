@@ -31,6 +31,8 @@
   /* ---------- Semantic · Background ---------- */
   --sc-bg-default: var(--sc-color-gray-950);
   --sc-bg-surface: var(--sc-color-gray-900);
+  /* Page canvas (backlog #73) — gray-950 floor so gray-900 panels read raised. */
+  --sc-bg-canvas: var(--sc-color-gray-950);
   --sc-bg-subtle: var(--sc-color-blue-900);
   --sc-bg-subtle-hover: var(--sc-color-blue-800);
   --sc-bg-subtle-active: var(--sc-color-blue-700);
