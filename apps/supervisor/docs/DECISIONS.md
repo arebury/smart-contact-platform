@@ -45,7 +45,7 @@ banda horizontal de cabecera: `<sc-page-header>` en listas y
 lleva el breadcrumb del TopBar; las **acciones primarias** (CTA "Nuevo X" en
 listas, Guardar/Cancelar en formularios) se proyectan a la derecha del TopBar
 vía `TopBarSlotService` (`actions` = `TemplateRef`, `component` = slot
-contextual tipo el switcher de datos demo de Memory). Estética BeyondUI/SnowUI:
+contextual tipo el switcher de datos demo de Memory). Estética densa de referencia:
 más denso, los datos arrancan más arriba, la acción está siempre alcanzable.
 
 En los **formularios**, el contexto que daba la cabecera rica (foto, nombre,

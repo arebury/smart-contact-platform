@@ -133,9 +133,9 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
 - **Para qué**: un solo proveedor de iconos (Material) = un solo eje de escala, theming por `color`/variación, y cero dependencias SVG en bundle. Alineado con la librería `Smart-Contact-Icons` del Kit Pro (mismo set Material).
 - **Escalas Material (gotcha S61)**: Material Outlined se ve ~1.6× más grande que PrimeIcons al mismo px ("a sangre"); al portar tamaños viejos, bajar a ~60-65% del px. En Figma, un glifo Material que "se esquina" = ponerlo a SCALE.
 
-### 2.7 Variante `[flush]` — lenguaje visual SnowUI-flavored (S62)
+### 2.7 Variante `[flush]` — lenguaje visual low-chrome (flush) (S62)
 
-- **Contexto**: dirección visual nueva (inspirada en SnowUI / Untitled UI, validada por Rafa en Figma `12277-4185`): **bajo chrome** — el dato es el héroe, la jerarquía la lleva el espacio + la tipografía, no las cajas. Las superficies van **a sangre** (flush) sobre la página en vez de en cards con borde/sombra.
+- **Contexto**: dirección visual nueva (low-chrome / flush, validada por Rafa en Figma `12277-4185`): **bajo chrome** — el dato es el héroe, la jerarquía la lleva el espacio + la tipografía, no las cajas. Las superficies van **a sangre** (flush) sobre la página en vez de en cards con borde/sombra.
 - **SC**: input opt-in `[flush]` (default `false`) en:
   - **`<sc-section-card>`**: quita fondo/borde/sombra/radio de la card + el padding lateral del header/body → el contenido alinea con la página. La cabecera (título + hint) se mantiene.
   - **`<sc-form-section-nav>`**: el índice del rail se renderiza como **PANEL embebido** 1:1 con el Figma `12277:4818` (fondo, radio 6, padding 16, gap; chip 32; item activo gris-100; label semibold/regular). **Modelo de color (confirmado por variables del nodo, S62-ext-2): página BLANCA (`content/background`=#fff) + paneles del rail (índice, ficha) en gray-50 (#f9fafb)**, recogidos sobre la página blanca. Por eso los form-pages pasan `.page`/`:host` a `--sc-bg-surface` (blanco) y el índice/ficha a `--sc-bg-secondary-subtle` (gray-50). (El input `compact` —placeholder no-op— se **eliminó** en S62-ext: 0 consumidores tras estandarizar; `flush` es el único modo de chrome.)
@@ -268,15 +268,15 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
   Prueba de la fuga: `lg`(15.75) era más pequeño que `md`(16), absurdo.
 - **Por qué no se arregla en el preset**: `formField.fontSize` NO es un token consumido por el CSS
   base de PrimeNG (el `1rem` está a pelo en `.p-inputtext`/`.p-select-label`). Ponerlo en
-  `sc-preset.ts` sería no-op. SnowUI confirma 14px como densidad de form.
+  `sc-preset.ts` sería no-op. La referencia de densidad de form confirma 14px.
 - **SC fija** el base a `var(--sc-font-size-200)` (14px) en el SCSS de cada wrapper, con selector
   host-prefijado para ganar a `.p-*` (misma cuenta de clases): `inputtext`, `select`, `multiselect`,
   `datepicker`, `inputnumber`, `search`, `inputgroup`. Viaja con el componente a cualquier app.
 - **Guardarraíl**: `token-guard.mjs` Dura 3 prohíbe campos PrimeNG crudos en plantillas de app
   (fuera de los wrappers) — si no, reintroducen el `1rem` en silencio. Hoy 0 usos crudos.
-- **Inspiración**: forms SnowUI (Figma `epbXh5uopOOwU1ofdINqbh`, nodo `13059:53268`): 14px valores,
+- **Inspiración**: forms de referencia (Figma `epbXh5uopOOwU1ofdINqbh`, nodo `13059:53268`): 14px valores,
   12px labels/helpers, semibold-14 títulos, cards flat. Adoptado **densidad + flat** (label encima,
-  NO el inset-label de SnowUI).
+  NO el inset-label de esa referencia).
 
 ### 4.4 Dialog footer gap — divergencia consciente del Figma (S63-ext)
 

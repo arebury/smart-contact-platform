@@ -50,7 +50,7 @@
 └────────────────────────┘
 ```
 
-Aside vertical fijo a la izquierda del form body. En modo `[flush]`, el índice se renderiza como panel embebido SnowUI (1:1 con editar-agente).
+Aside vertical fijo a la izquierda del form body. En modo `[flush]`, el índice se renderiza como panel embebido flush (1:1 con editar-agente).
 
 ## API
 
@@ -91,7 +91,7 @@ interface ScFormSectionNavProps {
 - **Controlled, no internal state**: el parent dueño de `activeId`. Esto permite que el parent decida el orden inicial (en `edit` mode user-form / group-form mueven "Identidad" al final del nav porque rara vez se toca después de crear).
 - **`<a href="#">` con preventDefault**: el link es semánticamente un anchor (keyboard accessible nativo), pero el comportamiento es controlled — `preventDefault` evita scroll jump y delega la activación al parent.
 - **`role="tab"` + `aria-current="true"`**: el lector anuncia "tab, current" sobre el link activo. Mejor que role="link" porque la metáfora es de tabs (no de navegación).
-- **`[flush]` (lenguaje SnowUI, S62)**: el índice se renderiza como panel embebido del rail (fondo, radio, padding; chip 32, activo gris-100, label semibold), 1:1 con editar-agente `12277:4185`. Lo usan los 3 forms (agents/groups/users). (El antiguo `[compact]` —placeholder no-op— se eliminó en S62-ext: 0 consumidores reales tras estandarizar.)
+- **`[flush]` (lenguaje flush, S62)**: el índice se renderiza como panel embebido del rail (fondo, radio, padding; chip 32, activo gris-100, label semibold), 1:1 con editar-agente `12277:4185`. Lo usan los 3 forms (agents/groups/users). (El antiguo `[compact]` —placeholder no-op— se eliminó en S62-ext: 0 consumidores reales tras estandarizar.)
 - **NO scroll-spy automático**: el nav NO auto-detecta scroll. Las form pages SC usan **paneo (switch)**, no scroll — cuando el usuario clica una sección, solo esa sección se renderiza. Si en futuro se quiere scroll-spy, añadir `[scrollSpy]` prop y usar IntersectionObserver.
 
 ## A11y
