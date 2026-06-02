@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { formDirtyGuard } from '@core/guards';
+
 const placeholder = () =>
   import('@core/layout/placeholder-page/placeholder-page.component').then(
     (m) => m.PlaceholderPageComponent,
@@ -39,6 +41,7 @@ export const configRoutes: Routes = [
         },
         loadComponent: () =>
           import('./aed/aed-servicio-page.component').then((m) => m.AedServicioPageComponent),
+        canDeactivate: [formDirtyGuard],
       },
       {
         path: 'agentes',
@@ -50,6 +53,7 @@ export const configRoutes: Routes = [
         },
         loadComponent: () =>
           import('./aed/aed-agentes-page.component').then((m) => m.AedAgentesPageComponent),
+        canDeactivate: [formDirtyGuard],
       },
       {
         path: 'grupos',
@@ -61,6 +65,7 @@ export const configRoutes: Routes = [
         },
         loadComponent: () =>
           import('./aed/aed-grupos-page.component').then((m) => m.AedGruposPageComponent),
+        canDeactivate: [formDirtyGuard],
       },
     ],
   },

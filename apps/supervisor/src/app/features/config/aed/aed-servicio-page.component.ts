@@ -14,6 +14,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 
+import { DirtyAware } from '@core/guards';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
@@ -139,7 +140,7 @@ const NOTIF_EVENTOS: readonly (keyof NotifEventos)[] = ['inicio', 'fin', 'result
   styleUrls: ['./aed-defaults-page.component.scss', './aed-servicio-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AedServicioPageComponent implements OnDestroy {
+export class AedServicioPageComponent implements OnDestroy, DirtyAware {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly topBarSlot = inject(TopBarSlotService);
@@ -164,6 +165,8 @@ export class AedServicioPageComponent implements OnDestroy {
     () => JSON.stringify(this.form()) !== JSON.stringify(this.pristine()),
   );
   protected readonly canSave = computed(() => this.dirty() && !this.saving());
+  /** Público para el `formDirtyGuard` (canDeactivate) — confirma al salir con cambios. */
+  readonly formDirty = this.dirty;
 
   /** Guardar/Cancelar proyectados a la TopBar (modelo "todo arriba" S59). */
   private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');

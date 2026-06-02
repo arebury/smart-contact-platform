@@ -646,6 +646,7 @@
     "discard_body": "Unsaved changes will be lost.",
     "discard_confirm": "Discard",
     "discard_keep": "Keep editing",
+    "discard_changes": "Discard changes",
     "cross_tab_warning": "This record is being edited in another tab. Changes may overwrite each other.",
     "undo": "Undo",
     "change_reverted": "Change reverted",

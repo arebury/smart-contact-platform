@@ -646,6 +646,7 @@
     "discard_body": "As alterações não salvas serão perdidas.",
     "discard_confirm": "Descartar",
     "discard_keep": "Continuar editando",
+    "discard_changes": "Descartar alterações",
     "cross_tab_warning": "Este registro está sendo editado em outra aba. As alterações podem ser sobrescritas.",
     "undo": "Desfazer",
     "change_reverted": "Alteração revertida",

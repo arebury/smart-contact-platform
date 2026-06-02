@@ -1,6 +1,12 @@
 <ng-template #topbarActions>
-  <p-button type="button" size="small" severity="secondary" (onClick)="cancel()">
-    <span>{{ 'common.cancel' | translate }}</span>
+  <p-button
+    type="button"
+    size="small"
+    severity="secondary"
+    [disabled]="!dirty()"
+    (onClick)="cancel()"
+  >
+    <span>{{ 'common.discard_changes' | translate }}</span>
   </p-button>
   <p-button
     type="button"

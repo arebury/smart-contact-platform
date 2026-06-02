@@ -13,6 +13,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
+import { DirtyAware } from '@core/guards';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
@@ -89,7 +90,7 @@ const DEFAULT_FORM: FormState = {
   styleUrl: './aed-defaults-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AedGruposPageComponent implements OnDestroy {
+export class AedGruposPageComponent implements OnDestroy, DirtyAware {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly topBarSlot = inject(TopBarSlotService);
@@ -112,6 +113,8 @@ export class AedGruposPageComponent implements OnDestroy {
     () => JSON.stringify(this.form()) !== JSON.stringify(this.pristine()),
   );
   protected readonly canSave = computed(() => this.dirty() && !this.saving());
+  /** Público para el `formDirtyGuard` (canDeactivate) — confirma al salir con cambios. */
+  readonly formDirty = this.dirty;
 
   private readonly topbarActions = viewChild<TemplateRef<unknown>>('topbarActions');
 

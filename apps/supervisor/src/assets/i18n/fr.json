@@ -646,6 +646,7 @@
     "discard_body": "Les modifications non sauvegardées seront perdues.",
     "discard_confirm": "Annuler",
     "discard_keep": "Continuer l'édition",
+    "discard_changes": "Abandonner les modifications",
     "cross_tab_warning": "Cet enregistrement est édité dans un autre onglet. Les modifications peuvent s'écraser mutuellement.",
     "undo": "Annuler",
     "change_reverted": "Modification annulée",
