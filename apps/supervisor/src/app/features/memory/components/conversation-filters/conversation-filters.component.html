@@ -139,7 +139,12 @@
     </div>
 
     <div class="memory-conversation-filters__actions-right">
-      <span class="memory-conversation-filters__results">
+      <span
+        class="memory-conversation-filters__results"
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {{ 'memory.conversations.filters.results' | translate }}:
         <span class="memory-conversation-filters__results-num">{{ filteredCount() }}</span>
         @if (lastSearchAt()) {

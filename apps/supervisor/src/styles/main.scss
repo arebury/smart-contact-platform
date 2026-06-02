@@ -44,6 +44,21 @@ body {
 }
 
 /*
+ * Router cross-fade (View Transitions API, enabled via `withViewTransitions()`
+ * in app.config.ts). The global `*` reduced-motion reset does NOT reach the
+ * document-level `::view-transition-*` pseudo-elements, so honor the
+ * preference explicitly: users who ask for less motion get an instant page
+ * swap instead of the cross-fade. Keeps the subtle transition for everyone else.
+ */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/*
  * `.visually-hidden` — hide visually but keep accessible to screen
  * readers. Use for headings/labels that the visual hierarchy already
  * conveys but assistive technology still needs (e.g. form-page <h1>

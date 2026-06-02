@@ -339,7 +339,8 @@
         "title": "In conflict",
         "desc": "This rule overlaps its scope with {{count}} rule(s) of the same type. The supervisor can coexist with conflicts — the UI shows which one wins.",
         "winner": "Wins",
-        "hint": "Drag to reorder and change priority."
+        "hint": "Drag to reorder and change priority.",
+        "priority_meta": "· priority {{n}}"
       },
       "delete_title": "Delete rule",
       "delete_body": "You are about to delete «{{name}}». This action cannot be undone.",
@@ -366,6 +367,7 @@
         "scope": "Scope",
         "scope_desc": "Which conversations the rule applies to. An empty dimension means «any».",
         "see_repository": "See repository",
+        "scope_and": "AND",
         "scope_dim": {
           "servicios": {
             "title": "Services",

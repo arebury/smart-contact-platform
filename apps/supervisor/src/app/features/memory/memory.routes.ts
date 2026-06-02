@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 
+import { formDirtyGuard } from '@core/guards';
+
 /**
  * Memory feature routes — montadas bajo `/conversaciones` desde
  * supervision.routes.ts. Migración progresiva desde el prototipo React
@@ -36,6 +38,7 @@ export const memoryRoutes: Routes = [
   },
   {
     path: 'reglas/nueva',
+    canDeactivate: [formDirtyGuard],
     loadComponent: () =>
       import('./pages/rule-builder/rule-builder-page.component').then(
         (m) => m.RuleBuilderPageComponent,
@@ -43,6 +46,7 @@ export const memoryRoutes: Routes = [
   },
   {
     path: 'reglas/:id',
+    canDeactivate: [formDirtyGuard],
     loadComponent: () =>
       import('./pages/rule-builder/rule-builder-page.component').then(
         (m) => m.RuleBuilderPageComponent,

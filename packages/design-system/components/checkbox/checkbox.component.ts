@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
@@ -39,7 +38,7 @@ let triStateIdCounter = 0;
   styleUrl: './checkbox.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckboxComponent implements AfterViewInit {
+export class CheckboxComponent {
   readonly state = input.required<TriState>();
   readonly disabled = input<boolean>(false);
   readonly ariaLabel = input<string | null>(null);
@@ -61,15 +60,6 @@ export class CheckboxComponent implements AfterViewInit {
       ref.nativeElement.indeterminate = s === 'some';
       ref.nativeElement.checked = s === 'all';
     });
-  }
-
-  ngAfterViewInit(): void {
-    // Initial sync — the effect runs after view init, but we keep this
-    // explicit so the very first paint already shows the right state.
-    const ref = this.inputRef();
-    const s = this.state();
-    ref.nativeElement.indeterminate = s === 'some';
-    ref.nativeElement.checked = s === 'all';
   }
 
   protected onChange(event: Event): void {

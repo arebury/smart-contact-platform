@@ -131,7 +131,10 @@
                               <li>
                                 <strong>{{ other.name }}</strong>
                                 <span class="conflict-popover__meta">
-                                  · prioridad {{ other.priority }}
+                                  {{
+                                    'memory.rules.conflict.priority_meta'
+                                      | translate: { n: other.priority }
+                                  }}
                                 </span>
                               </li>
                             }

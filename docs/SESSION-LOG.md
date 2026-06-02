@@ -10,6 +10,58 @@
 
 ---
 
+## 2026-06-02 · Session 68 — doble auditoría senior (código + UX) vía workflow multi-agente adversarial; 16 arreglos seguros
+
+> Maratón delegada ("full consent, no me preguntes, máximo cuidado, cero deuda con criterio"). Orden:
+> auditorías primero, tipografía al final. Cada auditoría = workflow multi-agente (1 agente por dimensión
+> + 2º agente escéptico que intenta REFUTAR cada hallazgo antes de aceptarlo). Todo validado:
+> lint · build · i18n 1462×4 · e2e 28/28 · 2 verificaciones de comportamiento en navegador (:4300).
+
+**Método (nuevo esta sesión):** dos workflows `Workflow()` en segundo plano. **Code-audit** (6 dimensiones:
+god-components, código muerto, duplicación, bundle/deps, estado, anti-patrones Angular) = 27 agentes, 21
+hallazgos, 19 confirmados, **0 P0/P1**. **UX-audit** (5 dimensiones: consistencia, jerarquía, copy, estados,
+a11y de uso) = 31 agentes, 26 hallazgos, 22 confirmados, **2 P1**. Los verificadores bajaron severidades
+infladas y rechazaron 6 falsos positivos (p.ej. "god-components" ya cubiertos por DD#57/#66; cards de Contact
+Center que "duplican" el sistema son el negativo 1:1 de Figma, no deuda). `/audit` (chequeo técnico) corrió en
+paralelo: a11y/theming/responsive sanos (16/20), único bug real = globito Memory invisible en dark.
+
+**Bloque 1 — código (7 arreglos seguros, todos verificados):**
+- **Globito notif. Memory** invisible en dark (`#fff` fijo sobre `--sc-text-primary`) → `var(--sc-bg-surface)`.
+- Borrados `environment.ts`/`environment.prod.ts` muertos + alias `@env/*` del tsconfig (app es mock, 0 imports).
+- Inyección muerta `UndoStackService` en users-list-page; `ElementRef` muerto en `sc-search`.
+- `sc-checkbox`: quitado `ngAfterViewInit` redundante (el `effect` ya cubre el sync indeterminate).
+- `sc-group-popover`: `leaveTimer` ahora se cancela en `DestroyRef.onDestroy` (fuga al desmontar fila mid-delay).
+- `:focus-visible` en el ⋮ de agents/groups-list (lo tenían las otras 4 listas) — consistencia a11y.
+- **Avatares `named/`+`special/` (2,2 MB): NO tocados** — DD#39 los retiene a propósito; el agente que los
+  marcó no leyó la decisión. La lectura cuidadosa evitó el error. Anotado #79.
+
+**Bloque 2 — UX/UI (9 arreglos, los 2 críticos verificados en navegador):**
+- 🔴 **`sc-dialog`: Escape cierra** (era `[closable]="false"` → apagaba el handler PrimeNG; fix = `[closable]="closable()"`
+  + `[closeOnEscape]` + puente `(visibleChange)→onClose`, porque `close()` emite `visibleChange` y el `[visible]`
+  de una vía lo revertía). 🔴 **el foco vuelve al disparador** al cerrar (captura `activeElement` al abrir, restaura
+  en `onClose`). Ambos en el wrapper → arreglan TODOS los modales (Memory + admin). Verificado: Escape cierra +
+  foco vuelve a "Nueva categoría".
+- **rule-builder con `formDirtyGuard`** (`DirtyAware` + snapshot `pristine`/`formDirty`, `canDeactivate` en 2 rutas):
+  era el único editor que perdía cambios en silencio. Verificado: limpio sale, con cambios avisa.
+- i18n: conector "Y"→`scope_and` (AND/ET/E), "prioridad N"→`priority_meta` (×4 locales); botón Numeración especial
+  alineado al estándar S67 (`[outlined]` + `common.discard_changes`).
+- Estado vacío de Entidades con CTA crear; contador de filtros como `aria-live` region.
+- **Fundido de página**: diagnosticado (`withViewTransitions()` → cross-fade por defecto del navegador). Decisión:
+  **mantener** pero cerrar el agujero a11y — el reset `*` de `prefers-reduced-motion` NO alcanza los pseudo-elementos
+  `::view-transition-*`; añadido bloque global que los neutraliza con "menos movimiento".
+
+**Bloque 3 — tipografía (#73-#76): DIFERIDO con criterio.** Ninguno es seguro autónomo bajo las reglas: #73
+crea token (`--sc-bg-canvas`; el workaround ya funciona), #74 line-heights = layout-risk con supervisión de diseño,
+#75 tiers display = decisión de diseño, #76 contraste dark = Contact Center es 1:1 Figma y su dark aún no está
+especificado. Necesitan al equipo de diseño + Figma.
+
+**Deuda registrada (backlog #77-#88):** i18n huérfanas+tooling orphan-check (#77), dep sobrante (#78), avatares-en-deploy
+(#79), patrón i18n reactivo list-pages (#80), dup store links (#81), jerarquía visual Contact Center Figma-gated (#82),
+unificar menú ⋮ (#83), i18n selects placeholder (#84), rule-builder save-arriba (#85), a11y de uso (#86), convención
+confirm-borrado (#87), copy interno+feedback (#88). Casi todo diferido con disparador (Figma/diseño o trigger funcional).
+
+---
+
 ## 2026-06-02 · Session 67 — Contact Center (color/estados/discard), cinturón tipográfico migration-safe, overhaul de docs
 
 > Sesión maratón, muy interactiva (Rafa corrigiendo 1:1 contra Figma + sparring de método).

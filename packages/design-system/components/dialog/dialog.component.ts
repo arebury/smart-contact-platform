@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, input, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { DialogModule } from 'primeng/dialog';
 
@@ -68,7 +68,40 @@ export class DialogComponent {
   protected readonly titleId = computed(() => `sc-dialog-${this.id}-title`);
   protected readonly subtitleId = computed(() => `sc-dialog-${this.id}-subtitle`);
 
+  /** Element focused right before the dialog opened — focus returns here on close. */
+  private triggerEl: HTMLElement | null = null;
+
+  constructor() {
+    let wasOpen = false;
+    effect(() => {
+      const open = this.visible();
+      // On the false→true edge, remember what had focus (the opener) before
+      // PrimeNG moves focus into the dialog. Restored in onClose().
+      if (open && !wasOpen) {
+        this.triggerEl = (document.activeElement as HTMLElement | null) ?? null;
+      }
+      wasOpen = open;
+    });
+  }
+
+  /** PrimeNG's own dismiss (Escape, with `closable`) goes through `close()`,
+   * which only emits `visibleChange(false)`. Our `[visible]` is one-way, so we
+   * bridge it to `onClose()` — otherwise the input re-applies `true` and the
+   * dialog reopens. PrimeNG's z-index gate already lets a nested overlay
+   * (open `<sc-select>` panel) swallow Escape first, so this only fires for the
+   * dialog itself. */
+  protected onVisibleChange(open: boolean): void {
+    if (!open) this.onClose();
+  }
+
   protected onClose(): void {
     this.cancelled.emit();
+    const el = this.triggerEl;
+    this.triggerEl = null;
+    // Return focus to the opener so keyboard / screen-reader users don't get
+    // dropped at <body>. queueMicrotask lets PrimeNG finish tearing down first.
+    if (el && typeof el.focus === 'function') {
+      queueMicrotask(() => el.focus());
+    }
   }
 }

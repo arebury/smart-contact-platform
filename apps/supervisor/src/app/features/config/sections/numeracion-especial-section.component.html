@@ -99,8 +99,14 @@
 
   @if (dirty()) {
     <div class="card__foot">
-      <p-button type="button" size="small" severity="secondary" (onClick)="discard()">
-        <span>{{ 'config.aed.discard' | translate }}</span>
+      <p-button
+        type="button"
+        size="small"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="discard()"
+      >
+        <span>{{ 'common.discard_changes' | translate }}</span>
       </p-button>
       <p-button
         type="button"

@@ -21,6 +21,9 @@
         <div class="entities-empty" role="status" aria-live="polite">
           <sc-icon [name]="databaseIcon" [size]="20" />
           <p>{{ 'memory.entities.empty_user' | translate }}</p>
+          <p-button type="button" [link]="true" size="small" (onClick)="onNewEntity()">
+            <span>{{ 'memory.entities.new_entity' | translate }}</span>
+          </p-button>
         </div>
       } @else {
         <table class="entities-table">

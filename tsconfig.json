@@ -21,7 +21,6 @@
     "paths": {
       "@core/*": ["apps/supervisor/src/app/core/*"],
       "@features/*": ["apps/supervisor/src/app/features/*"],
-      "@env/*": ["apps/supervisor/src/environments/*"],
       "@shared/*": [
         "apps/supervisor/src/app/shared/*",
         "packages/design-system/*"

@@ -4,7 +4,6 @@ import {
   computed,
   ElementRef,
   forwardRef,
-  inject,
   input,
   model,
   output,
@@ -118,7 +117,6 @@ export class SearchComponent implements ControlValueAccessor {
   // ─── ControlValueAccessor ──────────────────────────────────────────
   private _onChange: (v: string) => void = () => {};
   private _onTouched: () => void = () => {};
-  private readonly _el = inject(ElementRef);
 
   writeValue(v: string | null | undefined): void {
     /* `untracked` aísla la escritura del signal (defensa CVA + signals). */

@@ -5,6 +5,7 @@ import {
   effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -13,6 +14,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { DirtyAware } from '@core/guards';
 import { IconComponent } from '@shared/components';
 import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
 import { MultiSelectComponent } from '@shared/components/multiselect/multiselect.component';
@@ -65,7 +67,7 @@ import { RulesStore } from '../../state/rules.store';
   styleUrl: './rule-builder-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RuleBuilderPageComponent {
+export class RuleBuilderPageComponent implements DirtyAware {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly rulesStore = inject(RulesStore);
@@ -140,6 +142,36 @@ export class RuleBuilderPageComponent {
   protected readonly nameInvalid = computed(() => this.name().trim().length < 3);
   protected readonly canSave = computed(() => !this.nameInvalid());
 
+  /** JSON snapshot of every editable field — feeds the unsaved-changes guard. */
+  private buildSnapshot(): string {
+    return JSON.stringify({
+      name: this.name(),
+      description: this.description(),
+      active: this.active(),
+      servicios: this.servicios(),
+      grupos: this.grupos(),
+      agentes: this.agentes(),
+      direction: this.direction(),
+      filterBySchedule: this.filterBySchedule(),
+      scheduleFrom: this.scheduleFrom(),
+      scheduleTo: this.scheduleTo(),
+      durationMin: this.durationMin(),
+      durationUnit: this.durationUnit(),
+      attendedBy: this.attendedBy(),
+      aiAnalysis: this.aiAnalysis(),
+      categorias: this.categorias(),
+    });
+  }
+
+  /** Original (saved/initial) state — `formDirty` compares against this. */
+  private readonly pristine = signal('');
+  /**
+   * Public for `formDirtyGuard` (canDeactivate): the rule-builder is the only
+   * editor that previously lost edits silently on navigation. Now it confirms
+   * with the shared discard dialog, like the admin forms and AED config.
+   */
+  readonly formDirty = computed(() => this.buildSnapshot() !== this.pristine());
+
   /**
    * Resumen del alcance en prosa — spec line 94. Recalcula en tiempo real.
    */
@@ -177,6 +209,8 @@ export class RuleBuilderPageComponent {
       ) {
         this.ruleType.set(typeParam);
       }
+      // New rule: capture the blank baseline so the guard only fires after edits.
+      this.pristine.set(untracked(() => this.buildSnapshot()));
     });
   }
 
@@ -205,6 +239,8 @@ export class RuleBuilderPageComponent {
     this.attendedBy.set(rule.attendedBy ?? []);
     this.aiAnalysis.set(rule.aiAnalysis ?? false);
     this.categorias.set(rule.categorias ?? []);
+    // Loaded values are the clean baseline for the unsaved-changes guard.
+    this.pristine.set(untracked(() => this.buildSnapshot()));
   }
 
   private formatDimension(values: readonly string[], singular: string, plural: string): string {
@@ -261,6 +297,8 @@ export class RuleBuilderPageComponent {
         life: TOAST_LIFE.success,
       });
     }
+    // Just saved → the current form IS the clean state; don't prompt on the way out.
+    this.pristine.set(this.buildSnapshot());
     this.router.navigate(['/conversaciones/reglas']);
   }
 
@@ -273,6 +311,8 @@ export class RuleBuilderPageComponent {
       summary: this.translate.instant('memory.rules.builder.discarded_toast'),
       life: TOAST_LIFE.info,
     });
+    // Discarding the draft is an explicit exit — skip the dirty guard prompt.
+    this.pristine.set(this.buildSnapshot());
     this.router.navigate(['/conversaciones/reglas']);
   }
 

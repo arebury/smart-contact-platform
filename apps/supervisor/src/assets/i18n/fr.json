@@ -339,7 +339,8 @@
         "title": "En conflit",
         "desc": "Cette règle chevauche sa portée avec {{count}} règle(s) du même type. Le superviseur peut coexister avec les conflits — l'UI montre laquelle gagne.",
         "winner": "Gagne",
-        "hint": "Glisser pour réordonner et changer la priorité."
+        "hint": "Glisser pour réordonner et changer la priorité.",
+        "priority_meta": "· priorité {{n}}"
       },
       "delete_title": "Supprimer la règle",
       "delete_body": "Vous allez supprimer «{{name}}». Cette action ne peut pas être annulée.",
@@ -366,6 +367,7 @@
         "scope": "Portée",
         "scope_desc": "À quelles conversations la règle s'applique. Une dimension vide signifie «toute».",
         "see_repository": "Voir le référentiel",
+        "scope_and": "ET",
         "scope_dim": {
           "servicios": {
             "title": "Services",

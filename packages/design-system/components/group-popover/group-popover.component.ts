@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  DestroyRef,
   computed,
+  inject,
   input,
   signal,
   viewChild,
@@ -43,6 +45,12 @@ export class GroupPopoverComponent {
   protected readonly count = computed(() => this.groups().length);
   protected readonly visible = computed(() => this.groups().slice(0, VISIBLE_LIMIT));
   protected readonly overflowCount = computed(() => Math.max(0, this.count() - VISIBLE_LIMIT));
+
+  constructor() {
+    // Cancel any pending hover-leave timer if the row is removed mid-delay
+    // (filter/search/sort re-render) — avoids hide() on a destroyed Popover.
+    inject(DestroyRef).onDestroy(() => this.cancelLeave());
+  }
 
   protected onTriggerEnter(event: MouseEvent): void {
     if (this.count() === 0) return;

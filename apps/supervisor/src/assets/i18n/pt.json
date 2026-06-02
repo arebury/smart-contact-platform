@@ -339,7 +339,8 @@
         "title": "Em conflito",
         "desc": "Esta regra sobrepõe seu alcance com {{count}} regra(s) do mesmo tipo. O supervisor pode conviver com conflitos — a UI mostra qual vence.",
         "winner": "Vence",
-        "hint": "Reordene arrastando para mudar a prioridade."
+        "hint": "Reordene arrastando para mudar a prioridade.",
+        "priority_meta": "· prioridade {{n}}"
       },
       "delete_title": "Eliminar regra",
       "delete_body": "Você vai eliminar «{{name}}». Esta ação não pode ser desfeita.",
@@ -366,6 +367,7 @@
         "scope": "Alcance",
         "scope_desc": "A quais conversas a regra aplica. Uma dimensão vazia significa «qualquer».",
         "see_repository": "Ver repositório",
+        "scope_and": "E",
         "scope_dim": {
           "servicios": {
             "title": "Serviços",

@@ -15,7 +15,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 
 import { ClickOutsideDirective, SortableHeaderDirective } from '@core/directives';
-import { UndoStackService, XlsxExportService } from '@core/services';
+import { XlsxExportService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { SelectionState } from '@core/utils/selection-state';
 import { clampToViewport } from '@core/utils/viewport';
@@ -69,7 +69,6 @@ export class UsersListPageComponent {
   private readonly messages = inject(MessageService);
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
-  private readonly undoStack = inject(UndoStackService);
   private readonly topBarSlot = inject(TopBarSlotService);
   private readonly destroyRef = inject(DestroyRef);
 

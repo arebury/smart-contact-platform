@@ -1,13 +1,15 @@
 <p-dialog
   [visible]="visible()"
   [modal]="true"
-  [closable]="false"
+  [closable]="closable()"
+  [closeOnEscape]="closable()"
   [draggable]="false"
   [resizable]="false"
   [showHeader]="false"
   [dismissableMask]="false"
   [style]="{ width: width() }"
   styleClass="sc-dialog-host"
+  (visibleChange)="onVisibleChange($event)"
   (onHide)="onClose()"
 >
   <section

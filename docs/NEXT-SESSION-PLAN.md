@@ -5,6 +5,45 @@
 
 ---
 
+## Estado al cerrar (Session 68, 2026-06-02) — doble auditoría senior (código + UX) + 16 arreglos seguros
+
+Maratón delegada con full consent. Método nuevo: **dos workflows multi-agente adversariales** (1 agente por
+dimensión + 2º agente escéptico que REFUTA cada hallazgo). **Code-audit** 27 agentes → 0 P0/P1 (repo muy sano).
+**UX-audit** 31 agentes → 2 P1 reales. Los verificadores bajaron severidades infladas + rechazaron 6 falsos
+positivos. **16 arreglos seguros ejecutados y validados** (lint · build · i18n 1462×4 · e2e 28/28 · 2
+verificaciones de comportamiento en navegador). Detalle completo: SESSION-LOG S68.
+
+**Lo más valioso (a `main`):** `sc-dialog` ahora **cierra con Escape** y **devuelve el foco al disparador**
+(arregla TODOS los modales). **rule-builder con guard** anti-pérdida de cambios. Globito dark, i18n
+(Y/prioridad/discard), estado vacío Entidades, región live de filtros, y el **fundido de página respeta
+"menos movimiento"**.
+
+**Bloque 3 (tipografía #73-#76) → rama experimental** `experiment/typografia-s68` (decisión Rafa S68):
+saltarse las reglas SOLO en rama para verlo en código + inspirarse en Figma sin cerrarse. Main limpio.
+Code-only, sin tocar Figma. Preview Netlify por branch deploy.
+
+---
+
+## 🎯 Próxima sesión (S69) — plan
+
+### Bloque 1 · Rama tipográfica `experiment/typografia-s68`
+Iterar el experimento con Rafa vía preview Netlify + Figma: line-heights escala canónica, tiers display
+(48/64/88), contraste índice config en dark, token `--sc-bg-canvas`. Cuando Rafa valide la dirección →
+portar a main lo que convenza (diff Playwright por grupo, baselines actualizadas) + cerrar #73-#76.
+
+### Bloque 2 · Deuda diferida del backlog S68 (#77-#88, priorizar con datos)
+- **Figma-gated:** jerarquía visual Contact Center (#82), i18n de selects placeholder (#84, esperar valores reales).
+- **Decisión de dirección:** unificar menú ⋮ Memory↔admin (#83), rule-builder save-arriba (#85, cuidado CLS).
+- **Limpieza segura:** i18n huérfanas + orphan-check en `i18n-audit` (#77), dep sobrante (#78), a11y de uso (#86),
+  copy interno + feedback (#88).
+
+### Cómo arrancar S69
+1. Leer este doc + entry **S68** en SESSION-LOG + backlog #77-#88.
+2. `git checkout experiment/typografia-s68` y levantar preview para iterar tipografía con Rafa.
+3. Resto de deuda: con datos, no a ojo (norte paridad + consistencia + reducir deuda).
+
+---
+
 ## Estado al cerrar (Session 67, 2026-06-02) — Contact Center + cinturón tipográfico + overhaul de docs
 
 Sesión maratón. Config AED se presenta como **"Contact Center"** (rename cara-usuario; carpeta/code
