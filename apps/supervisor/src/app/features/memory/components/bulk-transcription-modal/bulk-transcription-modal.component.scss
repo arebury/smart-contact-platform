@@ -77,9 +77,9 @@
 
 .bulkv26__hero-number {
   display: inline-block;
-  /* Display typography — 88px específico del Figma v26. No promover a
-   * token compartido hasta que aparezca un segundo consumer. */
-  font-size: 88px;
+  /* Display hero. Era 88px off-scale; ajustado al token de display más cercano
+   * `--sc-font-size-900` (70px) → cinturón tipográfico al 100% (S67). */
+  font-size: var(--sc-font-size-900);
   line-height: 1.05;
   font-weight: 600;
   font-variant-numeric: tabular-nums;

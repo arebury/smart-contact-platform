@@ -34,11 +34,10 @@ import { fileURLToPath } from 'node:url';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const log = (s = '') => process.stdout.write(s + '\n');
 const PRESET = 'packages/design-system/tokens/sc-preset.ts'; // único que puede tocar --p-*
-// Allow-list Dura 4 (font-size literal): el display 88px de bulk-transcription es
-// off-scale (decisión de tamaño display aparte). El resto debe ser --sc-font-size-*.
-const FONT_ALLOW = new Set([
-  'apps/supervisor/src/app/features/memory/components/bulk-transcription-modal/bulk-transcription-modal.component.scss',
-]);
+// Allow-list Dura 4 (font-size literal). Vacío: tras S67 el 100% del font-size está
+// tokenizado (--sc-font-size-*). Se añade un fichero aquí solo si aparece un display
+// off-scale justificado sin token equivalente (hoy ninguno).
+const FONT_ALLOW = new Set([]);
 
 // Ficheros versionados de código/estilo bajo apps + packages.
 const files = execSync('git ls-files apps packages', { cwd: root, encoding: 'utf8' })
