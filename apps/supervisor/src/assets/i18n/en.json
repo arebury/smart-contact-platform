@@ -1466,6 +1466,7 @@
             "title": "Agent states",
             "disponible": "Available",
             "no_disponible": "Unavailable",
+            "administrativo": "Administrative",
             "admin_checkbox": "Administrative state",
             "nombre_label": "Name",
             "nombre_placeholder": "Any name",

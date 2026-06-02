@@ -7,45 +7,12 @@
 
 /* ---------- Estados de agentes ---------- */
 
-.state-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+/* Estados fijos (3) → tags. Separados de los chips editables (no se mezclan). */
+.state-tags {
   display: flex;
-  flex-direction: column;
-  gap: var(--sc-spacing-0-5);
-}
-
-.state-row {
-  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--sc-spacing-0-875);
-  min-height: 36px;
-  padding: var(--sc-spacing-0-25) 0;
-  border-bottom: 1px solid var(--sc-border-subtle);
-
-  &:last-child {
-    border-bottom: 0;
-  }
-
-  &__kebab {
-    margin-left: auto;
-    background: transparent;
-    border: 0;
-    padding: var(--sc-spacing-0-25);
-    color: var(--sc-icon-subtle);
-    cursor: pointer;
-    display: inline-flex;
-    border-radius: var(--sc-radius-100);
-    transition:
-      color var(--sc-transition-fast) ease,
-      background var(--sc-transition-fast) ease;
-
-    &:hover {
-      color: var(--sc-text-secondary);
-      background: var(--sc-bg-secondary-subtle);
-    }
-  }
+  gap: var(--sc-spacing-0-5);
 }
 
 .state-tag {
@@ -58,17 +25,71 @@
   font-weight: var(--sc-font-weight-medium);
   line-height: 1;
 
+  /* success/danger = Kit `tag` (bg claro + texto oscuro). Administrativo = granate
+   * SÓLIDO (bg red-800 + texto red-100) → destaca como estado "serio" (decisión Rafa). */
   &[data-tone='green'] {
     background: var(--sc-color-green-100);
     color: var(--sc-color-green-700);
   }
-  &[data-tone='amber'] {
-    background: var(--sc-color-amber-100);
-    color: var(--sc-color-amber-700);
+  &[data-tone='danger'] {
+    background: var(--sc-color-red-100);
+    color: var(--sc-color-red-700);
   }
-  &[data-tone='gray'] {
-    background: var(--sc-bg-secondary-subtle);
+  &[data-tone='granate'] {
+    background: var(--sc-color-red-800);
+    color: var(--sc-color-red-100);
+  }
+}
+
+/* Estados editables → chips removibles con × (re-añadibles). */
+.state-chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sc-spacing-0-5);
+}
+
+.state-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sc-spacing-0-25);
+  height: 26px;
+  padding: 0 var(--sc-spacing-0-25) 0 var(--sc-spacing-0-625);
+  border-radius: var(--sc-radius-200);
+  background: var(--sc-bg-secondary-subtle);
+  border: 1px solid var(--sc-border-default);
+
+  &__label {
+    font-size: var(--sc-font-size-50);
+    font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
+    line-height: 1;
+  }
+
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 0;
+    padding: 2px;
+    color: var(--sc-icon-subtle);
+    cursor: pointer;
+    border-radius: var(--sc-radius-full);
+    transition:
+      color var(--sc-transition-fast) ease,
+      background var(--sc-transition-fast) ease;
+
+    &:hover {
+      color: var(--sc-text-primary);
+      background: var(--sc-color-gray-200);
+    }
+    &:focus-visible {
+      outline: 2px solid var(--sc-border-focus);
+      outline-offset: 1px;
+    }
   }
 }
 

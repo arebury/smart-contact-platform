@@ -34,41 +34,45 @@
             </h2>
           </header>
 
-          <ul class="state-list">
-            <li class="state-row">
-              <span class="state-tag" data-tone="green">
-                {{ 'config.aed.subpages.servicio.estados.disponible' | translate }}
-              </span>
-            </li>
+          <!-- Estados fijos (3) → tags. NO editables, NO removibles. -->
+          <div class="state-tags">
+            <span class="state-tag" data-tone="green">
+              {{ 'config.aed.subpages.servicio.estados.disponible' | translate }}
+            </span>
+            <span class="state-tag" data-tone="danger">
+              {{ 'config.aed.subpages.servicio.estados.no_disponible' | translate }}
+            </span>
+            <span class="state-tag" data-tone="granate">
+              {{ 'config.aed.subpages.servicio.estados.administrativo' | translate }}
+            </span>
+          </div>
 
-            @for (reason of form().estadosNoDisponibles; track reason) {
-              <li class="state-row">
-                <span class="state-tag" data-tone="amber">{{ reason }}</span>
-                <button
-                  type="button"
-                  class="state-row__kebab"
-                  (click)="removeReason(reason)"
-                  [attr.aria-label]="('common.delete' | translate) + ' — ' + reason"
-                >
-                  <sc-icon [name]="kebabIcon" [size]="16" />
-                </button>
-              </li>
-            }
+          <sc-checkbox
+            [state]="form().estadoAdministrativo ? 'all' : 'none'"
+            [ariaLabel]="'config.aed.subpages.servicio.estados.admin_checkbox' | translate"
+            (cycle)="update('estadoAdministrativo', $event)"
+          >
+            <span>{{ 'config.aed.subpages.servicio.estados.admin_checkbox' | translate }}</span>
+          </sc-checkbox>
 
-            <li class="state-row">
-              <span class="state-tag" data-tone="gray">
-                {{ 'config.aed.subpages.servicio.estados.no_disponible' | translate }}
-              </span>
-              <sc-checkbox
-                class="state-row__check"
-                [state]="form().estadoAdministrativo ? 'all' : 'none'"
-                [ariaLabel]="'config.aed.subpages.servicio.estados.admin_checkbox' | translate"
-                (cycle)="update('estadoAdministrativo', $event)"
-              >
-                <span>{{ 'config.aed.subpages.servicio.estados.admin_checkbox' | translate }}</span>
-              </sc-checkbox>
-            </li>
-          </ul>
+          <!-- Estados editables → chips con × (removibles, re-añadibles). -->
+          @if (form().estadosNoDisponibles.length) {
+            <ul class="state-chips">
+              @for (reason of form().estadosNoDisponibles; track reason) {
+                <li class="state-chip">
+                  <span class="state-chip__label">{{ reason }}</span>
+                  <button
+                    type="button"
+                    class="state-chip__remove"
+                    (click)="removeReason(reason)"
+                    [attr.aria-label]="('common.delete' | translate) + ' — ' + reason"
+                  >
+                    <sc-icon [name]="removeIcon" [size]="14" />
+                  </button>
+                </li>
+              }
+            </ul>
+          }
 
           <div class="field add-reason">
             <label class="field__label" for="general-reason">

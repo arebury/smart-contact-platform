@@ -146,7 +146,7 @@ export class AedServicioPageComponent implements OnDestroy {
 
   protected readonly pageIcon = 'call';
   protected readonly addIcon = 'add';
-  protected readonly kebabIcon = 'more_vert';
+  protected readonly removeIcon = 'close';
 
   protected readonly descuelgueOptions = DESCUELGUE_OPTIONS;
   protected readonly visibilidadLabels = VISIBILIDAD_LABELS;

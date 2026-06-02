@@ -1466,6 +1466,7 @@
             "title": "Estados de agentes",
             "disponible": "Disponível",
             "no_disponible": "Indisponível",
+            "administrativo": "Administrativo",
             "admin_checkbox": "Estado administrativo",
             "nombre_label": "Nome",
             "nombre_placeholder": "Qualquer nome",
