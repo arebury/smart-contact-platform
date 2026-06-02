@@ -192,8 +192,11 @@
 
   &__title {
     margin: 0;
-    font-size: var(--sc-font-size-200);
-    line-height: 22px;
+    /* ⚗️ Exp S68: título de sección al rol heading (18) en vez de 14 = body.
+     * Antes era semibold a 14 (misma talla que el cuerpo → jerarquía plana).
+     * Ahora destaca de verdad. */
+    font-size: var(--sc-font-size-h3);
+    line-height: var(--sc-line-height-h3);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
   }

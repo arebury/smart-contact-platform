@@ -196,11 +196,12 @@
   /* Sizes */
   --sc-font-size-display-1: var(--sc-font-size-700);
   --sc-font-size-h1: var(--sc-font-size-650);
-  /* ⚗️ Exp S68: escalera B2B densa sobre SnowUI — h1 24 · h2 18 · h3/h4 14 semibold
-   * (en vez del plano 24/24/24 que daba el remapeo de primitivos). Jerarquía por
-   * tamaño+peso, apropiada para herramienta densa (Linear/Stripe/GitHub). */
+  /* ⚗️ Exp S68: escalera B2B densa sobre SnowUI — h1 24 · h2/h3 18 · h4 14 semibold
+   * (en vez del plano 24/24/24 del remapeo de primitivos). h3 vuelve a 18 (no 14):
+   * los títulos de sección que usan h3 deben destacar del cuerpo 14, no fundirse.
+   * Jerarquía por tamaño+peso, densa (Linear/Stripe/GitHub). */
   --sc-font-size-h2: var(--sc-font-size-300);
-  --sc-font-size-h3: var(--sc-font-size-200);
+  --sc-font-size-h3: var(--sc-font-size-300);
   --sc-font-size-h4: var(--sc-font-size-200);
   --sc-font-size-subtitle-1: var(--sc-font-size-300);
   --sc-font-size-subtitle-2: var(--sc-font-size-200);
@@ -214,7 +215,7 @@
   --sc-line-height-display-1: var(--sc-line-height-700);
   --sc-line-height-h1: var(--sc-line-height-650);
   --sc-line-height-h2: var(--sc-line-height-300);
-  --sc-line-height-h3: var(--sc-line-height-200);
+  --sc-line-height-h3: var(--sc-line-height-300);
   --sc-line-height-h4: var(--sc-line-height-200);
   --sc-line-height-subtitle-1: var(--sc-line-height-300);
   --sc-line-height-subtitle-2: var(--sc-line-height-220);
