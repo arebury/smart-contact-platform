@@ -132,6 +132,26 @@ export class MultiSelectComponent implements ControlValueAccessor {
 
   protected readonly optionsMutable = computed(() => this.options() as unknown[]);
 
+  /**
+   * Si las options son primitivas (string[] / number[]), `optionLabel='label'`
+   * intentaría resolver `.label` en cada string → todas renderizan vacías (bug
+   * visible en grupos config: voz/prioridad/estrategia/tipoCola con string[]
+   * mostraban "empty empty…"). Mismo patrón que `sc-select`: con primitivos,
+   * pasar `undefined` a PrimeNG para que renderice el valor directamente.
+   */
+  protected readonly hasPrimitiveOptions = computed(() => {
+    const opts = this.options();
+    return opts.length > 0 && opts.every((o) => o === null || typeof o !== 'object');
+  });
+
+  protected readonly resolvedOptionLabel = computed(() =>
+    this.hasPrimitiveOptions() ? undefined : this.optionLabel(),
+  );
+
+  protected readonly resolvedOptionValue = computed(() =>
+    this.hasPrimitiveOptions() ? undefined : this.optionValue(),
+  );
+
   // ─── ControlValueAccessor ──────────────────────────────────────────
   private _onChange: (v: unknown[]) => void = () => {};
   private _onTouched: () => void = () => {};
