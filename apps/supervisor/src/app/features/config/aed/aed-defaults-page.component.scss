@@ -207,8 +207,10 @@
 }
 
 .divider {
+  /* Figma `divider` 302:11810 (Solid · Horizontal): `divider/border/color` = #dadfe6
+   * = gray-200 = `--sc-border-default`. Antes usaba border-subtle (gray-100, más claro). */
   border: 0;
-  border-top: 1px solid var(--sc-border-subtle);
+  border-top: 1px solid var(--sc-border-default);
   margin: 0;
   width: 100%;
 }

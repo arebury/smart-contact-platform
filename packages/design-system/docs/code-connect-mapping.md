@@ -376,6 +376,30 @@ Más los pre-existentes:
   padding-top 21/bottom 7), **en uso en config Grupos** (1:1 con Figma `1:12676`).
   Pendiente extender a `<sc-inputtext>`/`<sc-inputnumber>` cuando un diseño lo pida.
 
+### Divider — `.divider` (`<hr>`) ↔ `❖ divider`
+
+| Campo | Valor |
+|---|---|
+| Angular | `<hr class="divider">` (partial in-page; aún NO hay `<sc-divider>`) |
+| Figma name | `divider` |
+| Figma nodeId | `302:11810` (component set) |
+| Variant default | `Type=Solid, Content=False, Align=N/A, Direction=Horizontal` |
+
+Ejes del set: **Type** (Solid · Dashed) × **Content** (False · True con texto) ×
+**Align** (Horizontal: Left/Center/Right · Vertical: Top/Center/Bottom) × **Direction**
+(Horizontal · Vertical).
+
+Tokens (var-defs del nodo):
+- `divider/border/color` = **#dadfe6 = gray-200 = `--sc-border-default`** (no `border-subtle`).
+- Horizontal: `margin/y 14`, `margin/x 0`, `padding 0`. Vertical: `margin/x 14`, `margin/y 0`.
+- Con texto: `content/color #4f5663` (`--sc-text-secondary`), `content/background #fff`,
+  H `content/padding/x 7`, V `content/padding/y 7`.
+
+**Uso hoy**: solo **Solid · Horizontal · sin contenido** (config AED + Memory rules/entities).
+Se resuelve con `<hr class="divider">` (1px `--sc-border-default`); no se justifica un wrapper
+aún (DD-4/minimal customization). **Trigger `<sc-divider>`** (wrapper de `<p-divider>`): cuando
+un diseño pida texto-en-medio, vertical o dashed — entonces se cocina con los tokens de arriba.
+
 ### Checklist mantenimiento durante dormido
 
 - Si renombramos un wrapper SCDS, **actualizar este doc también** (regla DD-8 ya cubre
