@@ -29,6 +29,7 @@
     "i18n:audit:strict": "node scripts/i18n-audit.mjs --strict",
     "tokens:export": "node scripts/export-sc-tokens.mjs",
     "tokens:parity": "node scripts/token-parity.mjs",
+    "tokens:type-parity": "node scripts/token-type-parity.mjs",
     "tokens:gen": "node scripts/token-gen.mjs",
     "tokens:import": "node scripts/token-gen.mjs --write",
     "tokens:guard": "node scripts/token-guard.mjs",
