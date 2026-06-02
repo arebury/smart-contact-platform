@@ -187,8 +187,10 @@ export const ScPreset = definePreset(Aura, {
        * pelo — caen exactos en la escala 14-base generada del export, así que
        * un re-export del Kit los propaga solo. Aplica a todos los formFields
        * PrimeNG (input, select, datepicker, multiselect, etc). */
-      paddingX: 'var(--sc-scale-0-75)',
-      paddingY: 'var(--sc-scale-0-5)',
+      /* ⚗️ Exp S68: controles un punto más cómodos (~30→~34px). paddingX 10.5→12.25,
+       * paddingY 7→8.75. Botón e input suben IGUAL para que casen de altura. */
+      paddingX: 'var(--sc-scale-0-875)',
+      paddingY: 'var(--sc-scale-0-625)',
       borderRadius: 'var(--sc-radius-200)',
       transitionDuration: 'var(--sc-transition-base)',
       /* Tamaños sm/lg 1:1 del Kit Pro export (claves formFieldSm y formFieldLg).
@@ -393,8 +395,9 @@ export const ScPreset = definePreset(Aura, {
       root: {
         /* Todo referenciado a tokens generados del export (no px a pelo):
          * 10.5=scale-0-75, 7=scale-0-5, 6=radius-md, 35=scale-2-5. */
-        paddingX: 'var(--sc-scale-0-75)',
-        paddingY: 'var(--sc-scale-0-5)',
+        /* ⚗️ Exp S68: igual que form-field — botón ~30→~34px (casa con inputs). */
+        paddingX: 'var(--sc-scale-0-875)',
+        paddingY: 'var(--sc-scale-0-625)',
         borderRadius: 'var(--sc-radius-200)',
         gap: 'var(--sc-scale-0-5)',
         iconOnlyWidth: 'var(--sc-scale-2-5)',
