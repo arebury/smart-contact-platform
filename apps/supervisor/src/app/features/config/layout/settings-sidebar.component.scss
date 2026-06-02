@@ -10,7 +10,10 @@
 }
 
 .settings-sidebar {
-  padding: var(--sc-spacing-1-75) var(--sc-spacing-1-5);
+  /* Sin padding: el panel gris llena el rail (235, Figma `índice` 1:12355) y queda
+   * pegado arriba, alineado con la bandeja de contenido. El padding interno (16) lo
+   * pone `__panel`. S67-A: antes 24.5/21 bajaba el índice 24px y lo encogía a 193. */
+  padding: 0;
 }
 
 .settings-sidebar__panel {

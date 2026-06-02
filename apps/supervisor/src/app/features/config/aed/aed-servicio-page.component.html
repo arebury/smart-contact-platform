@@ -16,14 +16,15 @@
 
 <div class="page">
   <div class="page__inner">
-    <section class="settings-card" aria-labelledby="general-card-title">
-      <div class="settings-card__head settings-card__head--icon">
-        <sc-icon [name]="pageIcon" [size]="16" class="settings-card__head-icon" />
-        <h1 id="general-card-title" class="settings-card__title settings-card__title--lg">
-          {{ 'config.aed.subpages.servicio.heading' | translate }}
-        </h1>
-      </div>
+    <header class="page-heading">
+      <sc-icon [name]="pageIcon" [size]="16" class="page-heading__icon" />
+      <h1 id="general-page-title" class="page-heading__title">
+        {{ 'config.aed.subpages.servicio.heading' | translate }}
+      </h1>
+    </header>
 
+    <!-- Card 1: Estados · Bloqueo · Ventana · Estados visibles -->
+    <section class="settings-card" aria-labelledby="general-estados-title">
       <div class="settings-card__body">
         <!-- Estados de agentes -->
         <section class="sub-section" aria-labelledby="general-estados-title">
@@ -229,10 +230,12 @@
             <span>{{ 'config.aed.subpages.servicio.visibles.filtrar' | translate }}</span>
           </sc-checkbox>
         </section>
+      </div>
+    </section>
 
-        <hr class="divider" />
-
-        <!-- Aviso de conversación -->
+    <!-- Card 2: Aviso de conversación -->
+    <section class="settings-card" aria-labelledby="general-aviso-title">
+      <div class="settings-card__body">
         <section class="sub-section" aria-labelledby="general-aviso-title">
           <header class="sub-section__head">
             <h2 id="general-aviso-title" class="sub-section__title">
@@ -291,10 +294,12 @@
             </div>
           </div>
         </section>
+      </div>
+    </section>
 
-        <hr class="divider" />
-
-        <!-- Notificaciones a sistemas externos -->
+    <!-- Card 3: Notificaciones a sistemas externos -->
+    <section class="settings-card" aria-labelledby="general-notif-title">
+      <div class="settings-card__body">
         <section class="sub-section" aria-labelledby="general-notif-title">
           <header class="sub-section__head">
             <h2 id="general-notif-title" class="sub-section__title">
