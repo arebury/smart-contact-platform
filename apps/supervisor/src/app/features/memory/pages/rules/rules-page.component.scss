@@ -15,7 +15,7 @@
   background: var(--sc-bg-surface);
 
   &__inner {
-    max-width: 1600px;
+    max-width: var(--sc-container-wide);
     margin: 0 auto;
     padding: var(--sc-spacing-1-75) var(--sc-spacing-2-25);
     display: flex;

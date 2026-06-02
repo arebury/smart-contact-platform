@@ -17,7 +17,7 @@
   background: var(--sc-bg-surface);
 
   &__inner {
-    max-width: 1600px;
+    max-width: var(--sc-container-wide);
     margin: 0 auto;
     /* Bloque 2 · layout efficiency: menos padding-top (24.5 → 14px) para
      * que la tabla arranque más arriba. Patrón BeyondUI: datos altos. */

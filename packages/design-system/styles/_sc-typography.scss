@@ -1,0 +1,83 @@
+/*
+ * SCDS — Named text styles (Etapa 3, rama experimental S68).
+ *
+ * La interfaz LEGIBLE del sistema tipográfico. En vez de que un componente
+ * elija font-size + line-height + weight + tracking sueltos (y derive a la
+ * "sopa numérica" 50/100/200/...), aplica UNA clase por INTENCIÓN. Cada estilo
+ * mapea a la escala harmonizada (SnowUI 12/14/18/24/48/64 + line-heights
+ * Untitled-UI + tracking), así que el sistema queda en UN sitio legible y
+ * portable. Pensado para adopción progresiva — NO fuerza un sweep.
+ *
+ * Inventario (intención → tamaño/peso):
+ *   display      48/60 semibold   números hero, empty-states grandes, métricas
+ *   title        24/32 semibold   título de página (h1)
+ *   heading      18/28 semibold   encabezado de sección (h2)
+ *   subheading   14/20 semibold   sub-sección (h3/h4), título de card pequeño
+ *   body         14/20 regular    cuerpo por defecto
+ *   body-strong  14/20 semibold   cuerpo enfatizado / valor de fila
+ *   label        14/20 medium     labels de formulario / UI (500 = firma B2B 2026)
+ *   caption      12/18 regular    meta, helper, secundario de tabla
+ *   overline     12/18 semibold   eyebrow / etiqueta de sección (uppercase tracked)
+ *
+ * Global unscoped (igual que `_sc-list-table` / `_table-elements`): funciona
+ * dentro de componentes con ViewEncapsulation.Emulated.
+ */
+
+.sc-text-display {
+  font-size: var(--sc-font-size-700); /* 48 */
+  line-height: var(--sc-line-height-700); /* 60 */
+  font-weight: var(--sc-font-weight-semibold);
+  letter-spacing: var(--sc-letter-spacing-tighter);
+}
+
+.sc-text-title {
+  font-size: var(--sc-font-size-650); /* 24 */
+  line-height: var(--sc-line-height-650); /* 32 */
+  font-weight: var(--sc-font-weight-semibold);
+  letter-spacing: var(--sc-letter-spacing-tight);
+}
+
+.sc-text-heading {
+  font-size: var(--sc-font-size-300); /* 18 */
+  line-height: var(--sc-line-height-300); /* 28 */
+  font-weight: var(--sc-font-weight-semibold);
+  letter-spacing: var(--sc-letter-spacing-tight);
+}
+
+.sc-text-subheading {
+  font-size: var(--sc-font-size-200); /* 14 */
+  line-height: var(--sc-line-height-200); /* 20 */
+  font-weight: var(--sc-font-weight-semibold);
+}
+
+.sc-text-body {
+  font-size: var(--sc-font-size-200); /* 14 */
+  line-height: var(--sc-line-height-200); /* 20 */
+  font-weight: var(--sc-font-weight-regular);
+}
+
+.sc-text-body-strong {
+  font-size: var(--sc-font-size-200); /* 14 */
+  line-height: var(--sc-line-height-200); /* 20 */
+  font-weight: var(--sc-font-weight-semibold);
+}
+
+.sc-text-label {
+  font-size: var(--sc-font-size-200); /* 14 */
+  line-height: var(--sc-line-height-200); /* 20 */
+  font-weight: var(--sc-font-weight-medium); /* 500 */
+}
+
+.sc-text-caption {
+  font-size: var(--sc-font-size-100); /* 12 */
+  line-height: var(--sc-line-height-100); /* 18 */
+  font-weight: var(--sc-font-weight-regular);
+}
+
+.sc-text-overline {
+  font-size: var(--sc-font-size-100); /* 12 */
+  line-height: var(--sc-line-height-100); /* 18 */
+  font-weight: var(--sc-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}

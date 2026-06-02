@@ -59,6 +59,16 @@
     0 8px 10px -6px rgb(var(--sc-shadow-color-rgb) / 0.1);
   --sc-shadow-focus-ring: 0 0 0 3px rgb(var(--sc-shadow-focus-ring-rgb) / 0.35);
 
+  /* ⚗️ Exp S68 — Container max-widths (sistema de anchos ORDENADO).
+   * Antes: 6 topes ad-hoc dispersos (832/960/1200/1400/1600 — deuda #33).
+   * Ahora: 4 tiers por TIPO de contenido. `wide` sube a 1920 para que las
+   * tablas densas aprovechen el desktop grande (antes capaban a 1600 dejando
+   * ~960px vacíos en 2560). narrow = línea legible para forms de 1 columna. */
+  --sc-container-narrow: 820px; /* forms 1 columna (sistema, seguridad) */
+  --sc-container-md: 1200px; /* settings, forms de entidad, hub */
+  --sc-container-default: 1440px; /* listas estándar */
+  --sc-container-wide: 1920px; /* tablas densas — usa el desktop grande */
+
   /* ---------- Z-index scale ---------- */
   /*
    * Numeric stacking order, top-to-bottom. The sidebar is an OVERLAY

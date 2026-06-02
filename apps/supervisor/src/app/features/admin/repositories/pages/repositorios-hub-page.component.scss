@@ -9,7 +9,7 @@
   background: var(--sc-bg-surface);
 
   &__inner {
-    max-width: 960px;
+    max-width: var(--sc-container-md);
     margin: 0 auto;
     padding: var(--sc-spacing-2-75) var(--sc-spacing-2-25);
   }

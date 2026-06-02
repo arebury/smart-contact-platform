@@ -37,7 +37,7 @@
    * con el rail siempre pegado a su contenido. El margen lateral en monitores
    * anchos es esperado (patrón de ajustes GitHub/Stripe; el contenido de formulario
    * NO debe ocupar todo el viewport). Padding/gap = tokens scale/1-625 + scale/2. */
-  max-width: 1200px;
+  max-width: var(--sc-container-md);
   margin-inline: auto;
   padding: var(--sc-spacing-1-625) var(--sc-spacing-2); /* 22.75 / 28 */
 }
