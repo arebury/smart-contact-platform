@@ -31,13 +31,15 @@ DD-11 (SCDS). (S66 layout responsive → ver SESSION-LOG.)
 Auditoría exhaustiva: god-components (agent-form 981 líneas, conversation-player-modal…), dead code,
 bundle (el exceso restante ~581 KB es PrimeNG, ver S62), lazy loading, duplicación, patrón de estado
 (signals/CVA), a11y técnica, performance, dependencias. **Output:** findings con severidad P0-P3 + plan
-ejecutable. Ejecutar como **workflow multi-dimensión** (un eje por área + verificación adversarial de
-cada finding antes de aceptarlo).
+ejecutable. **Herramientas:** **`/audit`** (genera report scored P0-P3 sobre a11y/performance/theming/
+responsive/anti-patterns) como base + **workflow multi-dimensión** (un eje por área + verificación
+adversarial de cada finding antes de aceptarlo) para profundidad senior.
 
 ### Bloque 2 · Auditoría UX/UI (rol: senior design lead — UX engineer + UI dev)
 Consistencia de interacción + jerarquía visual + copy + estados (empty/loading/error) + a11y de uso, en
 Contact Center (config AED) + Memory, tras el rename y la jerarquía de color nueva. **Output:** findings
-+ plan. Cruzar con `inconsistencies-backlog` y `customs-catalog`.
++ plan. Cruzar con `inconsistencies-backlog` y `customs-catalog`. **Herramientas:** **`/ui-ux-pro-max`**
+(siempre primero — design intelligence) + **`/audit`** para a11y/responsive cuando lo requiera.
 
 - **Transición de cambio de página (observación Rafa S67):** al navegar entre páginas hay un **fundido
   suave** (fade). Evaluar: ¿es lo común/esperable en este tipo de plataformas (admin/SaaS) o conviene
@@ -58,7 +60,8 @@ no a ojo (norte: paridad + consistencia + reducir deuda — ver `project_parity_
 ### Cómo arrancar S68
 1. Leer este doc + entry **S67** en [`SESSION-LOG.md`](./SESSION-LOG.md).
 2. Confirmar con Rafa el orden de los 3 bloques (¿auditorías primero, o redesign tipográfico?).
-3. Auditorías → **workflow multi-agente** (ultracode); redesign tipográfico → inline + regresión visual.
+3. Auditorías → **`/audit`** (código) + **`/ui-ux-pro-max`** (UX/UI) sobre **workflow multi-agente**
+   (ultracode); redesign tipográfico → inline + regresión visual.
 
 ---
 
