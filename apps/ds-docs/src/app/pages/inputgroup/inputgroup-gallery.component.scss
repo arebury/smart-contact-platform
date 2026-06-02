@@ -31,7 +31,7 @@
     padding: 0;
     color: var(--sc-icon-subtle);
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--sc-font-size-200);
     line-height: 1;
 
     &:hover {

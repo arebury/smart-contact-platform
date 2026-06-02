@@ -29,7 +29,7 @@
   align-items: center;
   gap: 8px;
   font-family: var(--dsd-font-mono);
-  font-size: 11px;
+  font-size: var(--sc-font-size-50);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.14em;
@@ -58,7 +58,7 @@
 
 .gallery__lede {
   margin: 0;
-  font-size: 16px;
+  font-size: var(--sc-font-size-300);
   line-height: 1.55;
   color: var(--sc-text-secondary);
 
@@ -68,7 +68,7 @@
     border: 1px solid var(--sc-border-default);
     padding: 1px var(--sc-spacing-0-5);
     border-radius: var(--sc-radius-100);
-    font-size: 12px;
+    font-size: var(--sc-font-size-100);
   }
 }
 
@@ -90,7 +90,7 @@
 
 .gallery__hint {
   margin: 0;
-  font-size: 14px;
+  font-size: var(--sc-font-size-200);
   line-height: 1.5;
   color: var(--sc-text-secondary);
 
@@ -100,7 +100,7 @@
     border: 1px solid var(--sc-border-default);
     padding: 1px var(--sc-spacing-0-5);
     border-radius: var(--sc-radius-100);
-    font-size: 12px;
+    font-size: var(--sc-font-size-100);
   }
 }
 

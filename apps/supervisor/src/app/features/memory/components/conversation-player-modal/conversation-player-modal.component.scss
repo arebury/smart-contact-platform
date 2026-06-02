@@ -159,7 +159,7 @@
   padding: var(--sc-spacing-1-125) 0;
   border: 0;
   background: transparent;
-  font-size: 0.875rem;
+  font-size: var(--sc-font-size-200);
   font-weight: 500;
   color: var(--sc-color-gray-500);
   cursor: pointer;
@@ -336,7 +336,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sc-spacing-0-25);
-  font-size: 0.75rem;
+  font-size: var(--sc-font-size-100);
   color: var(--sc-color-amber-700);
 }
 
@@ -449,21 +449,21 @@
 }
 
 .player-bubble__speaker {
-  font-size: 0.6875rem;
+  font-size: var(--sc-font-size-50);
   font-weight: 500;
   color: var(--sc-color-gray-700);
 }
 
 .player-bubble__time {
   font-family: ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
-  font-size: 0.6875rem;
+  font-size: var(--sc-font-size-50);
   color: var(--sc-color-gray-500);
 }
 
 .player-bubble__text {
   padding: var(--sc-spacing-1-125) var(--sc-spacing-1-5);
   border-radius: var(--sc-radius-500);
-  font-size: 0.875rem;
+  font-size: var(--sc-font-size-200);
   line-height: 1.5;
 
   .player-bubble--agent & {
@@ -504,7 +504,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sc-spacing-0-875);
-  font-size: 0.6875rem;
+  font-size: var(--sc-font-size-50);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -515,7 +515,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sc-spacing-0-25);
-  font-size: 0.6875rem;
+  font-size: var(--sc-font-size-50);
   color: var(--sc-color-gray-500);
 
   sc-icon {
@@ -526,7 +526,7 @@
 .player-section__text {
   margin: 0;
   max-width: 65ch;
-  font-size: 0.875rem;
+  font-size: var(--sc-font-size-200);
   line-height: 1.5;
   color: var(--sc-color-gray-800);
 }
@@ -553,7 +553,7 @@
 }
 
 .player-sentiment__label {
-  font-size: 0.875rem;
+  font-size: var(--sc-font-size-200);
   font-weight: 500;
   color: var(--sc-color-gray-900);
 }

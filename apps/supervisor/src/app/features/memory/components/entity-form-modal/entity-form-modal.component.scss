@@ -34,12 +34,12 @@
     margin-left: var(--sc-spacing-0-25);
     color: var(--sc-text-secondary);
     font-weight: 400;
-    font-size: 0.6875rem;
+    font-size: var(--sc-font-size-50);
   }
 
   &__hint {
     margin: 4px 0 0 0;
-    font-size: 0.6875rem;
+    font-size: var(--sc-font-size-50);
     color: var(--sc-text-secondary);
   }
 
@@ -51,7 +51,7 @@
     border-radius: var(--sc-radius-300);
     background: var(--sc-bg-surface);
     color: var(--sc-text-primary);
-    font-size: 0.875rem;
+    font-size: var(--sc-font-size-200);
     line-height: 1.45;
     resize: vertical;
     font-family: inherit;
@@ -147,7 +147,7 @@
     border: 0;
     background: transparent;
     color: var(--sc-text-secondary);
-    font-size: 0.6875rem;
+    font-size: var(--sc-font-size-50);
     cursor: pointer;
     text-decoration: underline dotted;
     text-underline-offset: 2px;
@@ -166,7 +166,7 @@
   }
 
   &__synonyms-label {
-    font-size: 0.6875rem;
+    font-size: var(--sc-font-size-50);
     font-weight: 500;
     color: var(--sc-text-primary);
   }
@@ -177,7 +177,7 @@
     border-radius: var(--sc-radius-200);
     background: var(--sc-bg-surface);
     color: var(--sc-text-primary);
-    font-size: 0.75rem;
+    font-size: var(--sc-font-size-100);
     margin-right: 36px; /* alinea con input value (28px button + 8px gap) */
 
     &:focus {
@@ -194,7 +194,7 @@
   &__list-empty {
     margin: 0;
     text-align: center;
-    font-size: 0.75rem;
+    font-size: var(--sc-font-size-100);
     color: var(--sc-text-secondary);
     font-style: italic;
     padding: var(--sc-spacing-0-875) 0;
@@ -209,7 +209,7 @@
     border-radius: var(--sc-radius-200);
     background: transparent;
     color: var(--sc-text-link);
-    font-size: 0.75rem;
+    font-size: var(--sc-font-size-100);
     font-weight: 500;
     cursor: pointer;
     transition:

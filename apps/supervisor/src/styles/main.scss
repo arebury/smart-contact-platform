@@ -215,7 +215,7 @@ table.table {
     padding: 4px 8px;
     border-radius: var(--sc-radius-100);
     color: var(--sc-text-link);
-    font-size: 0.6875rem;
+    font-size: var(--sc-font-size-50);
     font-weight: 500;
     cursor: pointer;
     transition: background-color 200ms ease-out;
@@ -250,7 +250,7 @@ table.table {
 
     h4 {
       margin: 0 0 var(--sc-spacing-0-5) 0;
-      font-size: 0.6875rem;
+      font-size: var(--sc-font-size-50);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -308,7 +308,7 @@ table.table {
     padding: 4px 8px;
     border-radius: var(--sc-radius-100);
     color: var(--sc-text-link);
-    font-size: 0.6875rem;
+    font-size: var(--sc-font-size-50);
     font-weight: 500;
     cursor: pointer;
     transition: background-color 200ms ease-out;
@@ -390,7 +390,7 @@ table.table {
   align-items: center;
   padding: 2px 8px;
   border-radius: var(--sc-radius-full);
-  font-size: 0.6875rem;
+  font-size: var(--sc-font-size-50);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -497,7 +497,7 @@ table.table {
 
   .conflict-popover__desc {
     margin: 0 0 var(--sc-spacing-0-875) 0;
-    font-size: 0.75rem;
+    font-size: var(--sc-font-size-100);
     color: var(--sc-text-secondary);
   }
 
@@ -513,7 +513,7 @@ table.table {
       padding: var(--sc-spacing-0-5) var(--sc-spacing-0-75);
       background: var(--sc-bg-elevated);
       border-radius: var(--sc-radius-100);
-      font-size: 0.75rem;
+      font-size: var(--sc-font-size-100);
     }
 
     strong {
@@ -532,13 +532,13 @@ table.table {
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-75);
     background: var(--sc-bg-primary-subtle);
     border-radius: var(--sc-radius-100);
-    font-size: 0.75rem;
+    font-size: var(--sc-font-size-100);
     color: var(--sc-text-primary);
   }
 
   .conflict-popover__hint {
     margin: 0;
-    font-size: 0.6875rem;
+    font-size: var(--sc-font-size-50);
     color: var(--sc-text-secondary);
     font-style: italic;
   }

@@ -125,7 +125,7 @@ body {
   border-radius: var(--sc-radius-200);
   overflow: hidden;
   font-family: var(--dsd-font-mono);
-  font-size: 12.5px;
+  font-size: var(--sc-font-size-100);
   line-height: 1.6;
   color: var(--sc-text-primary);
 
@@ -140,7 +140,7 @@ body {
 
   &__label {
     font-family: var(--dsd-font-mono);
-    font-size: 10px;
+    font-size: var(--sc-font-size-50);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -152,7 +152,7 @@ body {
     border: 1px solid transparent;
     color: var(--sc-text-subtle);
     font-family: var(--dsd-font-mono);
-    font-size: 10px;
+    font-size: var(--sc-font-size-50);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     padding: 3px 8px;

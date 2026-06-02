@@ -25,7 +25,7 @@
   .p-multiselect-list,
   .p-multiselect-option,
   .p-multiselect-item {
-    font-size: 12.25px;
+    font-size: var(--sc-font-size-100);
   }
   .p-multiselect-option,
   .p-multiselect-item {
@@ -39,7 +39,7 @@
    * sm que el trigger (font 12.25 / padding 5.25/8.75). */
   .p-multiselect-filter {
     padding: 5.25px 8.75px;
-    font-size: 12.25px;
+    font-size: var(--sc-font-size-100);
   }
 }
 
@@ -48,7 +48,7 @@
   .p-multiselect-list,
   .p-multiselect-option,
   .p-multiselect-item {
-    font-size: 15.75px;
+    font-size: var(--sc-font-size-300);
   }
   .p-multiselect-option,
   .p-multiselect-item {
@@ -59,7 +59,7 @@
   }
   .p-multiselect-filter {
     padding: 8.75px 12.25px;
-    font-size: 15.75px;
+    font-size: var(--sc-font-size-300);
   }
 }
 
@@ -70,7 +70,7 @@
   .p-select-list,
   .p-select-option,
   .p-select-item {
-    font-size: 12.25px;
+    font-size: var(--sc-font-size-100);
   }
   .p-select-option,
   .p-select-item {
@@ -82,7 +82,7 @@
   /* Filter search input dentro del header — mismo motivo que multiselect. */
   .p-select-filter {
     padding: 5.25px 8.75px;
-    font-size: 12.25px;
+    font-size: var(--sc-font-size-100);
   }
 }
 
@@ -91,7 +91,7 @@
   .p-select-list,
   .p-select-option,
   .p-select-item {
-    font-size: 15.75px;
+    font-size: var(--sc-font-size-300);
   }
   .p-select-option,
   .p-select-item {
@@ -102,7 +102,7 @@
   }
   .p-select-filter {
     padding: 8.75px 12.25px;
-    font-size: 15.75px;
+    font-size: var(--sc-font-size-300);
   }
 }
 
@@ -115,7 +115,7 @@
   .p-datepicker-year,
   .p-datepicker-day-view,
   .p-datepicker-weekday {
-    font-size: 12.25px;
+    font-size: var(--sc-font-size-100);
   }
   .p-datepicker-day {
     width: 24.5px;
@@ -130,7 +130,7 @@
   .p-datepicker-year,
   .p-datepicker-day-view,
   .p-datepicker-weekday {
-    font-size: 15.75px;
+    font-size: var(--sc-font-size-300);
   }
   .p-datepicker-day {
     width: 31.5px;
