@@ -26,6 +26,7 @@
 | Guía de diseño — extender el Kit Pro sin romper (tablas/composiciones) | [`packages/design-system/docs/extender-kit-pro-guia-diseno.md`](../packages/design-system/docs/extender-kit-pro-guia-diseno.md) | Equipo de diseño + Rafa |
 | Audit Figma alignment SCDS · Figma node IDs · parity % por componente · última verificación | [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../packages/design-system/docs/MIGRATION-INVENTORY.md) | Claude (PRIMERO al auditar drift SCDS↔Figma) |
 | Registro de componentes primitivos ↔ Figma (pares Angular↔Kit Pro, node IDs, ejes/variantes, triggers de promoción) | [`packages/design-system/docs/code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md) | Claude (al mapear/promover una primitiva) |
+| Convergencia DS ↔ repo de los devs (catálogo unión, naming DD-12, solapes, reutilización, plan de port) | [`docs/convergence-manifesto.md`](./convergence-manifesto.md) (técnico, base del port) + [`docs/convergence-checklist-devs.md`](./convergence-checklist-devs.md) (guion para alinear con el equipo) | Claude (al portar) + Rafa (reunión con devs) |
 | Log histórico de sesiones | [`docs/SESSION-LOG.md`](./SESSION-LOG.md) | Claude (lee al arrancar sesión) |
 | Plan próxima sesión | [`docs/NEXT-SESSION-PLAN.md`](./NEXT-SESSION-PLAN.md) | Claude (lee al arrancar sesión) |
 | Apuntes pedagógicos progresivos (case study) | [`docs/case-study-notes.md`](./case-study-notes.md) | Rafa (presentación futura) |
@@ -87,6 +88,11 @@ Sin docs propios — pequeño, su content es Angular routes en `apps/ds-docs/src
 5. **Cambio de jerarquía** (mover una source de un doc a otro): se discute con Rafa antes; actualizar este INDEX al hacerlo.
 
 ---
+
+Última actualización: 2026-06-04 (Session 70) — añadida fila "Convergencia DS ↔ repo de los
+devs" → `convergence-manifesto.md` (base del port, verificado contra código) +
+`convergence-checklist-devs.md` (guion de reunión). Cierre de naming en SCDS `DECISIONS.md`
+(DD-12). Anterior:
 
 Última actualización: 2026-06-02 (Session 67) — añadida fila "Registro de componentes
 primitivos ↔ Figma" → `code-connect-mapping.md` (divider registrado: Kit node 302:11810).
