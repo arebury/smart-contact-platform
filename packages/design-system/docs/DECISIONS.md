@@ -12,6 +12,55 @@
 
 ---
 
+## DD-12 · 2026-06-04 (S70) — Naming de convergencia: el catálogo unión sigue DD-8 (Kit Pro 1:1, pegado); los devs realinean a él
+
+**Contexto**: el equipo de dev tiene su propio repo de DS (`smartcontact-ui`,
+GitLab) gemelo del nuestro, que **diverge en el naming**: ellos hyphenan los
+multi-palabra (`sc-input-text`, `sc-toggle-switch`, `sc-radio-button`,
+`sc-progress-bar`, `sc-progress-spinner`) mientras nosotros seguimos DD-8
+(pegado 1:1 Kit Pro/PrimeNG: `sc-inputtext`, `sc-toggleswitch`). Al montar el
+proyecto convergido (unión de ambos catálogos) hay que cerrar UN naming para
+que los dos equipos "hablen igual".
+
+**Dato que decide** (verificado S70): PrimeNG 21 acepta los DOS selectores
+(`p-toggleswitch` **y** `p-toggle-switch` son ambos oficiales; idem multiselect/
+inputnumber/inputgroup/radiobutton/progressbar) → la fidelidad a PrimeNG **no
+desempata**. Pero los componentes del **Kit Pro/Figma se nombran pegado en
+minúsculas** (`❖ inputtext`, `❖ toggleswitch`, `❖ multiselect` — ver
+[`code-connect-mapping.md`](code-connect-mapping.md)). Como los devs construyen
+**leyendo el Figma**, el pegado hace Figma→código 1:1 sin traducción; el kebab
+mete una traducción permanente (= el ping-pong a evitar).
+
+**Opciones consideradas**: (a) kebab uniforme en todo (máxima uniformidad de
+string, = repo actual de los devs) — pero rompe el espejo con el Figma y obliga
+a traducir en cada handoff de diseño. (b) **mantener DD-8** (pegado para lo del
+Kit Pro; kebab para custom) en el proyecto convergido y que los devs realineen.
+
+**Decisión**: **(b)** — el proyecto convergido adopta **DD-8 sin cambios**:
+`sc-` + nombre Kit Pro/Figma literal (pegado) para todo lo que existe en el Kit
+Pro; **custom (sin equivalente Kit Pro) → kebab** descriptivo (`sc-section-card`,
+`sc-empty-state`, `sc-bulk-transcription-modal`). Es la **misma meta-regla que
+los tokens** (espejar el Kit Pro; lo nuestro propio, custom). Bajo "nosotros
+definimos, ellos construyen", **los devs realinean sus 5** divergentes:
+`input-text→inputtext`, `toggle-switch→toggleswitch`, `radio-button→radiobutton`,
+`progress-bar→progressbar`, `progress-spinner→progressspinner`.
+
+**Razón**: el Figma/Kit Pro es la fuente común que ambos equipos leen; espejarla
+elimina la traducción diseño→código para siempre. Migration-safe porque el
+wrapper encapsula PrimeNG (un rename interno de selector/`--p-*` es 1 línea
+dentro del wrapper, invisible a la API pública `sc-`). Una sola regla a nivel de
+**sistema** (la misma de tokens), aunque a nivel de string convivan pegado +
+kebab — la mezcla es señal de procedencia (¿está en el Kit Pro?), no ruido.
+
+**Consecuencias**:
+- Nosotros **no renombramos nada** (ya estamos en DD-8). Los devs realinean 5.
+- El naming es **entrada base del MANIFIESTO de convergencia** (S70).
+- Memoria `project_devs_smartcontact_ui_repo`: naming **confirmado** (ya no
+  "por confirmar al cerrar el manifiesto").
+- Nota para notificar al equipo redactada en el chat de S70.
+
+---
+
 ## DD-11 · 2026-06-02 (S67) — Tipografía migration-safe: los `font-size` viven en `--sc-*`, blindados por guard + comprobador
 
 **Contexto**: la tipografía era el último frente sin blindar. La app tenía 367
