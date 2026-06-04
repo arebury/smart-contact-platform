@@ -17,7 +17,7 @@ describe('LabelsPageComponent', () => {
     const fixture = TestBed.createComponent(LabelsPageComponent);
     fixture.detectChanges();
     const html = fixture.nativeElement as HTMLElement;
-    expect(html.querySelector('.page-header__title')).not.toBeNull();
+    expect(html.querySelector('.page__action-bar')).not.toBeNull();
     expect(html.querySelectorAll('.table__row').length).toBeGreaterThan(0);
   });
 
@@ -26,6 +26,6 @@ describe('LabelsPageComponent', () => {
     localStorage.setItem('sc-labels-v', '1');
     const fixture = TestBed.createComponent(LabelsPageComponent);
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.empty')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('sc-empty-state')).not.toBeNull();
   });
 });

@@ -20,7 +20,7 @@ describe('TemplatesPageComponent', () => {
 
   it('renders the page title and the seed templates', () => {
     const html = fixture.nativeElement as HTMLElement;
-    expect(html.querySelector('.page-header__title')).not.toBeNull();
+    expect(html.querySelector('.tabs')).not.toBeNull();
     expect(html.querySelectorAll('.table__row').length).toBeGreaterThan(0);
   });
 
