@@ -10,6 +10,24 @@
 
 ---
 
+## 2026-06-04 · Session 69 — sc-divider + mapas dev (Figma) + sidebar prototipo mode-aware + contacto con el repo real de los devs
+
+- **`<sc-divider>`** cocinado (wrapper de `<p-divider>`), tokens en `sc-preset.ts`, migrados los
+  4 `<hr class="divider">` de config (gap via `:has(> sc-divider)`). Validado y **pusheado a
+  main** (`6e4f2ba`): build · lint · `tokens:parity` 47/47 · guard · e2e 28/28 · visual.
+  Docs: customs §2.10, code-connect §Divider, MIGRATION-INVENTORY #35.
+- **Fix conversor ds-docs "Escala & Espaciado"**: `sc-select` es CVA → cambiado a
+  `[ngModel]`/`(ngModelChange)`/`optionValue="value"`/`FormsModule`. Verificado Playwright.
+- **Figma Supervisor (`Hjyy41…`)**: 3 mapas dev de arquitectura (General/Agentes/Grupos) +
+  sidebar del prototipo (Frame 7) en 4 estados mode-aware atados a `navigation/*` de la
+  librería SC Prime, sizing tokenizado, **0 tokens nuevos** + nota a Marta pidiendo token navy.
+- **Repo real de los devs** (`smartcontact-ui`, GitLab): inspección + catálogo + contraste
+  (gemelo del nuestro pero menos completo). Plan de convergencia → S70.
+- Detalle/plan en [`NEXT-SESSION-PLAN.md`](./NEXT-SESSION-PLAN.md) (S69 close + S70). Memorias:
+  `project_devs_smartcontact_ui_repo`, `project_deferred_escala_espaciado_converter`.
+
+---
+
 ## 2026-06-02 · Session 68 — doble auditoría senior (código + UX) vía workflow multi-agente adversarial; 16 arreglos seguros
 
 > Maratón delegada ("full consent, no me preguntes, máximo cuidado, cero deuda con criterio"). Orden:

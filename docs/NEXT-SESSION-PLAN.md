@@ -5,6 +5,48 @@
 
 ---
 
+## Estado al cerrar (Session 69, 2026-06-04) — sc-divider + mapas dev + sidebar prototipo + contacto con el repo real de los devs
+
+Sesión larga y multi-hilo. Hechos:
+- **`<sc-divider>`** (SCDS, wrapper de `<p-divider>`) cocinado, validado (build · lint ·
+  `tokens:parity` 47/47 · guard · e2e 28/28 · visual light+dark) y **pusheado a `main`**
+  (commit `6e4f2ba`). Migra los 4 `<hr class="divider">` de config; gap del body via
+  `:has(> sc-divider)`. Docs: customs §2.10, code-connect §Divider, MIGRATION-INVENTORY #35.
+- **Fix conversor ds-docs "Escala & Espaciado"** (`foundations-scale`): el `sc-select` es
+  CVA → el combobox iba por `[value]`/`(valueChange)` (no existen) → no actualizaba.
+  Cambiado a `[ngModel]`+`(ngModelChange)`+`optionValue="value"`+`FormsModule`. Verificado
+  Playwright (el detalle cambia al elegir en el combobox).
+- **Figma (file Supervisor `Hjyy41SYKqcRuIzCGggfYH`)**: 3 **mapas dev de arquitectura**
+  (General `144:3095`, Agentes `156:3132`, Grupos `158:3155`) con leyenda COMPONENT/LAYOUT
+  + espaciados + componente↔código. **Sidebar del prototipo** (Frame 7 `176:2897`): 4 estados
+  (desplegado/replegado × light/dark), **mode-aware** (atado a `navigation/*` de la librería
+  "Smart-Contact Prime", modos Light/Dark) + sizing tokenizado. **0 tokens nuevos**. Nota para
+  Marta (`203:2488`) pidiendo un token navy `navigation/background` con modos (no existe; no
+  lo podemos crear desde fuera).
+- **Contacto con el repo real de los devs**: `smartcontact-ui` (GitLab, gemelo del nuestro).
+  Catálogo de componentes + tokens + contraste hechos. Detalle en memoria
+  `project_devs_smartcontact_ui_repo`.
+
+## 🎯 Próxima sesión (S70) — definir la FORMA DE TRABAJO + convergencia
+
+El tema grande que Rafa quiere tratar a fondo:
+1. **Organización de los 3 proyectos** (producción `main`+worktree · repo de los devs ·
+   proyecto convergido nuevo, que es NUESTRO).
+2. **Cerrar el naming** (anclaje a PrimeNG/Kit Pro — recomendado; falta OK final de Rafa).
+3. **MANIFIESTO de convergencia auditado** (catálogo unión suyos+nuestros+faltantes + Rosetta
+   + huecos) → base del port. Datos ya recogidos en S69.
+4. **Auditar solapes** (label-chip vs tag/chip · icon · avatar · diálogos).
+5. **Ejecutar**: montar el proyecto convergido / flujos en su lab (master prompt redactado en
+   el chat S69).
+
+Decisiones S69: escala = **14-base/Figma** · proyecto convergido = **nuestro** (sin push a su
+repo) · **"nosotros definimos, ellos construyen"**. Aparcados: sidebar navy-fijo vs
+theme-following (con diseño) · corregir el naming de los 3 mapas dev · SnowUI · backlog S68
+(#77-#88). Memorias durables: `project_devs_smartcontact_ui_repo`,
+`project_deferred_escala_espaciado_converter`.
+
+---
+
 ## Estado al cerrar (Session 68, 2026-06-02) — doble auditoría senior (código + UX) + 16 arreglos seguros
 
 Maratón delegada con full consent. Método nuevo: **dos workflows multi-agente adversariales** (1 agente por

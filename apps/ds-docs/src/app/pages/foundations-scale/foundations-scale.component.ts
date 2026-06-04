@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import { IconComponent } from '@sc/design-system';
@@ -46,7 +47,7 @@ const short = (token: string): string => token.replace('--sc-', '');
 @Component({
   selector: 'sc-ds-docs-foundations-scale',
   standalone: true,
-  imports: [RouterLink, IconComponent, SelectComponent],
+  imports: [RouterLink, IconComponent, SelectComponent, FormsModule],
   templateUrl: './foundations-scale.component.html',
   styleUrl: './foundations-scale.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

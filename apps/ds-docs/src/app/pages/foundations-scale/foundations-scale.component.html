@@ -24,10 +24,11 @@
         inputId="scale-pick"
         class="picker__select"
         [options]="options()"
+        optionValue="value"
         [filter]="true"
-        [value]="selected()"
+        [ngModel]="selected()"
+        (ngModelChange)="onSelect($event)"
         placeholder="Elige o escribe (scale-2, 28…)"
-        (valueChange)="onSelect($event)"
       />
     </div>
 
