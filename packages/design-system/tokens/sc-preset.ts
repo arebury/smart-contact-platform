@@ -436,6 +436,37 @@ export const ScPreset = definePreset(Aura, {
           'var(--sc-scale-0-875) var(--sc-scale-1-125) var(--sc-scale-1-125) var(--sc-scale-1-125)',
       },
     },
+    /* Divider — canvas 6738:49734 (component set 302:11810).
+     * Figma vars verificados via MCP (node 302:11912 H, 303:12881 V):
+     *   border/color #dadfe6 = gray-200 = --sc-border-default
+     *   content/color #4f5663 = --sc-text-secondary; content/background #fff = --sc-bg-surface
+     *   H: margin 14 0 (scale-1 0), padding 0, content padding 0 7 (0 scale-0-5)
+     *   V: margin 0 14 (0 scale-1), padding 0, content padding 7 0 (scale-0-5 0)
+     * Aura default margin 1rem (16) / content padding .5rem (8) → diverge a
+     * 14/7 (escala 14-base). Override explícito para no heredar el 16/8 de Aura. */
+    divider: {
+      root: {
+        borderColor: 'var(--sc-border-default)',
+      },
+      content: {
+        background: 'var(--sc-bg-surface)',
+        color: 'var(--sc-text-secondary)',
+      },
+      horizontal: {
+        margin: 'var(--sc-scale-1) 0',
+        padding: '0',
+        content: {
+          padding: '0 var(--sc-scale-0-5)',
+        },
+      },
+      vertical: {
+        margin: '0 var(--sc-scale-1)',
+        padding: '0',
+        content: {
+          padding: 'var(--sc-scale-0-5) 0',
+        },
+      },
+    },
     /* Tooltip — node 327:12831 family.
      * Figma: bg slate-700, color white, padding 10.5/7, radius 6,
      * max-width 175, shadow same as datepicker panel. */

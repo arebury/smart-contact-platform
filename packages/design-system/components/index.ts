@@ -67,6 +67,9 @@ export type { ScDatepickerSize, ScDatepickerView } from './datepicker/datepicker
 
 export { DialogComponent } from './dialog/dialog.component';
 
+export { DividerComponent } from './divider/divider.component';
+export type { ScDividerLayout, ScDividerType, ScDividerAlign } from './divider/divider.component';
+
 export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';
 export type { LabelColor } from './label-chip/label-chip.types';

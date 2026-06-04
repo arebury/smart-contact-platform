@@ -390,7 +390,7 @@ Más los pre-existentes:
 
 | Campo | Valor |
 |---|---|
-| Angular | `<hr class="divider">` (partial in-page; aún NO hay `<sc-divider>`) |
+| Angular | `<sc-divider>` (wrapper de `<p-divider>`, SCDS — cocinado S69) |
 | Figma name | `divider` |
 | Figma nodeId | `302:11810` (component set) |
 | Variant default | `Type=Solid, Content=False, Align=N/A, Direction=Horizontal` |
@@ -411,11 +411,16 @@ la jerarquía de color de config (índice gray-50 resalta contra bandeja gris). 
 decisión de color vive en `customs-catalog.md` (jerarquía config); deuda relacionada en
 `inconsistencies-backlog.md §73`.
 
-**Uso hoy**: solo **Solid · Horizontal · sin contenido** (config Contact Center —
-`aed` en code — + Memory rules/entities).
-Se resuelve con `<hr class="divider">` (1px `--sc-border-default`); no se justifica un wrapper
-aún (DD-4/minimal customization). **Trigger `<sc-divider>`** (wrapper de `<p-divider>`): cuando
-un diseño pida texto-en-medio, vertical o dashed — entonces se cocina con los tokens de arriba.
+**Uso hoy**: `<sc-divider>` (wrapper de `<p-divider>`, SCDS — **cocinado S69**). El consumer
+actual (config Contact Center, `aed-servicio` ×3 + `aed-agentes` ×1) usa solo **Solid ·
+Horizontal · sin contenido**, pero el wrapper cubre **todas** las variantes del Kit vía
+`<p-divider>` (layout H/V · type solid/dashed/dotted · align · contenido proyectado) sin código
+extra. Tokens cableados en `sc-preset.ts` `divider.*` (margin 14 / content-padding 7, escala
+14-base; Aura usa 16/8) — los 10 valores de sizing los vigila `tokens:parity §4` (1:1 export).
+Spacing 1:1 con Figma: el body baja su `gap` a 8.75 vía `:has(> sc-divider)` (ver
+customs-catalog §2.10). API: `[layout]` `[type]` `[align]` + `<ng-content>`.
+(Memory rules/entities siguen con sus dividers one-off `.rules-divider`/`.entities-divider`,
+NO migrados — contexto/estilo propio, fuera de scope S69.)
 
 ### Checklist mantenimiento durante dormido
 

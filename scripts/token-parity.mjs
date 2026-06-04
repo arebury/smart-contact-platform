@@ -147,6 +147,7 @@ function resolveScToken(name, seen = new Set()) {
 // `'12.25px'` | `'6px'` | `'var(--sc-radius-200)'` → número px (resolviendo el token).
 function toPx(raw) {
   if (raw == null) return undefined;
+  if (String(raw).trim() === '0') return 0; // CSS unitless zero (margin/padding shorthands)
   const lit = String(raw).match(/^(-?[0-9.]+)px$/);
   if (lit) return parseFloat(lit[1]);
   const ref = String(raw).match(/var\(\s*--(sc-[a-z0-9-]+)\s*\)/);
@@ -191,6 +192,20 @@ const tabPad = shorthandPx(pTab, 'padding'); // [Y, X]
 const panelPad = shorthandPx(pTabpanel, 'padding'); // [T, R, B, L]
 const ttPad = shorthandPx(pTooltip, 'padding'); // [Y, X]
 
+// Divider (componentes.divider): margin/padding H+V. Acotamos `content:` para no
+// cruzar la padding directa con la del contenido.
+const pDivider = brace(preset, 'divider:');
+const pDivH = brace(pDivider, 'horizontal:');
+const pDivV = brace(pDivider, 'vertical:');
+const hcI = pDivH.indexOf('content:');
+const pDivHDirect = hcI >= 0 ? pDivH.slice(0, hcI) : pDivH;
+const vcI = pDivV.indexOf('content:');
+const pDivVDirect = vcI >= 0 ? pDivV.slice(0, vcI) : pDivV;
+const divHMargin = shorthandPx(pDivHDirect, 'margin'); // [Y, X]
+const divVMargin = shorthandPx(pDivVDirect, 'margin'); // [Y, X]
+const divHContentPad = shorthandPx(brace(pDivH, 'content:'), 'padding'); // [Y, X]
+const divVContentPad = shorthandPx(brace(pDivV, 'content:'), 'padding'); // [Y, X]
+
 // [label, valor del export, valor que fija el preset]
 const sizing = [
   ['button.root.paddingX', common.buttonPaddingX, propPx(pBtnRootDirect, 'paddingX')],
@@ -231,6 +246,18 @@ const sizing = [
   ['overlay.modal.borderRadius', semCommon.overlayModalBorderRadius, propPx(pOvModal, 'borderRadius')],
   ['overlay.popover.borderRadius', semCommon.overlayPopoverBorderRadius, propPx(pOvPopover, 'borderRadius')],
   ['overlay.select.borderRadius', semCommon.overlaySelectBorderRadius, propPx(pOvSelect, 'borderRadius')],
+  // Divider (sc-divider ↔ ❖ divider 302:11810). H/V margin + content padding,
+  // 1:1 con el export (14/7, escala 14-base). El color va por semantic (§6).
+  ['divider.horizontal.marginY', common.dividerHorizontalMarginY, divHMargin?.[0]],
+  ['divider.horizontal.marginX', common.dividerHorizontalMarginX, divHMargin?.[1]],
+  ['divider.horizontal.padding', common.dividerHorizontalPadding, propPx(pDivHDirect, 'padding')],
+  ['divider.horizontal.content.paddingY', common.dividerHorizontalContentPaddingY, divHContentPad?.[0]],
+  ['divider.horizontal.content.paddingX', common.dividerHorizontalContentPaddingX, divHContentPad?.[1]],
+  ['divider.vertical.marginY', common.dividerVerticalMarginY, divVMargin?.[0]],
+  ['divider.vertical.marginX', common.dividerVerticalMarginX, divVMargin?.[1]],
+  ['divider.vertical.padding', common.dividerVerticalPadding, propPx(pDivVDirect, 'padding')],
+  ['divider.vertical.content.paddingY', common.dividerVerticalContentPaddingY, divVContentPad?.[0]],
+  ['divider.vertical.content.paddingX', common.dividerVerticalContentPaddingX, divVContentPad?.[1]],
 ];
 
 // iconSize: el Kit lo declara en semanticCommon; nuestro default vive en una const TS

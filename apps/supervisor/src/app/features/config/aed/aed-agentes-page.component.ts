@@ -18,6 +18,7 @@ import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   CheckboxComponent,
+  DividerComponent,
   IconComponent,
   InputTextComponent,
   ToggleSwitchComponent,
@@ -80,6 +81,7 @@ const DEFAULT_FORM: FormState = {
   imports: [
     ButtonModule,
     CheckboxComponent,
+    DividerComponent,
     IconComponent,
     InputTextComponent,
     ToggleSwitchComponent,

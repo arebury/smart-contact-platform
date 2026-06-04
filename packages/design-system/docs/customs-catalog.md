@@ -235,21 +235,28 @@ Para el caso futuro de backend real: el grace period del undo vive **server-side
   multiselect de Grupos que renderizaban vacíos. Estado de componente canónico en
   `MIGRATION-INVENTORY.md`; mapping de implementación en `code-connect-mapping.md` §Multiselect.
 
-### 2.10 Divider — reuso 1:1 del Kit Pro (S67)
+### 2.10 Divider — `<sc-divider>` (wrapper de `<p-divider>`, S69; reuso 1:1 del Kit Pro desde S67)
 
-- **Estado**: hoy se usa `<hr class="divider">` (sólido, horizontal, full-width) en config
-  Contact Center (`features/config/aed/`) y reglas/entidades de Memory. **NO es divergencia
-  de marca** — es reuso 1:1 del `❖ divider` del Kit Pro; entry aquí solo por DD-7 (registrar
-  el 1.er uso). El registro técnico (Kit node `302:11810`, ejes `Type`/`Content`/`Align`/
-  `Direction`, tokens, márgenes) es **canónico en `code-connect-mapping.md` §Divider** — no se
-  duplica aquí.
-- **Color (cambio S67-A)**: el divisor de config pasó de `--sc-border-subtle` (gray-100) a
-  **`--sc-border-default` (gray-200, `#dadfe6`)** para 1:1 con `divider/border/color` del Kit
-  Pro y para que lea contra la jerarquía de color de config (ver §6). Detalle del cambio en
-  `code-connect-mapping.md` §Divider.
-- **Trigger `<sc-divider>`**: solo si aparece necesidad de texto-en-medio, orientación vertical
-  o estilo dashed (los demás ejes del Kit). Mientras sea sólido/horizontal sin label, el `<hr>`
-  basta y no se cocina wrapper.
+- **Estado**: `<sc-divider>` (SCDS, wrapper fino de `<p-divider>`). Cocinado en **S69**;
+  antes era `<hr class="divider">` in-page. **NO es divergencia de marca** — es reuso 1:1 del
+  `❖ divider` del Kit Pro. El registro técnico (Kit node `302:11810`, ejes `Type`/`Content`/
+  `Align`/`Direction`, tokens, márgenes) es **canónico en `code-connect-mapping.md` §Divider**.
+- **Por qué wrapper de PrimeNG** (minimal customization, DD-5): `<p-divider>` ya aporta todas
+  las variantes del Kit (layout horizontal/vertical · type solid/dashed/dotted · align ·
+  proyección de contenido). No reinventamos HTML; solo cableamos los tokens vía `sc-preset.ts`
+  (`divider.*`): margin 14 / content-padding 7 (escala 14-base; Aura usa 16/8 → divergencia
+  consciente), borde gray-200, content `--sc-text-secondary` sobre `--sc-bg-surface`. Light+dark
+  salen solos por los semánticos. Los 10 valores de sizing los vigila `tokens:parity` (§4, 1:1
+  con el export).
+- **Consumer actual**: config Contact Center (`aed-servicio` ×3, `aed-agentes` ×1), todos
+  **horizontal-solid sin contenido**. vertical/dashed/contenido quedan disponibles 1:1 para
+  cuando un diseño los pida (sin código extra: ya los da `<p-divider>`).
+- **Spacing 1:1**: el divider aporta su propio margin 14/14 (token Kit). El `.settings-card__body`
+  baja su `gap` a 8.75 (`scale-0-625`) **solo cuando contiene un divider** (`:has(> sc-divider)`),
+  para que la separación total quede 8.75 + 29px + 8.75 = 1:1 con Figma Supervisor `97:1906`.
+  Grupos y el card de URL (sin divider) conservan el gap de 16.
+- **Color (cambio S67-A, sigue vigente)**: borde `--sc-border-default` (gray-200, `#dadfe6`),
+  1:1 con `divider/border/color` del Kit. Detalle en `code-connect-mapping.md` §Divider.
 
 ### 2.11 Estados de agente — 3 tags fijos + chips editables (S67-B)
 

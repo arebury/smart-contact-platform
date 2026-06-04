@@ -147,6 +147,15 @@
     flex-direction: column;
     gap: var(--sc-spacing-1-143); /* 16 — Figma white card p-16 + gap entre sub-secciones */
     padding: var(--sc-spacing-1-143);
+
+    /* Cuando el body separa sub-secciones con <sc-divider>, el divider aporta
+     * su propio margin 14/14 (token Kit Pro). Bajamos el gap a 8.75 (scale-0-625)
+     * para que la separación total quede 1:1 con Figma (Supervisor 97:1906 →
+     * 8.75 + 29px divider + 8.75). `:has` lo limita a los bodies con divider:
+     * grupos y el card de URL (sin divider) mantienen el gap de 16. */
+    &:has(> sc-divider) {
+      gap: var(--sc-spacing-0-625);
+    }
   }
 
   &__foot {
@@ -204,15 +213,6 @@
     line-height: 18px;
     color: var(--sc-text-subtle);
   }
-}
-
-.divider {
-  /* Figma `divider` 302:11810 (Solid · Horizontal): `divider/border/color` = #dadfe6
-   * = gray-200 = `--sc-border-default`. Antes usaba border-subtle (gray-100, más claro). */
-  border: 0;
-  border-top: 1px solid var(--sc-border-default);
-  margin: 0;
-  width: 100%;
 }
 
 /* ---------- Field primitives ---------- */

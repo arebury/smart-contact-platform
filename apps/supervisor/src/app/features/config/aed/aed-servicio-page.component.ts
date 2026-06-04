@@ -19,6 +19,7 @@ import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import {
   CheckboxComponent,
+  DividerComponent,
   IconComponent,
   InputTextComponent,
   InputGroupComponent,
@@ -127,6 +128,7 @@ const NOTIF_EVENTOS: readonly (keyof NotifEventos)[] = ['inicio', 'fin', 'result
   imports: [
     ButtonModule,
     CheckboxComponent,
+    DividerComponent,
     IconComponent,
     InputTextComponent,
     InputGroupComponent,
