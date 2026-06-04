@@ -355,3 +355,45 @@ Lente (= la regla wrapper-vs-custom de su `AGENTS.md`): para cada custom "puro" 
 | `sc-sticky-form-header` | — | bespoke (retenido) | Rollback DD#65, no en uso activo. |
 
 **Resultado:** de las 12 piezas "puras", **2 son reutilización fuerte que nadie había visto** (`p-inplace`, `p-fileupload`), **3 se componen sobre primitivos** (`p-dialog`/`p-panel`), y solo **~5 son bespoke legítimos** (sin primitivo que encaje). Recorta el código propio a mantener y cumple *"no acumular, reutilizar de PrimeNG"*. **A confirmar pieza a pieza al portar** — no forzar un primitivo que no encaje (eso es peor que el bespoke).
+
+---
+
+## 11. Comparativa y aportes — resumen para presentación
+
+> Capa ejecutiva (para slides). El detalle vive en §3–§10; aquí la versión digerible: dónde gana cada uno, qué aportamos a su pipeline y los hallazgos clave.
+
+### 11.1 Dónde ganamos nosotros (SCDS)
+- **Cobertura:** 32 piezas vs 22.
+- **Rigor (lo más diferencial):** guardarraíles **automáticos** anti-drift en pre-commit (`tokens:parity`, `tokens:gen`, `tokens:guard`, `type-parity`, `i18n-audit`, `e2e`). Ellos no los tienen.
+- **Tokens mejor ejecutados:** nuestro preset apunta a `var(--sc-*)`; el suyo hardcodea hex en `base.ts` (viola su propio "no inventar / no hardcodear").
+- **Más moderno:** API nueva de Angular (signals `input()/output()`); ellos `@Input()` clásico (156×).
+- **Disciplina de diseño:** Figma 1:1, `DECISIONS`/`customs-catalog`, naming DD-12, escala formalizada.
+
+### 11.2 Dónde ganan ellos (smartcontact-ui)
+- **Empaquetado para producción (lo más diferencial):** 3 paquetes publicables (`@smartcontact/styles · icons · components`) + `provideSmartContactUi()` + ng-packagr + tarballs. Nosotros = monorepo consumido por ruta, **no publicable**.
+- **Preset modular** (85 ficheros, uno por componente) vs nuestro monolito.
+- **Paquete de iconos más maduro** (Material Symbols generados).
+- **Pipeline de agente** (token-inspector → component-generator → primeng-wrapper → docs → sync) + skills.
+- Algunos **primitivos PrimeNG** que nos faltan (avatar, badge, button, card, drawer, message, panel, skeleton, toast…).
+
+### 11.3 Veredicto
+**Nuestro = mejor design system** (completo, riguroso, moderno, design-driven). **Suyo = mejor paquete** (enviable, modular, publicable). La convergencia = **"nuestro contenido + su cáscara"**: su estructura de empaquetado rellena con nuestros tokens/preset/componentes/tooling.
+
+### 11.4 Ya alineados + choques (resumen — detalle en §9)
+- **Coinciden:** doctrina de tokens (`--sc-*` contrato · `--p-*` adaptador · no inventar tokens · paleta por preset), regla wrapper-vs-custom, pipeline de agente.
+- **Chocan (codificado en sus skills, no solo en el código):** naming kebab+BEM vs DD-12 pegado · escala unitless `/16` vs 14-base px. → converger toca **sus docs de agente**, no solo los ficheros.
+
+### 11.5 Qué EXTRAS aportamos a su docu de agente (`AGENTS.md` / skills)
+Lo que nuestro trabajo suma a su pipeline (cubrir más sus necesidades con lo que tenemos):
+- **Guardarraíles por máquina:** convertir su *"nunca inventar tokens"* de norma escrita a **norma verificada en pre-commit** (parity / guard / type-parity).
+- **Naming DD-12** (pegado) en `AGENTS.md` + skills + ejemplos de referencia.
+- **Escala 14-base / px** (sustituye su regla `/16`).
+- **`base.ts` → `var(--sc-*)`** (hace que cumplan su propia regla de no-hardcodear).
+- **Auditoría de reutilización** (inline-rename → `p-inplace`, photo-upload → `p-fileupload`) = su propia regla wrapper-vs-custom llevada más lejos.
+
+### 11.6 Hallazgos clave del verificador (apto como base · 100 % cobertura · 0 inventado)
+- **Escala = choque BLOQUEANTE (Fase 0):** ambos usan prefijo `--sc-*` pero incompatibles (su 8-point `--sc-spacing-100` = 8 vs nuestra 14-base `--sc-scale-1` = 14px). Unificar a la nuestra **antes** de tocar componentes.
+- **`sc-checkbox` diverge:** nuestro nativo tri-estado vs su wrapper `p-checkbox`. Decidir base.
+- **Dependencia transitiva oculta:** sus wrappers dependen de `sc-component-icon-resolver` (compat de nombres pi→Material) — se arrastra al ganarlos.
+- **`sc-datatable` falta en AMBOS** — el hueco prioritario a crear.
+- **Iconos:** su paquete es más maduro → migramos el nuestro al suyo.
