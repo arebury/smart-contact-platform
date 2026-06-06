@@ -20,6 +20,13 @@ jobs:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
+      - name: Cache Angular build
+        uses: actions/cache@v4
+        with:
+          path: .angular/cache
+          key: angular-${{ hashFiles('package-lock.json') }}
+          restore-keys: angular-
+
       - name: Install dependencies
         # `npm install` (not `npm ci`) because Karma's chokidar@3 conflicts
         # with @angular/compiler-cli's chokidar@4 in the transitive tree.
@@ -35,4 +42,4 @@ jobs:
         run: npm run test:ci
 
       - name: Build (production)
-        run: npm run build
+        run: npm run build:all

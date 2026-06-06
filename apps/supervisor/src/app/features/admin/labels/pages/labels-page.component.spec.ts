@@ -13,11 +13,11 @@ describe('LabelsPageComponent', () => {
     }).compileComponents();
   });
 
-  it('renders the page title and the seed labels in the table', () => {
+  it('renders the seed labels in the table', () => {
     const fixture = TestBed.createComponent(LabelsPageComponent);
     fixture.detectChanges();
     const html = fixture.nativeElement as HTMLElement;
-    expect(html.querySelector('.page-header__title')).not.toBeNull();
+    expect(html.querySelector('.table-card')).not.toBeNull();
     expect(html.querySelectorAll('.table__row').length).toBeGreaterThan(0);
   });
 
@@ -26,6 +26,6 @@ describe('LabelsPageComponent', () => {
     localStorage.setItem('sc-labels-v', '1');
     const fixture = TestBed.createComponent(LabelsPageComponent);
     fixture.detectChanges();
-    expect(fixture.nativeElement.querySelector('.empty')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('sc-empty-state')).not.toBeNull();
   });
 });
