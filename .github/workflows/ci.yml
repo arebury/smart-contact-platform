@@ -31,6 +31,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
       - name: Test (headless)
         run: npm run test:ci
 
