@@ -12,6 +12,64 @@
 
 ---
 
+## DD-13 · 2026-06-09 (S72) — Tipografía: escala REDONDA desacoplada de `--sc-scale`, convergente con los devs (rem root-16), naming de styles = tokens de código
+
+**Contexto**: la tipografía estaba atada a la escala de espaciado 14-base
+(`--sc-font-size-X = var(--sc-scale-Y)` → decimales: h1 31,5 · body 15,75 · sm
+12,25). El Kit Pro Figma usaba esos mismos decimales. Al converger con el repo de
+los devs (`smartcontact-ui`) había que decidir UN modelo de tipografía.
+
+**Dato que decide** (leyendo su repo: `sc-preset/rem-scale.ts` + `extend.ts`): los
+devs renderizan en **rem sobre root 16** (a11y) y sus tamaños reales son
+**redondos** — `app.typography` sm/md/lg = **12 / 14 / 16**, line-heights 18/21/24
+— **no** los decimales 14-base. `rem-scale.ts` autora en "design-rem" base-14 y
+compila a browser-rem ×0,875. → A root 16: **redondo = rem limpio** (16=1rem,
+24=1,5rem), **decimal = rem feo** (15,75=0,984rem). Los devs ya van redondo;
+nuestros decimales eran LA divergencia. (Memoria: [[reference_devs_rem_scale_architecture]].)
+
+**Decisión**:
+1. **Escala redonda** (12/14/16/18/20/24/32 + display 36/48/64 de registro),
+   **desacoplada de `--sc-scale`** (la escala sigue para espaciado; la letra tiene
+   su propio set redondo). En **rem sobre root 16** (converge + a11y).
+2. **Line-heights** (cuerpo generoso ~1,5 → títulos apretando ~1,25, en px par):
+   12/18 · 14/20 · 16/24 · 18/24 · 20/28 · 24/36 (h1 aireado, revisable) · 32/40 ·
+   48/58 · 64/78.
+3. **2 pesos** (Regular + Semibold), no 4.
+4. **Cuerpo/control** = tier `app.typography` sm/md/lg (12/14/16) — lo que PrimeNG
+   exige; **converge 1:1 con los devs**.
+5. **Rampa de contenido semántica** (display-1, h1-h4, body-1/2/3, subtitle-1/2,
+   caption, caption-bold) = **canónica nuestra**. Bajo "nosotros definimos, ellos
+   construyen", **los devs la ADOPTAN** (no la tienen aún → hueco suyo, no deuda
+   nuestra). Se limpian redundancias reales con el tiempo (subtitle-2 = subtitle-3)
+   **sin estripar** el modelo.
+6. **Naming**: text styles Figma renombrados 1:1 con los tokens de código (`h1`,
+   `body-1`, `caption-bold`…) → un dev que inspecciona en Dev Mode ve el mismo
+   nombre que `--sc-font-size-h1`. Las **VARIABLES** (lo que cruza al código vía
+   Theme Designer) mantienen naming PrimeNG. El naming por-tamaño ("24 Semibold") se
+   **DESCARTA**: crearía desajuste Figma↔código en el handoff.
+
+**Razón**: redondo nos acerca a PrimeNG/devs (menos divergencia que cuidar) + da
+rem limpio + a11y; el naming espejo elimina el rayado del dev. **Migration-safe**:
+solo tocamos NUESTRA capa (variables `app/*` + `sc-preset.ts` + `--sc-font-size-*`),
+nunca el core de PrimeNG ni el Kit del equipo. Coherente con el SCDS CLAUDE.md
+("la letra vive en `--sc-*` + bridge; NO vincular a la escala de PrimeNG").
+
+**Consecuencias**:
+- **POC en el duplicado Figma** (`tUzS4MvWld90bA2qpZz5b6`, "Probar Iconos y tipo")
+  HECHO: 12 text styles a redondo + line-heights por regla; variables App ancladas a
+  redondo (sm-font 12 · lg-font 16 · sm-line 18 · lg-line 24; md-font 14);
+  text-style naming = tokens código (12/12, `subtitle-3`→`body-3`).
+- **Pendiente para validar en real**: (a) crear variables de la rampa de **TÍTULOS**
+  (hoy los títulos son text style **sin variable** → no cruzan al código vía Theme
+  Designer); (b) repetir todo en el **Kit OFICIAL** (el que lee el Theme Designer,
+  no el duplicado); (c) reflejar en código `--sc-font-size-*` (redondo, rem) con
+  diff visual + e2e; (d) ajustar `tokens:type-parity` (hoy snap base-14) al pasar a
+  redondo.
+- Display 36/48/64 → **registrados solo en specs** (uso ocasional; fuera de la
+  rampa activa de Figma).
+
+---
+
 ## DD-12 · 2026-06-04 (S70) — Naming de convergencia: el catálogo unión sigue DD-8 (Kit Pro 1:1, pegado); los devs realinean a él
 
 **Contexto**: el equipo de dev tiene su propio repo de DS (`smartcontact-ui`,

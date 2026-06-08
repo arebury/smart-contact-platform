@@ -17,13 +17,13 @@
 - **3 mapas dev "layout Make + info SCDS"** en Figma (General `215:2476`, Agentes `225:2476`, Grupos `227:2476`).
 
 **Estado de hilos clave:**
-- **Escala:** devs NORMALIZARON (14 → rem central, `rem-scale.ts`) → choque del botón **probablemente resuelto, falta confirmar empíricamente.**
-- **Theme Designer (PrimeTek):** comprado + conectado a NUESTRO repo. Custom OK; "Component" vacío (esperable); **bug `font.weight=600px`**.
-- **Tipografía:** ramp explorado diverge del Kit Pro; **2 capas** (control 14 / contenido 16). Decisión: editar text styles de CONTENIDO en su **colección propia** (no `scale`); controles NO se tocan. Rafa hará **POC duplicando el SC Prime** (me pasa link → reflejo en `--sc-font-size-*`).
+- **Escala / px-vs-rem:** ✅ **RESUELTO (S72).** Leído `rem-scale.ts` de los devs → **root 16**, design-14 ×0,875; su 14-base ≡ nuestro px a **mismos píxeles** → choque del botón **disuelto**. Dirección: **rem** (a11y + converge). Detalle en [[reference_devs_rem_scale_architecture]].
+- **Theme Designer (PrimeTek):** comprado + conectado al **Kit OFICIAL** (no al duplicado). Custom OK; "Component" vacío (esperable); **bug `font.weight=600px`**.
+- **Tipografía:** ✅ **DECIDIDA — DD-13** (SCDS DECISIONS). Escala **redonda** (12/14/16/18/20/24/32), desacoplada de `--sc-scale`, **rem root-16**, line-heights por regla, 2 pesos. Text styles Figma renombrados = tokens de código (`h1`, `body-1`… 12/12). **POC hecho en el duplicado** (`tUzS4…`). **Falta VALIDAR en real** (ver orden ↓).
 
-### 🎯 Próxima sesión — ORDEN (empírico primero; brief §5)
-1. **Re-pull repo devs + test del botón sin icono** (mi preset vs suyo, hug). Zanja si `rem-scale` cerró el choque. **Desbloquea el resto.**
-2. **POC tipografía:** link del SC Prime duplicado → comparo, valido migration-safe, reflejo en `--sc-font-size-*` + `type-parity` + diff visual. (Arreglar fuga placeholder 15→14.)
+### 🎯 Próxima sesión — ORDEN
+1. ~~Test del botón / px-vs-rem~~ ✅ **HECHO (S72)** — root 16, rem, choque disuelto (DD-13).
+2. **Tipografía → VALIDAR EN REAL (DD-13 ya decidido).** Migration-safe confirmado (solo tocamos `--sc-*`/`app/*`/preset, nunca PrimeNG ni el Kit del equipo). Pasos: **(a)** crear variables de la rampa de **títulos** en Figma + atar text styles (hoy títulos = style sin variable → no cruzan al código); **(b)** repetir TODO en el **Kit oficial** (el que lee el Theme Designer); **(c)** Theme Designer → PR a GitHub → verificar valores; **(d)** reflejar en código `--sc-font-size-*` (redondo, rem) + ajustar `tokens:type-parity` + diff visual + e2e.
 3. **Bridge Theme Designer:** pasar UN componente escala-neutral (divider/tag, NO botón) por el puente → export==aplicado. Arreglar bug 600px.
 4. **Cerrar px vs rem** para el convergido (rem gana en a11y).
 5. **Nits config** (card C con gris perceptible · "Notifications"→"Notificaciones" · icono Agentes · breadcrumb) + adoptar guía doc1 (tabla dividers, px lógicos).
