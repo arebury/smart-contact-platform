@@ -397,3 +397,33 @@ Lo que nuestro trabajo suma a su pipeline (cubrir más sus necesidades con lo qu
 - **Dependencia transitiva oculta:** sus wrappers dependen de `sc-component-icon-resolver` (compat de nombres pi→Material) — se arrastra al ganarlos.
 - **`sc-datatable` falta en AMBOS** — el hueco prioritario a crear.
 - **Iconos:** su paquete es más maduro → migramos el nuestro al suyo.
+
+---
+
+## 12. Decisiones y hallazgos en curso (fase validación + Theme Designer + tipografía)
+
+> Notas vivas de la ejecución. Se consolidan en su hogar canónico al cerrar cada tema.
+
+### 12.1 Escala — el choque está casi resuelto (por los devs)
+- Los devs **normalizaron**: mantienen el diseño en 14 (= valores Figma) pero **convierten a `rem` de forma centralizada** (`rem-scale.ts` + tokens `app.*`), sin tocar el `font-size` global del `html` (16px). Esto alinea el render con 14-base → **el choque de altura del botón debería estar resuelto.** **Acción: re-pull + test del botón** contra su repo nuevo.
+- **Aprendizaje útil (de su lado):** `rem` respeta el zoom de fuente del usuario; `px` no. Su mecanismo es **mejor para accesibilidad** sin perder el diseño 14-base. **Candidato a adoptar** en el preset convergido (diseñar en 14 → convertir a rem central).
+- **Decisión ABIERTA para el convergido:** ¿`px` (nuestro hoy) o `rem`-conversión (suyo, a11y)? Renden igual; `rem` gana en accesibilidad. Pendiente de cerrar.
+
+### 12.2 Theme Designer (PrimeTek) — conectado a NUESTRO repo
+- Ahora **sincroniza** (no solo previsualiza). Los **Custom** aparecen (`bulk transcription modal.*`). **"Component" en gris = esperable** (fijamos en Semantic + Custom, no overrides por-componente).
+- Modelo B vigente: **exporta, no autora**; no editar tokens a mano en el Visual Editor (= segunda fuente = drift).
+- **Bug a corregir:** `bulk transcription modal.title.font.weight = 600px` → el peso es **`600`, sin `px`**.
+
+### 12.3 Config — estilo de card decidido + nits
+- **Opción C** (card blanca sobre lienzo gris) — ya implementado en S67; confirmado en pantallas. **Requisito:** el gris debe **registrar** (gray-50 real bajo card blanca), no quedar imperceptible (si no, ni contención ni separación).
+- Nits a corregir en las pantallas: título de contenido vs ítem activo del índice desalineados; **"Notifications" → "Notificaciones"**; icono de "Agentes" en el índice (sobre → persona); breadcrumb con sección (`Contact Center › General`).
+- Layout tokens: `--sc-sidebar-width` **ya existe** (no re-mintar); tokens de layout nuevos nacen en Figma Custom o se justifican (no sueltos en CSS). Error de doc a corregir: `--sc-spacing-3` = **42px**, no 12.
+
+### 12.4 Tipografía — el ramp explorado DIVERGE del Kit Pro
+- **Comparativa de text styles:** ramp explorado = **6 tamaños** (12·14·18·24·48·64), **2 pesos** (Semibold/Regular), saltos grandes. Kit Pro = **9 tamaños** (12.25·14·15·16·18·20·24·32·36), **4 pesos** (Bold/Semibold/Medium/Regular), **body 16**.
+- **DOS capas de tipo en el Kit Pro** (clave): **font de control** (botones/inputs) = **14** (`scale.1`); **text styles de contenido** (H/body/caption) = ramp aparte, body 16. El ramp explorado afecta la **capa de contenido**, no el font interno de control.
+- **A favor del ramp explorado:** su body=**14** casa con el font de control (14) → quita el desajuste 14/16 del Kit Pro. **En contra:** pierde el peso Medium y los pasos 15/16/20/32 que el Kit usa para jerarquía.
+- **Migration-safe SOLO si:** (a) se re-autoran las text styles del Kit Pro en Figma (entonces parity OK), o (b) se registra como divergencia consciente. **Nunca** swap solo-en-código; va en **rama + diff visual Playwright**. (En docs no se nombra la librería de origen — regla S64.)
+
+### 12.5 Próximo paso empírico (sin andamiaje previo)
+Re-pull del espejo + **test del botón sin icono** (mi preset vs el suyo, hug) → zanja si el choque quedó cerrado por su `rem-scale`. De ahí sale qué pedir. (No montar tracker ni mintar tokens antes — preparación-como-progreso.)
