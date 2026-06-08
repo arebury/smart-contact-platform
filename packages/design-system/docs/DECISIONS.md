@@ -68,6 +68,29 @@ nunca el core de PrimeNG ni el Kit del equipo. Coherente con el SCDS CLAUDE.md
 - Display 36/48/64 → **registrados solo en specs** (uso ocasional; fuera de la
   rampa activa de Figma).
 
+**Anexo — filosofía de cableado, "contradicción" letra/espaciado y pipeline** (S72):
+
+- **Cableado de la tipografía de componentes: VARIABLES, no text styles.** Hay dos
+  modelos. El *design-tool-native* ata cada texto de componente a un **text style**
+  de Figma. PrimeNG (y por tanto SC Prime) ata los textos a **variables** (tokens de
+  componente, p.ej. `button.label.font.size`), porque el código aplica el tema vía
+  tokens: usar variables mantiene Figma↔código sincronizados. Migrar al modelo de
+  styles metería en Figma un concepto que el código no lee → drift. **Seguimos el
+  modelo de variables.**
+- **Hallazgo (auditoría del Kit, S72)** — para la reunión de convergencia: de
+  **~4.420 textos de componente revisados (7 páginas), 0 usan text style**; ~58%
+  atados a variable, **~42% con el tamaño a pelo** (hardcoded → no se actualizan al
+  cambiar la variable). El Kit está **parcialmente cableado**; completar el cableado
+  a variables es trabajo del equipo en el Kit oficial.
+- **La "contradicción" letra-redonda / espaciado-decimal (no lo es):** la tipografía
+  se desacopla a redondo, pero el **espaciado se queda en `--sc-scale`** (decimales).
+  Son sistemas distintos: el espaciado es geometría estructural (consistente en toda
+  la app, imperceptible); la letra es legibilidad (redondo + rem importan). Cada uno
+  con su escala; el espaciado **no se toca**.
+- **Pipeline a código:** Figma (variables `app/*` + estilos) → **Theme Designer** →
+  PR a GitHub → `--sc-font-size-*`. Es lo que hace que tocar la variable una vez en
+  Figma llegue al código sin copiar valores a mano.
+
 ---
 
 ## DD-12 · 2026-06-04 (S70) — Naming de convergencia: el catálogo unión sigue DD-8 (Kit Pro 1:1, pegado); los devs realinean a él
