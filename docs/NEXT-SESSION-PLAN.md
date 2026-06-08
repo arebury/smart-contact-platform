@@ -5,6 +5,36 @@
 
 ---
 
+## Estado al cerrar (S70–S71, 2026-06-08) — convergencia con los devs + validación + tipografía
+
+> Sesiones de **estrategia + arquitectura** (poco código, mucho criterio). **Todo lo decidido está commiteado** — el contexto NO se pierde, vive en los docs de abajo.
+
+**Hecho y commiteado:**
+- **Naming cerrado** → DD-12 (pegado = Kit Pro/Figma; custom kebab) — `packages/design-system/docs/DECISIONS.md`.
+- **Manifiesto de convergencia** (base del port) → [`docs/convergence-manifesto.md`](./convergence-manifesto.md) §1–12: catálogo unión 44 piezas (Rosetta), 4 solapes resueltos, huecos, empaquetado objetivo, plan por fases, §9 contraste con su `AGENTS.md`, §10 reutilización, §11 comparativa (PPT), §12 hallazgos en curso. Verificado adversarialmente vs código.
+- **Checklist reunión devs** → [`docs/convergence-checklist-devs.md`](./convergence-checklist-devs.md) (6 decisiones + 3 alineados).
+- **Protocolo re-sync Figma+preset** → `migration-safety.md` (no re-duplicar · Migration Assistant · Code Connect a nuestro file · capas control vs contenido).
+- **3 mapas dev "layout Make + info SCDS"** en Figma (General `215:2476`, Agentes `225:2476`, Grupos `227:2476`).
+
+**Estado de hilos clave:**
+- **Escala:** devs NORMALIZARON (14 → rem central, `rem-scale.ts`) → choque del botón **probablemente resuelto, falta confirmar empíricamente.**
+- **Theme Designer (PrimeTek):** comprado + conectado a NUESTRO repo. Custom OK; "Component" vacío (esperable); **bug `font.weight=600px`**.
+- **Tipografía:** ramp explorado diverge del Kit Pro; **2 capas** (control 14 / contenido 16). Decisión: editar text styles de CONTENIDO en su **colección propia** (no `scale`); controles NO se tocan. Rafa hará **POC duplicando el SC Prime** (me pasa link → reflejo en `--sc-font-size-*`).
+
+### 🎯 Próxima sesión — ORDEN (empírico primero; brief §5)
+1. **Re-pull repo devs + test del botón sin icono** (mi preset vs suyo, hug). Zanja si `rem-scale` cerró el choque. **Desbloquea el resto.**
+2. **POC tipografía:** link del SC Prime duplicado → comparo, valido migration-safe, reflejo en `--sc-font-size-*` + `type-parity` + diff visual. (Arreglar fuga placeholder 15→14.)
+3. **Bridge Theme Designer:** pasar UN componente escala-neutral (divider/tag, NO botón) por el puente → export==aplicado. Arreglar bug 600px.
+4. **Cerrar px vs rem** para el convergido (rem gana en a11y).
+5. **Nits config** (card C con gris perceptible · "Notifications"→"Notificaciones" · icono Agentes · breadcrumb) + adoptar guía doc1 (tabla dividers, px lógicos).
+6. **Ejecutar convergencia** (Fase 0 = unificar escala, con devs) — el grande, **después de 1–3**.
+
+**Decisiones ABIERTAS:** px-vs-rem · tipografía (re-autorar en Kit Pro o divergencia consciente) · ejecución card-C.
+
+**⚠️ Bias a vigilar (Rafa lo pidió):** NO atacar los hilos "uno a uno" como iguales — hay orden por dependencia; el cuello de botella es **PROBAR** (1–3), no montar andamiaje (tracker/mintar tokens) antes. **Profundidad > amplitud.**
+
+---
+
 ## Estado al cerrar (Session 69, 2026-06-04) — sc-divider + mapas dev + sidebar prototipo + contacto con el repo real de los devs
 
 Sesión larga y multi-hilo. Hechos:
