@@ -10,6 +10,37 @@
 
 ---
 
+## 2026-06-08 · Session 70-71 — convergencia con el repo de los devs + validación + tipografía (estrategia/arquitectura, poco código)
+
+> Dos sesiones de **estrategia + arquitectura** (mucho criterio, poco código). Todo lo decidido quedó
+> commiteado; el contexto vive en los docs canónicos enlazados.
+
+- **Naming cerrado** → DD-12 en [`SCDS DECISIONS.md`](../packages/design-system/docs/DECISIONS.md): nombres
+  pegados al Kit Pro/Figma; los custom en kebab.
+- **Manifiesto de convergencia** (base del port) → [`convergence-manifesto.md`](./convergence-manifesto.md)
+  §1–12: catálogo unión 44 piezas (Rosetta), 4 solapes resueltos, huecos, empaquetado objetivo, plan por
+  fases, §9 contraste con su `AGENTS.md`, §10 reutilización, §11 comparativa (PPT), §12 hallazgos en curso.
+  Verificado adversarialmente vs código.
+- **Checklist reunión devs** → [`convergence-checklist-devs.md`](./convergence-checklist-devs.md) (6 decisiones + 3 alineados).
+- **Protocolo re-sync Figma+preset** → `migration-safety.md` (no re-duplicar · Migration Assistant · Code
+  Connect a nuestro file · capas control vs contenido).
+- **3 mapas dev "layout Make + info SCDS"** en Figma (General `215:2476`, Agentes `225:2476`, Grupos `227:2476`).
+
+**Estado de hilos clave (abiertos al cerrar):**
+- **Escala:** los devs NORMALIZARON (14 → rem central, `rem-scale.ts`) → choque del botón **probablemente
+  resuelto, falta confirmar empíricamente** (test del botón = primer paso S72).
+- **Theme Designer (PrimeTek):** comprado + conectado a NUESTRO repo. Custom OK; "Component" vacío
+  (esperable); bug `font.weight=600px` pendiente.
+- **Tipografía:** el ramp explorado diverge del Kit Pro → **2 capas** (control 14 / contenido 16). Decisión:
+  editar los text styles de CONTENIDO en su colección propia (no `scale`); los controles NO se tocan. Rafa
+  hace POC duplicando el SC Prime → reflejar en `--sc-font-size-*`.
+
+**Decisiones ABIERTAS:** px-vs-rem · tipografía (re-autorar en Kit Pro o divergencia consciente) · ejecución
+card-C. Orden próxima sesión en [`NEXT-SESSION-PLAN.md`](./NEXT-SESSION-PLAN.md) (empírico primero: test del
+botón desbloquea el resto).
+
+---
+
 ## 2026-06-04 · Session 69 — sc-divider + mapas dev (Figma) + sidebar prototipo mode-aware + contacto con el repo real de los devs
 
 - **`<sc-divider>`** cocinado (wrapper de `<p-divider>`), tokens en `sc-preset.ts`, migrados los
