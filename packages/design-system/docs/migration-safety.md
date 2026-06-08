@@ -99,6 +99,60 @@ redesign de la próxima sesión. Ver [`inconsistencies-backlog.md`](inconsistenc
 
 ---
 
+## Re-sync con un Kit/preset nuevo de PrimeNG (Figma + código)
+
+Cuando PrimeNG publica un Kit (Figma) y/o un preset nuevos, **NO se re-duplica el Kit entero**: eso
+repetiría el trabajo y **rompería Code Connect** (file nuevo = node IDs nuevos = mapeos caídos). Se
+evoluciona el **file canónico "Smart-Contact Prime" en sitio**, trayendo del Kit nuevo **solo lo que
+cambió**.
+
+**Por capas:**
+- **Preset (código):** el **Migration Assistant** del Theme Designer (`Check for Updates`) **añade los
+  tokens que falten y NO pisa los valores existentes** → nuestros `--sc-*` se quedan. Tras el merge,
+  `tokens:parity` + `type-parity` verifican que nada se desvió en silencio.
+- **Figma (variables + text styles):** son **nuestros, LOCALES** en nuestro file (duplicado con
+  colección de marca propia). Un Kit nuevo **no los toca**. Lo anclado a NUESTRAS variables (los text
+  styles → su colección de tipo propia) sobrevive. Lo que apunta a slots `--p-*` lo vigila `parity`.
+- **Code Connect:** apunta a **nuestro file** (la fuente del equipo), no al Kit crudo de PrimeNG.
+  Mientras evolucionemos el **mismo** file (node IDs estables), las conexiones aguantan. Un file nuevo
+  obligaría a re-mapear.
+
+**Por qué un update NO toca el tipo de contenido (las DOS capas de tipo):**
+- **Capa de control** (texto de botón/input): `--app-font-size` (= `scale.1` = 14) + tokens de
+  componente como `--button-label-font-weight` (= 500). Es lo que PrimeNG define y nuestro preset
+  redirige a `--sc-*`.
+- **Capa de contenido** (H/body/display = text styles de Figma): **nuestra**, PrimeNG no la define
+  (no renderiza `<h1>`).
+- Prueba con un botón real:
+  ```css
+  font-size: var(--app-font-size, 14px);             /* control: 14 (scale.1) */
+  font-weight: var(--button-label-font-weight, 500);  /* componente: 500 (Medium) */
+  ```
+  → cambiar el ramp de **contenido** NO mueve este botón. Por eso editar los text styles de contenido
+  es **seguro para los controles**: viven en carriles distintos.
+
+**Caveat honesto (Figma):** Figma aún no permite override limpio de las variables de una librería base
+al actualizarla (se pueden resetear). Por eso la marca vive **local** en nuestro file (la poseemos → no
+se resetea); el coste es que un Kit nuevo se **reconcilia a mano** (clasificación humana: adoptar /
+ignorar / divergencia consciente), protegida por `parity`. Camino ideal futuro: **Extended Collections**
+de Figma (overrides de marca como modos sobre la base, para que las updates fluyan limpias).
+
+**Checklist al recibir Kit/preset nuevo:**
+1. Migration Assistant → `Check for Updates` (añade tokens nuevos, no pisa).
+2. Reflejar lo adoptado en `--sc-*`; correr `tokens:parity` + `type-parity` (verde = sin drift silencioso).
+3. Traer al file canónico **solo** los componentes/tokens nuevos (no re-duplicar).
+4. Editar text styles / variables de marca **solo en nuestro file**, cuando lo decidamos (origen Figma = Modelo B).
+5. `npm run e2e` + diff visual Playwright tras el merge.
+6. Lo que NO overrideamos y cambie en el Aura nuevo → **decisión humana**, no auto-merge.
+
+> El tipo de **contenido** debe vivir en su **colección de variables propia** (`font/size/*`,
+> `font/line-height/*`), no en `scale/*` (spacing): los tamaños editoriales (18/24/48…) no caen en la
+> rejilla 14-base, y desacoplar el tipo del spacing encoge la superficie que un update de PrimeNG puede
+> tocar. El **font de control** (12.25/14/15.75) sí son valores de escala → ahí el componente sigue
+> aliaseando `scale`.
+
+---
+
 ## ¿Qué se puede tocar?
 
 ### ✅ Seguro (no rompe nada)
