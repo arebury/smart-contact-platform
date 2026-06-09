@@ -758,7 +758,7 @@ de la bandeja/índice sin meter sombra.
 
 ---
 
-## 7. Tipografía migration-safe (S67) — punteros
+## 7. Tipografía (S67 blindaje · S72 escala) — punteros
 
 Esta sesión cerró el **cinturón tipográfico** (olas 1+2 tokenizaron 367 literales `font-size` →
 `--sc-font-size-*`, cobertura 48%→100% accionable; guard "Dura 4" bloquea `font-size` literal
@@ -769,11 +769,14 @@ que su contenido vive en sus hogares canónicos:
   bridge `sc-preset.ts`, no en PrimeNG; único riesgo = slot `--p-*` renombrado → drift detectable
   por `tokens:type-parity`; **NO** vincular `--sc-font-*` a la escala PrimeNG) → `migration-safety.md`
   + decisión SCDS DD-11 en `DECISIONS.md`.
-- **Tooling** (`tokens:type-parity` read-only, escala base-14, olas 1+2, guard Dura 4) →
-  `tokens/README.md`.
+- **Escala tipográfica** (redonda 12/14/16/18/20/24/32, desacoplada de `--sc-scale`, rem root-16,
+  line-heights por regla, 2 pesos, naming de text styles = tokens de código) → **DD-13** en
+  `DECISIONS.md`. Es la decisión que circula por el mecanismo de DD-11.
+- **Tooling** (`tokens:type-parity` read-only, guard Dura 4) → `tokens/README.md`.
 - **Guía para diseño** → `tokens/GUIA.md`.
 
-**Line-heights NO tocados** (diferidos por riesgo de layout) → `inconsistencies-backlog.md`.
+**Line-heights**: dirección decidida en DD-13 (por regla); implementación pendiente (diff visual +
+e2e) → `inconsistencies-backlog.md` #74.
 
 ---
 
@@ -804,5 +807,6 @@ Recomendación cuando se active la Fase 4:
 
 ---
 
-Última actualización: 2026-06-02 (Session 67, §2.10 divider · §2.11 estados de agente ·
-§5.11 gap `--sc-bg-canvas` · §6 jerarquía de color config · §7 punteros tipografía).
+Última actualización: 2026-06-09 (Session 72, §7 punteros tipografía → añadida escala DD-13).
+Anterior: 2026-06-02 (S67, §2.10 divider · §2.11 estados de agente · §5.11 gap `--sc-bg-canvas` ·
+§6 jerarquía de color config · §7 punteros tipografía).

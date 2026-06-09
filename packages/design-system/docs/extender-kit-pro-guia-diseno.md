@@ -159,10 +159,13 @@ no los borra.
 
 No se desarrolla aquí porque tiene su hogar canónico:
 
+- **Qué escala usamos** (redonda 12/14/16/18/20/24/32, rem sobre root 16,
+  line-heights por regla, 2 pesos, nombres de los estilos = tokens de código):
+  **DD-13** en [`DECISIONS.md`](./DECISIONS.md). Es la decisión de diseño viva.
 - Por qué un update de PrimeNG no rompe los tipos (racional / blindaje):
-  [`migration-safety.md`](./migration-safety.md).
-- Tooling y escala (`tokens:type-parity`, base-14, guard que bloquea tamaños
-  literales nuevos): [`tokens/README.md`](../tokens/README.md).
+  [`migration-safety.md`](./migration-safety.md) (mecanismo DD-11).
+- Tooling (`tokens:type-parity`, guard que bloquea tamaños literales nuevos):
+  [`tokens/README.md`](../tokens/README.md).
 - Versión para diseño, sin tecnicismos: [`tokens/GUIA.md`](../tokens/GUIA.md).
 
 ---

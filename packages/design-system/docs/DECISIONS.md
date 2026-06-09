@@ -107,6 +107,16 @@ nunca el core de PrimeNG ni el Kit del equipo. Coherente con el SCDS CLAUDE.md
   `app.typography`, pero eso es detalle de su código; nuestra fuente de verdad (Figma)
   se queda con la jerarquía correcta.
 
+**Relación con DD-11 (no se contradicen):** DD-11 (S67) es el **mecanismo** —
+los `font-size` viven en `--sc-*`, blindados por guard + comprobador; sigue
+vigente. DD-13 (S72) es la **escala** que circula por ese mecanismo: cambia el
+*target* de "snap a base-14" (decimales) a **redondo + rem**, y **decide** las
+deudas que DD-11 dejó abiertas — line-heights `inconsistencies-backlog.md` #74 (ahora
+"por regla") y tiers display #75 (36/48/64 de registro). El guard "Dura 4" y
+`tokens:type-parity` no cambian; solo se reajusta el comprobador de snap-base-14 a
+redondo al reflejar en código (paso (d) de Consecuencias). **Esta DD es el hogar
+canónico de la ESCALA tipográfica; DD-11, el del blindaje.**
+
 ---
 
 ## DD-12 · 2026-06-04 (S70) — Naming de convergencia: el catálogo unión sigue DD-8 (Kit Pro 1:1, pegado); los devs realinean a él
@@ -187,7 +197,13 @@ el cinturón que color (DD-3) y spacing/escala (DD-10) ya tenían.
 - Los tipos viven en **nuestros** tokens `--sc-font-size-*` (capa primitive) +
   bridge `sc-preset.ts` → `--p-*` — **nunca dentro de PrimeNG**.
 - Las **`line-height`** NO se tocaron (diferidas, riesgo de layout) — ver deuda
-  en `inconsistencies-backlog.md`.
+  en `inconsistencies-backlog.md`. **(Decididas después en DD-13: "por regla".)**
+
+> **Superado en parte por DD-13 (S72):** el *mecanismo* de esta DD (tokens en
+> `--sc-*`, guard, `tokens:type-parity`) sigue intacto. Lo que cambia es la
+> **escala** que viaja por él: de "snap a base-14" (decimales) a **redonda + rem
+> root-16**. La escala tiene su hogar canónico en **DD-13**; esta DD se queda con
+> el **blindaje**.
 
 **Razón**: misma arquitectura unidireccional que color (DD-3) y escala (DD-10).
 Como los tipos viven en `--sc-*` y el preset reenvía a `--p-*`, **un update de

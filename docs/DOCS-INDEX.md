@@ -23,6 +23,7 @@
 | Roadmap SCDS (componentes pendientes) | [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../packages/design-system/docs/MIGRATION-INVENTORY.md) | Claude (al cocinar componente nuevo) |
 | Backlog deuda DS (inconsistencias, gaps, refactors) | [`packages/design-system/docs/inconsistencies-backlog.md`](../packages/design-system/docs/inconsistencies-backlog.md) | Claude (audita antes de commit) |
 | Brand divergences (tokens custom vs Aura) | [`packages/design-system/docs/customs-catalog.md`](../packages/design-system/docs/customs-catalog.md) | Claude (antes de añadir override / token nuevo) + equipo de diseño (sync Figma) |
+| **Tipografía** — escala/rem/pesos (qué tamaños usamos) | [`packages/design-system/docs/DECISIONS.md`](../packages/design-system/docs/DECISIONS.md) **DD-13** (escala redonda, rem root-16, line-heights por regla). Mecanismo de blindaje = DD-11 + `migration-safety.md`; deuda de implementación = `inconsistencies-backlog.md` #74/#75 | Claude + equipo de diseño |
 | Guía de diseño — extender el Kit Pro sin romper (tablas/composiciones) | [`packages/design-system/docs/extender-kit-pro-guia-diseno.md`](../packages/design-system/docs/extender-kit-pro-guia-diseno.md) | Equipo de diseño + Rafa |
 | Audit Figma alignment SCDS · Figma node IDs · parity % por componente · última verificación | [`packages/design-system/docs/MIGRATION-INVENTORY.md`](../packages/design-system/docs/MIGRATION-INVENTORY.md) | Claude (PRIMERO al auditar drift SCDS↔Figma) |
 | Registro de componentes primitivos ↔ Figma (pares Angular↔Kit Pro, node IDs, ejes/variantes, triggers de promoción) | [`packages/design-system/docs/code-connect-mapping.md`](../packages/design-system/docs/code-connect-mapping.md) | Claude (al mapear/promover una primitiva) |
@@ -103,3 +104,8 @@ S67 tocó además `inconsistencies-backlog.md` (gap #73 `--sc-bg-canvas`),
 (racional tipografía migration-safe), `customs-catalog.md` (jerarquía color + estados),
 `MIGRATION-INVENTORY.md` (`sc-multiselect` options primitivas) y `ROADMAP.md`. Cada tema
 en su hogar canónico; este INDEX solo apunta.
+
+Actualización 2026-06-09 (S72): añadida fila topic **Tipografía** → DD-13 (escala redonda/rem)
+como fuente única; alineadas las menciones paralelas (migration-safety, customs-catalog §7,
+extender-guía §9, backlog #74/#75, SCDS CLAUDE) a apuntar a DD-13 — antes solo referenciaban
+DD-11 (el mecanismo). DD-11 = blindaje, DD-13 = escala; complementarias, no se contradicen.

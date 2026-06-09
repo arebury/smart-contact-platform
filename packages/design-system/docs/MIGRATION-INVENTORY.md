@@ -81,7 +81,10 @@ Capa | Archivo | Status
 > read-only + guard "Dura 4" que bloquea `font-size` literal nuevo) → ver
 > [`tokens/README.md`](../tokens/README.md). Racional de blindaje (por qué un
 > update de PrimeNG no los borra) → [`migration-safety.md`](migration-safety.md).
-> Decisión arquitectónica → DD-11 en [`DECISIONS.md`](DECISIONS.md).
+> Decisión arquitectónica (mecanismo) → DD-11 en [`DECISIONS.md`](DECISIONS.md).
+> **Escala tipográfica (valores: redonda, rem, line-heights por regla) → DD-13.** El
+> snap base-14 de arriba es el estado actual del código; DD-13 lo mueve a redondo al
+> reflejarse (pendiente de validar en real).
 
 ## Figma verification log
 

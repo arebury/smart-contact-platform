@@ -169,7 +169,7 @@ point isn't encoded). `v / 14` is unambiguous.
 
 **Why 14, not 8**: the Kit Pro (a clean PrimeNG duplicate) bases its scale on the
 14px root font, so steps land on 3.5 / 5.25 / 7 / 8.75 / 10.5 / 12.25 …, not on an
-8px grid. When a SnowUI-flavored spec is drawn on an 8px grid, **snap each value to
+8px grid. When an external spec is drawn on an 8px grid, **snap each value to
 the nearest 14-base step** rather than forking a parallel 8-grid ramp — keeps one
 scale (see `customs-catalog.md §2.7`).
 
@@ -177,12 +177,17 @@ scale (see `customs-catalog.md §2.7`).
 `--sc-line-height-*` and `--sc-icon-size-*` are semantic aliases (layer 2) that
 point *at* `--sc-scale-*`. There is exactly one ramp.
 
-> **Typography rides this same ramp.** `--sc-font-size-*` are **not** a separate
-> metric scale — each one resolves to a `--sc-scale-*` step (e.g.
-> `--sc-font-size-200: var(--sc-scale-1)` = 14px; `--sc-font-size-900:
-> var(--sc-scale-5)` = 70px). Snap any off-scale type spec to the nearest 14-base
-> step, never fork a parallel type ramp. Detail in §"Typography — the
+> **Typography rides this same ramp — for now.** Today `--sc-font-size-*` resolve to
+> `--sc-scale-*` steps (e.g. `--sc-font-size-200: var(--sc-scale-1)` = 14px;
+> `--sc-font-size-900: var(--sc-scale-5)` = 70px). Detail in §"Typography — the
 > migration-safe belt" below.
+>
+> ⚠️ **DD-13 (S72) decouples this.** The typography scale is decided to become **round**
+> (12/14/16/18/20/24/32, rem root-16), **independent of `--sc-scale`** (spacing keeps the
+> 14-base ramp; the letter gets its own round set). This README describes the **current
+> code state** (still base-14-aliased); when DD-13 is reflected to code, `--sc-font-size-*`
+> stop aliasing `--sc-scale` and `tokens:type-parity` retargets from base-14-snap to round.
+> Canonical decision → **DD-13** in [`../docs/DECISIONS.md`](../docs/DECISIONS.md).
 
 **Code-only steps** — three exist in code but not in the current `tokensprime.json`
 export (surfaced by `tokens:parity` section 5):
@@ -264,7 +269,9 @@ Three pieces enforce the belt:
 
 **`line-height` is deliberately NOT migrated** — those literals are deferred to a
 later phase because retokenizing them carries layout-shift risk. They stay as-is for
-now (tracked in [`../docs/inconsistencies-backlog.md`](../docs/inconsistencies-backlog.md)).
+now (tracked in [`../docs/inconsistencies-backlog.md`](../docs/inconsistencies-backlog.md) #74).
+**Direction now decided** in DD-13 (S72: line-heights by rule — body ~1.5, headings ~1.25, even px);
+implementation (reflect to code + visual diff) still pending.
 
 ## Adding a new token
 

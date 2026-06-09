@@ -17,7 +17,7 @@ truth de identidad visual SC**.
 
 | Tema | Doc |
 |---|---|
-| Decisiones arquitectónicas SCDS | [`docs/DECISIONS.md`](docs/DECISIONS.md) — DD-1 a DD-7 |
+| Decisiones arquitectónicas SCDS | [`docs/DECISIONS.md`](docs/DECISIONS.md) — DD-1 a DD-13 |
 | Inventario componentes + estado | [`docs/MIGRATION-INVENTORY.md`](docs/MIGRATION-INVENTORY.md) |
 | Brand divergences vs Aura | [`docs/customs-catalog.md`](docs/customs-catalog.md) |
 | Backlog deuda DS | [`docs/inconsistencies-backlog.md`](docs/inconsistencies-backlog.md) |

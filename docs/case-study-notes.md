@@ -26,7 +26,7 @@
 
 **Lección portable**: cuando un cambio se siente "cosmético y barato", pregúntate cuántos layouts dependen del valor que tocas. La tipografía es el caso clásico de bajo-esfuerzo / alto-blast-radius. Protégela igual que cualquier eje crítico: tooling read-only que detecta drift + guard proactivo que exige permiso explícito antes de un literal nuevo. Y mantén la dirección de dependencia unidireccional — tus tokens son la fuente, la librería externa es el consumidor, nunca al revés.
 
-> Decisión arquitectónica formal en `packages/design-system/docs/DECISIONS.md` (DD-11); racional de blindaje en `migration-safety.md`; tooling y ley de escala en `tokens/README.md`.
+> Decisión arquitectónica formal del **mecanismo** en `packages/design-system/docs/DECISIONS.md` (DD-11); racional de blindaje en `migration-safety.md`; tooling en `tokens/README.md`. La **escala** (redonda 12/14/16…, rem root-16, line-heights por regla) se decidió después en **DD-13** (S72) — el "redesign de Fase 4" de arriba ya tiene dirección; queda implementarlo.
 
 ---
 

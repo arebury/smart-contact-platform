@@ -63,6 +63,10 @@ Cualquier cambio upstream PrimeNG SOLO afecta la última capa. El bridge contien
 > Detalle del tooling (`tokens:type-parity` read-only, escala base-14, olas 1+2, guard
 > Dura 4) → [`tokens/README.md`](../tokens/README.md). La decisión arquitectónica formal →
 > DD-11 en [`DECISIONS.md`](DECISIONS.md). Esta sección cubre solo el **racional de blindaje**.
+>
+> **La ESCALA tipográfica (valores) la decide DD-13** (S72): redonda 12/14/16/18/20/24/32,
+> desacoplada de `--sc-scale`, rem root-16, line-heights por regla, 2 pesos. Esta sección
+> (DD-11) cubre el *mecanismo* que la transporta; **DD-13 es el hogar de la escala**.
 
 **El miedo:** "si meto mis tipos, ¿un update de PrimeNG los rompe?". No los borra, y un
 desajuste sería **detectable y de arreglo en un sitio**. Por qué:
@@ -94,8 +98,13 @@ vs lo que PrimeNG espera y canta el drift en el commit. Eso convierte un "se rom
 (p. ej. unificar a un único set de estilos) sin dejar huérfanos. Los detalles del tooling viven en
 [`tokens/README.md`](../tokens/README.md).
 
-**Los `line-height` NO se tocaron** (diferidos, riesgo de layout) — quedan en backlog para el
-redesign de la próxima sesión. Ver [`inconsistencies-backlog.md`](inconsistencies-backlog.md).
+**Los `line-height` NO se tocaron** en S67 (diferidos, riesgo de layout). La **dirección ya está
+decidida** en DD-13 (S72: por regla — cuerpo ~1,5, títulos apretando ~1,25, en px par); lo que queda
+es **implementarla** con diff visual + e2e. Ver [`inconsistencies-backlog.md`](inconsistencies-backlog.md) #74.
+
+> Nota: la tokenización S67 snapeó los `font-size` a base-14 (decimales). DD-13 mueve el *target* de
+> la escala a **redondo + rem**; el mecanismo (guard, `tokens:type-parity`) no cambia, solo se reajusta
+> el comprobador al pasar a redondo.
 
 ---
 
@@ -214,8 +223,9 @@ de Figma (overrides de marca como modos sobre la base, para que las updates fluy
   (snap base-14, cobertura 48%→99→100% accionable). Guard **Dura 4** bloquea `font-size` literal nuevo
   (0 excepciones; hero 88px → `--sc-font-size-900`). `tokens:type-parity` (read-only) canta drift.
   `line-height` NO tocados (diferidos, riesgo layout). Racional de por qué un update de PrimeNG no
-  borra los tipos → § "Tipografía migration-safe" arriba; tooling → `tokens/README.md`; decisión →
-  DD-11 en `DECISIONS.md`.
+  borra los tipos → § "Tipografía migration-safe" arriba; tooling → `tokens/README.md`; decisión del
+  **mecanismo** → DD-11 · decisión de la **escala** (redonda/rem/line-heights por regla) → **DD-13**,
+  ambas en `DECISIONS.md`.
 - **`<sc-multiselect>` soporta `options` primitivas** (`string[]`) vía `hasPrimitiveOptions` +
   `resolvedOptionLabel`/`Value` (portado de `<sc-select>`) → fix de 4 multiselects de Grupos config
   que salían vacíos. Single point of adaptation respetado (lógica en el wrapper, no en consumers).
@@ -390,6 +400,6 @@ Documentado en `customs-catalog.md §5` para futura referencia.
 - [`MIGRATION-INVENTORY.md`](MIGRATION-INVENTORY.md) — inventario actualizado de componentes + status (incl. `sc-multiselect` options primitivas).
 - [`code-connect-mapping.md`](code-connect-mapping.md) — mapeo Angular ↔ Figma (incl. divider, Kit node `302:11810`).
 - [`inconsistencies-backlog.md`](inconsistencies-backlog.md) — deuda DS (incl. #73 `--sc-bg-canvas`).
-- [`DECISIONS.md`](DECISIONS.md) — DD-11 tipografía migration-safe.
+- [`DECISIONS.md`](DECISIONS.md) — DD-11 tipografía migration-safe (mecanismo) · **DD-13 escala tipográfica** (redonda/rem/pesos).
 - [`tokens/README.md`](../tokens/README.md) — tooling de tokens (incl. `tokens:type-parity`, guard Dura 4).
 - [`tokens/GUIA.md`](../tokens/GUIA.md) — guía de identidad SC en español (para diseño).
