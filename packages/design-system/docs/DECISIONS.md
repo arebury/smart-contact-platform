@@ -87,6 +87,21 @@ nunca el core de PrimeNG ni el Kit del equipo. Coherente con el SCDS CLAUDE.md
   Son sistemas distintos: el espaciado es geometría estructural (consistente en toda
   la app, imperceptible); la letra es legibilidad (redondo + rem importan). Cada uno
   con su escala; el espaciado **no se toca**.
+- **El icono "de texto" hereda el tier tipográfico, NO la escala** (refinamiento S72,
+  validado contra el preset). Un icono embebido con la letra (botón, chip, input, menú,
+  breadcrumb) se compara ópticamente con el texto en la misma línea → debe atarse al
+  `font-size` del componente (idealmente `1em`), **no** a `--sc-icon-size-*` (que es alias
+  de `--sc-scale`, decimal). Así rima por construcción (Δ0) a cualquier tamaño. Dato: el
+  cruce letra-redonda ↔ icono-escala hoy es ≤0,25px en controles (sm 12↔12,25 · md 14↔14 ·
+  lg 16↔15,75) — imperceptible — pero sube a 0,5–1px en display y, sin atar, permite un
+  icono default 14 junto a texto 12 (Δ2px, **sí** se ve). El icono de **geometría/UI**
+  (empty-state, avatar, ilustración) SÍ se queda en `--sc-icon-size-*`/escala. Mismo
+  principio que el punto anterior: dos sistemas (legibilidad vs geometría); el icono se
+  asigna **por rol**, no por defecto a la escala. Bonus: `<sc-icon>` ya alimenta `opsz`
+  con el size → atarlo al tier afina también el trazo del glifo al tamaño del texto.
+  **Implicación Figma:** los main components que hoy atan el icono a la escala habría que
+  re-atarlos al tier tipográfico (parte de "validar en real"; depende del naming de
+  variables — due-diligence abierta).
 - **Pipeline a código:** Figma (variables `app/*` + estilos) → **Theme Designer** →
   PR a GitHub → `--sc-font-size-*`. Es lo que hace que tocar la variable una vez en
   Figma llegue al código sin copiar valores a mano.
