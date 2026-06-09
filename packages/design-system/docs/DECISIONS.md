@@ -122,6 +122,52 @@ nunca el core de PrimeNG ni el Kit del equipo. Coherente con el SCDS CLAUDE.md
   `app.typography`, pero eso es detalle de su código; nuestra fuente de verdad (Figma)
   se queda con la jerarquía correcta.
 
+**Validación contra PrimeNG — cómo modela la tipografía y qué instala el dev (S72b):**
+investigación multi-fuente (doc oficial PrimeNG/PrimeUIX + código `@primeuix/themes` +
+export del Kit + un tema generado por el Theme Designer) + verificación empírica.
+
+- **PrimeNG NO modela la tipografía como sistema.** No hay grupo `typography` en sus 3
+  tiers (primitive/semantic/component). Postura oficial literal: *"There is no design for
+  fonts as UI components inherit their font settings from the application."* Y la doc
+  "Scale": *"Use the root font-size to adjust the size of the components globally."* Hay
+  **un único dial: el `font-size` del `<html>`** (su web usa 14px); el resto es `rem`
+  colgando de ahí. Confirmado por grep cero de `typography` en `@primeuix/themes` y por el
+  issue PrimeNG #3273 (un usuario peleando justo con esto). Excepción acotada: la capa
+  semántica de INPUTS `form.field.sm/lg.font.size`. Fuera de inputs cada componente
+  hardcodea `font-size: 1rem` y NO es token (issue PrimeUIX #192 pide tokenizarlos — sigue
+  abierto). → **No hay capa de tipografía de CONTENIDO** (heading/title/body): se hereda
+  del root.
+- **El dev instala la letra en `rem`, no en px.** Verificado en un tema generado por el
+  Theme Designer (carpetas `ts`/`js`, un archivo por componente): TODOS los `fontSize` en
+  rem (`formField.sm` `0.875rem`, `lg` `1.125rem`, `dialog.title` `1.25rem`, `avatar`
+  `2rem`…); los px del tema son solo bordes/radios/sombras. El plugin **convierte los px de
+  las variables Figma a rem dividiendo por 16**. Con escala REDONDA → **rem limpios**
+  (12→0,75 · 14→0,875 · 16→1 · 18→1,125 · 20→1,25 · 24→1,5 · 32→2); con los decimales
+  14-base habrían salido feos (15,75→0,984rem). **Esto valida empíricamente el punto 1 de
+  esta DD** (redondo + rem) con los propios ficheros del tema.
+  - Nota operativa — el plugin tiene DOS salidas distintas: **"Generar tema"** = el preset
+    de PrimeNG cocinado y listo para instalar (`ts`/`js`, letra ya en rem) — lo que el dev
+    usa; **"Exportar"** = el JSON crudo de variables (`tokensprime.json`, números px) — la
+    lista de ingredientes, no el plato. Para decidir unidades manda el tema generado (rem).
+- **Naming = BARRA, no guion: `typography/font/size/14`** (no `font-size`). En el modelo
+  lógico de PrimeNG la pareja es `font.size` (dot-path en referencias) o `fontSize`
+  (camelCase en JS); el **guion** `font-size` SOLO aparece al emitir a CSS
+  (`--p-…-font-size`) como kebab-case de salida, no como separador semántico. En Figma
+  Variables la barra `/` ES la jerarquía de grupos = el punto del dot-path → `font/size`
+  habla el idioma de `{form.field.font.size}` del Kit. **Decidido; el rename en Figma queda
+  pendiente** (mecánico: solo cambia el nombre; valores y anclajes intactos).
+- **Nuestra rampa de CONTENIDO (h1–h4, body-1/2/3, subtitle, caption) es divergencia
+  consciente y correcta:** PrimeNG no la tiene (es el hueco del issue #192), así que NO es
+  deuda nuestra — es valor que aportamos. Va con naming de barra propio
+  (`typography/heading/h1`, `typography/body/body-1`) y entry explícito en
+  `customs-catalog.md`, separada de los tokens atados a `form.field` (que sí espejan PrimeNG).
+- **Hoy el código está en `px`** (`--sc-scale-1: 14px`; los `--sc-font-size-*` cuelgan de la
+  escala px) **→ divergimos del output nativo de PrimeNG (rem) y rompemos el dial de escala
+  global** (un usuario que sube el tamaño base del navegador no ve crecer nuestra letra;
+  a11y degradada). La migración **px → rem** es trabajo real pendiente (no romper layouts:
+  diff visual + e2e por grupo), no un redondeo simple. Trackeada en
+  `inconsistencies-backlog.md` #88.
+
 **Relación con DD-11 (no se contradicen):** DD-11 (S67) es el **mecanismo** —
 los `font-size` viven en `--sc-*`, blindados por guard + comprobador; sigue
 vigente. DD-13 (S72) es la **escala** que circula por ese mecanismo: cambia el

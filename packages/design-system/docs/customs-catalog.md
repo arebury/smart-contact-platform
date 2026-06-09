@@ -772,6 +772,13 @@ que su contenido vive en sus hogares canónicos:
 - **Escala tipográfica** (redonda 12/14/16/18/20/24/32, desacoplada de `--sc-scale`, rem root-16,
   line-heights por regla, 2 pesos, naming de text styles = tokens de código) → **DD-13** en
   `DECISIONS.md`. Es la decisión que circula por el mecanismo de DD-11.
+- **Rampa de CONTENIDO (h1–h4, body-1/2/3, subtitle, caption) = divergencia consciente**: PrimeNG
+  no tiene tipografía de contenido (solo `form.field` para inputs; el resto hereda del root del
+  `<html>` — issue PrimeUIX #192 abierto). Es hueco upstream, **no deuda nuestra** → lo aportamos
+  nosotros, con naming de **barra** (`typography/heading/h1`, `typography/body/body-1`), separado de
+  los tokens atados a `form.field` (que sí espejan PrimeNG). Regla de naming: barra `font/size`,
+  **nunca** guion `font-size` (el guion es solo el kebab-case de salida CSS). Evidencia y validación
+  contra PrimeNG → DD-13 (Anexo "Validación contra PrimeNG").
 - **Tooling** (`tokens:type-parity` read-only, guard Dura 4) → `tokens/README.md`.
 - **Guía para diseño** → `tokens/GUIA.md`.
 

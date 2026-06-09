@@ -188,6 +188,12 @@ point *at* `--sc-scale-*`. There is exactly one ramp.
 > code state** (still base-14-aliased); when DD-13 is reflected to code, `--sc-font-size-*`
 > stop aliasing `--sc-scale` and `tokens:type-parity` retargets from base-14-snap to round.
 > Canonical decision → **DD-13** in [`../docs/DECISIONS.md`](../docs/DECISIONS.md).
+>
+> **Unit = `rem`, not px (validated S72b).** PrimeNG ships type in `rem` — the Theme Designer
+> converts Figma px → rem ÷16, and round sizes give clean rem (16→1, 24→1.5, 32→2). Our tokens are
+> still **px today**, so we break PrimeNG's global scale dial (the `<html>` root font-size) and a11y.
+> The px→rem migration is tracked in `../docs/inconsistencies-backlog.md` #88. Type variable names
+> mirror PrimeNG's dot-path with a **slash** (`typography/font/size/14`), never a hyphen — see DD-13.
 
 **Code-only steps** — three exist in code but not in the current `tokensprime.json`
 export (surfaced by `tokens:parity` section 5):

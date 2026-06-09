@@ -38,7 +38,7 @@
    * que cualquier Dialog general — son el spec del shell modal,
    * compartido entre Dialog plain y ConfirmDialog.
    *
-   * Padding scheme (Figma):
+   * Padding scheme (                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ):
    *   header   17.5 todo lado
    *   content  17.5 lados/abajo, top 0 (header da el espacio)
    *   footer   17.5 lados/abajo, top 0 (content da el espacio)
