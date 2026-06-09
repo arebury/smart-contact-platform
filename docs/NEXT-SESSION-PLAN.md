@@ -43,7 +43,8 @@
   - ✅ **Preset estándar PrimeNG**: fiable — rem correcto, referencias Aura intactas (divider cruzó limpio), colores de marca bien horneados.
   - ❌ **Nuestra capa NO baja por el pipeline**: la colección **App no cruza** al tema; lo Custom sale en **px** (sin ÷16), con **sintaxis inválida** (claves con guiones/espacios sin comillas → `extend.ts` no compila) y con los anclajes a Custom **aplanados** a literal. Bug `font.weight=600px` **confirmado** (`extend.ts:28`, solo capa Custom).
   - **Veredicto = método del Bloque 2:** nuestra capa va **a mano** (Claude), usando el **JSON crudo de "Exportar"** como contrato (ahí todo cruza íntegro, incl. `app/font/size → {typography.font-size.14}`).
-- **Pendiente menor:** validar el viaje **GitHub directo** del plugin (rama-jaula `theme-designer-pilot` + carpeta `theme-pilot/`, config entregada a Rafa).
+- **Viaje GitHub directo del plugin:** ✅ probado (S73) — push tokens + theme a `theme-designer-pilot/theme-pilot/` cruza limpio; confirma que el cuello no es el transporte sino el contenido de nuestra capa.
+- **Higiene del puente (S73, experimento operado por Claude vía MCP sobre el duplicado):** convertido el diagnóstico en **reglas canónicas** (DD-13 Anexo "higiene del PIPELINE"): (1) naming sin guion/espacio interno → renombrados los primitivos `typography/font/size` + `line/height` y el componente `bulkTranscriptionModal/` en el duplicado; (2) tipo string para no-medidas (weight/variante/familia) — el plugin no las pxea; (3) no duplicar en Custom lo estándar (modal: 4 colores reales vs 16 huérfanos; borrado el `title/font/weight=600` huérfano = adiós `600px`). **Pendiente Rafa:** re-push tokens+theme → Claude verifica `extend.ts` compila + sin `600px`. Luego: replicar naming/tipos en el **Kit oficial** + limpiar los 15 huérfanos restantes (oficialización).
 
 ### ✍️ BLOQUE 2 — Tipografía en real (de DD-13 a producción) — ✅ HECHO (S73)
 - **2.1 — text styles → primitivos (duplicado):** ✅ HECHO (S72b).

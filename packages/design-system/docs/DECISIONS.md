@@ -205,6 +205,41 @@ deudas que DD-11 dejó abiertas — line-heights `inconsistencies-backlog.md` #7
 redondo al reflejar en código (paso (d) de Consecuencias). **Esta DD es el hogar
 canónico de la ESCALA tipográfica; DD-11, el del blindaje.**
 
+**Anexo — higiene del PIPELINE Figma→Theme Designer (S73, experimento del puente):**
+verificado empíricamente operando las variables del duplicado por MCP + inspeccionando el
+componente `Bulk Transcription Modal` (node `12489:11524`) + el output del plugin en la rama
+`theme-designer-pilot`. Reglas que hacen que lo que se diseña en Figma cruce a código **sin
+fricción** (objetivo de Rafa: el puente como árbitro — "input limpio → output limpio" demostrable):
+
+- **Naming sin guiones ni espacios DENTRO de un segmento.** El plugin emite las variables Figma
+  como objeto JS anidando por barra (`a/b/c` → `{a:{b:{c}}}`). Un **guion** o **espacio** dentro de
+  un segmento produce una clave JS inválida (`font-size: {` / `bulk transcription modal: {`) → el
+  `extend.ts` generado **no compila**. Fix (S73): los primitivos pasaron de `typography/font-size/12`
+  → `typography/**font/size**/12` y `line-height` → `line/height`; el componente custom
+  `bulk transcription modal/` → `bulkTranscriptionModal/`. Regla: **barras para jerarquía,
+  camelCase para palabras compuestas; nunca guion/espacio como separador interno.** (El guion solo
+  reaparece como kebab al emitir CSS — `--app-font-size` — eso es del lado código, no Figma.)
+- **Tipo de variable = semántica, no "todo número".** El plugin **le pega `px` a TODO número de la
+  colección _Custom_** (pierde el contexto que sí tiene en las colecciones estándar). Para un tamaño
+  cuela (`12`→`12px`); para lo que **no es medida** es basura (`weight 600`→`600px`). Regla:
+  - **Número** → solo medidas reales (size, padding, radius, gap).
+  - **String** → todo lo que NO es medida (font-weight, icon-weight/variante, font-family, z-index,
+    opacidad, line-height unitless). Se escribe el valor como texto (`"600"`, `"Semibold"`) y el
+    plugin lo deja intacto — **es justo como PrimeNG emite el peso** (`fontWeight: "600"`, entre
+    comillas). Confirmado contra SnowUI: su `icon-weight` es **string** (`"Regular"/"Fill"/"Duotone"`)
+    por la misma lógica (variante, no número). → **Para un token custom de peso con control propio:
+    crearlo tipo String.** No hace falta heredar de otro componente.
+- **No re-declarar en Custom lo que ya existe como token estándar y el componente ya usa.** Hallazgo
+  S73: de las 20 variables `bulkTranscriptionModal/*`, el componente solo enlazaba **4 colores**
+  (background, border/color, color, subheader/color = sus overrides de marca reales); las otras 16
+  eran **huérfanas** — el modal enlaza a los estándar `dialog/*` y `scale/*`. El `title/font/weight=600`
+  custom era huérfano (el título usa `dialog/title/font/weight`) → **borrado** (migration-safe:
+  verificado que nada lo enlazaba; el peso real sigue saliendo limpio de `dialog/*`, colección
+  estándar). Regla = DD-5 (minimal customization) aplicada a Figma: **Custom solo para divergencia de
+  marca; reusar el token estándar siempre que el componente ya lo consuma.** Limpiar los 15 huérfanos
+  restantes (size + paddings, son aliases a `scale/*`/`overlay/*`, no dan bug px, solo ruido) queda
+  para la sesión de oficialización.
+
 ---
 
 ## DD-12 · 2026-06-04 (S70) — Naming de convergencia: el catálogo unión sigue DD-8 (Kit Pro 1:1, pegado); los devs realinean a él
