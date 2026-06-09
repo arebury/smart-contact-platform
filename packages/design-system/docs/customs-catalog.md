@@ -776,9 +776,10 @@ que su contenido vive en sus hogares canónicos:
   no tiene tipografía de contenido (solo `form.field` para inputs; el resto hereda del root del
   `<html>` — issue PrimeUIX #192 abierto). Es hueco upstream, **no deuda nuestra** → lo aportamos
   nosotros, con naming de **barra** (`typography/heading/h1`, `typography/body/body-1`), separado de
-  los tokens atados a `form.field` (que sí espejan PrimeNG). Regla de naming: barra `font/size`,
-  **nunca** guion `font-size` (el guion es solo el kebab-case de salida CSS). Evidencia y validación
-  contra PrimeNG → DD-13 (Anexo "Validación contra PrimeNG").
+  los tokens atados a `form.field` (que sí espejan PrimeNG). Regla de naming **por capa**: la capa
+  **expuesta** (App, lo que el dev consume → `--app-font-size`) usa barra/jerarquía espejo del
+  dot-path de PrimeNG; el **primitivo de escala** va plano (`typography/font-size/14`, nombre=valor,
+  interno). Evidencia y validación contra PrimeNG → DD-13 (Anexo "Validación contra PrimeNG").
 - **Tooling** (`tokens:type-parity` read-only, guard Dura 4) → `tokens/README.md`.
 - **Guía para diseño** → `tokens/GUIA.md`.
 

@@ -149,13 +149,27 @@ export del Kit + un tema generado por el Theme Designer) + verificación empíri
     de PrimeNG cocinado y listo para instalar (`ts`/`js`, letra ya en rem) — lo que el dev
     usa; **"Exportar"** = el JSON crudo de variables (`tokensprime.json`, números px) — la
     lista de ingredientes, no el plato. Para decidir unidades manda el tema generado (rem).
-- **Naming = BARRA, no guion: `typography/font/size/14`** (no `font-size`). En el modelo
-  lógico de PrimeNG la pareja es `font.size` (dot-path en referencias) o `fontSize`
-  (camelCase en JS); el **guion** `font-size` SOLO aparece al emitir a CSS
-  (`--p-…-font-size`) como kebab-case de salida, no como separador semántico. En Figma
-  Variables la barra `/` ES la jerarquía de grupos = el punto del dot-path → `font/size`
-  habla el idioma de `{form.field.font.size}` del Kit. **Decidido; el rename en Figma queda
-  pendiente** (mecánico: solo cambia el nombre; valores y anclajes intactos).
+  - **Qué entregar a los devs (convergencia):** verificado en su repo — CURAN su preset desde
+    `projects/design-tokens/scripts/tokens.json` (su fuente) que regenera CSS + aliases `--sc-*`
+    con unidad (ya hacen px→rem) — NO instalan temas. El entregable principal es el **JSON de
+    variables** (valores + naming, gemelo de su `tokens.json`) + las DD (el porqué). El **Theme
+    Designer NO es excluyente**: lo han pagado y es **complementario** — el *pipeline vivo*
+    Figma→código (no un volcado a instalar pisando). Objetivo de convergencia: Figma (variables
+    1:1) → Theme Designer → preset → aliases `--sc-*` estables → componentes. Aún sin aplicar;
+    plan en `convergence-manifesto.md`.
+- **Naming — dos capas, dos reglas (corregido S72b-ext):** lo que el dev CONSUME (la capa
+  semántica **App**: `app/font/size` → CSS `--app-font-size`) usa **jerarquía con barra**,
+  espejo del dot-path de PrimeNG (`{form.field.font.size}`) — el guion solo aparece como
+  kebab-case al emitir el CSS, nunca como separador semántico. El **primitivo de escala**
+  (nuestro almacén de tamaños, que NADIE referencia directo) va **PLANO**:
+  `typography/font-size/12..48` + `typography/line-height/18..58`. Razón: PrimeNG NO tiene
+  primitivo de tipografía — su `font.size` es un token *semántico terminal* (un valor), no
+  una escala; no hay patrón PrimeNG que imitar para una LISTA de tamaños, y anidar
+  `font/size/<valor>` solo mete un grupo vacío de más (error que cometí y revertí: el
+  componente consume `--app-font-size`, no el primitivo, así que su naming es interno). El
+  primitivo plano (nombre = valor, convención estándar de escala) se lee mejor. Confirmado
+  contra el repo de los devs: su capa de aliases expone `--sc-font-size-*`/`--sc-line-height-*`
+  (guion en CSS), alimentada por un `tokens.json` de valores numéricos.
 - **Nuestra rampa de CONTENIDO (h1–h4, body-1/2/3, subtitle, caption) es divergencia
   consciente y correcta:** PrimeNG no la tiene (es el hueco del issue #192), así que NO es
   deuda nuestra — es valor que aportamos. Va con naming de barra propio
