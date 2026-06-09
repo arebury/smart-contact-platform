@@ -149,14 +149,16 @@ export del Kit + un tema generado por el Theme Designer) + verificación empíri
     de PrimeNG cocinado y listo para instalar (`ts`/`js`, letra ya en rem) — lo que el dev
     usa; **"Exportar"** = el JSON crudo de variables (`tokensprime.json`, números px) — la
     lista de ingredientes, no el plato. Para decidir unidades manda el tema generado (rem).
-  - **Qué entregar a los devs (convergencia):** verificado en su repo — CURAN su preset desde
-    `projects/design-tokens/scripts/tokens.json` (su fuente) que regenera CSS + aliases `--sc-*`
-    con unidad (ya hacen px→rem) — NO instalan temas. El entregable principal es el **JSON de
-    variables** (valores + naming, gemelo de su `tokens.json`) + las DD (el porqué). El **Theme
-    Designer NO es excluyente**: lo han pagado y es **complementario** — el *pipeline vivo*
-    Figma→código (no un volcado a instalar pisando). Objetivo de convergencia: Figma (variables
-    1:1) → Theme Designer → preset → aliases `--sc-*` estables → componentes. Aún sin aplicar;
-    plan en `convergence-manifesto.md`.
+  - **Qué entregar a los devs (convergencia) — verificado comparando archivos:** su
+    `sc-preset/base.ts` (+ un `.ts` por componente, ensamblados en `index.ts`) **ES un tema del
+    Theme Designer** (idéntico carácter a carácter al tema generado), sobre el que añaden su capa
+    custom (`extend.ts` con `app.typography`, `rem-scale.ts`) y una capa de aliases `--sc-*` desde
+    `projects/design-tokens/scripts/tokens.json`. Es decir: **tema generado y tokens SÍ se
+    combinan** — es justo para lo que se paga el Theme Designer. El pipeline real (de ellos y el de
+    convergencia): Figma → Theme Designer → **preset base instalable** (`base` + componentes) +
+    `extend` custom + aliases `--sc-*` estables (con unidad/rem) → componentes. Entregable a los
+    devs: **ambos** — el tema (su base, vía el Kit compartido) **y** los valores/naming (para los
+    aliases) + las DD (el porqué). Aún sin aplicar; plan en `convergence-manifesto.md`.
 - **Naming — dos capas, dos reglas (corregido S72b-ext):** lo que el dev CONSUME (la capa
   semántica **App**: `app/font/size` → CSS `--app-font-size`) usa **jerarquía con barra**,
   espejo del dot-path de PrimeNG (`{form.field.font.size}`) — el guion solo aparece como
