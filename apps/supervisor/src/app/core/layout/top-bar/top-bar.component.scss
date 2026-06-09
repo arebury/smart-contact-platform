@@ -87,8 +87,8 @@
     display: flex;
     align-items: center;
     gap: var(--sc-spacing-0-5);
-    font-size: var(--sc-font-size-200);
-    line-height: var(--sc-line-height-200);
+    font-size: var(--sc-font-size-14);
+    line-height: var(--sc-line-height-20);
   }
 
   &__crumb {
@@ -99,7 +99,7 @@
 
   &__crumb-sep {
     color: var(--sc-color-gray-300);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
   }
 
   &__crumb-link {
@@ -127,7 +127,7 @@
      * semibold) pero conservando el acento de marca soft-blue-700 del spec
      * Figma de breadcrumb. */
     color: var(--sc-text-primary);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-semibold);
   }
 
@@ -243,7 +243,7 @@
   }
 
   &__menu-name {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
     overflow: hidden;
@@ -252,7 +252,7 @@
   }
 
   &__menu-role {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     line-height: 1.4;
   }
@@ -310,7 +310,7 @@
     align-items: center;
     gap: var(--sc-spacing-0-875);
     padding: var(--sc-spacing-0-875) var(--sc-spacing-1-125);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-secondary);
     background: transparent;
     border: 0;

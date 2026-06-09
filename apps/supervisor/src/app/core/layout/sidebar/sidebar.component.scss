@@ -158,7 +158,7 @@
     padding: 0 var(--sc-spacing-1-125);
     display: flex;
     align-items: center;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-semibold);
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -239,7 +239,7 @@
      * label-aligned offset (expanded), mirroring the nav items. */
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875) var(--sc-spacing-0-5)
       var(--sidebar-pad-l-0, var(--sc-spacing-0-875));
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: rgb(255 255 255 / 0.4);
     background: transparent;
     border: 0;

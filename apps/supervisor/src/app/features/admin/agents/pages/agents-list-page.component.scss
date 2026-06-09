@@ -100,7 +100,7 @@
     text-align: left;
     /* Header limpio sentence-case en gris (no UPPERCASE tracked diminuto).
      * Eco de /conversaciones + body-sm-medium de SnowUI (Inter 12-13 medium). */
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     letter-spacing: 0;
     color: var(--sc-text-secondary);
@@ -152,13 +152,13 @@
 
   &__td {
     padding: var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-secondary);
     vertical-align: middle;
 
     &--mono {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, monospace;
-      font-size: var(--sc-font-size-100);
+      font-size: var(--sc-font-size-12);
     }
 
     &--num {
@@ -173,7 +173,7 @@
 
   &__td-name {
     padding: var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
     display: flex;
@@ -196,7 +196,7 @@
   &__no-results {
     padding: var(--sc-spacing-2-75) var(--sc-spacing-0-875);
     text-align: center;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-subtle);
   }
 }
@@ -207,7 +207,7 @@
   gap: var(--sc-spacing-0-5);
 
   &__type {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--sc-text-subtle);
@@ -222,7 +222,7 @@
   align-items: center;
   gap: var(--sc-spacing-0-25);
   padding: 2px var(--sc-spacing-0-5);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   border-radius: var(--sc-radius-100);
   border: 1px solid transparent;
   transition:
@@ -351,7 +351,7 @@
       align-items: center;
       gap: var(--sc-spacing-0-875);
       padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
-      font-size: var(--sc-font-size-200);
+      font-size: var(--sc-font-size-14);
       color: var(--sc-text-secondary);
       background: transparent;
       border: 0;
@@ -385,7 +385,7 @@
     align-items: center;
     gap: var(--sc-spacing-0-875);
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-secondary);
     background: transparent;
     border: 0;

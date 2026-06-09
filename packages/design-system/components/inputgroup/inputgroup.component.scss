@@ -32,7 +32,7 @@
  * Aplica a input + addon del grupo (sm/lg ya lo fijan más abajo). */
 .sc-inputgroup .p-inputtext,
 .sc-inputgroup .p-inputgroup-addon {
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
 }
 
 /* ───── Size variants — alinear con sc-inputtext padding decimal (10.5/7) ───── */
@@ -41,14 +41,14 @@
   /* sc-inputtext sm: padding 8.75/5.25, font-size 12.25 — replicamos en addon. */
   .p-inputgroup-addon {
     padding: var(--sc-spacing-0-375) var(--sc-spacing-0-625);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
   }
 
   .p-inputtext,
   input[pInputText] {
     padding-top: var(--sc-spacing-0-375);
     padding-bottom: var(--sc-spacing-0-375);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
   }
 }
 
@@ -56,13 +56,13 @@
   /* sc-inputtext lg: padding 12.25/8.75, font-size 15.75. */
   .p-inputgroup-addon {
     padding: var(--sc-spacing-0-625) var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-300);
+    font-size: var(--sc-font-size-16);
   }
 
   .p-inputtext,
   input[pInputText] {
     padding-top: var(--sc-spacing-0-625);
     padding-bottom: var(--sc-spacing-0-625);
-    font-size: var(--sc-font-size-300);
+    font-size: var(--sc-font-size-16);
   }
 }

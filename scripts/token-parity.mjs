@@ -139,8 +139,9 @@ function resolveScToken(name, seen = new Set()) {
   const m = css.match(new RegExp(`--${name}\\s*:\\s*([^;]+);`));
   if (!m) return NaN;
   const raw = m[1].trim();
-  const lit = raw.match(/^(-?[0-9.]+)px$/);
-  if (lit) return parseFloat(lit[1]);
+  const lit = raw.match(/^(-?[0-9.]+)(px|rem)$/);
+  // rem→px a root 16 (tipografía DD-13: --sc-font-size-16: 1rem = 16px).
+  if (lit) return parseFloat(lit[1]) * (lit[2] === 'rem' ? 16 : 1);
   const ref = raw.match(/var\(\s*--([a-z0-9-]+)\s*\)/);
   return ref ? resolveScToken(ref[1], seen) : NaN;
 }
@@ -213,21 +214,25 @@ const sizing = [
   ['button.root.borderRadius', common.buttonBorderRadius, propPx(pBtnRootDirect, 'borderRadius')],
   ['button.root.gap', common.buttonGap, propPx(pBtnRootDirect, 'gap')],
   ['button.root.iconOnlyWidth', common.buttonIconOnlyWidth, propPx(pBtnRootDirect, 'iconOnlyWidth')],
-  ['button.root.sm.fontSize', common.buttonSmFontSize, propPx(pBtnSm, 'fontSize')],
+  // fontSize sm/lg: divergencia consciente DD-13 — el tier de control es la escala
+  // REDONDA (sm 12 / lg 16, = capa App del Kit `app/sm|lg/font/size`), no los decimales
+  // base-14 del snapshot tokensprime.json (12.25/15.75, pre-DD-13). Expected = 12/16
+  // hasta el próximo re-export del Kit base.
+  ['button.root.sm.fontSize', 12, propPx(pBtnSm, 'fontSize')],
   ['button.root.sm.paddingX', common.buttonSmPaddingX, propPx(pBtnSm, 'paddingX')],
   ['button.root.sm.paddingY', common.buttonSmPaddingY, propPx(pBtnSm, 'paddingY')],
   ['button.root.sm.iconOnlyWidth', common.buttonSmIconOnlyWidth, propPx(pBtnSm, 'iconOnlyWidth')],
-  ['button.root.lg.fontSize', common.buttonLgFontSize, propPx(pBtnLg, 'fontSize')],
+  ['button.root.lg.fontSize', 16, propPx(pBtnLg, 'fontSize')], // DD-13 (ver nota sm)
   ['button.root.lg.paddingX', common.buttonLgPaddingX, propPx(pBtnLg, 'paddingX')],
   ['button.root.lg.paddingY', common.buttonLgPaddingY, propPx(pBtnLg, 'paddingY')],
   ['button.root.lg.iconOnlyWidth', common.buttonLgIconOnlyWidth, propPx(pBtnLg, 'iconOnlyWidth')],
   ['formField.paddingX', semCommon.formFieldPaddingX, propPx(pFFDirect, 'paddingX')],
   ['formField.paddingY', semCommon.formFieldPaddingY, propPx(pFFDirect, 'paddingY')],
   ['formField.borderRadius', semCommon.formFieldBorderRadius, propPx(pFFDirect, 'borderRadius')],
-  ['formField.sm.fontSize', semCommon.formFieldSmFontSize, propPx(pFFSm, 'fontSize')],
+  ['formField.sm.fontSize', 12, propPx(pFFSm, 'fontSize')], // DD-13 (ver nota sm botón)
   ['formField.sm.paddingX', semCommon.formFieldSmPaddingX, propPx(pFFSm, 'paddingX')],
   ['formField.sm.paddingY', semCommon.formFieldSmPaddingY, propPx(pFFSm, 'paddingY')],
-  ['formField.lg.fontSize', semCommon.formFieldLgFontSize, propPx(pFFLg, 'fontSize')],
+  ['formField.lg.fontSize', 16, propPx(pFFLg, 'fontSize')], // DD-13 (ver nota sm botón)
   ['formField.lg.paddingX', semCommon.formFieldLgPaddingX, propPx(pFFLg, 'paddingX')],
   ['formField.lg.paddingY', semCommon.formFieldLgPaddingY, propPx(pFFLg, 'paddingY')],
   ['tabs.tab.gap', common.tabsTabGap, propPx(pTab, 'gap')],

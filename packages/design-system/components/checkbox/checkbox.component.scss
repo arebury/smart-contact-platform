@@ -24,7 +24,7 @@
   gap: var(--sc-spacing-0-5);
   cursor: pointer;
   user-select: none;
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   line-height: 1.5;
   color: var(--sc-text-secondary);
 
@@ -88,8 +88,8 @@
    * ──────────────────────────────────────────────────────────────
    */
   &--sm {
-    font-size: var(--sc-font-size-100);
-    line-height: var(--sc-line-height-100);
+    font-size: var(--sc-font-size-12);
+    line-height: var(--sc-line-height-18);
     .tri-checkbox__input,
     .tri-checkbox__box {
       width: var(--sc-spacing-1);
@@ -102,8 +102,8 @@
   }
 
   &--lg {
-    font-size: var(--sc-font-size-300);
-    line-height: var(--sc-line-height-300);
+    font-size: var(--sc-font-size-16);
+    line-height: var(--sc-line-height-24);
     .tri-checkbox__input,
     .tri-checkbox__box {
       width: var(--sc-spacing-1-5);

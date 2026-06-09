@@ -21,7 +21,7 @@
   height: 26px;
   padding: 0 var(--sc-spacing-0-625);
   border-radius: var(--sc-radius-200);
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
   font-weight: var(--sc-font-weight-medium);
   line-height: 1;
 
@@ -62,7 +62,7 @@
   border: 1px solid var(--sc-border-default);
 
   &__label {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
     line-height: 1;
@@ -112,7 +112,7 @@
   min-height: 36px;
 
   &__text {
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-secondary);
   }
 
@@ -178,13 +178,13 @@
   }
 
   &__label {
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
   }
 
   &__desc {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     line-height: 18px;
     color: var(--sc-text-subtle);
   }

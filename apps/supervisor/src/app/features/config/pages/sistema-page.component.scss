@@ -30,7 +30,7 @@
 
   &__subtitle {
     margin: 4px 0 0;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     line-height: 24px;
     color: var(--sc-text-subtle);
   }
@@ -58,13 +58,13 @@
   }
 
   &__head-title {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
   }
 
   &__head-hint {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 
@@ -88,14 +88,14 @@
 
   &__label {
     display: block;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
   }
 
   &__hint {
     margin: 2px 0 0;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     max-width: 56ch;
   }
@@ -116,7 +116,7 @@
     align-items: center;
     gap: var(--sc-spacing-0-5);
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-subtle);
     background: transparent;
@@ -144,7 +144,7 @@
   }
 
   &__flag {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     line-height: 1;
   }
 }
@@ -164,14 +164,14 @@
 
   &__label {
     display: block;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
   }
 
   &__hint {
     margin: 2px 0 0;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     max-width: 56ch;
     line-height: 1.5;
@@ -192,21 +192,21 @@
   }
 
   &__label {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
   }
 
   &__hint {
     margin: 2px 0 0;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 
   &__select {
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     font-family: inherit;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
@@ -253,14 +253,14 @@
   }
 
   &__title {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-secondary);
   }
 
   &__hint {
     margin-left: var(--sc-spacing-0-5);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 }
@@ -283,15 +283,15 @@
 
   &__title {
     display: block;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-label-amber-text);
   }
 
   &__body {
     margin: var(--sc-spacing-0-25) 0 0;
-    font-size: var(--sc-font-size-100);
-    line-height: var(--sc-line-height-200);
+    font-size: var(--sc-font-size-12);
+    line-height: var(--sc-line-height-20);
     color: var(--sc-label-amber-text);
   }
 }
@@ -314,8 +314,8 @@
 
   > p {
     margin: 0;
-    font-size: var(--sc-font-size-100);
-    line-height: var(--sc-line-height-200);
+    font-size: var(--sc-font-size-12);
+    line-height: var(--sc-line-height-20);
     color: var(--sc-text-secondary);
   }
 }
@@ -337,7 +337,7 @@
     width: 100%;
     padding: var(--sc-spacing-0-5) var(--sc-spacing-1-125) var(--sc-spacing-0-5)
       var(--sc-spacing-2-75);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
@@ -387,7 +387,7 @@
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     background: var(--sc-bg-default);
     border-bottom: 1px solid var(--sc-border-default);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -397,7 +397,7 @@
   &__empty {
     padding: var(--sc-spacing-1-75) var(--sc-spacing-0-875);
     text-align: center;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 }
@@ -429,14 +429,14 @@
 
   &__code {
     width: 48px;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     font-variant-numeric: tabular-nums;
   }
 
   &__name {
     flex: 1;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-secondary);
 
     .agent-row--selected & {
@@ -445,13 +445,13 @@
   }
 
   &__ext {
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 
   &__email {
     max-width: 160px;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -468,14 +468,14 @@
   &__title {
     display: block;
     margin-bottom: var(--sc-spacing-0-5);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
   }
 
   &__body {
     margin: 0 0 var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-secondary);
   }
 
@@ -489,7 +489,7 @@
     flex: 1;
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     font-family: inherit;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
@@ -524,14 +524,14 @@
   }
 
   &__count {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-label-green-text);
   }
 
   &__ts {
     margin: 0;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-label-green-text);
   }
 }

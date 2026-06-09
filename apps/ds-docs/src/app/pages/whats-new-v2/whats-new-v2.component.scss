@@ -32,7 +32,7 @@
   align-items: center;
   gap: 8px;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.14em;
@@ -76,7 +76,7 @@
   padding: 6px 10px 6px 8px;
   margin-top: 6px;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--sc-color-electric-blue-500);
@@ -93,7 +93,7 @@
 }
 
 .whats-new__lede {
-  font-size: var(--sc-font-size-400);
+  font-size: var(--sc-font-size-18);
   line-height: 1.6;
   color: var(--sc-text-secondary);
   max-width: 58ch;
@@ -125,7 +125,7 @@
 
   dt {
     font-family: var(--dsd-font-mono);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -135,7 +135,7 @@
 
   dd {
     margin: 0;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: 500;
     color: var(--sc-text-primary);
   }
@@ -176,7 +176,7 @@
 
 .whats-new__section-index {
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   font-weight: 500;
   letter-spacing: 0.06em;
   color: var(--sc-text-subtle);
@@ -188,7 +188,7 @@
 .whats-new__section-title {
   font-family: var(--dsd-font-display);
   margin: 0;
-  font-size: var(--sc-font-size-500);
+  font-size: var(--sc-font-size-24);
   line-height: 1.15;
   letter-spacing: -0.018em;
   font-weight: 600;
@@ -196,7 +196,7 @@
 }
 
 .whats-new__copy {
-  font-size: var(--sc-font-size-300);
+  font-size: var(--sc-font-size-16);
   line-height: 1.65;
   color: var(--sc-text-secondary);
   max-width: 65ch;
@@ -251,7 +251,7 @@
   align-items: center;
   width: fit-content;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -263,7 +263,7 @@
 }
 
 .whats-new__diff-caption {
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   color: var(--sc-text-secondary);
 }
 
@@ -288,18 +288,18 @@
 
     code {
       font-family: var(--dsd-font-mono);
-      font-size: var(--sc-font-size-100);
+      font-size: var(--sc-font-size-12);
       color: var(--sc-text-primary);
       word-break: break-all;
     }
 
     span {
-      font-size: var(--sc-font-size-100);
+      font-size: var(--sc-font-size-12);
       color: var(--sc-text-subtle);
       line-height: 1.45;
 
       code {
-        font-size: var(--sc-font-size-100);
+        font-size: var(--sc-font-size-12);
         padding: 0 4px;
         background: var(--sc-bg-elevated);
         border-radius: var(--sc-radius-xs);
@@ -317,7 +317,7 @@
 .whats-new__diff-arrow {
   align-self: center;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-450);
+  font-size: var(--sc-font-size-20);
   color: var(--sc-text-subtle);
   line-height: 1;
 }
@@ -362,7 +362,7 @@
 
 .whats-new__benefit-marker {
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   font-weight: 600;
   letter-spacing: 0.05em;
   color: var(--sc-color-electric-blue-500);
@@ -373,7 +373,7 @@
   h3 {
     font-family: var(--dsd-font-display);
     margin: 0 0 4px;
-    font-size: var(--sc-font-size-400);
+    font-size: var(--sc-font-size-18);
     font-weight: 600;
     letter-spacing: -0.012em;
     color: var(--sc-text-primary);
@@ -382,7 +382,7 @@
 
   p {
     margin: 0;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     line-height: 1.6;
     color: var(--sc-text-secondary);
     max-width: 60ch;
@@ -449,7 +449,7 @@
   align-items: center;
   gap: 8px;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   font-weight: 600;
   color: var(--sc-text-primary);
 
@@ -476,7 +476,7 @@
 
   dt {
     font-family: var(--dsd-font-mono);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -487,7 +487,7 @@
   dd {
     margin: 0;
     font-family: var(--dsd-font-mono);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: 500;
     color: var(--sc-text-primary);
   }
@@ -500,7 +500,7 @@
   gap: var(--sc-spacing-1);
   padding: 10px 14px;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   font-weight: 600;
   letter-spacing: 0.02em;
   color: var(--sc-color-gray-0);
@@ -539,7 +539,7 @@
 }
 
 .whats-new__download-cta-meta {
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
   font-weight: 400;
   letter-spacing: 0.01em;
   color: var(--sc-text-subtle);
@@ -570,7 +570,7 @@
     h3 {
       font-family: var(--dsd-font-display);
       margin: 0 0 4px;
-      font-size: var(--sc-font-size-300);
+      font-size: var(--sc-font-size-16);
       font-weight: 600;
       letter-spacing: -0.012em;
       color: var(--sc-text-primary);
@@ -579,7 +579,7 @@
 
     p {
       margin: 0;
-      font-size: var(--sc-font-size-200);
+      font-size: var(--sc-font-size-14);
       line-height: 1.55;
       color: var(--sc-text-secondary);
       max-width: 60ch;
@@ -593,7 +593,7 @@
   align-items: center;
   padding: 3px 8px;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
   font-weight: 500;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -628,7 +628,7 @@
   align-items: center;
   gap: 8px;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   font-weight: 500;
   letter-spacing: 0.02em;
   color: var(--sc-text-primary);
@@ -662,7 +662,7 @@
 
 .whats-new__footer-meta {
   margin: 0;
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   color: var(--sc-text-subtle);
   font-family: var(--dsd-font-mono);
   letter-spacing: 0.01em;

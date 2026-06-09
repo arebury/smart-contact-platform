@@ -31,7 +31,7 @@
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875) var(--sc-spacing-0-5)
       calc(var(--sc-spacing-0-875) + 18px + var(--sc-spacing-0-5));
     height: 32px;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
@@ -82,7 +82,7 @@
   }
 
   &__suggest-label {
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-secondary);
     flex: 0 0 auto;
   }
@@ -102,7 +102,7 @@
     border: 1px solid var(--sc-border-default);
     border-radius: var(--sc-radius-full);
     color: var(--sc-text-primary);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     cursor: pointer;
     transition:
       background-color 100ms ease,
@@ -120,7 +120,7 @@
   }
 
   &__counter {
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     flex: 0 0 auto;
   }
@@ -154,14 +154,14 @@
 
   &__empty-title {
     margin: var(--sc-spacing-0-5) 0 0;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
   }
 
   &__empty-body {
     margin: 0;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     max-width: 360px;
   }
@@ -170,13 +170,13 @@
   &__table {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
 
     thead th {
       text-align: left;
       font-weight: var(--sc-font-weight-medium);
       color: var(--sc-text-secondary);
-      font-size: var(--sc-font-size-100);
+      font-size: var(--sc-font-size-12);
       padding: var(--sc-spacing-0-75) var(--sc-spacing-0-875);
       border-bottom: 1px solid var(--sc-border-default);
       vertical-align: middle;
@@ -258,7 +258,7 @@
     border: 1px solid var(--sc-border-default);
     background: var(--sc-bg-surface);
     color: var(--sc-text-secondary);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     cursor: pointer;
     transition:
       background-color 100ms ease,
@@ -359,7 +359,7 @@
 
   &__bulk-count {
     font-weight: var(--sc-font-weight-medium);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
   }
 
   @media (prefers-reduced-motion: reduce) {

@@ -34,7 +34,7 @@
 
   &__category-title {
     margin: 0 0 var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -115,7 +115,7 @@
   }
 
   &__label {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
 
@@ -126,7 +126,7 @@
 
   &__description {
     margin-top: 2px;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -149,7 +149,7 @@
 
   &__soon {
     flex-shrink: 0;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     text-transform: uppercase;
     letter-spacing: 0.05em;

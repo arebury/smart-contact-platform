@@ -38,20 +38,18 @@
 
 ---
 
-### 🚦 BLOQUE 1 — Validar el PIPELINE con un piloto (GATE, va PRIMERO)
-- **Objetivo:** confirmar que el viaje **Figma → Theme Designer → GitHub → código** funciona y rinde correcto, ANTES de meter nada gordo por él. Decide el *método* del Bloque 2 (¿la tipografía baja por pipeline o a mano?).
-- **Quién:** Rafa opera el Theme Designer; Claude verifica el resultado en código.
-- **Protocolo:** (1) elegir un componente **escala-neutral** (divider o tag — **NO** el botón). (2) Rafa lo pasa por el Theme Designer en el **Kit oficial** → genera PR a GitHub. (3) Verificar: ¿valores en **rem**? ¿naming esperado? ¿sobreviven los anclajes **Custom**? ¿la cadena `App → Custom` cruza? (4) Arreglar el **bug `font.weight=600px`** del Theme Designer.
-- **Considerar:** el Theme Designer apunta al **Kit OFICIAL**, no al duplicado. La colección "Component" salía vacía (esperable). "Generar tema" (preset instalable, rem) ≠ "Exportar" (JSON crudo px).
-- **Estado:** ⏳ pendiente (gate). Sin esto no se arranca el port.
+### 🚦 BLOQUE 1 — Validar el PIPELINE con un piloto (GATE) — ✅ CRUZADO (S73)
+- **Resultado del piloto** (tema generado + JSON del Kit oficial, verificados por Claude):
+  - ✅ **Preset estándar PrimeNG**: fiable — rem correcto, referencias Aura intactas (divider cruzó limpio), colores de marca bien horneados.
+  - ❌ **Nuestra capa NO baja por el pipeline**: la colección **App no cruza** al tema; lo Custom sale en **px** (sin ÷16), con **sintaxis inválida** (claves con guiones/espacios sin comillas → `extend.ts` no compila) y con los anclajes a Custom **aplanados** a literal. Bug `font.weight=600px` **confirmado** (`extend.ts:28`, solo capa Custom).
+  - **Veredicto = método del Bloque 2:** nuestra capa va **a mano** (Claude), usando el **JSON crudo de "Exportar"** como contrato (ahí todo cruza íntegro, incl. `app/font/size → {typography.font-size.14}`).
+- **Pendiente menor:** validar el viaje **GitHub directo** del plugin (rama-jaula `theme-designer-pilot` + carpeta `theme-pilot/`, config entregada a Rafa).
 
-### ✍️ BLOQUE 2 — Tipografía en real (de DD-13 a producción)
-- **2.1 — text styles → primitivos (duplicado):** ✅ **HECHO (S72b).**
-- **2.2 — replicar en el Kit OFICIAL (Rafa):** crear los primitivos `typography/font-size/*` + `line-height/*` (Custom) + capa App + atar los text styles, igual que en el duplicado. Es lo que lee el Theme Designer.
-- **2.3 — micro-decisión (Rafa, desbloquea el código):** ¿el código va **por-valor** (`--sc-font-size-16`, converge con Figma/devs, pero **renombra todos los consumers**) **o mantiene los steps** (`--sc-font-size-300`, menos cambio, redefiniendo su valor)? Recomendación a debatir: simplicidad/convergencia vs coste de rename.
-- **2.4 — reflejar en código (Claude):** según el método del Bloque 1 (pipeline o a mano). Cambiar `--sc-font-size-*` a **redondo + rem** (hoy cuelgan de `--sc-scale`, decimal: h1=31.5, body-1=15.75 → deben ser 32/16) + recablear los semánticos + **ajustar `tokens:type-parity`** (hoy asume font-size colgando de scale) + **diff visual + e2e**. Deuda backlog **#88** (px→rem).
-- **Considerar:** el cambio decimal→redondo **cambia el render** (±0,5–1px en alturas) → diff obligatorio. La unidad px→rem a root 16 **no** cambia el render (mismo pixel); el beneficio es escalado/a11y.
-- **Estado:** 2.1 hecho · 2.2/2.3/2.4 pendientes.
+### ✍️ BLOQUE 2 — Tipografía en real (de DD-13 a producción) — ✅ HECHO (S73)
+- **2.1 — text styles → primitivos (duplicado):** ✅ HECHO (S72b).
+- **2.2 — replicar en el Kit OFICIAL (Rafa):** ✅ HECHO — primitivos `typography/*` + capa App verificados en el export del Kit oficial.
+- **2.3 — micro-decisión:** ✅ **opción A** (por-valor: `--sc-font-size-16`; Rafa, S73).
+- **2.4 — reflejar en código:** ✅ HECHO (S73, a mano según veredicto del gate): escala redonda **por-valor en rem** (`--sc-font-size-12..48` + `64` registro; `--sc-line-height-18..58/78`), **desacoplada de `--sc-scale`**, semánticos recableados (h1 32/40, body-1 16/24, display-1 48/58…), **96 ficheros** de consumers renombrados, `tokens:type-parity` ajustado, backlog **#88 y #75 cerrados**. Verificado: build ambas apps + e2e **28 pass** + diff visual por pantalla (solo reflow esperado del redondeo; capturas >2% revisadas a ojo: layout intacto).
 
 ### 🏗️ BLOQUE 3 — LA GRAN SESIÓN: montar el proyecto espejo
 - **Objetivo:** repo nuevo con la estructura de los devs (`design-tokens / components / icons / demo`) + **todo lo nuestro adaptado** dentro, para probar el conjunto. "Nosotros definimos, ellos construyen" ([[project_devs_smartcontact_ui_repo]]).

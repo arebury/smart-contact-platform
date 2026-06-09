@@ -46,7 +46,7 @@
 
   &__label,
   &__label-inline {
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
     margin-bottom: 2px;
@@ -66,7 +66,7 @@
   &__input {
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     font-family: inherit;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
@@ -95,7 +95,7 @@
 
   &__help {
     margin-top: var(--sc-spacing-0-25);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 
@@ -104,7 +104,7 @@
     /* Reserve space so toggling validation doesn't shift layout (DD#16). */
     min-height: 1.25em;
     margin-top: var(--sc-spacing-0-25);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     line-height: 1.25;
     color: var(--sc-text-danger);
   }
@@ -133,7 +133,7 @@
   display: flex;
   align-items: center;
   gap: var(--sc-spacing-0-5);
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   color: var(--sc-text-secondary);
   cursor: pointer;
   padding: var(--sc-spacing-0-25) 0;
@@ -193,7 +193,7 @@
 
   &__title {
     margin: 0;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-weight: var(--sc-font-weight-semibold);
@@ -201,7 +201,7 @@
   }
 
   thead th {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--sc-text-subtle);
@@ -247,7 +247,7 @@
 
   &__th-row {
     text-align: left;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-regular);
     color: var(--sc-text-primary);
   }
@@ -278,7 +278,7 @@
   gap: var(--sc-spacing-0-5);
   padding: 3px var(--sc-spacing-0-875);
   border-radius: var(--sc-radius-full);
-  font-size: var(--sc-font-size-75);
+  font-size: var(--sc-font-size-12);
   font-weight: var(--sc-font-weight-medium, 500);
   letter-spacing: 0.01em;
   border: 1px solid transparent;
@@ -383,7 +383,7 @@
 
   &__name {
     max-width: 100%;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
     line-height: 1.2;
@@ -393,7 +393,7 @@
   }
 
   &__ext {
-    font-size: var(--sc-font-size-75);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 }
@@ -408,7 +408,7 @@
   border: 0;
   background: transparent;
   color: var(--sc-text-danger);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   font-weight: var(--sc-font-weight-medium);
   border-radius: var(--sc-radius-100);
   cursor: pointer;

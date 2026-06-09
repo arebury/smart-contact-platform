@@ -34,14 +34,14 @@
 }
 
 .settings-sidebar__title {
-  font-size: var(--sc-font-size-300);
+  font-size: var(--sc-font-size-16);
   line-height: 24px;
   font-weight: var(--sc-font-weight-semibold);
   color: var(--sc-text-secondary);
 }
 
 .settings-sidebar__subtitle {
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   line-height: 22px;
   color: var(--sc-text-subtle);
 }
@@ -103,7 +103,7 @@
 
 .nav-item__label {
   font-family: var(--sc-font-family-primary);
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   line-height: 22px;
   font-weight: var(--sc-font-weight-regular);
   color: var(--sc-text-secondary);

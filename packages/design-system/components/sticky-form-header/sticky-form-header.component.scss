@@ -39,7 +39,7 @@
   }
 
   &__entity {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--sc-text-subtle);
@@ -79,7 +79,7 @@
     /* S53.5: 2px → 6px de separación con name-line — pequeño
      * suspiro vertical antes de la metadata secundaria. */
     margin-top: var(--sc-spacing-0-25);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     line-height: 1.3;
     /* Empty in create mode — collapses cleanly. */
@@ -103,7 +103,7 @@
   &__name-input {
     padding: var(--sc-spacing-0-25) var(--sc-spacing-0-875);
     font-family: inherit;
-    font-size: var(--sc-font-size-300);
+    font-size: var(--sc-font-size-16);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
     background: var(--sc-bg-surface);

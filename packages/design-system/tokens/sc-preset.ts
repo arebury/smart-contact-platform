@@ -197,12 +197,12 @@ export const ScPreset = definePreset(Aura, {
        * que el button.root.sm/lg (button deriva de form.field en PrimeNG).
        * Como arriba: referencias de token, no px (fontSize → --sc-font-size-*). */
       sm: {
-        fontSize: 'var(--sc-font-size-100)',
+        fontSize: 'var(--sc-font-size-12)',
         paddingX: 'var(--sc-scale-0-625)',
         paddingY: 'var(--sc-scale-0-375)',
       },
       lg: {
-        fontSize: 'var(--sc-font-size-300)',
+        fontSize: 'var(--sc-font-size-16)',
         paddingX: 'var(--sc-scale-0-875)',
         paddingY: 'var(--sc-scale-0-625)',
       },
@@ -404,13 +404,13 @@ export const ScPreset = definePreset(Aura, {
          * esto, sm/lg caían a los defaults rem de Aura (font 14px) → el "small"
          * salía como el md. Referencias de token, igual que root. */
         sm: {
-          fontSize: 'var(--sc-font-size-100)',
+          fontSize: 'var(--sc-font-size-12)',
           paddingX: 'var(--sc-scale-0-625)',
           paddingY: 'var(--sc-scale-0-375)',
           iconOnlyWidth: 'var(--sc-scale-2)',
         },
         lg: {
-          fontSize: 'var(--sc-font-size-300)',
+          fontSize: 'var(--sc-font-size-16)',
           paddingX: 'var(--sc-scale-0-875)',
           paddingY: 'var(--sc-scale-0-625)',
           iconOnlyWidth: 'var(--sc-scale-3)',

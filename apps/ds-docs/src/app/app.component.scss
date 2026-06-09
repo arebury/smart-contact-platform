@@ -39,7 +39,7 @@
   padding: 10px 32px;
   max-width: 1140px;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
   letter-spacing: 0.06em;
   color: var(--sc-text-subtle);
 }
@@ -137,7 +137,7 @@
     color: #ffffff;
     font-family: var(--dsd-font-display);
     font-weight: 700;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     letter-spacing: 0.04em;
   }
 
@@ -151,13 +151,13 @@
   .shell__brand-name {
     font-family: var(--dsd-font-display);
     font-weight: 600;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     letter-spacing: -0.01em;
   }
 
   .shell__brand-sub {
     font-family: var(--dsd-font-mono);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -185,7 +185,7 @@
     border-radius: var(--sc-radius-100);
     color: var(--sc-text-secondary);
     text-decoration: none;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: 500;
     line-height: 1.4;
     transition:
@@ -227,7 +227,7 @@
 
   .shell__num {
     font-family: var(--dsd-font-mono);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-color-gray-400);
     font-weight: 500;
     min-width: 18px;
@@ -260,7 +260,7 @@
 
   .shell__group-label {
     font-family: var(--dsd-font-mono);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     text-transform: uppercase;
     letter-spacing: 0.12em;
     color: var(--sc-text-subtle);
@@ -268,7 +268,7 @@
   }
   .shell__group-count {
     font-family: var(--dsd-font-mono);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-color-gray-400);
     font-weight: 500;
   }
@@ -307,7 +307,7 @@
   justify-content: space-between;
   align-items: center;
   font-family: var(--dsd-font-mono);
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
   color: var(--sc-text-subtle);
   letter-spacing: 0.06em;
   text-transform: uppercase;

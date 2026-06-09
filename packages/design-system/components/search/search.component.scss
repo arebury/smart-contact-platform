@@ -41,7 +41,7 @@
  * (16px) y el Kit no define base → md se fugaba. Rampa Kit → md = 14px.
  * Host-prefijado para ganar a `.p-inputtext` (misma cuenta de clases). */
 .sc-search .sc-search__control {
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
 }
 
 /* Clear button — × posición absolute derecha, mismo tamaño que el icon
@@ -86,7 +86,7 @@
   top: 50%;
   transform: translateY(-50%);
   font-family: var(--sc-font-family-mono);
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
   font-weight: 500;
   line-height: 1;
   color: var(--sc-text-subtle);
@@ -111,7 +111,7 @@
   padding-bottom: var(--sc-spacing-0-375);
   padding-left: calc(var(--sc-spacing-0-625) + 22px); /* icon slot */
   padding-right: calc(var(--sc-spacing-0-625) + 22px); /* clear slot */
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
 }
 
 .sc-search--lg .sc-search__control {
@@ -119,7 +119,7 @@
   padding-bottom: var(--sc-spacing-0-625);
   padding-left: calc(var(--sc-spacing-0-875) + 26px);
   padding-right: calc(var(--sc-spacing-0-875) + 26px);
-  font-size: var(--sc-font-size-300);
+  font-size: var(--sc-font-size-16);
 }
 
 /* Filled variant — slate-50 bg, alineado con sc-inputtext. */

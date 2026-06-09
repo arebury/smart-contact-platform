@@ -12,7 +12,7 @@
 
   &__title {
     margin: 0 0 var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
   }
@@ -24,7 +24,7 @@
   &__label {
     display: block;
     margin-bottom: var(--sc-spacing-0-25);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-secondary);
   }
 
@@ -37,7 +37,7 @@
     width: 100%;
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-5);
     font-family: inherit;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
@@ -69,7 +69,7 @@
     display: inline-flex;
     align-items: center;
     gap: var(--sc-spacing-0-25);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-danger);
   }
 
@@ -82,7 +82,7 @@
 
   &__btn {
     padding: var(--sc-spacing-0-5) var(--sc-spacing-1-125);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     border-radius: var(--sc-radius-100);
     cursor: pointer;

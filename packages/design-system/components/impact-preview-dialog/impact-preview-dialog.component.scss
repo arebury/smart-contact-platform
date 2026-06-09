@@ -31,13 +31,13 @@
   background: var(--sc-bg-secondary-subtle);
   border: 1px solid var(--sc-border-subtle);
   border-radius: var(--sc-radius-200);
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
 
   &__field {
     color: var(--sc-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-semibold);
   }
 
@@ -76,7 +76,7 @@
   &__empty {
     padding: var(--sc-spacing-1-125);
     color: var(--sc-text-subtle);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     text-align: center;
   }
 }
@@ -86,7 +86,7 @@
   align-items: center;
   gap: var(--sc-spacing-0-875);
   padding: var(--sc-spacing-0-5) var(--sc-spacing-1-125);
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   color: var(--sc-text-primary);
   border-bottom: 1px solid var(--sc-border-subtle);
   transition: background var(--sc-transition-fast) var(--sc-easing-default);
@@ -113,7 +113,7 @@
 
   &__hint {
     color: var(--sc-text-secondary);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
   }
 
   &__remove {

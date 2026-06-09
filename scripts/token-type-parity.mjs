@@ -3,8 +3,8 @@
  * tokens:type-parity — comprobador SOLO-LECTURA de tipografía (font-size).
  * ============================================================================
  * Hermano de `tokens:parity` (escala/radio/color), enfocado a TIPO. Cruza los
- * `font-size` del código contra los tokens `--sc-font-size-*` (resueltos a px
- * por la escala base-14: `font-size-X → scale-{m} → m×14`). Reporta:
+ * `font-size` del código contra los tokens `--sc-font-size-*` (escala REDONDA
+ * DD-13, definida en rem root-16: `font-size-16: 1rem` → 16px). Reporta:
  *   - cobertura: tokenizado `var(--sc-font-size-*)` vs literal px/rem
  *   - mapa valor→token más cercano (Δpx)
  *   - olas: 1 (snap ≤0.5px, cambio invisible) / 2 (off-scale, requiere decisión)
@@ -20,11 +20,11 @@ const ROOT = process.cwd();
 const PRIM = 'packages/design-system/tokens/layers/01-primitive.css';
 const SNAP = 0.5; // ≤ esto = ola 1 (imperceptible)
 
-// 1. Resolver --sc-font-size-* → px (font-size-X: var(--sc-scale-{m}); px = m×14)
+// 1. Resolver --sc-font-size-* → px (DD-13: definidos en rem root-16 o px directos)
 const prim = readFileSync(join(ROOT, PRIM), 'utf8');
 const tokenPx = {};
-for (const m of prim.matchAll(/--sc-font-size-(\w+):\s*var\(--sc-scale-([\d-]+)\)/g)) {
-  tokenPx[`font-size-${m[1]}`] = +(parseFloat(m[2].replace('-', '.')) * 14).toFixed(3);
+for (const m of prim.matchAll(/--sc-font-size-(\w+):\s*([\d.]+)(rem|px)\s*;/g)) {
+  tokenPx[`font-size-${m[1]}`] = +(parseFloat(m[2]) * (m[3] === 'rem' ? 16 : 1)).toFixed(3);
 }
 const tokens = [...new Set(Object.values(tokenPx))].sort((a, b) => a - b);
 const tokenFor = (px) => Object.keys(tokenPx).find((k) => tokenPx[k] === px);
@@ -69,7 +69,7 @@ const rows = Object.entries(literals)
   .sort((a, b) => b.n - a.n);
 
 // 4. Reporte
-console.log('=== tokens --sc-font-size-* (px, vía escala base-14) ===');
+console.log('=== tokens --sc-font-size-* (px equivalentes, escala redonda DD-13 en rem) ===');
 console.log('  ' + tokens.map((t) => `${t}=${tokenFor(t)}`).join('  '));
 console.log('\n=== cobertura font-size en SCSS (apps + packages) ===');
 const pct = ((tokenized / (tokenized + totalLit)) * 100).toFixed(0);
@@ -85,5 +85,5 @@ for (const r of rows) {
 }
 console.log('\n────────────────────────────────────────────────────────────');
 console.log('Solo lectura. Ola 1 = snap directo (invisible). Ola 2 = decisión humana');
-console.log('(p. ej. 13px → font-size-200/14 por legibilidad, no al nearest 12.25).');
+console.log('(p. ej. 13px → font-size-14 por legibilidad, no al nearest 12).');
 console.log('Line-heights NO cubiertos aquí (fase aparte, con regresión visual).');

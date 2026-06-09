@@ -25,7 +25,7 @@
   align-items: baseline;
   gap: 2px;
   /* Figma spec: 14px / Inter Regular / line-height 21px. */
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   font-weight: var(--sc-font-weight-medium);
   color: var(--sc-text-secondary);
   margin-bottom: 2px;
@@ -66,7 +66,7 @@
     display: inline-flex;
     align-items: baseline;
     gap: 2px;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     line-height: 1;
     font-weight: var(--sc-font-weight-regular);
     color: var(--sc-text-subtle);
@@ -82,7 +82,7 @@
  * clases). Sin esto, lo que el comentario de size-variants llamaba "Normal:
  * font 14 (heredado del preset)" nunca era cierto. */
 .sc-inputtext .sc-inputtext__control {
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
 }
 
 /* ────────────────────────────────────────────────────────────────────
@@ -102,7 +102,7 @@
   padding-bottom: var(--sc-spacing-0-375);
   padding-left: var(--sc-spacing-0-625);
   padding-right: var(--sc-spacing-0-625);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
 }
 
 .sc-inputtext--lg .sc-inputtext__control {
@@ -110,7 +110,7 @@
   padding-bottom: var(--sc-spacing-0-625);
   padding-left: var(--sc-spacing-0-875);
   padding-right: var(--sc-spacing-0-875);
-  font-size: var(--sc-font-size-300);
+  font-size: var(--sc-font-size-16);
 }
 
 /* ────────────────────────────────────────────────────────────────────
@@ -153,7 +153,7 @@
   min-height: 1.25em;
   margin-top: var(--sc-spacing-0-25);
   /* Figma spec: 12px / Inter Regular / line-height 21px. */
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   line-height: 1.45;
   color: var(--sc-text-subtle);
 }

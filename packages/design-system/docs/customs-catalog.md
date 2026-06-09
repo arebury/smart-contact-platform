@@ -758,7 +758,14 @@ de la bandeja/índice sin meter sombra.
 
 ---
 
-## 7. Tipografía (S67 blindaje · S72 escala) — punteros
+## 7. Tipografía (S67 blindaje · S72 escala · S73 en código) — punteros
+
+> **Update S73 — DD-13 reflejada en código.** `--sc-font-size-12..48` (+`64` registro) y
+> `--sc-line-height-18..58` (+`78`) son ahora primitivos propios **redondos, nombre=valor,
+> en rem root-16**, desacoplados de `--sc-scale` y espejo 1:1 de los primitivos Figma
+> `typography/font-size|line-height` (colección Custom del Kit oficial). Naming por-valor
+> (micro-decisión 2.3 = A). Los steps viejos (`-50..-900`, base-14 decimal) ya no existen.
+> Line-heights de la rampa de contenido recableados por regla DD-13 (#74/#88 ver backlog).
 
 Esta sesión cerró el **cinturón tipográfico** (olas 1+2 tokenizaron 367 literales `font-size` →
 `--sc-font-size-*`, cobertura 48%→100% accionable; guard "Dura 4" bloquea `font-size` literal

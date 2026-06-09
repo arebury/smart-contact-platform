@@ -22,7 +22,7 @@
   background: var(--sc-bg-secondary-subtle);
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-full);
-  font-size: var(--sc-font-size-50, 12px);
+  font-size: var(--sc-font-size-12, 12px);
   color: var(--sc-text-secondary);
 
   button {
@@ -31,7 +31,7 @@
     padding: 0;
     color: var(--sc-icon-subtle);
     cursor: pointer;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     line-height: 1;
 
     &:hover {

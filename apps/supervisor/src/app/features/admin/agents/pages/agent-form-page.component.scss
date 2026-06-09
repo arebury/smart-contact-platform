@@ -153,7 +153,7 @@
 
   &__row-label {
     display: block;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
   }
@@ -171,7 +171,7 @@
   align-items: center;
   gap: var(--sc-spacing-0-5);
   padding: var(--sc-spacing-0-5) var(--sc-spacing-1-125);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   font-weight: var(--sc-font-weight-medium);
   color: var(--sc-text-secondary);
   background: var(--sc-bg-surface);
@@ -215,7 +215,7 @@
   align-items: center;
   gap: var(--sc-spacing-0-75);
   color: var(--sc-text-secondary);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
 
   > sc-icon {
     flex: 0 0 auto;
@@ -288,14 +288,14 @@
   padding: var(--sc-spacing-0-5) var(--sc-spacing-1);
   border: 1px solid var(--sc-border-default);
   background: var(--sc-bg-elevated);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   color: var(--sc-text-primary);
 
   &__remove {
     border: 0;
     background: transparent;
     color: var(--sc-text-subtle);
-    font-size: var(--sc-font-size-300);
+    font-size: var(--sc-font-size-16);
     line-height: 1;
     cursor: pointer;
     padding: 0;
@@ -331,7 +331,7 @@
   }
 
   &__label {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
   }
@@ -405,7 +405,7 @@ input[type='checkbox'] {
     text-align: left;
     color: var(--sc-text-subtle);
     cursor: pointer;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-weight: var(--sc-font-weight-semibold);
@@ -456,7 +456,7 @@ input[type='checkbox'] {
 
   &__count {
     margin-left: auto;
-    font-size: var(--sc-font-size-75);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     text-transform: none;
     letter-spacing: 0;
@@ -493,7 +493,7 @@ input[type='checkbox'] {
 
   &__footnote {
     margin: var(--sc-spacing-0-875) 0 0;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 
@@ -509,7 +509,7 @@ input[type='checkbox'] {
   }
 
   &__inset-head {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--sc-text-subtle);
@@ -530,14 +530,14 @@ input[type='checkbox'] {
 
   &__inset-label {
     display: block;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
   }
 
   &__inset-hint {
     margin: 4px 0 0;
-    font-size: var(--sc-font-size-75);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 }
@@ -611,14 +611,14 @@ input[type='checkbox'] {
   }
 
   &__row-label {
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-primary);
     flex: 0 1 auto;
   }
 
   &__row-meta {
     margin-left: auto;
-    font-size: var(--sc-font-size-75);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     flex: 0 1 auto;
     max-width: 240px;
@@ -630,7 +630,7 @@ input[type='checkbox'] {
   &__empty {
     padding: var(--sc-spacing-1-5) var(--sc-spacing-1);
     text-align: center;
-    font-size: var(--sc-font-size-75);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 }
@@ -649,7 +649,7 @@ input[type='checkbox'] {
   border: 1px solid var(--sc-border-default);
   border-radius: var(--sc-radius-full);
   background: var(--sc-bg-surface);
-  font-size: var(--sc-font-size-75);
+  font-size: var(--sc-font-size-12);
   color: var(--sc-text-secondary);
 
   &__remove {
@@ -664,7 +664,7 @@ input[type='checkbox'] {
     color: var(--sc-icon-subtle);
     cursor: pointer;
     border-radius: var(--sc-radius-full);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     line-height: 1;
     transition: color var(--sc-transition-fast) var(--sc-easing-default);
 
@@ -690,7 +690,7 @@ input[type='checkbox'] {
     border-bottom: 2px solid transparent;
     color: var(--sc-text-subtle);
     cursor: pointer;
-    font-size: var(--sc-font-size-75);
+    font-size: var(--sc-font-size-12);
     transition: color var(--sc-transition-fast) var(--sc-easing-default);
 
     &:hover {
@@ -705,7 +705,7 @@ input[type='checkbox'] {
   }
 
   &__count {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     font-weight: var(--sc-font-weight-regular);
   }
@@ -725,7 +725,7 @@ input[type='checkbox'] {
     text-align: left;
     padding: var(--sc-spacing-0-875) var(--sc-spacing-1);
     background: var(--sc-bg-secondary-subtle);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--sc-text-subtle);
@@ -766,7 +766,7 @@ input[type='checkbox'] {
 
   tbody td {
     padding: var(--sc-spacing-0-875) var(--sc-spacing-1);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-primary);
     vertical-align: middle;
   }
@@ -786,7 +786,7 @@ input[type='checkbox'] {
   tbody td.picker-table__empty {
     padding: var(--sc-spacing-1-5) var(--sc-spacing-1);
     text-align: center;
-    font-size: var(--sc-font-size-75);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 }

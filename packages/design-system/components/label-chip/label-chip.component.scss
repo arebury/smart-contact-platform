@@ -7,7 +7,7 @@
   align-items: center;
   gap: var(--sc-spacing-0-25);
   padding: 2px var(--sc-spacing-0-5);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   font-weight: var(--sc-font-weight-medium);
   background: var(--chip-bg);
   color: var(--chip-text);
@@ -16,7 +16,7 @@
   white-space: nowrap;
 
   &--xs {
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     padding: 0 var(--sc-spacing-0-25);
   }
 

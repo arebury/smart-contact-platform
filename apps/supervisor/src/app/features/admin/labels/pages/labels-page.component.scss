@@ -70,7 +70,7 @@
     display: flex;
     justify-content: flex-end;
     margin-top: var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 }
@@ -95,7 +95,7 @@
     padding: var(--sc-spacing-0-875) var(--sc-spacing-0-875);
     text-align: left;
     /* sentence-case gris medium, no UPPERCASE tracked. */
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     letter-spacing: 0;
     color: var(--sc-text-secondary);
@@ -136,7 +136,7 @@
 
   &__td-desc {
     padding: var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-subtle);
 
     &--empty {
@@ -163,14 +163,14 @@
   }
 
   &__no-results-title {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
   }
 
   &__no-results-text {
     margin-top: var(--sc-spacing-0-25);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 }
@@ -220,7 +220,7 @@
       align-items: center;
       gap: var(--sc-spacing-0-875);
       padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
-      font-size: var(--sc-font-size-200);
+      font-size: var(--sc-font-size-14);
       color: var(--sc-text-secondary);
       background: transparent;
       border: 0;
@@ -255,7 +255,7 @@
     align-items: center;
     gap: var(--sc-spacing-0-875);
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-secondary);
     background: transparent;
     border: 0;

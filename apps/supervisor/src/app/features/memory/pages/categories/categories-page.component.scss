@@ -40,7 +40,7 @@
     padding: var(--sc-spacing-0-875);
     border-bottom: 1px solid var(--sc-border-default);
     background: var(--sc-bg-default);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-semibold);
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -59,7 +59,7 @@
 
   tbody td {
     padding: var(--sc-spacing-0-875);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-secondary);
     vertical-align: middle;
   }
@@ -84,7 +84,7 @@
   &__td-date {
     width: 120px;
     color: var(--sc-text-secondary);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
   }
 
   &__th-kebab,
@@ -106,7 +106,7 @@
   &__group {
     margin-left: var(--sc-spacing-0-25);
     color: var(--sc-text-secondary);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: 400;
   }
 
@@ -117,7 +117,7 @@
 
 .categories-num {
   font-variant-numeric: tabular-nums;
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   color: var(--sc-text-primary);
 
   &--empty {

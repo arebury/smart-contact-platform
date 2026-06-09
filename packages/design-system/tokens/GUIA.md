@@ -176,8 +176,9 @@ Ejemplos: `--sc-z-modal`, `--sc-transition-fast`,
 - **Tipografía y escalas**: cambiar la fuente o reescalar los
   tamaños afecta a TODO el producto. No te frenes si toca, pero
   avísanos para validar en pantallas. Desde S67 los tamaños de
-  fuente están **tokenizados** (viven en `--sc-font-size-*`, escala
-  base-14): un cambio de tamaño se hace en un sitio y propaga solo,
+  fuente están **tokenizados** (viven en `--sc-font-size-*`; desde
+  S73 escala redonda DD-13, nombre = valor, en rem): un cambio de
+  tamaño se hace en un sitio y propaga solo,
   igual que los colores — ya no hay valores `font-size` sueltos en
   el código. El detalle técnico (cómo se protege contra updates de
   PrimeNG, el comprobador automático) está en el `README.md` y en
@@ -810,12 +811,14 @@ si ves uno nuevo, lo arreglamos al momento.
   / 21 / 28 px (+ 4 display sizes 32/44/56/64 para hero/avatar).
   Cuando PrimeOne actualice (5.0), tocar ambos archivos y propagar.
 
-- **Spacing + font-size + line-height = escala decimal PrimeOne
-  (S54).** Antes: aditiva (4/8/12/16/24/32/...). Ahora: multiplicativa
-  base 14 (3.5/7/10.5/14/15.75/21/24.5/28/...). Naming SCDS conservado
-  (`--sc-spacing-0-5` sigue siendo el nombre, solo el VALOR cambia
-  de 8 a 7px). Razón: alinear 1:1 con el Kit Pro Figma. Si una pantalla
-  se ve "más apretada" que antes, es esto y es intencional.
+- **Spacing = escala decimal PrimeOne (S54); tipografía = escala
+  REDONDA propia (DD-13, S73).** El spacing sigue multiplicativo
+  base 14 (3.5/7/10.5/14/...). La LETRA se desacopló: tamaños redondos
+  12/14/16/18/20/24/32/48 (+64 display), nombre = valor
+  (`--sc-font-size-16` mide 16), en rem. Igual que en el Figma
+  (`typography/font-size/12..48`). Dos sistemas a propósito: el
+  spacing es geometría (decimal imperceptible); la letra es
+  legibilidad (redondo + rem importan).
 
 - **Dark mode activo con default `'system'`.** Versiones tempranas
   de esta guía decían que Smart Contact era light-only por marca;

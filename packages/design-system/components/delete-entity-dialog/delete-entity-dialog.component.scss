@@ -6,7 +6,7 @@
     gap: var(--sc-spacing-0-875);
     padding: var(--sc-spacing-1-125) var(--sc-spacing-0-875);
     color: var(--sc-text-subtle);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     line-height: 1.5;
 
     p {
@@ -21,7 +21,7 @@
     border-radius: var(--sc-radius-100);
     background: transparent;
     color: var(--sc-text-primary);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: 500;
     cursor: pointer;
 
@@ -37,15 +37,15 @@
 
   &__text {
     margin: 0;
-    font-size: var(--sc-font-size-200);
-    line-height: var(--sc-line-height-300);
+    font-size: var(--sc-font-size-14);
+    line-height: var(--sc-line-height-24);
     color: var(--sc-text-secondary);
     text-align: center;
   }
 
   &__detail {
     margin: var(--sc-spacing-0-875) 0 0;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-secondary);
     text-align: center;
   }
@@ -56,7 +56,7 @@
 
   &__confirm-label {
     margin: 0 0 var(--sc-spacing-0-5);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-secondary);
   }
 
@@ -66,7 +66,7 @@
     gap: var(--sc-spacing-0-5);
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     margin-bottom: var(--sc-spacing-0-5);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
     background: var(--sc-color-gray-100);
@@ -92,7 +92,7 @@
     width: 100%;
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
     font-family: inherit;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
     background: var(--sc-bg-surface);
     border: 1px solid var(--sc-border-default);
@@ -118,7 +118,7 @@
     align-items: center;
     gap: var(--sc-spacing-0-25);
     padding: 2px var(--sc-spacing-0-5);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
     background: var(--sc-bg-surface);

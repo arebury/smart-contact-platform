@@ -25,16 +25,16 @@
   }
 
   &__title {
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
-    line-height: var(--sc-line-height-200);
+    line-height: var(--sc-line-height-20);
     color: var(--sc-text-secondary);
     margin: 0;
   }
 
   &__subtitle {
-    font-size: var(--sc-font-size-100);
-    line-height: var(--sc-line-height-100);
+    font-size: var(--sc-font-size-12);
+    line-height: var(--sc-line-height-18);
     color: var(--sc-text-subtle);
     margin: 0;
   }

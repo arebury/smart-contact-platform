@@ -22,7 +22,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   font-weight: var(--sc-font-weight-medium);
   color: var(--sc-text-secondary);
   margin-bottom: 2px;
@@ -52,7 +52,7 @@
  * (16px) y el Kit no define base → md se fugaba. Rampa Kit → md = 14px.
  * Host-prefijado para ganar a `.p-inputtext` (misma cuenta de clases). */
 .sc-inputnumber .sc-inputnumber__control {
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
 }
 
 /* Strip browser-default spinners — they clash with our design and
@@ -75,7 +75,7 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--sc-text-subtle);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   line-height: 1;
   pointer-events: none;
   user-select: none;
@@ -96,19 +96,19 @@
 .sc-inputnumber--sm .sc-inputnumber__control {
   padding-top: 4px;
   padding-bottom: 4px;
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
 }
 .sc-inputnumber--sm .sc-inputnumber__suffix {
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
 }
 
 .sc-inputnumber--lg .sc-inputnumber__control {
   padding-top: 12px;
   padding-bottom: 12px;
-  font-size: var(--sc-font-size-300);
+  font-size: var(--sc-font-size-16);
 }
 .sc-inputnumber--lg .sc-inputnumber__suffix {
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
 }
 
 /* ────────────────────────────────────────────────────────────────────
@@ -138,7 +138,7 @@
   display: block;
   min-height: 1.25em;
   margin-top: var(--sc-spacing-0-25);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   line-height: 1.45;
   color: var(--sc-text-subtle);
 }

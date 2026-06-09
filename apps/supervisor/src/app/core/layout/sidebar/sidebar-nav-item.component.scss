@@ -8,8 +8,8 @@
   align-items: center;
   gap: var(--sc-spacing-0-5);
   padding: var(--sc-spacing-0-5) var(--sc-spacing-0-875);
-  font-size: var(--sc-font-size-200);
-  line-height: var(--sc-line-height-200);
+  font-size: var(--sc-font-size-14);
+  line-height: var(--sc-line-height-20);
   text-align: left;
   color: rgb(255 255 255 / 0.6);
   background: transparent;
@@ -38,8 +38,8 @@
   &[data-depth='4'],
   &[data-depth='5'] {
     padding-left: var(--sidebar-pad-l-3, var(--sc-spacing-5));
-    font-size: var(--sc-font-size-100);
-    line-height: var(--sc-line-height-100);
+    font-size: var(--sc-font-size-12);
+    line-height: var(--sc-line-height-18);
   }
 
   &:hover {

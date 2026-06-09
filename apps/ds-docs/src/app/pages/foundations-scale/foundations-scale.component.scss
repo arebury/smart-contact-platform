@@ -9,7 +9,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sc-spacing-0-25);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   color: var(--sc-text-subtle);
   text-decoration: none;
   margin-bottom: var(--sc-spacing-1-5);
@@ -39,7 +39,7 @@
 
   &__eyebrow {
     margin: 0;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-semibold);
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -48,14 +48,14 @@
 
   &__title {
     margin: 2px 0 var(--sc-spacing-0-5);
-    font-size: var(--sc-font-size-700);
+    font-size: var(--sc-font-size-32);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
   }
 
   &__lead {
     margin: 0;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     line-height: 1.6;
     color: var(--sc-text-secondary);
   }
@@ -76,7 +76,7 @@ code {
 
   &__label {
     display: block;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
     margin-bottom: var(--sc-spacing-0-375);
@@ -105,7 +105,7 @@ code {
 
   &__scale {
     font-family: var(--sc-font-family-mono);
-    font-size: var(--sc-font-size-500);
+    font-size: var(--sc-font-size-24);
     font-weight: var(--sc-font-weight-semibold);
     color: var(--sc-text-primary);
     background: transparent;
@@ -114,7 +114,7 @@ code {
   }
 
   &__px {
-    font-size: var(--sc-font-size-300);
+    font-size: var(--sc-font-size-16);
     color: var(--sc-text-secondary);
     font-variant-numeric: tabular-nums;
   }
@@ -128,7 +128,7 @@ code {
 
   &__mult {
     margin-left: auto;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
     font-variant-numeric: tabular-nums;
   }
@@ -146,7 +146,7 @@ code {
 
   &__pair {
     dt {
-      font-size: var(--sc-font-size-100);
+      font-size: var(--sc-font-size-12);
       color: var(--sc-text-subtle);
       margin-bottom: 3px;
     }
@@ -161,7 +161,7 @@ code {
   }
 
   &__none {
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-subtle);
   }
 }
@@ -185,7 +185,7 @@ code {
 
   &__summary {
     padding: var(--sc-spacing-0-75) var(--sc-spacing-1);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-secondary);
     cursor: pointer;
@@ -233,7 +233,7 @@ code {
   &__scale {
     flex: 0 0 132px;
     font-family: var(--sc-font-family-mono);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-weight: var(--sc-font-weight-medium);
     color: var(--sc-text-primary);
     background: transparent;
@@ -242,7 +242,7 @@ code {
 
   &__px {
     flex: 0 0 64px;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     font-variant-numeric: tabular-nums;
     color: var(--sc-text-secondary);
   }
@@ -256,12 +256,12 @@ code {
 
 .foot {
   margin: var(--sc-spacing-1-25) 0 0;
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   line-height: 1.55;
   color: var(--sc-text-subtle);
 }
 
 .loading {
   color: var(--sc-text-subtle);
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
 }

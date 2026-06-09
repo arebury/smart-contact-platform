@@ -93,7 +93,7 @@ body {
   border-radius: var(--sc-radius-100);
   background: var(--sc-color-amber-50);
   color: var(--sc-color-amber-800);
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   line-height: 1.45;
 }
 
@@ -218,7 +218,7 @@ table.table {
 
     h3 {
       margin: 0;
-      font-size: var(--sc-font-size-200);
+      font-size: var(--sc-font-size-14);
       font-weight: 500;
       color: var(--sc-text-primary);
     }
@@ -230,7 +230,7 @@ table.table {
     padding: 4px 8px;
     border-radius: var(--sc-radius-100);
     color: var(--sc-text-link);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: 500;
     cursor: pointer;
     transition: background-color 200ms ease-out;
@@ -265,7 +265,7 @@ table.table {
 
     h4 {
       margin: 0 0 var(--sc-spacing-0-5) 0;
-      font-size: var(--sc-font-size-50);
+      font-size: var(--sc-font-size-12);
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.04em;
@@ -279,7 +279,7 @@ table.table {
     gap: var(--sc-spacing-0-5);
     padding: 4px 0;
     cursor: pointer;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
 
     input[type='checkbox'] {
@@ -311,7 +311,7 @@ table.table {
 
     h3 {
       margin: 0;
-      font-size: var(--sc-font-size-200);
+      font-size: var(--sc-font-size-14);
       font-weight: 500;
       color: var(--sc-text-primary);
     }
@@ -323,7 +323,7 @@ table.table {
     padding: 4px 8px;
     border-radius: var(--sc-radius-100);
     color: var(--sc-text-link);
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     font-weight: 500;
     cursor: pointer;
     transition: background-color 200ms ease-out;
@@ -343,7 +343,7 @@ table.table {
     margin: 0;
     padding: var(--sc-spacing-1-125);
     text-align: center;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-secondary);
   }
 
@@ -353,7 +353,7 @@ table.table {
     gap: var(--sc-spacing-0-875);
     padding: var(--sc-spacing-0-5) var(--sc-spacing-1-125);
     cursor: pointer;
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
     transition: background-color 200ms ease-out;
 
@@ -385,7 +385,7 @@ table.table {
     border: 0;
     background: transparent;
     border-radius: var(--sc-radius-100);
-    font-size: var(--sc-font-size-200);
+    font-size: var(--sc-font-size-14);
     color: var(--sc-text-primary);
     cursor: pointer;
     transition: background-color 200ms ease-out;
@@ -405,7 +405,7 @@ table.table {
   align-items: center;
   padding: 2px 8px;
   border-radius: var(--sc-radius-full);
-  font-size: var(--sc-font-size-50);
+  font-size: var(--sc-font-size-12);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.02em;
@@ -504,7 +504,7 @@ table.table {
 
     h3 {
       margin: 0 0 4px 0;
-      font-size: var(--sc-font-size-200);
+      font-size: var(--sc-font-size-14);
       font-weight: 600;
       color: var(--sc-text-primary);
     }
@@ -512,7 +512,7 @@ table.table {
 
   .conflict-popover__desc {
     margin: 0 0 var(--sc-spacing-0-875) 0;
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-secondary);
   }
 
@@ -528,7 +528,7 @@ table.table {
       padding: var(--sc-spacing-0-5) var(--sc-spacing-0-75);
       background: var(--sc-bg-elevated);
       border-radius: var(--sc-radius-100);
-      font-size: var(--sc-font-size-100);
+      font-size: var(--sc-font-size-12);
     }
 
     strong {
@@ -547,13 +547,13 @@ table.table {
     padding: var(--sc-spacing-0-5) var(--sc-spacing-0-75);
     background: var(--sc-bg-primary-subtle);
     border-radius: var(--sc-radius-100);
-    font-size: var(--sc-font-size-100);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-primary);
   }
 
   .conflict-popover__hint {
     margin: 0;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     color: var(--sc-text-secondary);
     font-style: italic;
   }

@@ -62,9 +62,14 @@ nunca el core de PrimeNG ni el Kit del equipo. Coherente con el SCDS CLAUDE.md
 - **Pendiente para validar en real**: (a) crear variables de la rampa de **TÍTULOS**
   (hoy los títulos son text style **sin variable** → no cruzan al código vía Theme
   Designer); (b) repetir todo en el **Kit OFICIAL** (el que lee el Theme Designer,
-  no el duplicado); (c) reflejar en código `--sc-font-size-*` (redondo, rem) con
-  diff visual + e2e; (d) ajustar `tokens:type-parity` (hoy snap base-14) al pasar a
-  redondo.
+  no el duplicado) — ✅ **HECHO (S73, Rafa)**: primitivos + capa App verificados en el
+  export del Kit oficial; (c) reflejar en código `--sc-font-size-*` (redondo, rem) con
+  diff visual + e2e — ✅ **HECHO (S73)**: escala redonda por-valor en rem
+  (`--sc-font-size-12..48` + `64` registro, `--sc-line-height-18..58/78`),
+  desacoplada de `--sc-scale`, semánticos recableados, 96 ficheros de consumers
+  renombrados (naming por-valor, micro-decisión 2.3 = opción A), build + e2e 28 pass +
+  diff visual por pantalla; (d) ajustar `tokens:type-parity` (hoy snap base-14) al pasar a
+  redondo — ✅ **HECHO (S73)**: el comprobador resuelve rem/px directos.
 - Display 36/48/64 → **registrados solo en specs** (uso ocasional; fuera de la
   rampa activa de Figma).
 

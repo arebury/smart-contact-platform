@@ -25,7 +25,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 2px;
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
   font-weight: var(--sc-font-weight-medium);
   color: var(--sc-text-secondary);
   margin-bottom: 0;
@@ -71,7 +71,7 @@
     display: inline-flex;
     align-items: baseline;
     gap: 2px;
-    font-size: var(--sc-font-size-50);
+    font-size: var(--sc-font-size-12);
     line-height: 1;
     font-weight: var(--sc-font-weight-regular);
     color: var(--sc-text-subtle);
@@ -84,7 +84,7 @@
  * 1rem }` (16px) y el Kit Pro no define base → md se fugaba a 16px. Rampa
  * Kit 12.25/[14]/15.75 → md = 14px. (0,2,0) gana al label (0,1,0). */
 .sc-multiselect__control .p-multiselect-label {
-  font-size: var(--sc-font-size-200);
+  font-size: var(--sc-font-size-14);
 }
 
 /* ────────────────────────────────────────────────────────────────────
@@ -97,11 +97,11 @@
  */
 .sc-multiselect--sm .sc-multiselect__control .p-multiselect-label {
   padding: var(--sc-spacing-0-375) var(--sc-spacing-0-625);
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
 }
 .sc-multiselect--lg .sc-multiselect__control .p-multiselect-label {
   padding: var(--sc-spacing-0-625) var(--sc-spacing-0-875);
-  font-size: var(--sc-font-size-300);
+  font-size: var(--sc-font-size-16);
 }
 
 /* Overlay panel size: PrimeNG renderea el panel en <body>, fuera del
@@ -147,7 +147,7 @@
 .sc-multiselect__msg {
   display: block;
   min-height: 1.25em;
-  font-size: var(--sc-font-size-100);
+  font-size: var(--sc-font-size-12);
   line-height: 1.45;
   color: var(--sc-text-subtle);
 }
