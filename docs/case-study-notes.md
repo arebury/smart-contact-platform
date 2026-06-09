@@ -16,6 +16,23 @@
 
 ---
 
+## 2026-06-09 · S73 — El exportador Figma→código pierde la semántica de los tokens Custom: el tipo y el nombre deciden si el export sale limpio
+
+**Contexto**: validar el pipeline Figma → Theme Designer → GitHub → código antes de portar nada gordo (el plugin como "árbitro": input limpio debe dar output limpio, demostrable). Pasamos un componente real (Bulk Transcription Modal) por el plugin y comparamos el `extend.ts` generado contra lo esperado. Tres roturas, **todas en NUESTRA capa (colección Custom), ninguna en los tokens estándar de PrimeNG**.
+
+**Premisa equivocada**: "si en Figma el valor está bien (un peso es `600`, un nombre es legible), el código generado estará bien — el plugin solo copia".
+
+**Descubrimiento**: el plugin no copia, **traduce**, y al traducir la colección Custom pierde el contexto semántico que sí conserva en las colecciones estándar:
+- **Nombres**: anida por `/` → un guion o espacio DENTRO de un segmento produce una clave JS inválida (`font-size: {`, `bulk transcription modal: {`) → el `extend.ts` no compila. Fix: barras para jerarquía, camelCase para compuestos (`font/size`, `bulkTranscriptionModal`).
+- **Tipo**: a TODO número de Custom le clava `px`. Para un tamaño cuela (`12`→`12px`); para un peso (`600`) escupe `600px`, absurdo. En los tokens estándar el plugin sabe que `dialog/title/font/weight` es un peso y lo deja en `600` — en Custom no tiene esa pista. Fix: lo que **no es medida** (peso, variante, familia) va como **string** (`"600"`, `"Semibold"`); el plugin no pxea strings. (SnowUI tipa su `icon-weight` como string — `Regular`/`Fill`/`Duotone` — por esto mismo.)
+- **Huérfanos**: el modal tenía 20 tokens Custom pero solo enlazaba **4** (sus colores de marca); los otros 16 duplicaban estándar (`dialog/*`, `scale/*`). El `title/font/weight=600` que disparaba el bug era huérfano — el título usa `dialog/title/font/weight`. Borrarlo fue migration-safe porque NADA lo enlazaba (verificado inspeccionando los bindings del componente, no asumido).
+
+**Lección portable**: cualquier exportador design-tool→código que distinga "tokens nativos" de "tokens custom" probablemente **pierde la semántica de los custom** y cae a un default (aquí: `px` para todo número, y nombre-como-clave-literal). Dos consecuencias accionables: (1) el **tipo** que eliges en la herramienta decide si el export sale limpio — expresa lo no-dimensional (peso, enum, variante) como **string** para que el exportador no le invente unidad; (2) los **nombres** deben sobrevivir la serialización del destino (sin separadores que rompan el lenguaje de salida). Y antes de borrar un token "que molesta", **escanea qué lo enlaza de verdad** en lugar de asumir — el que rompía era huérfano, y eso fue lo que hizo seguro borrarlo. Regla de fondo = minimal customization (DD-5) aplicada al design tool: en Custom, solo lo genuinamente tuyo; reusa el token estándar que el componente ya consume.
+
+> Reglas canónicas en `packages/design-system/docs/DECISIONS.md` (DD-13 Anexo "higiene del PIPELINE"). Por qué NO portamos el `rem-scale.ts` de los devs (reconciliador base-14 que encogería nuestra tipografía redonda root-16) y el arranque de la gran sesión, en `convergence-manifesto.md` §12.6. Gotcha de flujo: "Generate Theme" es obligatorio antes de "Push Theme" — si no, sube el tema cacheado y parece que tu cambio no surte efecto.
+
+---
+
 ## 2026-06-02 · S67 — Tipografía migration-safe: por qué el "cosmético" cambio de font-size es de los más arriesgados
 
 **Contexto**: cerrar el cinturón de blindaje migración tocaba el último eje suelto, la tipografía. Olas 1+2 tokenizaron 367 literales `font-size` dispersos por las apps → tokens `--sc-font-size-*` (snap a la escala base-14), subiendo la cobertura del 48% a ~99% accionable. Se añadió `npm run tokens:type-parity` (read-only, hermano de `tokens:parity`) y un guard "Dura 4" que bloquea cualquier `font-size` literal nuevo (única excepción allow-listed: el display 88px del hero de transcripción masiva, ahora `--sc-font-size-900`).
