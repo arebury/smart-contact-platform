@@ -6303,20 +6303,20 @@
       "font": {
         "size": {
           "$type": "number",
-          "$value": "{typography.font-size.14}"
+          "$value": "{typography.font.size.14}"
         }
       },
       "lg": {
         "line": {
           "height": {
             "$type": "number",
-            "$value": "{typography.line-height.24}"
+            "$value": "{typography.line.height.24}"
           }
         },
         "font": {
           "size": {
             "$type": "number",
-            "$value": "{typography.font-size.16}"
+            "$value": "{typography.font.size.16}"
           }
         }
       },
@@ -6324,20 +6324,20 @@
         "line": {
           "height": {
             "$type": "number",
-            "$value": "{typography.line-height.18}"
+            "$value": "{typography.line.height.18}"
           }
         },
         "font": {
           "size": {
             "$type": "number",
-            "$value": "{typography.font-size.12}"
+            "$value": "{typography.font.size.12}"
           }
         }
       }
     }
   },
   "aura/custom": {
-    "bulk transcription modal": {
+    "bulkTranscriptionModal": {
       "border": {
         "color": {
           "$type": "color",
@@ -6377,10 +6377,6 @@
           "size": {
             "$type": "number",
             "$value": "{scale.1-25}"
-          },
-          "weight": {
-            "$type": "number",
-            "$value": 600
           }
         }
       },
@@ -6438,68 +6434,72 @@
       }
     },
     "typography": {
-      "font-size": {
-        "12": {
-          "$type": "number",
-          "$value": 12
-        },
-        "14": {
-          "$type": "number",
-          "$value": 14
-        },
-        "16": {
-          "$type": "number",
-          "$value": 16
-        },
-        "18": {
-          "$type": "number",
-          "$value": 18
-        },
-        "20": {
-          "$type": "number",
-          "$value": 20
-        },
-        "24": {
-          "$type": "number",
-          "$value": 24
-        },
-        "32": {
-          "$type": "number",
-          "$value": 32
-        },
-        "48": {
-          "$type": "number",
-          "$value": 48
+      "font": {
+        "size": {
+          "12": {
+            "$type": "number",
+            "$value": 12
+          },
+          "14": {
+            "$type": "number",
+            "$value": 14
+          },
+          "16": {
+            "$type": "number",
+            "$value": 16
+          },
+          "18": {
+            "$type": "number",
+            "$value": 18
+          },
+          "20": {
+            "$type": "number",
+            "$value": 20
+          },
+          "24": {
+            "$type": "number",
+            "$value": 24
+          },
+          "32": {
+            "$type": "number",
+            "$value": 32
+          },
+          "48": {
+            "$type": "number",
+            "$value": 48
+          }
         }
       },
-      "line-height": {
-        "18": {
-          "$type": "number",
-          "$value": 18
-        },
-        "20": {
-          "$type": "number",
-          "$value": 20
-        },
-        "24": {
-          "$type": "number",
-          "$value": 24
-        },
-        "28": {
-          "$type": "number",
-          "$value": 28
-        },
-        "36": {
-          "$type": "number",
-          "$value": 36
-        },
-        "40": {
-          "$type": "number",
-          "$value": 40
-        },
-        "58": {
-          "$type": "number",
-          "$value": 58
+      "line": {
+        "height": {
+          "18": {
+            "$type": "number",
+            "$value": 18
+          },
+          "20": {
+            "$type": "number",
+            "$value": 20
+          },
+          "24": {
+            "$type": "number",
+            "$value": 24
+          },
+          "28": {
+            "$type": "number",
+            "$value": 28
+          },
+          "36": {
+            "$type": "number",
+            "$value": 36
+          },
+          "40": {
+            "$type": "number",
+            "$value": 40
+          },
+          "58": {
+            "$type": "number",
+            "$value": 58
+          }
         }
       }
     }
