@@ -90,6 +90,19 @@ nunca el core de PrimeNG ni el Kit del equipo. Coherente con el SCDS CLAUDE.md
 - **Pipeline a código:** Figma (variables `app/*` + estilos) → **Theme Designer** →
   PR a GitHub → `--sc-font-size-*`. Es lo que hace que tocar la variable una vez en
   Figma llegue al código sin copiar valores a mano.
+- **Anclaje vs literal — la letra ancla a primitivos propios en la colección _Custom_**
+  (S72, criterio "a prueba de balas", no "lo probado"). La escala redonda vive como
+  primitivos (`font-size/12..32`, `line-height/18..40`) en **Custom** (nuestra capa de
+  proyecto, **no** la `Primitive` del Kit), y la colección **App** ancla a ellos
+  (`app/lg/font/size → font-size/16`…). **Razón:** una sola fuente por valor (cambiar
+  un tamaño = 1 edición; las futuras variables de títulos anclan al mismo set) → escala
+  trazable y futuro-proof, vs literales que dispersan el valor y son deuda a futuro.
+  **Safe:** PrimeNG es *reference-native* (`{...}`, ej. `{form.field.font.size}`), así
+  que la cadena de alias es su idioma; todo en Custom, no toca el core. **Due-diligence
+  pendiente:** confirmar que el Theme Designer exporta el set de Custom + las
+  referencias (plan B trivial si no: resolver a valor). Los devs usan literales en su
+  `app.typography`, pero eso es detalle de su código; nuestra fuente de verdad (Figma)
+  se queda con la jerarquía correcta.
 
 ---
 
