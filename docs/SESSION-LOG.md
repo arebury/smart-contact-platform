@@ -10,6 +10,36 @@
 
 ---
 
+## 2026-06-09 · Session 72 / 72b — tipografía: validación contra PrimeNG, naming, unidad rem (decisión + docs, sin código de producto)
+
+> Sesión de **decisión y documentación** (cero código de producto; el render no cambió). Todo
+> commiteado y pusheado (`1ef05ae..` → cabeza actual). Hogar canónico: **DD-13** (SCDS DECISIONS).
+
+- **Alineación de docs de tipografía** → todas las menciones (migration-safety, customs §7,
+  extender-guía §9, MIGRATION-INVENTORY, tokens/README, SCDS CLAUDE, case-study, DOCS-INDEX) apuntan
+  ahora a **DD-13** (escala) vs **DD-11** (mecanismo). Antes solo referenciaban DD-11.
+- **Validación contra PrimeNG (workflow 4 fuentes + empírico):** PrimeNG **no modela tipografía**
+  (dial único = root font-size del `<html>`; solo `form.field` tokenizado; issue PrimeUIX #192 abierto).
+  El dev instala la letra en **rem** (Theme Designer convierte px Figma → rem ÷16; redondo → rem limpio,
+  probado con un tema generado).
+- **Naming por capa:** capa **App** expuesta con barra (`app/font/size` → `--app-font-size`); **primitivo
+  de escala PLANO** (`typography/font-size/12..48`, nombre=valor). Renombré a `font/size` (anidado) y
+  **lo revertí** — el primitivo es interno, el componente consume `--app-font-size`.
+- **Rampa de contenido (h1/body):** modelo **simple** — text styles atados a los primitivos + aliases en
+  código (como los devs). **Sin** capa de variables semánticas (sobre-ingeniería; ni SnowUI ni PrimeNG ni
+  los devs la tienen).
+- **Devs:** verificado por diff que su `sc-preset/base.ts` **ES un tema del Theme Designer** + capa custom
+  (`extend`/`rem-scale`) + aliases `--sc-*` desde `tokens.json`. **Tema y tokens se combinan** (para eso se
+  paga el Theme Designer). Entregable a devs: ambos + DD.
+- **Deuda nueva #88:** código en px → migrar a rem (rompe el dial de escala/a11y; bajo riesgo visual a root 16).
+- **Gate del PORT** documentado en `NEXT-SESSION-PLAN` (5 puntos; gate crítico = pipeline Theme Designer
+  validado con un piloto). Decisión px-vs-rem cerrada (**rem**).
+- **Meta:** 2 fallos de "afirmar sin verificar" (devs curan / tema no sirve) corregidos vía diff; memoria
+  `empirical-test-before-philosophizing` reforzada.
+
+**Próximo (LA GRAN SESIÓN — empezar por el gate):** crear text styles de contenido atados a primitivos +
+piloto del pipeline (divider/tag por el Theme Designer) + reflejar tipografía en código (rem+redondo).
+
 ## 2026-06-08 · Session 70-71 — convergencia con el repo de los devs + validación + tipografía (estrategia/arquitectura, poco código)
 
 > Dos sesiones de **estrategia + arquitectura** (mucho criterio, poco código). Todo lo decidido quedó

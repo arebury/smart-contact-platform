@@ -172,11 +172,17 @@ export del Kit + un tema generado por el Theme Designer) + verificación empíri
   primitivo plano (nombre = valor, convención estándar de escala) se lee mejor. Confirmado
   contra el repo de los devs: su capa de aliases expone `--sc-font-size-*`/`--sc-line-height-*`
   (guion en CSS), alimentada por un `tokens.json` de valores numéricos.
-- **Nuestra rampa de CONTENIDO (h1–h4, body-1/2/3, subtitle, caption) es divergencia
-  consciente y correcta:** PrimeNG no la tiene (es el hueco del issue #192), así que NO es
-  deuda nuestra — es valor que aportamos. Va con naming de barra propio
-  (`typography/heading/h1`, `typography/body/body-1`) y entry explícito en
-  `customs-catalog.md`, separada de los tokens atados a `form.field` (que sí espejan PrimeNG).
+- **Rampa de CONTENIDO (h1–h4, body-1/2/3, subtitle, caption): modelo SIMPLE, sin capa de
+  variables propia** (corregido S72b-ext2). Verificado contra SnowUI (text styles literales),
+  el export del Kit y los devs: **ninguno** tiene una capa semántica de tipografía de contenido
+  (`heading/h1`, `body/body-1`) — solo el tier de control (`app.sm/md/lg`) + font-size por
+  componente (`card.title`, `dialog.title`). Crear esa capa de variables en Figma sería
+  sobre-ingeniería. Modelo correcto: **text styles** (h1, body…) con su `font-size` /
+  `line-height` / `weight` atados **directamente a los primitivos** (`typography/font-size/24`…)
+  — el text style ES la capa semántica visual (cambiar h1 de 24→28 = reapuntar el estilo, un
+  sitio). Los `--sc-font-size-h1` / `body-1` del código viven en la **capa de aliases** (como los
+  devs: `--sc-font-size-*` desde su `tokens.json`), anclados a los primitivos que cruzan de Figma.
+  **NO una tercera capa de variables semánticas.**
 - **Hoy el código está en `px`** (`--sc-scale-1: 14px`; los `--sc-font-size-*` cuelgan de la
   escala px) **→ divergimos del output nativo de PrimeNG (rem) y rompemos el dial de escala
   global** (un usuario que sube el tamaño base del navegador no ve crecer nuestra letra;
