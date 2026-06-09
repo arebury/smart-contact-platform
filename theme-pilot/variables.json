@@ -1,0 +1,7 @@
+{
+  "$schema": "https://raw.githubusercontent.com/tokens-studio/schemas/main/schema.json",
+  "global": {
+    "description": "Design tokens exportados por el plugin Theme Designer — rama de pruebas",
+    "type": "other"
+  }
+}
