@@ -5,45 +5,70 @@
 
 ---
 
-## Estado al cerrar (S70–S71, 2026-06-08) — convergencia con los devs + validación + tipografía
+## Estado al cerrar (S72b, 2026-06-09) — tipografía decidida + Paso 1 ejecutado
 
-> Sesiones de **estrategia + arquitectura** (poco código, mucho criterio). **Todo lo decidido está commiteado** — el contexto NO se pierde, vive en los docs de abajo.
+> **Todo lo decidido vive en docs canónicos** (no se pierde). Tipografía = **DD-13** (SCDS DECISIONS).
+> Convergencia/port = [`convergence-manifesto.md`](./convergence-manifesto.md) + [`convergence-checklist-devs.md`](./convergence-checklist-devs.md).
 
-**Hecho y commiteado:**
-- **Naming cerrado** → DD-12 (pegado = Kit Pro/Figma; custom kebab) — `packages/design-system/docs/DECISIONS.md`.
-- **Manifiesto de convergencia** (base del port) → [`docs/convergence-manifesto.md`](./convergence-manifesto.md) §1–12: catálogo unión 44 piezas (Rosetta), 4 solapes resueltos, huecos, empaquetado objetivo, plan por fases, §9 contraste con su `AGENTS.md`, §10 reutilización, §11 comparativa (PPT), §12 hallazgos en curso. Verificado adversarialmente vs código.
-- **Checklist reunión devs** → [`docs/convergence-checklist-devs.md`](./convergence-checklist-devs.md) (6 decisiones + 3 alineados).
-- **Protocolo re-sync Figma+preset** → `migration-safety.md` (no re-duplicar · Migration Assistant · Code Connect a nuestro file · capas control vs contenido).
-- **3 mapas dev "layout Make + info SCDS"** en Figma (General `215:2476`, Agentes `225:2476`, Grupos `227:2476`).
+**Cerrado y vigente:**
+- **Naming componentes** → DD-12 (pegado = Kit Pro/Figma; custom kebab).
+- **Tipografía** → **DD-13**: escala **redonda** (12/14/16/18/20/24/32 + display 48/64), desacoplada de `--sc-scale`, **rem root-16**, line-heights por regla, **2 pesos** (Reg/Semibold). Validado contra PrimeNG (S72b): PrimeNG **no modela tipografía** (dial único = root font-size del `<html>`); el dev instala la letra en **rem** (Theme Designer convierte px→rem ÷16; redondo → rem limpio). **Naming por capa**: capa **App** con barra (`app/font/size`→`--app-font-size`); **primitivo PLANO** (`typography/font-size/12..48`, nombre=valor). Rampa de contenido (h1/body) = **modelo simple** (text styles atados a primitivos + aliases en código; sin capa de variables — over-engineering).
+- **Paso 1 EJECUTADO (S72b)** en el duplicado `tUzS4MvWld90bA2qpZz5b6`: primitivos `typography/font-size/12..48` + `line-height/18..58` (Custom, planos) · capa App atada a ellos · **10 text styles de contenido** (display-1, h1–h4, body-1/2/3, caption, caption-bold) **atados a los primitivos** (font-size + line-height; weight queda en el estilo).
+- **Reglas de operación nuevas:** evitar over-engineering ([[avoid-overengineering]]) · verificar antes de afirmar ([[empirical-test-before-philosophizing]]) · px-vs-rem = **rem** (S72).
 
-**Estado de hilos clave:**
-- **Escala / px-vs-rem:** ✅ **RESUELTO (S72).** Leído `rem-scale.ts` de los devs → **root 16**, design-14 ×0,875; su 14-base ≡ nuestro px a **mismos píxeles** → choque del botón **disuelto**. Dirección: **rem** (a11y + converge). Detalle en [[reference_devs_rem_scale_architecture]].
-- **Theme Designer (PrimeTek):** comprado + conectado al **Kit OFICIAL** (no al duplicado). Custom OK; "Component" vacío (esperable); **bug `font.weight=600px`**.
-- **Tipografía:** ✅ **DECIDIDA — DD-13** (SCDS DECISIONS). Escala **redonda** (12/14/16/18/20/24/32), desacoplada de `--sc-scale`, **rem root-16**, line-heights por regla, 2 pesos. **Validado contra PrimeNG (S72b)**: PrimeNG NO modela tipografía (dial único = root font-size del `<html>`); el dev instala la letra en **rem** (Theme Designer convierte px→rem ÷16; redondo → rem limpio, probado con un tema generado); naming = **barra** `typography/font/size/14` (no guion). Rampa de contenido (h1/body) = divergencia consciente (hueco PrimeNG #192). Hoy el código está en **px** → deuda px→rem (backlog #88). POC en el duplicado (`tUzS4…`). **Falta VALIDAR en real** (ver orden ↓).
+---
 
-### 🎯 Próxima sesión — ORDEN
-1. ~~Test del botón / px-vs-rem~~ ✅ **HECHO (S72)** — root 16, rem, choque disuelto (DD-13).
-2. **Tipografía → VALIDAR EN REAL (DD-13 ya decidido).** Migration-safe confirmado (solo tocamos `--sc-*`/`app/*`/preset, nunca PrimeNG ni el Kit del equipo). Pasos: **(a)** naming variables typography: capa **App** expuesta con barra (`app/font/size`→`--app-font-size`), primitivo de escala **PLANO** (`typography/font-size/X` + `typography/line-height/X`) — hecho en el duplicado S72b; **(b)** crear variables de la rampa de **títulos**/contenido + atar text styles (hoy títulos = style sin variable → no cruzan al código); **(c)** repetir en el **Kit oficial** (el que lee el Theme Designer); **(d)** Theme Designer → PR a GitHub → verificar valores; **(e)** reflejar en código `--sc-font-size-*` en **rem** (no px — backlog #88) + redondo + ajustar `tokens:type-parity` + diff visual + e2e.
-3. **Bridge Theme Designer:** pasar UN componente escala-neutral (divider/tag, NO botón) por el puente → export==aplicado. Arreglar bug 600px.
-4. **Cerrar px vs rem** para el convergido (rem gana en a11y).
-5. **Nits config** (card C con gris perceptible · "Notifications"→"Notificaciones" · icono Agentes · breadcrumb) + adoptar guía doc1 (tabla dividers, px lógicos).
-6. **Ejecutar convergencia** (Fase 0 = unificar escala, con devs) — el grande, **después de 1–3**.
+## 🗺️ Plan de ataque — de aquí a la GRAN SESIÓN (montar el proyecto espejo)
 
-### 🧱 Gate de fiabilidad para arrancar el PORT (proyecto gordo)
+> Objetivo final ("gran sesión"): **montar el proyecto espejo del repo de los devs** (estructura `design-tokens / components / icons / demo`) **con nuestro clon dentro para probar todo**. No se arranca hasta que la BASE esté validada end-to-end (Bloques 1–2).
 
-Antes del port grande, la BASE debe estar validada **end-to-end**. Lo que falta:
+### Reglas transversales (aplican a TODOS los bloques)
+- **No over-engineering:** no añadir capa/token/componente/doc sin trigger real ([[avoid-overengineering]]). La solución más simple que resuelve el problema de hoy.
+- **Verificar, no afirmar:** test empírico en Figma / comparar archivos / leer el código antes de concluir. (En S72b fallé 2× por inferir; se cazó con `diff`.)
+- **No-layout-shift:** todo cambio de tipografía en código → **diff visual Playwright por pantalla + `npm run e2e`** antes de dar por bueno.
+- **Migration-safe:** tocar **solo nuestra capa** (`--sc-*` / `app/*` / `sc-preset.ts`); nunca el core de PrimeNG ni el Kit del equipo sin coordinación.
+- **Push promptly** + e2e por inercia tras cambios cross-surface.
 
-1. **Tipografía cerrada end-to-end** (punto 2 arriba): rampa de **contenido** (h1/body) en Figma como variables + reflejar en código en **rem + redondo** + diff/e2e. Naming ya cerrado (App barra, primitivo plano; S72b).
-2. **🚦 Pipeline Theme Designer validado con UN piloto (GATE crítico):** un componente escala-neutral (divider/tag) que haga el viaje completo **Figma → Theme Designer → GitHub → código** y renderice correcto (rem, naming, anclajes Custom sobreviven, cadena App→Custom cruza). Arreglar bug `font.weight=600px`. **Sin esto, el port construye sobre arena.**
-3. **Acuerdos con los devs (reunión)** — dependencia externa: naming, capa de aliases `--sc-*`, pipeline (Theme Designer + `tokens.json` son **complementarios**, no excluyentes), quién construye qué. Checklist listo (`convergence-checklist-devs.md`).
-4. **Estructura del proyecto convergido definida** (esqueleto design-tokens / components / icons / demo, como el repo de los devs).
-5. **Pipeline documentado** end-to-end (para que el port sea repetible).
+### No-goals (cosas que NO se hacen)
+- ❌ **Claude NO opera el Theme Designer** — es app de Rafa, conectada al Kit OFICIAL + su GitHub. Claude prepara el componente y verifica el resultado; el clic es de Rafa.
+- ❌ **NO crear capa de variables semánticas de contenido** (`heading/h1`…). Los text styles atados a primitivos YA son la capa semántica. (Verificado: ni SnowUI ni PrimeNG ni los devs la tienen.)
+- ❌ **NO reflejar tipografía a código sin diff visual** (cambia alturas → riesgo layout).
+- ❌ **NO renombrar consumers en masa** sin cerrar antes la micro-decisión por-valor vs steps (ver Bloque 2.3).
+- ❌ **NO arrancar el proyecto espejo** sin el pipeline validado (Bloque 1 = gate).
 
-El **gate es #2**: hasta que un token no haga el viaje completo y renderice bien, no arrancar el port.
+---
 
-**Decisiones ABIERTAS:** ~~px-vs-rem~~ ✅ **rem (S72)** · tipografía de **contenido** (h1/body) por crear como variables en Figma · ejecución card-C.
+### 🚦 BLOQUE 1 — Validar el PIPELINE con un piloto (GATE, va PRIMERO)
+- **Objetivo:** confirmar que el viaje **Figma → Theme Designer → GitHub → código** funciona y rinde correcto, ANTES de meter nada gordo por él. Decide el *método* del Bloque 2 (¿la tipografía baja por pipeline o a mano?).
+- **Quién:** Rafa opera el Theme Designer; Claude verifica el resultado en código.
+- **Protocolo:** (1) elegir un componente **escala-neutral** (divider o tag — **NO** el botón). (2) Rafa lo pasa por el Theme Designer en el **Kit oficial** → genera PR a GitHub. (3) Verificar: ¿valores en **rem**? ¿naming esperado? ¿sobreviven los anclajes **Custom**? ¿la cadena `App → Custom` cruza? (4) Arreglar el **bug `font.weight=600px`** del Theme Designer.
+- **Considerar:** el Theme Designer apunta al **Kit OFICIAL**, no al duplicado. La colección "Component" salía vacía (esperable). "Generar tema" (preset instalable, rem) ≠ "Exportar" (JSON crudo px).
+- **Estado:** ⏳ pendiente (gate). Sin esto no se arranca el port.
 
-**⚠️ Bias a vigilar (Rafa lo pidió):** NO atacar los hilos "uno a uno" como iguales — hay orden por dependencia; el cuello de botella es **PROBAR** (1–3), no montar andamiaje (tracker/mintar tokens) antes. **Profundidad > amplitud.**
+### ✍️ BLOQUE 2 — Tipografía en real (de DD-13 a producción)
+- **2.1 — text styles → primitivos (duplicado):** ✅ **HECHO (S72b).**
+- **2.2 — replicar en el Kit OFICIAL (Rafa):** crear los primitivos `typography/font-size/*` + `line-height/*` (Custom) + capa App + atar los text styles, igual que en el duplicado. Es lo que lee el Theme Designer.
+- **2.3 — micro-decisión (Rafa, desbloquea el código):** ¿el código va **por-valor** (`--sc-font-size-16`, converge con Figma/devs, pero **renombra todos los consumers**) **o mantiene los steps** (`--sc-font-size-300`, menos cambio, redefiniendo su valor)? Recomendación a debatir: simplicidad/convergencia vs coste de rename.
+- **2.4 — reflejar en código (Claude):** según el método del Bloque 1 (pipeline o a mano). Cambiar `--sc-font-size-*` a **redondo + rem** (hoy cuelgan de `--sc-scale`, decimal: h1=31.5, body-1=15.75 → deben ser 32/16) + recablear los semánticos + **ajustar `tokens:type-parity`** (hoy asume font-size colgando de scale) + **diff visual + e2e**. Deuda backlog **#88** (px→rem).
+- **Considerar:** el cambio decimal→redondo **cambia el render** (±0,5–1px en alturas) → diff obligatorio. La unidad px→rem a root 16 **no** cambia el render (mismo pixel); el beneficio es escalado/a11y.
+- **Estado:** 2.1 hecho · 2.2/2.3/2.4 pendientes.
+
+### 🏗️ BLOQUE 3 — LA GRAN SESIÓN: montar el proyecto espejo
+- **Objetivo:** repo nuevo con la estructura de los devs (`design-tokens / components / icons / demo`) + **todo lo nuestro adaptado** dentro, para probar el conjunto. "Nosotros definimos, ellos construyen" ([[project_devs_smartcontact_ui_repo]]).
+- **Protocolo:** (1) esqueleto del repo = estructura devs. (2) portar tokens (`--sc-*` + aliases) y componentes nuestros. (3) demo para validar. Plan por fases en `convergence-manifesto.md`.
+- **Depende de:** Bloque 1 (pipeline fiable) + Bloque 2 (tipografía cerrada) + **acuerdos con los devs** (reunión: naming, capa de aliases, pipeline Theme Designer + `tokens.json` complementarios, quién construye qué — `convergence-checklist-devs.md`).
+- **Estado:** ⏳ bloqueado por 1 y 2.
+
+---
+
+### 📌 Contexto técnico a recordar (datos concretos verificados S72b)
+- **Duplicado `tUzS4…`:** primitivos typography planos en **Custom** · capa **App** (`app/font/size`→`--app-font-size`) atada a Custom · 10 text styles de contenido atados (font-size+line-height).
+- **Código hoy:** `--sc-font-size-100..900` cuelgan de `--sc-scale-*` (decimal). Contenido en decimal (`h1`=font-size-650=**31.5**; Figma redondo=32). NO coincide aún con DD-13.
+- **`tokens:type-parity`:** resuelve `--sc-font-size-*` asumiendo `var(--sc-scale-{m})` → al desacoplar a rem/redondo hay que **ajustar el comprobador**.
+- **Theme Designer:** Kit OFICIAL (no duplicado) · bug `font.weight=600px` · Custom OK, Component vacío.
+- **Otros pendientes menores (no bloquean):** nits config (card C gris · "Notifications"→"Notificaciones" · icono Agentes · breadcrumb).
+
+**⚠️ Bias a vigilar (Rafa):** no atacar bloques en paralelo como iguales — hay **orden por dependencia** (1 → 2 → 3). El cuello de botella es **PROBAR el pipeline** (Bloque 1), no montar andamiaje antes. Profundidad > amplitud.
 
 ---
 

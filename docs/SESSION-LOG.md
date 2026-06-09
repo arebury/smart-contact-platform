@@ -37,8 +37,13 @@
 - **Meta:** 2 fallos de "afirmar sin verificar" (devs curan / tema no sirve) corregidos vía diff; memoria
   `empirical-test-before-philosophizing` reforzada.
 
-**Próximo (LA GRAN SESIÓN — empezar por el gate):** crear text styles de contenido atados a primitivos +
-piloto del pipeline (divider/tag por el Theme Designer) + reflejar tipografía en código (rem+redondo).
+- **Paso 1 EJECUTADO** (cierre S72b): 10 text styles de contenido (display-1, h1–h4, body-1/2/3, caption,
+  caption-bold) **atados a los primitivos** `typography/font-size/*` + `line-height/*` en el duplicado (weight
+  queda en el estilo). Modelo simple confirmado en vivo.
+
+**Próximo:** plan de ataque por **bloques** detallado en [`NEXT-SESSION-PLAN`](./NEXT-SESSION-PLAN.md) (protocolo,
+qué considerar, no-goals): **Bloque 1** = piloto del pipeline Theme Designer (GATE, lo opera Rafa) → **Bloque 2** =
+tipografía en código (micro-decisión por-valor vs steps + rem/redondo + diff/e2e) → **Bloque 3** = proyecto espejo.
 
 ## 2026-06-08 · Session 70-71 — convergencia con el repo de los devs + validación + tipografía (estrategia/arquitectura, poco código)
 
