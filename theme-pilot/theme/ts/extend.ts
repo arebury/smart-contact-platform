@@ -1,31 +1,34 @@
 export default {
     typography: {
-        font-size: {
-            12: "12px",
-            14: "14px",
-            16: "16px",
-            18: "18px",
-            20: "20px",
-            24: "24px",
-            32: "32px",
-            48: "48px"
+        font: {
+            size: {
+                12: "12px",
+                14: "14px",
+                16: "16px",
+                18: "18px",
+                20: "20px",
+                24: "24px",
+                32: "32px",
+                48: "48px"
+            }
         },
-        line-height: {
-            18: "18px",
-            20: "20px",
-            24: "24px",
-            28: "28px",
-            36: "36px",
-            40: "40px",
-            58: "58px"
+        line: {
+            height: {
+                18: "18px",
+                20: "20px",
+                24: "24px",
+                28: "28px",
+                36: "36px",
+                40: "40px",
+                58: "58px"
+            }
         }
     },
-    bulk transcription modal: {
+    bulkTranscriptionModal: {
         color: "{overlay.modal.color}",
         title: {
             font: {
-                size: "1.25rem",
-                weight: "600px"
+                size: "1.25rem"
             }
         },
         border: {
