@@ -92,8 +92,11 @@ nunca el core de PrimeNG ni el Kit del equipo. Coherente con el SCDS CLAUDE.md
   Figma llegue al código sin copiar valores a mano.
 - **Anclaje vs literal — la letra ancla a primitivos propios en la colección _Custom_**
   (S72, criterio "a prueba de balas", no "lo probado"). La escala redonda vive como
-  primitivos (`font-size/12..32`, `line-height/18..40`) en **Custom** (nuestra capa de
-  proyecto, **no** la `Primitive` del Kit), y la colección **App** ancla a ellos
+  primitivos (`font-size/12..32`, `line-height/18..40`) en la colección **Custom** (la
+  de tokens de proyecto), **no** en la base `Primitive` (la que deriva de PrimeNG/Aura);
+  ambas son colecciones del mismo file/Kit. Importa porque un re-export del Kit
+  **regenera** la base (Primitive/Semantic/Component) pero **respeta** App y Custom (las
+  nuestras). La colección **App** ancla a ellos
   (`app/lg/font/size → font-size/16`…). **Razón:** una sola fuente por valor (cambiar
   un tamaño = 1 edición; las futuras variables de títulos anclan al mismo set) → escala
   trazable y futuro-proof, vs literales que dispersan el valor y son deuda a futuro.
