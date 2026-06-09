@@ -427,3 +427,49 @@ Lo que nuestro trabajo suma a su pipeline (cubrir más sus necesidades con lo qu
 
 ### 12.5 Próximo paso empírico (sin andamiaje previo)
 Re-pull del espejo + **test del botón sin icono** (mi preset vs el suyo, hug) → zanja si el choque quedó cerrado por su `rem-scale`. De ahí sale qué pedir. (No montar tracker ni mintar tokens antes — preparación-como-progreso.)
+
+### 12.6 Pipeline validado (S73) + arranque de la GRAN SESIÓN
+
+**Experimento del pipeline (S73) — CERRADO, output limpio.** Operado por Claude sobre el
+duplicado Figma vía MCP + verificado en la rama `theme-designer-pilot`. Reglas de higiene
+canónicas en **DD-13 Anexo "higiene del PIPELINE"**. Resumen del veredicto:
+- El viaje Figma → Theme Designer → GitHub **transporta bien**. El plugin solo rompe nuestra
+  capa por (a) **nombres con guion/espacio interno** (clave JS inválida → no compila) y (b) **px
+  sobre todo número de la colección _Custom_** (al peso `600` le clava `600px`).
+- Fix aplicado en el duplicado: primitivos `typography/font/size` + `line/height` y componente
+  `bulkTranscriptionModal/` (sin guion/espacio); borrado el huérfano `title/font/weight=600`
+  (el modal usa el estándar `dialog/title/font/weight`, así que migration-safe). Tras regenerar
+  el tema (**"Generate Theme" obligatorio** antes de push — si no, sube el cacheado), el
+  `extend.ts` **compila y sin `600px`**. Pipeline impecable.
+- **Reglas que llevamos a la oficialización:** barras para jerarquía + camelCase para palabras
+  compuestas (nunca guion/espacio interno); en Custom, **Número solo para medidas** (size/padding/
+  radius), **String para no-medidas** (weight/variante/familia — el plugin no las pxea; = como
+  SnowUI tipa `icon-weight` string); **no re-declarar en Custom lo estándar** que el componente ya
+  usa (DD-5 en Figma).
+
+**Unidad — por qué NO portamos `rem-scale.ts` de los devs (decisión técnica S73).** El `rem-scale`
+de los devs es un **reconciliador base-14** (×0,875 para cuadrar su diseño 14 con el navegador 16),
+NO un `÷16` neutro. Nuestra tipografía es **redonda a root-16 directa** (DD-13) → pasarla por su
+`rem-scale` la **encogería** (16→14). Conflicto real. Como nuestro **código ya está en rem**
+(autorado a mano, DD-13), la accesibilidad **ya está cubierta sin convertidor**. El `px` que el
+plugin escupe en Custom es un artefacto que **no se consume**. → Round-16 nos **ahorra** el
+`rem-scale`; es ventaja, no carencia.
+
+**ARRANQUE de la gran sesión (decisión ABIERTA, cerrar con datos).** El dev confirmó (mensaje
+S73): *"Ya está normalizada la escala de PrimeNG: mantenemos los tamaños de diseño/base PrimeNG en
+14px pero los convertimos dentro del preset al equivalente correcto para el entorno 16px del
+navegador. No tocamos el `font-size` global del html; la conversión es centralizada con `rem-scale.ts`
++ tokens `app.*`. Esto evita que los componentes PrimeNG rendericen más grandes de lo esperado. Ya
+están actualizados los repos para comparar Figma vs código."* → Es el **disparador del §12.5**.
+- **Su mecanismo NO es cutre** — es la solución estándar al desajuste 14↔16 de PrimeNG (sin tocar
+  `html`, que sí sería el error). **Candidato a adoptar** para la geometría de componente (a11y).
+- **Propuesta = HÍBRIDO deliberado, no copia ciega:** la **geometría de componente** PrimeNG cabalga
+  su `rem-scale` (14→16, así los botones no se inflan); **nuestra tipografía** se queda **redonda a
+  16 y bypassa** el convertidor (ya es correcta). Coherente y portable. ⚠️ El outcome cutre sería
+  pasar TODO por `rem-scale` → encoge la tipografía. La frontera se traza a propósito.
+- **Bloqueo operativo:** el repo de los devs está **fuera del scope** de la sesión (solo
+  `arebury/smart-contact-platform`). Para arrancar la gran sesión: **dar acceso al repo de los devs**
+  o **pegar `rem-scale.ts` + tokens `app.*` + el preset**. Sin eso, Claude lee a ciegas.
+- **Primer paso al arrancar:** leer su `rem-scale.ts`/`app.*`/preset + **test del botón sin icono**
+  (mi preset vs el suyo) → decidir A (su modelo) / B (el nuestro px) / híbrido **con evidencia**.
+  Nada de DD-13 se pierde decidamos lo que decidamos (números/naming/higiene son portables).
