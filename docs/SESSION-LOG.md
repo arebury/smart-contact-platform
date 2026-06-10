@@ -10,6 +10,38 @@
 
 ---
 
+## 2026-06-10 · Session 74 — micro-decisión 2.3 (naming `--sc-font-size-*`: step vs valor): debate + correcciones de framing (sesión Remote, sin código de producto)
+
+> Sesión de **debate** (cero código; render intacto). **Remota** (contenedor cloud) → sin acceso a `~/.claude` ni al repo local de los devs; las conclusiones que dependían de ellos quedan **[verificar en local]**. Aplicado el protocolo de **sparring** (devil's advocate) que pidió Rafa. Verificado por lectura: `01-primitive.css`, `sc-preset.ts`, **DD-13 completo**.
+
+**Qué es la micro-decisión 2.3, bien definida (antes estaba mal encuadrada):**
+- Es el naming del **primitivo interno de código** `--sc-font-size-100..900` (hoy **step**, cuelga de `--sc-scale`). Opciones: **mantener step** o **renombrar a valor** (`--sc-font-size-12..32`) para espejar 1:1 el primitivo Figma.
+- **NO** es "converger con los devs": los devs **no usan** `--sc-font-size-*` — usan `app.typography sm/md/lg` (12/14/16) con **literales en rem** (DD-13). [verificar su file real en local].
+- **DD-13 se cumple con CUALQUIERA de las dos.** DD-13 exige **redondo + rem + desacople** de `--sc-scale` y que la **rampa semántica** (`h1`/`body-1`) tenga el mismo nombre en Figma y código (DD-13 pt 6) — eso ya existe (aliases `--sc-font-size-h1`…). Renombrar el primitivo step→valor es **extra opcional**, no requisito de DD-13.
+- **Valor NO da beneficio de pipeline.** La tipografía es **document-level**: no baja por el Theme Designer (gate S73), se mantiene **a mano** en `--sc-font-size-*`. El pipeline cruza por la capa **App** (`app/*`→`--app-font-size`), no por nombres de primitivo. El único beneficio de valor = **claridad humana** (espejo Figma). Coste = renombrar **~695 consumers** + 4 refs del bridge + `tokens:type-parity`.
+
+**Correcciones de framing (sparring — me equivoqué esta sesión y lo enmiendo):**
+- ❌ "El código es **intocable / public-API / imperdonable** renombrar" → **exagerado**. El no-goal de `--sc-*` es un **guardarraíl auto-impuesto**, escrito **antes** del file de los devs; revisable. El coste **no es el bloqueo** (Rafa: si es lo óptimo, adelante).
+- ❌ "Los **devs usan step** `--sc-font-size-300`" → **falso/sin verificar**. DD-13 dice que usan `app.typography sm/md/lg` con literales. [verificar en local].
+- ❌ "Renombrar **Figma a `300`** para matchear el código" → **contradice DD-13**, que ya fija el primitivo Figma **por valor** (`typography/font-size/16`, colección Custom). Si se unifica, la dirección coherente es **código→valor**, no Figma→step.
+- El argumento "step **nunca miente**" es real, pero la **rampa semántica** (`h1`/`body-1`, lo que el dev ve en Dev Mode) ya da la evolución-safe → el nombre del primitivo interno pesa **menos** de lo que le di.
+
+**Recomendación honesta (ABIERTA, a cerrar en local):**
+- **Mínimo que cierra DD-13 sin riesgo (default razonable):** Bloque 2.4 — redondear decimal→redondo (`h1` 31,5→32 · body-1 15,75→16) + px→rem (#88), **sin renombrar**; `--sc-font-size-300` pasa a resolver 16. Cero churn. Con **diff visual + e2e** + ajustar `tokens:type-parity`.
+- **Extra opcional (2.3 = valor):** renombrar step→valor solo si la **claridad/espejo Figma** vale el churn de ~695 consumers. No lo exige ni DD-13 ni el pipeline.
+
+**Abiertos a / NO:**
+- ✅ Renombrar step→valor **si** la claridad lo justifica y Rafa lo valida (en local).
+- ❌ NO renombrar a ciegas sin leer el file real de los devs · ❌ NO renombrar Figma a step (contradice DD-13) · ❌ NO crear capa de variables semánticas de contenido (over-eng, ya descartado en DD-13) · ❌ NO reflejar render (redondo/rem) sin **diff visual + e2e**.
+
+**Meta / entorno:**
+- Sesión **Remote** → no ve `~/.claude` ni rutas locales; el protocolo de sparring vive en local `…/memory/feedback_critical_sparring_partner.md` (**no accesible aquí**; no se duplicó nada). **Próxima sesión = Local** (Cursor o Desktop modo Local) para leer el file de los devs + memorias. **No** se migra una sesión viva: se abre **nueva en Local** sobre esta rama (`claude/jolly-mendel-68fd5q`).
+- Reincidí en "afirmar sin verificar" (devs=step) → reforzar [[empirical-test-before-philosophizing]].
+
+**Próximo (en LOCAL):** (1) leer file real de los devs → cerrar 2.3 con dato. (2) Bloque 2.4: redondo+rem en `--sc-font-size-*` + `type-parity` + diff+e2e. (3) Bloque 2.2 (Kit oficial) lo opera Rafa. Plan por bloques completo en [`NEXT-SESSION-PLAN`](./NEXT-SESSION-PLAN.md).
+
+---
+
 ## 2026-06-09 · Session 72 / 72b — tipografía: validación contra PrimeNG, naming, unidad rem (decisión + docs, sin código de producto)
 
 > Sesión de **decisión y documentación** (cero código de producto; el render no cambió). Todo

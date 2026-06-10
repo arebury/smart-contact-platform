@@ -5,7 +5,7 @@
 
 ---
 
-## Estado al cerrar (S72b, 2026-06-09) — tipografía decidida + Paso 1 ejecutado
+## Estado al cerrar (S74, 2026-06-10) — micro-decisión 2.3 afinada (ABIERTA, a cerrar en local); sesión Remote sin código
 
 > **Todo lo decidido vive en docs canónicos** (no se pierde). Tipografía = **DD-13** (SCDS DECISIONS).
 > Convergencia/port = [`convergence-manifesto.md`](./convergence-manifesto.md) + [`convergence-checklist-devs.md`](./convergence-checklist-devs.md).
@@ -15,6 +15,12 @@
 - **Tipografía** → **DD-13**: escala **redonda** (12/14/16/18/20/24/32 + display 48/64), desacoplada de `--sc-scale`, **rem root-16**, line-heights por regla, **2 pesos** (Reg/Semibold). Validado contra PrimeNG (S72b): PrimeNG **no modela tipografía** (dial único = root font-size del `<html>`); el dev instala la letra en **rem** (Theme Designer convierte px→rem ÷16; redondo → rem limpio). **Naming por capa**: capa **App** con barra (`app/font/size`→`--app-font-size`); **primitivo PLANO** (`typography/font-size/12..48`, nombre=valor). Rampa de contenido (h1/body) = **modelo simple** (text styles atados a primitivos + aliases en código; sin capa de variables — over-engineering).
 - **Paso 1 EJECUTADO (S72b)** en el duplicado `tUzS4MvWld90bA2qpZz5b6`: primitivos `typography/font-size/12..48` + `line-height/18..58` (Custom, planos) · capa App atada a ellos · **10 text styles de contenido** (display-1, h1–h4, body-1/2/3, caption, caption-bold) **atados a los primitivos** (font-size + line-height; weight queda en el estilo).
 - **Reglas de operación nuevas:** evitar over-engineering ([[avoid-overengineering]]) · verificar antes de afirmar ([[empirical-test-before-philosophizing]]) · px-vs-rem = **rem** (S72).
+
+**S74 (2026-06-10) — micro-decisión 2.3 afinada (ABIERTA, a cerrar en local). Detalle completo: [`SESSION-LOG.md`](./SESSION-LOG.md) S74:**
+- **2.3 = naming del primitivo interno de código** `--sc-font-size-*`: mantener **step** (`-300`, **0 rename**) **o** renombrar a **valor** (`-16`, espeja el primitivo Figma, **~695 consumers** + bridge + `type-parity`). **DD-13 se cumple con ambas**; valor solo da **claridad**, **no** pipeline (la tipografía se refleja a mano). Los **devs NO usan** `--sc-font-size-*` (usan `app.typography sm/md/lg` — [verificar su file en local]).
+- **Correcciones de framing S74:** "código intocable/public-API" = exagerado (guardarraíl revisable, pre-file-devs) · "devs usan step" = falso · "renombrar Figma a step" = **contradice DD-13** (Figma ya es por-valor).
+- **Abiertos a** renombrar step→valor **si** la claridad vale el churn (Rafa, en local). **NO** a ciegas sin leer el file de los devs · **NO** Figma→step · **NO** capa de variables semánticas. El **render** (redondo+rem, 2.4) es **independiente** del naming y va igual.
+- **Entorno:** sesión **Remote** (sin `~/.claude` ni file devs local) → **próxima en LOCAL**; no se migra sesión viva, se abre nueva sobre esta rama.
 
 ---
 
@@ -48,10 +54,10 @@
 ### ✍️ BLOQUE 2 — Tipografía en real (de DD-13 a producción)
 - **2.1 — text styles → primitivos (duplicado):** ✅ **HECHO (S72b).**
 - **2.2 — replicar en el Kit OFICIAL (Rafa):** crear los primitivos `typography/font-size/*` + `line-height/*` (Custom) + capa App + atar los text styles, igual que en el duplicado. Es lo que lee el Theme Designer.
-- **2.3 — micro-decisión (Rafa, desbloquea el código):** ¿el código va **por-valor** (`--sc-font-size-16`, converge con Figma/devs, pero **renombra todos los consumers**) **o mantiene los steps** (`--sc-font-size-300`, menos cambio, redefiniendo su valor)? Recomendación a debatir: simplicidad/convergencia vs coste de rename.
+- **2.3 — micro-decisión (afinada S74, a cerrar en local):** naming del **primitivo interno** `--sc-font-size-*`: **mantener step** (`-300`, redefine su valor, **0 rename**) **o renombrar a valor** (`-16`, espeja el primitivo Figma, **renombra ~695 consumers + bridge + `type-parity`**). **Aclarado S74:** DD-13 se cumple con ambas; valor **no** da beneficio de pipeline (tipografía a mano), solo claridad; los **devs no usan** `--sc-font-size-*` (usan `app.typography sm/md/lg` — [verificar su file en local]). Default razonable = **mínimo: mantener step + redondear** salvo que la claridad del espejo Figma valga el churn. Detalle: SESSION-LOG **S74**.
 - **2.4 — reflejar en código (Claude):** método **decidido por el piloto (S73) = a mano / capa de documento** — NO por el pipeline (la tipografía no baja por ahí; ver DD-13 addendum S73). Cambiar `--sc-font-size-*` a **redondo + rem** (hoy cuelgan de `--sc-scale`, decimal: h1=31.5, body-1=15.75 → deben ser 32/16) + recablear los semánticos + **ajustar `tokens:type-parity`** (hoy asume font-size colgando de scale) + **diff visual + e2e**. Deuda backlog **#88** (px→rem).
 - **Considerar:** el cambio decimal→redondo **cambia el render** (±0,5–1px en alturas) → diff obligatorio. La unidad px→rem a root 16 **no** cambia el render (mismo pixel); el beneficio es escalado/a11y.
-- **Estado:** 2.1 hecho · **Bloque 1 (gate) ✅ S73** · 2.2/2.3 pendientes · 2.4 método = **capa de documento** (rem nuestro, no pipeline).
+- **Estado:** 2.1 hecho · **Bloque 1 (gate) ✅ S73** · 2.2 pendiente (Rafa) · **2.3 afinada/abierta (S74 — a cerrar en local)** · 2.4 método = **capa de documento** (rem nuestro, no pipeline).
 
 ### 🏗️ BLOQUE 3 — LA GRAN SESIÓN: montar el proyecto espejo
 - **Objetivo:** repo nuevo con la estructura de los devs (`design-tokens / components / icons / demo`) + **todo lo nuestro adaptado** dentro, para probar el conjunto. "Nosotros definimos, ellos construyen" ([[project_devs_smartcontact_ui_repo]]).
