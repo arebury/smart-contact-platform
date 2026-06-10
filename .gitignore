@@ -53,8 +53,9 @@ Thumbs.db
 .env.local
 .env.*.local
 
-# Claude Code local settings
-.claude/
+# Claude Code: ignora todo .claude/ EXCEPTO settings.json (compartido + leído por cloud)
+.claude/*
+!.claude/settings.json
 
 # Local Netlify folder
 .netlify
