@@ -43,15 +43,15 @@
 - **Quién:** Rafa opera el Theme Designer; Claude verifica el resultado en código.
 - **Protocolo:** (1) elegir un componente **escala-neutral** (divider o tag — **NO** el botón). (2) Rafa lo pasa por el Theme Designer en el **Kit oficial** → genera PR a GitHub. (3) Verificar: ¿valores en **rem**? ¿naming esperado? ¿sobreviven los anclajes **Custom**? ¿la cadena `App → Custom` cruza? (4) Arreglar el **bug `font.weight=600px`** del Theme Designer.
 - **Considerar:** el Theme Designer apunta al **Kit OFICIAL**, no al duplicado. La colección "Component" salía vacía (esperable). "Generar tema" (preset instalable, rem) ≠ "Exportar" (JSON crudo px).
-- **Estado:** ⏳ pendiente (gate). Sin esto no se arranca el port.
+- **Estado:** ✅ **EJECUTADO (S73)** — el pipeline cruza (export del **duplicado** → rama `theme-designer-pilot`: `theme-pilot/variables.json` + `theme-pilot/theme/`). **Hallazgo:** la tipografía es **document-level por diseño** (PrimeNG no la mete en el preset) → **no baja por el pipeline**; baja por nuestra capa `--sc-*` en rem (como el `rem-scale.ts` de los devs). El plugin solo da **rem** a tokens estándar; **Custom sale en px**. Detalle completo: **DD-13 addendum S73**.
 
 ### ✍️ BLOQUE 2 — Tipografía en real (de DD-13 a producción)
 - **2.1 — text styles → primitivos (duplicado):** ✅ **HECHO (S72b).**
 - **2.2 — replicar en el Kit OFICIAL (Rafa):** crear los primitivos `typography/font-size/*` + `line-height/*` (Custom) + capa App + atar los text styles, igual que en el duplicado. Es lo que lee el Theme Designer.
 - **2.3 — micro-decisión (Rafa, desbloquea el código):** ¿el código va **por-valor** (`--sc-font-size-16`, converge con Figma/devs, pero **renombra todos los consumers**) **o mantiene los steps** (`--sc-font-size-300`, menos cambio, redefiniendo su valor)? Recomendación a debatir: simplicidad/convergencia vs coste de rename.
-- **2.4 — reflejar en código (Claude):** según el método del Bloque 1 (pipeline o a mano). Cambiar `--sc-font-size-*` a **redondo + rem** (hoy cuelgan de `--sc-scale`, decimal: h1=31.5, body-1=15.75 → deben ser 32/16) + recablear los semánticos + **ajustar `tokens:type-parity`** (hoy asume font-size colgando de scale) + **diff visual + e2e**. Deuda backlog **#88** (px→rem).
+- **2.4 — reflejar en código (Claude):** método **decidido por el piloto (S73) = a mano / capa de documento** — NO por el pipeline (la tipografía no baja por ahí; ver DD-13 addendum S73). Cambiar `--sc-font-size-*` a **redondo + rem** (hoy cuelgan de `--sc-scale`, decimal: h1=31.5, body-1=15.75 → deben ser 32/16) + recablear los semánticos + **ajustar `tokens:type-parity`** (hoy asume font-size colgando de scale) + **diff visual + e2e**. Deuda backlog **#88** (px→rem).
 - **Considerar:** el cambio decimal→redondo **cambia el render** (±0,5–1px en alturas) → diff obligatorio. La unidad px→rem a root 16 **no** cambia el render (mismo pixel); el beneficio es escalado/a11y.
-- **Estado:** 2.1 hecho · 2.2/2.3/2.4 pendientes.
+- **Estado:** 2.1 hecho · **Bloque 1 (gate) ✅ S73** · 2.2/2.3 pendientes · 2.4 método = **capa de documento** (rem nuestro, no pipeline).
 
 ### 🏗️ BLOQUE 3 — LA GRAN SESIÓN: montar el proyecto espejo
 - **Objetivo:** repo nuevo con la estructura de los devs (`design-tokens / components / icons / demo`) + **todo lo nuestro adaptado** dentro, para probar el conjunto. "Nosotros definimos, ellos construyen" ([[project_devs_smartcontact_ui_repo]]).

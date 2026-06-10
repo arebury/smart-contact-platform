@@ -200,6 +200,60 @@ deudas que DD-11 dejó abiertas — line-heights `inconsistencies-backlog.md` #7
 redondo al reflejar en código (paso (d) de Consecuencias). **Esta DD es el hogar
 canónico de la ESCALA tipográfica; DD-11, el del blindaje.**
 
+**Addendum (S73, 2026-06-10) — Piloto del pipeline EJECUTADO + modelo corregido
+(verificado contra doc oficial; cierra un ida-y-vuelta de esta sesión).**
+
+El Bloque 1 (gate) se ejecutó de verdad: export del **duplicado** por el Theme
+Designer → GitHub (rama `theme-designer-pilot`: `theme-pilot/variables.json`
+crudo + `theme-pilot/theme/` cocinado). Hallazgos, todos verificados sobre los
+archivos:
+
+1. **PrimeNG NO tiene design tokens de tipografía — es document-level.** Doc
+   oficial ([theming/styled](https://primeng.org/theming/styled)): *"font family,
+   font size, line-height do not have design tokens since they can be inherited
+   from the document… not available in the generated theme and need to be applied
+   to your application at the document level."* → **refuerza** el cuerpo de esta
+   DD (PrimeNG no modela tipografía). La letra **no viaja por el preset**; se
+   aplica a nivel documento. Excepción acotada ya conocida: `formField.sm/lg.font
+   .size` (inputs) sí están en el preset, en rem.
+2. **"App" es colección NATIVA de PrimeOne 4.0**, no custom. Las 5 oficiales:
+   Primitive · Semantic · Component · **App** · Custom ([PrimeOne 4.0](https://www.primefaces.org/blog/primeone-4-0-is-here-native-figma-variables/)).
+   "App" = ajustes a nivel-app; su tipografía es document-level → **por diseño NO
+   se emite al preset**. (Corrige una hipótesis errónea que solté esta sesión —
+   "App = cajón que el plugin no reconoce": falso, el plugin la lee al export
+   crudo; simplemente la tipografía no se cocina al preset por ser document-level.)
+3. **La conversión px→rem del Theme Designer es context-aware.** Convierte ÷16
+   solo para tokens que reconoce como tamaño (estándar/semántico). En **Custom
+   pierde el contexto y a todo número le pega `px`** — mismo bicho que el bug
+   `bulkTranscriptionModal/title/font/weight: 600 → "600px"`. Por eso nuestros
+   `typography/font/size/12` (número en Custom) salieron `"12px"`, no rem.
+   **Regla:** lo que necesite trato de rem por el plugin no puede vivir solo como
+   número en Custom; lo que es etiqueta (peso, variante, familia) va como **texto**
+   para que el plugin lo respete tal cual.
+4. **Evidencia del export** (verificada en los ficheros): `Custom` cruza a
+   `extend` (typography 12-48 + line 18-58 en **px**, + `bulkTranscriptionModal`
+   con refs `{...}`). `App` (6 vars) **no aparece** en el tema cocinado — ni font
+   ni `card/background` — consistente con #1/#2. Las refs `{...}` **sobreviven**
+   en `variables.json` crudo. `formField` sm/lg en el preset, en rem.
+5. **Consecuencia — dónde vive de verdad nuestra tipografía (corrección de
+   expectativa):**
+   - Los primitivos `typography/*` en Custom = **fuente de diseño en Figma**
+     (anclan App + text styles, cuerpo de esta DD). En el preset salen
+     **huérfanos en px** → inofensivo, pero **ese no es el canal**.
+   - **NO esperar que el Theme Designer lleve la letra a los componentes.** La
+     tipografía se aplica a **nivel documento** = nuestra capa `--sc-font-size-*`
+     (rem), espejo del `rem-scale.ts` de los devs.
+   - **El rem lo ponemos nosotros** a nivel documento (÷16; redondo → rem limpio).
+     Que el plugin deje Custom en px **es irrelevante** para la letra.
+   - **NO re-apuntar la colección App → primitivos Custom esperando rem** (eso
+     rompió el rem en el duplicado: en el original App apunta a `scale/*` nativo).
+     Si se toca App, asumir que su tipografía es document-level de todos modos.
+6. **Meta (proceso, para no repetir el ida-y-vuelta):** la respuesta (PrimeNG =
+   tipografía document-level) **ya estaba en esta DD**. El error fue teorizar sin
+   verificar contra (a) la doc oficial del tool y (b) nuestras propias DD.
+   **Protocolo ante "¿por qué el pipeline no trae X?": leer la doc del tool +
+   grep en DECISIONS ANTES de hipotetizar.** [[empirical-test-before-philosophizing]]
+
 ---
 
 ## DD-12 · 2026-06-04 (S70) — Naming de convergencia: el catálogo unión sigue DD-8 (Kit Pro 1:1, pegado); los devs realinean a él
