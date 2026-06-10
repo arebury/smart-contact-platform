@@ -43,6 +43,14 @@ docs/              ← Cross-project: DOCS-INDEX, SESSION-LOG, NEXT-SESSION-PLAN
 `DOCS-INDEX.md`). Al cerrar trabajo, solo se actualiza el doc cuyo contenido
 cambió esa sesión. El resto queda estable.
 
+## Setup (arranque en limpio)
+
+Sesión que parte de un clon en seco (cloud sandbox / máquina nueva):
+
+- **Node 20** — pin en `.nvmrc`; `engines` exige `node >=20`, `npm >=10`.
+- Instalar con **`npm ci`** (no `npm install`: respeta el lockfile, evita drift).
+- A partir de ahí: build / start / test en `## Workflow` y `## Red de seguridad cross-app`.
+
 ## Workflow
 
 - **Componentes y refactors menores**: directo a `main`, sin ceremony PR.
@@ -66,6 +74,21 @@ que Rafa lo pida, tras cambios que afecten >1 surface:
 
 Detalle operativo + lista de tests + protocolo cuando algo falla:
 [`tests/e2e/README.md`](tests/e2e/README.md).
+
+## Antes de commitear (guardarraíles pre-commit)
+
+El hook `husky` pre-commit **bloquea el commit** si algo falla. Una sesión
+autónoma debe contar con que estos corren — y conviene lanzarlos antes para
+autoverificarse, en este orden:
+
+1. `lint-staged` → `prettier --write` sobre lo staged.
+2. `npm run i18n:audit` → tipo divergente cross-locale (string vs object).
+3. `npm run lint` → `ng lint` (evita CI rojo en `main`).
+4. `npm run tokens:parity` → drift scale/radius/color de marca vs export Kit Pro.
+5. `npm run tokens:gen` → ley nombre=valor de `--sc-scale-*` / `--sc-radius-*`.
+6. `npm run tokens:guard` → prohíbe `--p-*` directo y `--sc-scale-*` crudo en componentes.
+
+Chequeo de tipos puntual sin commitear: `npx tsc -p <proyecto> --noEmit`.
 
 ## Convenciones de marca
 
