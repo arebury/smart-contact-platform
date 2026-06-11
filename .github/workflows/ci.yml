@@ -12,17 +12,18 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: Install dependencies
-        # `npm install` (not `npm ci`) because Karma's chokidar@3 conflicts
-        # with @angular/compiler-cli's chokidar@4 in the transitive tree.
+        # `npm install` (not `npm ci`) because @angular-eslint@18 carries peer-dep
+        # warnings against Angular 21 that npm resolves via nested installs in the
+        # lockfile; `npm ci` fails on first run before the lockfile is stabilised.
         run: npm install --no-audit --no-fund
 
       - name: Check formatting
@@ -30,6 +31,12 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: i18n audit
+        run: npm run i18n:audit
+
+      - name: Token guard
+        run: npm run tokens:guard
 
       - name: Test (headless)
         run: npm run test:ci
