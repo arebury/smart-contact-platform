@@ -5,7 +5,7 @@
 
 ---
 
-## Estado al cerrar (S75, 2026-06-12) — código 2.4 EJECUTADO y validado (e2e verde); 2.2 (Kit oficial) pendiente de reconectar el bridge
+## Estado al cerrar (S75, 2026-06-12) — fase tipografía COMPLETA (código en producción + Kit oficial cableado); solo queda el re-export + remates menores
 
 > **Todo lo decidido vive en docs canónicos** (no se pierde). Tipografía = **DD-13 + addendum S75** (SCDS DECISIONS). Detalle de la sesión: [`SESSION-LOG.md`](./SESSION-LOG.md) S75.
 > Convergencia/port = [`convergence-manifesto.md`](./convergence-manifesto.md) + [`convergence-checklist-devs.md`](./convergence-checklist-devs.md).
@@ -16,13 +16,21 @@
 - **Código 2.4 EJECUTADO (S75)** en branch `typography/round-rem-s75`: `--sc-font-size-*`/`--sc-line-height-*`/`--sc-icon-size-*` → `calc(N/16*1rem)`. **e2e 28 verde**, type-parity 99%/ola-1, baselines (3 dark) + `sc-tokens.json` regenerados, scripts `type-parity`/`export` ajustados, docs canónicos actualizados. Backlog #88 (px→rem) → ✅ resuelto.
 - **Corrección de S74:** los devs **SÍ** usan `--sc-font-size-{step}` (idéntico) → naming a **STEP** en todos lados. Lo de "Figma por-valor / devs no usan / renombrar Figma contradice DD-13" era **erróneo** (el Kit oficial es greenfield, se crea step desde cero).
 
-**Hecho también (S75):**
-- **2.2 — primitivos ✅** (Desktop Bridge): 15 `typography/font/size|line/height/{step}` step-named en la colección **Custom** del Kit oficial, redondos, **1:1 con el código** → validación de pipeline cumplida (Figma == código, type-parity verde).
-- **PR [#50](https://github.com/arebury/smart-contact-platform/pull/50)** abierto (código + docs + baselines).
+**Hecho hoy también — Kit oficial Figma CABLEADO ✅** (vía Desktop Bridge, editar-no-borrar):
+- **15 primitivos step** `typography/font/size|line/height/*` (Custom), redondos, 1:1 con el código.
+- **10 text styles = el duplicado** (`display-1`…`caption-bold`): alineados (redondo + 2 pesos + **bindeados** a los primitivos), renombrados, reordenados, **con descripción** ("What's it for?"). subtitle1/2/3 **borrados** (eran redundantes con body; usos re-apuntados a body).
+- **Capa App + 38 tokens de componente de contenido** → primitivos (snap ≤1.5px). `badge`/`avatar` (7 bespoke) dejados en scale.
+- **Pipeline de tipografía validado** = Figma == código (type-parity verde); NO pasa por el Theme Designer (dos streams).
+- **PR [#50](https://github.com/arebury/smart-contact-platform/pull/50) MERGEADO a main** (`fe41f03`) + arreglados 3 tests stale → **CI de main verde** (rojo desde 9-jun). SnowUI value-naming = discutido, NO adoptado (los nombres de estilo no llegan al código → libres; semántico = robusto + 0 churn).
 
-**Pendiente inmediato:**
-- **Text styles del Kit oficial** → backlog **#90**: pasada de diseño enfocada (la base de Kit Pro difiere del duplicado: subtitles, pesos Bold/Medium, body3) → editar a escala redonda + 2 pesos + bindear a los primitivos, editar-no-borrar.
-- **Al cerrar 2.2 (tras los text styles):** re-exportar `tokensprime.json` desde el Kit + **quitar el allow-list `KNOWN_TYPO_DRIFT`** en `token-parity.mjs` (drift consciente preset↔Kit ya no aplicará).
+**Pendiente — ARRANCAR AQUÍ la próxima:**
+1. **[RAFA] Re-exportar `tokensprime.json`** desde el Theme Designer (captura los valores redondos de hoy) → **[CLAUDE] quitar el allow-list `KNOWN_TYPO_DRIFT`** en `scripts/token-parity.mjs` → parity 100% limpio. **Esto prueba el "cero fricción" end-to-end** (Figma → export → devs), que aún NO se ha corrido con el estado nuevo.
+2. **Bespoke `badge`/`avatar`** (backlog #90): 7 tokens (8.75/28, fuera de la escala de contenido 12–48) → decisión por-componente (¿escala de glyph/icono aparte?).
+3. **SnowUI value-naming en text styles** (opcional, abierto): si el equipo lo prefiere → renombrar SOLO los estilos (el flujo a los devs NO cambia) + cortar los roles huérfanos del código (#89). Mi voto: semántico (robusto, 0 churn).
+4. **Corte de roles del código** (#89): `--sc-font-size-{h1,body…}` apenas se usan (592 step vs 21 rol) → limpieza mecánica, sin riesgo de render.
+5. **GRAN SESIÓN** (proyecto espejo): sigue bloqueada hasta validar el pipeline end-to-end (paso 1).
+
+> ⚠️ **Gotchas Figma (Desktop Bridge MCP):** se cuelga con escaneos del Kit entero (`loadAllPages`/`findAllWithCriteria`) → NO escanear todo el Kit. El archivo activo puede cambiar al reconectar otro → **guardarraíl `if (figma.root.name !== 'Smart-Contact Prime') return` en CADA escritura** (un descuido escribió en el duplicado, restaurado).
 
 ---
 
