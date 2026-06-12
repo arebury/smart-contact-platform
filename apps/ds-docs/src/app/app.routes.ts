@@ -12,6 +12,13 @@ export const appRoutes: Routes = [
       import('./pages/whats-new-v2/whats-new-v2.component').then((m) => m.WhatsNewV2Component),
   },
   {
+    path: 'foundations/tipografia',
+    loadComponent: () =>
+      import('./pages/foundations-type/foundations-type.component').then(
+        (m) => m.FoundationsTypeComponent,
+      ),
+  },
+  {
     path: 'foundations/escala-espaciado',
     loadComponent: () =>
       import('./pages/foundations-scale/foundations-scale.component').then(
