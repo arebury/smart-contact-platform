@@ -254,6 +254,51 @@ archivos:
    **Protocolo ante "¿por qué el pipeline no trae X?": leer la doc del tool +
    grep en DECISIONS ANTES de hipotetizar.** [[empirical-test-before-philosophizing]]
 
+**Addendum (S75, 2026-06-12) — Naming STEP cerrado + escala canónica = espejo del
+duplicado + código 2.4 ejecutado (todo verificado contra los Figma reales).**
+
+Cerrado con dato leído en vivo de los dos Kits (duplicado `tUzS4…` + oficial
+`khNq9…`) y del repo de los devs:
+
+1. **Naming = STEP en Figma + código + devs (idioma único).** El puente Theme
+   Designer es **naming-neutral** (en el export del piloto echó los nombres de
+   NUESTRO Figma verbatim) y PrimeNG no tiene escala de tipografía propia → la
+   elección es nuestra. Código y devs YA son step; el Kit oficial está **vacío de
+   tipografía** (2.2 nunca se hizo → greenfield) → step = coste cero, 0 renames.
+   **Corrige el framing de S74**: los devs SÍ usan `--sc-font-size-{step}`
+   (idéntico a nosotros), no `app.typography sm/md/lg` (invención mía, grep vacío).
+2. **Escala canónica = espejo del duplicado** (probado, no se re-inventa): 8
+   tamaños `12·14·16·18·20·24·32·48` + 7 line-heights `18·20·24·28·36·40·58` + los
+   10 text styles (display-1 48/58, h1 32/40, h2 24/36, h3 20/28, h4 18/24, body-1
+   16/24, body-2/3 14/20, caption(-bold) 12/18; pesos Regular + Semi Bold). Las LH
+   salen de NUESTRO Figma, **no** de los devs (divergen → nuestro Figma manda). Los
+   steps del código fuera del set se **snapean** (10→12, 28→24, 36→32, 64→48).
+3. **NO se cortan los roles en esta fase.** El audit confirmó que la capa de roles
+   casi no se usa (592 usos por step vs 21 por rol; el preset la ignora), pero esta
+   fase es **validar el pipeline, no re-arquitectura** → corte = limpieza posterior
+   (backlog). [[avoid-overengineering]]
+4. **Dos streams, por diseño:** la letra NO baja por el Theme Designer
+   (document-level, addendum S73) sino por nuestra capa `--sc-*` en rem; el preset
+   PrimeNG (color/spacing/dims) es el otro tubo. "Pipeline perfecto" = cada stream
+   sin pérdidas + `type-parity` vigilando Figma↔código, no un solo tubo.
+5. **icon-size en el stream de tipo:** redondeado con font/LH (decoplado de
+   `--sc-scale`) para que un icono junto a texto-16 mida 16, no 15.75. Sin
+   contrapartida Figma → divergencia en customs-catalog.
+
+**Código 2.4 EJECUTADO** (branch `typography/round-rem-s75`): `--sc-font-size-*`,
+`--sc-line-height-*`, `--sc-icon-size-*` en `01-primitive.css` → **redondo en rem**
+(`calc(N/16*1rem)`), decoplados de `--sc-scale`; nombres step + roles intactos.
+Ajustados `token-type-parity.mjs` y `export-sc-tokens.mjs` (resuelven la forma
+`calc`). Validado: `npm run e2e` **28 verde** (21 funcionales + 14 visuales; solo 3
+pantallas dark cruzaron el 2% → baselines actualizadas), `type-parity` 99% / ola-1,
+`guard` exit 0. Render = filas un pelín más compactas + micro-labels 10.5→12, sin
+roturas.
+
+**Kit oficial (2.2):** a construir esta sesión vía Desktop Bridge MCP — primitivos
+`typography/font/size|line/height/{step}` **step-named** + 10 text styles bindeados,
+espejo del duplicado (**editar-no-borrar**). Es la fuente de diseño en Figma; la
+letra al producto sigue siendo nuestra capa `--sc-*` (stream 2).
+
 ---
 
 ## DD-12 · 2026-06-04 (S70) — Naming de convergencia: el catálogo unión sigue DD-8 (Kit Pro 1:1, pegado); los devs realinean a él

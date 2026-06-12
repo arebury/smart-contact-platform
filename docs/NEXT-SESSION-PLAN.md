@@ -5,22 +5,20 @@
 
 ---
 
-## Estado al cerrar (S74, 2026-06-10) — micro-decisión 2.3 afinada (ABIERTA, a cerrar en local); sesión Remote sin código
+## Estado al cerrar (S75, 2026-06-12) — código 2.4 EJECUTADO y validado (e2e verde); 2.2 (Kit oficial) pendiente de reconectar el bridge
 
-> **Todo lo decidido vive en docs canónicos** (no se pierde). Tipografía = **DD-13** (SCDS DECISIONS).
+> **Todo lo decidido vive en docs canónicos** (no se pierde). Tipografía = **DD-13 + addendum S75** (SCDS DECISIONS). Detalle de la sesión: [`SESSION-LOG.md`](./SESSION-LOG.md) S75.
 > Convergencia/port = [`convergence-manifesto.md`](./convergence-manifesto.md) + [`convergence-checklist-devs.md`](./convergence-checklist-devs.md).
 
 **Cerrado y vigente:**
 - **Naming componentes** → DD-12 (pegado = Kit Pro/Figma; custom kebab).
-- **Tipografía** → **DD-13**: escala **redonda** (12/14/16/18/20/24/32 + display 48/64), desacoplada de `--sc-scale`, **rem root-16**, line-heights por regla, **2 pesos** (Reg/Semibold). Validado contra PrimeNG (S72b): PrimeNG **no modela tipografía** (dial único = root font-size del `<html>`); el dev instala la letra en **rem** (Theme Designer convierte px→rem ÷16; redondo → rem limpio). **Naming por capa**: capa **App** con barra (`app/font/size`→`--app-font-size`); **primitivo PLANO** (`typography/font-size/12..48`, nombre=valor). Rampa de contenido (h1/body) = **modelo simple** (text styles atados a primitivos + aliases en código; sin capa de variables — over-engineering).
-- **Paso 1 EJECUTADO (S72b)** en el duplicado `tUzS4MvWld90bA2qpZz5b6`: primitivos `typography/font-size/12..48` + `line-height/18..58` (Custom, planos) · capa App atada a ellos · **10 text styles de contenido** (display-1, h1–h4, body-1/2/3, caption, caption-bold) **atados a los primitivos** (font-size + line-height; weight queda en el estilo).
-- **Reglas de operación nuevas:** evitar over-engineering ([[avoid-overengineering]]) · verificar antes de afirmar ([[empirical-test-before-philosophizing]]) · px-vs-rem = **rem** (S72).
+- **Tipografía** → **DD-13 + S75**: escala **redonda** (12·14·16·18·20·24·32·48) + 7 line-heights (18·20·24·28·36·40·58) + 10 text styles, **desacoplada de `--sc-scale`**, **rem root-16**, 2 pesos (Reg/Semibold). **Naming = STEP** en Figma + código + devs (idioma único; el puente es naming-neutral, código+devs ya son step, Kit oficial greenfield → coste cero, 0 renames). **icon-size** al stream de tipo (redondo). **Dos streams** (preset PrimeNG vs nuestra capa de letra). Roles semánticos NO se cortan esta fase ([[avoid-overengineering]]; backlog #89).
+- **Código 2.4 EJECUTADO (S75)** en branch `typography/round-rem-s75`: `--sc-font-size-*`/`--sc-line-height-*`/`--sc-icon-size-*` → `calc(N/16*1rem)`. **e2e 28 verde**, type-parity 99%/ola-1, baselines (3 dark) + `sc-tokens.json` regenerados, scripts `type-parity`/`export` ajustados, docs canónicos actualizados. Backlog #88 (px→rem) → ✅ resuelto.
+- **Corrección de S74:** los devs **SÍ** usan `--sc-font-size-{step}` (idéntico) → naming a **STEP** en todos lados. Lo de "Figma por-valor / devs no usan / renombrar Figma contradice DD-13" era **erróneo** (el Kit oficial es greenfield, se crea step desde cero).
 
-**S74 (2026-06-10) — micro-decisión 2.3 afinada (ABIERTA, a cerrar en local). Detalle completo: [`SESSION-LOG.md`](./SESSION-LOG.md) S74:**
-- **2.3 = naming del primitivo interno de código** `--sc-font-size-*`: mantener **step** (`-300`, **0 rename**) **o** renombrar a **valor** (`-16`, espeja el primitivo Figma, **~695 consumers** + bridge + `type-parity`). **DD-13 se cumple con ambas**; valor solo da **claridad**, **no** pipeline (la tipografía se refleja a mano). Los **devs NO usan** `--sc-font-size-*` (usan `app.typography sm/md/lg` — [verificar su file en local]).
-- **Correcciones de framing S74:** "código intocable/public-API" = exagerado (guardarraíl revisable, pre-file-devs) · "devs usan step" = falso · "renombrar Figma a step" = **contradice DD-13** (Figma ya es por-valor).
-- **Abiertos a** renombrar step→valor **si** la claridad vale el churn (Rafa, en local). **NO** a ciegas sin leer el file de los devs · **NO** Figma→step · **NO** capa de variables semánticas. El **render** (redondo+rem, 2.4) es **independiente** del naming y va igual.
-- **Entorno:** sesión **Remote** (sin `~/.claude` ni file devs local) → **próxima en LOCAL**; no se migra sesión viva, se abre nueva sobre esta rama.
+**Pendiente inmediato (cuando se reconecte el Desktop Bridge):**
+- **2.2 — build del Kit oficial** (`khNq9dJKNi13pNllrqm6dx`): crear primitivos `typography/font/size|line/height/{step}` **step-named** (espejo del duplicado, 8 font + 7 LH) + 10 text styles bindeados, **editar-no-borrar**. Vía Desktop Bridge MCP.
+- **PR** del branch `typography/round-rem-s75` → `main` (cambio estructural de foundation).
 
 ---
 

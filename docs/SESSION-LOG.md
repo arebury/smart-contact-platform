@@ -10,6 +10,23 @@
 
 ---
 
+## 2026-06-12 · Session 75 — Tipografía DD-13: naming STEP cerrado + escala canónica = espejo del duplicado + código 2.4 ejecutado y validado
+
+> Sesión **LOCAL** con acceso a los dos Kits Figma (vía Desktop Bridge MCP), al repo de los devs (`~/Downloads/smartcontact-ui-main`) y al export del piloto S73. Decisiones cerradas con **dato leído en vivo**, no a ojo. Código en branch `typography/round-rem-s75` con diff visual + e2e.
+
+**Verificado (corrige S74):**
+- Los **devs SÍ usan `--sc-font-size-{step}`** — naming idéntico al nuestro (`aliases.css` + `typography-properties.css`, step 100–900). La afirmación de S74 ("usan `app.typography sm/md/lg`, no `--sc-font-size-*`") era **invención mía** (grep vacío).
+- El **Theme Designer es naming-neutral** (echó los nombres de nuestro Figma verbatim en el export del piloto) y **PrimeNG no tiene escala de tipografía propia** → la elección de naming es 100% nuestra+devs.
+- **Kit oficial (`khNq9…`) vacío de tipografía** (0 primitivos `typography/*`) → 2.2 nunca se hizo, es greenfield. **Duplicado (`tUzS4…`):** 8 font (12–48) + 7 LH (18–58) + 10 text styles (value-named, sandbox).
+
+**Cerrado:** **Naming = STEP** en Figma+código+devs (idioma único, coste cero). **Escala canónica = espejo del duplicado** (8 tamaños + 7 LH + 10 text styles); LH de NUESTRO Figma (divergen de los devs); steps off-set snapeados (10→12, 28→24, 36→32, 64→48). **Roles NO se cortan** esta fase (validar pipeline ≠ re-arquitectura → backlog #89). **icon-size** al stream de tipo (redondo). **Dos streams** (preset PrimeNG vs nuestra capa de letra).
+
+**Ejecutado (2.4):** `--sc-font-size-*`/`--sc-line-height-*`/`--sc-icon-size-*` → `calc(N/16*1rem)`, decoplados de `--sc-scale`; nombres step + roles intactos. Ajustados `token-type-parity.mjs` + `export-sc-tokens.mjs` (forma calc); regenerado `sc-tokens.json`. **e2e 28 verde** (3 baselines dark actualizadas), type-parity 99%/ola-1, guard OK. Backlog #88 (px→rem) → ✅ resuelto. DD-13 addendum S75 + customs-catalog + README/GUIA actualizados.
+
+**Pendiente:** **2.2 build del Kit oficial** (primitivos step + 10 text styles bindeados, espejo del duplicado, **editar-no-borrar**) — vía Desktop Bridge, requiere reconectar el plugin.
+
+---
+
 ## 2026-06-10 · Session 74 — micro-decisión 2.3 (naming `--sc-font-size-*`: step vs valor): debate + correcciones de framing (sesión Remote, sin código de producto)
 
 > Sesión de **debate** (cero código; render intacto). **Remota** (contenedor cloud) → sin acceso a `~/.claude` ni al repo local de los devs; las conclusiones que dependían de ellos quedan **[verificar en local]**. Aplicado el protocolo de **sparring** (devil's advocate) que pidió Rafa. Verificado por lectura: `01-primitive.css`, `sc-preset.ts`, **DD-13 completo**.

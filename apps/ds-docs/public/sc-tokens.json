@@ -846,29 +846,29 @@
   },
   "font-size": {
     "50": {
-      "$value": "10.5px",
+      "$value": "12px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-0-75)"
+          "alias": "calc(12 / 16 * 1rem)"
         }
       }
     },
     "75": {
-      "$value": "10.5px",
+      "$value": "12px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-0-75)"
+          "alias": "calc(12 / 16 * 1rem)"
         }
       }
     },
     "100": {
-      "$value": "12.25px",
+      "$value": "12px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-0-875)"
+          "alias": "calc(12 / 16 * 1rem)"
         }
       }
     },
@@ -877,207 +877,207 @@
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1)"
+          "alias": "calc(14 / 16 * 1rem)"
         }
       }
     },
     "300": {
-      "$value": "15.75px",
+      "$value": "16px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-125)"
+          "alias": "calc(16 / 16 * 1rem)"
         }
       }
     },
     "400": {
-      "$value": "17.5px",
+      "$value": "18px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-25)"
+          "alias": "calc(18 / 16 * 1rem)"
         }
       }
     },
     "450": {
-      "$value": "21px",
+      "$value": "20px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-5)"
+          "alias": "calc(20 / 16 * 1rem)"
         }
       }
     },
     "500": {
-      "$value": "24.5px",
+      "$value": "24px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-75)"
+          "alias": "calc(24 / 16 * 1rem)"
         }
       }
     },
     "600": {
-      "$value": "28px",
+      "$value": "24px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-2)"
+          "alias": "calc(24 / 16 * 1rem)"
         }
       }
     },
     "650": {
-      "$value": "31.5px",
+      "$value": "32px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-2-25)"
+          "alias": "calc(32 / 16 * 1rem)"
         }
       }
     },
     "700": {
-      "$value": "38.5px",
+      "$value": "32px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-2-75)"
+          "alias": "calc(32 / 16 * 1rem)"
         }
       }
     },
     "800": {
-      "$value": "56px",
+      "$value": "48px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-4)"
+          "alias": "calc(48 / 16 * 1rem)"
         }
       }
     },
     "900": {
-      "$value": "70px",
+      "$value": "48px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-5)"
+          "alias": "calc(48 / 16 * 1rem)"
         }
       }
     }
   },
   "line-height": {
     "50": {
-      "$value": "17.5px",
+      "$value": "18px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-25)"
+          "alias": "calc(18 / 16 * 1rem)"
         }
       }
     },
     "100": {
-      "$value": "17.5px",
+      "$value": "18px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-25)"
+          "alias": "calc(18 / 16 * 1rem)"
         }
       }
     },
     "200": {
-      "$value": "21px",
+      "$value": "20px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-5)"
+          "alias": "calc(20 / 16 * 1rem)"
         }
       }
     },
     "220": {
-      "$value": "22.75px",
+      "$value": "20px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-625)"
+          "alias": "calc(20 / 16 * 1rem)"
         }
       }
     },
     "300": {
-      "$value": "24.5px",
+      "$value": "24px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-75)"
+          "alias": "calc(24 / 16 * 1rem)"
         }
       }
     },
     "400": {
-      "$value": "28px",
+      "$value": "24px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-2)"
+          "alias": "calc(24 / 16 * 1rem)"
         }
       }
     },
     "450": {
-      "$value": "31.5px",
+      "$value": "28px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-2-25)"
+          "alias": "calc(28 / 16 * 1rem)"
         }
       }
     },
     "500": {
-      "$value": "38.5px",
+      "$value": "36px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-2-75)"
+          "alias": "calc(36 / 16 * 1rem)"
         }
       }
     },
     "600": {
-      "$value": "42px",
+      "$value": "36px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-3)"
+          "alias": "calc(36 / 16 * 1rem)"
         }
       }
     },
     "650": {
-      "$value": "56px",
+      "$value": "40px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-4)"
+          "alias": "calc(40 / 16 * 1rem)"
         }
       }
     },
     "700": {
-      "$value": "56px",
+      "$value": "40px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-4)"
+          "alias": "calc(40 / 16 * 1rem)"
         }
       }
     },
     "800": {
-      "$value": "70px",
+      "$value": "58px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-5)"
+          "alias": "calc(58 / 16 * 1rem)"
         }
       }
     },
     "900": {
-      "$value": "70px",
+      "$value": "58px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-5)"
+          "alias": "calc(58 / 16 * 1rem)"
         }
       }
     }
@@ -1551,29 +1551,29 @@
   },
   "icon-size": {
     "xs": {
-      "$value": "7px",
+      "$value": "8px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-0-5)"
+          "alias": "calc(8 / 16 * 1rem)"
         }
       }
     },
     "sm": {
-      "$value": "10.5px",
+      "$value": "10px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-0-75)"
+          "alias": "calc(10 / 16 * 1rem)"
         }
       }
     },
     "md": {
-      "$value": "12.25px",
+      "$value": "12px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-0-875)"
+          "alias": "calc(12 / 16 * 1rem)"
         }
       }
     },
@@ -1582,34 +1582,34 @@
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1)"
+          "alias": "calc(14 / 16 * 1rem)"
         }
       }
     },
     "lg": {
-      "$value": "15.75px",
+      "$value": "16px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-125)"
+          "alias": "calc(16 / 16 * 1rem)"
         }
       }
     },
     "xl": {
-      "$value": "17.5px",
+      "$value": "18px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-25)"
+          "alias": "calc(18 / 16 * 1rem)"
         }
       }
     },
     "2xl": {
-      "$value": "21px",
+      "$value": "20px",
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-1-5)"
+          "alias": "calc(20 / 16 * 1rem)"
         }
       }
     },
@@ -1618,7 +1618,7 @@
       "$type": "dimension",
       "$extensions": {
         "sc": {
-          "alias": "var(--sc-scale-2)"
+          "alias": "calc(28 / 16 * 1rem)"
         }
       }
     }

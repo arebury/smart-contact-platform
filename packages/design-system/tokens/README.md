@@ -173,29 +173,20 @@ point isn't encoded). `v / 14` is unambiguous.
 the nearest 14-base step** rather than forking a parallel 8-grid ramp — keeps one
 scale (see `customs-catalog.md §2.7`).
 
-**Aliases, not parallel scales**: `--sc-spacing-*`, `--sc-font-size-*`,
-`--sc-line-height-*` and `--sc-icon-size-*` are semantic aliases (layer 2) that
-point *at* `--sc-scale-*`. There is exactly one ramp.
+**Aliases vs. own ramp**: `--sc-spacing-*` are semantic aliases (layer 2) that
+point *at* `--sc-scale-*` (one 14-base ramp for spacing/padding). **Typography is
+NOT on that ramp** (since DD-13, reflected to code S75): `--sc-font-size-*`,
+`--sc-line-height-*` and `--sc-icon-size-*` are a **separate round scale in rem** —
+`calc(N / 16 * 1rem)`, decoupled from `--sc-scale`.
 
-> **Typography rides this same ramp — for now.** Today `--sc-font-size-*` resolve to
-> `--sc-scale-*` steps (e.g. `--sc-font-size-200: var(--sc-scale-1)` = 14px;
-> `--sc-font-size-900: var(--sc-scale-5)` = 70px). Detail in §"Typography — the
-> migration-safe belt" below.
->
-> ⚠️ **DD-13 (S72) decouples this.** The typography scale is decided to become **round**
-> (12/14/16/18/20/24/32, rem root-16), **independent of `--sc-scale`** (spacing keeps the
-> 14-base ramp; the letter gets its own round set). This README describes the **current
-> code state** (still base-14-aliased); when DD-13 is reflected to code, `--sc-font-size-*`
-> stop aliasing `--sc-scale` and `tokens:type-parity` retargets from base-14-snap to round.
-> Canonical decision → **DD-13** in [`../docs/DECISIONS.md`](../docs/DECISIONS.md).
->
-> **Unit = `rem`, not px (validated S72b).** PrimeNG ships type in `rem` — the Theme Designer
-> converts Figma px → rem ÷16, and round sizes give clean rem (16→1, 24→1.5, 32→2). Our tokens are
-> still **px today**, so we break PrimeNG's global scale dial (the `<html>` root font-size) and a11y.
-> The px→rem migration is tracked in `../docs/inconsistencies-backlog.md` #88. Type variable naming is
-> **per-layer**: the exposed layer (App, what the dev consumes → `--app-font-size`) uses slash
-> hierarchy mirroring PrimeNG's dot-path; the scale primitive stays flat (`typography/font-size/14`,
-> name=value, internal) — see DD-13.
+> **Typography — round, rem, step-named (DD-13 + S75 addendum).** The font scale is
+> **round** (12/14/16/18/20/24/32/48, mirror of the official Kit) in **rem** root-16
+> (16→1, 24→1.5, 32→2), **independent of `--sc-scale`**. Primitives are **step-named**
+> in both Figma and code (`typography/font/size/300` = `--sc-font-size-300` = 16) — one
+> language with the devs. The letter does **not** travel through the Theme Designer
+> (document-level); it lives in our `--sc-*` layer (the devs' `rem-scale.ts` equivalent).
+> `tokens:type-parity` guards Figma↔code drift. Canonical decision → **DD-13** (incl. S75
+> addendum) in [`../docs/DECISIONS.md`](../docs/DECISIONS.md).
 
 **Code-only steps** — three exist in code but not in the current `tokensprime.json`
 export (surfaced by `tokens:parity` section 5):

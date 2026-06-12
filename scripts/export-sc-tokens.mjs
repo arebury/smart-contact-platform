@@ -61,6 +61,14 @@ function resolveAlias(value, decls, seen = new Set()) {
   return resolveAlias(targetValue, decls, seen);
 }
 
+// Tipografía (DD-13): `calc(N / 16 * 1rem)` → "Npx" para el export (el token es
+// rem en CSS; px en el JSON para display en ds-docs. El rem original queda en
+// $extensions.sc.alias vía la rama de abajo).
+function resolveCalc(value) {
+  const m = /^calc\(\s*([\d.]+)\s*\/\s*16\s*\*\s*1rem\s*\)$/.exec(value);
+  return m ? `${parseFloat(m[1])}px` : value;
+}
+
 function detectType(value) {
   if (/^#[0-9a-f]{3,8}$/i.test(value)) return 'color';
   if (/^-?\d+(\.\d+)?px$/.test(value)) return 'dimension';
@@ -126,7 +134,7 @@ function build(decls) {
   };
 
   for (const [name, rawValue] of decls.entries()) {
-    const resolved = resolveAlias(rawValue, decls);
+    const resolved = resolveCalc(resolveAlias(rawValue, decls));
     const $type = detectType(resolved);
     if (!$type) continue; // skip unresolvable / unknown shapes
 

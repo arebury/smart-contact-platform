@@ -214,69 +214,41 @@
    * fallback hardcoded. No mapea a fuente custom — system mono stack. */
   --sc-font-family-mono: ui-monospace, 'SF Mono', 'Menlo', 'Consolas', 'Liberation Mono', monospace;
 
-  /* Font size scale (px). Mapped 1:1 a PrimeOne 4.0 `scale*` (base 14,
-   * multiplicativa). Naming SCDS conservado; valores migrados S54
-   * contra tokensprime.json:
-   *   50  →  scale075  (10.5)
-   *   75  →  scale075  (10.5)  (era 11, off-scale chrome)
-   *   100 →  scale0875 (12.25)
-   *   200 →  scale1    (14)    ← exacto
-   *   300 →  scale1125 (15.75)
-   *   400 →  scale125  (17.5)
-   *   450 →  scale15   (21)
-   *   500 →  scale175  (24.5)
-   *   600 →  scale2    (28)    ← exacto
-   *   650 →  scale225  (31.5)
-   *   700 →  scale275  (38.5)
-   *   800 →  scale4    (56)
-   *   900 →  scale5    (70) */
-  /* Font-size es alias semantic de `--sc-scale-*` (Kit Pro `font.size`
-   * referencia `{scale.X}` directo en design-tokens.json). Naming SCDS
-   * preservado (50/75/100/.../900) — public API. */
-  --sc-font-size-50: var(--sc-scale-0-75);
-  --sc-font-size-75: var(--sc-scale-0-75);
-  --sc-font-size-100: var(--sc-scale-0-875);
-  --sc-font-size-200: var(--sc-scale-1);
-  --sc-font-size-300: var(--sc-scale-1-125);
-  --sc-font-size-400: var(--sc-scale-1-25);
-  --sc-font-size-450: var(--sc-scale-1-5);
-  --sc-font-size-500: var(--sc-scale-1-75);
-  --sc-font-size-600: var(--sc-scale-2);
-  --sc-font-size-650: var(--sc-scale-2-25);
-  --sc-font-size-700: var(--sc-scale-2-75);
-  --sc-font-size-800: var(--sc-scale-4);
-  --sc-font-size-900: var(--sc-scale-5);
+  /* Font-size — DD-13: rampa redonda en rem (root 16), DESACOPLADA de
+   * `--sc-scale`. Espejo de los primitivos `typography/font/size` del Kit
+   * (8 tamaños canónicos: 12·14·16·18·20·24·32·48). Naming step SCDS
+   * preservado (public API). Steps fuera del set canónico → snapeados al
+   * más cercano; colapsar los redundantes = limpieza posterior (fuera fase). */
+  --sc-font-size-50: calc(12 / 16 * 1rem); /* 12 (era 10.5 → sube a 12) */
+  --sc-font-size-75: calc(12 / 16 * 1rem); /* 12 (snap → -100) */
+  --sc-font-size-100: calc(12 / 16 * 1rem); /* 12 */
+  --sc-font-size-200: calc(14 / 16 * 1rem); /* 14 */
+  --sc-font-size-300: calc(16 / 16 * 1rem); /* 16 */
+  --sc-font-size-400: calc(18 / 16 * 1rem); /* 18 */
+  --sc-font-size-450: calc(20 / 16 * 1rem); /* 20 (era 21) */
+  --sc-font-size-500: calc(24 / 16 * 1rem); /* 24 */
+  --sc-font-size-600: calc(24 / 16 * 1rem); /* 24 (snap 28) */
+  --sc-font-size-650: calc(32 / 16 * 1rem); /* 32 */
+  --sc-font-size-700: calc(32 / 16 * 1rem); /* 32 (snap 36) */
+  --sc-font-size-800: calc(48 / 16 * 1rem); /* 48 (era 56) */
+  --sc-font-size-900: calc(48 / 16 * 1rem); /* 48 (snap 64; era 70) */
 
-  /* Line height scale (px) — mapped al PrimeOne `scale*` más cercano
-   * preservando proporción harmónica respecto a font-size:
-   *   50  →  scale125  (17.5)  appSmLineHeight
-   *   100 →  scale125  (17.5)
-   *   200 →  scale15   (21)    ← exacto
-   *   220 →  scale1625 (22.75)
-   *   300 →  scale175  (24.5)  appLgLineHeight
-   *   400 →  scale2    (28)    ← exacto
-   *   450 →  scale225  (31.5)
-   *   500 →  scale275  (38.5)
-   *   600 →  scale3    (42)    ← exacto
-   *   650 →  scale4    (56)
-   *   700 →  scale4    (56)
-   *   800 →  scale5    (70)
-   *   900 →  scale5    (70) */
-  /* Line-height alias semantic de `--sc-scale-*` (Kit Pro `line.height`
-   * referencia `{scale.X}` directo). Naming SCDS preservado. */
-  --sc-line-height-50: var(--sc-scale-1-25);
-  --sc-line-height-100: var(--sc-scale-1-25);
-  --sc-line-height-200: var(--sc-scale-1-5);
-  --sc-line-height-220: var(--sc-scale-1-625);
-  --sc-line-height-300: var(--sc-scale-1-75);
-  --sc-line-height-400: var(--sc-scale-2);
-  --sc-line-height-450: var(--sc-scale-2-25);
-  --sc-line-height-500: var(--sc-scale-2-75);
-  --sc-line-height-600: var(--sc-scale-3);
-  --sc-line-height-650: var(--sc-scale-4);
-  --sc-line-height-700: var(--sc-scale-4);
-  --sc-line-height-800: var(--sc-scale-5);
-  --sc-line-height-900: var(--sc-scale-5);
+  /* Line-height — DD-13: redondo en rem, DESACOPLADO de `--sc-scale`.
+   * Espejo de `typography/line/height` del Kit (18·20·24·28·36·40·58) +
+   * emparejamiento font↔LH de los text styles. Naming step preservado. */
+  --sc-line-height-50: calc(18 / 16 * 1rem); /* 18 */
+  --sc-line-height-100: calc(18 / 16 * 1rem); /* 18 (caption 12) */
+  --sc-line-height-200: calc(20 / 16 * 1rem); /* 20 (body 14) */
+  --sc-line-height-220: calc(20 / 16 * 1rem); /* 20 (body-2/3) */
+  --sc-line-height-300: calc(24 / 16 * 1rem); /* 24 (body-1 16) */
+  --sc-line-height-400: calc(24 / 16 * 1rem); /* 24 (h4 18) */
+  --sc-line-height-450: calc(28 / 16 * 1rem); /* 28 (h3 20) */
+  --sc-line-height-500: calc(36 / 16 * 1rem); /* 36 (h2 24) */
+  --sc-line-height-600: calc(36 / 16 * 1rem); /* 36 */
+  --sc-line-height-650: calc(40 / 16 * 1rem); /* 40 (h1 32) */
+  --sc-line-height-700: calc(40 / 16 * 1rem); /* 40 */
+  --sc-line-height-800: calc(58 / 16 * 1rem); /* 58 (display-1 48) */
+  --sc-line-height-900: calc(58 / 16 * 1rem); /* 58 */
 
   /* Font weights */
   --sc-font-weight-regular: 400;
@@ -404,24 +376,23 @@
   --sc-radius-400: var(--sc-radius-xl);
   --sc-radius-500: var(--sc-radius-2xl);
 
-  /* ---------- Icon size (alias semantic de `--sc-scale-*`) ----------
-   * En Kit Pro `icon.size` referencia `{scale.X}` directo (verificado
-   * en chip.icon.size, navigation.submenu.icon.size, etc.). SCDS hereda
-   * el patrón: icon-size NO tiene primitive propia, mapea a scale.
-   * Naming SCDS preservado (xs/sm/md/default/lg/xl/2xl/3xl).
+  /* ---------- Icon size — DD-13: redondo en rem, en el stream de tipo ----------
+   * Decoplado de `--sc-scale` para no descolgarse de la font redonda (un
+   * icono junto a texto 16 = 16, no 15.75). Sin contrapartida en Figma
+   * (divergencia SC — ver customs-catalog). Naming preservado.
    *
    * Para Lucide-angular sigue funcionando `[size]="14"` literal (Lucide
    * acepta number, no CSS var) — estos tokens son para SCSS donde algo
    * escala via `width:`. */
-  --sc-icon-size-xs: var(--sc-scale-0-5);
-  --sc-icon-size-sm: var(--sc-scale-0-75);
-  --sc-icon-size-md: var(--sc-scale-0-875);
-  --sc-icon-size: var(--sc-scale-1);
-  --sc-icon-size-default: var(--sc-scale-1);
-  --sc-icon-size-lg: var(--sc-scale-1-125);
-  --sc-icon-size-xl: var(--sc-scale-1-25);
-  --sc-icon-size-2xl: var(--sc-scale-1-5);
-  --sc-icon-size-3xl: var(--sc-scale-2);
+  --sc-icon-size-xs: calc(8 / 16 * 1rem); /* 8 (era 7) */
+  --sc-icon-size-sm: calc(10 / 16 * 1rem); /* 10 (era 10.5) */
+  --sc-icon-size-md: calc(12 / 16 * 1rem); /* 12 */
+  --sc-icon-size: calc(14 / 16 * 1rem); /* 14 */
+  --sc-icon-size-default: calc(14 / 16 * 1rem); /* 14 */
+  --sc-icon-size-lg: calc(16 / 16 * 1rem); /* 16 (era 15.75) */
+  --sc-icon-size-xl: calc(18 / 16 * 1rem); /* 18 (era 17.5) */
+  --sc-icon-size-2xl: calc(20 / 16 * 1rem); /* 20 (era 21) */
+  --sc-icon-size-3xl: calc(28 / 16 * 1rem); /* 28 */
 
   /* ---------- Focus ring ----------
    * PrimeOne 4.0 semanticCommon `focusRingWidth: 1`, `focusRingOffset: 2`.
