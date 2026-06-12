@@ -2,7 +2,7 @@ export default {
     root: {
         top: "{form.field.padding.y}",
         color: "{form.field.float.label.color}",
-        fontSize: "0.75rem",
+        fontSize: "{typography.font.size.100}",
         positionX: "{form.field.padding.x}",
         focusColor: "{form.field.float.label.focus.color}",
         fontWeight: "400",

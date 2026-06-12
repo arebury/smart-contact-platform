@@ -359,12 +359,12 @@ export default {
         },
         formField: {
             lg: {
-                fontSize: "1.125rem",
+                fontSize: "{typography.font.size.300}",
                 paddingX: "0.875rem",
                 paddingY: "0.625rem"
             },
             sm: {
-                fontSize: "0.875rem",
+                fontSize: "{typography.font.size.100}",
                 paddingX: "0.625rem",
                 paddingY: "0.375rem"
             },

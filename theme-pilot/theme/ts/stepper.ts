@@ -41,7 +41,7 @@ import type { StepperDesignTokens } from '@primeuix/themes/types/stepper';
         size: "2rem",
         color: "{text.muted.color}",
         shadow: "0 1px 1px 0 #0000001f, 0 1px 0 0 #0000000f",
-        fontSize: "1.143rem",
+        fontSize: "{typography.font.size.300}",
         background: "{content.background}",
         fontWeight: "500",
         activeColor: "{primary.color}",

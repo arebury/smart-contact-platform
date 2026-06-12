@@ -3,12 +3,12 @@ import type { InputTextDesignTokens } from '@primeuix/themes/types/inputtext';
  export default {
     root: {
         lg: {
-            fontSize: "1.125rem",
+            fontSize: "{typography.font.size.300}",
             paddingX: "{form.field.lg.padding.x}",
             paddingY: "{form.field.lg.padding.y}"
         },
         sm: {
-            fontSize: "0.875rem",
+            fontSize: "{typography.font.size.100}",
             paddingX: "{form.field.sm.padding.x}",
             paddingY: "{form.field.sm.padding.y}"
         },

@@ -23,12 +23,12 @@ export default {
     },
     text: {
         lg: {
-            fontSize: "1.125rem"
+            fontSize: "{typography.font.size.300}"
         },
         sm: {
-            fontSize: "0.875rem"
+            fontSize: "{typography.font.size.100}"
         },
-        fontSize: "1rem",
+        fontSize: "{typography.font.size.200}",
         fontWeight: "500"
     },
     warn: {

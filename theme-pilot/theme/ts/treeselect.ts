@@ -6,12 +6,12 @@ import type { TreeSelectDesignTokens } from '@primeuix/themes/types/treeselect';
     },
     root: {
         lg: {
-            fontSize: "{form.field.lg.font.size}",
+            fontSize: "{typography.font.size.300}",
             paddingX: "{form.field.lg.padding.x}",
             paddingY: "{form.field.lg.padding.y}"
         },
         sm: {
-            fontSize: "{form.field.sm.font.size}",
+            fontSize: "{typography.font.size.100}",
             paddingX: "{form.field.sm.padding.x}",
             paddingY: "{form.field.sm.padding.y}"
         },

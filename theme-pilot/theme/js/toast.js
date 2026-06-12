@@ -36,7 +36,7 @@ export default {
         }
     },
     detail: {
-        fontSize: "0.875rem",
+        fontSize: "{typography.font.size.100}",
         fontWeight: "500"
     },
     content: {
@@ -52,7 +52,7 @@ export default {
         }
     },
     summary: {
-        fontSize: "1rem",
+        fontSize: "{typography.font.size.200}",
         fontWeight: "500"
     },
     contrast: {

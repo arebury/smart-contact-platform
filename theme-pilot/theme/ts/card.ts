@@ -12,7 +12,7 @@ import type { CardDesignTokens } from '@primeuix/themes/types/card';
         borderRadius: "{border.radius.xl}"
     },
     title: {
-        fontSize: "1.25rem",
+        fontSize: "{typography.font.size.400}",
         fontWeight: "500"
     },
     caption: {

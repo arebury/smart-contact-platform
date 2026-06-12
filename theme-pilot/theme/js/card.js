@@ -10,7 +10,7 @@ export default {
         borderRadius: "{border.radius.xl}"
     },
     title: {
-        fontSize: "1.25rem",
+        fontSize: "{typography.font.size.400}",
         fontWeight: "500"
     },
     caption: {

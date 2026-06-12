@@ -7,7 +7,7 @@ export default {
         borderRadius: "{overlay.modal.border.radius}"
     },
     title: {
-        fontSize: "1.25rem",
+        fontSize: "{typography.font.size.400}",
         fontWeight: "600"
     },
     footer: {

@@ -6,7 +6,7 @@ export default {
     },
     label: {
         color: "{primary.contrast.color}",
-        fontSize: "0.75rem",
+        fontSize: "{typography.font.size.100}",
         fontWeight: "600"
     },
     value: {

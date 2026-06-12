@@ -5,11 +5,11 @@ export default {
     root: {
         lg: {
             padding: "0.25rem",
-            fontSize: "{form.field.lg.font.size}"
+            fontSize: "{typography.font.size.300}"
         },
         sm: {
             padding: "0.25rem",
-            fontSize: "{form.field.sm.font.size}"
+            fontSize: "{typography.font.size.100}"
         },
         gap: "0.5rem",
         padding: "0.25rem",

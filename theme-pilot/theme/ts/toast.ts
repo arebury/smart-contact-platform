@@ -38,7 +38,7 @@ import type { ToastDesignTokens } from '@primeuix/themes/types/toast';
         }
     },
     detail: {
-        fontSize: "0.875rem",
+        fontSize: "{typography.font.size.100}",
         fontWeight: "500"
     },
     content: {
@@ -54,7 +54,7 @@ import type { ToastDesignTokens } from '@primeuix/themes/types/toast';
         }
     },
     summary: {
-        fontSize: "1rem",
+        fontSize: "{typography.font.size.200}",
         fontWeight: "500"
     },
     contrast: {
