@@ -10,6 +10,26 @@
 
 ---
 
+## 2026-06-12 · Session 76 — Re-export del Kit (cierra el gate tipográfico) + PREP completa de la gran sesión (repo espejo)
+
+> Sesión LOCAL (Desktop). Cierra el pendiente #1 de S75 (re-export) y **prepara** la sesión grande de construcción del **repo espejo del DS**. No se construye nada del repo nuevo aquí: se dejan listos pre-flight, prompt maestro y montaje.
+
+**Re-export del Kit (gate S75 #1):** Rafa re-exportó del Theme Designer → `design-tokens.json`. Verificado: trae la tipografía REDONDA correcta (font-size 12·14·16·18·20·24·32·48 + LH 18·20·24·28·36·40·58) y los componentes apuntan por REFERENCIA viva a los primitivos (`button/sm/font/size = {typography.font.size.100}`). **Hallazgo:** el export es **DTCG estándar** (`aura/*`, refs `{...}` con slash, 2.307 aliases), distinto del shape plano `.mode1` que `token-parity` lee → NO es drop-in. El allow-list `KNOWN_TYPO_DRIFT` **NO se quitó** aún (necesita un generador DTCG-aware, que nace en el repo nuevo). Export preservado en `docs/kit-export-dtcg-s76.json`.
+
+**Decisión de rumbo (Rafa):** la próxima sesión grande = montar el **REPO ESPEJO** del DS — GitHub propio, estructura/naming de los devs (`@smartcontact/*`), solo el DS, las apps consumen — con el modelo más potente, one-shot, sin ping-pong. Objetivo: Figma→código directo + **autosuficiencia verificada** (gobernanza por máquina, no por coordinación).
+
+**Decisiones cerradas (→ `mirror-repo-preflight.md` §1):** escala rem central · generador único DTCG-aware · repo GitHub propio · solo-DS (3 paquetes + demo) · one-shot = Mitad A (fundaciones) + Mitad B (port) mapeada · docu nuestra + suya adaptada en tono colaborativo · guardarraíles CI · supervisor consume / `sc-demo` = doc-site con la cara del suyo.
+
+**Refresh del repo molde** (`smartcontact-ui`, vía agente): catálogo de componentes IDÉNTICO a S70 (21+1, sin cambios) + doctrina de tokens idéntica → **manifiesto S70 VIGENTE**. Delta = todo en tokens/preset: los devs **ya implementaron el rem** (su `rem-scale.ts` ×0.875 + auditor `check-theme-scale.mjs` + skill nueva `sync-theme`) → valida la decisión rem + da código de referencia a adoptar. `base.ts` sigue con hex (reescribir a `var(--sc-*)`). Drift en su doc: `sc-palette.ts` referenciado pero inexistente.
+
+**Entregables de prep (en `docs/`):** `mirror-repo-preflight.md` (decisiones + alcance + gobernanza + mandatos), `mirror-repo-master-prompt.md` (orden de misión: arranque + contexto obligatorio + qué construir + mandatos + definición de "hecho"), `kit-export-dtcg-s76.json` (export preservado). Montaje: `~/dev/smartcontact-ui` creada (vacía) + su `.claude/settings.local.json` con permisos a las 2 fuentes. Memoria nueva: tono de docu colaborativo/aséptico.
+
+**Mandatos del one-shot (pre-flight §9):** mejora-con-criterio (sin slop) · termina-entero pero **entiende, no adivines** · auto-verificación adversarial · log de decisiones para revisión única.
+
+**Pendiente = la gran sesión:** abrir `~/dev/smartcontact-ui` + añadir las 2 carpetas fuente + soltar la línea de arranque. Todo el detalle en `mirror-repo-preflight.md` + `mirror-repo-master-prompt.md`.
+
+---
+
 ## 2026-06-12 · Session 75 — Tipografía DD-13: naming STEP cerrado + escala canónica = espejo del duplicado + código 2.4 ejecutado y validado
 
 > Sesión **LOCAL** con acceso a los dos Kits Figma (vía Desktop Bridge MCP), al repo de los devs (`~/Downloads/smartcontact-ui-main`) y al export del piloto S73. Decisiones cerradas con **dato leído en vivo**, no a ojo. Código en branch `typography/round-rem-s75` con diff visual + e2e.

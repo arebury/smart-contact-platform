@@ -6,5 +6,5 @@ coverage/
 package-lock.json
 
 # Figma plugin export — documental reference, not maintained by us.
-# Re-imports from Marta should land as-is so re-sync diffs stay clean.
+# Re-imports from the design team should land as-is so re-sync diffs stay clean.
 src/assets/tokens/design-tokens.json
