@@ -89,6 +89,7 @@ La calidad la garantiza el método, no la vigilancia del operador:
 - **Verificación adversarial**: tras cada bloque, agentes independientes que intentan refutar — ¿el preset resuelve a `var(--sc-*)`? ¿el generador reproduce los valores del export al pixel? ¿queda algún `px` en el preset? ¿algún hex en `base.ts`?
 - **Completeness critic** al final: recorrer pre-flight §4 punto por punto y confirmar que nada quedó a medias.
 - **Guardarraíles como gate**: nada se da por bueno hasta que parity + auditor de escala + `tsc` + build de los 3 paquetes estén en verde.
+- **Commits incrementales**: commitea tras cada bloque (A→F) con un mensaje claro, y mantén el `DECISIONS-LOG` al día sobre la marcha. Si la sesión se corta por cualquier causa (límite de uso, contexto), el progreso queda guardado y se retoma desde el último commit + el log — no se pierde trabajo. Esto NO contradice "termina entero": commitear no es parar a preguntar.
 
 ---
 
