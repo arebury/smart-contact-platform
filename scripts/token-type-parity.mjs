@@ -4,7 +4,7 @@
  * ============================================================================
  * Hermano de `tokens:parity` (escala/radio/color), enfocado a TIPO. Cruza los
  * `font-size` del código contra los tokens `--sc-font-size-*` (resueltos a px
- * por la escala base-14: `font-size-X → scale-{m} → m×14`). Reporta:
+ * desde la rampa redonda en rem: `font-size-X → calc(N/16*1rem) → N px`). Reporta:
  *   - cobertura: tokenizado `var(--sc-font-size-*)` vs literal px/rem
  *   - mapa valor→token más cercano (Δpx)
  *   - olas: 1 (snap ≤0.5px, cambio invisible) / 2 (off-scale, requiere decisión)
@@ -20,11 +20,11 @@ const ROOT = process.cwd();
 const PRIM = 'packages/design-system/tokens/layers/01-primitive.css';
 const SNAP = 0.5; // ≤ esto = ola 1 (imperceptible)
 
-// 1. Resolver --sc-font-size-* → px (font-size-X: var(--sc-scale-{m}); px = m×14)
+// 1. Resolver --sc-font-size-* → px (font-size-X: calc(N / 16 * 1rem); px = N)
 const prim = readFileSync(join(ROOT, PRIM), 'utf8');
 const tokenPx = {};
-for (const m of prim.matchAll(/--sc-font-size-(\w+):\s*var\(--sc-scale-([\d-]+)\)/g)) {
-  tokenPx[`font-size-${m[1]}`] = +(parseFloat(m[2].replace('-', '.')) * 14).toFixed(3);
+for (const m of prim.matchAll(/--sc-font-size-(\w+):\s*calc\(([\d.]+)\s*\/\s*16\s*\*\s*1rem\)/g)) {
+  tokenPx[`font-size-${m[1]}`] = +parseFloat(m[2]).toFixed(3);
 }
 const tokens = [...new Set(Object.values(tokenPx))].sort((a, b) => a - b);
 const tokenFor = (px) => Object.keys(tokenPx).find((k) => tokenPx[k] === px);

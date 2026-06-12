@@ -334,6 +334,8 @@ de escala. **Propagar a Figma en el próximo sync del Kit.** Footers de modal us
 
 **Refactor final S57**: primitive layer reorganizada para reflejar Kit Pro tal cual. Una sola escala primitive numérica (`--sc-scale-*`) sirve a spacing, padding, font-size, line-height, icon-size (igual que `aura/primitive.scale` en Kit Pro). Border-radius tiene escala dedicada (Kit Pro `aura/primitive.border.radius`).
 
+> **Actualización S75 (DD-13):** `--sc-font-size-*`, `--sc-line-height-*` e `--sc-icon-size-*` se **desacoplaron** de `--sc-scale` → ahora son **redondos en rem** (`calc(N/16*1rem)`), su propio *stream de tipo* (espejo del Kit oficial, naming step). `--sc-scale` (base 14) sigue sirviendo **spacing/padding**. **`--sc-icon-size-*` = divergencia consciente**: sin contrapartida en Figma (el Kit solo tiene `icon/size` base + iconos por componente), redondo y atado al stream de tipo para que un icono junto a texto-16 mida 16, no 15.75.
+
 | Primitive SCDS | Kit Pro origen | Notas |
 |---|---|---|
 | `--sc-scale-*` (34 valores: 24 positivos + 10 negativos) | `aura/primitive.scale.*` | Escala numérica única — base 14 |

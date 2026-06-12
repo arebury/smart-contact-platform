@@ -141,6 +141,8 @@ function resolveScToken(name, seen = new Set()) {
   const raw = m[1].trim();
   const lit = raw.match(/^(-?[0-9.]+)px$/);
   if (lit) return parseFloat(lit[1]);
+  const calc = raw.match(/^calc\(\s*([0-9.]+)\s*\/\s*16\s*\*\s*1rem\s*\)$/);
+  if (calc) return parseFloat(calc[1]); // tipografía DD-13: calc(N/16*1rem) → N px
   const ref = raw.match(/var\(\s*--([a-z0-9-]+)\s*\)/);
   return ref ? resolveScToken(ref[1], seen) : NaN;
 }
@@ -272,6 +274,16 @@ sizing.push([
   Number.isNaN(iconDefault) ? undefined : iconDefault,
 ]);
 
+// Drift consciente DD-13/S75: el código pasó la tipografía a REDONDO (12/16) ANTES de
+// que el Kit (`tokensprime.json`) se re-exporte con la escala redonda (Bloque 2.2).
+// Estos 4 font-size del preset (resuelven `--sc-font-size-*`) muestran export decimal
+// (12.25/15.75) vs preset redondo (12/16). REABRIR: quitar del allow-list cuando se
+// re-exporte `tokensprime.json` tras crear los primitivos step en el Kit oficial.
+const KNOWN_TYPO_DRIFT = new Set([
+  'button.root.sm.fontSize', 'button.root.lg.fontSize',
+  'formField.sm.fontSize', 'formField.lg.fontSize',
+]);
+
 let sizingOk = 0;
 for (const [label, exp, got] of sizing) {
   if (exp == null) {
@@ -281,7 +293,12 @@ for (const [label, exp, got] of sizing) {
   } else if (Number.isNaN(got)) {
     fail(`${label}: el preset lo fija pero no resuelve a px (¿token nuevo sin valor?)`);
   } else if (Math.abs(got - exp) > 1e-6) {
-    fail(`${label}: DRIFT — export=${exp} vs preset=${got}`);
+    if (KNOWN_TYPO_DRIFT.has(label)) {
+      log(`  ~ ${label}: drift consciente DD-13 — preset=${got} redondo vs export=${exp} decimal (pendiente 2.2: re-export del Kit con escala redonda)`);
+      sizingOk++;
+    } else {
+      fail(`${label}: DRIFT — export=${exp} vs preset=${got}`);
+    }
   } else {
     sizingOk++;
   }

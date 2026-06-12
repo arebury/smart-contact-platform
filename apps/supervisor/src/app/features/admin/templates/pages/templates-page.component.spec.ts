@@ -18,9 +18,10 @@ describe('TemplatesPageComponent', () => {
     fixture.detectChanges();
   });
 
-  it('renders the page title and the seed templates', () => {
+  it('renders the seed templates', () => {
+    // Modelo "todo arriba" (S59): la página ya no pinta banda de page-header
+    // (título → breadcrumb). El render propio = la tabla de seeds.
     const html = fixture.nativeElement as HTMLElement;
-    expect(html.querySelector('.page-header__title')).not.toBeNull();
     expect(html.querySelectorAll('.table__row').length).toBeGreaterThan(0);
   });
 

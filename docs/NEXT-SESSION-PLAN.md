@@ -5,16 +5,24 @@
 
 ---
 
-## Estado al cerrar (S72b, 2026-06-09) — tipografía decidida + Paso 1 ejecutado
+## Estado al cerrar (S75, 2026-06-12) — código 2.4 EJECUTADO y validado (e2e verde); 2.2 (Kit oficial) pendiente de reconectar el bridge
 
-> **Todo lo decidido vive en docs canónicos** (no se pierde). Tipografía = **DD-13** (SCDS DECISIONS).
+> **Todo lo decidido vive en docs canónicos** (no se pierde). Tipografía = **DD-13 + addendum S75** (SCDS DECISIONS). Detalle de la sesión: [`SESSION-LOG.md`](./SESSION-LOG.md) S75.
 > Convergencia/port = [`convergence-manifesto.md`](./convergence-manifesto.md) + [`convergence-checklist-devs.md`](./convergence-checklist-devs.md).
 
 **Cerrado y vigente:**
 - **Naming componentes** → DD-12 (pegado = Kit Pro/Figma; custom kebab).
-- **Tipografía** → **DD-13**: escala **redonda** (12/14/16/18/20/24/32 + display 48/64), desacoplada de `--sc-scale`, **rem root-16**, line-heights por regla, **2 pesos** (Reg/Semibold). Validado contra PrimeNG (S72b): PrimeNG **no modela tipografía** (dial único = root font-size del `<html>`); el dev instala la letra en **rem** (Theme Designer convierte px→rem ÷16; redondo → rem limpio). **Naming por capa**: capa **App** con barra (`app/font/size`→`--app-font-size`); **primitivo PLANO** (`typography/font-size/12..48`, nombre=valor). Rampa de contenido (h1/body) = **modelo simple** (text styles atados a primitivos + aliases en código; sin capa de variables — over-engineering).
-- **Paso 1 EJECUTADO (S72b)** en el duplicado `tUzS4MvWld90bA2qpZz5b6`: primitivos `typography/font-size/12..48` + `line-height/18..58` (Custom, planos) · capa App atada a ellos · **10 text styles de contenido** (display-1, h1–h4, body-1/2/3, caption, caption-bold) **atados a los primitivos** (font-size + line-height; weight queda en el estilo).
-- **Reglas de operación nuevas:** evitar over-engineering ([[avoid-overengineering]]) · verificar antes de afirmar ([[empirical-test-before-philosophizing]]) · px-vs-rem = **rem** (S72).
+- **Tipografía** → **DD-13 + S75**: escala **redonda** (12·14·16·18·20·24·32·48) + 7 line-heights (18·20·24·28·36·40·58) + 10 text styles, **desacoplada de `--sc-scale`**, **rem root-16**, 2 pesos (Reg/Semibold). **Naming = STEP** en Figma + código + devs (idioma único; el puente es naming-neutral, código+devs ya son step, Kit oficial greenfield → coste cero, 0 renames). **icon-size** al stream de tipo (redondo). **Dos streams** (preset PrimeNG vs nuestra capa de letra). Roles semánticos NO se cortan esta fase ([[avoid-overengineering]]; backlog #89).
+- **Código 2.4 EJECUTADO (S75)** en branch `typography/round-rem-s75`: `--sc-font-size-*`/`--sc-line-height-*`/`--sc-icon-size-*` → `calc(N/16*1rem)`. **e2e 28 verde**, type-parity 99%/ola-1, baselines (3 dark) + `sc-tokens.json` regenerados, scripts `type-parity`/`export` ajustados, docs canónicos actualizados. Backlog #88 (px→rem) → ✅ resuelto.
+- **Corrección de S74:** los devs **SÍ** usan `--sc-font-size-{step}` (idéntico) → naming a **STEP** en todos lados. Lo de "Figma por-valor / devs no usan / renombrar Figma contradice DD-13" era **erróneo** (el Kit oficial es greenfield, se crea step desde cero).
+
+**Hecho también (S75):**
+- **2.2 — primitivos ✅** (Desktop Bridge): 15 `typography/font/size|line/height/{step}` step-named en la colección **Custom** del Kit oficial, redondos, **1:1 con el código** → validación de pipeline cumplida (Figma == código, type-parity verde).
+- **PR [#50](https://github.com/arebury/smart-contact-platform/pull/50)** abierto (código + docs + baselines).
+
+**Pendiente inmediato:**
+- **Text styles del Kit oficial** → backlog **#90**: pasada de diseño enfocada (la base de Kit Pro difiere del duplicado: subtitles, pesos Bold/Medium, body3) → editar a escala redonda + 2 pesos + bindear a los primitivos, editar-no-borrar.
+- **Al cerrar 2.2 (tras los text styles):** re-exportar `tokensprime.json` desde el Kit + **quitar el allow-list `KNOWN_TYPO_DRIFT`** en `token-parity.mjs` (drift consciente preset↔Kit ya no aplicará).
 
 ---
 
@@ -43,15 +51,15 @@
 - **Quién:** Rafa opera el Theme Designer; Claude verifica el resultado en código.
 - **Protocolo:** (1) elegir un componente **escala-neutral** (divider o tag — **NO** el botón). (2) Rafa lo pasa por el Theme Designer en el **Kit oficial** → genera PR a GitHub. (3) Verificar: ¿valores en **rem**? ¿naming esperado? ¿sobreviven los anclajes **Custom**? ¿la cadena `App → Custom` cruza? (4) Arreglar el **bug `font.weight=600px`** del Theme Designer.
 - **Considerar:** el Theme Designer apunta al **Kit OFICIAL**, no al duplicado. La colección "Component" salía vacía (esperable). "Generar tema" (preset instalable, rem) ≠ "Exportar" (JSON crudo px).
-- **Estado:** ⏳ pendiente (gate). Sin esto no se arranca el port.
+- **Estado:** ✅ **EJECUTADO (S73)** — el pipeline cruza (export del **duplicado** → rama `theme-designer-pilot`: `theme-pilot/variables.json` + `theme-pilot/theme/`). **Hallazgo:** la tipografía es **document-level por diseño** (PrimeNG no la mete en el preset) → **no baja por el pipeline**; baja por nuestra capa `--sc-*` en rem (como el `rem-scale.ts` de los devs). El plugin solo da **rem** a tokens estándar; **Custom sale en px**. Detalle completo: **DD-13 addendum S73**.
 
 ### ✍️ BLOQUE 2 — Tipografía en real (de DD-13 a producción)
 - **2.1 — text styles → primitivos (duplicado):** ✅ **HECHO (S72b).**
 - **2.2 — replicar en el Kit OFICIAL (Rafa):** crear los primitivos `typography/font-size/*` + `line-height/*` (Custom) + capa App + atar los text styles, igual que en el duplicado. Es lo que lee el Theme Designer.
-- **2.3 — micro-decisión (Rafa, desbloquea el código):** ¿el código va **por-valor** (`--sc-font-size-16`, converge con Figma/devs, pero **renombra todos los consumers**) **o mantiene los steps** (`--sc-font-size-300`, menos cambio, redefiniendo su valor)? Recomendación a debatir: simplicidad/convergencia vs coste de rename.
-- **2.4 — reflejar en código (Claude):** según el método del Bloque 1 (pipeline o a mano). Cambiar `--sc-font-size-*` a **redondo + rem** (hoy cuelgan de `--sc-scale`, decimal: h1=31.5, body-1=15.75 → deben ser 32/16) + recablear los semánticos + **ajustar `tokens:type-parity`** (hoy asume font-size colgando de scale) + **diff visual + e2e**. Deuda backlog **#88** (px→rem).
+- **2.3 — micro-decisión (afinada S74, a cerrar en local):** naming del **primitivo interno** `--sc-font-size-*`: **mantener step** (`-300`, redefine su valor, **0 rename**) **o renombrar a valor** (`-16`, espeja el primitivo Figma, **renombra ~695 consumers + bridge + `type-parity`**). **Aclarado S74:** DD-13 se cumple con ambas; valor **no** da beneficio de pipeline (tipografía a mano), solo claridad; los **devs no usan** `--sc-font-size-*` (usan `app.typography sm/md/lg` — [verificar su file en local]). Default razonable = **mínimo: mantener step + redondear** salvo que la claridad del espejo Figma valga el churn. Detalle: SESSION-LOG **S74**.
+- **2.4 — reflejar en código (Claude):** método **decidido por el piloto (S73) = a mano / capa de documento** — NO por el pipeline (la tipografía no baja por ahí; ver DD-13 addendum S73). Cambiar `--sc-font-size-*` a **redondo + rem** (hoy cuelgan de `--sc-scale`, decimal: h1=31.5, body-1=15.75 → deben ser 32/16) + recablear los semánticos + **ajustar `tokens:type-parity`** (hoy asume font-size colgando de scale) + **diff visual + e2e**. Deuda backlog **#88** (px→rem).
 - **Considerar:** el cambio decimal→redondo **cambia el render** (±0,5–1px en alturas) → diff obligatorio. La unidad px→rem a root 16 **no** cambia el render (mismo pixel); el beneficio es escalado/a11y.
-- **Estado:** 2.1 hecho · 2.2/2.3/2.4 pendientes.
+- **Estado:** 2.1 hecho · **Bloque 1 (gate) ✅ S73** · 2.2 pendiente (Rafa) · **2.3 afinada/abierta (S74 — a cerrar en local)** · 2.4 método = **capa de documento** (rem nuestro, no pipeline).
 
 ### 🏗️ BLOQUE 3 — LA GRAN SESIÓN: montar el proyecto espejo
 - **Objetivo:** repo nuevo con la estructura de los devs (`design-tokens / components / icons / demo`) + **todo lo nuestro adaptado** dentro, para probar el conjunto. "Nosotros definimos, ellos construyen" ([[project_devs_smartcontact_ui_repo]]).
