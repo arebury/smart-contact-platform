@@ -23,7 +23,9 @@
 
 **Ejecutado (2.4):** `--sc-font-size-*`/`--sc-line-height-*`/`--sc-icon-size-*` → `calc(N/16*1rem)`, decoplados de `--sc-scale`; nombres step + roles intactos. Ajustados `token-type-parity.mjs` + `export-sc-tokens.mjs` (forma calc); regenerado `sc-tokens.json`. **e2e 28 verde** (3 baselines dark actualizadas), type-parity 99%/ola-1, guard OK. Backlog #88 (px→rem) → ✅ resuelto. DD-13 addendum S75 + customs-catalog + README/GUIA actualizados.
 
-**Pendiente:** **2.2 build del Kit oficial** (primitivos step + 10 text styles bindeados, espejo del duplicado, **editar-no-borrar**) — vía Desktop Bridge, requiere reconectar el plugin.
+**2.2 — primitivos ✅ EJECUTADO** (vía Desktop Bridge): 15 variables `typography/font/size|line/height/{step}` **step-named** creadas en la colección **Custom** del Kit oficial, valores redondos **1:1 con el código** (font 12·14·16·18·20·24·32·48 / LH 18·20·24·28·36·40·58). **Validación del pipeline de tipografía cumplida** = Figma primitivos == código (`type-parity` verde); NO depende del Theme Designer (la letra es hand-reflected, dos streams). **Text styles DIFERIDOS** → backlog **#90**: los del Kit oficial son la base vieja de Kit Pro (subtitles, pesos Bold/Medium, body3) y difieren del duplicado → pasada de diseño enfocada (editar-no-borrar; al cerrar, re-export `tokensprime.json` + quitar allow-list drift).
+
+**Entregado:** PR [#50](https://github.com/arebury/smart-contact-platform/pull/50) (código + docs + baselines).
 
 ---
 

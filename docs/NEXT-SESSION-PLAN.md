@@ -16,9 +16,13 @@
 - **Código 2.4 EJECUTADO (S75)** en branch `typography/round-rem-s75`: `--sc-font-size-*`/`--sc-line-height-*`/`--sc-icon-size-*` → `calc(N/16*1rem)`. **e2e 28 verde**, type-parity 99%/ola-1, baselines (3 dark) + `sc-tokens.json` regenerados, scripts `type-parity`/`export` ajustados, docs canónicos actualizados. Backlog #88 (px→rem) → ✅ resuelto.
 - **Corrección de S74:** los devs **SÍ** usan `--sc-font-size-{step}` (idéntico) → naming a **STEP** en todos lados. Lo de "Figma por-valor / devs no usan / renombrar Figma contradice DD-13" era **erróneo** (el Kit oficial es greenfield, se crea step desde cero).
 
-**Pendiente inmediato (cuando se reconecte el Desktop Bridge):**
-- **2.2 — build del Kit oficial** (`khNq9dJKNi13pNllrqm6dx`): crear primitivos `typography/font/size|line/height/{step}` **step-named** (espejo del duplicado, 8 font + 7 LH) + 10 text styles bindeados, **editar-no-borrar**. Vía Desktop Bridge MCP.
-- **PR** del branch `typography/round-rem-s75` → `main` (cambio estructural de foundation).
+**Hecho también (S75):**
+- **2.2 — primitivos ✅** (Desktop Bridge): 15 `typography/font/size|line/height/{step}` step-named en la colección **Custom** del Kit oficial, redondos, **1:1 con el código** → validación de pipeline cumplida (Figma == código, type-parity verde).
+- **PR [#50](https://github.com/arebury/smart-contact-platform/pull/50)** abierto (código + docs + baselines).
+
+**Pendiente inmediato:**
+- **Text styles del Kit oficial** → backlog **#90**: pasada de diseño enfocada (la base de Kit Pro difiere del duplicado: subtitles, pesos Bold/Medium, body3) → editar a escala redonda + 2 pesos + bindear a los primitivos, editar-no-borrar.
+- **Al cerrar 2.2 (tras los text styles):** re-exportar `tokensprime.json` desde el Kit + **quitar el allow-list `KNOWN_TYPO_DRIFT`** en `token-parity.mjs` (drift consciente preset↔Kit ya no aplicará).
 
 ---
 
