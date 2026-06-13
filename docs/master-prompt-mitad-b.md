@@ -87,4 +87,4 @@ El barrido de escala es la causa más probable de drift de medidas: un wrapper q
 
 - Cada pieza del lote **commiteada** (port + demo + verificación).
 - **`DECISIONS-LOG-B.md`**: una entrada por pieza (qué se portó, el barrido de escala, el resultado del diff visual, las decisiones §4 tomadas con su base) + las piezas diferidas al siguiente lote.
-- **"Hecho" del lote =** todas las piezas del lote portadas · `npm run verify` en verde · `e2e` + diff visual en verde · `sc-demo` levanta con las páginas nuevas · log entregado · lo no hecho mapeado para el siguiente lote.
+- **"Hecho" del lote =** todas las piezas portadas · `npm run verify` en verde **desde limpio** (ya buildea antes de typechequear — NO te fíes de un `dist` residual: ese fue el falso verde del lote 2) · `e2e` + diff visual en verde · `sc-demo` levanta con las páginas nuevas · **el CI de GitHub Actions en verde tras el push de cierre** (`gh run watch`; si falla, arréglalo antes de entregar — el gate real es el CI limpio, no el verify local) · log entregado · lo diferido mapeado para el siguiente lote.
