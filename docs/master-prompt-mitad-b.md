@@ -12,8 +12,7 @@
 2. **Añadir** dos carpetas (un `/add-dir` por mensaje, o por UI):
    - `~/dev/smart-contact-platform` → fuente de nuestros **custom** + los **wrappers de diseño**.
    - `~/dev/smartcontact-ui-main` → el molde, fuente de los **wrappers de desarrollo**.
-3. **Primer mensaje:**
-   > Lee `docs/component-port-plan.md` (de la carpeta `smartcontact-ui`) y `docs/master-prompt-mitad-b.md` (de `smart-contact-platform`). Ejecuta el PRIMER LOTE (Parte 3) de principio a fin sin pararte a preguntar, commiteando por pieza. Entrégame el repo + el `DECISIONS-LOG-B.md` al final.
+3. **Primer mensaje:** la línea de arranque que te pasa Rafa **indica el lote concreto** de esta sesión (qué piezas). Apunta a `docs/component-port-plan.md` (de `smartcontact-ui`), a este prompt (de `smart-contact-platform`) y al «diferido» del `DECISIONS-LOG-B.md`, y manda ejecutar ese lote de principio a fin sin pararse a preguntar, commiteando por pieza, actualizando el `DECISIONS-LOG-B.md`.
 
 ---
 
@@ -34,32 +33,34 @@ Leer antes de tocar nada. Si algo no encaja con la realidad del código, ir a la
 
 ---
 
-## Parte 3 — El PRIMER LOTE (acotado)
+## Parte 3 — El lote de esta sesión (acotado)
 
-Por **cada** pieza, el método §1 del port-plan: **port → barrido de escala 8-point→`--sc-scale-*` → página en `sc-demo` → diff visual no-CLS → `e2e` → guardarraíles en verde → commit + entrada en el log.**
+La Mitad B es multi-sesión. Esta sesión ejecuta **UN lote**, indicado en el mensaje de arranque. Si no se indica, arranca por lo que el último `DECISIONS-LOG-B.md` dejó en «diferido al siguiente lote».
 
-**A. GATE — decidir el `sc-component-icon-resolver` (§4.2).** Es dependencia transitiva de casi todos los wrappers de desarrollo → se decide **antes** de adoptarlos en masa: portarlo tal cual (compat pi→Material) o sustituirlo por nuestro mapeo. Racional en el log.
+Por **cada** pieza del lote, el método §1 del port-plan: **port → barrido de escala 8-point→`--sc-scale-*` → página en `sc-demo` → diff visual (Parte 4, según el chrome de la pieza) → `e2e` → guardarraíles en verde → commit + entrada en el log.**
 
-**B. Adoptar los wrappers PrimeNG "simples" del catálogo de desarrollo** (ya existen en el molde; el trabajo es adoptar + renombrar DD-12 + barrido de escala + verificar, no construir de cero):
-`sc-button` · `sc-badge` · `sc-card` · `sc-chip` · `sc-tag` · `sc-message` · `sc-panel` · `sc-skeleton` · `sc-textarea` · `sc-drawer` · `sc-progressbar` · `sc-progressspinner` · `sc-radiobutton`.
-(Renames DD-12: `progress-bar`/`progress-spinner`/`radio-button` → pegado.)
+**Acota a lo abarcable:** referencia ~10-16 wrappers finos, **menos si tienen chrome propio** (cada uno pide diff visual contra Figma → más lento). Si el presupuesto/contexto se agota, commitea lo hecho y deja el resto en «diferido» — **no empieces piezas a medias**.
 
-**C. Si queda presupuesto/contexto**, en este orden: `sc-avatar` (con el Badge + AvatarGroup de §3, que son trabajo de construcción, no adopción) y `sc-toast` (arrastra la infra `ScToastService`/`provideScToast`). Si no quedan, se dejan **anotados como el arranque del siguiente lote** en el log — no se empiezan a medias.
+**Orden (port-plan §7):** Fase 2 (primitivos: wrappers de desarrollo → wrappers de diseño → comunes a convergir → `sc-datatable`) → Fase 3 (custom, con la deuda de aislamiento §5) → Fase 4 (solapes §3) → Fase 5 (Memory + apps). Las **decisiones §4** (checkbox, dialog, confirm-host, section-card, icon) se cierran con criterio + racional en el log al tocar su pieza, **no se preguntan**.
 
-**Fuera de este lote** (lotes siguientes, no tocar): los 16 custom (Fase 3), los 9 wrappers de diseño, los 5 comunes a convergir, los 4 solapes (§3), `sc-datatable`, y Memory. Si una pieza del lote depende de algo de esos, se anota la dependencia y se difiere — no se arrastra el alcance.
+**No portar fuera del lote indicado.** Si una pieza depende de algo de un lote posterior, se anota la dependencia y se difiere — no se arrastra el alcance.
 
 ---
 
 ## Parte 4 — El diff visual (lo NUEVO de la Mitad B)
 
-Cada componente se verifica **no-layout-shift** antes de darlo por portado:
+**El nivel de verificación depende del chrome propio de la pieza.** El molde NO se ejecuta (fuentes solo-lectura, sin `node_modules`): la referencia visual es **el Figma / Kit Pro**, nunca el render del molde.
 
-1. Renderizar el componente en una página del `sc-demo` (variantes + estados relevantes).
-2. **Comparar contra la referencia:** el render del `sc-demo` del molde (`smartcontact-ui-main`) para los wrappers de desarrollo; el Figma / Kit Pro cuando aplique.
-3. Playwright: screenshot + comparación de medidas (`getComputedStyle`) y de baseline visual. **Si hay shift de layout o las métricas no cuadran, el port está mal — no el baseline ni el guardarraíl.**
-4. `e2e` smoke en verde.
+**A. Wrappers finos** (envuelven un primitivo PrimeNG sin SCSS/layout propio):
+- Basta **métricas computadas** (`getComputedStyle`) contra los valores del export del Kit — la misma vara que `tokens:parity`. El wrapper = primitivo PrimeNG + preset ya auditado 1:1 → la fidelidad viene de las fundaciones. (Es lo que validó el lote 1; robusto para estas piezas.)
 
-El barrido de escala es la causa más probable de drift visual: un wrapper del molde que consumía `--sc-spacing-200` (8-point) y se repunta mal cambia medidas. Verificar pixel, no a ojo.
+**B. Piezas con chrome propio** (composición, layout, estados o variantes visuales propias — avatar/avatargroup, los comunes con chrome de campo, **todos los custom de Fase 3**, los **solapes de Fase 4**): **las métricas NO bastan** — cubren medidas, no composición.
+- **Comparar el render contra la referencia visual del Kit Pro vía el Figma MCP** (fileKey `khNq9dJKNi13pNllrqm6dx`): `get_metadata` (x/y/w/h por nodo) + `get_screenshot` + fills/tokens del componente y de sus variantes/estados; renderizar la pieza en el `sc-demo` con esas variantes; **comparar pieza por pieza** (medidas + composición + color), no a ojo y no solo `getComputedStyle`. Si algo no cuadra contra el Figma, el port está mal.
+- **Si el Figma MCP no está disponible en la sesión:** validar por métricas + dejar la pieza **anotada en el log como "pendiente de diff visual contra Figma"**. No darla por cerrada en silencio.
+
+En ambos casos: `e2e` smoke en verde + baselines de screenshot del `sc-demo` nuevo committeados. **Si hay shift de layout o las métricas/composición no cuadran, el port está mal — nunca el baseline ni el guardarraíl.**
+
+El barrido de escala es la causa más probable de drift de medidas: un wrapper que consumía `--sc-spacing-200` (8-point) repuntado mal cambia medidas. Verificar pixel, no a ojo.
 
 ---
 
