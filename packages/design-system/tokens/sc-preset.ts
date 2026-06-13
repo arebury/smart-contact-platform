@@ -166,10 +166,10 @@ export const ScPreset = definePreset(Aura, {
      * a11y exige contraste vibrante vs el border primary enfocado.
      * Documentado en `docs/customs-catalog.md §1.1`. */
     focusRing: {
-      width: '2px',
+      width: 'var(--sc-focus-ring-width)',
       style: 'solid',
       color: 'var(--sc-border-focus)',
-      offset: '2px',
+      offset: 'var(--sc-focus-ring-offset)',
     },
     /* Disabled opacity 0.6 — adopción 1:1 del JSON PrimeOne 4.0
      * `semanticCommon.disabledOpacity: 60`. Aura default coincide pero

@@ -395,9 +395,10 @@
   --sc-icon-size-3xl: calc(28 / 16 * 1rem); /* 28 */
 
   /* ---------- Focus ring ----------
-   * PrimeOne 4.0 semanticCommon `focusRingWidth: 1`, `focusRingOffset: 2`.
+   * Width 2px = divergencia consciente a11y (vs PrimeOne `focusRingWidth: 1`):
+   * outline de contraste vibrante. `focusRingOffset: 2` sí 1:1 con PrimeOne.
    * El color sigue siendo `--sc-border-focus` (semantic layer 2 →
-   * soft-blue-500 SC brand). */
-  --sc-focus-ring-width: 1px;
+   * soft-blue-500 SC brand). Doc: customs-catalog §1.1. */
+  --sc-focus-ring-width: 2px;
   --sc-focus-ring-offset: 2px;
 }

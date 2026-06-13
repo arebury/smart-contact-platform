@@ -115,9 +115,7 @@
   --sc-toast-padding-y: 10.5px;
   --sc-toast-gap-content: 7px; /* Figma `toast/content/gap: 7` (icon ↔ body) */
   --sc-toast-gap-text: 7px; /* Figma `toast/text/gap: 7` (summary ↔ detail) */
-  --sc-toast-gap-actions: var(
-    --sc-spacing-100
-  ); /* SC extension — gap entre body y action buttons */
+  --sc-toast-gap-actions: 7px; /* SC extension — gap body ↔ action buttons (= gap-content/gap-text) */
   --sc-toast-icon-size: 15.75px; /* Figma `toast/icon/size: 15.75` (was 24) */
   --sc-toast-icon-radius: var(--sc-radius-200);
   --sc-toast-close-button-width: 24.5px; /* Figma `toast/close/button/width: 24.5` */
