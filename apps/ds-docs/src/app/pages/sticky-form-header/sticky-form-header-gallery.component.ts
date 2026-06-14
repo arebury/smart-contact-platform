@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
-import { StickyFormHeaderComponent } from '@sc/design-system/components/sticky-form-header/sticky-form-header.component';
+import { ScStickyFormHeaderComponent as StickyFormHeaderComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

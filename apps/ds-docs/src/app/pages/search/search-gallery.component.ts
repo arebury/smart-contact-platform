@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal, viewChild } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { SearchComponent } from '@sc/design-system/components/search/search.component';
+import { ScSearchComponent as SearchComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

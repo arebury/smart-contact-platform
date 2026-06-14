@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SelectComponent } from '@sc/design-system/components/select/select.component';
+import { ScSelectComponent as SelectComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 interface CityOption {

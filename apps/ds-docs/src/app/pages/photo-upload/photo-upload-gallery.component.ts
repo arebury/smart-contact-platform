@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 
-import { PhotoUploadComponent } from '@sc/design-system/components/photo-upload/photo-upload.component';
+import { ScPhotoUploadComponent as PhotoUploadComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

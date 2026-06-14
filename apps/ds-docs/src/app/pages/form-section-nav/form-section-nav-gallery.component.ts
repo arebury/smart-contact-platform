@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 import {
-  FormSectionNavComponent,
+  ScFormSectionNavComponent as FormSectionNavComponent,
   type FormNavSection,
-} from '@sc/design-system/components/form-section-nav/form-section-nav.component';
+} from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

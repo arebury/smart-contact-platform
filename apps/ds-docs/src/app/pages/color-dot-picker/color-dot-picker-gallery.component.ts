@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 import {
-  ColorDotPickerComponent,
+  ScColorDotPickerComponent as ColorDotPickerComponent,
   type ColorDotOption,
-} from '@sc/design-system/components/color-dot-picker/color-dot-picker.component';
+} from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

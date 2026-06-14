@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import {
-  DeleteEntityDialogComponent,
+  ScDeleteEntityDialogComponent as DeleteEntityDialogComponent,
   type DeletableEntity,
-} from '@sc/design-system/components/delete-entity-dialog/delete-entity-dialog.component';
+} from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextComponent } from '@sc/design-system/components/inputtext/inputtext.component';
+import { ScInputTextComponent as InputTextComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({
@@ -36,7 +36,7 @@ export class InputTextGalleryComponent {
     validators: [Validators.required, Validators.email],
   });
 
-  protected readonly snippet = `import { InputTextComponent } from '@sc/design-system/components/inputtext/inputtext.component';
+  protected readonly snippet = `import { ScInputTextComponent as InputTextComponent } from '@smartcontact-hub/components';
 
 @Component({
   standalone: true,

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { PageHeaderComponent } from '@sc/design-system/components/page-header/page-header.component';
+import { ScPageHeaderComponent as PageHeaderComponent } from '@smartcontact-hub/components';
 import { IconComponent } from '@sc/design-system';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 

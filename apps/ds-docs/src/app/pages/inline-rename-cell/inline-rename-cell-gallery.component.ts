@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
-import { InlineRenameCellComponent } from '@sc/design-system/components/inline-rename-cell/inline-rename-cell.component';
+import { ScInlineRenameCellComponent as InlineRenameCellComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

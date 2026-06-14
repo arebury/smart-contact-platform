@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-import { FormDangerZoneComponent } from '@sc/design-system/components/form-danger-zone/form-danger-zone.component';
+import { ScFormDangerZoneComponent as FormDangerZoneComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

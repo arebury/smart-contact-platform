@@ -2,9 +2,8 @@ import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } fr
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { providePrimeNG } from 'primeng/config';
 import { TranslateLoader, TranslateModule, TranslateNoOpLoader } from '@ngx-translate/core';
-import { ScPreset } from '@sc/tokens/sc-preset';
+import { provideSmartContactUi } from '@smartcontact-hub/components';
 
 import { appRoutes } from './app.routes';
 
@@ -14,16 +13,15 @@ export const appConfig: ApplicationConfig = {
     provideRouter(appRoutes, withComponentInputBinding()),
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
-    providePrimeNG({
-      theme: {
-        preset: ScPreset,
-        options: {
-          prefix: 'p',
-          darkModeSelector: '.sc-dark',
-          cssLayer: { name: 'primeng', order: 'reset, primeng' },
-        },
-      },
+    // Misma frontera de tema que supervisor: preset publicado vía
+    // provideSmartContactUi (opciones verbatim respecto al providePrimeNG previo).
+    provideSmartContactUi({
       ripple: true,
+      theme: {
+        prefix: 'p',
+        darkModeSelector: '.sc-dark',
+        cssLayer: { name: 'primeng', order: 'reset, primeng' },
+      },
     }),
     /* TranslateModule con TranslateNoOpLoader (v17; reemplaza al retirado
      * TranslateFakeLoader): devuelve la key raw como fallback. Permite usar

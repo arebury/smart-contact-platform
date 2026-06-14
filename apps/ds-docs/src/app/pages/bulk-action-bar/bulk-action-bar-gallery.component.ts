@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
 import { ButtonModule } from 'primeng/button';
 
 import {
-  BulkActionBarComponent,
+  ScBulkActionBarComponent as BulkActionBarComponent,
   type BulkActionEntityLabels,
-} from '@sc/design-system/components/bulk-action-bar/bulk-action-bar.component';
+} from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

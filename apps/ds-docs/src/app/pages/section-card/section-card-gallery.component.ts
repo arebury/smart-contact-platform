@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SectionCardComponent } from '@sc/design-system/components/section-card/section-card.component';
+import { ScSectionCardComponent as SectionCardComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

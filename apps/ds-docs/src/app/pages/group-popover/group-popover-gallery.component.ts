@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { GroupPopoverComponent } from '@sc/design-system/components/group-popover/group-popover.component';
-import type { GroupRef } from '@sc/design-system/components/group-popover/group-popover.types';
+import { ScGroupPopoverComponent as GroupPopoverComponent } from '@smartcontact-hub/components';
+import { type GroupRef } from '@sc/design-system';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

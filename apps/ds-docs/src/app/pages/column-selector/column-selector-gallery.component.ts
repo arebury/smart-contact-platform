@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 import {
-  ColumnSelectorComponent,
+  ScColumnSelectorComponent as ColumnSelectorComponent,
   type ColumnDef,
-} from '@sc/design-system/components/column-selector/column-selector.component';
+} from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

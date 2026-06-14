@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
 import {
-  BulkEditMenuComponent,
+  ScBulkEditMenuComponent as BulkEditMenuComponent,
   type BulkEditCommit,
   type BulkEditFieldOption,
-} from '@sc/design-system/components/bulk-edit-menu/bulk-edit-menu.component';
+} from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

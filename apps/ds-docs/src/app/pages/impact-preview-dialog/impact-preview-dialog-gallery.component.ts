@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 
 import {
-  ImpactPreviewDialogComponent,
+  ScImpactPreviewDialogComponent as ImpactPreviewDialogComponent,
   type ImpactBadge,
   type ImpactItem,
-} from '@sc/design-system/components/impact-preview-dialog/impact-preview-dialog.component';
+} from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

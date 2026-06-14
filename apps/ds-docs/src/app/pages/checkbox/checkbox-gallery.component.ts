@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 import {
-  CheckboxComponent,
+  ScCheckboxComponent as CheckboxComponent,
   type TriState,
-} from '@sc/design-system/components/checkbox/checkbox.component';
+} from '@smartcontact-hub/components';
 
 @Component({
   selector: 'sc-ds-docs-checkbox-gallery',

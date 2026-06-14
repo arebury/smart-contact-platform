@@ -1,9 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-import {
-  LabelChipComponent,
-  type LabelChipModel,
-} from '@sc/design-system/components/label-chip/label-chip.component';
+import { LabelChipComponent, type LabelChipModel } from '@sc/design-system';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

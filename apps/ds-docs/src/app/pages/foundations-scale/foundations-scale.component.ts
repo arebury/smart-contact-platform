@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import { IconComponent } from '@sc/design-system';
-import { SelectComponent } from '@sc/design-system/components/select/select.component';
+import { ScSelectComponent as SelectComponent } from '@smartcontact-hub/components';
 
 /** Una fila de la escala: un step y todo lo que deriva de él. */
 interface ScaleRow {

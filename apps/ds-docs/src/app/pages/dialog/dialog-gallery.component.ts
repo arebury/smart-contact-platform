@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
-import { DialogComponent } from '@sc/design-system/components/dialog/dialog.component';
-import { InputTextComponent } from '@sc/design-system/components/inputtext/inputtext.component';
+import { ScDialogComponent as DialogComponent } from '@smartcontact-hub/components';
+import { ScInputTextComponent as InputTextComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

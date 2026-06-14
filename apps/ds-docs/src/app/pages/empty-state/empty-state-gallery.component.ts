@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 
-import { EmptyStateComponent } from '@sc/design-system/components/empty-state/empty-state.component';
+import { ScEmptyStateComponent as EmptyStateComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

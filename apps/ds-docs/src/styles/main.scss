@@ -8,8 +8,35 @@
  * motion respected, focus rings consistentes.
  */
 
-@import '../../../../packages/design-system/tokens/index.css';
+/* Tokens desde el paquete publicado @smartcontact-hub/styles (6 capas por ruta
+ * directa a node_modules; valores idénticos al local). Misma fuente que supervisor. */
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/01-primitive.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/02-semantic.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/03-palette.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/04-component.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/05-extensions.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/07-dark.css';
 @import 'primeicons/primeicons.css';
+
+/* Los componentes publicados rendean su icono interno como <span class="sc-icon">;
+ * apuntamos `.sc-icon` a la fuente Outlined ya cargada en index.html (la app no
+ * importa la CSS Rounded del paquete). Ver supervisor/main.scss para el detalle. */
+.sc-icon {
+  display: inline-block;
+  font-family: 'Material Symbols Outlined';
+  font-size: 1em;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  font-feature-settings: 'liga';
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
 
 :root {
   /* Display titles → Urbanist (geometric grotesque, más carácter editorial-premium

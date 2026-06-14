@@ -3,7 +3,7 @@ import { ButtonModule } from 'primeng/button';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 
-import { InputGroupComponent } from '@sc/design-system/components/inputgroup/inputgroup.component';
+import { ScInputGroupComponent as InputGroupComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

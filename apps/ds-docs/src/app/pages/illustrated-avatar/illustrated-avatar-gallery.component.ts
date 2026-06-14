@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { IllustratedAvatarComponent } from '@sc/design-system/components/illustrated-avatar/illustrated-avatar.component';
+import { IllustratedAvatarComponent } from '@sc/design-system';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 @Component({

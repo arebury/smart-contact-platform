@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MultiSelectComponent } from '@sc/design-system/components/multiselect/multiselect.component';
+import { ScMultiSelectComponent as MultiSelectComponent } from '@smartcontact-hub/components';
 import { GalleryFooterComponent } from '../../shared/gallery-footer.component';
 
 interface ChannelOption {
