@@ -1,26 +1,49 @@
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
-
-import { LanguageService, ThemeService, UndoStackService } from '@core/services';
 import {
-  CommandPaletteComponent,
-  ConfirmHostComponent,
-  IconComponent,
-  KeyboardShortcutsComponent,
-} from '@shared/components';
+  SC_KEYBOARD_SHORTCUTS_DEFAULT_GROUPS,
+  ScCommandPaletteComponent,
+  ScCommandPaletteService,
+  ScKeyboardShortcutsComponent,
+  type ScShortcutGroup,
+} from '@smartcontact-hub/components';
+
+import {
+  CommandPaletteService,
+  LanguageService,
+  ThemeService,
+  UndoStackService,
+} from '@core/services';
+import { NAV_ICONS } from '@core/icons/nav-icons';
+// confirm-host (+ su servicio) y el icono se quedan LOCALES en esta migración.
+import { ConfirmHostComponent, IconComponent } from '@shared/components';
 
 type ToastSeverity = 'success' | 'info' | 'warn' | 'error' | 'secondary' | 'contrast';
+
+/**
+ * Atajos globales propios de AED (⌘S guardar, ⌘Z deshacer, Esc cerrar) — no los
+ * implementa el DS, así que se añaden a los grupos intrínsecos del paquete vía
+ * `[groups]`. Strings en español (el cheat-sheet nunca fue i18n-reactivo).
+ */
+const APP_SHORTCUT_GROUP: ScShortcutGroup = {
+  title: 'En cualquier parte',
+  items: [
+    { label: 'Guardar formulario', keys: ['⌘', 'S'] },
+    { label: 'Deshacer última acción', keys: ['⌘', 'Z'] },
+    { label: 'Cerrar diálogo / panel', keys: ['Esc'] },
+  ],
+};
 
 @Component({
   selector: 'sc-root',
   imports: [
-    CommandPaletteComponent,
+    ScCommandPaletteComponent,
     ConfirmHostComponent,
     IconComponent,
-    KeyboardShortcutsComponent,
+    ScKeyboardShortcutsComponent,
     RouterOutlet,
     ToastModule,
     TranslateModule,
@@ -50,7 +73,37 @@ export class AppComponent {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private readonly _language = inject(LanguageService);
 
+  private readonly translate = inject(TranslateService);
+  private readonly cmdPalette = inject(CommandPaletteService);
+  private readonly scPalette = inject(ScCommandPaletteService);
+
+  /** Grupos del cheat-sheet (`?`): los intrínsecos del DS + el grupo global AED. */
+  protected readonly shortcutGroups: readonly ScShortcutGroup[] = [
+    ...SC_KEYBOARD_SHORTCUTS_DEFAULT_GROUPS,
+    APP_SHORTCUT_GROUP,
+  ];
+
   protected readonly closeIcon = 'close';
+
+  constructor() {
+    // Alimenta el renderer publicado `<sc-command-palette>` con los comandos
+    // derivados de la nav (servicio de la app, mapeando el icono nav→Material).
+    // Re-publica en `onLangChange` para que los labels reflejen el idioma
+    // cargado (`snapshot()` es un build fresco, no cacheado).
+    const publish = (): void =>
+      this.scPalette.setCommands(
+        this.cmdPalette.snapshot().map((c) => ({
+          id: c.id,
+          label: c.label,
+          category: c.category,
+          icon: c.icon ? NAV_ICONS[c.icon] : undefined,
+          keywords: c.keywords,
+          action: c.action,
+        })),
+      );
+    this.translate.onLangChange.subscribe(publish);
+    publish();
+  }
 
   /**
    * Global Ctrl/Cmd+Z — run the most recent undoable action. Skip when the

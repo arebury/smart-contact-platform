@@ -57,6 +57,14 @@ export const appConfig: ApplicationConfig = {
     provideTranslateService({
       fallbackLang: 'es',
       lang: 'es',
+      // `extend: true` → la carga del loader (es.json) FUSIONA sobre lo ya
+      // registrado en vez de reemplazar. Los componentes SCDS del shell
+      // (command-palette, keyboard-shortcuts) auto-registran su dict en el
+      // constructor ANTES de que el loader resuelva; sin extend, la carga los
+      // borraría y sus textos saldrían como claves crudas (`sc.x.y`). Los
+      // componentes en páginas lazy se montan tras la carga, así que no
+      // dependían de esto — pero extend lo hace robusto para todos.
+      extend: true,
       loader: provideTranslateHttpLoader({ prefix: '/assets/i18n/', suffix: '.json' }),
     }),
   ],

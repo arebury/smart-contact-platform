@@ -13,8 +13,10 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { ClickOutsideDirective } from '../../directives/click-outside.directive';
 import { BreadcrumbService } from '../../services/breadcrumb.service';
-import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
 import { TopBarSlotService } from './top-bar-slot.service';
+// El cheat-sheet de atajos ahora lo renderiza `<sc-keyboard-shortcuts>` del
+// paquete, cuya visibilidad la posee `ScKeyboardShortcutsService` publicado.
+import { ScKeyboardShortcutsService } from '@smartcontact-hub/components';
 import { IconComponent } from '@shared/components';
 import { IllustratedAvatarComponent } from '@shared/components';
 
@@ -44,7 +46,7 @@ import { IllustratedAvatarComponent } from '@shared/components';
 export class TopBarComponent {
   private readonly router = inject(Router);
   private readonly breadcrumbs = inject(BreadcrumbService);
-  private readonly shortcuts = inject(KeyboardShortcutsService);
+  private readonly shortcuts = inject(ScKeyboardShortcutsService);
   private readonly topBarSlot = inject(TopBarSlotService);
 
   protected readonly trail = this.breadcrumbs.trail;

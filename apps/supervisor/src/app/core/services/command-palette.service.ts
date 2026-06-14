@@ -44,6 +44,17 @@ export class CommandPaletteService {
     this.visible.update((v) => !v);
   }
 
+  /**
+   * Build fresco de los comandos (no cacheado), para alimentar el renderer
+   * publicado `<sc-command-palette>` vía `ScCommandPaletteService.setCommands()`.
+   * El consumidor lo re-llama en `onLangChange` para que los labels reflejen el
+   * idioma cargado. `commands` (computed) sigue sirviendo al componente local
+   * (ds-docs), así que este método es puramente aditivo.
+   */
+  snapshot(): readonly PaletteCommand[] {
+    return this.buildCommands();
+  }
+
   private buildCommands(): PaletteCommand[] {
     const cmds: PaletteCommand[] = [];
 
