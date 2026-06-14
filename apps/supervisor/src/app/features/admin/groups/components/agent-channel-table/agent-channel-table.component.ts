@@ -2,13 +2,12 @@ import { ChangeDetectionStrategy, Component, computed, input, output, signal } f
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 
+import { IconComponent, IllustratedAvatarComponent } from '@shared/components';
 import {
-  IconComponent,
-  IllustratedAvatarComponent,
-  ToggleSwitchComponent,
+  ScToggleSwitchComponent as ToggleSwitchComponent,
   TriState,
-  CheckboxComponent,
-} from '@shared/components';
+  ScCheckboxComponent as CheckboxComponent,
+} from '@smartcontact-hub/components';
 
 import { CHANNEL_LABEL_KEYS, GroupChannel } from '@features/admin/groups/data/groups-data';
 import { Channel, GroupAgentLink } from '@features/admin/services/group-agent-links.types';

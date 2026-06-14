@@ -17,14 +17,14 @@ import { ClickOutsideDirective } from '@core/directives';
 import { clampToViewport } from '@core/utils/viewport';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { IconComponent } from '@shared/components';
 import {
-  BulkActionBarComponent,
+  ScBulkActionBarComponent as BulkActionBarComponent,
   useBulkEntityI18n,
-  DeleteEntityDialogComponent,
-  EmptyStateComponent,
-  IconComponent,
-  SearchComponent,
-} from '@shared/components';
+  ScDeleteEntityDialogComponent as DeleteEntityDialogComponent,
+  ScEmptyStateComponent as EmptyStateComponent,
+  ScSearchComponent as SearchComponent,
+} from '@smartcontact-hub/components';
 import { Template, TemplateType } from '../data/templates-data';
 import { TemplatesStore } from '../state/templates.store';
 import {

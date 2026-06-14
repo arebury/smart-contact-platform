@@ -2,7 +2,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { IconComponent, PageHeaderComponent } from '@shared/components';
+import { IconComponent } from '@shared/components';
+import { ScPageHeaderComponent as PageHeaderComponent } from '@smartcontact-hub/components';
 import type { LucideIconData } from '../components/repo-types';
 
 interface HubItem {

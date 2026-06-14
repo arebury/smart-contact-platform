@@ -16,13 +16,13 @@ import { ButtonModule } from 'primeng/button';
 import { DirtyAware } from '@core/guards';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { IconComponent } from '@shared/components';
 import {
-  IconComponent,
-  InputTextComponent,
-  MultiSelectComponent,
-  SelectComponent,
-  ToggleSwitchComponent,
-} from '@shared/components';
+  ScInputTextComponent as InputTextComponent,
+  ScMultiSelectComponent as MultiSelectComponent,
+  ScSelectComponent as SelectComponent,
+  ScToggleSwitchComponent as ToggleSwitchComponent,
+} from '@smartcontact-hub/components';
 
 interface FormState {
   /** Multi-select (varias opciones) — Figma `❖ multiselect`. */

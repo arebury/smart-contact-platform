@@ -17,16 +17,16 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DirtyAware } from '@core/guards';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { IconComponent } from '@shared/components';
 import {
-  CheckboxComponent,
-  DividerComponent,
-  IconComponent,
-  InputTextComponent,
-  InputGroupComponent,
-  InputNumberComponent,
-  SelectComponent,
-  ToggleSwitchComponent,
-} from '@shared/components';
+  ScCheckboxComponent as CheckboxComponent,
+  ScDividerComponent as DividerComponent,
+  ScInputTextComponent as InputTextComponent,
+  ScInputGroupComponent as InputGroupComponent,
+  ScInputNumberComponent as InputNumberComponent,
+  ScSelectComponent as SelectComponent,
+  ScToggleSwitchComponent as ToggleSwitchComponent,
+} from '@smartcontact-hub/components';
 
 interface VisibilidadEstados {
   postConversando: boolean;

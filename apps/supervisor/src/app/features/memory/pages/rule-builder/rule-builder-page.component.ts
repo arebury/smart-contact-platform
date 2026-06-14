@@ -16,10 +16,10 @@ import { ButtonModule } from 'primeng/button';
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import { DirtyAware } from '@core/guards';
 import { IconComponent } from '@shared/components';
-import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
-import { MultiSelectComponent } from '@shared/components/multiselect/multiselect.component';
-import { SelectComponent } from '@shared/components/select/select.component';
-import { ToggleSwitchComponent } from '@shared/components/toggleswitch/toggleswitch.component';
+import { ScInputTextComponent as InputTextComponent } from '@smartcontact-hub/components';
+import { ScMultiSelectComponent as MultiSelectComponent } from '@smartcontact-hub/components';
+import { ScSelectComponent as SelectComponent } from '@smartcontact-hub/components';
+import { ScToggleSwitchComponent as ToggleSwitchComponent } from '@smartcontact-hub/components';
 
 import {
   AGENT_OPTIONS,

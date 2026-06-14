@@ -14,11 +14,12 @@ import {
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { IconComponent, InputTextComponent } from '@shared/components';
+import { IconComponent } from '@shared/components';
+import { ScInputTextComponent as InputTextComponent } from '@smartcontact-hub/components';
 import {
   ColorDotOption,
-  ColorDotPickerComponent,
-} from '@shared/components/color-dot-picker/color-dot-picker.component';
+  ScColorDotPickerComponent as ColorDotPickerComponent,
+} from '@smartcontact-hub/components';
 import { LABEL_COLOR_OPTIONS, Label, LabelColor } from '../../data/labels-data';
 
 export interface LabelFormSubmission {

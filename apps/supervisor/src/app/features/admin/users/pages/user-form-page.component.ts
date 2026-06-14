@@ -21,18 +21,17 @@ import { CrossTabLockService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE } from '@core/utils/validators';
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { IconComponent, IllustratedAvatarComponent } from '@shared/components';
 import {
-  DeleteEntityDialogComponent,
-  FormSectionNavComponent,
+  ScDeleteEntityDialogComponent as DeleteEntityDialogComponent,
+  ScFormSectionNavComponent as FormSectionNavComponent,
   type FormNavSection,
-  IconComponent,
-  IllustratedAvatarComponent,
-  InputTextComponent,
-  PhotoUploadComponent,
-  SectionCardComponent,
-  SelectComponent,
-  ToggleSwitchComponent,
-} from '@shared/components';
+  ScInputTextComponent as InputTextComponent,
+  ScPhotoUploadComponent as PhotoUploadComponent,
+  ScSectionCardComponent as SectionCardComponent,
+  ScSelectComponent as SelectComponent,
+  ScToggleSwitchComponent as ToggleSwitchComponent,
+} from '@smartcontact-hub/components';
 import { PrimeTemplate } from 'primeng/api';
 import { AVAILABLE_GROUPS_REF } from '@shared/data/groups-ref';
 import {

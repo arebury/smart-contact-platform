@@ -13,9 +13,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 
 import { IconComponent } from '@shared/components';
-import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
-import { DialogComponent } from '@shared/components/dialog/dialog.component';
-import { SelectComponent } from '@shared/components/select/select.component';
+import { ScInputTextComponent as InputTextComponent } from '@smartcontact-hub/components';
+import { ScDialogComponent as DialogComponent } from '@smartcontact-hub/components';
+import { ScSelectComponent as SelectComponent } from '@smartcontact-hub/components';
 
 import type { Entity, EntityListValue, EntityType } from '../../data/entity.types';
 import { EntitiesStore } from '../../state/entities.store';

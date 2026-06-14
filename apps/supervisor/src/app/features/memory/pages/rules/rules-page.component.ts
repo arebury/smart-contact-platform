@@ -17,7 +17,8 @@ import { MenuModule } from 'primeng/menu';
 import { PopoverModule } from 'primeng/popover';
 import type { MenuItem } from 'primeng/api';
 
-import { EmptyStateComponent, IconComponent } from '@shared/components';
+import { IconComponent } from '@shared/components';
+import { ScEmptyStateComponent as EmptyStateComponent } from '@smartcontact-hub/components';
 import { ConfirmHostService } from '@core/services/confirm-host.service';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';

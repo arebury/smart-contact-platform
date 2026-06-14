@@ -14,7 +14,7 @@ import { ButtonModule } from 'primeng/button';
 
 import { TOAST_LIFE } from '@core/utils/toast-life';
 import { IconComponent } from '@shared/components';
-import { DialogComponent } from '@shared/components/dialog/dialog.component';
+import { ScDialogComponent as DialogComponent } from '@smartcontact-hub/components';
 import type { Conversation, Recording, TranscriptionLine } from '../../data/conversation.types';
 import { DownloadModalComponent } from '../download-modal/download-modal.component';
 import { MultiRecordingPlayerComponent } from '../multi-recording-player/multi-recording-player.component';

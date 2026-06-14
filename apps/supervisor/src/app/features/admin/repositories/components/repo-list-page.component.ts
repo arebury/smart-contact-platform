@@ -21,10 +21,10 @@ import { XlsxExportService } from '@core/services/xlsx-export.service';
 import { clampToViewport } from '@core/utils/viewport';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
-import { BulkActionBarComponent } from '@shared/components/bulk-action-bar/bulk-action-bar.component';
-import { DeleteEntityDialogComponent } from '@shared/components/delete-entity-dialog/delete-entity-dialog.component';
-import { IconComponent } from '@shared/components/icon/icon.component';
-import { SearchComponent } from '@shared/components/search/search.component';
+import { ScBulkActionBarComponent as BulkActionBarComponent } from '@smartcontact-hub/components';
+import { ScDeleteEntityDialogComponent as DeleteEntityDialogComponent } from '@smartcontact-hub/components';
+import { IconComponent } from '@shared/components';
+import { ScSearchComponent as SearchComponent } from '@smartcontact-hub/components';
 import { RepoFormPanelComponent, RepoFormSubmission } from './repo-form-panel.component';
 import { RepoEntity, RepoPageConfig, RepoStore } from './repo-types';
 

@@ -14,7 +14,11 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PrimeTemplate } from 'primeng/api';
 
-import { IconComponent, InputTextComponent, SelectComponent } from '@shared/components';
+import { IconComponent } from '@shared/components';
+import {
+  ScInputTextComponent as InputTextComponent,
+  ScSelectComponent as SelectComponent,
+} from '@smartcontact-hub/components';
 import { RepoEntity, RepoFieldDef } from './repo-types';
 
 export type RepoFormSubmission = Readonly<Record<string, string>>;

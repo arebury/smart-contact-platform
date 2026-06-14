@@ -15,7 +15,7 @@ import { ButtonModule } from 'primeng/button';
 import { map, startWith } from 'rxjs';
 
 import { IconComponent } from '@shared/components';
-import { DialogComponent } from '@shared/components/dialog/dialog.component';
+import { ScDialogComponent as DialogComponent } from '@smartcontact-hub/components';
 
 /**
  * RetranscriptionConfirmModal · Memory §10 #1 (S46).

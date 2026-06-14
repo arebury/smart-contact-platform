@@ -19,14 +19,13 @@ import { XlsxExportService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { clampToViewport } from '@core/utils/viewport';
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { IconComponent, LabelChipComponent } from '@shared/components';
 import {
-  BulkActionBarComponent,
+  ScBulkActionBarComponent as BulkActionBarComponent,
   useBulkEntityI18n,
-  EmptyStateComponent,
-  IconComponent,
-  LabelChipComponent,
-  SearchComponent,
-} from '@shared/components';
+  ScEmptyStateComponent as EmptyStateComponent,
+  ScSearchComponent as SearchComponent,
+} from '@smartcontact-hub/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 import { LabelCascadeService } from '@features/admin/services/label-cascade.service';
 import { Label, LabelColor } from '../data/labels-data';

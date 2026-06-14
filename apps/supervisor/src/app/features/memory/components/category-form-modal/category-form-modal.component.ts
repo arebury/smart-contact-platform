@@ -15,10 +15,10 @@ import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
 
 import { IconComponent } from '@shared/components';
-import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
-import { DialogComponent } from '@shared/components/dialog/dialog.component';
-import { SelectComponent } from '@shared/components/select/select.component';
-import { ToggleSwitchComponent } from '@shared/components/toggleswitch/toggleswitch.component';
+import { ScInputTextComponent as InputTextComponent } from '@smartcontact-hub/components';
+import { ScDialogComponent as DialogComponent } from '@smartcontact-hub/components';
+import { ScSelectComponent as SelectComponent } from '@smartcontact-hub/components';
+import { ScToggleSwitchComponent as ToggleSwitchComponent } from '@smartcontact-hub/components';
 
 import type { Category } from '../../data/category.types';
 import type { Rule } from '../../data/rule.types';

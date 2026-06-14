@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, output } f
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 
-import { LabelChipComponent } from '@shared/components/label-chip/label-chip.component';
-import { DialogComponent } from '@shared/components/dialog/dialog.component';
+import { LabelChipComponent } from '@shared/components';
+import { ScDialogComponent as DialogComponent } from '@smartcontact-hub/components';
 import { Label } from '../../data/labels-data';
 
 /**

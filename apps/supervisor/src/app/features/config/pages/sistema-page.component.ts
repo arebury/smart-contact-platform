@@ -20,7 +20,8 @@ import {
 } from '@core/services';
 import { PageHeaderService } from '@core/services';
 import { TOAST_LIFE } from '@core/utils/toast-life';
-import { IconComponent, ToggleSwitchComponent } from '@shared/components';
+import { IconComponent } from '@shared/components';
+import { ScToggleSwitchComponent as ToggleSwitchComponent } from '@smartcontact-hub/components';
 import { AgentsStore } from '@features/admin/agents/state/agents.store';
 
 import { NumeracionEspecialSectionComponent } from '../sections/numeracion-especial-section.component';

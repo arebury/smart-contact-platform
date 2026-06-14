@@ -15,8 +15,8 @@ import { ClickOutsideDirective } from '../../directives/click-outside.directive'
 import { BreadcrumbService } from '../../services/breadcrumb.service';
 import { KeyboardShortcutsService } from '../../services/keyboard-shortcuts.service';
 import { TopBarSlotService } from './top-bar-slot.service';
-import { IconComponent } from '@shared/components/icon/icon.component';
-import { IllustratedAvatarComponent } from '@shared/components/illustrated-avatar/illustrated-avatar.component';
+import { IconComponent } from '@shared/components';
+import { IllustratedAvatarComponent } from '@shared/components';
 
 /**
  * TopBar — breadcrumb trail on the left, avatar with user menu on the right.

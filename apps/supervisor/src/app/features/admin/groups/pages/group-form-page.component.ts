@@ -20,19 +20,18 @@ import { DirtyAware } from '@core/guards';
 import { CrossTabLockService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { IconComponent, IllustratedAvatarComponent } from '@shared/components';
 import {
-  DeleteEntityDialogComponent,
-  FormSectionNavComponent,
+  ScDeleteEntityDialogComponent as DeleteEntityDialogComponent,
+  ScFormSectionNavComponent as FormSectionNavComponent,
   type FormNavSection,
-  IconComponent,
-  IllustratedAvatarComponent,
-  InputTextComponent,
-  InputNumberComponent,
-  DialogComponent,
-  SectionCardComponent,
-  SelectComponent,
-  ToggleSwitchComponent,
-} from '@shared/components';
+  ScInputTextComponent as InputTextComponent,
+  ScInputNumberComponent as InputNumberComponent,
+  ScDialogComponent as DialogComponent,
+  ScSectionCardComponent as SectionCardComponent,
+  ScSelectComponent as SelectComponent,
+  ScToggleSwitchComponent as ToggleSwitchComponent,
+} from '@smartcontact-hub/components';
 import { PrimeTemplate } from 'primeng/api';
 import {
   CHANNEL_LABEL_KEYS,

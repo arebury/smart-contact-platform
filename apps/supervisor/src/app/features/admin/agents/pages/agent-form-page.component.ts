@@ -22,22 +22,20 @@ import { ConfirmHostService, CrossTabLockService } from '@core/services';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { EMAIL_RE, PIN_RE } from '@core/utils/validators';
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { IconComponent, IllustratedAvatarComponent, LabelChipComponent } from '@shared/components';
 import {
-  DeleteEntityDialogComponent,
-  FormSectionNavComponent,
+  ScDeleteEntityDialogComponent as DeleteEntityDialogComponent,
+  ScFormSectionNavComponent as FormSectionNavComponent,
   type FormNavSection,
-  IconComponent,
-  IllustratedAvatarComponent,
-  InputTextComponent,
-  LabelChipComponent,
-  PhotoUploadComponent,
-  SearchComponent,
-  SectionCardComponent,
-  SelectComponent,
-  ToggleSwitchComponent,
-  CheckboxComponent,
+  ScInputTextComponent as InputTextComponent,
+  ScPhotoUploadComponent as PhotoUploadComponent,
+  ScSearchComponent as SearchComponent,
+  ScSectionCardComponent as SectionCardComponent,
+  ScSelectComponent as SelectComponent,
+  ScToggleSwitchComponent as ToggleSwitchComponent,
+  ScCheckboxComponent as CheckboxComponent,
   type TriState,
-} from '@shared/components';
+} from '@smartcontact-hub/components';
 import { LabelsStore } from '@features/admin/labels/state/labels.store';
 import { GroupsStore } from '@features/admin/groups/state/groups.store';
 import { GroupAgentLinksStore } from '@features/admin/services/group-agent-links.store';

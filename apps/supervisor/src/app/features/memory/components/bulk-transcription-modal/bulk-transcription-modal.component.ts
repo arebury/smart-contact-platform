@@ -15,8 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { map, startWith } from 'rxjs';
 
 import { IconComponent } from '@shared/components';
-import { DialogComponent } from '@shared/components/dialog/dialog.component';
-import { ToggleSwitchComponent } from '@shared/components/toggleswitch/toggleswitch.component';
+import { ScDialogComponent as DialogComponent } from '@smartcontact-hub/components';
+import { ScToggleSwitchComponent as ToggleSwitchComponent } from '@smartcontact-hub/components';
 
 import type { Conversation } from '../../data/conversation.types';
 

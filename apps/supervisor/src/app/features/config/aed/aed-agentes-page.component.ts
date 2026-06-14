@@ -16,13 +16,13 @@ import { ButtonModule } from 'primeng/button';
 import { DirtyAware } from '@core/guards';
 import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { IconComponent } from '@shared/components';
 import {
-  CheckboxComponent,
-  DividerComponent,
-  IconComponent,
-  InputTextComponent,
-  ToggleSwitchComponent,
-} from '@shared/components';
+  ScCheckboxComponent as CheckboxComponent,
+  ScDividerComponent as DividerComponent,
+  ScInputTextComponent as InputTextComponent,
+  ScToggleSwitchComponent as ToggleSwitchComponent,
+} from '@smartcontact-hub/components';
 
 type ComunicacionKey =
   | 'fijos'

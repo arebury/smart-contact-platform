@@ -3,9 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { IconComponent } from '@shared/components';
-import { DatepickerComponent } from '@shared/components/datepicker/datepicker.component';
-import { InputTextComponent } from '@shared/components/inputtext/inputtext.component';
-import { MultiSelectComponent } from '@shared/components/multiselect/multiselect.component';
+import { ScDatepickerComponent as DatepickerComponent } from '@smartcontact-hub/components';
+import { ScInputTextComponent as InputTextComponent } from '@smartcontact-hub/components';
+import { ScMultiSelectComponent as MultiSelectComponent } from '@smartcontact-hub/components';
 
 import {
   AGENT_OPTIONS,

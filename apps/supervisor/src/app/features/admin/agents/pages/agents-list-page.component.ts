@@ -20,25 +20,24 @@ import { TopBarSlotService } from '@core/layout/top-bar/top-bar-slot.service';
 import { SelectionState } from '@core/utils/selection-state';
 import { clampToViewport } from '@core/utils/viewport';
 import { TOAST_LIFE } from '@core/utils/toast-life';
+import { IconComponent, IllustratedAvatarComponent } from '@shared/components';
 import {
-  BulkActionBarComponent,
+  ScBulkActionBarComponent as BulkActionBarComponent,
   useBulkEntityI18n,
   BulkEditCommit,
   BulkEditFieldOption,
-  BulkEditMenuComponent,
+  ScBulkEditMenuComponent as BulkEditMenuComponent,
   ColumnDef,
-  ColumnSelectorComponent,
-  DeleteEntityDialogComponent,
-  EmptyStateComponent,
-  IconComponent,
-  IllustratedAvatarComponent,
-  GroupPopoverComponent,
+  ScColumnSelectorComponent as ColumnSelectorComponent,
+  ScDeleteEntityDialogComponent as DeleteEntityDialogComponent,
+  ScEmptyStateComponent as EmptyStateComponent,
+  ScGroupPopoverComponent as GroupPopoverComponent,
   ImpactBadge,
   ImpactItem,
-  ImpactPreviewDialogComponent,
-  InlineRenameCellComponent,
-  SearchComponent,
-} from '@shared/components';
+  ScImpactPreviewDialogComponent as ImpactPreviewDialogComponent,
+  ScInlineRenameCellComponent as InlineRenameCellComponent,
+  ScSearchComponent as SearchComponent,
+} from '@smartcontact-hub/components';
 import {
   AGENT_TYPE_LABEL_KEYS,
   Agent,

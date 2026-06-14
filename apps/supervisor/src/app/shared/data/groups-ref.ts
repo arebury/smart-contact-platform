@@ -5,7 +5,10 @@
  * vive en SCDS (consume por `<sc-group-popover>`); aquí solo re-exportamos
  * y proveemos el dataset concreto que usa AED.
  */
-import type { GroupRef } from '@shared/components';
+// `GroupRef` lo DEFINE el paquete publicado pero NO lo exporta en su public-api;
+// el tipo local (mismo shape) es estructuralmente compatible con el input
+// `groups` de `sc-group-popover` publicado (lo valida strictTemplates).
+import { type GroupRef } from '@shared/components';
 
 export type { GroupRef };
 

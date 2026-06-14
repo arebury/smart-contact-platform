@@ -2,7 +2,11 @@ import { ChangeDetectionStrategy, Component, computed, input, output, signal } f
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 
-import { DialogComponent, CheckboxComponent, IconComponent } from '@shared/components';
+import { IconComponent } from '@shared/components';
+import {
+  ScDialogComponent as DialogComponent,
+  ScCheckboxComponent as CheckboxComponent,
+} from '@smartcontact-hub/components';
 
 /**
  * Memory · 'download' modal — opciones de qué descargar para la conversación
