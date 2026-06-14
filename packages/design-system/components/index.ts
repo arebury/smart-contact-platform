@@ -1,74 +1,26 @@
-export { BulkActionBarComponent } from './bulk-action-bar/bulk-action-bar.component';
-export type { BulkActionEntityLabels } from './bulk-action-bar/bulk-action-bar.component';
-export { useBulkEntityI18n } from './bulk-action-bar/use-bulk-entity-i18n';
-export type { BulkEntityI18nKeys } from './bulk-action-bar/use-bulk-entity-i18n';
-
-export { BulkEditMenuComponent } from './bulk-edit-menu/bulk-edit-menu.component';
-export type {
-  BulkEditCommit,
-  BulkEditFieldOption,
-  BulkEditValueOption,
-} from './bulk-edit-menu/bulk-edit-menu.component';
-
-export { ColorDotPickerComponent } from './color-dot-picker/color-dot-picker.component';
-export type { ColorDotOption } from './color-dot-picker/color-dot-picker.component';
-
-export { ColumnSelectorComponent } from './column-selector/column-selector.component';
-export type { ColumnDef } from './column-selector/column-selector.component';
-
-export { CommandPaletteComponent } from './command-palette/command-palette.component';
+/*
+ * SCDS local barrel — REDUCIDO tras la migración a @smartcontact-hub/* (S77).
+ *
+ * Solo quedan las piezas que NO se migraron al paquete publicado (ver
+ * docs/NEXT-SESSION-PLAN o el commit de la migración):
+ *   - icon: el `<sc-icon>` local es Outlined; el paquete publica Rounded.
+ *     Alinear el set de iconos del paquete a Outlined es tarea aparte del DS.
+ *   - illustrated-avatar: el paquete (sc-avatar) aún no expone tamaño en px.
+ *   - label-chip: el paquete (sc-tag) aún no expone el tamaño `xs`.
+ *   - confirm-host: el ScConfirmService publicado hardcodea el icono de cabecera
+ *     (Material, sin override) → cae en la decisión de iconos diferida.
+ *   - GroupRef: el paquete lo DEFINE pero no lo exporta; el tipo local (mismo
+ *     shape) cubre a los consumidores de `sc-group-popover` publicado.
+ *
+ * El resto de componentes se consumen desde `@smartcontact-hub/components`.
+ */
 
 export { ConfirmHostComponent } from './confirm-host/confirm-host.component';
-
-export { DeleteEntityDialogComponent } from './delete-entity-dialog/delete-entity-dialog.component';
-export type { DeletableEntity } from './delete-entity-dialog/delete-entity-dialog.component';
-
-export { EmptyStateComponent } from './empty-state/empty-state.component';
 
 export { IllustratedAvatarComponent } from './illustrated-avatar/illustrated-avatar.component';
 export type { IllustratedAvatarPool } from './illustrated-avatar/illustrated-avatar.component';
 
 export { IconComponent } from './icon/icon.component';
-
-export { FormDangerZoneComponent } from './form-danger-zone/form-danger-zone.component';
-
-export { FormSectionNavComponent } from './form-section-nav/form-section-nav.component';
-export type { FormNavSection } from './form-section-nav/form-section-nav.component';
-
-export { KeyboardShortcutsComponent } from './keyboard-shortcuts/keyboard-shortcuts.component';
-
-export { GroupPopoverComponent } from './group-popover/group-popover.component';
-
-export { ImpactPreviewDialogComponent } from './impact-preview-dialog/impact-preview-dialog.component';
-export type {
-  ImpactBadge,
-  ImpactItem,
-} from './impact-preview-dialog/impact-preview-dialog.component';
-
-export { InlineRenameCellComponent } from './inline-rename-cell/inline-rename-cell.component';
-
-export { InputTextComponent } from './inputtext/inputtext.component';
-export type { ScInputSize, ScInputType } from './inputtext/inputtext.component';
-
-export { InputNumberComponent } from './inputnumber/inputnumber.component';
-export type { ScInputNumberSize } from './inputnumber/inputnumber.component';
-
-export { InputGroupComponent } from './inputgroup/inputgroup.component';
-export type { ScInputGroupSize } from './inputgroup/inputgroup.component';
-
-export { SelectComponent } from './select/select.component';
-export type { ScSelectSize } from './select/select.component';
-
-export { MultiSelectComponent } from './multiselect/multiselect.component';
-export type { ScMultiSelectSize, ScMultiSelectDisplay } from './multiselect/multiselect.component';
-
-export { DatepickerComponent } from './datepicker/datepicker.component';
-export type { ScDatepickerSize, ScDatepickerView } from './datepicker/datepicker.component';
-
-export { DialogComponent } from './dialog/dialog.component';
-
-export { DividerComponent } from './divider/divider.component';
-export type { ScDividerLayout, ScDividerType, ScDividerAlign } from './divider/divider.component';
 
 export { LabelChipComponent } from './label-chip/label-chip.component';
 export type { LabelChipModel } from './label-chip/label-chip.component';
@@ -76,19 +28,3 @@ export type { LabelColor } from './label-chip/label-chip.types';
 export { LABEL_COLORS } from './label-chip/label-chip.types';
 
 export type { GroupRef } from './group-popover/group-popover.types';
-
-export { PageHeaderComponent } from './page-header/page-header.component';
-
-export { PhotoUploadComponent } from './photo-upload/photo-upload.component';
-
-export { SearchComponent } from './search/search.component';
-export type { ScSearchSize } from './search/search.component';
-
-export { SectionCardComponent } from './section-card/section-card.component';
-
-export { StickyFormHeaderComponent } from './sticky-form-header/sticky-form-header.component';
-
-export { ToggleSwitchComponent } from './toggleswitch/toggleswitch.component';
-
-export { CheckboxComponent } from './checkbox/checkbox.component';
-export type { TriState, ScCheckboxSize } from './checkbox/checkbox.component';
