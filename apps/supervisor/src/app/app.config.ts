@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import {
   PreloadAllModules,
   provideRouter,
@@ -7,18 +7,13 @@ import {
   withViewTransitions,
 } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { HttpClient, provideHttpClient, withFetch } from '@angular/common/http';
-import { providePrimeNG } from 'primeng/config';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ScPreset } from '@sc/tokens/sc-preset';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideSmartContactUi } from '@smartcontact-hub/components';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { appRoutes } from './app.routes';
-
-export function httpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
-}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,35 +30,34 @@ export const appConfig: ApplicationConfig = {
     ),
     provideAnimationsAsync(),
     provideHttpClient(withFetch()),
-    providePrimeNG({
+    // SCDS theme frontier — `provideSmartContactUi` envuelve `providePrimeNG`
+    // + el preset publicado (--sc-*) de `@smartcontact-hub/components`.
+    // Las opciones se pasan VERBATIM respecto al `providePrimeNG` local previo
+    // (preset ScPreset): `prefix: 'p'`, `darkModeSelector: '.sc-dark'`, y el
+    // orden de capas `reset, primeng` — load-bearing: el `reset` layer vive en
+    // styles/_reset.scss; `primeng` va después para que `.p-button` etc. ganen
+    // a `button { background: none }`. El CSS de componentes AED queda UNLAYERED
+    // → sigue ganando a ambos.
+    provideSmartContactUi({
+      ripple: true,
       theme: {
-        preset: ScPreset,
-        options: {
-          prefix: 'p',
-          darkModeSelector: '.sc-dark',
-          cssLayer: {
-            name: 'primeng',
-            // `reset` layer is declared in styles/_reset.scss and holds the
-            // generic element resets; `primeng` follows so PrimeNG's
-            // `.p-button` etc. win over `button { background: none }`. Custom
-            // AED component CSS stays UNLAYERED → still beats both.
-            order: 'reset, primeng',
-          },
+        prefix: 'p',
+        darkModeSelector: '.sc-dark',
+        cssLayer: {
+          name: 'primeng',
+          order: 'reset, primeng',
         },
       },
-      ripple: true,
     }),
     MessageService,
     ConfirmationService,
-    importProvidersFrom(
-      TranslateModule.forRoot({
-        defaultLanguage: 'es',
-        loader: {
-          provide: TranslateLoader,
-          useFactory: httpLoaderFactory,
-          deps: [HttpClient],
-        },
-      }),
-    ),
+    // ngx-translate v17: `provideTranslateService` + `provideTranslateHttpLoader`
+    // (el constructor de TranslateHttpLoader ya no toma args; la config va por
+    // el provider funcional). Carga `/assets/i18n/<lang>.json`, idioma `es`.
+    provideTranslateService({
+      fallbackLang: 'es',
+      lang: 'es',
+      loader: provideTranslateHttpLoader({ prefix: '/assets/i18n/', suffix: '.json' }),
+    }),
   ],
 };

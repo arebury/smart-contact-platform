@@ -26,10 +26,21 @@
 @use '../../../../packages/design-system/styles/sc-list-table';
 
 /* Design tokens — layered system (primitive → semantic → palette →
- * component → extensions → PrimeNG bridge → dark). Single source of
- * truth lives in `packages/design-system/tokens/`; the orchestrator
- * imports the seven layers in cascade order. */
-@import '../../../../packages/design-system/tokens/index.css';
+ * component → extensions → dark). Source of truth is the PUBLISHED
+ * package `@smartcontact-hub/styles`; consumimos sus 6 capas en orden de
+ * cascada por RUTA DIRECTA a node_modules (el `exports` del paquete no
+ * expone el CSS con nombre, solo el `.mjs`). Valores numéricamente
+ * idénticos a la copia local a root 16px (rem×16==px). Mantenemos el
+ * reset propio de la app (`@use 'reset'` arriba) — NO importamos el
+ * reset/globals del paquete (migration-safe: cero cambio de reset).
+ * La capa 6 (puente PrimeNG) no es CSS: vive en el preset publicado,
+ * cableado vía `provideSmartContactUi()` en app.config.ts. */
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/01-primitive.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/02-semantic.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/03-palette.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/04-component.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/05-extensions.css';
+@import '../../../../node_modules/@smartcontact-hub/styles/styles/tokens/layers/07-dark.css';
 
 /* PrimeIcons */
 @import 'primeicons/primeicons.css';

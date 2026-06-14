@@ -53,6 +53,9 @@ Thumbs.db
 .env.local
 .env.*.local
 
+# GitHub Packages auth — registry config commiteable; el token NUNCA (usa ${GITHUB_TOKEN})
+.npmrc
+
 # Claude Code: ignora todo .claude/ EXCEPTO settings.json (compartido + leído por cloud)
 .claude/*
 !.claude/settings.json
