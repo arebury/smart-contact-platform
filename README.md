@@ -1,5 +1,17 @@
 # Smart Contact Platform
 
+> ## ⚠️ Repositorio archivado (2026-06-15) — deprecado
+>
+> El **Supervisor** (la app) y el **Design System** viven ahora **consolidados en un solo repo**:
+>
+> ### → [`smartcontact-hub/smartcontact-ui`](https://github.com/smartcontact-hub/smartcontact-ui)
+>
+> Allí la app consume el DS **local** (feedback instantáneo al tocar un token) y se despliega en
+> Cloudflare Pages — showcase: **https://sc-demo.pages.dev** · app: **https://sc-supervisor.pages.dev**.
+>
+> Este repo es **read-only** y se conserva solo como **referencia histórica** (audits, galerías de
+> `ds-docs`). El motivo está en `docs/DECISIONS.md` (DD-17) del repo nuevo.
+
 Monorepo de Smart Contact (SC) — apps + design system compartido.
 
 <p>
